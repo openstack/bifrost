@@ -1,0 +1,64 @@
+# Written expecting APT based packaging, however would be trivial to
+# extend another packaging system
+---
+- hosts: localhost
+  name: "Install services required for ironic"
+  sudo: yes
+  gather_facts: no
+  # Todo: Rip vars out, refactor.
+  vars:
+    - driver: "abcd"
+    - dhcp_interface: "egfh"
+    - ironic_db_password: aSecretPassword473z
+    - mysql_password: password
+  tasks:
+    - name: "Update Package Cache"
+      local_action: apt update_cache=yes
+    - name: "Install packages"
+      local_action: apt name={{ item }}
+      with_items:
+        - mysql-server
+        - dhcpd
+        - tftp-hpa
+        - rabbitmq-server
+        - python-pip
+        - python-mysqldb
+        - python-configparser
+    - name: "Ensuring /opt/stack is present"
+      local_action: file name=/opt/stack state=directory owner=root group=root
+    - name: "Downloading ironic"
+      local_action: command git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
+    - name: "Install ironic client"
+      local_action: pip name=python-ironicclient state=present
+    - name: "Starting MySQL"
+      local_action: service name=mysql state=started
+    - name: "Starting rabbitmq-server"
+      local_action: service name=rabbitmq-server state=started
+    - name: "MySQL - Creating DB"
+      local_action: mysql_db login_user=root login_password={{ mysql_password }} name=ironic state=present encoding=utf8
+      register: test_created_db
+      no_log: True
+    - name: "MySQL - Creating user for Ironic"
+      local_action: mysql_user login_user=root login_password={{ mysql_password }} name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
+      no_log: True
+    - name: "Install Ironic"
+      local_action: pip name=/opt/stack/ironic state=present
+    - name: "Ensure /etc/ironic exists"
+      local_action: file name=/etc/ironic state=directory
+    - name: "Place Ironic Config file"
+      local_action: template src=templates/ironic.conf.j2 dest=/etc/ironic/ironic.conf
+    - name: "Creating Ironic DB Schema"
+      local_action: command ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
+      when: test_created_db.changed == true
+    - name: "Upgrading Ironic DB Schema"
+      local_action: command ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
+      when: test_created_db.changed == false
+    - name: "Creating an ironic service group"
+      local_action: group name=ironic
+    - name: "Creating an ironic service user"
+      local_action: user name=ironic group=ironic
+    - name: "Placing services"
+      local_action: template src=templates/init_template.j2 dest=/etc/init/{{item.service_name}}.conf owner=root group=root
+      with_items:
+        - { service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+        - { service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
