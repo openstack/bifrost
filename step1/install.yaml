@@ -2,15 +2,17 @@
 # extend another packaging system
 ---
 - hosts: localhost
+  connection: local
   name: "Install services required for ironic"
   sudo: yes
-  gather_facts: no
+  gather_facts: yes
   # Todo: Rip vars out, refactor.
   vars:
     - driver: "abcd"
-    - dhcp_interface: "egfh"
+    - network_interface: "virbr0"
     - ironic_db_password: aSecretPassword473z
     - mysql_password: password
+    - testing: true
   tasks:
     - name: "Update Package Cache"
       local_action: apt update_cache=yes
@@ -18,12 +20,17 @@
       local_action: apt name={{ item }}
       with_items:
         - mysql-server
-        - dhcpd
-        - tftp-hpa
+        - dnsmasq
         - rabbitmq-server
         - python-pip
         - python-mysqldb
         - python-configparser
+        - ipxe
+        - tftp-hpa
+        - syslinux
+        - xinetd
+        - parted
+        - psmisc
     - name: "Ensuring /opt/stack is present"
       local_action: file name=/opt/stack state=directory owner=root group=root
     - name: "Downloading ironic"
@@ -62,3 +69,23 @@
       with_items:
         - { service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
         - { service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+    - name: "Start ironic-conductor"
+      local_action: service name=ironic-conductor state=started
+    - name: "Start ironic-api"
+      local_action: service name=ironic-api state=started
+    - name: "Setting up PXE and iPXE folders"
+      local_action: file name={{item}} owner=ironic group=ironic state=directory
+      with_items:
+        - /tftpboot
+        - /tftpboot/pxelinux.cfg
+        - /httpboot
+    - name: "Placing pxelinux.0"
+      local_action: copy src=/usr/lib/syslinux/pxelinux.0 dest=/tftpboot
+    - name: "Place tftp config file"
+      local_action: copy src=files/xinetd.tftp dest=/etc/xinetd.d/tftp
+    - name: "Ensuring xinetd is running"
+      local_action: service name=xinetd state=started
+    - name: "Sending xinetd a reload signal"
+      local_action: service name=xinetd state=reloaded
+    - name: "Copy iPXE image into place"
+      local_action: copy src=/usr/lib/ipxe/undionly.kpxe dest=/tftpboot/

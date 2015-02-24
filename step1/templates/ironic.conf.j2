@@ -1258,17 +1258,17 @@ connection=mysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8
 
 # IP address of Ironic compute node's tftp server. (string
 # value)
-#tftp_server=$my_ip
+tftp_server={{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}
 
 # Ironic compute node's tftp root path. (string value)
-#tftp_root=/tftpboot
+tftp_root=/tftpboot
 
 # Directory where master tftp images are stored on disk.
 # (string value)
 #tftp_master_path=/tftpboot/master_images
 
 # Bootfile DHCP parameter. (string value)
-#pxe_bootfile_name=pxelinux.0
+pxe_bootfile_name=undionly.kpxe
 
 # Bootfile DHCP parameter for UEFI boot mode. (string value)
 #uefi_pxe_bootfile_name=elilo.efi
@@ -1278,13 +1278,13 @@ connection=mysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8
 #http_url=<None>
 
 # Ironic compute node's HTTP root path. (string value)
-#http_root=/httpboot
+http_root=/httpboot
 
 # Enable iPXE boot. (boolean value)
-#ipxe_enabled=false
+ipxe_enabled=true
 
 # The path to the main iPXE script file. (string value)
-#ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe
+ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe
 
 
 [seamicro]
