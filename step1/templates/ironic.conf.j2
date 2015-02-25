@@ -215,7 +215,7 @@ auth_strategy=noauth
 # present on your system may be found by enumerating the
 # "ironic.drivers" entrypoint. An example may be found in the
 # developer documentation online. (list value)
-#enabled_drivers=pxe_ipmitool
+enabled_drivers=pxe_ipmitool
 
 
 #
@@ -1275,7 +1275,7 @@ pxe_bootfile_name=undionly.kpxe
 
 # Ironic compute node's HTTP server URL. Example:
 # http://192.1.2.3:8080 (string value)
-#http_url=<None>
+http_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/
 
 # Ironic compute node's HTTP root path. (string value)
 http_root=/httpboot

@@ -8,7 +8,6 @@
   gather_facts: yes
   # Todo: Rip vars out, refactor.
   vars:
-    - driver: "abcd"
     - network_interface: "virbr0"
     - ironic_db_password: aSecretPassword473z
     - mysql_password: password
@@ -31,6 +30,7 @@
         - xinetd
         - parted
         - psmisc
+        - nginx
     - name: "Ensuring /opt/stack is present"
       local_action: file name=/opt/stack state=directory owner=root group=root
     - name: "Downloading ironic"
@@ -83,9 +83,22 @@
       local_action: copy src=/usr/lib/syslinux/pxelinux.0 dest=/tftpboot
     - name: "Place tftp config file"
       local_action: copy src=files/xinetd.tftp dest=/etc/xinetd.d/tftp
-    - name: "Ensuring xinetd is running"
-      local_action: service name=xinetd state=started
-    - name: "Sending xinetd a reload signal"
-      local_action: service name=xinetd state=reloaded
     - name: "Copy iPXE image into place"
       local_action: copy src=/usr/lib/ipxe/undionly.kpxe dest=/tftpboot/
+    - name: "Deploy dnsmasq configuration file"
+      local_action: template src=templates/dnsmasq.conf.j2 dest=/etc/dnsmasq.conf 
+    - name: "Deploying nginx configuraiton file for serving HTTP requests"
+      local_action: template src=templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+    - name: "Ensuring dnsmasq is running"
+      local_action: service name={{ item }} state=started
+      with_items:
+        - xinetd
+        - dnsmasq
+        - nginx
+    - name: "Sending services a reload signal"
+      local_action: service name={{ item }} state=reloaded
+      with_items:
+        - xinetd
+        - nginx
+    - name: "Sending services a force-reload signal"
+      local_action: command /etc/init.d/dnsmasq force-reload
