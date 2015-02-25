@@ -39,6 +39,8 @@
       local_action: command git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
     - name: "Install ironic client"
       local_action: pip name=python-ironicclient state=present
+    - name: "Install proliantutils"
+      local_action: pip name=proliantutils state=present
     - name: "Starting MySQL"
       local_action: service name=mysql state=started
     - name: "Starting rabbitmq-server"
