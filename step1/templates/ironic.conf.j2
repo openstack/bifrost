@@ -89,16 +89,16 @@ rabbit_port=5672
 #rabbit_use_ssl=false
 
 # The RabbitMQ userid. (string value)
-#rabbit_userid=guest
+rabbit_userid=ironic
 
 # The RabbitMQ password. (string value)
-#rabbit_password=guest
+rabbit_password={{ ironic_db_password }}
 
 # The RabbitMQ login method. (string value)
 #rabbit_login_method=AMQPLAIN
 
 # The RabbitMQ virtual host. (string value)
-#rabbit_virtual_host=/
+rabbit_virtual_host=/
 
 # How frequently to retry connecting with RabbitMQ. (integer
 # value)
@@ -115,7 +115,7 @@ rabbit_port=5672
 # Use HA queues in RabbitMQ (x-ha-policy: all). If you change
 # this option, you must wipe the RabbitMQ database. (boolean
 # value)
-#rabbit_ha_queues=false
+rabbit_ha_queues=false
 
 # Deprecated, use rpc_backend=kombu+memory or rpc_backend=fake
 # (boolean value)
@@ -533,7 +533,7 @@ enabled_drivers=pxe_ilo
 # URL of Ironic API service. If not set ironic can get the
 # current value from the keystone service catalog. (string
 # value)
-#api_url=<None>
+api_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:6385/
 
 # Seconds between conductor heart beats. (integer value)
 #heartbeat_interval=10

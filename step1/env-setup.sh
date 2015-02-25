@@ -11,3 +11,5 @@ else
 fi
 echo
 echo "source /opt/stack/ansible/hacking/env-setup to proceed"
+export IRONIC_URL=http://localhost:6385/
+export OS_AUTH_TOJEN=' '
