@@ -215,8 +215,11 @@ auth_strategy=noauth
 # present on your system may be found by enumerating the
 # "ironic.drivers" entrypoint. An example may be found in the
 # developer documentation online. (list value)
-enabled_drivers=pxe_ipmitool
-
+{% if testing %}
+enabled_drivers=pxe_ssh,pxe_ipmitool
+{% else %]
+enabled_drivers=pxe_ilo
+{% endif %}
 
 #
 # Options defined in ironic.common.exception
@@ -1284,7 +1287,7 @@ http_root=/httpboot
 ipxe_enabled=true
 
 # The path to the main iPXE script file. (string value)
-ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe
+ipxe_boot_script=$pybasedir/drivers/modules/ipxe_config.template
 
 
 [seamicro]
@@ -1319,8 +1322,9 @@ ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe
 #
 
 # libvirt uri (string value)
-#libvirt_uri=qemu:///system
-
+{% if testing %}
+libvirt_uri=qemu:///system
+{% endif %}
 
 [swift]
 

@@ -5,8 +5,7 @@ Deets on the etherpad for now:
 
 Step 1:
 
-cd step1
-bash ./env-setup.sh
-source /opt/stack/ansible/hacking/env-setup
-ansible-playbook -vvvv -i localhost ./install.yaml
-
+    cd step1
+    bash ./env-setup.sh
+    source /opt/stack/ansible/hacking/env-setup
+    ansible-playbook -vvvv -i localhost ./install.yaml
