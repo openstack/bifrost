@@ -12,6 +12,7 @@
     - ironic_db_password: aSecretPassword473z
     - mysql_password: password
     - testing: true
+    - http_boot_folder: /httpboot
   tasks:
     - name: "Update Package Cache"
       local_action: apt update_cache=yes
@@ -100,7 +101,7 @@
       with_items:
         - /tftpboot
         - /tftpboot/pxelinux.cfg
-        - /httpboot
+        - "{{ http_boot_folder }}"
     - name: "Placing pxelinux.0"
       local_action: copy src=/usr/lib/syslinux/pxelinux.0 dest=/tftpboot
     - name: "Place tftp config file"
@@ -129,6 +130,8 @@
   name: "Retrieve Images"
   sudo: yes
   gather_facts: yes
+  vars:
+    - http_boot_folder: /httpboot
   tasks:
     # Similar logic to below can be utilized to retrieve files
     - name: "Determine if folder exists, else create and populate folder."
@@ -137,3 +140,23 @@
     - name: "Create master_images folder"
       local_action: file name=/tftpboot/master_images state=directory
       when: test_master_images.stat.exists == false
+    # This is overly complex, however get_url will always re-retrieve the file
+    # if it already exists, and this is to prevent that behavior.
+    - name: "Test if CoreOS kernel is present"
+      local_action: stat path={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+      register: test_core_os_kernel_present
+    - name: "Download CoreOS kernel"
+      local_action: get_url url=http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe.vmlinuz dest={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+      when: test_core_os_kernel_present.stat.exists == false
+    - name: "Test if CoreOS image is present"
+      local_action: stat path={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+      register: test_core_os_image_present
+    - name: "Download CoreOS image"
+      local_action: get_url url=http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+      when: test_core_os_image_present.stat.exists == false
+    - name: "Test if Ubuntu 14.04 server cloud amd64 is present"
+      local_action: stat path={{ http_boot_folder }}/ubuntu-14.04-server-cloudimg-amd64.tar.gz
+      register: test_core_os_image_present
+    - name: "Download CoreOS image"
+      local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest={{ http_boot_folder }}/ubuntu-14.04-server-cloudimg-amd64.tar.gz
+      when: test_core_os_image_present.stat.exists == false

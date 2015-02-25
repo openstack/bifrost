@@ -45,5 +45,5 @@ http {
 server {
 	listen 8000;
 	server_name {{ ansible_hostname }};
-        root /httpboot;
+        root {{ http_boot_folder }};
 }
