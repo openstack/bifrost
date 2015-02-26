@@ -4,7 +4,8 @@ Getting Started
 Requirements:
 
 - openstack-infra/shade library -> https://review.openstack.org/159609
-- openstack-infra/os-client-config ->  https://review.openstack.org/159563
+- openstack-infra/os-client-config -> https://review.openstack.org/159563
+- os_baremetal ansible module under development -> https://github.com/juliakreger/ansible-modules-extras/blob/features/new-openstack/cloud/os_baremetal.py
 - Information defining your hardware in a CSV file.
 
 CSV File Format
@@ -35,4 +36,4 @@ The enroll.yaml playbook, requires a variable be set or passed into the playbook
 
 Example:
 
-ansible-playbook -i localhost -vvvv enroll.yaml -e baremetal_csv_file=./baremetal.csv
+ansible-playbook -i ../inventory/localhost -vvvv enroll.yaml -e baremetal_csv_file=./baremetal.csv

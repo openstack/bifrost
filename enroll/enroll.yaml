@@ -32,7 +32,7 @@
       os_baremetal:
         auth_plugin: None
         auth: None
-        ironic_url: "http://localhost:6385/"
+        ironic_url: "{{ ironic_url }}"
         driver: "pxe_ipmitool"
         # UUID determination TBD for mass enrollment.
         uuid: "{{item.split(',')[9]}}"
