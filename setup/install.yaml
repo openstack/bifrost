@@ -26,6 +26,9 @@
         - python-pip
         - python-mysqldb
         - python-configparser
+        - libxslt-dev
+        - libssl-dev
+        - libxml2-dev
         - ipxe
         - tftp-hpa
         - syslinux
