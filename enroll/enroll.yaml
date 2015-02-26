@@ -1,0 +1,59 @@
+---
+- hosts: localhost
+  connection: local
+  name: "Enroll hardware from baremetal.csv into Ironic"
+  sudo: yes
+  gather_facts: yes
+  # Todo: Rip vars out, refactor.
+  vars:
+    - network_interface: "virbr0"
+    - ironic_db_password: aSecretPassword473z
+    - mysql_password: password
+    - testing: true
+    - http_boot_folder: /httpboot
+  tasks:
+    - name: "Error if variable baremetal_csv_file is not defined"
+      local_action: fail msg="baremetal_csv_file must be defined for this playbook to execute, please pass option '-e baremetal_csv_file=<path/to/file>'"
+      when: baremetal_csv_file is not defined
+    - name: "Validate that CSV file exists"
+      local_action: stat path={{ baremetal_csv_file }}
+      register: test_baremetal_csv_file
+    - name: "Error if file does not exist."
+      local_action: fail msg="The variable defined for baremetal_csv_file is not to a file.  Please define a file and try again."
+      when: test_baremetal_csv_file.stat.isreg == false
+    - name: "Enroll Hardware"
+      # The variable definitions below seem far from ideal, however there
+      # seems to be no better way to handle CSV files for looping at this time.
+      #
+      # Ideally with_lines would be used with an include, however that support was removed in
+      # Ansible 1.6 and no direct replacement exists.
+      #
+      # mac_address: "{{item.split(',')[1]}}"
+      # username: "{{item.split(',')[2]}}"
+      # password: "{{item.split(',')[3]}}"
+      # management_address: "{{item.split(',')[4]}}"
+      # cpu_cores: "{{item.split(',')[5]}}"
+      # memory_MB: "{{item.split(',')[6]}}"
+      # disk_MB: "{{item.split(',')[7]}}"
+      os_baremetal:
+        cloud: "openstack"
+        driver: "pxe_ipmitool"
+        # UUID determination TBD for mass enrollment.
+        # uuid: "a8cb6624-0d9f-c882-affc-046ebb96ecff"
+        state: present
+        nics:
+         - mac: "{{item.split(',')[1]}}"
+        properties:
+          cpus: "{{item.split(',')[5]}}"
+          cpu_arch: "x86_64"
+          ram: "{{item.split(',')[6]}}"
+          disk_size: "{{item.split(',')[7]}}"
+        driver_info:
+          power:
+            ipmi_address: "{{item.split(',')[4]}}"
+            ipmi_username: "{{item.split(',')[2]}}"
+            ipmi_password: "{{item.split(',')[3]}}"
+      delegate_to: localhost
+      with_lines:
+        - cat {{ baremetal_csv_file }}
+
