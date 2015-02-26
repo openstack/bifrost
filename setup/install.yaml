@@ -22,6 +22,7 @@
         - mysql-server
         - dnsmasq
         - rabbitmq-server
+        - python-dev
         - python-pip
         - python-mysqldb
         - python-configparser
