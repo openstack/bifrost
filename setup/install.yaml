@@ -10,7 +10,7 @@
   vars:
     - network_interface: "virbr0"
     - ironic_db_password: aSecretPassword473z
-    - mysql_password: password
+    - mysql_password: 
     - testing: true
     - http_boot_folder: /httpboot
   tasks:
