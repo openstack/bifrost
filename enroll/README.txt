@@ -3,8 +3,8 @@ Getting Started
 
 Requirements:
 
-- openstack-infra/shade library + TBD revisions
-- openstack-infra/os-client-config + TBD revisions
+- openstack-infra/shade library -> https://review.openstack.org/159609
+- openstack-infra/os-client-config ->  https://review.openstack.org/159563
 - Information defining your hardware in a CSV file.
 
 CSV File Format
@@ -21,6 +21,7 @@ The CSV file has the following columns:
 7. Disk Storage in GB
 8. Flavor (Not Used)
 9. Type (Not Used)
+10. Host UUID
 
 Example:
 00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,Control,VM

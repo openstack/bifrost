@@ -5,12 +5,6 @@
   sudo: yes
   gather_facts: yes
   # Todo: Rip vars out, refactor.
-  vars:
-    - network_interface: "virbr0"
-    - ironic_db_password: aSecretPassword473z
-    - mysql_password: password
-    - testing: true
-    - http_boot_folder: /httpboot
   tasks:
     - name: "Error if variable baremetal_csv_file is not defined"
       local_action: fail msg="baremetal_csv_file must be defined for this playbook to execute, please pass option '-e baremetal_csv_file=<path/to/file>'"
@@ -36,23 +30,25 @@
       # memory_MB: "{{item.split(',')[6]}}"
       # disk_MB: "{{item.split(',')[7]}}"
       os_baremetal:
-        cloud: "openstack"
+        auth_plugin: None
+        auth: None
+        ironic_url: "http://localhost:6385/"
         driver: "pxe_ipmitool"
         # UUID determination TBD for mass enrollment.
-        # uuid: "a8cb6624-0d9f-c882-affc-046ebb96ecff"
+        uuid: "{{item.split(',')[9]}}"
         state: present
         nics:
-         - mac: "{{item.split(',')[1]}}"
+         - mac: "{{item.split(',')[0]}}"
         properties:
-          cpus: "{{item.split(',')[5]}}"
+          cpus: "{{item.split(',')[4]}}"
           cpu_arch: "x86_64"
-          ram: "{{item.split(',')[6]}}"
-          disk_size: "{{item.split(',')[7]}}"
+          ram: "{{item.split(',')[5]}}"
+          disk_size: "{{item.split(',')[6]}}"
         driver_info:
           power:
-            ipmi_address: "{{item.split(',')[4]}}"
-            ipmi_username: "{{item.split(',')[2]}}"
-            ipmi_password: "{{item.split(',')[3]}}"
+            ipmi_address: "{{item.split(',')[3]}}"
+            ipmi_username: "{{item.split(',')[1]}}"
+            ipmi_password: "{{item.split(',')[2]}}"
       delegate_to: localhost
       with_lines:
         - cat {{ baremetal_csv_file }}
