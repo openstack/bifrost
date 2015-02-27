@@ -51,9 +51,25 @@
       local_action: command git fetch https://review.openstack.org/openstack/ironic refs/changes/28/155728/16 chdir=/opt/stack/ironic
     - name: "Ironic - Checking out PXE support for IPA"
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/ironic
-    - name: "Install ironic client"
-      local_action: pip name=python-ironicclient state=present
-    - name: "Install proliantutils"
+    # TODO: The pip installation of python-ironicclient is disabled in order to
+    # support rev 158520.
+    #- name: "Install ironic client"
+    #  local_action: pip name=python-ironicclient state=present
+    - name: "python-ironicclient - Retrieving library from git.openstack.org"
+      local_action: command git clone https://review.openstack.org/openstack/python-ironicclient chdir=/opt/stack creates=/opt/stack/python-ironicclient
+    - name: "python-ironicclient - Checking out master branch"
+      local_action: command git checkout -f master chdir=/opt/stack/python-ironicclient
+    - name: "python-ironicclient - Resetting local repository"
+      local_action: command git reset --hard master chdir=/opt/stack/python-ironicclient
+    - name: "python-ironicclient - Resyncing local reposiory"
+      local_action: command git pull --ff-only chdir=/opt/stack/python-ironicclient
+    - name: "python-ironicclient - Downloading patch to support noauth mode."
+      local_action: command git fetch https://review.openstack.org/openstack/python-ironicclient refs/changes/20/158520/1 chdir=/opt/stack/python-ironicclient
+    - name: "python-ironicclient - Checking out patch to support noauth mode."
+      local_action: command git checkout FETCH_HEAD chdir=/opt/stack/python-ironicclient
+    - name: "python-ironicclient - Installing patched python-ironicclient library."
+      local_action: command pip install -I --force-reinstall /opt/stack/python-ironicclient
+    - name: "proliantutils - Install from pip"
       local_action: pip name=proliantutils state=present
     # TODO: The next two packages installed via git and then manyally installed
     # as the os_ironic.py library requires revisions that have not yet
