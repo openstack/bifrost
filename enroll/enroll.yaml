@@ -29,7 +29,7 @@
       # cpu_cores: "{{item.split(',')[5]}}"
       # memory_MB: "{{item.split(',')[6]}}"
       # disk_MB: "{{item.split(',')[7]}}"
-      os_baremetal:
+      os_ironic:
         auth_plugin: None
         auth: None
         ironic_url: "{{ ironic_url }}"

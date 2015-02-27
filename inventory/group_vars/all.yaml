@@ -5,4 +5,4 @@ ironic_db_password: aSecretPassword473z
 mysql_password:
 testing: true
 http_boot_folder: /httpboot
-latest_os_baremetal_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_baremetal.py
+latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py

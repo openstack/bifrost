@@ -35,8 +35,8 @@
       local_action: file name=/opt/stack state=directory owner=root group=root
     # This won't be necessary in the long run, however until a suitable version
     # lands upstream, it is required.
-    - name: "Retrieving latest known os_baremetal.py file"
-      local_action: get_url url={{ latest_os_baremetal_url }} dest=/opt/stack/ansible/lib/ansible/modules/extras/cloud/os_baremetal.py
+    - name: "Retrieving latest known os_ironic.py file"
+      local_action: get_url url={{ latest_os_ironic_url }} dest=/opt/stack/ansible/lib/ansible/modules/extras/cloud/os_ironic.py
     - name: "Downloading Ironic"
       local_action: command git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
     # TODO: Remove eventually once the features land.
@@ -54,10 +54,10 @@
       local_action: pip name=python-ironicclient state=present
     - name: "Install proliantutils"
       local_action: pip name=proliantutils state=present
-    #TODO: The next two packages installed via git and then manyally installed
-    # as the os_baremetal.py library requires revisions that have not yet
+    # TODO: The next two packages installed via git and then manyally installed
+    # as the os_ironic.py library requires revisions that have not yet
     # landed for noauth mode.
-    #TODO: If the portion below remains for any period of time, it should
+    # TODO: If the portion below remains for any period of time, it should
     # be converted to an include... or consider converting to the integrated
     # git module.
     - name: "Shade - Retrieving library from git.openstack.org"
@@ -69,7 +69,7 @@
     - name: "Shade - Resyncing local reposiory"
       local_action: command git pull --ff-only chdir=/opt/stack/shade
     - name: "Shade - Downloading patch to support noauth mode."
-      local_action: command git fetch https://review.openstack.org/openstack-infra/shade refs/changes/09/159609/3 chdir=/opt/stack/shade
+      local_action: command git fetch https://review.openstack.org/openstack-infra/shade refs/changes/09/159609/5 chdir=/opt/stack/shade
     - name: "Shade - Checking out patch to support noauth mode."
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/shade
     - name: "Shade - Installing patched shade library."
