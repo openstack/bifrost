@@ -6,7 +6,7 @@ sudo pip install jinja2
 u=$(whoami)
 g=$(groups | awk '{print $1}')
 
-mkdir -p /opt/stack || (sudo mkdir -p /opt/stack && chown $u:$g /opt/stack)
+mkdir -p /opt/stack || (sudo mkdir -p /opt/stack && sudo chown $u:$g /opt/stack)
 cd /opt/stack
 
 if [ ! -d ansible ]; then
