@@ -19,6 +19,7 @@
         - python-pip
         - python-mysqldb
         - python-configparser
+        - libffi-dev
         - libxslt-dev
         - libssl-dev
         - libxml2-dev
