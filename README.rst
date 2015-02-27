@@ -15,7 +15,7 @@ The re-execution of the playbook will cause states to be re-asserted.  If not al
 
 Install Steps:
 
-    1. Edit ./inventory/group_vars/all.yml to match your environment.
+    1. Edit ./inventory/group_vars/all.yaml to match your environment.
         - If MySQL is already installed, update mysql_password to match your local installation.
         - Change network_interface to match the interface that will need to service DHCP requests.
         - Change the ironic_db_password which is set by Ansible in MySQL and in Ironic's configuration file.
