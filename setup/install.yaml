@@ -6,14 +6,6 @@
   name: "Install services required for ironic"
   sudo: yes
   gather_facts: yes
-  # Todo: Rip vars out, refactor.
-  vars:
-    - network_interface: "virbr0"
-    - ironic_db_password: aSecretPassword473z
-    - mysql_password:
-    - testing: true
-    - http_boot_folder: /httpboot
-    - latest_os_baremetal_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_baremetal.py
   tasks:
     - name: "Update Package Cache"
       local_action: apt update_cache=yes
@@ -185,8 +177,6 @@
   name: "Retrieve Images"
   sudo: yes
   gather_facts: yes
-  vars:
-    - http_boot_folder: /httpboot
   tasks:
     # Similar logic to below can be utilized to retrieve files
     - name: "Determine if folder exists, else create and populate folder."
