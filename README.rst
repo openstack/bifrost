@@ -23,7 +23,7 @@ Install Steps:
     2. cd setup
     3. bash ./env-setup.sh
     4. source /opt/stack/ansible/hacking/env-setup
-    5. ansible-playbook -vvvv -i ../inventory/loca1host ./install.yaml
+    5. ansible-playbook -vvvv -i ../inventory/localhost ./install.yaml
 
 Manual CLI Use
 ==============
