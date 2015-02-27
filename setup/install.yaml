@@ -83,7 +83,7 @@
     - name: "os-client-config - Resyncing local reposiory"
       local_action: command git pull --ff-only chdir=/opt/stack/os-client-config
     - name: "os-client-config - Downloading patch to support noauth mode."
-      local_action: command git fetch https://review.openstack.org/stackforge/os-client-config refs/changes/63/159563/1 chdir=/opt/stack/os-client-config
+      local_action: command git fetch https://review.openstack.org/stackforge/os-client-config refs/changes/63/159563/2 chdir=/opt/stack/os-client-config
     - name: "os-client-config - Checking out os-client-config patch to support noauth mode."
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/os-client-config
     - name: "os-client-config - Installing patched os-client-config."
