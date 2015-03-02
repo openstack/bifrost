@@ -232,8 +232,8 @@
       local_action: get_url url=http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
       when: test_core_os_image_present.stat.exists == false
     - name: "Test if Ubuntu 14.04 server cloud amd64 is present"
-      local_action: stat path={{ http_boot_folder }}/ubuntu-14.04-server-cloudimg-amd64.tar.gz
-      register: test_core_os_image_present
+      local_action: stat path={{ deploy_image }}
+      register: test_os_image_present
     - name: "Download CoreOS image"
-      local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest={{ http_boot_folder }}/ubuntu-14.04-server-cloudimg-amd64.tar.gz
-      when: test_core_os_image_present.stat.exists == false
+      local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest={{ deploy_image }}
+      when: test_os_image_present.stat.exists == false
