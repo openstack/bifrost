@@ -10,7 +10,7 @@ deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
 deploy_ramdisk: "{{http_boot_folder))/coreos_production_pxe_image-oem.cpio.gz"
 # ipv4_subnet_mask is intended for the static ipv4 address assignments.
 ipv4_subnet_mask: 255.255.255.0
-ipv4_gateway:
+ipv4_gateway: 192.168.1.1
 ipv4_nameservers:
 - 8.8.8.8
 - 8.8.4.4
