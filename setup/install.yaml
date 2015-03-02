@@ -25,6 +25,7 @@
         - libxml2-dev
         - ipxe
         - tftp-hpa
+        - syslinux-common
         - syslinux
         - xinetd
         - parted
@@ -32,6 +33,11 @@
         - psmisc
         - nginx
         - wget
+    - name: "Install 14.10 packages"
+      local_action: apt name={{ item }}
+      with_items:
+        - pxelinux
+      when: ansible_distribution_version == "14.10"
     - name: "Ensuring /opt/stack is present"
       local_action: file name=/opt/stack state=directory owner=root group=root
     # This won't be necessary in the long run, however until a suitable version
@@ -173,6 +179,10 @@
         - "{{ http_boot_folder }}"
     - name: "Placing pxelinux.0"
       local_action: copy src=/usr/lib/syslinux/pxelinux.0 dest=/tftpboot
+      when: ansible_distribution_version != "14.10"
+    - name: "Placing pxelinux.0 (>=14.10)"
+      local_action: copy src=/usr/lib/PXELINUX/pxelinux.0 dest=/tftpboot
+      when: ansible_distribution_version == "14.10"
     - name: "Place tftp config file"
       local_action: copy src=files/xinetd.tftp dest=/etc/xinetd.d/tftp
     - name: "Copy iPXE image into place"

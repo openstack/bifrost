@@ -7,7 +7,7 @@ testing: true
 http_boot_folder: /httpboot
 latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py
 deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
-deploy_ramdisk: "{{http_boot_folder))/coreos_production_pxe_image-oem.cpio.gz"
+deploy_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
 # ipv4_subnet_mask is intended for the static ipv4 address assignments.
 ipv4_subnet_mask: 255.255.255.0
 ipv4_gateway: 192.168.1.1
