@@ -15,41 +15,12 @@
     - name: "Error if file does not exist."
       local_action: fail msg="The variable defined for baremetal_csv_file is not to a file.  Please define a file and try again."
       when: test_baremetal_csv_file.stat.isreg == false
-    - name: "Enroll Hardware"
-      # The variable definitions below seem far from ideal, however there
-      # seems to be no better way to handle CSV files for looping at this time.
-      #
-      # Ideally with_lines would be used with an include, however that support was removed in
-      # Ansible 1.6 and no direct replacement exists.
-      #
-      # mac_address: "{{item.split(',')[1]}}"
-      # username: "{{item.split(',')[2]}}"
-      # password: "{{item.split(',')[3]}}"
-      # management_address: "{{item.split(',')[4]}}"
-      # cpu_cores: "{{item.split(',')[5]}}"
-      # memory_MB: "{{item.split(',')[6]}}"
-      # disk_MB: "{{item.split(',')[7]}}"
-      os_ironic:
-        auth_plugin: None
-        auth: None
-        ironic_url: "{{ ironic_url }}"
-        driver: "pxe_ipmitool"
-        # UUID determination TBD for mass enrollment.
-        uuid: "{{item.split(',')[9]}}"
-        state: present
-        nics:
-         - mac: "{{item.split(',')[0]}}"
-        properties:
-          cpus: "{{item.split(',')[4]}}"
-          cpu_arch: "x86_64"
-          ram: "{{item.split(',')[5]}}"
-          disk_size: "{{item.split(',')[6]}}"
-        driver_info:
-          power:
-            ipmi_address: "{{item.split(',')[3]}}"
-            ipmi_username: "{{item.split(',')[1]}}"
-            ipmi_password: "{{item.split(',')[2]}}"
-      delegate_to: localhost
-      with_lines:
-        - cat {{ baremetal_csv_file }}
-
+    - name: "If no ipmi_bridging value set, or a value of no exists, execute standard sequence."
+      include: standard_enroll.yaml
+      when: ipmi_bridging is not defined or ipmi_bridging == "no"
+    - name: "If ipmi_bridging is set to single, execute single bridge enrollment sequence.."
+      include: ipmi_bridging_single_enroll.yaml
+      when: ipmi_bridging is defined and ipmi_bridging == "single"
+    - name: "If ipmi_bridging is set to single, execute dual bridge enrollment sequence.."
+      include: ipmi_bridging_dual_enroll.yaml
+      when: ipmi_bridging is defined and ipmi_bridging == "dual"

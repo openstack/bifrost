@@ -6,3 +6,12 @@ mysql_password:
 testing: true
 http_boot_folder: /httpboot
 latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py
+# ipv4_subnet_mask is intended for the static ipv4 address assignments.
+ipv4_subnet_mask: 255.255.255.0
+ipv4_gateway:
+ipv4_nameservers:
+- 8.8.8.8
+- 8.8.4.4
+# ipmi_bridging: Default undefined.  Valid values: "no", "single", and "dual"
+# See http://docs.openstack.org/developer/ironic/_modules/ironic/drivers/modules/ipmitool.html
+#ipmi_bridging: no
