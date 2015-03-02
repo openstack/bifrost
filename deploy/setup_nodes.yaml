@@ -12,7 +12,7 @@
     deploy_kernel: "{{ deploy_kernel }}"
     deploy_ramdisk: "{{ deploy_ramdisk }}"
     instance_info:
-      image_source: "http://this.host:8080/{{deploy_image_filename}}"
+      image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.md5 }}" 
       image_disk_format:
       uuid: "{{item.split(',')[9]}}"
