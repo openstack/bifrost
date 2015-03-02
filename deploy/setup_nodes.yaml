@@ -1,0 +1,21 @@
+---
+- name: "Enroll Hardware"
+  # TODO: Conceptual idea of structure, needs image_source corrected and
+  #disk format clarified
+  os_ironic_node:
+    auth_plugin: None
+    auth: None
+    ironic_url: "{{ ironic_url }}"
+    uuid: "{{item.split(',')[9]}}"
+    state: active
+    config_drive: "/tmp/{{item.split(',')[9]}}-configdrive.iso"
+    deploy_kernel: "{{ deploy_kernel }}"
+    deploy_ramdisk: "{{ deploy_ramdisk }}"
+    instance_info:
+      image_source: "http://this.host:8080/{{deploy_image_filename}}"
+      image_checksum: "{{ test_deploy_image.md5 }}" 
+      image_disk_format:
+      uuid: "{{item.split(',')[9]}}"
+  delegate_to: localhost
+  with_lines:
+    - cat {{ baremetal_csv_file }}

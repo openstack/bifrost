@@ -5,17 +5,17 @@ ironic_db_password: aSecretPassword473z
 mysql_password:
 testing: true
 http_boot_folder: /httpboot
+ssh_public_key_path: ~/.ssh/id_rsa.pub
 latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py
 deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
 deploy_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
 deploy_image_filename: "ubuntu-14.04-server-cloudimg-amd64.tar.gz"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+node_default_network_interface: eth0
 # ipv4_subnet_mask is intended for the static ipv4 address assignments.
 ipv4_subnet_mask: 255.255.255.0
 ipv4_gateway: 192.168.1.1
-ipv4_nameservers:
-- 8.8.8.8
-- 8.8.4.4
+ipv4_nameserver: 8.8.8.8
 # ipmi_bridging: Default undefined.  Valid values: "no", "single", and "dual"
 # See http://docs.openstack.org/developer/ironic/_modules/ironic/drivers/modules/ipmitool.html
 #ipmi_bridging: no

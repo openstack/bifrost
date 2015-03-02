@@ -1,0 +1,34 @@
+---
+- name: "Name Make Temporary folder to build configdrive"
+  local_action: command mktemp -d
+  register: variable_configdrive_location
+- name: "Make Metadata folder - /openstack/2012-08-10"
+  local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/2012-08-10/
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Make Metadata folder - /openstack/latest"
+  local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/latest/
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Place template in each openstack/2012-08-10 folder"
+  local_action: template src=templates/openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/2012-08-10/meta_data.json
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Place template in each openstack/latest folder"
+  local_action: template src=templates/openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/latest/meta_data.json
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Make Metadata folder - /openstack/latest"
+  local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/content/
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Write network interface template"
+  local_action: template src=templates/interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/content/0000
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Make config drive files"
+  local_action: command mkisofs -R -V config-2 -o /tmp/configdrive-{{item.split(',')[9]}}.iso {{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}
+  with_lines:
+    - cat {{ baremetal_csv_file }}
+- name: "Cleanup configdrive"
+  local_action: file state=absent force=yes name={{ variable_configdrive_location.stdout }}
