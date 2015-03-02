@@ -47,10 +47,13 @@
       local_action: command git reset --hard master chdir=/opt/stack/ironic
     - name: "Ironic - resyncing to current master branch"
       local_action: command git pull --ff-only chdir=/opt/stack/ironic/
-    - name: "Ironic - Downloading PXE support for IPA"
-      local_action: command git fetch https://review.openstack.org/openstack/ironic refs/changes/28/155728/16 chdir=/opt/stack/ironic
-    - name: "Ironic - Checking out PXE support for IPA"
-      local_action: command git checkout FETCH_HEAD chdir=/opt/stack/ironic
+    # As of 20150302 155728 has merged.  Leaving code present but commented out for future
+    # cases where we need to apply a specific patch at this time.
+    # - name: "Ironic - Downloading PXE support for IPA"
+    #   local_action: command git fetch https://review.openstack.org/openstack/ironic refs/changes/28/155728/16 chdir=/opt/stack/ironic
+    #- name: "Ironic - Checking out PXE support for IPA"
+    #  local_action: command git checkout FETCH_HEAD chdir=/opt/stack/ironic
+    ### End comment out
     # TODO: The pip installation of python-ironicclient is disabled in order to
     # support rev 158520.
     #- name: "Install ironic client"
@@ -91,20 +94,22 @@
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/shade
     - name: "Shade - Installing patched shade library."
       local_action: command pip install -I --force-reinstall /opt/stack/shade
-    - name: "os-client-config - Retrieving from git.openstack.org"
-      local_action: command git clone https://review.openstack.org/stackforge/os-client-config chdir=/opt/stack creates=/opt/stack/os-client-config
-    - name: "os-client-config - checking out master branch"
-      local_action: command git checkout -f master chdir=/opt/stack/os-client-config
-    - name: "os-client-config - Resetting local repository"
-      local_action: command git reset --hard master chdir=/opt/stack/os-client-config
-    - name: "os-client-config - Resyncing local reposiory"
-      local_action: command git pull --ff-only chdir=/opt/stack/os-client-config
-    - name: "os-client-config - Downloading patch to support noauth mode."
-      local_action: command git fetch https://review.openstack.org/stackforge/os-client-config refs/changes/63/159563/2 chdir=/opt/stack/os-client-config
-    - name: "os-client-config - Checking out os-client-config patch to support noauth mode."
-      local_action: command git checkout FETCH_HEAD chdir=/opt/stack/os-client-config
-    - name: "os-client-config - Installing patched os-client-config."
-      local_action: command pip install -I --no-deps --force-reinstall /opt/stack/os-client-config
+    # TODO Remove the commented out section below if no longer needed.
+    # Fix merged into os-client-config.  Commenting out for now as dependency should be satisified via the installation of shade.
+    #- name: "os-client-config - Retrieving from git.openstack.org"
+    #  local_action: command git clone https://review.openstack.org/stackforge/os-client-config chdir=/opt/stack creates=/opt/stack/os-client-config
+    #- name: "os-client-config - checking out master branch"
+    #  local_action: command git checkout -f master chdir=/opt/stack/os-client-config
+    #- name: "os-client-config - Resetting local repository"
+    #  local_action: command git reset --hard master chdir=/opt/stack/os-client-config
+    #- name: "os-client-config - Resyncing local reposiory"
+    #  local_action: command git pull --ff-only chdir=/opt/stack/os-client-config
+    #- name: "os-client-config - Downloading patch to support noauth mode."
+    #  local_action: command git fetch https://review.openstack.org/stackforge/os-client-config refs/changes/63/159563/2 chdir=/opt/stack/os-client-config
+    #- name: "os-client-config - Checking out os-client-config patch to support noauth mode."
+    #  local_action: command git checkout FETCH_HEAD chdir=/opt/stack/os-client-config
+    #- name: "os-client-config - Installing patched os-client-config."
+    #  local_action: command pip install -I --no-deps --force-reinstall /opt/stack/os-client-config
     #END TODO note from above
     - name: "Starting MySQL"
       local_action: service name=mysql state=started
