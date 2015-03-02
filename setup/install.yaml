@@ -66,9 +66,9 @@
       local_action: command git reset --hard master chdir=/opt/stack/python-ironicclient
     - name: "python-ironicclient - Resyncing local reposiory"
       local_action: command git pull --ff-only chdir=/opt/stack/python-ironicclient
-    - name: "python-ironicclient - Downloading patch to support noauth mode."
+    - name: "python-ironicclient - Downloading patch for logical names in Ironic"
       local_action: command git fetch https://review.openstack.org/openstack/python-ironicclient refs/changes/20/158520/1 chdir=/opt/stack/python-ironicclient
-    - name: "python-ironicclient - Checking out patch to support noauth mode."
+    - name: "python-ironicclient - Checking out patch."
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/python-ironicclient
     - name: "python-ironicclient - Installing patched python-ironicclient library."
       local_action: command pip install -I --force-reinstall /opt/stack/python-ironicclient
