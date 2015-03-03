@@ -98,7 +98,7 @@
     - name: "Shade - Resyncing local reposiory"
       local_action: command git pull --ff-only chdir=/opt/stack/shade
     - name: "Shade - Downloading patch to support noauth mode."
-      local_action: command git fetch https://review.openstack.org/openstack-infra/shade refs/changes/94/160894/2 chdir=/opt/stack/shade
+      local_action: command git fetch https://review.openstack.org/openstack-infra/shade refs/changes/94/160894/4 chdir=/opt/stack/shade
     - name: "Shade - Checking out patch to support noauth mode."
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/shade
     - name: "Shade - Installing patched shade library."
