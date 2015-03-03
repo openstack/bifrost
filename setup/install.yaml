@@ -237,6 +237,6 @@
     - name: "Test if Ubuntu 14.04 server cloud amd64 is present"
       local_action: stat path={{ deploy_image }}
       register: test_os_image_present
-    - name: "Download CoreOS image"
+    - name: "Download Ubuntu image"
       local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest={{ deploy_image }}
       when: test_os_image_present.stat.exists == false
