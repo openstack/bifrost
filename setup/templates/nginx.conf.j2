@@ -39,11 +39,9 @@ http {
 
 	gzip on;
 
-
-}
-
-server {
-	listen 8000;
-	server_name {{ ansible_hostname }};
-        root {{ http_boot_folder }};
+	server {
+		listen 8080;
+		server_name {{ ansible_hostname }};
+		root {{ http_boot_folder }};
+	}
 }
