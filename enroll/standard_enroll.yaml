@@ -20,7 +20,7 @@
         driver: "agent_ipmitool"
         # UUID determination TBD for mass enrollment.
         uuid: "{{item.split(',')[9]}}"
-        state: absent
+        state: present
         nics:
          - mac: "{{item.split(',')[0]}}"
         properties:
