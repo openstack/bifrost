@@ -10,7 +10,7 @@ mkdir -p /opt/stack || (sudo mkdir -p /opt/stack && sudo chown $u:$g /opt/stack)
 cd /opt/stack
 
 if [ ! -d ansible ]; then
-    git clone git://github.com/ansible/ansible.git --recursive
+    git clone https://github.com/ansible/ansible.git --recursive
 else
     cd ansible
     git pull --rebase
