@@ -45,6 +45,8 @@
     # lands upstream, it is required.
     - name: "Retrieving latest known os_ironic.py file"
       local_action: get_url url={{ latest_os_ironic_url }} dest=/opt/stack/ansible/lib/ansible/modules/extras/cloud/os_ironic.py
+    - name: "Retrieving latest known os_ironic_node.py file"
+      local_action: get_url url={{ latest_os_ironic_node_url }} dest=/opt/stack/ansible/lib/ansible/modules/extras/cloud/os_ironic_node.py
     - name: "Downloading Ironic"
       local_action: command git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
     # TODO: Remove eventually once the features land.
@@ -96,7 +98,7 @@
     - name: "Shade - Resyncing local reposiory"
       local_action: command git pull --ff-only chdir=/opt/stack/shade
     - name: "Shade - Downloading patch to support noauth mode."
-      local_action: command git fetch https://review.openstack.org/openstack-infra/shade refs/changes/09/159609/5 chdir=/opt/stack/shade
+      local_action: command git fetch https://review.openstack.org/openstack-infra/shade refs/changes/94/160894/2 chdir=/opt/stack/shade
     - name: "Shade - Checking out patch to support noauth mode."
       local_action: command git checkout FETCH_HEAD chdir=/opt/stack/shade
     - name: "Shade - Installing patched shade library."
