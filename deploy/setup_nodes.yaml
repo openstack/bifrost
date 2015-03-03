@@ -1,21 +1,19 @@
 ---
 - name: "Enroll Hardware"
   # TODO: Conceptual idea of structure, needs image_source corrected and
-  #disk format clarified
+  # disk format clarified
   os_ironic_node:
     auth_plugin: None
     auth: None
     ironic_url: "{{ ironic_url }}"
     uuid: "{{item.split(',')[9]}}"
-    state: active
-    config_drive: "/tmp/{{item.split(',')[9]}}-configdrive.iso"
-    deploy_kernel: "{{ deploy_kernel }}"
-    deploy_ramdisk: "{{ deploy_ramdisk }}"
+    state: present
+    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/{{item.split(',')[9]}}-configdrive.iso"
     instance_info:
       image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/{{deploy_image_filename}}"
-      image_checksum: "{{ test_deploy_image.md5 }}" 
-      image_disk_format:
-      uuid: "{{item.split(',')[9]}}"
+      image_checksum: "{{ test_deploy_image.stat.md5 }}"
+      image_disk_format: "qcow"
+      root_gb: 10
   delegate_to: localhost
   with_lines:
     - cat {{ baremetal_csv_file }}

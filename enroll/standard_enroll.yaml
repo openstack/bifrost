@@ -17,10 +17,10 @@
         auth_plugin: None
         auth: None
         ironic_url: "{{ ironic_url }}"
-        driver: "pxe_ipmitool"
+        driver: "agent_ipmitool"
         # UUID determination TBD for mass enrollment.
         uuid: "{{item.split(',')[9]}}"
-        state: present
+        state: absent
         nics:
          - mac: "{{item.split(',')[0]}}"
         properties:
@@ -33,6 +33,9 @@
             ipmi_address: "{{item.split(',')[3]}}"
             ipmi_username: "{{item.split(',')[1]}}"
             ipmi_password: "{{item.split(',')[2]}}"
+          deploy:
+            deploy_kernel: "{{ deploy_kernel_url }}"
+            deploy_ramdisk: "{{ deploy_ramdisk_url }}"
       delegate_to: localhost
       with_lines:
         - cat {{ baremetal_csv_file }}

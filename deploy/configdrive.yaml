@@ -27,7 +27,7 @@
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Make config drive files"
-  local_action: command mkisofs -R -V config-2 -o /tmp/configdrive-{{item.split(',')[9]}}.iso {{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}
+  local_action: command mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso {{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Cleanup configdrive"
