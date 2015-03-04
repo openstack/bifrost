@@ -5,7 +5,7 @@ dhcp
 goto deploy
 
 :deploy
-kernel http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080{{ '{{' }} pxe_options.deployment_aki_path {{ '}}' }} ip=${ip}:${next-server}:${gateway}:${netmask} BOOTIF=${mac} text {{ pxe_options.pxe_append_params {{ '}}' }} ipa-api-url={{ '{{' }} pxe_options['ipa-api-url'] {{ '}}' }} ipa-driver-name={{ '{{' }} pxe_options['ipa-driver-name'] {{ '}}' }}
+kernel http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080{{ '{{' }} pxe_options.deployment_aki_path {{ '}}' }} ip=${ip}:${next-server}:${gateway}:${netmask} BOOTIF=${mac} text {{ '{{' }} pxe_options.pxe_append_params {{ '}}' }} ipa-api-url={{ '{{' }} pxe_options['ipa-api-url'] {{ '}}' }} ipa-driver-name={{ '{{' }} pxe_options['ipa-driver-name'] {{ '}}' }}
 
 initrd http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080{{ '{{' }} pxe_options.deployment_ari_path {{ '}}' }}
 boot
