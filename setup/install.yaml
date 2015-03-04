@@ -176,19 +176,14 @@
       local_action: service name=ironic-conductor state=restarted
     - name: "Start ironic-api"
       local_action: service name=ironic-api state=reloaded
-    # TODO: this should not be shell, fix
-    - name: "Set a tftpd mapfile"
-      local_action: shell echo 'r ^([^/]) /tftpboot/\1' > /tftpboot/map-file
-    - name: "Setting file permissions"
-      local_action: file name={{item}} owner=ironic group=ironic state=file
-      with_items:
-        - /tftpboot/map-file
     - name: "Setting up PXE and iPXE folders"
       local_action: file name={{item}} owner=ironic group=ironic state=directory
       with_items:
         - /tftpboot
         - /tftpboot/pxelinux.cfg
         - "{{ http_boot_folder }}"
+    - name: "Placing tftpd map-file"
+      local_action: copy src=files/tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
     # TODO: This should not be shell, fix.
     - name: "Disable tftpd-hpa by setting it to manual start"
       local_action: shell echo "manual" > /etc/init/tftpd-hpa.override
