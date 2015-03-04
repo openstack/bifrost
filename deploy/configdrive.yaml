@@ -36,7 +36,7 @@
     - cat {{ baremetal_csv_file }}
 - name: "Cleanup configdrive .iso files"
   local_action: file state=absent name={{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso
-    with_lines:
+  with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Cleanup configdrive temp folder"
   local_action: file state=absent force=yes name={{ variable_configdrive_location.stdout }}
