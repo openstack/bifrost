@@ -473,6 +473,7 @@ enabled_drivers=agent_ipmitool
 
 # Template file for PXE configuration. (string value)
 #agent_pxe_config_template=$pybasedir/drivers/modules/agent_config.template
+agent_pxe_config_template=/etc/ironic/agent_config.template
 
 # Neutron bootfile DHCP parameter. (string value)
 #agent_pxe_bootfile_name=pxelinux.0
@@ -1253,7 +1254,7 @@ dhcp_provider=none
 #
 
 # Template file for PXE configuration. (string value)
-#pxe_config_template=$pybasedir/drivers/modules/pxe_config.template
+pxe_config_template=$pybasedir/drivers/modules/ipxe_config.template
 
 # Template file for PXE configuration for UEFI boot loader.
 # (string value)
@@ -1287,7 +1288,7 @@ http_root={{ http_boot_folder }}
 ipxe_enabled=true
 
 # The path to the main iPXE script file. (string value)
-ipxe_boot_script=$pybasedir/drivers/modules/ipxe_config.template
+ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe
 
 
 [seamicro]

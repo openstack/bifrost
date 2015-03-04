@@ -151,6 +151,8 @@
       local_action: file name=/etc/ironic state=directory
     - name: "Place Ironic Config file"
       local_action: template src=templates/ironic.conf.j2 dest=/etc/ironic/ironic.conf
+    - name: "Place Ironic IPA Agent PXE configuration file"
+      local_action: template src=template/agent_config.template.j2 dest=/etc/ironic/agent_config.template
     - name: "Copy policy.json to /etc/ironic"
       local_action: copy src=/opt/stack/ironic/etc/ironic/policy.json dest=/etc/ironic/
     - name: "Creating Ironic DB Schema"
@@ -195,6 +197,8 @@
     - name: "Placing pxelinux.0 (>=14.10)"
       local_action: copy src=/usr/lib/PXELINUX/pxelinux.0 dest=/tftpboot
       when: ansible_distribution_version|version_compare('14.10', '>=')
+    - name: "Place boot.ipxe helper script to HTTP root"
+      local_action: copy src=files/boot.ipxe dest=/httpboot/boot.ipxe
     - name: "Place tftp config file"
       local_action: copy src=files/xinetd.tftp dest=/etc/xinetd.d/tftp
     - name: "Copy iPXE image into place"

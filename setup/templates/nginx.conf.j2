@@ -43,5 +43,8 @@ http {
 		listen 8080;
 		server_name {{ ansible_hostname }};
 		root {{ http_boot_folder }};
+		location {{ http_boot_folder }}/ {
+			alias {{ http_boot_folder }}/;
+		}
 	}
 }

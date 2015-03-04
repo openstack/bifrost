@@ -413,7 +413,7 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 # a TFTP server; either dnsmasq's built in TFTP server or an
 # external one. (See below for how to enable the TFTP server.)
 #dhcp-boot=pxelinux.0
-dhcp-boot=/tftpboot/undionly.kpxe
+#dhcp-boot=/tftpboot/undionly.kpxe
 
 # The same as above, but use custom tftp-server instead machine running dnsmasq
 #dhcp-boot=pxelinux,server.name,192.168.1.100
@@ -421,9 +421,9 @@ dhcp-boot=/tftpboot/undionly.kpxe
 # Boot for Etherboot gPXE. The idea is to send two different
 # filenames, the first loads gPXE, and the second tells gPXE what to
 # load. The dhcp-match sets the gpxe tag for requests from gPXE.
-#dhcp-match=set:gpxe,175 # gPXE sends a 175 option.
-#dhcp-boot=tag:!gpxe,undionly.kpxe
-#dhcp-boot=mybootimage
+dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
+dhcp-boot=tag:!ipxe,undionly.kpxe
+dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}/boot.ipxe
 
 # Encapsulated options for Etherboot gPXE. All the options are
 # encapsulated within option 175
