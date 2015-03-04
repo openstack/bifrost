@@ -35,6 +35,7 @@
         - nginx
         - wget
         - genisoimage
+        - qemu-utils
     - name: "Install 14.10 packages"
       local_action: apt name={{ item }}
       with_items:
