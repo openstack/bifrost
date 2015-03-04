@@ -152,7 +152,7 @@
     - name: "Place Ironic Config file"
       local_action: template src=templates/ironic.conf.j2 dest=/etc/ironic/ironic.conf
     - name: "Place Ironic IPA Agent PXE configuration file"
-      local_action: template src=template/agent_config.template.j2 dest=/etc/ironic/agent_config.template
+      local_action: template src=templates/agent_config.template.j2 dest=/etc/ironic/agent_config.template
     - name: "Copy policy.json to /etc/ironic"
       local_action: copy src=/opt/stack/ironic/etc/ironic/policy.json dest=/etc/ironic/
     - name: "Creating Ironic DB Schema"
