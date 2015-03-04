@@ -25,6 +25,7 @@
         - libxml2-dev
         - ipxe
         - tftp-hpa
+        - tftpd
         - syslinux-common
         - syslinux
         - xinetd
