@@ -176,12 +176,21 @@
       local_action: service name=ironic-conductor state=restarted
     - name: "Start ironic-api"
       local_action: service name=ironic-api state=reloaded
+    # TODO: this should not be shell, fix
+    - name: "Set a tftpd mapfile"
+      local_action: shell echo 'r ^([^/]) /tftpboot/\1' > /tftpboot/map-file
     - name: "Setting up PXE and iPXE folders"
       local_action: file name={{item}} owner=ironic group=ironic state=directory
       with_items:
         - /tftpboot
         - /tftpboot/pxelinux.cfg
+        - /tftpboot/map-file
         - "{{ http_boot_folder }}"
+    # TODO: This should not be shell, fix.
+    - name: "Disable tftpd-hpa by setting it to manual start"
+      local_action: shell echo "manual" > /etc/init/tftpd-hpa.override
+    - name: "Disable service tftpd-hpa"
+      local_action: service name=tftpd-hpa state=stopped enabled=no
     - name: "Placing pxelinux.0 (pre-14.10)"
       local_action: copy src=/usr/lib/syslinux/pxelinux.0 dest=/tftpboot
       when: ansible_distribution_version|version_compare('14.10', '<')
