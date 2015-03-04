@@ -24,8 +24,8 @@
         - libssl-dev
         - libxml2-dev
         - ipxe
+        - tftpd-hpa
         - tftp-hpa
-        - tftpd
         - syslinux-common
         - syslinux
         - xinetd
