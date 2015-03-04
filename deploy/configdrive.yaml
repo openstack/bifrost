@@ -31,7 +31,7 @@
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Make config drive files base64 encoded and gzip compressed"
-  local_action: shell base64 {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso | gzip > {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}-base64.iso.gz
+  local_action: shell base64 {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso | gzip > {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso.gz
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Cleanup configdrive .iso files"
