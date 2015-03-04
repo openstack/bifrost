@@ -413,7 +413,7 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 # a TFTP server; either dnsmasq's built in TFTP server or an
 # external one. (See below for how to enable the TFTP server.)
 #dhcp-boot=pxelinux.0
-dhcp-boot=undionly.kpxe
+dhcp-boot=/tftpboot/undionly.kpxe
 
 # The same as above, but use custom tftp-server instead machine running dnsmasq
 #dhcp-boot=pxelinux,server.name,192.168.1.100
