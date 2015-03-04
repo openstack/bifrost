@@ -109,7 +109,7 @@ interface={{ network_interface }}
 # want dnsmasq to really bind only the interfaces it is listening on,
 # uncomment this option. About the only time you may need this is when
 # running another nameserver on the same machine.
-#bind-interfaces
+bind-interfaces
 
 # If you don't want dnsmasq to read /etc/hosts, uncomment the
 # following line.
@@ -142,7 +142,7 @@ interface={{ network_interface }}
 # a lease time. If you have more than one network, you will need to
 # repeat this for each network on which you want to supply DHCP
 # service.
-#dhcp-range=192.168.0.50,192.168.0.150,12h
+dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 
 # This is an example of a DHCP range where the netmask is given. This
 # is needed for networks we reach the dnsmasq DHCP server via a relay
