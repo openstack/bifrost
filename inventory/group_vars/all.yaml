@@ -12,7 +12,7 @@ deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
 deploy_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
 deploy_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/coreos_production_pxe.vmlinuz"
 deploy_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/coreos_production_pxe_image-oem.cpio.gz"
-deploy_image_filename: "ubuntu-14.04-server-cloudimg-amd64.tar.gz"
+deploy_image_filename: "trusty-server-cloudimg-amd64.img"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 node_default_network_interface: eth0
 # ipv4_subnet_mask is intended for the static ipv4 address assignments.

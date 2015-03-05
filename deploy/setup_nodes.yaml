@@ -12,7 +12,7 @@
     instance_info:
       image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.stat.md5 }}"
-      image_disk_format: "qcow"
+      image_disk_format: "raw"
       root_gb: 10
   delegate_to: localhost
   with_lines:
