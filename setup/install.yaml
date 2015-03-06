@@ -254,7 +254,7 @@
     # TODO(Julia) This needs to be entirely variablized and made a toggable setting, or auto-discovered?
     # Anything better!
     - name: "Download Ubuntu image"
-      local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest={{ deploy_image }}
+      local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz
       when: test_os_image_present.stat.exists == false
     - name: "Extract Ubuntu image"
       local_action: command tar -xvzf ubuntu-14.04-server-cloudimg-amd64.tar.gz chdir=/httpboot creates=/httpboot/trusty-server-cloudimg-amd64.img
