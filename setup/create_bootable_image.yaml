@@ -1,13 +1,13 @@
 ---
 - name: "Copying Image however with 32k of empty space at the beginning of the file."
-  command: dd if="{{http_boot_folder}}/{{boot_image}}" of="{{http_boot_folder}}/{{boot_image}}.bootimg" seek=64
+  command: dd if="{{http_boot_folder}}/{{deploy_image_filename}}" of="{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" seek=64
 - name: "Creating Partition Table lining up with the copied file's contents."
   shell: echo '32;' | sfdisk ./test2.img -uB -f
 - name: "Allocating one of two loopbacks"
   command: losetup -f
   register: stored_value_loopback_alpha
 - name: "Creating loopback connetion to new image file"
-  command: losetup "{{stored_value_loopback_alpha.stdout}}" "{{http_boot_folder}}/{{boot_image}}.bootimg"
+  command: losetup "{{stored_value_loopback_alpha.stdout}}" "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg"
 - name: "Forcing partition table to be re-read"
   command: kpartx -v -a "{{stored_value_loopback_alpha.stdout}}"
   # Using second loopback as for some reason /dev/mapper does not translate into a chroot cleanly when devfs is mounted
@@ -40,6 +40,6 @@
 - name: "Detaching first loop device"
   command: losetup -d "{{stored_value_loopback_alpha.stdout}}"
 - name: "Moving image to .oldimg"
-  command: mv "{{http_boot_folder}}/{{boot_image}}" "{{http_boot_folder}}/{{boot_image}}.oldimg"
+  command: mv "{{http_boot_folder}}/{{deploy_image_filename}}" "{{http_boot_folder}}/{{deploy_image_filename}}.oldimg"
 - name: "Moving new image into place"
-  command: mv "{{http_boot_folder}}/{{boot_image}}.bootimg" "{{http_boot_folder}}/{{boot_image}}"
+  command: mv "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" "{{http_boot_folder}}/{{deploy_image_filename}}"
