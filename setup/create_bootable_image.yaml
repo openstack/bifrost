@@ -25,6 +25,10 @@
   command: mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg
 - name: "Place grub device file map"
   template: src=templates/device.map.j2 dest=/mnt/bootimg/boot/grub/device.map
+- name: "Binding /sys into /mnt/bootimg/sys"
+  command: mount -t sysfs sysfs sysfs /mnt/bootimg/sys
+- name: "Binding /proc into /mnt/bootimg/proc"
+  command: mount -t proc proc /mnt/bootimg/proc
 - name: "Binding /dev into /mnt/bootimg/dev"
   command: mount --bind /dev /mnt/bootimg/dev
 - name: "Make grub configuration"
@@ -33,6 +37,10 @@
   command: grub-install --grub-mkdevicemap=/mnt/bootimg/boot/grub/grub.cfg --root-directory=/mnt/bootimg "{{stored_value_loopback_alpha.stdout}}"
 - name: "Unlink /dev/bootimg/dev"
   command: umount /mnt/bootimg/dev
+- name: "Unlink /dev/bootimg/proc"
+  command: umount /mnt/bootimg/proc
+- name: "Unlink /dev/bootimg/sys"
+  command: umount /mnt/bootimg/sys
 - name: "Unmounting image"
   command: umount /mnt/bootimg
 - name: "Detaching second loop device"
