@@ -250,8 +250,13 @@
     - name: "Test if Ubuntu 14.04 server cloud amd64 is present"
       local_action: stat path={{ deploy_image }}
       register: test_os_image_present
+    # TODO(Julia) This needs to be entirely variablized and made a toggable setting, or auto-discovered?
+    # Anything better!
     - name: "Download Ubuntu image"
       local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest={{ deploy_image }}
       when: test_os_image_present.stat.exists == false
     - name: "Extract Ubuntu image"
       local_action: command tar -xvzf ubuntu-14.04-server-cloudimg-amd64.tar.gz chdir=/httpboot creates=/httpboot/trusty-server-cloudimg-amd64.img
+      when: test_os_image_present.stat.exists == false
+    - include: create_bootable_image.yaml
+      when: when: test_os_image_present.stat.exists == false and transform_boot_image == true
