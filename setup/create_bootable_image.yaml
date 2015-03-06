@@ -32,9 +32,9 @@
 - name: "Run the grub-install tool"
   command: grub-install --grub-mkdevicemap=/mnt/bootimg/boot/grub/grub.cfg --root-directory=/mnt/bootimg "{{stored_value_loopback_alpha.stdout}}"
 - name: "Unlink /dev/bootimg/dev"
-  command: umount /dev/bootimg/dev
+  command: umount /mnt/bootimg/dev
 - name: "Unmounting image"
-  command: umount /dev/bootimg
+  command: umount /mnt/bootimg
 - name: "Detaching second loop device"
   command: losetup -d "{{stored_value_loopback_beta.stdout}}"
 - name: "Removing partition map"
