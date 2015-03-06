@@ -259,4 +259,4 @@
       local_action: command tar -xvzf ubuntu-14.04-server-cloudimg-amd64.tar.gz chdir=/httpboot creates=/httpboot/trusty-server-cloudimg-amd64.img
       when: test_os_image_present.stat.exists == false
     - include: create_bootable_image.yaml
-      when: when: test_os_image_present.stat.exists == false and transform_boot_image == true
+      when: test_os_image_present.stat.exists == false and transform_boot_image == true
