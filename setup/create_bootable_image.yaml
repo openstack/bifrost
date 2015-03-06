@@ -2,7 +2,7 @@
 - name: "Copying Image however with 32k of empty space at the beginning of the file."
   command: dd if="{{http_boot_folder}}/{{deploy_image_filename}}" of="{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" seek=64
 - name: "Creating Partition Table lining up with the copied file's contents."
-  shell: echo '32;' | sfdisk ./test2.img -uB -f
+  shell: echo '32;' | sfdisk "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" -uB -f
 - name: "Allocating one of two loopbacks"
   command: losetup -f
   register: stored_value_loopback_alpha
@@ -15,7 +15,7 @@
   command: losetup -f
   register: stored_value_loopback_beta
 - name: "Binding second loopback to the first partition"
-  shell: lopsetup "{{stored_value_loopback_beta.stdout}}" /dev/mapper/$(echo '"{{stored_value_loopback_alpha.stdout}}"'|cut -f3 -d '/')p1
+  shell: losetup "{{stored_value_loopback_beta.stdout}}" /dev/mapper/$(echo "{{stored_value_loopback_alpha.stdout}}"|cut -f3 -d '/')p1
   # TODO parameterize folder name/location
 - name: "Ensuring we have a location to mount the disk to"
   file: path=/mnt/bootimg state=directory

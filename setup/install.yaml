@@ -36,6 +36,7 @@
         - wget
         - genisoimage
         - qemu-utils
+        - kpartx
     - name: "Install 14.10 packages"
       local_action: apt name={{ item }}
       with_items:
