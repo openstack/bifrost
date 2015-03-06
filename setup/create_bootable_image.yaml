@@ -24,7 +24,7 @@
 - name: "Mounting volume on /mnt/bootimg"
   command: mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg
 - name: "Place grub device file map"
-  template: src=templates/device.map.j2 of=/mnt/bootimg/boot/grub/device.map
+  template: src=templates/device.map.j2 dest=/mnt/bootimg/boot/grub/device.map
 - name: "Binding /dev into /mnt/bootimg/dev"
   command: mount --bind /dev /mnt/bootimg/dev
 - name: "Make grub configuration"
