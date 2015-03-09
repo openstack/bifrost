@@ -23,18 +23,25 @@
   file: path=/mnt/bootimg state=directory
 - name: "Mounting volume on /mnt/bootimg"
   command: mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg
-- name: "Place grub device file map"
-  template: src=templates/device.map.j2 dest=/mnt/bootimg/boot/grub/device.map
 - name: "Binding /sys into /mnt/bootimg/sys"
   command: mount -t sysfs sysfs /mnt/bootimg/sys
 - name: "Binding /proc into /mnt/bootimg/proc"
   command: mount -t proc proc /mnt/bootimg/proc
 - name: "Binding /dev into /mnt/bootimg/dev"
   command: mount --bind /dev /mnt/bootimg/dev
-- name: "Make grub configuration"
-  command: chroot /mnt/bootimg/ grub-mkconfig -o /boot/grub/grub.cfg
+  # Attempt to identify kernel
+#- name: "Identify kernel"
+#  shell: ls vmlinuz* |cut -f 1 -d ' ' chdir=/mnt/bootimg/boot/
+#  register: kernel_filename
+#- name: "Identify initrd"
+#  shell: ls initrd* |cut -f 1 -d ' ' chdir=/mnt/bootimg/boot/
+#  register: initrd_filename
+- name: "Disable Grub Prober"
+  shell: echo "GRUB_DISABLE_OS_PROBER=true" >>/etc/default/grub
+- name: "Disable Grub Prober"
+  shell: echo 'GRUB_TERMIAL="serial console"' >>/etc/default/grub
 - name: "Run the grub-install tool"
-  command: grub-install --grub-mkdevicemap=/mnt/bootimg/boot/grub/grub.cfg --root-directory=/mnt/bootimg "{{stored_value_loopback_alpha.stdout}}"
+  command: chroot /mnt/bootimg grub-install --boot-directory=/boot --modules="biosdisk part_msdos" "{{stored_value_loopback_alpha.stdout}}"
 - name: "Unlink /dev/bootimg/dev"
   command: umount /mnt/bootimg/dev
 - name: "Unlink /dev/bootimg/proc"
