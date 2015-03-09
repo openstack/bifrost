@@ -1,0 +1,62 @@
+---
+- name: "Extracting the raw disk image"
+  local_action: command qemu-img convert -O raw "{{http_boot_folder}}/{{deploy_image_filename}}" "{{http_boot_folder}}/{{deploy_image_filename}}.raw"
+- name: "Copying Image however with 32k of empty space at the beginning of the file."
+  local_action: command dd if="{{http_boot_folder}}/{{deploy_image_filename}}.raw" of="{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" seek=64
+- name: "Creating Partition Table lining up with the copied file's contents."
+  local_action: shell echo '32;' | sfdisk "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" -uB -f
+- name: "Allocating one of two loopbacks"
+  local_action: command losetup -f
+  register: stored_value_loopback_alpha
+- name: "Creating loopback connetion to new image file"
+  local_action: command losetup "{{stored_value_loopback_alpha.stdout}}" "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg"
+- name: "Forcing partition table to be re-read"
+  local_action: command kpartx -v -a "{{stored_value_loopback_alpha.stdout}}"
+  # Using second loopback as for some reason /dev/mapper does not translate into a chroot cleanly when devfs is mounted
+- name: "Allocating second loopback pointing to the initial partition"
+  local_action: command losetup -f
+  register: stored_value_loopback_beta
+- name: "Binding second loopback to the first partition"
+  local_action: shell losetup "{{stored_value_loopback_beta.stdout}}" /dev/mapper/$(echo "{{stored_value_loopback_alpha.stdout}}"|cut -f3 -d '/')p1
+  # TODO parameterize folder name/location
+- name: "Ensuring we have a location to mount the disk to"
+  local_action: file path=/mnt/bootimg state=directory
+- name: "Mounting volume on /mnt/bootimg"
+  local_action: command mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg
+- name: "Binding /sys into /mnt/bootimg/sys"
+  local_action: command mount -t sysfs sysfs /mnt/bootimg/sys
+- name: "Binding /proc into /mnt/bootimg/proc"
+  local_action: command mount -t proc proc /mnt/bootimg/proc
+- name: "Binding /dev into /mnt/bootimg/dev"
+  local_action: command mount --bind /dev /mnt/bootimg/dev
+  # Attempt to identify kernel
+#- name: "Identify kernel"
+#  local_action: shell ls vmlinuz* |cut -f 1 -d ' ' chdir=/mnt/bootimg/boot/
+#  register: kernel_filename
+#- name: "Identify initrd"
+#  local_action: shell ls initrd* |cut -f 1 -d ' ' chdir=/mnt/bootimg/boot/
+#  register: initrd_filename
+- name: "Disable Grub Prober"
+  local_action: shell echo "GRUB_DISABLE_OS_PROBER=true" >>/etc/default/grub
+- name: "Disable Grub Prober"
+  local_action: shell echo 'GRUB_TERMIAL="serial console"' >>/etc/default/grub
+- name: "Run the grub-install tool"
+  local_action: command chroot /mnt/bootimg grub-install --boot-directory=/boot --modules="biosdisk part_msdos" "{{stored_value_loopback_alpha.stdout}}"
+- name: "Unlink /dev/bootimg/dev"
+  local_action: command umount /mnt/bootimg/dev
+- name: "Unlink /dev/bootimg/proc"
+  local_action: command umount /mnt/bootimg/proc
+- name: "Unlink /dev/bootimg/sys"
+  local_action: command umount /mnt/bootimg/sys
+- name: "Unmounting image"
+  local_action: command umount /mnt/bootimg
+- name: "Detaching second loop device"
+  local_action: command losetup -d "{{stored_value_loopback_beta.stdout}}"
+- name: "Removing partition map"
+  local_action: command kpartx -v -d "{{stored_value_loopback_alpha.stdout}}"
+- name: "Detaching first loop device"
+  local_action: command losetup -d "{{stored_value_loopback_alpha.stdout}}"
+- name: "Moving image to .oldimg"
+  local_action: command mv "{{http_boot_folder}}/{{deploy_image_filename}}" "{{http_boot_folder}}/{{deploy_image_filename}}.oldimg"
+- name: "Moving new image into place"
+  local_action: command mv "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" "{{http_boot_folder}}/{{deploy_image_filename}}"
