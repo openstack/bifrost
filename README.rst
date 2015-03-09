@@ -1,7 +1,7 @@
 Bifrost
 =======
 
-Bifrost is a set of ansible playbooks that automates the task of deploying a
+Bifrost is a set of Ansible playbooks that automates the task of deploying a
 base image onto a set of known hardware using Ironic. It provides modular
 utility for one-off operating system deployment with as few operational requirements
 as reasonably possible.
@@ -12,9 +12,9 @@ This is split into roughly three steps:
   prepare the local environment by downloading and/or building machine images,
   and installing and configuring the necessary services.
 - enroll:
-  take as input a hardware inventory file and enroll the listed hardware with
-  Ironic, configuring each appropriately for deployment with the
-  previously-downloaded images.
+  take as input a customizable hardware inventory file and enroll the
+  listed hardware with Ironic, configuring each appropriately for deployment
+  with the previously-downloaded images.
 - deploy:
   instruct Ironic to deploy the operating system onto each machine.
 
@@ -35,7 +35,7 @@ Edit ./inventory/group_vars/all.yaml to match your environment.
 
 Then run::
 
-  cd setup
+  cd install
   bash ./env-setup.sh
   source /opt/stack/ansible/hacking/env-setup
   cd ..
@@ -74,7 +74,7 @@ environment variables:
 - IRONIC_URL - A URL to the Ironic API, such as http://localhost:6385/
 - OS_AUTH_TOKEN - Any value, such as an empty space, is required to cause the client library to send requests directly to the API.
 
-For your ease of use, setup/env-vars can be sourced to allow the CLI to connect
+For your ease of use, install/env-vars can be sourced to allow the CLI to connect
 to a local Ironic installation operating in noauth mode.
 
 
@@ -83,9 +83,9 @@ Hardware Enrollment
 
 The following requirements are installed during the Install step above:
 
-- openstack-infra/shade library -> https://review.openstack.org/159609
-- openstack-infra/os-client-config -> https://review.openstack.org/159563
-- os_baremetal ansible module under development -> https://github.com/juliakreger/ansible-modules-extras/blob/features/new-openstack/cloud/os_baremetal.py
+- openstack-infra/shade library
+- openstack-infra/os-client-config
+- The os_ironic and os_ironic_node Ansible modules under development -> https://github.com/juliakreger/ansible-modules-extras/blob/features/new-openstack/cloud/
 
 You will also need a CSV file containing information about the hardware you are enrolling.
 
@@ -94,26 +94,31 @@ CSV File Format
 
 The CSV file has the following columns:
 
-1. MAC Address
-2. Management username
-3. Management password
-4. Management Address
-5. CPU Count
-6. Memory size in MB
-7. Disk Storage in GB
-8. Flavor (Not Used)
-9. Type (Not Used)
-10. Host UUID
-11. Host or Node name
-12. Host IP Address to be set
-13. ipmi_target_channel - Requires: ipmi_bridging set to single
-14. ipmi_target_address - Requires: ipmi_bridging set to single
-15. ipmi_transit_channel - Requires: ipmi_bridging set to dual
-16. ipmi_transit_address - Requires: ipmi_bridging set to dual
+0. MAC Address
+1. Management username
+2. Management password
+3. Management Address
+4. CPU Count
+5. Memory size in MB
+6. Disk Storage in GB
+7. Flavor (Not Used)
+8. Type (Not Used)
+9. Host UUID
+10. Host or Node name
+11. Host IP Address to be set
+12. ipmi_target_channel - Requires: ipmi_bridging set to single
+13. ipmi_target_address - Requires: ipmi_bridging set to single
+14. ipmi_transit_channel - Requires: ipmi_bridging set to dual
+15. ipmi_transit_address - Requires: ipmi_bridging set to dual
 
 Example definition::
 
   00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,
+
+This file format is fairly flexible and can be easilly modified
+although the enrollment and deployment playbooks utilize the model
+of a host per line model in order to process through the entire
+list, as well as reference the specific field items.
 
 How this works?
 ---------------
@@ -126,9 +131,12 @@ Example::
 
   ansible-playbook -i inventory/localhost -vvvv enroll/enroll.yaml -e baremetal_csv_file=inventory/baremetal.csv
 
-Note that enrollment is a one-time operation. This module *does not*
+Note that enrollment is a one-time operation. The Ansible module *does not*
 synchronize data for existing nodes.  You should use the Ironic CLI to do this
 manually at the moment.
+
+Additionally, it is important to note that the playbooks for enrollment are
+split into three separate playbooks based up the setting of ipmi_bridging.
 
 Hardware Deployment
 ===================
@@ -142,9 +150,8 @@ How this works?
 
 The deploy.yaml playbook is intended to create configdrives for servers, and
 initiate the node deployments through Ironic.  IPs are injected into the config
-drive and statically assigned. 
+drive and are statically assigned.
 
 Example::
 
   ansible-playbook -i inventory/localhost -vvvv deploy/deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv
-
