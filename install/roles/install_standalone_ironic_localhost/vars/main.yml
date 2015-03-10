@@ -29,4 +29,4 @@ http_boot_folder: /httpboot
 transform_boot_image: false
 ironic_url: "http://localhost:6385/"
 network_interface: "eth0"
-ssh_public_key_path: ~/.ssh/id_rsa.pub
+ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
