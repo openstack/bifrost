@@ -575,10 +575,10 @@ api_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['
 #workers_pool_size=100
 
 # Number of attempts to grab a node lock. (integer value)
-#node_locked_retry_attempts=3
+node_locked_retry_attempts=6
 
 # Seconds to sleep between node lock attempts. (integer value)
-#node_locked_retry_interval=1
+node_locked_retry_interval=1
 
 # Enable sending sensor data message via the notification bus
 # (boolean value)
