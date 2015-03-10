@@ -102,9 +102,9 @@
 - name: "Ensure /etc/ironic exists"
   local_action: file name=/etc/ironic state=directory
 - name: "Place Ironic Config file"
-  local_action: template src=templates/ironic.conf.j2 dest=/etc/ironic/ironic.conf
+  local_action: template src=ironic.conf.j2 dest=/etc/ironic/ironic.conf
 - name: "Place Ironic IPA Agent PXE configuration file"
-  local_action: template src=templates/agent_config.template.j2 dest=/etc/ironic/agent_config.template
+  local_action: template src=agent_config.template.j2 dest=/etc/ironic/agent_config.template
 - name: "Copy policy.json to /etc/ironic"
   local_action: copy src=/opt/stack/ironic/etc/ironic/policy.json dest=/etc/ironic/
 - name: "Creating Ironic DB Schema"
@@ -118,7 +118,7 @@
 - name: "Creating an ironic service user"
   local_action: user name=ironic group=ironic
 - name: "Placing services"
-  local_action: template src=templates/init_template.j2 dest=/etc/init/{{item.service_name}}.conf owner=root group=root
+  local_action: template src=init_template.j2 dest=/etc/init/{{item.service_name}}.conf owner=root group=root
   with_items:
     - { service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
     - { service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
@@ -137,7 +137,7 @@
     - /tftpboot/pxelinux.cfg
     - "{{ http_boot_folder }}"
 - name: "Placing tftpd map-file"
-  local_action: copy src=files/tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
+  local_action: copy src=tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
 # TODO: This should not be shell, fix.
 - name: "Disable tftpd-hpa by setting it to manual start"
   local_action: shell echo "manual" > /etc/init/tftpd-hpa.override
@@ -150,15 +150,15 @@
   local_action: copy src=/usr/lib/PXELINUX/pxelinux.0 dest=/tftpboot
   when: ansible_distribution_version|version_compare('14.10', '>=')
 - name: "Place boot.ipxe helper script to HTTP root"
-  local_action: copy src=files/boot.ipxe dest=/httpboot/boot.ipxe
+  local_action: copy src=boot.ipxe dest=/httpboot/boot.ipxe
 - name: "Place tftp config file"
-  local_action: copy src=files/xinetd.tftp dest=/etc/xinetd.d/tftp
+  local_action: copy src=xinetd.tftp dest=/etc/xinetd.d/tftp
 - name: "Copy iPXE image into place"
   local_action: copy src=/usr/lib/ipxe/undionly.kpxe dest=/tftpboot/
 - name: "Deploy dnsmasq configuration file"
-  local_action: template src=templates/dnsmasq.conf.j2 dest=/etc/dnsmasq.conf 
+  local_action: template src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf 
 - name: "Deploying nginx configuraiton file for serving HTTP requests"
-  local_action: template src=templates/nginx.conf.j2 dest=/etc/nginx/nginx.conf
+  local_action: template src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 - name: "Ensuring dnsmasq is running"
   local_action: service name={{ item }} state=started
   with_items:
