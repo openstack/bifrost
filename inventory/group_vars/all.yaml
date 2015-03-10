@@ -3,9 +3,9 @@ ironic_url: "http://localhost:6385/"
 network_interface: "virbr0"
 ironic_db_password: aSecretPassword473z
 mysql_password:
-testing: true
+testing: false
 http_boot_folder: /httpboot
-ssh_public_key_path: ~/.ssh/id_rsa.pub
+ssh_public_key_path: {{ ansible_env.HOME }}/.ssh/id_rsa.pub
 latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py
 latest_os_ironic_node_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic_node.py
 deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
