@@ -45,7 +45,7 @@
   local_action: command git checkout -f master chdir=/opt/stack/python-ironicclient
 - name: "python-ironicclient - Resetting local repository"
   local_action: command git reset --hard master chdir=/opt/stack/python-ironicclient
-- name: "python-ironicclient - Resyncing local reposiory"
+- name: "python-ironicclient - Resyncing local repository"
   local_action: command git pull --ff-only chdir=/opt/stack/python-ironicclient
 # This patch is https://review.openstack.org/#/c/158520/ which adds support
 # for use of node names instead of UUIDs.  We don't presently utilize this
@@ -70,7 +70,7 @@
   local_action: command git checkout -f master chdir=/opt/stack/shade
 - name: "Shade - Resetting local repository"
   local_action: command git reset --hard master chdir=/opt/stack/shade
-- name: "Shade - Resyncing local reposiory"
+- name: "Shade - Resyncing local repository"
   local_action: command git pull --ff-only chdir=/opt/stack/shade
 - name: "Shade - Installing patched shade library."
   local_action: command pip install -I --force-reinstall /opt/stack/shade
