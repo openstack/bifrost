@@ -27,3 +27,9 @@ dhcp_pool_end: 192.168.1.250
 # ipmi_bridging: Default undefined.  Valid values: "no", "single", and "dual"
 # See http://docs.openstack.org/developer/ironic/_modules/ironic/drivers/modules/ipmitool.html
 #ipmi_bridging: no
+
+# When testing with VMs, define SSH address, port, and user for agent_ssh driver.
+ssh_username: ironic
+ssh_port: 1024
+ssh_address: 127.0.0.1
+ssh_private_key_path: /home/ironic/.ssh/ironic_key

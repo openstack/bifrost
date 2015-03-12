@@ -128,6 +128,9 @@
   local_action: group name=ironic
 - name: "Creating an ironic service user"
   local_action: user name=ironic group=ironic
+- name: "Adding ironic user to libvirtd group"
+  local_action: user name=ironic group=libvirtd append=yes
+  when: testing == true
 - name: "Placing services"
   local_action: template src=init_template.j2 dest=/etc/init/{{item.service_name}}.conf owner=root group=root
   with_items:
