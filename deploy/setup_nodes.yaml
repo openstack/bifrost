@@ -1,5 +1,5 @@
 ---
-- name: "Enroll Hardware"
+- name: "Deploy to Hardware"
   # TODO: Conceptual idea of structure, needs image_source corrected and
   # disk format clarified
   os_ironic_node:
