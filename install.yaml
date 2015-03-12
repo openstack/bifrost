@@ -5,4 +5,4 @@
   sudo: yes
   gather_facts: yes
   roles:
-   - install_standalone_ironic_localhost
+    - install-ironic
