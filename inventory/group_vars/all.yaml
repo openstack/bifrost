@@ -32,4 +32,4 @@ dhcp_pool_end: 192.168.1.250
 ssh_username: ironic
 ssh_port: 1024
 ssh_address: 127.0.0.1
-ssh_private_key_path: /home/ironic/.ssh/ironic_key
+ssh_private_key_path: /home/ironic/.ssh/id_rsa
