@@ -30,6 +30,7 @@ ironic_url: "http://localhost:6385/"
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
 dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
+  ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
 # extra_dib_elements is a space separated list of elements.
 extra_dib_elements: ""
 create_image_via_dib: true
