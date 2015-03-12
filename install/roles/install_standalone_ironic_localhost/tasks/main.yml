@@ -64,8 +64,10 @@
   local_action: command git checkout FETCH_HEAD chdir=/opt/stack/python-ironicclient
 - name: "python-ironicclient - Installing patched python-ironicclient library."
   local_action: command pip install -I --force-reinstall /opt/stack/python-ironicclient
+  when: skip_install is not defined
 - name: "proliantutils - Install from pip"
   local_action: pip name=proliantutils state=present
+  when: skip_install is not defined
 # TODO: The next package is installed via git and then manyally installed
 # as the os_ironic and os_ironic_node are under active development and
 # may require features that have not yet been released in shade.
@@ -82,6 +84,7 @@
   local_action: command git pull --ff-only chdir=/opt/stack/shade
 - name: "Shade - Installing patched shade library."
   local_action: command pip install -I --force-reinstall /opt/stack/shade
+  when: skip_install is not defined
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
   when: create_image_via_dib == true
@@ -110,6 +113,7 @@
   no_log: True
 - name: "Install Ironic using pip"
   local_action: pip name=/opt/stack/ironic state=latest
+  when: skip_install is not defined
 - name: "Ensure /etc/ironic exists"
   local_action: file name=/etc/ironic state=directory
 - name: "Place Ironic Config file"
