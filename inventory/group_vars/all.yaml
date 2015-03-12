@@ -15,7 +15,6 @@ deploy_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network
 deploy_image_filename: "trusty-server-cloudimg-amd64.img"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 # Transform boot image is intended for use with the Ubuntu trusty image.  It makes the image bootable by ihnstalling Grub.
-transform_boot_image: true
 node_default_network_interface: eth0
 # ipv4_subnet_mask is intended for the static ipv4 address assignments.
 ipv4_subnet_mask: 255.255.255.0

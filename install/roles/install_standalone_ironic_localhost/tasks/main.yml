@@ -74,6 +74,9 @@
   local_action: command git pull --ff-only chdir=/opt/stack/shade
 - name: "Shade - Installing patched shade library."
   local_action: command pip install -I --force-reinstall /opt/stack/shade
+- name: "Include diskimage-builder installation"
+  include: dib_install.yml
+  when: create_image_via_dib == true
 - name: "Starting MySQL"
   local_action: service name=mysql state=started
 - name: "Starting rabbitmq-server"
@@ -200,9 +203,13 @@
 # Anything better!
 - name: "Download Ubuntu image"
   local_action: get_url url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz
-  when: test_os_image_present.stat.exists == false
+  when: test_os_image_present.stat.exists == false and create_image_via_dib == false
 - name: "Extract Ubuntu image"
   local_action: command tar -xvzf ubuntu-14.04-server-cloudimg-amd64.tar.gz chdir=/httpboot creates=/httpboot/trusty-server-cloudimg-amd64.img
-  when: test_os_image_present.stat.exists == false
-- include: create_bootable_image.yaml
-  when: test_os_image_present.stat.exists == false and transform_boot_image == true
+  when: test_os_image_present.stat.exists == false and create_image_via_dib == false
+- name: "Creating bootable image"
+  include: create_bootable_image.yml
+  when: test_os_image_present.stat.exists == false and transform_boot_image == true and create_image_via_dib == false
+- name: "Creating image via disk imae builder"
+  include: create_dib_image.yml
+  when: test_os_image_present.stat.exists == false and transform_boot_image == false and create_image_via_dib == true

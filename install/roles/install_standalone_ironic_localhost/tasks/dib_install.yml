@@ -1,0 +1,11 @@
+---
+- name: "Shade - Retrieving diskimage-builder from git.openstack.org"
+  local_action: command git clone https://git.openstack.org/openstack/diskimage-builder chdir=/opt/stack creates=/opt/stack/diskimage-builder
+- name: "Shade - Checking out master branch"
+  local_action: command git checkout -f master chdir=/opt/stack/diskimage-builder
+- name: "Shade - Resetting local repository"
+  local_action: command git reset --hard master chdir=/opt/stack/diskimage-builder
+- name: "Shade - Resyncing local repository"
+  local_action: command git pull --ff-only chdir=/opt/stack/diskimage-builder
+- name: "Shade - Installing patched library."
+  local_action: command pip install -I --force-reinstall /opt/stack/diskimage-builder
