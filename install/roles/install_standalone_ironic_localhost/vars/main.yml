@@ -23,7 +23,6 @@ required_packages_ubuntu:
   - nginx
   - wget
   - genisoimage
-  - qemu-utils
   - kpartx
 http_boot_folder: /httpboot
 transform_boot_image: false
