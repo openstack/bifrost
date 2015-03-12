@@ -470,6 +470,9 @@ debug=true
 # Additional append parameters for baremetal PXE boot. (string
 # value)
 #agent_pxe_append_params=nofb nomodeset vga=normal
+{% if testing %}
+agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
+{% endif %}
 
 # Template file for PXE configuration. (string value)
 #agent_pxe_config_template=$pybasedir/drivers/modules/agent_config.template
