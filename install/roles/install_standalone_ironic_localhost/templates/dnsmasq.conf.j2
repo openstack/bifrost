@@ -91,7 +91,11 @@ port=53
 # specified interfaces (and the loopback) give the name of the
 # interface (eg eth0) here.
 # Repeat the line for more than one interface.
+{% if testing %}
+interface=virbr0
+{% else %}
 interface={{ network_interface }}
+{% endif %}
 # Or you can specify which interface _not_ to listen on
 #except-interface=
 # Or which to listen on by address (remember to include 127.0.0.1 if
@@ -142,7 +146,11 @@ bind-interfaces
 # a lease time. If you have more than one network, you will need to
 # repeat this for each network on which you want to supply DHCP
 # service.
+{% if testing %}
+dhcp-range=192.168.122.2,192.168.122.254,12h
+{% else %}
 dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
+{% endif %}
 
 # This is an example of a DHCP range where the netmask is given. This
 # is needed for networks we reach the dnsmasq DHCP server via a relay
@@ -423,7 +431,11 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 # load. The dhcp-match sets the gpxe tag for requests from gPXE.
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 dhcp-boot=tag:!ipxe,undionly.kpxe
+{% if testing %}
+dhcp-boot=http://192.168.122.1:8080/boot.ipxe
+{% else %}
 dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/boot.ipxe
+{% endif %}
 
 # Encapsulated options for Etherboot gPXE. All the options are
 # encapsulated within option 175
@@ -629,3 +641,8 @@ dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]
 # Include another lot of configuration options.
 #conf-file=/etc/dnsmasq.more.conf
 #conf-dir=/etc/dnsmasq.d
+
+{% if testing %}
+log-queries
+log-dhcp
+{% endif %}

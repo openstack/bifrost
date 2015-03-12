@@ -157,7 +157,26 @@
   local_action: copy src=/usr/lib/ipxe/undionly.kpxe dest=/tftpboot/
 - name: "Deploy dnsmasq configuration file"
   local_action: template src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf 
-- name: "Deploying nginx configuraiton file for serving HTTP requests"
+
+# NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
+# not the one supplied by libvirt. And the libvirt started dnsmasq processes
+# are not controlled by upstart, so we need to manually kill those.
+- name: "Looking for libvirt dnsmasq config"
+  local_action: stat path=/etc/dnsmasq.d/libvirt-bin
+  register: test_libvirt_dnsmasq
+- name: "Disabling libvirt dnsmasq config"
+  local_action: command mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
+  when: test_libvirt_dnsmasq == true and testing == true
+- name: "Stopping existing libvirt dnsmasq processes"
+  local_action: command killall -w dnsmasq
+  when: testing == true
+# NOTE(Shrews) We need to enable ip forwarding for the libvirt bridge to
+# operate properly with dnsmasq. This should be done before starting dnsmasq.
+- name: "Enabling IP forwarding in sysctl"
+  local_action: sysctl name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
+  when: testing == true
+
+- name: "Deploying nginx configuration file for serving HTTP requests"
   local_action: template src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 - name: "Ensuring dnsmasq is running"
   local_action: service name={{ item }} state=started

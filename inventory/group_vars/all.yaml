@@ -3,6 +3,8 @@ ironic_url: "http://localhost:6385/"
 network_interface: "virbr0"
 ironic_db_password: aSecretPassword473z
 mysql_password:
+# If testing is true, then the environment is setup for using libvirt
+# virtual machines for the hardware instead of real hardware.
 testing: false
 http_boot_folder: /httpboot
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
