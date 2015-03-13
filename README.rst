@@ -35,7 +35,6 @@ Edit ./inventory/group_vars/all.yaml to match your environment.
 
 Then run::
 
-  cd install
   bash ./env-setup.sh
   source /opt/stack/ansible/hacking/env-setup
   cd ..
@@ -62,7 +61,7 @@ restarted.
 
 Run::
 
-  ansible-playbook -vvvv -i inventory/localhost install/install.yaml
+  ansible-playbook -vvvv -i inventory/localhost install.yaml
 
 
 Manual CLI Use
@@ -74,7 +73,7 @@ environment variables:
 - IRONIC_URL - A URL to the Ironic API, such as http://localhost:6385/
 - OS_AUTH_TOKEN - Any value, such as an empty space, is required to cause the client library to send requests directly to the API.
 
-For your ease of use, install/env-vars can be sourced to allow the CLI to connect
+For your ease of use, `env-vars` can be sourced to allow the CLI to connect
 to a local Ironic installation operating in noauth mode.
 
 
@@ -129,7 +128,7 @@ consumed and loaded into ironic.
 
 Example::
 
-  ansible-playbook -i inventory/localhost -vvvv enroll/enroll.yaml -e baremetal_csv_file=inventory/baremetal.csv
+  ansible-playbook -i inventory/localhost -vvvv enroll.yaml -e baremetal_csv_file=inventory/baremetal.csv
 
 Note that enrollment is a one-time operation. The Ansible module *does not*
 synchronize data for existing nodes.  You should use the Ironic CLI to do this
@@ -154,4 +153,4 @@ drive and are statically assigned.
 
 Example::
 
-  ansible-playbook -i inventory/localhost -vvvv deploy/deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv
+  ansible-playbook -i inventory/localhost -vvvv deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv

@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  name: "Enroll hardware from baremetal.csv into Ironic"
+  sudo: yes
+  gather_facts: yes
+  roles:
+    - role: ironic-enroll
+      baremetal_csv_file: "{{ baremetal_csv_file }}"
+      ipmi_bridging: "{{ ipmi_bridging|default('no') }}" 
