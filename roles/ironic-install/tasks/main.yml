@@ -26,12 +26,12 @@
   when: ansible_distribution_version|version_compare('14.10', '>=')
 - name: "Install testing packages"
   apt: name={{ item }}
+  when: testing is defined and testing == true
   with_items:
     - libvirt-bin
     - qemu-utils
     - qemu-kvm
     - sgabios
-  when: testing == true
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 - name: "Retrieving latest known os_ironic.py file"

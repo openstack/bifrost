@@ -25,7 +25,6 @@ required_packages_ubuntu:
   - genisoimage
   - kpartx
 http_boot_folder: /httpboot
-transform_boot_image: false
 ironic_url: "http://localhost:6385/"
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
 dib_env_vars:
@@ -35,3 +34,32 @@ dib_env_vars:
 extra_dib_elements: ""
 create_image_via_dib: true
 transform_boot_image: false
+##mysql_password:
+# If testing is true, then the environment is setup for using libvirt
+# virtual machines for the hardware instead of real hardware.
+testing: false
+http_boot_folder: /httpboot
+latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py
+latest_os_ironic_node_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic_node.py
+deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
+deploy_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
+deploy_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/coreos_production_pxe.vmlinuz"
+deploy_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/coreos_production_pxe_image-oem.cpio.gz"
+deploy_image_filename: "trusty-server-cloudimg-amd64.img"
+deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+# ipv4_subnet_mask is intended for the static ipv4 address assignments.
+##ipv4_subnet_mask: 255.255.255.0
+##ipv4_gateway: 192.168.1.1
+##ipv4_nameserver: 8.8.8.8
+##dhcp_pool_start: 192.168.1.200
+##dhcp_pool_end: 192.168.1.250
+# ipmi_bridging: Default undefined.  Valid values: "no", "single", and "dual"
+# See http://docs.openstack.org/developer/ironic/_modules/ironic/drivers/modules/ipmitool.html
+#ipmi_bridging: no
+
+# When testing with VMs, define SSH address, port, and user for agent_ssh driver.
+ssh_username: ironic
+ssh_port: 1024
+ssh_address: 127.0.0.1
+ssh_private_key_path: /home/ironic/.ssh/id_rsa
+

@@ -1,8 +1,8 @@
 ---
 - hosts: localhost
-  connection: local
   name: "Install Ironic on the local host."
+  connection: local
   sudo: yes
   gather_facts: yes
   roles:
-    - install-ironic
+    - ironic-install
