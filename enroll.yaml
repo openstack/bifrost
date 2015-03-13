@@ -6,5 +6,4 @@
   gather_facts: yes
   roles:
     - role: ironic-enroll
-      baremetal_csv_file: "{{ baremetal_csv_file }}"
-      ipmi_bridging: "{{ ipmi_bridging|default('no') }}" 
+      baremetal_csv_file: "{{ baremetal_csv_file | mandatory }}"

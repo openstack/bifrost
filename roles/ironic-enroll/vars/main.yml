@@ -1,3 +1,2 @@
 ---
 # vars file for ironic-enroll
-ipmi_bridging: no
