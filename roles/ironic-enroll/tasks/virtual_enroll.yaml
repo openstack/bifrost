@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# The variable definitions below seem far from ideal, however there
-# seems to be no better way to handle CSV files for looping at this time.
-#
-# Ideally with_lines would be used with an include, however that support was removed in
-# Ansible 1.6 and no direct replacement exists.
-#
-# mac_address: "{{item.split(',')[1]}}"
-# username: "{{item.split(',')[2]}}"
-# password: "{{item.split(',')[3]}}"
-# management_address: "{{item.split(',')[4]}}"
-# cpu_cores: "{{item.split(',')[5]}}"
-# memory_MB: "{{item.split(',')[6]}}"
-# disk_MB: "{{item.split(',')[7]}}"
 ---
 - name: "Enroll Virtual Machines"
   os_ironic:
+  # The variable definitions below seem far from ideal, however there
+  # seems to be no better way to handle CSV files for looping at this time.
+  #
+  # Ideally with_lines would be used with an include, however that support was removed in
+  # Ansible 1.6 and no direct replacement exists.
+  #
+  # mac_address: "{{item.split(',')[1]}}"
+  # username: "{{item.split(',')[2]}}"
+  # password: "{{item.split(',')[3]}}"
+  # management_address: "{{item.split(',')[4]}}"
+  # cpu_cores: "{{item.split(',')[5]}}"
+  # memory_MB: "{{item.split(',')[6]}}"
+  # disk_MB: "{{item.split(',')[7]}}"
     auth_plugin: None
     auth: None
     ironic_url: "{{ ironic_url }}"
