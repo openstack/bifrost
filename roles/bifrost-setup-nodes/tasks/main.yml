@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Collect the checksum of the deployment image."
+  local_action: stat path={{deploy_image}}
+  register: test_deploy_image
 - name: "Deploy to Hardware"
   # TODO: Conceptual idea of structure, needs image_source corrected and
   # disk format clarified

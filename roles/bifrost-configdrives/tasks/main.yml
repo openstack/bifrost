@@ -12,6 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Check to see if there is a file where the ssh_key_path is defined"
+  local_action: stat path={{ ssh_public_key_path }}
+  register: test_ssh_public_key_path
+- name: "Error if ssh_public_key_path is not valid"
+  local_action: fail msg="ssh_public_key_path is not valid."
+  when: test_ssh_public_key_path.stat.exists == false
+- name: "Read ssh public key in"
+  local_action: set_fact ssh_public_key="{{ lookup('file', ssh_public_key_path ) }}"
 - name: "Name Make Temporary folder to build configdrive"
   local_action: command mktemp -d
   register: variable_configdrive_location
@@ -24,11 +32,11 @@
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Place template in each openstack/2012-08-10 folder"
-  local_action: template src=templates/openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/2012-08-10/meta_data.json
+  local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/2012-08-10/meta_data.json
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Place template in each openstack/latest folder"
-  local_action: template src=templates/openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/latest/meta_data.json
+  local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/latest/meta_data.json
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Make Metadata folder - /openstack/latest"
@@ -36,7 +44,7 @@
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Write network interface template"
-  local_action: template src=templates/interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/content/0000
+  local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}/openstack/content/0000
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Make config drive files"

@@ -4,7 +4,7 @@
   name: "Enroll hardware from baremetal.csv into Ironic"
   sudo: yes
   gather_facts: yes
-  pre-tasks:
+  pre_tasks:
     - name: "Error if variable baremetal_csv_file is not defined"
       local_action: fail msg="baremetal_csv_file must be defined for this playbook to execute, please pass option '-e baremetal_csv_file=<path/to/file>'"
       when: baremetal_csv_file is not defined
