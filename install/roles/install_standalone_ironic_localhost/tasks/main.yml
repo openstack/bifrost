@@ -135,6 +135,24 @@
 - name: "Adding ironic user to libvirtd group"
   local_action: user name=ironic group=libvirtd append=yes
   when: testing == true
+- name: "Creating SSH directory for ironic user"
+  local_action: file path=/home/ironic/.ssh owner=ironic group=ironic mode=0700 state=directory
+  when: testing == true
+- name: "Checking for ironic user SSH key"
+  local_action: stat path=/home/ironic/.ssh/id_rsa
+  register: test_ironic_pvt_key
+- name: "Generating SSH key for ironic user"
+  local_action: command ssh-keygen -f /home/ironic/.ssh/id_rsa -N ""
+  when: testing == true and test_ironic_pvt_key.stat.exists == false
+- name: "Setting ownership on ironic SSH private key"
+  local_action: file name=/home/ironic/.ssh/id_rsa owner=ironic group=ironic mode=0600 state=file
+  when: testing == true and test_ironic_pvt_key.stat.exists == false
+- name: "Setting ownership on ironic SSH public key"
+  local_action: file name=/home/ironic/.ssh/id_rsa.pub owner=ironic group=ironic mode=0644 state=file
+  when: testing == true and test_ironic_pvt_key.stat.exists == false
+- name: "Creating authorized_keys file for ironic user"
+  local_action: command cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
+  when: testing == true
 - name: "Placing services"
   local_action: template src=init_template.j2 dest=/etc/init/{{item.service_name}}.conf owner=root group=root
   with_items:
