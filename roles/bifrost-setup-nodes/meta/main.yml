@@ -113,4 +113,6 @@ galaxy_info:
   #- packaging
   #- system
   #- web
-dependencies: []
+dependencies:
+- ironic-deploy
+- bifrost-configdrives

@@ -113,6 +113,4 @@ galaxy_info:
   #- packaging
   #- system
   #- web
-dependencies:
-  - bifrost-configdrives
-  - bifrost-setup-nodes
+dependencies: []
