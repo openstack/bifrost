@@ -44,10 +44,10 @@
     driver_info:
       power:
         ssh_virt_type: "virsh"
-        ssh_address: "{{ ssh_address }}"
-        ssh_port: "{{ ssh_port }}"
-        ssh_username: "{{ ssh_username }}"
-        ssh_key_filename: "{{ ssh_private_key_path }}"
+        ssh_address: 127.0.0.1
+        ssh_port: 22
+        ssh_username: ironic
+        ssh_key_filename: /home/ironic/.ssh/id_rsa
       deploy:
         deploy_kernel: "{{ deploy_kernel_url }}"
         deploy_ramdisk: "{{ deploy_ramdisk_url }}"
