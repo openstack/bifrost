@@ -123,8 +123,8 @@ How this works?
 ---------------
 
 The enroll.yaml playbook requires a variable (baremetal_csv_file) be set or
-passed into the playbook execution. This is the path to the CSV file to be
-consumed and loaded into ironic.
+passed into the playbook execution. This is the full path to the CSV file to
+be consumed and loaded into ironic.
 
 Example::
 
