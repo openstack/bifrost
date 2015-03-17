@@ -59,7 +59,7 @@ deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 
 # When testing with VMs, define SSH address, port, and user for agent_ssh driver.
 ssh_username: ironic
-ssh_port: 1024
+ssh_port: 22
 ssh_address: 127.0.0.1
 ssh_private_key_path: /home/ironic/.ssh/id_rsa
 
