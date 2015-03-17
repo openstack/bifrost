@@ -36,7 +36,7 @@ export VIRSH_DEFAULT_CONNECT_URI="$LIBVIRT_CONNECT_URI"
 # VM specs
 VM_EMULATOR=${VM_EMULATOR:-/usr/bin/qemu-system-x86_64}
 VM_CPU=${VM_CPU:-1}
-VM_RAM=${VM_RAM:-1024}
+VM_RAM=${VM_RAM:-3072}
 VM_DISK=${VM_DISK:-10}
 
 # VM network
