@@ -112,6 +112,7 @@ The CSV file has the following columns:
 
 Example definition::
 
+
   00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,
 
 This file format is fairly flexible and can be easilly modified
@@ -156,3 +157,27 @@ drive and are statically assigned.
 Example::
 
   ansible-playbook -i inventory/localhost -vvvv deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv
+
+Testing with Virtual Machines
+=============================
+
+Bifrost supports using virtual machines to emulate the hardware. All of the
+steps mentioned above are mostly the same.
+
+It is assumed you have an SSH server running on the host machine. The ``agent_ssh``
+driver, used by Ironic with VM testing, will need to use SSH to control the
+virtual machines.
+
+An SSH key is generated for the ``ironic`` user when testing. The ironic conductor
+will use this key to connect to the host machine and run virsh commands.
+
+#. Set ``testing`` to *true* in the ``inventory/group_vars/all`` file.
+#. You may need to adjust the value for ``ssh_public_key_path``.
+#. Run the install step, as documented above.
+#. Run the ``create_vm_nodes.sh`` script. By default, it will create a single VM
+node. Read the documentation within the script to see how to create more than one.
+#. The ``create_vm_nodes.sh`` script will output CSV entries that can be used for
+the enrollment step. You will need to create a CSV file with this output.
+#. Run the enrollment step, as documented above, using the CSV file you created
+in the previous step.
+#. Run the deployment step, as documented above.
