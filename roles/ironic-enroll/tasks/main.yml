@@ -26,7 +26,7 @@
   when: testing == true
 - name: "If no ipmi_bridging value set, or a value of no exists, execute standard sequence."
   include: standard_enroll.yaml
-  when: (ipmi_bridging != "single" and ipmi_bridging != "dual") and (testing != "true")
+  when: (ipmi_bridging != "single" and ipmi_bridging != "dual") and (testing != true )
 - name: "If ipmi_bridging is set to single, execute single bridge enrollment sequence.."
   include: ipmi_bridging_single_enroll.yaml
   when: testing != true and (ipmi_bridging is defined and ipmi_bridging == "single")
