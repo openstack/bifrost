@@ -213,8 +213,6 @@ then
     exit 1
 fi
 
-node_info="-i deploy_kernel=http://127.0.0.1:8080/coreos_production_pxe.vmlinuz -i deploy_ramdisk=http://127.0.0.1:8080/coreos_production_pxe_image-oem.cpio.gz -i ssh_virt_type=virsh -i ssh_address=127.0.0.1 -i ssh_port=1024 -i ssh_username=root -i ssh_key_filename=/tmp/ironic_key"
-
 for (( i=1; i<=${NODECOUNT}; i++ ))
 do
     name=${NODEBASE}${i}
