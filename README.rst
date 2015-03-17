@@ -119,6 +119,8 @@ although the enrollment and deployment playbooks utilize the model
 of a host per line model in order to process through the entire
 list, as well as reference the specific field items.
 
+An example file can be found at inventory/baremetal.csv.example.
+
 How this works?
 ---------------
 
