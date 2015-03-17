@@ -201,7 +201,7 @@
   register: test_libvirt_dnsmasq
 - name: "Disabling libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
-  when: test_libvirt_dnsmasq == true and testing == true
+  when: test_libvirt_dnsmasq.stat.exists == true and testing == true
 - name: "Stopping existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
   when: testing == true
