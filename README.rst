@@ -174,10 +174,7 @@ will use this key to connect to the host machine and run virsh commands.
 #. Set ``testing`` to *true* in the ``inventory/group_vars/all`` file.
 #. You may need to adjust the value for ``ssh_public_key_path``.
 #. Run the install step, as documented above.
-#. Run the ``create_vm_nodes.sh`` script. By default, it will create a single VM
-node. Read the documentation within the script to see how to create more than one.
-#. The ``create_vm_nodes.sh`` script will output CSV entries that can be used for
-the enrollment step. You will need to create a CSV file with this output.
-#. Run the enrollment step, as documented above, using the CSV file you created
-in the previous step.
+#. Run the ``create_vm_nodes.sh`` script. By default, it will create a single VM node. Read the documentation within the script to see how to create more than one.
+#. The ``create_vm_nodes.sh`` script will output CSV entries that can be used for the enrollment step. You will need to create a CSV file with this output.
+#. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
