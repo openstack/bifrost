@@ -470,8 +470,16 @@ debug=true
 # Additional append parameters for baremetal PXE boot. (string
 # value)
 #agent_pxe_append_params=nofb nomodeset vga=normal
+
+# The coreos.configdrive=0 parameter is a temporary fix to block
+# pre-existing configuration drives from being loaded.  Per JayF
+# CoreOS is working on a longer term fix, but this will mitigate
+# the issue for the time being.
+
 {% if testing %}
-agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
+agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes coreos.configdrive=0
+{% else %}
+agent_pxe_append_params=coreos.configdrive=0
 {% endif %}
 
 # Template file for PXE configuration. (string value)
