@@ -46,6 +46,9 @@
   command: git reset --hard master chdir=/opt/stack/ironic
 - name: "Ironic - resyncing to current master branch"
   command: git pull --ff-only chdir=/opt/stack/ironic/
+# TODO: Remove this once it has landed.
+- name: "Ironic - Temporary - Retrieve 166903"
+  shell: git fetch https://jkreger@review.openstack.org/openstack/ironic refs/changes/03/166903/4 && git checkout FETCH_HEAD chdir=/opt/stack/ironic
 # TODO: The pip installation of python-ironicclient is disabled in order to
 # support rev 158520.
 #- name: "Install ironic client"
