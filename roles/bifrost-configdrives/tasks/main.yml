@@ -48,16 +48,20 @@
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Make config drive files"
+  sudo: yes
   local_action: command mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso {{ variable_configdrive_location.stdout }}/{{item.split(',')[9]}}
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Make config drive files base64 encoded and gzip compressed"
+  sudo:  yes
   local_action: shell gzip -c {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso | base64 > {{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso.gz
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Cleanup configdrive .iso files"
+  sudo: yes
   local_action: file state=absent name={{http_boot_folder}}/configdrive-{{item.split(',')[9]}}.iso
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Cleanup configdrive temp folder"
+  sudo: yes
   local_action: file state=absent force=yes name={{ variable_configdrive_location.stdout }}
