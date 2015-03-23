@@ -11,5 +11,10 @@
   roles:
     - role: ironic-deploy
       baremetal_csv_file: "{{ baremetal_csv_file }}"
+- hosts: localhost
+  connection: local
+  name: "Enroll hardware from baremetal.csv into Ironic"
+  gather_facts: yes
+  roles:
     - role: bifrost-configdrives
     - role: bifrost-setup-nodes
