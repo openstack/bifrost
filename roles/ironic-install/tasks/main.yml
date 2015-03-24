@@ -49,28 +49,12 @@
 # TODO: Remove this once it has landed.
 - name: "Ironic - Temporary - Retrieve 166903"
   shell: git fetch https://jkreger@review.openstack.org/openstack/ironic refs/changes/03/166903/4 && git checkout FETCH_HEAD chdir=/opt/stack/ironic
-# TODO: The pip installation of python-ironicclient is disabled in order to
-# support rev 158520.
-#- name: "Install ironic client"
-#  pip name=python-ironicclient state=present
-- name: "python-ironicclient - Retrieving library from git.openstack.org"
-  command: git clone https://review.openstack.org/openstack/python-ironicclient chdir=/opt/stack creates=/opt/stack/python-ironicclient
-- name: "python-ironicclient - Checking out master branch"
-  command: git checkout -f master chdir=/opt/stack/python-ironicclient
-- name: "python-ironicclient - Resetting local repository"
-  command: git reset --hard master chdir=/opt/stack/python-ironicclient
-- name: "python-ironicclient - Resyncing local repository"
-  command: git pull --ff-only chdir=/opt/stack/python-ironicclient
-# This patch is https://review.openstack.org/#/c/158520/ which adds support
-# for use of node names instead of UUIDs.  We don't presently utilize this
-# but it can be supported at some point.
-- name: "python-ironicclient - Downloading patch for logical names in Ironic"
-  command: git fetch https://review.openstack.org/openstack/python-ironicclient refs/changes/20/158520/1 chdir=/opt/stack/python-ironicclient
-- name: "python-ironicclient - Checking out patch."
-  command: git checkout FETCH_HEAD chdir=/opt/stack/python-ironicclient
-- name: "python-ironicclient - Installing patched python-ironicclient library."
-  command: pip install -I --force-reinstall /opt/stack/python-ironicclient
-  when: skip_install is not defined
+- name: "Ironic Client - Install from source if configured to do so."
+  include: shade_source_install.yml
+  when: skip_install is not defined and ironicclient_source_install is defined and ironicclient_source_install == true
+- name: "Ironic Client - Install from pip"
+  pip: name=python-ironicclient state=present
+  when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false)
 - name: "proliantutils - Install from pip"
   pip: name=proliantutils state=present
   when: skip_install is not defined
@@ -80,17 +64,12 @@
 # TODO: If the portion below remains for any period of time, it should
 # be converted to an include... or consider converting to the integrated
 # git module.
-- name: "Shade - Retrieving library from git.openstack.org"
-  command: git clone https://review.openstack.org/openstack-infra/shade chdir=/opt/stack creates=/opt/stack/shade
-- name: "Shade - Checking out master branch"
-  command: git checkout -f master chdir=/opt/stack/shade
-- name: "Shade - Resetting local repository"
-  command: git reset --hard master chdir=/opt/stack/shade
-- name: "Shade - Resyncing local repository"
-  command: git pull --ff-only chdir=/opt/stack/shade
+- name: "Shade - Install from source if configured to do so"
+  include: shade_source_install.yml
+  when: skip_install is not defined and shade_source_install is defined and shade_source_install == true
 - name: "Shade - Installing patched shade library."
-  command: pip install -I --force-reinstall /opt/stack/shade
-  when: skip_install is not defined
+  pip: name=shade state=latest
+  when: skip_install is not defined and (shade_source_install is not defined or shade_source_install == false)
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
   when: create_image_via_dib == true

@@ -25,8 +25,10 @@ required_packages_ubuntu:
   - genisoimage
   - kpartx
 http_boot_folder: /httpboot
+ironicclient_source_install: false
 ironic_url: "http://localhost:6385/"
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+shade_source_install: false
 dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
