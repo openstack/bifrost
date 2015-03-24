@@ -186,7 +186,7 @@ Once Ansible is present and available for use, a single test-bifrost playbook ca
 
 Command::
 
-  ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv
+  ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv -e testing=true
 
-NB:  This command MUST be executed from the main bifrost folder as it directly invokes.
+NB:  This command MUST be executed from the main bifrost folder as it directly invokes, and the testing=true variable MUST be set.
 
