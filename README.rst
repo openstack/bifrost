@@ -178,3 +178,15 @@ will use this key to connect to the host machine and run virsh commands.
 #. The ``create_vm_nodes.sh`` script will output CSV entries that can be used for the enrollment step. You will need to create a CSV file with this output.
 #. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
+
+Testing with a single command
+=============================
+
+Once Ansible is present and available for use, a single test-bifrost playbook can be invoked which will automatically install the pre-requisite software for creating virtual machines, create a virutal machine, save the baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.
+
+Command::
+
+  ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv
+
+NB:  This command MUST be executed from the main bifrost folder as it directly invokes.
+
