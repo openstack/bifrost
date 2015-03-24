@@ -1,4 +1,7 @@
 ---
+# Cleaning turns on ironic conductor clean_nodes flag
+# chich causes the nodes to be wiped after deletion.
+cleaning: true
 required_packages_ubuntu:
   - mysql-server
   - dnsmasq
