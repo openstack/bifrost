@@ -23,7 +23,8 @@
       shell: ./create_vm_nodes.sh |grep -v "CSV entries">/tmp/baremetal.csv
     - set_fact: baremetal_csv_file="/tmp/baremetal.csv"
   roles:
-    - ironic-install
+    - role: ironic-install
+      cleaning: false
     - role: ironic-enroll
     - role: ironic-deploy
 - hosts: localhost
