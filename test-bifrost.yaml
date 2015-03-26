@@ -38,9 +38,16 @@
 # The testvm Host group is added by bifrost-prepare-for-test based
 # on the contents of the CSV file.
 - hosts: testvm
-  name: "Executes install, enrollment, and testing in one playbook"
+  name: "Tests connectivity to the VM"
   sudo: no
   gather_facts: yes
   remote_user: ubuntu
   roles:
     - role: bifrost-test-vm
+- hosts: localhost
+  connection: local
+  name: "Unprovisions the test node"
+  sudo: no
+  gather_facts: yes
+  roles:
+    - role: bifrost-unprovision-nodes
