@@ -47,8 +47,8 @@
 - name: "Ironic - resyncing to current master branch"
   command: git pull --ff-only chdir=/opt/stack/ironic/
 # TODO: Remove this once it has landed.
-- name: "Ironic - Temporary - Retrieve 166903"
-  shell: git fetch https://jkreger@review.openstack.org/openstack/ironic refs/changes/03/166903/4 && git checkout FETCH_HEAD chdir=/opt/stack/ironic
+- name: "Ironic - Temporary - Retrieve 168120 - IPMI Retry logic"
+  shell: git fetch https://jkreger@review.openstack.org/openstack/ironic refs/changes/20/168120/1 && git checkout FETCH_HEAD chdir=/opt/stack/ironic
 - name: "Ironic Client - Install from source if configured to do so."
   include: shade_source_install.yml
   when: skip_install is not defined and ironicclient_source_install is defined and ironicclient_source_install == true
