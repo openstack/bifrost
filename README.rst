@@ -182,11 +182,13 @@ will use this key to connect to the host machine and run virsh commands.
 Testing with a single command
 =============================
 
-Once Ansible is present and available for use, a single test-bifrost playbook can be invoked which will automatically install the pre-requisite software for creating virtual machines, create a virutal machine, save the baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.
+Once Ansible is present and available for use, a single test-bifrost playbook can be invoked which will automatically install the pre-requisite software for creating virtual machines, create a virutal machine, save the baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occured, additional roles will unprovision the host(s) and delete them from Ironic.
 
 Command::
 
   ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv -e testing=true
 
-NB:  This command MUST be executed from the main bifrost folder as it directly invokes, and the testing=true variable MUST be set.
+Note:
 
+- This command MUST be executed from the main bifrost folder as it directly invokes, and the testing=true variable MUST be set.
+- Cleaning mode is explicitly disabled in the test-bifrost.yaml playbook due to the fact that is an IO intensive operation that can take a great deal of time.

@@ -49,6 +49,13 @@
   connection: local
   name: "Unprovisions the test node"
   sudo: no
-  gather_facts: yes
+  gather_facts: no
   roles:
     - role: bifrost-unprovision-nodes
+- hosts: localhost
+  connection: local
+  name: "Unprovisions the test node"
+  sudo: no
+  gather_facts: no
+  roles:
+    - role: ironic-delete
