@@ -5,7 +5,7 @@ ironic_db_password: aSecretPassword473z
 mysql_password:
 # If testing is true, then the environment is setup for using libvirt
 # virtual machines for the hardware instead of real hardware.
-testing: false
+# testing: true
 http_boot_folder: /httpboot
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
 latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py

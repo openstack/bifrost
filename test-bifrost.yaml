@@ -6,8 +6,7 @@
   gather_facts: no
   tasks:
     - name: "Install testing packages"
-      apt: name={{ item }}
-      when: testing is defined and testing == true
+      apt: name={{ item }} state=present
       with_items:
         - libvirt-bin
         - qemu-utils
@@ -25,7 +24,9 @@
   roles:
     - role: ironic-install
       cleaning: false
+      testing: true
     - role: ironic-enroll
+      testing: true
     - role: ironic-deploy
 - hosts: localhost
   connection: local

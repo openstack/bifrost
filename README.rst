@@ -186,7 +186,7 @@ Once Ansible is present and available for use, a single test-bifrost playbook ca
 
 Command::
 
-  ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv -e testing=true
+  ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv
 
 Note:
 
