@@ -9,7 +9,7 @@
       local_action: fail msg="baremetal_csv_file must be defined for this playbook to execute, please pass option '-e baremetal_csv_file=<path/to/file>'"
       when: baremetal_csv_file is not defined
   roles:
-    - role: ironic-deploy
+    - role: bifrost-validate-host-for-deploy
       baremetal_csv_file: "{{ baremetal_csv_file }}"
 - hosts: localhost
   connection: local

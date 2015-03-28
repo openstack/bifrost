@@ -1,7 +1,7 @@
-ironic-deploy
-=============
+bifrost-validate-host-for-deploy
+================================
 
-Preforms basic sanity checks as part of Bifrost before nodes are provisioned.
+Preforms basic sanity checks of an Ironic node as part of Bifrost host before nodes are provisioned.
 
 Requirements
 ------------

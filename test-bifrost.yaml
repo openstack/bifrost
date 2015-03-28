@@ -14,7 +14,7 @@
       testing: true
     - role: ironic-enroll
       testing: true
-    - role: ironic-deploy
+    - role: bifrost-validate-host-for-deploy
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"

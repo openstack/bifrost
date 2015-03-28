@@ -114,5 +114,5 @@ galaxy_info:
   #- system
   #- web
 dependencies:
-- ironic-deploy
+- bifrost-validate-host-for-deploy
 - bifrost-configdrives
