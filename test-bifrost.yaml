@@ -3,25 +3,12 @@
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
   sudo: yes
-  gather_facts: no
-  tasks:
-    - name: "Install testing packages"
-      apt: name={{ item }} state=present
-      with_items:
-        - libvirt-bin
-        - qemu-utils
-        - qemu-kvm
-        - sgabios
-- hosts: localhost
-  connection: local
-  name: "Executes install, enrollment, and testing in one playbook"
-  sudo: yes
   gather_facts: yes
   pre_tasks:
-    - name: "Creating Baremetal CSV File"
-      shell: ./create_vm_nodes.sh |grep -v "CSV entries">/tmp/baremetal.csv
     - set_fact: baremetal_csv_file="/tmp/baremetal.csv"
+      when: baremetal_csv_file is not defined
   roles:
+    - role: bifrost-create-vm-nodes
     - role: ironic-install
       cleaning: false
       testing: true
