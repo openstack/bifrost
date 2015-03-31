@@ -1,2 +1,3 @@
 ---
 ipmi_bridging: "no"
+testing: false
