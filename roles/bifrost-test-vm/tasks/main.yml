@@ -15,8 +15,12 @@
 - name: "Execute ping step to verify connectivity and login to the host.  If this fails, the configdrive may not have loaded."
   ping:
 - name: 'Error if hostname is set to "ubuntu"'
-  # TODO: Presently this step is unable to cycle through each host and verify it's hostname is properly set.
-  # Perhaps if there was some way to extract the data on each host from Ironic's DB and then verify that information
+  # TODO: Presently this step is unable to cycle through each host and verify
+  # it's hostname is properly set. Perhaps if there was some way to extract
+  # the data on each host from Ironic's DB and then verify that information
   # as a host-level fact that can be verified.
+  #
+  # TODO: As time goes on, we may move to leveraging inventory information
+  # which will allow this role to do validation of the remote node.
   fail: msg='If this fails, the configdrive may not have been used as the hostname was set to the default "ubuntu"'
   when: ansible_hostname == "ubuntu"
