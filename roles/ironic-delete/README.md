@@ -6,22 +6,28 @@ Removes nodes from Ironic utilizing the os_ironic Ansible module that is install
 Requirements
 ------------
 
-TODO
+This role expects an environment installed with ironic-install role, although the os_ironic ansible module and baremetal_csv_file variable are ultimately required.
 
 Role Variables
 --------------
 
-TODO
+baremetal_csv_file: This is the CSV file of nodes that is enumarted through for operations.
 
 Dependencies
 ------------
 
-TODO
+This role has no direct role depenedencies although is expected to be executed as part of Bifrost's test sequence.
 
 Example Playbook
 ----------------
 
-TODO
+- hosts: localhost
+  connection: local
+  name: "Unprovisions the test node"
+  sudo: no
+  gather_facts: no
+  roles:
+    - role: ironic-delete
 
 License
 -------
