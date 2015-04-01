@@ -1,3 +1,4 @@
 ---
 ipmi_bridging: "no"
 testing: false
+ironic_url: "http://localhost:6385/"
