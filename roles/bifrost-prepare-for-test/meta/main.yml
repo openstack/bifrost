@@ -113,4 +113,10 @@ galaxy_info:
   #- packaging
   #- system
   #- web
-dependencies: []
+dependencies:
+- bifrost-create-vm-nodes
+- ironic-install
+- ironic-enroll
+- bifrost-validate-host-for-deploy
+- bifrost-configdrives
+- bifrost-setup-nodes

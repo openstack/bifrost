@@ -1,2 +1,4 @@
 ---
-# vars file for bifrost-prepare-for-test
+cleaning: false
+testing: true
+baremetal_csv_file: "/tmp/baremetal.csv"
