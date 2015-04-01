@@ -16,8 +16,6 @@
   local_action: stat path={{deploy_image}}
   register: test_deploy_image
 - name: "Deploy to Hardware"
-  # TODO: Conceptual idea of structure, needs image_source corrected and
-  # disk format clarified
   os_ironic_node:
     auth_plugin: None
     auth: None
