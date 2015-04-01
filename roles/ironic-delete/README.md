@@ -13,6 +13,8 @@ Role Variables
 
 baremetal_csv_file: This is the CSV file of nodes that is enumarted through for operations.
 
+ironic_url: This is the url for the ironic server to connect to.  It is presently defaulted to "http://localhost:6385/".
+
 Dependencies
 ------------
 

@@ -16,6 +16,8 @@ Role Variables
 
 baremetal_csv_file: This is the path to the CSV file which is enumarated through for nodes to be acted upon.
 
+ironic_url: The setting defining the URL to the Ironic API.  Presently defaulted to: "http://localhost:6385/"
+
 Dependencies
 ------------
 
