@@ -6,22 +6,28 @@ Gathers facts from nodes in the testvm group which is added by the bifrost-prepa
 Requirements
 ------------
 
-TODO
+None at this time.  See Dependencies.
 
 Role Variables
 --------------
 
-TODO
+None at this time.  See Dependencies.
 
 Dependencies
 ------------
 
-TODO
+This role is intended to be executed as part of BiFrost, after the bifrost-prepare-for-test role, as part of the test sequence.
 
 Example Playbook
 ----------------
 
-TODO
+hosts: testvm
+  name: "Tests connectivity to the VM"
+  sudo: no
+  gather_facts: yes
+  remote_user: ubuntu
+  roles:
+    - role: bifrost-test-vm
 
 License
 -------
