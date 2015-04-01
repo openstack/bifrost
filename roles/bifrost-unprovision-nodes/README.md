@@ -9,20 +9,28 @@ Requirements
 
 An enrolled node, and a baremetal.csv file provided via the environment variable baremetal_csv_file.
 
+The os_ironic_node module is required.
+
 Role Variables
 --------------
 
-TODO
+baremetal_csv_file: This is the path to the CSV file which is enumarated through for nodes to be acted upon.
 
 Dependencies
 ------------
 
-TODO
+This role has no roles that it is directly dependent upon directly, but expects that the environment has been installed with the ironic-install role.
 
 Example Playbook
 ----------------
 
-TODO
+- hosts: localhost
+  connection: local
+  name: "Unprovisions the test node"
+  sudo: no
+  gather_facts: no
+  roles:
+    - role: bifrost-unprovision-nodes
 
 License
 -------
