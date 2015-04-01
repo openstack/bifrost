@@ -20,6 +20,7 @@ ipv4_gateway: This is the IPv4 defaut router address with-in the IPv4 subnet bei
 node_default_network_interface: This is the default network interface with-in the nodes to be deployed which the new IP configuration will be applied to.  Note: This is likely to be deprecated and removed in the future as Bifrost will likely change methods utilized to include networking configuration into the configuration drive sufficiently that this should no longer be required.
 ipv4_nameserver: Defines the IPv4 Nameserver to configure the node with initially in order to support name resolution.
 ssh_public_key_path: Defines the path to the file to be SSH public key to be inserted into the configuraiton drive.
+ssh_public_key: If a user wishes to define an SSH public key as a string, this variable can be utilized which overrides ssh_public_key_path.
 
 Customizing
 -----------
