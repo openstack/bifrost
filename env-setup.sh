@@ -16,8 +16,11 @@ if [ ! -d ansible ]; then
     git clone https://github.com/ansible/ansible.git --recursive
 else
     cd ansible
-    git pull --rebase
+    git checkout stable-1.9
+    #git pull --rebase
     git submodule update --init --recursive
+    git fetch
+
 fi
 
 echo
