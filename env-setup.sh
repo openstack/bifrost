@@ -1,12 +1,15 @@
 #!/bin/bash
 
-sudo apt-get -y install git python-pip
-sudo pip install jinja2
+sudo -H apt-get -y install git python-pip
+sudo -H pip install jinja2
 
 u=$(whoami)
 g=$(groups | awk '{print $1}')
 
-mkdir -p /opt/stack || (sudo mkdir -p /opt/stack && sudo chown $u:$g /opt/stack)
+if [ ! -d /opt/stack ]; then
+    mkdir -p /opt/stack || (sudo mkdir -p /opt/stack)
+fi
+sudo -H chown -R $u:$g /opt/stack
 cd /opt/stack
 
 if [ ! -d ansible ]; then

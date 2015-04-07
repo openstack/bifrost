@@ -27,7 +27,7 @@ The installation is split in to two parts.
 The first part is a bash script which lays the basic groundwork of installing
 Ansible itself.
 
-Edit ./inventory/group_vars/all.yaml to match your environment.
+Edit ``./inventory/group_vars/all`` to match your environment.
 
 - If MySQL is already installed, update mysql_password to match your local installation.
 - Change network_interface to match the interface that will need to service DHCP requests.
