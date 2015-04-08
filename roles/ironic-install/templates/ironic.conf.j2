@@ -634,7 +634,7 @@ node_locked_retry_interval=1
 # (eg, Nova) have been updated to accommodate the additional
 # time for deletion. (boolean value)
 #clean_nodes=false
-{% if cleaning %}
+{% if cleaning and not testing %}
 clean_nodes=true
 {% endif %}
 
