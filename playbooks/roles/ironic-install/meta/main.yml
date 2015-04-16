@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Ironic Developers
-  description: 
+  description: Install Ironic for Bifrost
   company: OpenStack
   license: Apache
   min_ansible_version: 1.9
