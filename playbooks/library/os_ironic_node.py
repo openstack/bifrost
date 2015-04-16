@@ -69,8 +69,8 @@ options:
             - The type of image that has been requested to be deployed.
     maintenance:
       description:
-        - FUTURE: A setting to allow the direct control if a node is in maintenance
-          mode.
+        - FUTURE: A setting to allow the direct control if a node is in
+          maintenance mode.
       required: false
       default: false
     maintenance_reason:
