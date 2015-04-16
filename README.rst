@@ -27,7 +27,7 @@ The installation is split in to two parts.
 The first part is a bash script which lays the basic groundwork of installing
 Ansible itself.
 
-Edit ``./inventory/group_vars/all`` to match your environment.
+Edit ``./playbooks/inventory/group_vars/all`` to match your environment.
 
 - If MySQL is already installed, update mysql_password to match your local installation.
 - Change network_interface to match the interface that will need to service DHCP requests.
@@ -35,9 +35,9 @@ Edit ``./inventory/group_vars/all`` to match your environment.
 
 Then run::
 
-  bash ./env-setup.sh
+  bash ./scripts/env-setup.sh
   source /opt/stack/ansible/hacking/env-setup
-  cd ..
+  cd playbooks
 
 The second part is an Ansible playbook that installs and configures Ironic
 in a stand-alone fashion.
@@ -84,7 +84,6 @@ The following requirements are installed during the Install step above:
 
 - openstack-infra/shade library
 - openstack-infra/os-client-config
-- The os_ironic and os_ironic_node Ansible modules under development -> https://github.com/juliakreger/ansible-modules-extras/blob/features/new-openstack/cloud/
 
 You will also need a CSV file containing information about the hardware you are enrolling.
 
@@ -158,6 +157,21 @@ Example::
 
   ansible-playbook -i inventory/localhost -vvvv deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv
 
+Testing with a single command
+=============================
+
+A simple ``scripts/test-bifrost.sh`` script can be utilized to install pre-requisite software packages, Ansible, and then execute the test-bifrost.yaml playbook in order to provide a single step testing mechanism.
+
+The playbook utilized by the script, ``playbooks/test-bifrost.yaml``, is a single playbook that will create a local virutal machine, save a baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occured, additional roles will unprovision the host(s) and delete them from Ironic.
+
+Command::
+
+  scripts/test-bifrost.sh
+
+Note:
+
+- Cleaning mode is explicitly disabled in the test-bifrost.yaml playbook due to the fact that is an IO intensive operation that can take a great deal of time.
+
 Testing with Virtual Machines
 =============================
 
@@ -171,24 +185,10 @@ virtual machines.
 An SSH key is generated for the ``ironic`` user when testing. The ironic conductor
 will use this key to connect to the host machine and run virsh commands.
 
-#. Set ``testing`` to *true* in the ``inventory/group_vars/all`` file.
+#. Set ``testing`` to *true* in the ``playbooks/inventory/group_vars/all`` file.
 #. You may need to adjust the value for ``ssh_public_key_path``.
 #. Run the install step, as documented above.
 #. Run the ``tools/create_vm_nodes.sh`` script. By default, it will create a single VM node. Read the documentation within the script to see how to create more than one.
 #. The ``tools/create_vm_nodes.sh`` script will output CSV entries that can be used for the enrollment step. You will need to create a CSV file with this output.
 #. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
-
-Testing with a single command
-=============================
-
-Once Ansible is present and available for use, a single test-bifrost playbook can be invoked which will automatically install the pre-requisite software for creating virtual machines, create a virutal machine, save the baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occured, additional roles will unprovision the host(s) and delete them from Ironic.
-
-Command::
-
-  ansible-playbook -i ./inventory/localhost test-bifrost.yaml -vvvv
-
-Note:
-
-- This command MUST be executed from the main bifrost folder as it directly invokes, and the testing=true variable MUST be set.
-- Cleaning mode is explicitly disabled in the test-bifrost.yaml playbook due to the fact that is an IO intensive operation that can take a great deal of time.
