@@ -129,7 +129,7 @@
   local_action: file name=/home/ironic/.ssh/id_rsa.pub owner=ironic group=ironic mode=0644 state=file
   when: testing == true and test_ironic_pvt_key.stat.exists == false
 - name: "Creating authorized_keys file for ironic user"
-  local_action: command cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
+  command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
 - name: "Placing services"
   template: src=init_template.j2 dest=/etc/init/{{item.service_name}}.conf owner=root group=root
@@ -239,7 +239,7 @@
   get_url: url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz
   when: test_os_image_present.stat.exists == false and create_image_via_dib == false
 - name: "Extract Ubuntu image"
-  command: tar -xvzf ubuntu-14.04-server-cloudimg-amd64.tar.gz chdir=/httpboot creates=/httpboot/trusty-server-cloudimg-amd64.img
+  unarchive: src=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest=/httpboot/ creates=/httpboot/trusty-server-cloudimg-amd64.img
   when: test_os_image_present.stat.exists == false and create_image_via_dib == false
   # Create bootable image takes a partition image, prepends space for a
   # bootloader, partition table, and then installs the bootloader.
