@@ -34,10 +34,6 @@
     - sgabios
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
-- name: "Retrieving latest known os_ironic.py file"
-  get_url: url={{ latest_os_ironic_url }} dest=/opt/stack/ansible/lib/ansible/modules/extras/cloud/os_ironic.py force=yes
-- name: "Retrieving latest known os_ironic_node.py file"
-  get_url: url={{ latest_os_ironic_node_url }} dest=/opt/stack/ansible/lib/ansible/modules/extras/cloud/os_ironic_node.py force=yes
 - name: "Downloading Ironic"
   command: git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
 - name: "Ironic - checking out master branch"
