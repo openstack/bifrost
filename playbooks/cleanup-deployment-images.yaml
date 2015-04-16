@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+  connection: local
+  name: "Removes the master_images folder and deployment kernel/ramdisk for clean redeployments when testing."
+  sudo: yes
+  gather_facts: yes
+  tasks:
+    - file: path=/tftpboot/master_images state=absent
+    - file: path="{{deploy_kernel}}" state=absent
+    - file: path="{{deploy_ramdisk}}" state=absent

@@ -28,6 +28,13 @@ Example error:
 Unexpected/Unknown failure with the IPA Agent
 *********************************************
 
+New image appears not to be deploying
+=====================================
+
+When deploying a new image with the same previous name, it is necessary to purge the contents of the TFTP master_images folder which caches the image file for deployments.  The default location for this folder is /tftpboot/master_images.
+
+Additionally, a playbook has been included that can be used prior to a re-installation to ensure fresh images are deployed.  This playbook can be found at playbooks/cleanup-deployment-images.yaml
+
 Building an IPA image
 =====================
 
