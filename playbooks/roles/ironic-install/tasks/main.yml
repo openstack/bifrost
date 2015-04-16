@@ -167,7 +167,7 @@
 - name: "Copy iPXE image into place"
   copy: src=/usr/lib/ipxe/undionly.kpxe dest=/tftpboot/
 - name: "Deploy dnsmasq configuration file"
-  template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf 
+  template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt. And the libvirt started dnsmasq processes
 # are not controlled by upstart, so we need to manually kill those.

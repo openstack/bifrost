@@ -15,7 +15,7 @@
 - name: "Waiting for the base testvm machine to become available."
   wait_for: state=started port=22 host={{ item.split(',')[11] }} timeout=600
   with_lines:
-    - cat {{ baremetal_csv_file }}   
+    - cat {{ baremetal_csv_file }}
 - name: "Adding testvms to Ansible Inventory"
   add_host: name="{{ item.split(',')[11] }}:22" groups=testvm
   with_lines:
