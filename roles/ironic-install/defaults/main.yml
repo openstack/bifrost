@@ -30,7 +30,7 @@ required_packages_ubuntu:
   - kpartx
 http_boot_folder: /httpboot
 ironicclient_source_install: false
-shade_source_install: false
+shade_source_install: true
 # Configuration information for diskimage-builder
 dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"

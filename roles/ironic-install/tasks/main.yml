@@ -61,7 +61,7 @@
   include: shade_source_install.yml
   when: skip_install is not defined and shade_source_install is defined and shade_source_install == true
 - name: "Shade - Installing patched shade library."
-  pip: name=shade state=present version=0.5.0
+  pip: name=shade state=latest
   when: skip_install is not defined and (shade_source_install is not defined or shade_source_install == false)
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
