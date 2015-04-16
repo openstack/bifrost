@@ -636,6 +636,8 @@ node_locked_retry_interval=1
 #clean_nodes=false
 {% if cleaning and not testing %}
 clean_nodes=true
+{% else %}
+clean_nodes=false
 {% endif %}
 
 
