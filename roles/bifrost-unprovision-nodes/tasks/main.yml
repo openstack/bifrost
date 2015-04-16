@@ -14,7 +14,7 @@
 ---
 - name: "Unprovision node"
   os_ironic_node:
-    auth_plugin: None
+    auth_type: None
     auth: None
     ironic_url: "{{ ironic_url }}"
     uuid: "{{item.split(',')[9]}}"

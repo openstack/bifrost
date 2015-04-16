@@ -32,7 +32,7 @@
   # ipmi_transit_address: "{{item.split(',')[15]}}"
   #
   os_ironic:
-    auth_plugin: None
+    auth_type: None
     auth: None
     ironic_url: "{{ ironic_url }}"
     driver: "agent_ipmitool"

@@ -29,7 +29,7 @@
   # ipmi_target_channel: "{{item.split(',')[12]}}"
   # ipmi_target_address: "{{item.split(',')[13]}}"
   os_ironic:
-    auth_plugin: None
+    auth_type: None
     auth: None
     ironic_url: "{{ ironic_url }}"
     driver: "agent_ipmitool"

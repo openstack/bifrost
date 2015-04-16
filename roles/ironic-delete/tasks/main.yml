@@ -23,7 +23,7 @@
   when: test_baremetal_csv_file.stat.isreg == false
 - name: "Delete Hardware"
   os_ironic:
-    auth_plugin: None
+    auth_type: None
     auth: None
     ironic_url: "{{ ironic_url }}"
     driver: "agent_ipmitool"
