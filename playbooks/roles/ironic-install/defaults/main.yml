@@ -44,6 +44,7 @@ transform_boot_image: false
 # If testing is true, then the environment is setup for using libvirt
 # virtual machines for the hardware instead of real hardware.
 testing: false
+ci_testing: false
 latest_os_ironic_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic.py
 latest_os_ironic_node_url: https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/features/new-openstack/cloud/os_ironic_node.py
 deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"

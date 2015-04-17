@@ -34,35 +34,26 @@
     - sgabios
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
-- name: "Downloading Ironic"
-  command: git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
-- name: "Ironic - checking out master branch"
-  command: git checkout -f master chdir=/opt/stack/ironic
-- name: "Ironic - resetting master branch"
-  command: git reset --hard master chdir=/opt/stack/ironic
-- name: "Ironic - resyncing to current master branch"
-  command: git pull --ff-only chdir=/opt/stack/ironic/
+- name: "Install Ironic"
+  # NOTE(TheJulia): In the event of CI testing, we should expect the code to
+  # already be in place.
+  include: ironic_source_download.yaml
+  when: ci_testing == false
 - name: "Ironic Client - Install from source if configured to do so."
   include: ironicclient_source_install.yml
-  when: skip_install is not defined and ironicclient_source_install is defined and ironicclient_source_install == true
+  when: skip_install is not defined and ((ironicclient_source_install is defined and ironicclient_source_install == true) or ci_testing == true)
 - name: "Ironic Client - Install from pip"
   pip: name=python-ironicclient state=present
-  when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false)
+  when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false) and (ci_testing == false)
 - name: "proliantutils - Install from pip"
   pip: name=proliantutils state=present
   when: skip_install is not defined
-# TODO: The next package is installed via git and then manyally installed
-# as the os_ironic and os_ironic_node are under active development and
-# may require features that have not yet been released in shade.
-# TODO: If the portion below remains for any period of time, it should
-# be converted to an include... or consider converting to the integrated
-# git module.
 - name: "Shade - Install from source if configured to do so"
   include: shade_source_install.yml
-  when: skip_install is not defined and shade_source_install is defined and shade_source_install == true
+  when: skip_install is not defined and ((shade_source_install is defined and shade_source_install == true) or ci_testing == true)
 - name: "Shade - Installing patched shade library."
   pip: name=shade state=latest
-  when: skip_install is not defined and (shade_source_install is not defined or shade_source_install == false)
+  when: skip_install is not defined and (shade_source_install is not defined or shade_source_install == false) and (ci_testing == false)
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
   when: create_image_via_dib == true

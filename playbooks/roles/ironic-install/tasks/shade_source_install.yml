@@ -15,11 +15,15 @@
 ---
 - name: "Shade - Retrieving library from git.openstack.org"
   command: git clone https://review.openstack.org/openstack-infra/shade chdir=/opt/stack creates=/opt/stack/shade
+  when: ci_testing == false
 - name: "Shade - Checking out master branch"
   command: git checkout -f master chdir=/opt/stack/shade
+  when: ci_testing == false
 - name: "Shade - Resetting local repository"
   command: git reset --hard master chdir=/opt/stack/shade
+  when: ci_testing == false
 - name: "Shade - Resyncing local repository"
   command: git pull --ff-only chdir=/opt/stack/shade
+  when: ci_testing == false
 - name: "Shade - Installing patched shade library."
   command: pip install -I --force-reinstall /opt/stack/shade

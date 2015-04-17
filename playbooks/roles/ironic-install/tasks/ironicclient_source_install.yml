@@ -15,11 +15,15 @@
 ---
 - name: "python-ironicclient - Retrieving library from git.openstack.org"
   command: git clone https://review.openstack.org/openstack/python-ironicclient chdir=/opt/stack creates=/opt/stack/python-ironicclient
+  when: ci_testing == false
 - name: "python-ironicclient - Checking out master branch"
   command: git checkout -f master chdir=/opt/stack/python-ironicclient
+  when: ci_testing == false
 - name: "python-ironicclient - Resetting local repository"
   command: git reset --hard master chdir=/opt/stack/python-ironicclient
+  when: ci_testing == false
 - name: "python-ironicclient - Resyncing local repository"
   command: git pull --ff-only chdir=/opt/stack/python-ironicclient
+  when: ci_testing == false
 - name: "python-ironicclient - Installing patched python-ironicclient library."
   command: pip install -I --force-reinstall /opt/stack/python-ironicclient
