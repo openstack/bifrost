@@ -1,8 +1,3 @@
-Short term plans
-================
-
-* Revamp the configdrive networking definition.
-
 Long term ideas
 ===============
 

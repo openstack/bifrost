@@ -192,3 +192,8 @@ will use this key to connect to the host machine and run virsh commands.
 #. The ``tools/create_vm_nodes.sh`` script will output CSV entries that can be used for the enrollment step. You will need to create a CSV file with this output.
 #. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
+
+Future Support
+==============
+
+* Config drive network_info.json - Bifrost will automatically place a json structured file which is intended to replace the direct placement of a ``/etc/network/interfaces`` file.  This will ultimately allow for more complex user defined networking as well as greater compatibility with other Linux distributions.  At present, the proposed diskimage-builder element ``simple-init``, https://review.openstack.org/#/c/167003, can be used to facilitate this.
