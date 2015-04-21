@@ -1,7 +1,25 @@
 #!/bin/bash
+set -e
 
-sudo -H apt-get -y install git python-pip
-sudo -H pip install jinja2
+if [ -x '/usr/bin/apt-get' ]; then
+    if ! $(git --version &>/dev/null) ; then
+        sudo -H apt-get -y install git
+    fi
+    if ! $(pip -v &>/dev/null); then
+        sudo -H apt-get -y install python-pip
+    fi
+elif [ -x '/usr/bin/yum' ]; then
+    if ! $(git --version &>/dev/null); then
+        sudo -H yum -y install git
+    fi
+    if ! $(pip -v &>/dev/null); then
+        sudo -H yum -y install python-pip
+    fi
+else
+    echo "ERROR: Supported package manager not found.  Supported: apt,yum"
+fi
+
+sudo -E pip install -r "$(dirname $0)/../requirements.txt"
 
 u=$(whoami)
 g=$(groups | awk '{print $1}')
@@ -24,7 +42,8 @@ else
 fi
 
 echo
-echo "Run the following commands to proceed: "
+echo "If your using this script directly, execute the"
+echo "following commands to update your shell."
 echo
 echo "source env-vars"
 echo "source /opt/stack/ansible/hacking/env-setup"
