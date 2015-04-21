@@ -1,0 +1,55 @@
+---
+- hosts: localhost
+  connection: local
+  name: "Executes install, enrollment, and testing in one playbook"
+  sudo: yes
+  gather_facts: yes
+  pre_tasks:
+    - name: "Set default baremetal.csv file if not already defined"
+      set_fact:
+         baremetal_csv_file: "/tmp/baremetal.csv"
+      when: baremetal_csv_file is not defined
+    - name: "Set ci_testing flag if a list of changes are found in the environment variables"
+      set_fact:
+         ci_testing: true
+      when: lookup('env', 'ZUUL_CHANGES') != ""
+  roles:
+    - role: bifrost-create-vm-nodes
+    - role: ironic-install
+      cleaning: false
+      testing: true
+    - role: ironic-enroll
+      testing: true
+    - role: bifrost-validate-host-for-deploy
+- hosts: localhost
+  connection: local
+  name: "Executes install, enrollment, and testing in one playbook"
+  sudo: no
+  gather_facts: yes
+  roles:
+    - role: bifrost-configdrives
+    - role: bifrost-setup-nodes
+    - role: bifrost-prepare-for-test
+# The testvm Host group is added by bifrost-prepare-for-test based
+# on the contents of the CSV file.
+- hosts: testvm
+  name: "Tests connectivity to the VM"
+  sudo: no
+  gather_facts: yes
+  remote_user: ubuntu
+  roles:
+    - role: bifrost-test-vm
+- hosts: localhost
+  connection: local
+  name: "Unprovisions the test node"
+  sudo: no
+  gather_facts: no
+  roles:
+    - role: bifrost-unprovision-nodes
+- hosts: localhost
+  connection: local
+  name: "Unprovisions the test node"
+  sudo: no
+  gather_facts: no
+  roles:
+    - role: ironic-delete
