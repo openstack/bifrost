@@ -44,8 +44,8 @@ try:
                        review_url + "/" + repo_name, ref]
             if subprocess.call(command, stdout=True) is 0:
                 if subprocess.call(
-                        ['git', '-C', repo_path, 'cherry-pick', 'FETCH_HEAD'],
-                        stdout=True) is 0:
+                        ['git', '-C', repo_path, 'cherry-pick',
+                         '-n', 'FETCH_HEAD'], stdout=True) is 0:
                     print("Applied %s" % ref)
                 else:
                     print("Failed to cherry pick %s on to %s branch %s"
