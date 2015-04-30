@@ -38,7 +38,10 @@ else
     git pull --rebase
     git submodule update --init --recursive
     git fetch
-
+    # Temporary direct checkout of devel due to broken modules until
+    # the submodules pointers get updated in the core ansible repo.
+    cd lib/ansible/modules/core
+    git checkout devel
 fi
 
 echo
