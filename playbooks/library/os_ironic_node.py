@@ -35,6 +35,13 @@ options:
         - Indicates desired state of the resource
       choices: ['present', 'absent']
       default: present
+    deploy:
+      description:
+       - Indicates if the resource should be deployed. Allows for deployment
+         logic to be disengaged and control of the node power or maintenance
+         state to be changed.
+      choices: ['true', 'false']
+      default: true
     uuid:
       description:
         - globally unique identifier (UUID) to be given to the resource.
@@ -67,15 +74,22 @@ options:
         image_disk_format:
           description:
             - The type of image that has been requested to be deployed.
+    power:
+      description:
+        - A setting to allow power state to be asserted allowing nodes
+          that are not yet deployed to be powered on, and nodes that
+          are deployed to be powered off.
+      choices: ['present', 'absent']
+      default: present
     maintenance:
       description:
-        - FUTURE: A setting to allow the direct control if a node is in
+        - A setting to allow the direct control if a node is in
           maintenance mode.
       required: false
       default: false
     maintenance_reason:
       description:
-        - FUTURE: A string expression regarding the reason a node is in a
+        - A string expression regarding the reason a node is in a
           maintenance mode.
       required: false
       default: None
@@ -89,6 +103,9 @@ os_ironic_node:
   cloud: "openstack"
   uuid: "d44666e1-35b3-4f6b-acb0-88ab7052da69"
   state: present
+  power: present
+  deploy: True
+  maintenance: False
   config_drive: "http://192.168.1.1/host-configdrive.iso"
   instance_info:
     image_source: "http://192.168.1.1/deploy_image.img"
@@ -134,28 +151,28 @@ def _is_false(value):
 
 def _check_set_maintenance(module, cloud, node):
     if _is_true(module.params['maintenance']):
-        if node['maintenance'] is False:
+        if _is_false(node['maintenance']):
             cloud.set_machine_maintenance_state(
                 node['uuid'],
                 True,
                 reason=module.params['maintenance_reason'])
-            return True
+            module.exit_json(changed=True, msg="Node has been set into "
+                                               "maintenance mode")
         else:
             # User has requested maintenance state, node is already in the
             # desired state, checking to see if the reason has changed.
-            if (node['maintenance_reason'] is not
-                    module.params['maintenance_reason']):
+            if (str(node['maintenance_reason']) not in
+                    str(module.params['maintenance_reason'])):
                 cloud.set_machine_maintenance_state(
                     node['uuid'],
                     True,
                     reason=module.params['maintenance_reason'])
-                return True
+                module.exit_json(changed=True, msg="Node maintenance reason "
+                                                   "updated, cannot take any "
+                                                   "additional action.")
     elif _is_false(module.params['maintenance']):
         if node['maintenance'] is True:
-            cloud.set_machine_maintenance_state(
-                node['uuid'],
-                True,
-                reason=module.params['maintenance_reason'])
+            cloud.remove_machine_from_maintenance(node['uuid'])
             return True
     else:
         module.fail_json(msg="maintenance parameter was set but a valid "
@@ -164,15 +181,30 @@ def _check_set_maintenance(module, cloud, node):
 
 
 def _check_set_power_state(module, cloud, node):
-    if (node['power_state'] is 'active' and module.params['state'] is 'off'):
+    if 'power on' in str(node['power_state']):
+        if _is_false(module.params['power']):
         # User has requested the node be powered off.
-        cloud.set_machine_power_off(node_id)
-        return True
-    if (node['power_state'] is 'power off' and
-            node['provision_state'] is not 'available'):
-        # Node is powered down when it is not awaiting to be provisioned
-        cloud.set_machine_power_on(node_id)
-        return True
+            cloud.set_machine_power_off(node['uuid'])
+            module.exit_json(changed=True, msg="Power requested off")
+    if 'power off' in str(node['power_state']):
+        if (_is_false(module.params['power']) and
+                _is_false(module.params['state'])):
+                    return False
+        if (_is_false(module.params['power']) and
+                _is_false(module.params['state'])):
+            module.exit_json(
+                changed=False,
+                msg="Power for node is %s, node must be reactivated "
+                    "OR set to state absent"
+            )
+        # In the event the power has been toggled on and
+        # deployment has been requested, we need to skip this
+        # step.
+        if (_is_true(module.params['power']) and
+                _is_false(module.params['deploy'])):
+            # Node is powered down when it is not awaiting to be provisioned
+            cloud.set_machine_power_on(node['uuid'])
+            return True
     # Default False if no action has been taken.
     return False
 
@@ -187,6 +219,8 @@ def main():
         state=dict(required=False, default='present'),
         maintenance=dict(required=False),
         maintenance_reason=dict(required=False),
+        power=dict(required=False, default='present'),
+        deploy=dict(required=False, default=True),
     )
     module_kwargs = openstack_module_kwargs()
     module = AnsibleModule(argument_spec, **module_kwargs)
@@ -232,34 +266,41 @@ def main():
                                  "state" % node['provision_state'])
         # TODO(TheJulia) This is in-development code, that requires
         # code in the shade library that is still in development.
-        #
-        # if _check_set_maintenance(module, cloud, node):
-        #    if node['provision_state'] is 'active':
-        #        module.exit_json(changed=True,
-        #                         result="Maintenance state changed")
-        #    changed = True
-        #    node = cloud.get_machine(node_id)
-        # if _check_set_power_state(module, cloud, node):
-        #    if node['provision_state'] is 'active':
-        #        module.exit_json(changed=True, result="Power state changed")
-        #    else:
-        #        changed = True
-        #        node = cloud.get_machine(node_id)
+        if _check_set_maintenance(module, cloud, node):
+            if node['provision_state'] in 'active':
+                module.exit_json(changed=True,
+                                 result="Maintenance state changed")
+            changed = True
+            node = cloud.get_machine(node_id)
+
+        if _check_set_power_state(module, cloud, node):
+            changed = True
+            node = cloud.get_machine(node_id)
 
         if _is_true(module.params['state']):
-            if instance_info is None:
-                module.fail_json(msg="When setting an instance to present, "
-                                     "instance_info is a required variable.")
-                # TODO(TheJulia): Update instance info, however info is
-                # deployment specific. Perhaps consider adding rebuild
-                # support, although there is a known desire to remove
-                # rebuild support from Ironic at some point in the future.
-            if node['provision_state'] is 'active':
+            if _is_false(module.params['deploy']):
                 module.exit_json(
                     changed=changed,
-                    result="Node already in an active state"
+                    result="User request has explicitly disabled "
+                           "deployment logic"
                 )
 
+            if 'active' in node['provision_state']:
+                module.exit_json(
+                    changed=changed,
+                    result="Node already in an active state."
+                )
+
+            if instance_info is None:
+                module.fail_json(
+                    changed=changed,
+                    msg="When setting an instance to present, "
+                        "instance_info is a required variable.")
+
+            # TODO(TheJulia): Update instance info, however info is
+            # deployment specific. Perhaps consider adding rebuild
+            # support, although there is a known desire to remove
+            # rebuild support from Ironic at some point in the future.
             patch = _prepare_instance_info_patch(instance_info)
             cloud.set_node_instance_info(uuid, patch)
             cloud.validate_node(uuid)
@@ -271,7 +312,7 @@ def main():
             module.exit_json(changed=changed, result="node activated")
 
         elif _is_false(module.params['state']):
-            if node['provision_state'] is not "deleted":
+            if node['provision_state'] not in "deleted":
                 cloud.purge_node_instance_info(uuid)
                 cloud.deactivate_node(uuid)
                 module.exit_json(changed=True, result="deleted")
