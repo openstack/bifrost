@@ -13,7 +13,7 @@
 # limitations under the License.
 ---
 - name: "Waiting for the base testvm machine to become available."
-  wait_for: state=started port=22 host={{ item.split(',')[11] }} timeout=600
+  wait_for: state=started port=22 host={{ item.split(',')[11] }} timeout=900
   with_lines:
     - cat {{ baremetal_csv_file }}
 - name: "Adding testvms to Ansible Inventory"

@@ -20,12 +20,26 @@
     - libvirt-bin
     - qemu-utils
     - qemu-kvm
+    - qemu-system-x86
     - sgabios
+- name: "Restart libvirt service"
+  service: name=libvirt-bin state=restarted
 - name: "Create virtual machines"
-  script: create_vm_nodes-for-role.sh creates="{{baremetal_csv_file}}"
+  script: create_vm_nodes-for-role.sh
   environment:
     NODEOUTPUT: "{{baremetal_csv_file}}"
+  register: task_create_vm_nodes
+  ignore_errors: yes
   delegate_to: localhost
+- name: "Execute `dmesg` to collect debugging output should VM creation fail."
+  command: dmesg
+  when: task_create_vm_nodes.rc != 0
+- name: "Execute `virsh capabilities` to collect debugging output should VM creation fail."
+  command: virsh capabilities
+  when: task_create_vm_nodes.rc != 0
+- name: "Abort due to failed VM creation"
+  fail: msg="VM Creation step failed, please review dmesg output for additional details"
+  when: task_create_vm_nodes.rc != 0
 - name: "Setting file permissions such that the baremetal csv file at /tmp/baremetal.csv can be read by the user executing Ansible"
   file: path="{{baremetal_csv_file}}" owner="{{ansible_env.SUDO_USER}}"
   when: ansible_env.SUDO_USER is defined and baremetal_csv_file is defined and baremetal_csv_file != ""

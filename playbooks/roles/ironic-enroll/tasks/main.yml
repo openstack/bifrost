@@ -21,6 +21,9 @@
 - name: "Error if file does not exist."
   fail: msg="The variable defined for baremetal_csv_file is not to a file.  Please define a file and try again."
   when: test_baremetal_csv_file.stat.isreg == false
+- name: "Report the contents of the baremetal_csv_file if we are running in OpenStack CI"
+  command: cat "{{ baremetal_csv_file }}"
+  when: ci_testing_zuul is defined
 - name: "If testing, enroll virtual machines."
   include: virtual_enroll.yaml
   when: testing == true

@@ -13,6 +13,16 @@
       set_fact:
          ci_testing: true
       when: lookup('env', 'ZUUL_CHANGES') != ""
+    - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
+      set_fact:
+         ci_testing_zuul: true
+      when: "'bare-trusty' in ansible_hostname"
+    - name: "Collect process list if running in OpenStack CI"
+      command: ps aux
+      when: ci_testing_zuul is defined
+    - name: "Collect list of listening network sockets if running in OpenStack CI"
+      shell: netstat -apn|grep LISTEN
+      when: ci_testing_zuul is defined
   roles:
     - role: bifrost-create-vm-nodes
     - role: ironic-install

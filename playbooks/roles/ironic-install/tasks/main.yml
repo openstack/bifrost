@@ -82,10 +82,17 @@
 - name: "MySQL - Creating DB"
   mysql_db: login_user=root login_password={{ mysql_password }} name=ironic state=present encoding=utf8
   register: test_created_db
-  no_log: True
+  when: ci_testing_zuul is not defined
 - name: "MySQL - Creating user for Ironic"
   mysql_user: login_user=root login_password={{ mysql_password }} name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
-  no_log: True
+  when: ci_testing_zuul is not defined
+- name: "MySQL - Creating DB - OpenStack CI"
+  mysql_db: login_user=openstack_citest login_password=openstack_citest name=ironic state=present encoding=utf8
+  register: test_created_db
+  when: ci_testing_zuul is defined
+- name: "MySQL - Creating user for Ironic - OpenStack CI"
+  mysql_user: login_user=openstack_citest login_password=openstack_citest name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
+  when: ci_testing_zuul is defined
 - name: "Install Ironic using pip"
   pip: name=/opt/stack/ironic state=latest
   when: skip_install is not defined
@@ -195,8 +202,8 @@
   when: test_sgabios_qemu == false and test_sgabios_misc == true and testing == true
 - name: "Deploying nginx configuration file for serving HTTP requests"
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
-- name: "Ensuring dnsmasq is running"
-  service: name={{ item }} state=started
+- name: "Ensuring services are running with current config"
+  service: name={{ item }} state=restarted
   with_items:
     - xinetd
     - dnsmasq
@@ -250,3 +257,7 @@
 - name: "Creating image via disk imae builder"
   include: create_dib_image.yml
   when: test_os_image_present.stat.exists == false and transform_boot_image == false and create_image_via_dib == true
+- name: "Explicitly permit TCP/8080 for file downloads from nodes to be provisioned"
+  command: iptables -I INPUT -p tcp --dport 8080 -i {{network_interface}} -j ACCEPT
+- name: "Explicitly permit TCP/6385 for IPA callback"
+  command: iptables -I INPUT -p tcp --dport 6385 -i {{network_interface}} -j ACCEPT
