@@ -114,7 +114,7 @@ Example definition::
 
   00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,
 
-This file format is fairly flexible and can be easilly modified
+This file format is fairly flexible and can be easily modified
 although the enrollment and deployment playbooks utilize the model
 of a host per line model in order to process through the entire
 list, as well as reference the specific field items.
@@ -162,7 +162,7 @@ Testing with a single command
 
 A simple ``scripts/test-bifrost.sh`` script can be utilized to install pre-requisite software packages, Ansible, and then execute the test-bifrost.yaml playbook in order to provide a single step testing mechanism.
 
-The playbook utilized by the script, ``playbooks/test-bifrost.yaml``, is a single playbook that will create a local virutal machine, save a baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occured, additional roles will unprovision the host(s) and delete them from Ironic.
+The playbook utilized by the script, ``playbooks/test-bifrost.yaml``, is a single playbook that will create a local virtual machine, save a baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occurred, additional roles will unprovision the host(s) and delete them from Ironic.
 
 Command::
 
