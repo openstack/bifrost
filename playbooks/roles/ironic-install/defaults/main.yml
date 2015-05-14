@@ -28,6 +28,7 @@ required_packages_ubuntu:
   - wget
   - genisoimage
   - kpartx
+  - qemu-utils
 http_boot_folder: /httpboot
 ironicclient_source_install: false
 shade_source_install: true
