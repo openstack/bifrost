@@ -1,0 +1,75 @@
+---
+###############################################################################
+#
+#
+- hosts: bifrost
+  sudo: yes
+  tasks:
+    ############################################################################
+    # Install some reqired bits into the vm
+    ############################################################################
+    # Make sure our VM's software is ~@Latest
+    - name: Apt Update
+      apt: update_cache=yes
+           upgrade=dist
+           cache_valid_time=86400
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install easy_install
+      apt: name=python-setuptools state=present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install python-dev
+      apt: name=python-dev state=present
+      when: ansible_distribution == 'Ubuntu'
+
+    # these would also be installed by 'Prepare VM for Bifrost'
+    # below As they are larger packages I think its worth installing
+    # them on their own.
+    - name: Install erlang-base
+      apt: name=erlang-base state=present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install Rabbit-Server
+      apt: name=rabbitmq-server state=present
+      when: ansible_distribution == 'Ubuntu'
+
+    - name: Install MySql-Server
+      apt: name=mysql-server state=present
+      when: ansible_distribution == 'Ubuntu'
+
+    # get ip for public_network
+    - name: Get ip
+      shell: ip addr show eth2 | grep inet | grep -v inet6 | awk '{print $2}' | cut -d/ -f1
+      register: guest_ip
+
+    # Reboot if required.
+    - name: Reboot system if required
+      command: shutdown -r now 'Rebooting to complete system upgrade'
+               removes=/var/run/reboot-required
+      register: rebooted
+    - name: Wait for VM Reboot.
+      sudo: no
+      local_action: wait_for
+                    port=22
+                    host="{{guest_ip.stdout}}"
+                    search_regex=OpenSSH
+                    delay=10
+                    timeout=900
+      when: rebooted.changed
+
+    - name: Copy SSH public key into VM
+      copy: src=~/.ssh/{{public_key}} dest=~/.ssh/id_rsa.pub
+
+    - name: Ensure /opt/stack folder exists
+      file: path=/opt/stack state=directory owner=vagrant
+
+    - name: Prepare VM for Bifrost
+      command: /home/vagrant/bifrost/scripts/env-setup.sh
+
+    - name: Install Bifrost
+      shell: source /opt/stack/ansible/hacking/env-setup && ansible-playbook -vvvv -i inventory/localhost install.yaml -e network_interface={{network_interface}}
+      args:
+          chdir: /home/vagrant/bifrost/playbooks
+          executable: /bin/bash
+
