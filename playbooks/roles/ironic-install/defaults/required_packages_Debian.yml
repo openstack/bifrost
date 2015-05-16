@@ -24,3 +24,5 @@ required_packages:
   - genisoimage
   - kpartx
   - qemu-utils
+  - python-openwsman
+  - amtterm
