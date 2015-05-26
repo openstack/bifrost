@@ -57,7 +57,7 @@ Once your build is completed, you will need to copy the images written to the UP
 Obtaining IPA logs via the console
 ==================================
 
-1) By default, in testing mode Bifrost sets the agent journal to be logged to the console, hover testing mode is geared more towards local Virtual machine testing.  In order to get get the IPA agent to at least detail information to the screen, you will want to set the following setting in ironic.conf::
+1) By default, in testing mode Bifrost sets the agent journal to be logged to the console, hover testing mode is geared more towards local Virtual machine testing.  In order to get the IPA agent to at least detail information to the screen, you will want to set the following setting in ironic.conf::
 
     agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
 
