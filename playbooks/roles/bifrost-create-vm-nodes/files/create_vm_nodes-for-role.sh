@@ -70,7 +70,7 @@ function create_node {
     case $5 in
         i386) ARCH='i686' ;;
         amd64) ARCH='x86_64' ;;
-        *) echo "Unsupported arch $5!" ; exit 1 ;;
+        *) echo "Unsupported arch $5!" >&2; exit 1 ;;
     esac
 
     BRIDGE=$6
@@ -180,7 +180,7 @@ function create_node {
       virsh create /tmp/vm.xml 2>&1 >/dev/null
       if [ $? != 0 ]
       then
-         echo "failed to create VM $NAME"
+         echo "failed to create VM $NAME" >&2
          rm -f /tmp/vm.xml
          exit 1
       fi
@@ -208,7 +208,7 @@ TEMPFILE=`mktemp`
 user=`whoami`
 if [ "$user" != "root" ]
 then
-    echo "Must be run as root. You are $user."
+    echo "Must be run as root. You are $user." >&2
     exit 1
 fi
 
