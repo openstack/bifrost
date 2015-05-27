@@ -29,7 +29,6 @@
   when: testing is defined and testing == true
   with_items:
     - libvirt-bin
-    - qemu-utils
     - qemu-kvm
     - sgabios
 - name: "Ensuring /opt/stack is present"
