@@ -2,33 +2,6 @@
 # Cleaning turns on ironic conductor clean_nodes flag
 # chich causes the nodes to be wiped after deletion.
 cleaning: true
-# The list of required packages for this role to install.
-required_packages_ubuntu:
-  - mysql-server
-  - dnsmasq
-  - rabbitmq-server
-  - python-dev
-  - python-pip
-  - python-mysqldb
-  - python-configparser
-  - libffi-dev
-  - libxslt-dev
-  - libssl-dev
-  - libxml2-dev
-  - ipxe
-  - tftpd-hpa
-  - tftp-hpa
-  - syslinux-common
-  - syslinux
-  - xinetd
-  - parted
-  - ipmitool
-  - psmisc
-  - nginx
-  - wget
-  - genisoimage
-  - kpartx
-  - qemu-utils
 http_boot_folder: /httpboot
 nginx_port: 8080
 ironicclient_source_install: false

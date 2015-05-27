@@ -14,11 +14,22 @@
 #
 # TODO: Consider converting to ansible virt module.
 ---
-- name: "Install testing packages"
+- name: "Install testing apt packages for Ubuntu/Debian"
+  when: ansible_os_family == 'Debian'
   apt: name={{ item }} state=present
   with_items:
     - libvirt-bin
     - qemu-utils
+    - qemu-kvm
+    - qemu-system-x86
+    - sgabios
+- name: "Install testing yum packages for RedHat/CentOS/Fedora/OpenSuse"
+  when: ansible_os_family in ['CentOS', 'Fedora', 'OpenSuse', 'RedHat']
+  yum: name={{ item }} state=present
+  with_items:
+    - libvirt-client
+    - qemu-img
+    - qemu-kvm-tools
     - qemu-kvm
     - qemu-system-x86
     - sgabios

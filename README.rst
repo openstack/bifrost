@@ -18,6 +18,11 @@ This is split into roughly three steps:
 - deploy:
   instruct Ironic to deploy the operating system onto each machine.
 
+Supported Operating Systems:
+
+* Ubuntu
+* Red Hat Enterprise Linux (RHEL) 7
+* CentOS 7
 
 Installation
 ============
