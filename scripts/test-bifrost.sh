@@ -46,5 +46,13 @@ if [ $EXITCODE != 0 ]; then
     echo "*************************"
     echo "Ironic Conductor log, last 1000 lines:"
     sudo cat /var/log/upstart/ironic-conductor.log
+    echo "Making logs directory and collecting logs."
+    mkdir ../logs
+    sudo cp /var/log/libvirt/baremetal_logs/testvm1_console.log ../logs/
+    dmesg &> ../logs/dmesg.log
+    sudo netstat -apn &> ../logs/netstat.log
+    sudo iptables -L -n -v &> ../logs/iptables.log
+    sudo cp /var/log/upstart/ironic-api.log ../logs/
+    sudo cp /var/log/upstart/ironic-conductor.log ../logs/
 fi
 exit $EXITCODE
