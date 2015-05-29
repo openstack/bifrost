@@ -17,6 +17,9 @@
 #    # Create 3 nodes with base name of 'junk'
 #    sudo NODEBASE=junk NODECOUNT=3 create_nodes.sh
 #
+#    # Write out the csv file
+#    sudo OUTFILE=/path/to/file.csv create_nodes.sh
+#
 # THANKS
 #    Thanks to the author(s) of the Ironic supporting code within devstack,
 #    from which all of this is derived.
@@ -46,7 +49,6 @@ VM_NET_BRIDGE=${VM_NET_BRIDGE:-default}
 VM_LOGDIR=/var/log/libvirt/baremetal_logs
 
 CSV_OUTPUT="CSV entries:"
-
 
 #############################################################################
 # FUNCTION
@@ -213,12 +215,19 @@ then
     exit 1
 fi
 
+CSV_LINES=()
+IFS=$'\n'
 for (( i=1; i<=${NODECOUNT}; i++ ))
 do
     name=${NODEBASE}${i}
     mac=$(create_node $name $VM_CPU $VM_RAM $VM_DISK amd64 $VM_NET_BRIDGE $VM_EMULATOR $VM_LOGDIR)
 
-    CSV_OUTPUT="${CSV_OUTPUT}\n$mac,root,undefined,192.168.122.1,$VM_CPU,$VM_RAM,$VM_DISK,flavor,type,a8cb6624-0d9f-c882-affc-046ebb96ec0${i},$name,192.168.122.$((i+1))"
+    CSV_LINES+=("$mac,root,undefined,192.168.122.1,$VM_CPU,$VM_RAM,$VM_DISK,flavor,type,a8cb6624-0d9f-c882-affc-046ebb96ec0${i},$name,192.168.122.$((i+1))")
 done
 
-echo -e "${CSV_OUTPUT}"
+echo ${CSV_OUTPUT}
+echo -e "${CSV_LINES[*]}"
+
+if [ $OUTFILE ]; then
+    echo -e "${CSV_LINES[*]}" > $OUTFILE
+fi
