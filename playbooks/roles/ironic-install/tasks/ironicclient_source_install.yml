@@ -25,4 +25,4 @@
   script: parse_zuul_changes.py /opt/stack/python-ironicclient https://review.openstack.org openstack/python-ironicclient "{{ lookup('env', 'ZUUL_CHANGES') }}"
   when: ci_testing == true
 - name: "python-ironicclient - Installing patched python-ironicclient library."
-  command: pip install -I --force-reinstall /opt/stack/python-ironicclient
+  command: pip install --force-reinstall /opt/stack/python-ironicclient

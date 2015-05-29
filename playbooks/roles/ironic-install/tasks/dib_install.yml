@@ -22,4 +22,4 @@
 - name: "DIB - Resyncing local repository"
   command: git pull --ff-only chdir=/opt/stack/diskimage-builder
 - name: "DIB - Installing patched library."
-  command: pip install -I --force-reinstall /opt/stack/diskimage-builder
+  command: pip install --force-reinstall /opt/stack/diskimage-builder
