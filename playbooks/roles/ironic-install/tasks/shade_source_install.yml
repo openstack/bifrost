@@ -25,4 +25,4 @@
   script: parse_zuul_changes.py /opt/stack/shade https://review.openstack.org openstack-infra/shade "{{ lookup('env', 'ZUUL_CHANGES') }}"
   when: ci_testing == true
 - name: "Shade - Installing patched shade library."
-  command: pip install -I --force-reinstall /opt/stack/shade
+  command: pip install --force-reinstall /opt/stack/shade
