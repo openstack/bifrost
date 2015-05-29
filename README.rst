@@ -196,4 +196,4 @@ will use this key to connect to the host machine and run virsh commands.
 Future Support
 ==============
 
-* Config drive network_info.json - Bifrost will automatically place a json structured file which is intended to replace the direct placement of a ``/etc/network/interfaces`` file.  This will ultimately allow for more complex user defined networking as well as greater compatibility with other Linux distributions.  At present, the proposed diskimage-builder element ``simple-init``, https://review.openstack.org/#/c/167003, can be used to facilitate this.
+* Config drive network_info.json - Bifrost will automatically place a json structured file which is intended to replace the direct placement of a ``/etc/network/interfaces`` file.  This will ultimately allow for more complex user defined networking as well as greater compatibility with other Linux distributions.  At present, the diskimage-builder element ``simple-init`` can be used to facilitate this.
