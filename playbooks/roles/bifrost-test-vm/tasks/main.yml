@@ -13,7 +13,10 @@
 # limitations under the License.
 ---
 - name: "Execute ping step to verify connectivity and login to the host.  If this fails, the configdrive may not have loaded."
-  ping:
+  # NOTE(TheJulia): This is executed as a raw command to validate the remote
+  # hostname. This is because cirros lacks sftp support.
+  raw: hostname
+  register: instance_hostname
 - name: 'Error if hostname is set to "ubuntu"'
   # TODO: Presently this step is unable to cycle through each host and verify
   # it's hostname is properly set. Perhaps if there was some way to extract
@@ -22,5 +25,7 @@
   #
   # TODO: As time goes on, we may move to leveraging inventory information
   # which will allow this role to do validation of the remote node.
-  fail: msg='If this fails, the configdrive may not have been used as the hostname was set to the default "ubuntu"'
-  when: ansible_hostname == "ubuntu"
+  # NOTE(TheJulia): If we go down the path of additional validation, we need
+  # to keep things like Cirros in mind.
+  fail: msg='If this fails, the configdrive may not have been used as the hostname was set to the default.'
+  when: '"ubuntu" in instance_hostname.stdout or "cirros" in instance_hostname.stdout'

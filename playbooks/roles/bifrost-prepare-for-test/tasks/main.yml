@@ -16,6 +16,10 @@
   wait_for: state=started port=22 host={{ item.split(',')[11] }} timeout=900
   with_lines:
     - cat {{ baremetal_csv_file }}
+- name: "Pausing for 4 seconds to allow testvm to become fully operational and to avoid any potential sshd startup race."
+  # NOTE(TheJulia): AFAIK sshd opens it's socket and then loads/generates
+  # keys, which can become visible as a race, hence the four second pause.
+  pause: seconds=4
 - name: "Adding testvms to Ansible Inventory"
   add_host: name="{{ item.split(',')[11] }}:22" groups=testvm
   with_lines:

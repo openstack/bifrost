@@ -20,7 +20,7 @@ ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml --syntax-check -
 set +e
 
 # Execute test playbook
-ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml
+ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml -e use_cirros=true -e testing_user=cirros
 EXITCODE=$?
 if [ $EXITCODE != 0 ]; then
     echo "*************************"

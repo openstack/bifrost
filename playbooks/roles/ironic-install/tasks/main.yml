@@ -235,6 +235,13 @@
 - name: "Download CoreOS image"
   get_url: url=http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
   when: test_core_os_image_present.stat.exists == false
+- name: "Download cirros to use for deployment if requested"
+  get_url: url=http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img dest="{{deploy_image}}"
+  # TODO(TheJulia): We may want to revise any boolean operators to
+  # comparison statements like the one below when they are able to be
+  # set via the command line as there are oddities across ansible
+  # versions with auto-translation of true/false values.
+  when: use_cirros == true or "'true' in use_cirros"
 - name: "Test if Ubuntu 14.04 server cloud amd64 is present"
   stat: path={{ deploy_image }}
   register: test_os_image_present
