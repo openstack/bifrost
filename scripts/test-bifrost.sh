@@ -9,7 +9,12 @@ BIFROST_HOME=$SCRIPT_HOME/..
 $SCRIPT_HOME/env-setup.sh
 
 # Source Ansible
+# NOTE(TheJulia): Ansible stable-1.9 source method tosses an error deep
+# under the hood which -x will detect, so for this step, we need to suspend
+# and then re-enable the feature.
+set +x
 source /opt/stack/ansible/hacking/env-setup
+set -x
 
 # Change working directory
 cd $BIFROST_HOME/playbooks

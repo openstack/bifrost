@@ -30,18 +30,18 @@ fi
 sudo -H chown -R $u:$g /opt/stack
 cd /opt/stack
 
+# NOTE(TheJulia): Switching to Ansible stable-1.9 branch as the development
+# branch is undergoing some massive changes and we are seeing odd failures
+# that we should not be seeing.  Until devel has stabilized, we should stay
+# on the stable branch.
 if [ ! -d ansible ]; then
-    git clone https://github.com/ansible/ansible.git --recursive
+    git clone https://github.com/ansible/ansible.git --recursive -b stable-1.9
 else
     cd ansible
-    git checkout devel
+    git checkout stable-1.9
     git pull --rebase
     git submodule update --init --recursive
     git fetch
-    # Temporary direct checkout of devel due to broken modules until
-    # the submodules pointers get updated in the core ansible repo.
-    cd lib/ansible/modules/core
-    git checkout devel
 fi
 
 echo

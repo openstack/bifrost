@@ -211,6 +211,7 @@ def _check_set_power_state(module, cloud, node):
 
 def main():
     argument_spec = openstack_full_argument_spec(
+        auth_type=dict(required=False),
         uuid=dict(required=False),
         name=dict(required=False),
         instance_info=dict(type='dict', required=False),

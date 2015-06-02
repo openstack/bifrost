@@ -208,6 +208,7 @@ def _exit_node_not_updated(module, server):
 
 def main():
     argument_spec = openstack_full_argument_spec(
+        auth_type=dict(required=False),
         uuid=dict(required=False),
         name=dict(required=False),
         driver=dict(required=False),
