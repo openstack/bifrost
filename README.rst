@@ -61,7 +61,10 @@ restarted.
 
 Run::
 
-  ansible-playbook -vvvv -i inventory/localhost install.yaml
+  If you have password-less sudo enabled, run:
+	 ansible-playbook -vvvv -i inventory/localhost install.yaml
+  Otherwise, add -K option to let Ansible prompting for the sudo  password:
+	 ansible-playbook -K -vvvv -i inventory/localhost install.yaml
 
 
 Manual CLI Use
