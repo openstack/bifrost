@@ -260,7 +260,7 @@
   include: create_bootable_image.yml
   when: test_os_image_present.stat.exists == false and transform_boot_image == true and create_image_via_dib == false
   # DIB is presently the default path.
-- name: "Creating image via disk imae builder"
+- name: "Creating image via disk image builder"
   include: create_dib_image.yml
   when: test_os_image_present.stat.exists == false and transform_boot_image == false and create_image_via_dib == true
 - name: "Explicitly permit TCP/8080 for file downloads from nodes to be provisioned"
