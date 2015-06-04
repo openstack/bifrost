@@ -22,7 +22,7 @@ network_interface: This is the network interface that the nodes receive DHCP/PXE
 deploy_image_filename: This is the filename of the image to deploy, which is combined with the network_interface variable to generate a URL used to set the Ironic instance image_source. iThis variable does not have a default in this role and expects to receive this informa
 tion from the calling playbook.
 
-deploy_image: This is the full path to the image to be deployed to the system.  This is as Ironic requiers the MD5 hash of the file to be deployed for validation during the deployment process.  As a result of this requirement, the hash is automatically collected and submitted to Ironic with the node deployment request.  This variable does not have a default in this role and expects to receive this information from the calling playbook.
+deploy_image: This is the full path to the image to be deployed to the system.  This is as Ironic requires the MD5 hash of the file to be deployed for validation during the deployment process.  As a result of this requirement, the hash is automatically collected and submitted to Ironic with the node deployment request.  This variable does not have a default in this role and expects to receive this information from the calling playbook.
 
 Dependencies
 ------------
