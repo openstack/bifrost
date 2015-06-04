@@ -216,7 +216,7 @@ auth_strategy=noauth
 # "ironic.drivers" entrypoint. An example may be found in the
 # developer documentation online. (list value)
 {% if testing %}
-enabled_drivers=agent_ssh
+enabled_drivers=agent_ssh,agent_ipmitool
 {% else %}
 enabled_drivers=agent_ipmitool
 {% endif %}
