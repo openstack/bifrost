@@ -22,9 +22,9 @@
     ironic_url: "{{ ironic_url }}"
     uuid: "{{item.split(',')[9]}}"
     state: present
-    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/configdrive-{{item.split(',')[9]}}.iso.gz"
+    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/configdrive-{{item.split(',')[9]}}.iso.gz"
     instance_info:
-      image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/{{deploy_image_filename}}"
+      image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.stat.md5 }}"
       image_disk_format: "raw"
       root_gb: 10

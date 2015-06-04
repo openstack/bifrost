@@ -263,7 +263,7 @@
 - name: "Creating image via disk image builder"
   include: create_dib_image.yml
   when: test_os_image_present.stat.exists == false and transform_boot_image == false and create_image_via_dib == true
-- name: "Explicitly permit TCP/8080 for file downloads from nodes to be provisioned"
-  command: iptables -I INPUT -p tcp --dport 8080 -i {{network_interface}} -j ACCEPT
+- name: "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned"
+  command: iptables -I INPUT -p tcp --dport {{nginx_port}} -i {{network_interface}} -j ACCEPT
 - name: "Explicitly permit TCP/6385 for IPA callback"
   command: iptables -I INPUT -p tcp --dport 6385 -i {{network_interface}} -j ACCEPT
