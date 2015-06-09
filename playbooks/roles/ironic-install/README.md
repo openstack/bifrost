@@ -45,8 +45,7 @@ By default this role installs dnsmasq to act as a DHCP server for provisioning h
 
 include_dhcp_server: false
 
-In the event of an external DHCP server being used, the user will need to configure their DHCP server such that PXE, and iPXE chain loading occurs.
-
+In the event of an external DHCP server being used, the user will need to configure their DHCP server such that PXE, and iPXE chain loading occurs. For additional information for setting up DHCP in this scenario refer to the Bifrost documentation file doc/source/deploy/dhcp.rst.
 Additional default variables exist in defaults/main.yml, however these are mainly limited to settings which are unlikely to be modified, unless a user has a custom Ironic Python Agent image, or needs to modify where the httpboot folder is set to.
 
 Dependencies
