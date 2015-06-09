@@ -56,3 +56,7 @@ deploy_image_filename: "trusty-server-cloudimg-amd64.img"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 # Use cirros instead of building an image via diskimage-builder
 use_cirros: false
+# By default Bifrost will deploy dnsmasq to utilize as an integrated DHCP
+# server.  If you already have a DHCP server, you will need to disable
+# this setting, and perform manual configuration of your DHCP server.
+include_dhcp_server: true

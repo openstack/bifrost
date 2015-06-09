@@ -41,6 +41,12 @@ As for controlling if a partition image is utilized or an image is created with 
 create_image_via_dib: true
 transform_boot_image: false
 
+By default this role installs dnsmasq to act as a DHCP server for provisioning hosts.  In the event this is not required, set the following configuration:
+
+include_dhcp_server: false
+
+In the event of an external DHCP server being used, the user will need to configure their DHCP server such that PXE, and iPXE chain loading occurs.
+
 Additional default variables exist in defaults/main.yml, however these are mainly limited to settings which are unlikely to be modified, unless a user has a custom Ironic Python Agent image, or needs to modify where the httpboot folder is set to.
 
 Dependencies
