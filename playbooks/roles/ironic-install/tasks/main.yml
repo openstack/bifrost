@@ -59,6 +59,9 @@
 - name: "Shade - Installing patched shade library."
   pip: name=shade state=latest
   when: skip_install is not defined and (shade_source_install is not defined or shade_source_install == false) and (ci_testing == false)
+- name: "dib-utils - install from pip"
+  pip: name=dib-utils state=present
+  when: skip_install is not defined and create_image_via_dib == true
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
   when: create_image_via_dib == true
