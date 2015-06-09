@@ -436,9 +436,9 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 dhcp-boot=tag:!ipxe,undionly.kpxe
 {% if testing %}
-dhcp-boot=http://192.168.122.1:8080/boot.ipxe
+dhcp-boot=http://192.168.122.1:{{nginx_port}}/boot.ipxe
 {% else %}
-dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/boot.ipxe
+dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/boot.ipxe
 {% endif %}
 
 # Encapsulated options for Etherboot gPXE. All the options are

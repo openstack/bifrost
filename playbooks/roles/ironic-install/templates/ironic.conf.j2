@@ -1310,8 +1310,8 @@ pxe_bootfile_name=undionly.kpxe
 #uefi_pxe_bootfile_name=elilo.efi
 
 # Ironic compute node's HTTP server URL. Example:
-# http://192.1.2.3:8080 (string value)
-http_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:8080/
+# http://192.1.2.3:{{nginx_port}} (string value)
+http_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/
 
 # Ironic compute node's HTTP root path. (string value)
 http_root={{ http_boot_folder }}
