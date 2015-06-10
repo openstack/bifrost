@@ -42,10 +42,10 @@ if [ $EXITCODE != 0 ]; then
     sudo iptables -L -n -v
     echo "*************************"
     echo "Ironic API log, last 1000 lines:"
-    sudo cat /var/log/upstart/ironic-api.log
+    sudo tail -n 1000 /var/log/upstart/ironic-api.log
     echo "*************************"
     echo "Ironic Conductor log, last 1000 lines:"
-    sudo cat /var/log/upstart/ironic-conductor.log
+    sudo tail -n 1000 /var/log/upstart/ironic-conductor.log
     echo "Making logs directory and collecting logs."
     mkdir ../logs
     sudo cp /var/log/libvirt/baremetal_logs/testvm1_console.log ../logs/
