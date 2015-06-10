@@ -183,7 +183,7 @@ def _check_set_maintenance(module, cloud, node):
 def _check_set_power_state(module, cloud, node):
     if 'power on' in str(node['power_state']):
         if _is_false(module.params['power']):
-        # User has requested the node be powered off.
+            # User has requested the node be powered off.
             cloud.set_machine_power_off(node['uuid'])
             module.exit_json(changed=True, msg="Power requested off")
     if 'power off' in str(node['power_state']):

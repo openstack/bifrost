@@ -1,3 +1,6 @@
 PyYAML
 jinja2
 pip>=7.0
+
+pbr>=0.6,!=0.7,<1.0
+Babel>=1.3
