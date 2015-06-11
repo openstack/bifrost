@@ -1,0 +1,4 @@
+---
+# defaults file for bifrost-deploy-nodes-dynamic
+ironic_url: "http://localhost:6385/"
+nginx_port: 8080

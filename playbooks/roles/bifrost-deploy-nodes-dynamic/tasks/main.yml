@@ -1,0 +1,44 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Deploy to Hardware - Using custom instance_info."
+  os_ironic_node:
+    auth_type: None
+    auth: None
+    ironic_url: "{{ ironic_url }}"
+    uuid: "{{ uuid }}"
+    state: present
+    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }}/configdrive-{{ uuid }}.iso.gz"
+    instance_info: "{{ instance_info }}"
+  delegate_to: localhost
+  when: instance_info is defined
+- name: "Collect the checksum of the deployment image."
+  local_action: stat path={{deploy_image}}
+  register: test_deploy_image
+  when: instance_info is not defined
+- name: "Deploy to Hardware - Bifrost Default"
+  os_ironic_node:
+    auth_type: None
+    auth: None
+    ironic_url: "{{ ironic_url }}"
+    uuid: "{{ uuid }}"
+    state: present
+    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }/configdrive-{{ uuid }}.iso.gz"
+    instance_info:
+      image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }}/{{deploy_image_filename}}"
+      image_checksum: "{{ test_deploy_image.stat.md5 }}"
+      image_disk_format: "raw"
+      root_gb: 10
+  delegate_to: localhost
+  when: instance_info is not defined
