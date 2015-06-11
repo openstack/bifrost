@@ -11,7 +11,7 @@ This role is dependent upon the os-ironic ansible module, which is dependent upo
 Role Variables
 --------------
 
-baremetal_csv_file: This variable is the path to a CSV file which contains a list of nodes to enroll into Ironic.  This file has a particular format based on columns, which will be listed below, however the base playbooks are easilly modifiable to utilize less information as some of the information is not presently required.
+baremetal_csv_file: This variable is the path to a CSV file which contains a list of nodes to enroll into Ironic.  This file has a particular format based on columns, which will be listed below, however the base playbooks are easily modifiable to utilize less information as some of the information is not presently required.
 
 The CSV file has the following columns:
 
@@ -34,7 +34,7 @@ The CSV file has the following columns:
 
 testing: This setting coupled with the previously mentioned baremetal_csv_file enrolls all nodes defined in the baremetal.csv file utilizing the Ironic agent_ssh driver instead of the agent_ipmitool driver which Bifrost uses by default.  The default setting for this role is false. 
 
-ipmi_bridging:  The setting is by default undefined, and is utilized when access to a host's IPMI interface is bridged, such as a cartrige or blade in a chassis that has a single management address.  It has two options when defined, "single" or "dual", and is utilized to execute the appropriate task in order to feed the appropriate IPMI bridging information based on the CSV file into Ironic.
+ipmi_bridging:  The setting is by default undefined, and is utilized when access to a host's IPMI interface is bridged, such as a cartridge or blade in a chassis that has a single management address.  It has two options when defined, "single" or "dual", and is utilized to execute the appropriate task in order to feed the appropriate IPMI bridging information based on the CSV file into Ironic.
 
 ironic_url: The setting defining the URL to the Ironic API.  Presently defaulted to: "http://localhost:6385/"
 
@@ -69,7 +69,7 @@ You may obtain a copy of the License at
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express orimplied.
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 

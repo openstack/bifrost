@@ -19,7 +19,7 @@ ironic_url: This is the URL to the ironic server.  By default, this is set to "h
 
 network_interface: This is the network interface that the nodes receive DHCP/PXE/iPXE.  This is utilized to generate the url that Ironic is configured with for image retrieval. This variable does not have a default in this role and expects to receive this information from the calling playbook. 
 
-deploy_image_filename: This is the filename of the image to deploy, which is combined with the network_interface variable to generate a URL used to set the Ironic instance image_source. iThis variable does not have a default in this role and expects to receive this informa
+deploy_image_filename: This is the filename of the image to deploy, which is combined with the network_interface variable to generate a URL used to set the Ironic instance image_source. This variable does not have a default in this role and expects to receive this informa
 tion from the calling playbook.
 
 deploy_image: This is the full path to the image to be deployed to the system.  This is as Ironic requires the MD5 hash of the file to be deployed for validation during the deployment process.  As a result of this requirement, the hash is automatically collected and submitted to Ironic with the node deployment request.  This variable does not have a default in this role and expects to receive this information from the calling playbook.
@@ -52,7 +52,7 @@ You may obtain a copy of the License at
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express orimplied.
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
