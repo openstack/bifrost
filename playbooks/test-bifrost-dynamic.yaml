@@ -42,13 +42,18 @@
   sudo: yes
   roles:
     - role: bifrost-validate-host-for-deploy
+- hosts: baremetal
+  name: "Creat configuration drives."
+  sudo: no
+  connection: local
+  roles:
+    - role: bifrost-configdrives-dynamic
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
   sudo: no
   gather_facts: yes
   roles:
-    - role: bifrost-configdrives
     - role: bifrost-setup-nodes
     - role: bifrost-prepare-for-test
 # The testvm Host group is added by bifrost-prepare-for-test based
