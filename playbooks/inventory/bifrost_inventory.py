@@ -298,7 +298,7 @@ def main():
                     LOG.debug("CSV fallback processing failed, "
                               "received: &s" % e)
                     print("ERROR: BIFROST_INVENTORY_SOURCE does not "
-                          "define a fileithat could be processed: "
+                          "define a file that could be processed: "
                           "Tried JSON, YAML, and CSV formats")
                     exit(1)
         # elif "ironic" in data_source.lower:
