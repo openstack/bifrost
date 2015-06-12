@@ -6,7 +6,7 @@ if [ -x '/usr/bin/apt-get' ]; then
         sudo -H apt-get -y install git
     fi
     if ! $(pip -v &>/dev/null); then
-        sudo -H apt-get -y install python-pip
+        sudo easy_install pip
     fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! $(git --version &>/dev/null); then
