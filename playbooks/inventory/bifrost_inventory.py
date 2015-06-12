@@ -137,7 +137,7 @@ def _prepare_inventory():
 def _val_or_none(array, location):
     """Return any value that has a length"""
     try:
-        if not array[location]:
+        if len(array[location]) > 0:
             return array[location]
         return None
     except IndexError:
