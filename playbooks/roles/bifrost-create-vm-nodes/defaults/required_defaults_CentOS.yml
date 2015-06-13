@@ -1,0 +1,20 @@
+---
+libvirt_service_name: libvirtd
+required_packages:
+ - qemu-img
+ - qemu-kvm-tools
+ - qemu-kvm
+ - qemu-kvm-common
+ - sgabios
+ - libvirt
+ - libvirt-client
+ - libvirt-daemon
+ - libvirt-daemon-config-network
+ - libvirt-daemon-config-nwfilter
+ - libvirt-daemon-driver-network
+ - libvirt-daemon-driver-nodedev
+ - libvirt-daemon-driver-nwfilter
+ - libvirt-daemon-driver-qemu
+ - libvirt-daemon-driver-secret
+ - libvirt-daemon-driver-storage
+ - libvirt-daemon-kvm
