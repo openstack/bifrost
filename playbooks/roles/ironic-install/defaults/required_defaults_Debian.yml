@@ -1,3 +1,12 @@
+---
+init_template: upstart_template.j2
+init_dest_dir: /etc/init/
+init_ext: .conf
+syslinux_tftp_dir: /usr/lib/syslinux/
+ipxe_dir: /usr/lib/ipxe/
+sgabios_dir: /usr/share/qemu/
+nginx_user: www-data
+mysql_service_name: mysql
 required_packages:
   - mysql-server
   - dnsmasq
@@ -6,7 +15,7 @@ required_packages:
   - python-mysqldb
   - python-configparser
   - libffi-dev
-  - libxslt-dev
+  - libxslt1-dev
   - libssl-dev
   - libxml2-dev
   - ipxe
@@ -24,3 +33,5 @@ required_packages:
   - kpartx
   - qemu-utils
   - python-openwsman
+  - amtterm
+  - sgabios

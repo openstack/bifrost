@@ -24,6 +24,53 @@ Supported Operating Systems:
 * Red Hat Enterprise Linux (RHEL) 7
 * CentOS 7
 
+Pre-install steps
+=================
+
+Installing bifrost on RHEL or CentOS requires a few extra pre-install steps.
+
+------------------------------------------
+Enable additional repositories (RHEL only)
+------------------------------------------
+
+The extras and optional yum repositories must be enabled to satisfy bifrost's dependencies. To check::
+
+   sudo yum repolist | grep 'optional\|extras'
+
+To add the repositories::
+
+   sudo yum repolist all | grep 'optional\|extras'
+
+The output will look like this::
+
+  !rhui-REGION-rhel-server-debug-extras/7Server/x86_64        Red H disabled
+  rhui-REGION-rhel-server-debug-optional/7Server/x86_64       Red H disabled
+  rhui-REGION-rhel-server-extras/7Server/x86_64               Red H disabled
+  rhui-REGION-rhel-server-optional/7Server/x86_64             Red H disabled
+  rhui-REGION-rhel-server-source-extras/7Server/x86_64        Red H disabled
+  rhui-REGION-rhel-server-source-optional/7Server/x86_64      Red H disabled
+
+Use the names of the repositories (minus the version and architecture) to enable them::
+
+  sudo yum-config-manager --enable rhui-REGION-rhel-server-optional
+  sudo yum-config-manager --enable rhui-REGION-rhel-server-extras
+
+---------------------------------
+Enable the EPEL repository (RHEL)
+---------------------------------
+
+The Extra Packages for Enterprise Linux (EPEL) repository contains some of bifrost's dependencies. To enable it, install the `epel-release` package as follows::
+
+  sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+-----------------------------------
+Enable the EPEL repository (CentOS)
+-----------------------------------
+
+To enable EPEL on CentOS, run::
+
+  sudo yum install epel-release
+
 Installation
 ============
 

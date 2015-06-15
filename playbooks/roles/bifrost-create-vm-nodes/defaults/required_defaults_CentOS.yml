@@ -6,6 +6,7 @@ required_packages:
  - qemu-kvm
  - qemu-kvm-common
  - sgabios
+ - sgabios-bin
  - libvirt
  - libvirt-client
  - libvirt-daemon

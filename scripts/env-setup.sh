@@ -19,9 +19,15 @@ if [ -x '/usr/bin/apt-get' ]; then
     if ! $(easy_install --version &>/dev/null) ; then
         sudo -H apt-get -y install python-setuptools
     fi
+    if ! $(dpkg -l libpython-dev &>/dev/null); then
+        sudo -H apt-get -y install libpython-dev
+    fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! yum -q list installed python-devel; then
         sudo -H yum -y install python-devel
+    fi
+    if ! $(gcc -v &>/dev/null); then
+        sudo -H yum -y install gcc
     fi
     if ! $(git --version &>/dev/null); then
         sudo -H yum -y install git
