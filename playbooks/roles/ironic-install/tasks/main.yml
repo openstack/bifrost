@@ -174,20 +174,20 @@
   copy: src=/usr/lib/ipxe/undionly.kpxe dest=/tftpboot/
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
-  when: include_dhcp_server == true or '"true" in include_dhcp_server'
+  when: "{{include_dhcp_server|bool}}"
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt. And the libvirt started dnsmasq processes
 # are not controlled by upstart, so we need to manually kill those.
 - name: "Looking for libvirt dnsmasq config"
   stat: path=/etc/dnsmasq.d/libvirt-bin
   register: test_libvirt_dnsmasq
-  when: include_dhcp_server == true or '"true" in include_dhcp_server'
+  when: "{{include_dhcp_server|bool}}"
 - name: "Disabling libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
-  when: (include_dhcp_server == true or '"true" in include_dhcp_server') and test_libvirt_dnsmasq.stat.exists == true and testing == true
+  when: "{{include_dhcp_server|bool and test_libvirt_dnsmasq.stat.exists|bool and testing|bool}}"
 - name: "Stopping existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
-  when: testing == true and (include_dhcp_server == true or '"true" in include_dhcp_server')
+  when: "{{testing|bool and include_dhcp_server|bool}}"
 # NOTE(Shrews) We need to enable ip forwarding for the libvirt bridge to
 # operate properly with dnsmasq. This should be done before starting dnsmasq.
 - name: "Enabling IP forwarding in sysctl"
@@ -215,7 +215,7 @@
   service: name={{ item }} state=restarted
   with_items:
     - dnsmasq
-  when: include_dhcp_server == true or '"true" in include_dhcp_server'
+  when: "{{include_dhcp_server|bool}}"
 - name: "Sending services a reload signal"
   service: name={{ item }} state=reloaded
   with_items:
@@ -223,7 +223,7 @@
     - nginx
 - name: "Sending services a force-reload signal"
   command: /etc/init.d/dnsmasq force-reload
-  when: include_dhcp_server == true or '"true" in include_dhcp_server'
+  when: "{{include_dhcp_server|bool}}"
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."
   stat: path=/tftpboot/master_images
