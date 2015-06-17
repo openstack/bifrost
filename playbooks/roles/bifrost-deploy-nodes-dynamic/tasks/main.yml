@@ -34,7 +34,7 @@
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid }}"
     state: present
-    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }/configdrive-{{ uuid }}.iso.gz"
+    config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }}/configdrive-{{ uuid }}.iso.gz"
     instance_info:
       image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }}/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.stat.md5 }}"
