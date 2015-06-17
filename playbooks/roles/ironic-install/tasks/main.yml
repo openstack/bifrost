@@ -13,24 +13,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+
+- name: Include OS-specific packages variables.
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../defaults/required_packages_{{ ansible_distribution }}.yml"
+    - "../defaults/required_packages_{{ ansible_os_family }}.yml"
 - name: "Update Package Cache"
   apt: update_cache=yes
+  when: ansible_os_family == 'Debian'
 - name: "Install packages"
-  apt: name={{ item }}
-  with_items: required_packages_ubuntu
+  action: "{{ ansible_pkg_mgr }} name={{ item }}"
+  with_items: required_packages
 # Step required for Ubuntu 14.10
 - name: "Install 14.10 packages"
-  apt: name={{ item }}
+  action: "{{ ansible_pkg_mgr }} name={{ item }}"
   with_items:
     - pxelinux
-  when: ansible_distribution_version|version_compare('14.10', '>=')
-- name: "Install testing packages"
-  apt: name={{ item }}
-  when: testing is defined and testing == true
-  with_items:
-    - libvirt-bin
-    - qemu-kvm
-    - sgabios
+  when: ansible_distribution_version|version_compare('14.10', '>=') and ansible_distribution == 'Ubuntu'
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 - name: "Downloading Ironic"

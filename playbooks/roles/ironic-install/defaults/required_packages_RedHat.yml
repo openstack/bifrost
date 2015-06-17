@@ -1,0 +1,25 @@
+required_packages:
+  - mariadb-server
+  - dnsmasq
+  - rabbitmq-server
+  - python-devel
+  - python-pip
+  - MySQL-python
+  - python-iniparse
+  - libffi-devel
+  - libxslt-devel
+  - openssl-devel
+  - libxml2-devel
+  - ipxe-bootimgs
+  - tftp-server
+  - syslinux
+  - syslinux-tftpboot
+  - xinetd
+  - parted
+  - ipmitool
+  - psmisc
+  - nginx
+  - wget
+  - genisoimage
+  - kpartx
+  - qemu-kvm-tools
