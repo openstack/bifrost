@@ -14,7 +14,7 @@
 # limitations under the License.
 ---
 - name: "python-ironicclient - Retrieving library from git.openstack.org"
-  command: git clone https://review.openstack.org/openstack/python-ironicclient chdir=/opt/stack creates=/opt/stack/python-ironicclient
+  command: git clone {{ ironicclient_git_url }} chdir=/opt/stack creates=/opt/stack/python-ironicclient
 - name: "python-ironicclient - Checking out master branch"
   command: git checkout -f master chdir=/opt/stack/python-ironicclient
 - name: "python-ironicclient - Resetting local repository"

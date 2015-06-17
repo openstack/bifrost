@@ -14,7 +14,7 @@
 # limitations under the License.
 ---
 - name: "Shade - Retrieving library from git.openstack.org"
-  command: git clone https://review.openstack.org/openstack-infra/shade chdir=/opt/stack creates=/opt/stack/shade
+  command: git clone {{ shade_git_url }} chdir=/opt/stack creates=/opt/stack/shade
 - name: "Shade - Checking out master branch"
   command: git checkout -f master chdir=/opt/stack/shade
 - name: "Shade - Resetting local repository"

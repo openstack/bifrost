@@ -14,7 +14,7 @@
 # limitations under the License.
 ---
 - name: "DIB - Retrieving diskimage-builder from git.openstack.org"
-  command: git clone https://git.openstack.org/openstack/diskimage-builder chdir=/opt/stack creates=/opt/stack/diskimage-builder
+  command: git clone {{ dib_git_url }} chdir=/opt/stack creates=/opt/stack/diskimage-builder
 - name: "DIB - Checking out master branch"
   command: git checkout -f master chdir=/opt/stack/diskimage-builder
 - name: "DIB- Resetting local repository"
