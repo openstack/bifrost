@@ -26,12 +26,21 @@ latest_os_ironic_node_url: https://raw.githubusercontent.com/juliakreger/ansible
 deploy_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
 deploy_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
 deploy_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/coreos_production_pxe.vmlinuz"
+deploy_kernel_upstream_url: http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe.vmlinuz
 deploy_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/coreos_production_pxe_image-oem.cpio.gz"
+deploy_ramdisk_upstream_url: http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz
 deploy_image_filename: "trusty-server-cloudimg-amd64.img"
+deploy_image_upstream_url: http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 # Use cirros instead of building an image via diskimage-builder
 use_cirros: false
+cirros_deploy_image_upstream_url: http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
 # By default Bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server.  If you already have a DHCP server, you will need to disable
 # this setting, and perform manual configuration of your DHCP server.
 include_dhcp_server: true
+# *_git_url can be overridden by local clones for offline installs
+dib_git_url: https://git.openstack.org/openstack/diskimage-builder
+ironicclient_git_url: https://review.openstack.org/openstack/python-ironicclient
+shade_git_url: https://review.openstack.org/openstack-infra/shade
+ironic_git_url: https://git.openstack.org/openstack/ironic

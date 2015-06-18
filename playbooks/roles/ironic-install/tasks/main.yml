@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-
 - name: Include OS-specific packages variables.
   include_vars: "{{ item }}"
   with_first_found:
@@ -34,7 +33,7 @@
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 - name: "Downloading Ironic"
-  command: git clone https://git.openstack.org/openstack/ironic chdir=/opt/stack creates=/opt/stack/ironic
+  command: git clone {{ ironic_git_url }} chdir=/opt/stack creates=/opt/stack/ironic
 - name: "Ironic - checking out master branch"
   command: git checkout -f master chdir=/opt/stack/ironic
 - name: "Ironic - resetting master branch"
@@ -237,22 +236,22 @@
   stat: path={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
   register: test_core_os_kernel_present
 - name: "Download CoreOS kernel"
-  get_url: url=http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe.vmlinuz dest={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+  get_url: url={{ deploy_kernel_upstream_url }} dest={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
   when: test_core_os_kernel_present.stat.exists == false
 - name: "Test if CoreOS image is present"
   stat: path={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
   register: test_core_os_image_present
 - name: "Download CoreOS image"
-  get_url: url=http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+  get_url: url={{ deploy_ramdisk_upstream_url }} dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
   when: test_core_os_image_present.stat.exists == false
 - name: "Download cirros to use for deployment if requested"
-  get_url: url=http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img dest="{{deploy_image}}"
+  get_url: url={{ cirros_deploy_image_upstream_url }} dest="{{ deploy_image }}"
   when: "{{use_cirros|bool}}"
 - name: "Test if Ubuntu 14.04 server cloud amd64 is present"
   stat: path={{ deploy_image }}
   register: test_os_image_present
 - name: "Download Ubuntu image"
-  get_url: url=http://cloud-images.ubuntu.com/releases/trusty/release/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz
+  get_url: url={{ deploy_image_upstream_url }} dest=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz
   when: test_os_image_present.stat.exists == false and create_image_via_dib == false
 - name: "Extract Ubuntu image"
   unarchive: src=/httpboot/ubuntu-14.04-server-cloudimg-amd64.tar.gz dest=/httpboot/ creates=/httpboot/trusty-server-cloudimg-amd64.img
