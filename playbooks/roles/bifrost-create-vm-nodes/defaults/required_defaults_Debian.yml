@@ -1,0 +1,8 @@
+---
+libvirt_service_name: libvirt-bin
+required_packages:
+ - libvirt-bin
+ - qemu-utils
+ - qemu-kvm
+ - qemu-system-x86
+ - sgabios

@@ -38,6 +38,15 @@ VM_EMULATOR=${VM_EMULATOR:-/usr/bin/qemu-system-x86_64}
 VM_CPU=${VM_CPU:-1}
 VM_RAM=${VM_RAM:-3072}
 VM_DISK=${VM_DISK:-10}
+VM_MACHINE="pc-1.0"
+
+# CentOS provides a single emulator package
+# which differs from other distributions, and
+# needs to be explicitly set.
+if [ -e /etc/centos-release ]; then
+  VM_EMULATOR=/usr/libexec/qemu-kvm
+  VM_MACHINE="pc"
+fi
 
 # VM network
 VM_NET_BRIDGE=${VM_NET_BRIDGE:-default}
@@ -95,6 +104,12 @@ function create_node {
 
     if [ -n "$LOGDIR" ] ; then
       mkdir -p "$LOGDIR"
+      if [ -e /etc/centos-release ]; then
+        # NOTE(TheJulia): For some unknown reason, libvirt's log folder permissions
+        # on CentOS ship in an inoperable state.  Users must be able to read a folder
+        # to open files in the folder structure.
+        chmod o+rx "$LOGDIR/.."
+      fi
     fi
 
     PREALLOC=
@@ -112,15 +127,20 @@ function create_node {
       volume_path=$(virsh vol-path --pool $LIBVIRT_STORAGE_POOL $VOL_NAME)
       # Pre-touch the VM to set +C, as it can only be set on empty files.
       touch "$volume_path"
-      chattr +C "$volume_path" || true
 
+      # NOTE(TheJulia): CentOS default installs with an XFS root, and chattr
+      # fails to set +C on XFS.  This could be more elegent, however the use
+      # case is for CI testing.
+      if [ ! -e /etc/centos-release ]; then
+        chattr +C "$volume_path" || true
+      fi
       vm_xml="
 <domain type='qemu'>
   <name>${NAME}</name>
   <memory unit='KiB'>${MEM}</memory>
   <vcpu>${CPU}</vcpu>
   <os>
-    <type arch='${ARCH}' machine='pc-1.0'>hvm</type>
+    <type arch='${ARCH}' machine='${VM_MACHINE}'>hvm</type>
     <boot dev='network'/>
     <bootmenu enable='no'/>
     <bios useserial='yes'/>
