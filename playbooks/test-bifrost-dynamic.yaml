@@ -53,13 +53,13 @@
   remote_user: "{{ testing_user }}"
   roles:
     - role: bifrost-test-vm
-- hosts: localhost
+- hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
   sudo: no
   gather_facts: no
   roles:
-    - role: bifrost-unprovision-nodes
+    - role: bifrost-unprovision-node-dynamic
 - hosts: localhost
   connection: local
   name: "Unprovisions the test node"
