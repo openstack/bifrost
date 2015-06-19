@@ -3,8 +3,6 @@ auto lo
 iface lo inet loopback
 
 auto {{ node_default_network_interface }}
-iface {{ node_default_network_interface }} inet static
-
 {% if addressing_mode is defined and "dhcp" in addressing_mode %}
 iface {{ node_default_network_interface }} inet dhcp
 {% else %}

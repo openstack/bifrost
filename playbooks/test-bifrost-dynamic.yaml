@@ -19,6 +19,9 @@
       set_fact:
          ci_testing_zuul: true
       when: "'bare-trusty' in ansible_hostname"
+    - name: "Override the ipv4_gateway setting"
+      set_fact:
+         ipv4_gateway: "192.168.122.1"
     - name: "Collect process list if running in OpenStack CI"
       command: ps aux
       when: ci_testing_zuul is defined
