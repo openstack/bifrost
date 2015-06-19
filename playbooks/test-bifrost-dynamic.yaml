@@ -1,4 +1,9 @@
 # Example command line to use:
+# Create a VM:
+# ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
+# Set BIFROST_INVENTORY_SOURCE
+# export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
+# Execute the installation and VM startup test.
 # ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dynamic.yaml -e use_cirros=true -e testing_user=cirros
 ---
 - hosts: localhost
@@ -7,10 +12,6 @@
   sudo: yes
   gather_facts: yes
   pre_tasks:
-    - name: "Set default baremetal.csv file if not already defined"
-      set_fact:
-         baremetal_csv_file: "/tmp/baremetal.csv"
-      when: baremetal_csv_file is not defined
     - name: "Set ci_testing flag if a list of changes are found in the environment variables"
       set_fact:
          ci_testing: true
@@ -29,7 +30,6 @@
       shell: netstat -apn|grep LISTEN
       when: ci_testing_zuul is defined
   roles:
-    - role: bifrost-create-vm-nodes
     - role: ironic-install
       cleaning: false
       testing: true
@@ -63,10 +63,4 @@
   gather_facts: no
   roles:
     - role: bifrost-unprovision-node-dynamic
-- hosts: localhost
-  connection: local
-  name: "Unprovisions the test node"
-  sudo: no
-  gather_facts: no
-  roles:
-    - role: ironic-delete
+    - role: ironic-delete-dynamic
