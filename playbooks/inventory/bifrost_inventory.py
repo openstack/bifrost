@@ -113,6 +113,9 @@ opts = [
     cfg.BoolOpt('list',
                 default=True,
                 help='List active hosts'),
+    cfg.BoolOpt('convertcsv',
+                default=False,
+                help='Converts a CSV inventory to JSON'),
 ]
 
 
@@ -314,10 +317,13 @@ def main():
         exit(1)
 
     # General Data Conversion
-    inventory = {'_meta': {'hostvars': hostvars}}
-    inventory.update(groups)
 
-    print(json.dumps(inventory, indent=2))
+    if not config.convertcsv:
+        inventory = {'_meta': {'hostvars': hostvars}}
+        inventory.update(groups)
+        print(json.dumps(inventory, indent=2))
+    else:
+        print(json.dumps(hostvars, indent=2))
 
 if __name__ == '__main__':
     main()
