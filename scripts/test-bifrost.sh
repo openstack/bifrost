@@ -28,31 +28,19 @@ set +e
 ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml -e use_cirros=true -e testing_user=cirros
 EXITCODE=$?
 if [ $EXITCODE != 0 ]; then
-    echo "*************************"
-    echo "Test failed. Test VM log:"
-    sudo cat /var/log/libvirt/baremetal_logs/testvm1_console.log
-    echo "*************************"
-    echo "Kernel log:"
-    sudo dmesg
-    echo "*************************"
-    echo "Network Sockets in LISTEN state:"
-    sudo netstat -apn|grep LISTEN
-    echo "*************************"
-    echo "Firewalling settings:"
-    sudo iptables -L -n -v
-    echo "*************************"
-    echo "Ironic API log, last 1000 lines:"
-    sudo tail -n 1000 /var/log/upstart/ironic-api.log
-    echo "*************************"
-    echo "Ironic Conductor log, last 1000 lines:"
-    sudo tail -n 1000 /var/log/upstart/ironic-conductor.log
-    echo "Making logs directory and collecting logs."
-    mkdir ../logs
-    sudo cp /var/log/libvirt/baremetal_logs/testvm1_console.log ../logs/
-    dmesg &> ../logs/dmesg.log
-    sudo netstat -apn &> ../logs/netstat.log
-    sudo iptables -L -n -v &> ../logs/iptables.log
-    sudo cp /var/log/upstart/ironic-api.log ../logs/
-    sudo cp /var/log/upstart/ironic-conductor.log ../logs/
+    echo "****************************"
+    echo "Test failed. See logs folder"
+    echo "****************************"
 fi
+echo "Making logs directory and collecting logs."
+mkdir ../logs
+sudo cp /var/log/libvirt/baremetal_logs/testvm1_console.log ../logs/
+sudo chown $USER ../logs/testvm1_console.log
+dmesg &> ../logs/dmesg.log
+sudo netstat -apn &> ../logs/netstat.log
+sudo iptables -L -n -v &> ../logs/iptables.log
+sudo cp /var/log/upstart/ironic-api.log ../logs/
+sudo chown $USER ../logs/ironic-api.log
+sudo cp /var/log/upstart/ironic-conductor.log ../logs/
+sudo chown $USER ../logs/ironic-conductor.log
 exit $EXITCODE
