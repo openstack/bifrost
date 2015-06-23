@@ -25,4 +25,3 @@ required_packages:
   - kpartx
   - qemu-utils
   - python-openwsman
-  - amtterm
