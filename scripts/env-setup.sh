@@ -5,6 +5,20 @@ if [ -x '/usr/bin/apt-get' ]; then
     if ! $(git --version &>/dev/null) ; then
         sudo -H apt-get -y install git
     fi
+    # To install python packages, we need pip.
+    #
+    # We can't use the apt packaged version of pip since
+    # older versions of pip are incompatible with
+    # requests, one of our indirect dependencies (bug 1459947).
+    #
+    # So we use easy_install to install pip.
+    #
+    # But we may not have easy_install; if that's the case,
+    # our bootstrap's bootstrap is to use apt to install
+    # python-setuptools to get easy_install.
+    if ! $(easy_install --version &>/dev/null) ; then
+        sudo -H apt-get -y install python-setuptools
+    fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! yum -q list installed python-devel; then
         sudo -H yum -y install python-devel
