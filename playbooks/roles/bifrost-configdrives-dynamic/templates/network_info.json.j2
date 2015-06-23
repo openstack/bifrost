@@ -10,7 +10,7 @@ with the information that we have available to us in nics.
 {% for nic in nics %}
     {%- if loop.first %}        "ethernet_mac_address": "{{ nic.mac }}",{% endif %}
 {% endfor %}
-        "mtu":1500
+        "mtu":{{network_mtu}}
     }
 ],
 "networks": [

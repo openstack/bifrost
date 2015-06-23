@@ -33,6 +33,7 @@ node_default_network_interface: eth0
 ipv4_subnet_mask: 255.255.255.0
 ipv4_gateway: 192.168.1.1
 ipv4_nameserver: 8.8.8.8
+network_mtu: 1500
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 # ipmi_bridging: Default undefined.  Valid values: "no", "single", and "dual"

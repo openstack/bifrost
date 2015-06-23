@@ -4,7 +4,7 @@
         "id": "{{node_default_network_interface}}",
         "type": "phy",
         "ethernet_mac_address": "{{item.split(',')[0]}}",
-        "mtu":1500
+        "mtu":{{network_mtu}}
     }
 ],
 "networks": [
