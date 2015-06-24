@@ -3,7 +3,6 @@ required_packages:
   - dnsmasq
   - rabbitmq-server
   - python-dev
-  - python-pip
   - python-mysqldb
   - python-configparser
   - libffi-dev
