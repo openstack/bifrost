@@ -1,0 +1,25 @@
+# This is an example playbook utilizing role conditionals to permit
+# deployment on available nodes.
+#
+# To utilize:
+# export BIFROST_INVENTORY_SOURCE=ironic
+# ansible-playbook -vvvv -i inventory/bifrost_inventory.py example-deploy-all-available-nodes.yaml
+#
+# NOTE(TheJulia): The format of this example will cause hosts to be deployed
+# utilizing DHCP on eth0 of Ubuntu/Debian hosts. It is advisable you build
+# your deployment image with the dhcp-all-interfaces element when deploying
+# other operating systems or if your target node has multiple ethernet
+# interfaces.
+---
+- hosts: localhost
+  connection: local
+  name: "Collect facts"
+  sudo: no
+  gather_facts: yes
+- hosts: baremetal
+  name: "Create configuration drive files and deploy machines from inventory"
+  sudo: no
+  connection: local
+  roles:
+    - { role: bifrost-configdrives-dynamic, when: provision_state == "available" and maintenance | bool != true }
+    - { role: bifrost-deploy-nodes-dynamic, when: provision_state == "available" and maintenance | bool != true }
