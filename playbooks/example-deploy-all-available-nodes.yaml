@@ -10,6 +10,11 @@
 # your deployment image with the dhcp-all-interfaces element when deploying
 # other operating systems or if your target node has multiple ethernet
 # interfaces.
+#
+# NOTE(TheJulia): A user could utilize the os_ironic_facts module with another
+# data source such as a CSV, YAML, or JSON file formats to query ironic, and
+# the example role conditionals below to query current status and deploy to
+# nodes.
 ---
 - hosts: localhost
   connection: local
