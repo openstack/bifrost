@@ -103,7 +103,7 @@ intended to support specific host queries.
 import csv
 import json
 import os
-from oslo.config import cfg
+from oslo_config import cfg
 from oslo_log import log
 import yaml
 
