@@ -51,7 +51,7 @@ How to use?
     export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.[csv|json|yaml]
     ansible-playbook playbook.yaml -i inventory/bifrost_inventory.py
 
-One can also just direclty invoke bifrost_inventory.py in order to see the
+One can also just directly invoke bifrost_inventory.py in order to see the
 resulting JSON output.  This module also has a feature to support the
 pass-through of a pre-existing JSON document, which receives updates and
 formatting to be supplied to Ansible.  Ultimately the use of JSON will be
@@ -92,6 +92,17 @@ Example JSON Element:
   }
 }
 
+Utilizing ironic as the data source
+-----------------------------------
+
+The functionality exists to allow a user to query an existing ironic
+installation for the inventory data.  This is an advanced feature,
+as the node may not have sufficent information to allow for node
+deployment or automated testing, unless DHCP reservations are used.
+
+This setting can be invoked by setting the source to "ironic"::
+
+  export BIFROST_INVENTORY_SOURCE=ironic
 
 Known Issues
 ------------
@@ -103,9 +114,12 @@ intended to support specific host queries.
 import csv
 import json
 import os
+import yaml
+import six
+
 from oslo_config import cfg
 from oslo_log import log
-import yaml
+import shade
 
 LOG = log.getLogger(__name__)
 
@@ -264,6 +278,41 @@ def _process_baremetal_csv(data_source, groups, hostvars):
     return (groups, hostvars)
 
 
+def _identify_shade_auth():
+    """Return shade credentials"""
+    # Note(TheJulia): A logical progression is to support a user defining
+    # an environment variable that triggers use of os-client-config to allow
+    # environment variables or clouds.yaml auth configuration.  This could
+    # potentially be passed in as variables which could then be passed
+    # to modules for authentication allowing the basic tooling to be
+    # utilized in the context of a larger cloud supporting ironic.
+    options = dict(
+        auth_type="None",
+        auth=dict(endpoint="http://localhost:6385/",)
+    )
+    return options
+
+
+def _process_shade(groups, hostvars):
+    """Retrieve inventory utilizing Shade"""
+    options = _identify_shade_auth()
+    cloud = shade.operator_cloud(**options)
+    machines = cloud.list_machines()
+    for machine in machines:
+        if machine['name'] is None:
+            name = machine['uuid']
+        else:
+            name = machine['name']
+        new_machine = {}
+        for key, value in six.iteritems(machine):
+            if 'links' not in key:
+                new_machine[key] = value
+        new_machine['addressing_mode'] = "dhcp"
+        groups['baremetal']['hosts'].append(name)
+        hostvars.update({name: new_machine})
+    return (groups, hostvars)
+
+
 def main():
     """Generate a list of hosts."""
     config = _parse_config()
@@ -301,10 +350,8 @@ def main():
                           "define a file that could be processed: "
                           "Tried JSON, YAML, and CSV formats")
                     exit(1)
-        # elif "ironic" in data_source.lower:
-            # TODO(TheJulia) This would call shade's inventory and perform the
-            # bare minimal manipulation to map things through.
-            # if 'ironic' in os.environ['BIFROST_INVENTORY_SOURCE']:
+        elif "ironic" in data_source:
+            (groups, hostvars) = _process_shade(groups, hostvars)
         else:
             print('ERROR: BIFROST_INVENTORY_SOURCE does not define a file')
             exit(1)
