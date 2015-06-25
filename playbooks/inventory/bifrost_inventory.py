@@ -114,8 +114,8 @@ intended to support specific host queries.
 import csv
 import json
 import os
-import yaml
 import six
+import yaml
 
 from oslo_config import cfg
 from oslo_log import log
