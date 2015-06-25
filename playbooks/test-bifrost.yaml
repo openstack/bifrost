@@ -9,14 +9,15 @@
       set_fact:
          baremetal_csv_file: "/tmp/baremetal.csv"
       when: baremetal_csv_file is not defined
-    - name: "Set ci_testing flag if a list of changes are found in the environment variables"
-      set_fact:
-         ci_testing: true
-      when: lookup('env', 'ZUUL_CHANGES') != ""
     - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
       set_fact:
+         ci_testing: true
          ci_testing_zuul: true
-      when: "'bare-trusty' in ansible_hostname"
+      when: lookup('env', 'ZUUL_BRANCH') != ""
+    - name: "Set ci_testing_zuul_changes if ZUUL_CHANGES is set"
+      set_fact:
+         ci_testing_zuul_changes: true
+      when: lookup('env', 'ZUUL_CHANGES') != ""
     - name: "Collect process list if running in OpenStack CI"
       command: ps aux
       when: ci_testing_zuul is defined

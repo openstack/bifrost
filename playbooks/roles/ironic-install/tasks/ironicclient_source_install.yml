@@ -23,6 +23,6 @@
   command: git pull --ff-only chdir=/opt/stack/python-ironicclient
 - name: "python-ironicclient - Apply CI changes if necessary"
   script: parse_zuul_changes.py /opt/stack/python-ironicclient https://review.openstack.org openstack/python-ironicclient "{{ lookup('env', 'ZUUL_CHANGES') }}"
-  when: ci_testing == true
+  when: ci_testing_zuul_changes is defined
 - name: "python-ironicclient - Installing patched python-ironicclient library."
   command: pip install --force-reinstall /opt/stack/python-ironicclient

@@ -43,7 +43,7 @@
   command: git pull --ff-only chdir=/opt/stack/ironic/
 - name: "Ironic - Apply CI changes if necessary"
   script: parse_zuul_changes.py /opt/stack/ironic https://review.openstack.org openstack/ironic "{{ lookup('env', 'ZUUL_CHANGES') }}"
-  when: ci_testing == true
+  when: ci_testing_zuul_changes is defined
 - name: "Ironic Client - Install from source if configured to do so."
   include: ironicclient_source_install.yml
   when: skip_install is not defined and ((ironicclient_source_install is defined and ironicclient_source_install == true) or ci_testing == true)

@@ -23,6 +23,6 @@
   command: git pull --ff-only chdir=/opt/stack/shade
 - name: "Shade - Apply CI changes if necessary"
   script: parse_zuul_changes.py /opt/stack/shade https://review.openstack.org openstack-infra/shade "{{ lookup('env', 'ZUUL_CHANGES') }}"
-  when: ci_testing == true
+  when: ci_testing_zuul_changes is defined
 - name: "Shade - Installing patched shade library."
   command: pip install --force-reinstall /opt/stack/shade
