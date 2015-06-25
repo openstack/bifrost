@@ -22,7 +22,7 @@ Dependencies
 ------------
 
 As this role is purely for testing, dependencies are not hard
-coded into the role.  The role expects to be executed after 
+coded into the role.  The role expects to be executed after
 bifrost-deploy-nodes-dynamic where a node ipv4_address is defined
 on the host level.
 
