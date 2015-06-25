@@ -12,6 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+# TODO(TheJulia) It would make sense to perform basic validation prior
+# to deployment, although direct definition of instance info on
+# the pass-through could mean that the user could deploy
+# things that are not directly accessible or reasonable
+# to be inspected.
 - name: "Deploy to Hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: None

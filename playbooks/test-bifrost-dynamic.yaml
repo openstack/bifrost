@@ -36,12 +36,6 @@
   connection: local
   roles:
     - role: ironic-enroll-dynamic
-- hosts: localhost
-  connection: local
-  name: "Validates prior to deployment"
-  sudo: yes
-  roles:
-    - role: bifrost-validate-host-for-deploy
 - hosts: baremetal
   name: "Creat configuration drive files and deploy machines."
   sudo: no
