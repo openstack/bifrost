@@ -49,16 +49,10 @@
   roles:
     - role: bifrost-configdrives-dynamic
     - role: bifrost-deploy-nodes-dynamic
-- hosts: localhost
-  connection: local
-  name: "Executes install, enrollment, and testing in one playbook"
-  sudo: no
-  gather_facts: yes
-  roles:
-    - role: bifrost-prepare-for-test
+    - role: bifrost-prepare-for-test-dynamic
 # The testvm Host group is added by bifrost-prepare-for-test based
 # on the contents of the CSV file.
-- hosts: testvm
+- hosts: test
   name: "Tests connectivity to the VM"
   sudo: no
   gather_facts: no
