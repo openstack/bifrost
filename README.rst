@@ -118,6 +118,16 @@ Run::
   Otherwise, add -K option to let Ansible prompting for the sudo  password:
 	 ansible-playbook -K -vvvv -i inventory/localhost install.yaml
 
+With regards to testing, you may wish to set your installation such
+that ironic node cleaning is disabled.  You can achieve this by passing
+the option "-e cleaning=false" to the command line or executing the
+command below.  This is because cleaning can take a substantial amount
+of time while disks are being wiped.::
+
+  ansible-playbook -K -vvvv -i inventory/localhost install.yaml -e cleaning=false
+
+After you have performed an installation, you can edit /etc/ironic/ironic.conf
+to enable or disable cleaning as desired.
 
 Manual CLI Use
 --------------
