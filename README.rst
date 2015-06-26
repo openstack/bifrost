@@ -150,10 +150,83 @@ The following requirements are installed during the Install step above:
 - openstack-infra/shade library
 - openstack-infra/os-client-config
 
-You will also need a CSV file containing information about the hardware you are enrolling.
+In order to enroll hardware, you will naturally need an inventory of your
+hardware. When utilizing the dynamic inventory module and accompanying roles
+this can be supplied in one of three ways, all of which ultimately translate
+to JSON data that Ansible parses.
 
-CSV File Format
----------------
+The original method is to utilize a CSV file.  Its format is below covered in
+the `Legacy CSV File Format` section. This has a number of limitations, but
+does allow a user to bulk load hardware from an inventory list with minimal
+data transformations.
+
+The newer method is to utilize a JSON or YAML document which the inventory
+parser will convert and provide to Ansible.
+
+In order to use, you will need to define the environment variable
+`BIFROST_INVENTORY_SOURCE` to equal a file, which then allows you to
+execute Ansible utilizing the bifrost_inventory.py file as the data source.
+
+Conversion from CSV to JSON formats
+-----------------------------------
+
+The inventory/bifrost_inventory.py program additionally features a mode that
+allows a user to convert a CSV file to the JSON data format utilizing a
+`--convertcsv` command line setting when directly invoked.
+
+Example::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
+  inventory/bifrost_inventory.py --convertcsv >/tmp/baremetal.json
+
+JSON file format
+----------------
+
+The JSON format closely resembles the data structure that Ironic utilizes
+internally.  The name, driver_info, nics, driver, and properties fields are
+directly mapped through to Ironic.  This means that the data contained within
+can vary from host to host, such as drivers and their parameters thus allowing
+a mixed hardware environment to be defined in a single file.
+
+Example::
+
+  {
+      "testvm1": {
+        "uuid": "00000000-0000-0000-0000-000000000001",
+        "driver_info": {
+          "power": {
+            "ssh_port": 22,
+            "ssh_username": "ironic",
+            "ssh_virt_type": "virsh",
+            "ssh_address": "192.168.122.1",
+            "ssh_key_filename": "/home/ironic/.ssh/id_rsa"
+          }
+        },
+        "nics": [
+          {
+            "mac": "52:54:00:f9:32:f6"
+          }
+        ],
+        "driver": "agent_ssh",
+        "ansible_ssh_host": "192.168.122.2",
+        "ipv4_address": "192.168.122.2",
+        "properties": {
+          "cpu_arch": "x86_64",
+          "ram": "3072",
+          "disk_size": "10",
+          "cpus": "1"
+        },
+        "name": "testvm1"
+      }
+  }
+
+The additional power of this format is easy configuration parameter injection,
+which could potentially allow a user to provision different operating system
+images onto different hardware chassis by defining the appropriate settings
+in an "instance_info" variable.
+
+Legacy CSV File Format
+----------------------
 
 The CSV file has the following columns:
 
@@ -173,6 +246,7 @@ The CSV file has the following columns:
 13. ipmi_target_address - Requires: ipmi_bridging set to single
 14. ipmi_transit_channel - Requires: ipmi_bridging set to dual
 15. ipmi_transit_address - Requires: ipmi_bridging set to dual
+16. ironic driver
 
 Example definition::
 
