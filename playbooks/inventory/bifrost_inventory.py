@@ -119,7 +119,12 @@ import yaml
 
 from oslo_config import cfg
 from oslo_log import log
-import shade
+
+try:
+    import shade
+    SHADE_LOADED = True
+except ImportError:
+    SHADE_LOADED = False
 
 LOG = log.getLogger(__name__)
 
@@ -354,7 +359,13 @@ def main():
                           "Tried JSON, YAML, and CSV formats")
                     exit(1)
         elif "ironic" in data_source:
-            (groups, hostvars) = _process_shade(groups, hostvars)
+            if SHADE_LOADED:
+                (groups, hostvars) = _process_shade(groups, hostvars)
+            else:
+                print("ERROR: BIFROST_INVENTORY_SOURCE is set to ironic "
+                      "however the shade library failed to load, and may "
+                      "not be present.")
+                exit(1)
         else:
             print('ERROR: BIFROST_INVENTORY_SOURCE does not define a file')
             exit(1)
