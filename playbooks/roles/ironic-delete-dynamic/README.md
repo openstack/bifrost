@@ -18,7 +18,7 @@ uuid: The UUID value representing the ironic host you wish to delete.
 ironic_url: This is the url for the ironic server to connect to.  It is
             presently defaulted to "http://localhost:6385/".
 
-nics: A list of dictonary key-value pairs in the format of a key value
+nics: A list of dictionary key-value pairs in the format of a key value
       of 'mac' and the value of the mac address for the node.
       Example::
 
