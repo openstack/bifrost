@@ -263,9 +263,17 @@ An example file can be found at inventory/baremetal.csv.example.
 How this works?
 ---------------
 
-The enroll.yaml playbook requires a variable (baremetal_csv_file) be set or
-passed into the playbook execution. NOTE: This MUST be the full path to the
-CSV file to be consumed by the Ansible playbooks and loaded into ironic.
+Utilizing the dynamic inventory module, enrollment is as simple as setting
+the BIFROST_INVENTORY_SOURCE environment variable to your inventory data
+source, and then executing the the enrollment playbook.::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
+
+The legacy enroll.yaml playbook requires a variable (baremetal_csv_file) be
+set or passed into the playbook execution. NOTE: This MUST be the full path
+to the CSV file to be consumed by the Ansible playbooks and loaded into
+ironic.
 
 Example::
 
@@ -281,18 +289,20 @@ split into three separate playbooks based up the setting of ipmi_bridging.
 Hardware Deployment
 ===================
 
-Requirements:
-
-- The baremetal.csv file that was utilized for the enrollment process.
-
 How this works?
 ---------------
 
-The deploy.yaml playbook is intended to create configdrives for servers, and
-initiate the node deployments through Ironic.  IPs are injected into the config
-drive and are statically assigned.
+After the nodes are enrolled, they can be deployed upon.  Bifrost is geared to
+utilize configuration drives to convey basic configuration information to the
+each host.  This case is the same between the newer deploy-dynamic.yaml
+playbook and the older legacy deploy.yaml playbook.
 
-Example::
+To utilize the newer dynamic inventory based deployment::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
+
+To utilize the legacy csv file based playbook::
 
   ansible-playbook -i inventory/localhost -vvvv deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv
 
@@ -311,8 +321,8 @@ Note:
 
 - Cleaning mode is explicitly disabled in the test-bifrost.yaml playbook due to the fact that is an IO intensive operation that can take a great deal of time.
 
-Testing with Virtual Machines
-=============================
+Legacy - Testing with Virtual Machines
+======================================
 
 Bifrost supports using virtual machines to emulate the hardware. All of the
 steps mentioned above are mostly the same.
