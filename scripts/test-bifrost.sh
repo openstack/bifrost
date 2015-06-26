@@ -22,10 +22,20 @@ cd $BIFROST_HOME/playbooks
 # Perform a syntax check
 ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml --syntax-check --list-tasks
 
+# Syntax check of dynamic inventory test path
+ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml --syntax-check --list-tasks
+ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks
+
 set +e
 
-# Execute test playbook
-ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml -e use_cirros=true -e testing_user=cirros
+# Create the test VM
+ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
+
+# Set BIFROST_INVENTORY_SOURCE
+export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
+
+# Execute the installation and VM startup test.
+ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dynamic.yaml -e use_cirros=true -e testing_user=cirros
 EXITCODE=$?
 if [ $EXITCODE != 0 ]; then
     echo "****************************"
