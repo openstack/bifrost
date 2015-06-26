@@ -155,7 +155,7 @@ hardware. When utilizing the dynamic inventory module and accompanying roles
 this can be supplied in one of three ways, all of which ultimately translate
 to JSON data that Ansible parses.
 
-The original method is to utilize a CSV file.  Its format is below covered in
+The original method is to utilize a CSV file. This format is covered below in
 the `Legacy CSV File Format` section. This has a number of limitations, but
 does allow a user to bulk load hardware from an inventory list with minimal
 data transformations.
@@ -251,7 +251,7 @@ The CSV file has the following columns:
 Example definition::
 
 
-  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,
+  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,agent_ipmitool
 
 This file format is fairly flexible and can be easily modified
 although the enrollment and deployment playbooks utilize the model
