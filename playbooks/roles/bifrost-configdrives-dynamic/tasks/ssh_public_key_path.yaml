@@ -12,26 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-# TODO(TheJulia) This seems like it needs to be refactored if we are
-# needing to determine if the host is a CI host.  Since we have specific
-# logic for identifying the SSH key, it is necessary for now.
-# Possible refactor path, fact collection role that feeds the variables
-# into the inventory if they are not already defined, which seems
-# to make the most sense in the long run.
-- name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
-  set_fact:
-     ci_testing_zuul: true
-  when: "'bare-trusty' in ansible_hostname"
-- name: "Determine if OpenStack CI is missing an SSH key"
-  stat: path={{ssh_public_key_path}}
-  register: test_ssh_public_key_path
-  when: ci_testing_zuul is defined
-- name: "Create an SSH key for Jenkins user if operating in OpenStack CI"
-  shell: ssh-keygen -f ~/.ssh/id_rsa -N ""
-  when: ci_testing_zuul is defined and test_ssh_public_key_path.stat.exists == false
-- name: "Create an empty ssh known_hosts file for Jenkins user if operating in OpenStack CI"
-  shell: touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
-  when: ci_testing_zuul is defined and test_ssh_public_key_path.stat.exists == false
 - name: "Defined ssh_public_key_path - Check to see if there is a file where the ssh_public_key_path is defined"
   local_action: stat path={{ ssh_public_key_path }}
   register: test_ssh_public_key_path

@@ -7,7 +7,7 @@
 # Listen on this specific port instead of the standard DNS port
 # (53). Setting this to zero completely disables DNS function,
 # leaving only DHCP and/or TFTP.
-{% if ci_testing_zuul is defined %}
+{% if disable_dnsmasq_dns %}
 port=0
 {% else %}
 port=53

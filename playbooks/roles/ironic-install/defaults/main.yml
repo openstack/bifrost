@@ -42,3 +42,9 @@ dib_git_url: https://git.openstack.org/openstack/diskimage-builder
 ironicclient_git_url: https://git.openstack.org/openstack/python-ironicclient
 shade_git_url: https://git.openstack.org/openstack-infra/shade
 ironic_git_url: https://git.openstack.org/openstack/ironic
+mysql_username: "root"
+mysql_password: ""
+disable_dnsmasq_dns: False
+ironic_git_folder: /tmp/ironic.git
+ironicclient_git_folder: /tmp/ironicclient.git
+shade_git_folder: /tmp/shade.git

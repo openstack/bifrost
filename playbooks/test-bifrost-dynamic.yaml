@@ -9,31 +9,39 @@
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
-  sudo: yes
+  sudo: no
   gather_facts: yes
   pre_tasks:
     - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
       set_fact:
          ci_testing: true
          ci_testing_zuul: true
+         ironic_git_url: /opt/git/openstack/ironic
+         ironicclient_git_url: /opt/git/openstack/python-ironicclient
+         shade_git_url: /opt/git/openstack-infra/shade
       when: lookup('env', 'ZUUL_BRANCH') != ""
     - name: "Set ci_testing_zuul_changes if ZUUL_CHANGES is set"
       set_fact:
          ci_testing_zuul_changes: true
       when: lookup('env', 'ZUUL_CHANGES') != ""
-    - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
-      set_fact:
-         ci_testing_zuul: true
-      when: "'bare-trusty' in ansible_hostname"
     - name: "Override the ipv4_gateway setting"
       set_fact:
          ipv4_gateway: "192.168.122.1"
-    - name: "Collect process list if running in OpenStack CI"
+  roles:
+    - { role: bifrost-prep-for-install, when: skip_install is not defined }
+    - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined }
+- hosts: localhost
+  connection: local
+  name: "Executes install, enrollment, and testing in one playbook"
+  sudo: yes
+  gather_facts: yes
+  pre_tasks:
+    - name: "Collect process list if running in a CI System"
       command: ps aux
-      when: ci_testing_zuul is defined
-    - name: "Collect list of listening network sockets if running in OpenStack CI"
+      when: ci_testing is defined
+    - name: "Collect list of listening network sockets if running in a CI system"
       shell: netstat -apn|grep LISTEN
-      when: ci_testing_zuul is defined
+      when: ci_testing is defined
   roles:
     - role: bifrost-create-vm-nodes
     - role: ironic-install

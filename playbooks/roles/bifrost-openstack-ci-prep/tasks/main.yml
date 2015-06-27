@@ -1,0 +1,42 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Shade - Apply CI changes if necessary"
+  script: parse_zuul_changes.py {{ shade_git_folder }} https://review.openstack.org openstack-infra/shade "{{ lookup('env', 'ZUUL_CHANGES') }}"
+  when: ci_testing_zuul_changes is defined and skip_install | bool != true
+- name: "python-ironicclient - Apply CI changes if necessary"
+  script: parse_zuul_changes.py {{ ironicclient_git_folder }} https://review.openstack.org openstack/python-ironicclient "{{ lookup('env', 'ZUUL_CHANGES') }}"
+  when: ci_testing_zuul_changes is defined and skip_install | bool != True
+- name: "Ironic - Apply CI changes if necessary"
+  script: parse_zuul_changes.py {{ ironic_git_folder }} https://review.openstack.org openstack/ironic "{{ lookup('env', 'ZUUL_CHANGES') }}"
+  when: ci_testing_zuul_changes is defined and skip_install | bool != True
+# NOTE(TheJulia): Override the stored fact values for username/password when operating
+# in OpenStack CI.
+- name: "Set facts for OpenStack CI"
+  set_fact:
+    mysql_username: "openstack_citest"
+    mysql_password: "openstack_citest"
+    disable_dnsmasq_dns: True
+  when: ci_testing_zuul_changes is defined
+- name: "Determine if OpenStack CI is missing an SSH key"
+  stat: path={{ssh_public_key_path}}
+  register: test_ssh_public_key_path
+  when: ci_testing_zuul is defined
+- name: "Create an SSH key for Jenkins user if operating in OpenStack CI"
+  shell: ssh-keygen -f ~/.ssh/id_rsa -N ""
+  when: ci_testing_zuul is defined and test_ssh_public_key_path.stat.exists == false
+- name: "Create an empty ssh known_hosts file for Jenkins user if operating in OpenStack CI"
+  shell: touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+  when: ci_testing_zuul is defined and test_ssh_public_key_path.stat.exists == false

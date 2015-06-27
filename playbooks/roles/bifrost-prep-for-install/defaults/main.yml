@@ -1,0 +1,16 @@
+---
+# git_root is the folder where to place downloaded git repos
+git_root: /tmp
+# *_git_url can be overridden by local clones for offline installs
+dib_git_url: https://git.openstack.org/openstack/diskimage-builder
+ironicclient_git_url: https://git.openstack.org/openstack/python-ironicclient
+shade_git_url: https://git.openstack.org/openstack-infra/shade
+ironic_git_url: https://git.openstack.org/openstack/ironic
+# *_git_folder can be overridden by local clones for offline installs
+ironicclient_git_folder: "{{ git_root}}/ironicclient.git"
+ironic_git_folder: "{{ git_root}}/ironic.git"
+shade_git_folder: "{{ git_root}}/shade.git"
+# *_git_branch can be overridden for stable branch testing
+ironicclient_git_branch: master
+ironic_git_branch: master
+shade_git_branch: master

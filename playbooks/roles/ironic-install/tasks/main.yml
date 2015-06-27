@@ -31,21 +31,11 @@
   with_items:
     - pxelinux
   when: ansible_distribution_version|version_compare('14.10', '>=') and ansible_distribution == 'Ubuntu'
+# NOTE: Creation no longer be required...,
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
-- name: "Downloading Ironic"
-  command: git clone {{ ironic_git_url }} chdir=/opt/stack creates=/opt/stack/ironic
-- name: "Ironic - checking out master branch"
-  command: git checkout -f master chdir=/opt/stack/ironic
-- name: "Ironic - resetting master branch"
-  command: git reset --hard master chdir=/opt/stack/ironic
-- name: "Ironic - resyncing to current master branch"
-  command: git pull --ff-only chdir=/opt/stack/ironic/
-- name: "Ironic - Apply CI changes if necessary"
-  script: parse_zuul_changes.py /opt/stack/ironic https://review.openstack.org openstack/ironic "{{ lookup('env', 'ZUUL_CHANGES') }}"
-  when: ci_testing_zuul_changes is defined
 - name: "Ironic Client - Install from source if configured to do so."
-  include: ironicclient_source_install.yml
+  command: pip install --force-reinstall {{ ironicclient_git_folder }}
   when: skip_install is not defined and ((ironicclient_source_install is defined and ironicclient_source_install == true) or ci_testing == true)
 - name: "Ironic Client - Install from pip"
   pip: name=python-ironicclient state=present
@@ -54,7 +44,7 @@
   pip: name=proliantutils state=present
   when: skip_install is not defined
 - name: "Shade - Install from source if configured to do so"
-  include: shade_source_install.yml
+  command: pip install --force-reinstall {{ shade_git_folder }}
   when: skip_install is not defined and ((shade_source_install is defined and shade_source_install == true) or ci_testing == true)
 - name: "Shade - Installing patched shade library."
   pip: name=shade state=latest
@@ -82,21 +72,12 @@
   rabbitmq_user: user=ironic password={{ ironic_db_password }} force=yes state=present configure_priv=.* write_priv=.* read_priv=.*
   no_log: true
 - name: "MySQL - Creating DB"
-  mysql_db: login_user=root login_password={{ mysql_password }} name=ironic state=present encoding=utf8
+  mysql_db: login_user={{ mysql_username }} login_password={{ mysql_password }} name=ironic state=present encoding=utf8
   register: test_created_db
-  when: ci_testing_zuul is not defined
 - name: "MySQL - Creating user for Ironic"
-  mysql_user: login_user=root login_password={{ mysql_password }} name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
-  when: ci_testing_zuul is not defined
-- name: "MySQL - Creating DB - OpenStack CI"
-  mysql_db: login_user=openstack_citest login_password=openstack_citest name=ironic state=present encoding=utf8
-  register: test_created_db
-  when: ci_testing_zuul is defined
-- name: "MySQL - Creating user for Ironic - OpenStack CI"
-  mysql_user: login_user=openstack_citest login_password=openstack_citest name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
-  when: ci_testing_zuul is defined
+  mysql_user: login_user={{ mysql_username }} login_password={{ mysql_password }} name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
 - name: "Install Ironic using pip"
-  pip: name=/opt/stack/ironic state=latest
+  pip: name={{ ironic_git_folder }} state=latest
   when: skip_install is not defined
 - name: "Ensure /etc/ironic exists"
   file: name=/etc/ironic state=directory
@@ -105,7 +86,7 @@
 - name: "Place Ironic IPA Agent PXE configuration file"
   template: src=agent_config.template.j2 dest=/etc/ironic/agent_config.template
 - name: "Copy policy.json to /etc/ironic"
-  copy: src=/opt/stack/ironic/etc/ironic/policy.json dest=/etc/ironic/
+  copy: src="{{ ironic_git_folder }}/etc/ironic/policy.json" dest=/etc/ironic/
 - name: "Creating Ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   when: test_created_db.changed == true

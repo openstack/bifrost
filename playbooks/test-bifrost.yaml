@@ -9,10 +9,13 @@
       set_fact:
          baremetal_csv_file: "/tmp/baremetal.csv"
       when: baremetal_csv_file is not defined
-    - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
+    - name: "Set OpenStack CI settings if it appears we are running in upstream OpenStack CI"
       set_fact:
          ci_testing: true
          ci_testing_zuul: true
+         ironic_git_folder: /opt/git/openstack/ironic
+         ironicclient_git_folder: /opt/git/openstack/python-ironicclient
+         shade_git_folder: /opt/git/openstack-infra/shade
       when: lookup('env', 'ZUUL_BRANCH') != ""
     - name: "Set ci_testing_zuul_changes if ZUUL_CHANGES is set"
       set_fact:
@@ -26,6 +29,8 @@
       when: ci_testing_zuul is defined
   roles:
     - role: bifrost-create-vm-nodes
+    - { role: bifrost-prep-for-install, when: skip_install is not defined }
+    - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined }
     - role: ironic-install
       cleaning: false
       testing: true
