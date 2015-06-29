@@ -9,7 +9,9 @@
 
 # ironic_db_password ironic user password for rabbit
 ironic_db_password: aSecretPassword473z
-# mysql_password: mysql root user password
+# mysql_username: Default mysql admin username
+mysql_username: root
+# mysql_password: Default mysql admin user password
 mysql_password:
 
 # The path to the SSH key to be utilized for testing and burn-in

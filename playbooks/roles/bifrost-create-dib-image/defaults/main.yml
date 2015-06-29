@@ -11,3 +11,4 @@ dib_clearenv: false
 dib_notmpfs: false
 dib_offline: false
 dib_skipbase: false
+dib_packages: ""

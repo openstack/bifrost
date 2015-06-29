@@ -33,10 +33,10 @@
     ansible_pkg_mgr: "dnf"
   when: ansible_distribution == 'Fedora' and "{{ test_dnf.stat.exists|bool }}"
 - name: "Install required packages"
-  action: "{{ ansible_pkg_mgr }} name={{item}} state=present"
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: required_packages
 - name: "Restart libvirt service"
-  service: name={{libvirt_service_name}} state=restarted
+  service: name="{{libvirt_service_name}}" state=restarted
 - name: "Create virtual machines"
   script: create_vm_nodes-for-role.sh
   environment:
