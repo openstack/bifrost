@@ -31,7 +31,9 @@
   with_items:
     - pxelinux
   when: ansible_distribution_version|version_compare('14.10', '>=') and ansible_distribution == 'Ubuntu'
-# NOTE: Creation no longer be required...,
+# NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
+# and it should already be created by the Ansible setup, we will leave this
+# here for the time being.
 - name: "Ensuring /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 - name: "Ironic Client - Install from source if configured to do so."

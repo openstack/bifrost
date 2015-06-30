@@ -19,7 +19,7 @@ installing without it.
 Role Variables
 --------------
 
-git_root: The base folder that git repos should be located in.  Defaults to
+git_root: The base location for cloned git repositories.  This defaults to
           "/tmp".
 
 ironicclient_git_url: URL for ironicclient, defaults to:
