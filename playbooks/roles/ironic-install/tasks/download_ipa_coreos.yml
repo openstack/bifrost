@@ -1,0 +1,29 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+# This is overly complex, however get_url will always re-retrieve the file
+# if it already exists, and this is to prevent that behavior.
+- name: "Test if CoreOS kernel is present"
+  stat: path={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+  register: test_core_os_kernel_present
+- name: "Download CoreOS kernel"
+  get_url: url={{ deploy_kernel_upstream_url }} dest={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+  when: test_core_os_kernel_present.stat.exists == false
+- name: "Test if CoreOS image is present"
+  stat: path={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+  register: test_core_os_image_present
+- name: "Download CoreOS image"
+  get_url: url={{ deploy_ramdisk_upstream_url }} dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+  when: test_core_os_image_present.stat.exists == false
