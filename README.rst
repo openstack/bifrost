@@ -300,7 +300,7 @@ playbook and the older legacy deploy.yaml playbook.
 To utilize the newer dynamic inventory based deployment::
 
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
-  ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
+  ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
 
 To utilize the legacy csv file based playbook::
 
