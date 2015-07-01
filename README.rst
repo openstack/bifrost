@@ -20,7 +20,7 @@ This is split into roughly three steps:
 
 Supported Operating Systems:
 
-* Ubuntu
+* Ubuntu 14.04, 14.10
 * Red Hat Enterprise Linux (RHEL) 7
 * CentOS 7
 
