@@ -1,6 +1,13 @@
 #!/bin/bash
 set -e
 
+ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
+# NOTE(TheJulia): Switching to Ansible stable-1.9 branch as the development
+# branch is undergoing some massive changes and we are seeing odd failures
+# that we should not be seeing.  Until devel has stabilized, we should stay
+# on the stable branch.
+ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-1.9}
+
 if [ -x '/usr/bin/apt-get' ]; then
     if ! $(git --version &>/dev/null) ; then
         sudo -H apt-get -y install git
@@ -51,15 +58,11 @@ fi
 sudo -H chown -R $u:$g /opt/stack
 cd /opt/stack
 
-# NOTE(TheJulia): Switching to Ansible stable-1.9 branch as the development
-# branch is undergoing some massive changes and we are seeing odd failures
-# that we should not be seeing.  Until devel has stabilized, we should stay
-# on the stable branch.
 if [ ! -d ansible ]; then
-    git clone https://github.com/ansible/ansible.git --recursive -b stable-1.9
+    git clone $ANSIBLE_GIT_URL --recursive -b $ANSIBLE_GIT_BRANCH
 else
     cd ansible
-    git checkout stable-1.9
+    git checkout $ANSIBLE_GIT_BRANCH
     git pull --rebase
     git submodule update --init --recursive
     git fetch

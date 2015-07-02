@@ -17,6 +17,20 @@ Those steps can be broken down into two general categories; the first being
 steps that need to be done in your inventory file, and the second being
 steps that need to be done on your target host outside of Ansible.
 
+Ansible Specific Steps
+----------------------
+
+The script ``scripts/env-setup.sh`` will do a ``git clone`` to create
+``/opt/stack/ansible``, if it doesn't already exist.  You can use the
+environment variables ``ANSIBLE_GIT_URL`` and ``ANSIBLE_GIT_BRANCH``
+to override the source URL and the branch name to pull from.
+
+Ansible uses Git submodules, which means if you are cloning from
+anything other than the canonical location (GitHub), you'll need
+to commit a patched ``.gitmodules`` to that repo so that submodules
+are also cloned from an alternate location - otherwise, the submodules
+will still try to clone from GitHub.
+
 Bifrost Specific Steps
 ----------------------
 
