@@ -73,3 +73,32 @@ If you wish to SSH into the node in order to perform any sort of post-mortem, yo
 2) You will need to short circuit the ironic conductor process.  An ideal place to do so is in ironic/drivers/modules/agent.py in the reboot_to_instance method.  Temporarily short circuiting this step will force you to edit the MySQL database if you wish to re-deploy the node, but the node should stay online after IPA has completed deployment.
 
 3) ssh -l core <ip-address-of-node>
+
+********************************
+ssh_public_key_path is not valid
+********************************
+
+Bifrost requires that the user who executes bifrost have an SSH key in
+their user home, or that the user defines a variable to tell bifrost where
+to identify this file.  Once this variable is defined to a valid file, the
+deployment playbook can be re-run.
+
+Generating a new ssh key
+========================
+
+See the manual page for the ssh-keygen command.
+
+Defining a specific public key file
+===================================
+
+A user can define a specific public key file by utilizing the
+ssh_public_key_path variable.  This can be set in the
+group_vars/inventory/all file, or on the ansible-playbook command
+line utilizing the -e command line parameter.
+
+Example::
+
+  ansible-playbook -i inventory/bifrost_inventory.py deploy-dynamic.yaml -e ssh_public_key_path=~/path/to/public/key/id_rsa.pub
+
+NOTE: The matching private key will need to be utilized to login to the
+machine deployed.
