@@ -62,7 +62,7 @@
 - name: "Starting rabbitmq-server"
   service: name=rabbitmq-server state=started
 - name: "RabbitMQ - Testing if hostname is defined firsts in /etc/hosts"
-  command: grep -i "127.0.0.1*.{{ ansible_hostname }}\ localhost" /etc/hosts
+  command: grep -i "127.0.0.1.*{{ ansible_hostname }}\ localhost" /etc/hosts
   ignore_errors: yes
   register: test_grep_fix_hostname
 - name: "RabbitMQ - Fixing /etc/hosts"
