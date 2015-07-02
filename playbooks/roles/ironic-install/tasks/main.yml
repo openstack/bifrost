@@ -99,8 +99,22 @@
   group: name=ironic
 - name: "Creating an ironic service user"
   user: name=ironic group=ironic
-- name: "Adding ironic user to libvirtd group"
-  user: name=ironic group=libvirtd append=yes
+- name: "Create libvirt group on RedHat/Centos"
+  group: name=libvirt
+  when: ansible_os_family == 'RedHat'
+# NOTE(TheJulia): Modify the supplied libvirtd config as by default,
+# access to libvirt is restricted to the root group via polkit.
+- name: "Update libvirt configuration file on RedHat/CentOS so the user"
+  lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_group line='unix_sock_group = "libvirt"'
+  when: ansible_os_family == 'RedHat'
+- name: "Changing libvirt authentication to none as RedHat/CentOS use polkit by default"
+  lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^auth_unix_rw line='auth_unix_rw = "none"'
+  when: ansible_os_family == 'RedHat'
+- name: "Changing libvirt socket permissions to be restricted on on RedHat/CentOS"
+  lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_rw_perms line=unix_sock_rw_perms="0770"
+  when: ansible_os_family == 'RedHat'
+- name: "Adding ironic user to virtualization group"
+  user: name=ironic group="{{ virt_group }}" append=yes
   when: testing == true
 - name: "Creating SSH directory for ironic user"
   local_action: file path=/home/ironic/.ssh owner=ironic group=ironic mode=0700 state=directory

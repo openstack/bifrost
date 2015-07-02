@@ -6,6 +6,7 @@ syslinux_tftp_dir: /var/lib/tftpboot
 ipxe_dir: /usr/share/ipxe/
 sgabios_dir: /usr/share/sgabios/
 nginx_user: nginx
+virt_group: libvirt
 mysql_service_name: mariadb
 required_packages:
   - mariadb-server

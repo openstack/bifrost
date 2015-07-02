@@ -6,6 +6,7 @@ syslinux_tftp_dir: /usr/lib/syslinux/
 ipxe_dir: /usr/lib/ipxe/
 sgabios_dir: /usr/share/qemu/
 nginx_user: www-data
+virt_group: libvirtd
 mysql_service_name: mysql
 required_packages:
   - mysql-server
