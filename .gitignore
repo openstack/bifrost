@@ -52,3 +52,6 @@ ChangeLog
 *~
 .*.swp
 .*sw?
+
+# test-bifrost log output
+logs
