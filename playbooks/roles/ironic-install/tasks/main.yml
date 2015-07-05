@@ -81,24 +81,24 @@
 - name: "Install Ironic using pip"
   pip: name={{ ironic_git_folder }} state=latest
   when: skip_install is not defined
+- name: "Creating an ironic service group"
+  group: name=ironic
+- name: "Creating an ironic service user"
+  user: name=ironic group=ironic
 - name: "Ensure /etc/ironic exists"
-  file: name=/etc/ironic state=directory
+  file: name=/etc/ironic state=directory owner=ironic group=ironic mode=0755
 - name: "Place Ironic Config file"
-  template: src=ironic.conf.j2 dest=/etc/ironic/ironic.conf
+  template: src=ironic.conf.j2 dest=/etc/ironic/ironic.conf owner=ironic group=ironic mode=0640
 - name: "Place Ironic IPA Agent PXE configuration file"
-  template: src=agent_config.template.j2 dest=/etc/ironic/agent_config.template
+  template: src=agent_config.template.j2 dest=/etc/ironic/agent_config.template owner=ironic group=ironic mode=0644
 - name: "Copy policy.json to /etc/ironic"
-  copy: src="{{ ironic_git_folder }}/etc/ironic/policy.json" dest=/etc/ironic/
+  copy: src="{{ ironic_git_folder }}/etc/ironic/policy.json" dest=/etc/ironic/ owner=ironic group=ironic mode=0644
 - name: "Creating Ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   when: test_created_db.changed == true
 - name: "Upgrading Ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
   when: test_created_db.changed == false
-- name: "Creating an ironic service group"
-  group: name=ironic
-- name: "Creating an ironic service user"
-  user: name=ironic group=ironic
 - name: "Create libvirt group on RedHat/Centos"
   group: name=libvirt
   when: ansible_os_family == 'RedHat'
