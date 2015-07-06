@@ -7,3 +7,6 @@
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
     - ironic-install
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"

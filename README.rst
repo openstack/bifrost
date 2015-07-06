@@ -85,6 +85,11 @@ Edit ``./playbooks/inventory/group_vars/all`` to match your environment.
 - Change network_interface to match the interface that will need to service DHCP requests.
 - Change the ironic_db_password which is set by Ansible in MySQL and in Ironic's configuration file.
 
+Proxy::
+
+if running behind the proxy. export environment variables http_proxy and https_proxy
+So that ansible lookup plugin checks for proxy set and uses as environment variables.
+
 Then run::
 
   bash ./scripts/env-setup.sh
