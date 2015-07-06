@@ -37,6 +37,9 @@
     - role: ironic-enroll
       testing: true
     - role: bifrost-validate-host-for-deploy
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"

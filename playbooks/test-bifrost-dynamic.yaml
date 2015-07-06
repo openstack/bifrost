@@ -30,6 +30,9 @@
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
     - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined }
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
@@ -47,6 +50,9 @@
     - role: ironic-install
       cleaning: false
       testing: true
+  environment:
+    http_proxy: "{{ lookup('env','http_proxy') }}"
+    https_proxy: "{{ lookup('env','https_proxy') }}"
 - hosts: baremetal
   name: "Enroll node with Ironic"
   sudo: no
