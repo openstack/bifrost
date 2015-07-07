@@ -36,3 +36,4 @@ required_packages:
   - openwsman-python
   - sgabios-bin
 # NOTE(cinerama): amtterm is not currently packaged for RHEL/CentOS 7.
+  - libvirt-daemon

@@ -36,3 +36,4 @@ required_packages:
   - python-openwsman
   - amtterm
   - sgabios
+  - libvirt-bin
