@@ -299,8 +299,11 @@ How this works?
 
 After the nodes are enrolled, they can be deployed upon.  Bifrost is geared to
 utilize configuration drives to convey basic configuration information to the
-each host.  This case is the same between the newer deploy-dynamic.yaml
-playbook and the older legacy deploy.yaml playbook.
+each host. This configuration information includes an SSH key to allow a user
+to login to the system.
+
+This case is the same between the newer deploy-dynamic.yaml playbook and the
+older legacy deploy.yaml playbook.
 
 To utilize the newer dynamic inventory based deployment::
 
