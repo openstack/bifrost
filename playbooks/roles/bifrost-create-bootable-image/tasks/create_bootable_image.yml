@@ -14,16 +14,16 @@
 # limitations under the License.
 ---
 - name: "Extracting the raw disk image"
-  command: qemu-img convert -O raw "{{http_boot_folder}}/{{deploy_image_filename}}" "{{http_boot_folder}}/{{deploy_image_filename}}.raw"
+  command: qemu-img convert -O raw "{{deploy_image}}" "{{deploy_image}}.raw"
 - name: "Copying Image however with 32k of empty space at the beginning of the file."
-  command: dd if="{{http_boot_folder}}/{{deploy_image_filename}}.raw" of="{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" seek=64
+  command: dd if="{{deploy_image}}.raw" of="{{deploy_image}}.bootimg" seek=64
 - name: "Creating Partition Table lining up with the copied file's contents."
-  shell: echo '32;' | sfdisk "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" -uB -f
+  shell: echo '32;' | sfdisk "{{deploy_image}}.bootimg" -uB -f
 - name: "Allocating one of two loopbacks"
   command: losetup -f
   register: stored_value_loopback_alpha
 - name: "Creating loopback connetion to new image file"
-  command: losetup "{{stored_value_loopback_alpha.stdout}}" "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg"
+  command: losetup "{{stored_value_loopback_alpha.stdout}}" "{{deploy_image}}.bootimg"
 - name: "Forcing partition table to be re-read"
   command: kpartx -v -a "{{stored_value_loopback_alpha.stdout}}"
   # Using second loopback as for some reason /dev/mapper does not translate into a chroot cleanly when devfs is mounted
@@ -64,6 +64,6 @@
 - name: "Detaching first loop device"
   command: losetup -d "{{stored_value_loopback_alpha.stdout}}"
 - name: "Moving image to .oldimg"
-  command: mv "{{http_boot_folder}}/{{deploy_image_filename}}" "{{http_boot_folder}}/{{deploy_image_filename}}.oldimg"
+  command: mv "{{deploy_image}}" "{{deploy_image}}.oldimg"
 - name: "Moving new image into place"
-  command: mv "{{http_boot_folder}}/{{deploy_image_filename}}.bootimg" "{{http_boot_folder}}/{{deploy_image_filename}}"
+  command: mv "{{deploy_image}}.bootimg" "{{deploy_image}}"

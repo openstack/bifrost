@@ -1,0 +1,10 @@
+---
+http_boot_folder: /httpboot
+deploy_image_filename: "deployment_image.qcow2"
+deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+dib_os_element: "ubuntu"
+dib_env_vars:
+  DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
+  ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
+# extra_dib_elements is a space separated list of elements.
+extra_dib_elements: ""

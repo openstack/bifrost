@@ -27,7 +27,11 @@ deploy_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network
 # due to the image creation process.
 deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
-# Transform boot image is intended for use with the Ubuntu trusty image.  It makes the image bootable by ihnstalling Grub.
+# Setting to utilize diskimage-builder to create a bootable image.
+create_image_via_dib: true
+# Transform boot image is intended for use with the Ubuntu trusty image.  It makes the image bootable by installing Grub.
+# Setting to prepend a partition image with a boot sector and partition table.
+transform_boot_image: false
 node_default_network_interface: eth0
 # ipv4_subnet_mask is intended for the static ipv4 address assignments.
 ipv4_subnet_mask: 255.255.255.0

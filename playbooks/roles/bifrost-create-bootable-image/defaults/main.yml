@@ -1,0 +1,5 @@
+---
+http_boot_folder: /httpboot
+deploy_image_filename: "partition_image.raw"
+deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+
