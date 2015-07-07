@@ -23,14 +23,12 @@
   copy: src=tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
 - name: "Disable service tftpd-hpa"
   service: name=tftpd-hpa state=stopped enabled=no
-# NOTE(cinerama) See https://bugs.launchpad.net/bifrost/+bug/1471973
-# with regard to the next two tasks.
-- name: "Placing pxelinux.0 (pre-14.10)"
+- name: "Set pxelinux.0 source (for Ubuntu >=14.10)"
+  set_fact:
+     syslinux_tftp_dir: '/usr/lib/PXELINUX'
+  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.10', '>=')
+- name: "Placing pxelinux.0"
   copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot
-  when: ansible_distribution_version|version_compare('14.10', '<')
-- name: "Placing pxelinux.0 (>=14.10)"
-  copy: src=/usr/lib/PXELINUX/pxelinux.0 dest=/tftpboot
-  when: ansible_distribution_version|version_compare('14.10', '>=')
 - name: "Place boot.ipxe helper script to HTTP root"
   copy: src=boot.ipxe dest=/httpboot/boot.ipxe
 - name: "Place tftp config file"
