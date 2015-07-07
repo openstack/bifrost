@@ -344,9 +344,9 @@ will use this key to connect to the host machine and run virsh commands.
 
 #. Set ``testing`` to *true* in the ``playbooks/inventory/group_vars/all`` file.
 #. You may need to adjust the value for ``ssh_public_key_path``.
-#. Run the install step, as documented above.
-#. Run the ``tools/create_vm_nodes.sh`` script. By default, it will create a single VM node. Read the documentation within the script to see how to create more than one.
-#. The ``tools/create_vm_nodes.sh`` script will output CSV entries that can be used for the enrollment step. You will need to create a CSV file with this output.
+#. Run the install step, as documented above, however adding "-e testing=true" to the Ansible command line.
+#. Execute the ``ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml`` command to create a test virtual machine.
+#. Set the environment variable of BIFROST_INVENTORY_SOURCE to the path to the csv file, which by default has been written to /tmp/baremetal.csv.
 #. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
 
