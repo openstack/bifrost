@@ -433,6 +433,9 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 # Boot for Etherboot gPXE. The idea is to send two different
 # filenames, the first loads gPXE, and the second tells gPXE what to
 # load. The dhcp-match sets the gpxe tag for requests from gPXE.
+dhcp-userclass=set:gpxe,"gPXE"
+dhcp-boot=tag:gpxe,ipxe.pxe
+
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 dhcp-boot=tag:!ipxe,undionly.kpxe
 {% if testing %}
