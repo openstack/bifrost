@@ -6,13 +6,6 @@ http_boot_folder: /httpboot
 nginx_port: 8080
 ironicclient_source_install: false
 shade_source_install: true
-# Configuration information for diskimage-builder
-dib_os_element: "ubuntu"
-dib_env_vars:
-  DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
-  ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
-# extra_dib_elements is a space separated list of elements.
-extra_dib_elements: ""
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
 # Setting to prepend a partition image with a boot sector and partition table.
