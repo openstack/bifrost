@@ -15,10 +15,93 @@
 ---
 # If attempting to utilize a base Ubuntu image, diskimage-builder
 # is the recommended, and default path.
-- name: "Test if deploy image is present"
-  stat: path={{ deploy_image }}
+- name: "Test if image is present"
+  stat: path={{ dib_imagename }}
   register: test_image_present
+- name: "Build tracing (-x) option for disk-image-create"
+  set_fact:
+    dib_trace_arg: "-x"
+  when: dib_trace == true
+- name: "Build uncompressed (-u) option for disk-image-create"
+  set_fact:
+    dib_uncompressed_arg: "-u"
+  when: dib_uncompressed == true
+- name: "Build clear environment (-c) option for disk-image-create"
+  set_fact:
+    dib_clearenv_arg: "-c"
+  when: dib_clearenv == true
+- name: "Build no tmpfs (--no-tmpfs) option for disk-image-create"
+  set_fact:
+    dib_notmpfs_arg: "--no-tmpfs"
+  when: dib_notmpfs == true
+- name: "Build offline (--offline) option for disk-image-create"
+  set_fact:
+    dib_offline_arg: "--offline"
+  when: dib_offline == true
+- name: "Build skip default base element (-n) option for disk-image-create"
+  set_fact:
+    dib_skipbase_arg: "-n"
+  when: dib_skipbase == true
+- name: "Build architecture (-a) option for disk-image-create"
+  set_fact:
+    dib_arch_arg: "-a {{dib_arch}}"
+  when: dib_arch is defined
+- name: "Build image name (-o) option for disk-image-create"
+  set_fact:
+    dib_imagename_arg: "-o {{dib_imagename}}"
+  when: dib_imagename is defined
+- name: "Build image type (-t) option for disk-image-create"
+  set_fact:
+    dib_imagetype_arg: "-t {{dib_imagetype}}"
+  when: dib_imagetype is defined
+- name: "Build image size (--image-size) option for disk-image-create"
+  set_fact:
+    dib_imagesize_arg: "--image-size {{dib_imagesize}}"
+  when: dib_imagesize is defined
+- name: "Build image cache (--image-cache) option for disk-image-create"
+  set_fact:
+    dib_imagecache_arg: "--image-cache {{dib_imagecache}}"
+  when: dib_imagecache is defined
+- name: "Build max online resize (--max-online-resize) option for disk-image-create"
+  set_fact:
+    dib_maxresize_arg: "--max-online-resize {{dib_maxresize}}"
+  when: dib_maxresize is defined
+- name: "Build minimum tmpfs size (--min-tmpfs) option for disk-image-create"
+  set_fact:
+    dib_mintmpfs_arg: "--min-tmpfs {{dib_mintmpfs}}"
+  when: dib_mintmpfs is defined
+- name: "Build mkfs options (--mkfs-options) option for disk-image-create"
+  set_fact:
+    dib_mkfsfopts_arg: "-mkfs-options {{dib_mkfsopts}}"
+  when: dib_mkfsopts is defined
+- name: "Build qemu image options (--qemu-img-options) option for disk-image-create"
+  set_fact:
+    dib_qemuopts_arg: "--qemu-img-options {{dib_qemuopts}}"
+  when: dib_qemuopts is defined
+- name: "Build root label (--root-label) option for disk-image-create"
+  set_fact:
+    dib_rootlabel_arg: "--root-label {{dib_rootlabel}}"
+  when: dib_rootlabel is defined
+- name: "Build ramdisk element (--ramdisk-element) option for disk-image-create"
+  set_fact:
+    dib_rdelement_arg: "--ramdisk-element {{dib_rdelement}}"
+  when: dib_rdelement is defined
+- name: "Build install type (--install-type) option for disk-image-create"
+  set_fact:
+    dib_installtype_arg: "-t {{dib_installtype}}"
+  when: dib_installtype is defined
+- name: "Build packages (-p) option for disk-image-create"
+  set_fact:
+    dib_packages_arg: "-p {{dib_packages}}"
+  when: dib_packages is defined
+- name: "Build argument list"
+  set_fact:
+    dib_arglist: "{{dib_trace_arg|default('')}} {{dib_uncompressed_arg|default('')}} {{dib_clearenv_arg|default('')}} {{dib_notmpfs_arg|default('')}} {{dib_offline_arg|default('')}} {{dib_skipbase_arg|default('')}} {{dib_arch_arg|default('')}} {{dib_imagename_arg|default('')}} {{dib_imagetype_arg|default('')}} {{dib_imagesize_arg|default('')}} {{dib_imagecache_arg|default('')}} {{dib_maxresize_arg|default('')}} {{dib_mintmpfs_arg|default('')}} {{dib_mkfsopts_arg|default('')}} {{dib_qemuopts_arg|default('')}} {{dib_rootlabel_arg|default('')}} {{dib_rdelement_arg|default('')}} {{dib_installtype_arg|default('')}} {{dib_packages_arg|default('')}} {{dib_os_element}} {{dib_elements|default('')}}"
 - name: "Initiate image build"
-  shell: disk-image-create -a amd64 -o "{{http_boot_folder}}/{{deploy_image_filename}}" -t qcow2 "{{dib_os_element}}" vm serial-console simple-init "{{ extra_dib_elements}}"
+  command: disk-image-create {{dib_arglist}}
   environment: dib_env_vars
-  when: test_image_present.stat.exists == false
+  when: test_image_present.stat.exists == false and build_ramdisk == false
+- name: "Initiate ramdisk build"
+  command: ramdisk-image-create {{dib_arglist}}
+  environment: dib_env_vars
+  when: test_image_present.stat.exists == false and build_ramdisk == true

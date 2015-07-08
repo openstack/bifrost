@@ -1,11 +1,15 @@
 ---
-http_boot_folder: /httpboot
-deploy_image_filename: "deployment_image.qcow2"
-deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
-dib_os_element: "ubuntu"
+dib_os_element: "debian"
 dib_env_vars:
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
   http_proxy: "{{ lookup('env','http_proxy') }}"
   https_proxy: "{{ lookup('env','https_proxy') }}"
 # extra_dib_elements is a space separated list of elements.
 extra_dib_elements: ""
+build_ramdisk: false
+dib_trace: false
+dib_uncompressed: false
+dib_clearenv: false
+dib_notmpfs: false
+dib_offline: false
+dib_skipbase: false
