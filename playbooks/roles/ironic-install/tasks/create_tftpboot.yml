@@ -37,9 +37,9 @@
   copy: src={{ ipxe_dir }}/undionly.kpxe dest=/tftpboot/
 # NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
 - name: "Copy full iPXE image into /httpboot"
-  copy: src={{ ipxe_dir }}/ipxe.pxe dest=/httpboot/
+  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/httpboot/
 - name: "Copy full iPXE image into /tftpboot"
-  copy: src={{ ipxe_dir }}/ipxe.pxe dest=/tftpboot/
+  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."
   stat: path=/tftpboot/master_images

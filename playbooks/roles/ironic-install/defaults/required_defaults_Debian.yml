@@ -4,6 +4,7 @@ init_dest_dir: /etc/init/
 init_ext: .conf
 syslinux_tftp_dir: /usr/lib/syslinux/
 ipxe_dir: /usr/lib/ipxe/
+ipxe_full_binary: ipxe.pxe
 sgabios_dir: /usr/share/qemu/
 nginx_user: www-data
 virt_group: libvirtd

@@ -4,6 +4,7 @@ init_dest_dir: /usr/lib/systemd/system/
 init_ext: .service
 syslinux_tftp_dir: /var/lib/tftpboot
 ipxe_dir: /usr/share/ipxe/
+ipxe_full_binary: ipxe.lkrn
 sgabios_dir: /usr/share/sgabios/
 nginx_user: nginx
 virt_group: libvirt
