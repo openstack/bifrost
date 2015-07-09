@@ -350,7 +350,14 @@ will use this key to connect to the host machine and run virsh commands.
 #. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
 
-Future Support
-==============
+Network/SSH key configuration for RedHat/Centos
+===============================================
 
-* Config drive network_info.json - Bifrost will automatically place a json structured file which is intended to replace the direct placement of a ``/etc/network/interfaces`` file.  This will ultimately allow for more complex user defined networking as well as greater compatibility with other Linux distributions.  At present, the diskimage-builder element ``simple-init`` can be used to facilitate this.
+Bifrost places a file in the configuration drive named network_info.json that
+can be read/parsed by the `glean <https://github.com/openstack-infra/glean>`
+utility. This has greater compatibility for network configuration, however
+any physical servers connected should be connected to switches configured such
+that the network ports immediately go into a forwarding state.
+
+In order to activate use of glean, you will want to utilize disk images
+built with the diskimage-builder ``simple-init`` element.
