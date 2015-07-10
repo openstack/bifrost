@@ -1,7 +1,7 @@
 ---
 # Cleaning turns on ironic conductor clean_nodes flag
 # chich causes the nodes to be wiped after deletion.
-cleaning: true
+cleaning: false
 http_boot_folder: /httpboot
 nginx_port: 8080
 ironicclient_source_install: false

@@ -19,9 +19,9 @@ Testing mode is intended to help facilitate testing of the Bifrost roles and Iro
 
 testing: false
 
-Node cleaning, which was a feature added to Ironic during the Kilo cycle, removes the previous contents of a node once it has been deleted.  Bifrost sets this to true by default, however if testing mode is enabled,
+Node cleaning, which was a feature added to Ironic during the Kilo cycle, removes the previous contents of a node once it has been moved from an active to available state, such as setting the provision state to deleted.  Bifrost disables this by default in order to allow initial users to not be impacted by node cleaning operations upfront when they are testing and evaluating bifrost.  In the event of a production deployment, cleaning should be enabled.
 
-cleaning: true
+cleaning: false
 
 The Ironic python client and shade libraries can be installed directly from GIT.  The default is to utilize pip to install the current versions in pypi, however testing may require master branch or custom patches.  
 
