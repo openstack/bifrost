@@ -34,6 +34,8 @@
     - role: ironic-install
       cleaning: false
       testing: true
+    - { role: bifrost-create-dib-image, when: create_image_via_dib == true and transform_boot_image == false }
+    - { role: bifrost-create-bootable-image, when: create_image_via_dib == false and transform_boot_image == true }
     - role: ironic-enroll
       testing: true
     - role: bifrost-validate-host-for-deploy

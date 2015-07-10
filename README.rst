@@ -74,7 +74,7 @@ To enable EPEL on CentOS, run::
 Installation
 ============
 
-The installation is split in to two parts.
+The installation is split into two parts.
 
 The first part is a bash script which lays the basic groundwork of installing
 Ansible itself.
@@ -84,6 +84,12 @@ Edit ``./playbooks/inventory/group_vars/all`` to match your environment.
 - If MySQL is already installed, update mysql_password to match your local installation.
 - Change network_interface to match the interface that will need to service DHCP requests.
 - Change the ironic_db_password which is set by Ansible in MySQL and in Ironic's configuration file.
+
+The install process builds or modifies a disk image to deploy. The following two settings (which are mutually exclusive) allow you to choose if a partition image is used or an image is created with diskimage-builder.
+
+create_image_via_dib: true
+transform_boot_image: false
+
 
 Proxy::
 

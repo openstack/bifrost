@@ -1,0 +1,16 @@
+---
+galaxy_info:
+  author: Ironic Developers
+  description: Create bootable disk image for Bifrost
+  company: OpenStack
+  license: Apache
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+    - utopic
+  categories:
+  - cloud
+  - cloud:openstack
+dependencies: []
