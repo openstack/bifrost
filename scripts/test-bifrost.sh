@@ -35,7 +35,7 @@ ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
 export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
 
 # Execute the installation and VM startup test.
-ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dynamic.yaml -e use_cirros=true -e testing_user=cirros
+ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dynamic.yaml -e use_cirros=true -e testing_user=cirros -e write_interfaces_file=true
 EXITCODE=$?
 if [ $EXITCODE != 0 ]; then
     echo "****************************"

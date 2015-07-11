@@ -90,7 +90,6 @@ The install process builds or modifies a disk image to deploy. The following two
 create_image_via_dib: true
 transform_boot_image: false
 
-
 Proxy::
 
 if running behind the proxy. export environment variables http_proxy and https_proxy
@@ -115,6 +114,8 @@ in a stand-alone fashion.
   from Nginx.
 * standard ipmitool is used.
   TODO: make optional support for other hardware drivers
+* By default, installation will build an Ubuntu based image for deployment
+  to nodes.  This image can be easily customized if so desired.
 
 The re-execution of the playbook will cause states to be re-asserted.  If not
 already present, a number of software packages including MySQL and RabbitMQ
@@ -261,7 +262,6 @@ The CSV file has the following columns:
 
 Example definition::
 
-
   00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,agent_ipmitool
 
 This file format is fairly flexible and can be easily modified
@@ -356,14 +356,27 @@ will use this key to connect to the host machine and run virsh commands.
 #. Run the enrollment step, as documented above, using the CSV file you created in the previous step.
 #. Run the deployment step, as documented above.
 
-Network/SSH key configuration for RedHat/Centos
-===============================================
+Deployment and configuration of Operating Systems
+=================================================
 
-Bifrost places a file in the configuration drive named network_info.json that
-can be read/parsed by the `glean <https://github.com/openstack-infra/glean>`
-utility. This has greater compatibility for network configuration, however
-any physical servers connected should be connected to switches configured such
-that the network ports immediately go into a forwarding state.
+By default, Bifrost deploys a configuration drive which includes the user SSH
+public key, hostname, and the network configuration in the form of
+network_info.json that can be read/parsed by the
+`glean <https://github.com/openstack-infra/glean>` utility. This allows for
+the deployment of Ubuntu, CentOS, Fedora "tenants" on baremetal.  This file
+format is not yet supported by Cloud-Init, however it is on track for
+inclusion in cloud-init 2.0.
 
-In order to activate use of glean, you will want to utilize disk images
-built with the diskimage-builder ``simple-init`` element.
+By default, Bifrost utilizes a utility called simple-init which leverages
+the previously noted glean utility to apply network configuration.  This
+means that by default, root file systems may not be automatically expanded
+to consume the entire disk, which may, or may not be desirable depending
+upon operational needs. This is dependent upon what base OS image you
+utilize, and if the support is included in that image or not.  At present,
+the standard ubuntu cloud image includes cloud-init which will grow the
+root partition, however the minimal image does not include the image, and
+thus will not grow the root partition.
+
+Due to the nature of the design, it would be relatively easy for a user to
+import automatic growth or reconfiguration steps either in the image to be
+deployed, or in post-deployment steps via custom Ansible playbooks.

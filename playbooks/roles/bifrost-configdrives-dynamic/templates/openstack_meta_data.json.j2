@@ -1,11 +1,15 @@
 {
     "availability_zone": "",
+{% if write_interfaces_file | bool == true %}
     "files": [
         {
             "content_path": "/content/0000",
             "path": "/etc/network/interfaces"
         }
     ],
+{% else %}
+    "files": [],
+{% endif %}
     "hostname": "{{ name }}",
     "name": "{{ name }}",
     "meta": {},
