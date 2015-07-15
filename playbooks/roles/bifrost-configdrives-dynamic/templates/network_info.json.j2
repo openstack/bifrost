@@ -1,23 +1,36 @@
+{% if node_network_info is defined %}
+{{ node_network_info }}
+{% else %}
 {
 "links": [
-    {
-        "id": "{{node_default_network_interface}}",
-        "type": "phy",
-{#
-NOTE(TheJulia): I cannot determine a better way of doing this
-with the information that we have available to us in nics.
-#}
 {% for nic in nics %}
-    {%- if loop.first %}        "ethernet_mac_address": "{{ nic.mac }}",{% endif %}
-{% endfor %}
+    {
+{% if ipv4_interface_mac is defined %}
+        "id": "{{ nic.mac }}",
+{% else %}
+{% if loop.first %}
+        "id": "{{ node_default_network_interface }}",
+{% else %}
+        "id": "{{ nic.mac }}",
+{% endif %}
+        "type": "phy",
+        "ethernet_mac_address": "{{ nic.mac }}",
         "mtu":{{network_mtu}}
+{% if loop.last %}
     }
+{% else %}
+    },
+{% endif %}
+{% endif %}
+{% endfor %}
 ],
 "networks": [
+{% for nic in nics %}
     {
-        "id": "publicnet-ipv4",
+        "id": "ipv4-{{ nic.mac }}",
+{% if (ipv4_interface_mac is defined) and (nic.mac == ipv4_interface_mac) %}
+        "link": "{{ nic.mac }}",
         "type": "ipv4",
-        "link": "{{ node_default_network_interface }}",
         "ip_address": "{{ ipv4_address }}",
         "netmask": "{{ipv4_subnet_mask}}",
         "dns_nameservers": [
@@ -30,7 +43,31 @@ with the information that we have available to us in nics.
                 "gateway": "{{ipv4_gateway}}"
             }
         ]
+{% elif loop.first %}
+        "link": "{{ node_default_network_interface }}",
+        "type": "ipv4",
+        "ip_address": "{{ ipv4_address }}",
+        "netmask": "{{ipv4_subnet_mask}}",
+        "dns_nameservers": [
+            "{{ipv4_nameserver}}"
+        ],
+        "routes": [
+            {
+                "network": "0.0.0.0",
+                "netmask": "0.0.0.0",
+                "gateway": "{{ipv4_gateway}}"
+            }
+        ]
+{% else %}
+        "type": "ipv4_dhcp",
+        "link": "{{ nic.mac }}"
+{% endif %}
+{% if loop.last %}
     }
+{% else %}
+    },
+{% endif %}
+{% endfor %}
 ],
 "services": [
     {
@@ -39,3 +76,4 @@ with the information that we have available to us in nics.
     }
 ]
 }
+{% endif %}

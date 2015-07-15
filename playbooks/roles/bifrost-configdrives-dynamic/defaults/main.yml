@@ -1,2 +1,6 @@
 ---
-# defaults file for bifrost-configdrives-dynamic
+# write_interfaces_file is intended for utilizing base logic to write
+# a debian style interfaces file into the configuration drive file
+# such that cirros will receive basic network configuration when
+# performing basic testing.
+write_interfaces_file: false

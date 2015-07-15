@@ -19,6 +19,6 @@
   stat: path={{ deploy_image }}
   register: test_image_present
 - name: "Initiate image build"
-  shell: disk-image-create -a amd64 -o "{{http_boot_folder}}/{{deploy_image_filename}}" -t qcow2 "{{dib_os_element}}" vm serial-console cloud-init-datasources "{{ extra_dib_elements}}"
+  shell: disk-image-create -a amd64 -o "{{http_boot_folder}}/{{deploy_image_filename}}" -t qcow2 "{{dib_os_element}}" vm serial-console simple-init "{{ extra_dib_elements}}"
   environment: dib_env_vars
   when: test_image_present.stat.exists == false

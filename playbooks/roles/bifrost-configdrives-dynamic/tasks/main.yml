@@ -31,8 +31,9 @@
   when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
 - name: "Make Metadata folder - /openstack/latest"
   local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/
-- name: "Write network interface template"
+- name: "Write network Debian style interface template"
   local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
+  when: write_interfaces_file | bool
 - name: "Make config drive files"
   sudo: yes
   local_action: command mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}
