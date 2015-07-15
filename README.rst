@@ -376,8 +376,8 @@ to consume the entire disk, which may, or may not be desirable depending
 upon operational needs. This is dependent upon what base OS image you
 utilize, and if the support is included in that image or not.  At present,
 the standard ubuntu cloud image includes cloud-init which will grow the
-root partition, however the minimal image does not include the image, and
-thus will not grow the root partition.
+root partition, however the ubuntu-minimal image does not include cloud-init
+and thus will not automatically grow the root partition.
 
 Due to the nature of the design, it would be relatively easy for a user to
 import automatic growth or reconfiguration steps either in the image to be
