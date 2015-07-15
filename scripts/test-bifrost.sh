@@ -35,8 +35,15 @@ ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
 export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
 
 # Execute the installation and VM startup test.
+# NOTE(TheJulia): The variables defined on the command line are to
+# drive the use of Cirros as the deployed operating system, and
+# as such sets the test user to cirros, and writes a debian style
+# interfaces file out to the configuration drive as cirros does
+# not support the network_info.json format file placed in the
+# configuration drive.
 ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dynamic.yaml -e use_cirros=true -e testing_user=cirros -e write_interfaces_file=true
 EXITCODE=$?
+
 if [ $EXITCODE != 0 ]; then
     echo "****************************"
     echo "Test failed. See logs folder"
