@@ -112,8 +112,10 @@ in a stand-alone fashion.
 * dnsmasq is configured statically and responds to all PXE boot requests by
   chain-loading to iPXE, which then fetches the ironic-python-agent ramdisk
   from Nginx.
-* standard ipmitool is used.
-  TODO: make optional support for other hardware drivers
+* Deployments are performed by the Ironic Python Agent, which as configured
+  supports IPMI, iLO, and UCS drivers.  AMT driver support is also enabled,
+  however it should only be use for testing as due to a known bug which
+  can be read about at https://bugs.launchpad.net/ironic/+bug/1454492.
 * By default, installation will build an Ubuntu based image for deployment
   to nodes.  This image can be easily customized if so desired.
 
