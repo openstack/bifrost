@@ -44,7 +44,10 @@
   when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false) and (ci_testing == false)
 - name: "proliantutils - Install from pip"
   pip: name=proliantutils state=present
-  when: skip_install is not defined
+  when: skip_install is not defined and testing | bool != true
+- name: "UcsSdk - Install from pip"
+  pip: name=UcsSdk version=0.8.1.9
+  when: skip_install is not defined and testing | bool != true
 - name: "Shade - Install from source if configured to do so"
   command: pip install --force-reinstall {{ shade_git_folder }}
   when: skip_install is not defined and ((shade_source_install is defined and shade_source_install == true) or ci_testing == true)
