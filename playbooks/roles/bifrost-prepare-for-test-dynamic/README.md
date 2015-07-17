@@ -18,6 +18,9 @@ node_ssh_pause: The amount of time, defaulted to 4 seconds, to pause
                 useeful if the test image has a tendency to have
                 networking restart after sshd has started.
 
+wait_timeout: The number of seconds to wait for SSH connectivity to
+              the test machine to be established before proceeding.
+
 Dependencies
 ------------
 
