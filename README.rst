@@ -11,11 +11,11 @@ This is split into roughly three steps:
 - install:
   prepare the local environment by downloading and/or building machine images,
   and installing and configuring the necessary services.
-- enroll:
+- enroll-dynamic:
   take as input a customizable hardware inventory file and enroll the
   listed hardware with Ironic, configuring each appropriately for deployment
   with the previously-downloaded images.
-- deploy:
+- deploy-dynamic:
   instruct Ironic to deploy the operating system onto each machine.
 
 Supported Operating Systems:
@@ -285,15 +285,6 @@ source, and then executing the the enrollment playbook.::
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
 
-The legacy enroll.yaml playbook requires a variable (baremetal_csv_file) be
-set or passed into the playbook execution. NOTE: This MUST be the full path
-to the CSV file to be consumed by the Ansible playbooks and loaded into
-ironic.
-
-Example::
-
-  ansible-playbook -i inventory/localhost -vvvv enroll.yaml -e baremetal_csv_file=inventory/baremetal.csv
-
 Note that enrollment is a one-time operation. The Ansible module *does not*
 synchronize data for existing nodes.  You should use the Ironic CLI to do this
 manually at the moment.
@@ -312,24 +303,17 @@ utilize configuration drives to convey basic configuration information to the
 each host. This configuration information includes an SSH key to allow a user
 to login to the system.
 
-This case is the same between the newer deploy-dynamic.yaml playbook and the
-older legacy deploy.yaml playbook.
-
 To utilize the newer dynamic inventory based deployment::
 
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
-
-To utilize the legacy csv file based playbook::
-
-  ansible-playbook -i inventory/localhost -vvvv deploy.yaml -e baremetal_csv_file=inventory/baremetal.csv
 
 Testing with a single command
 =============================
 
 A simple ``scripts/test-bifrost.sh`` script can be utilized to install pre-requisite software packages, Ansible, and then execute the test-bifrost.yaml playbook in order to provide a single step testing mechanism.
 
-The playbook utilized by the script, ``playbooks/test-bifrost.yaml``, is a single playbook that will create a local virtual machine, save a baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occurred, additional roles will unprovision the host(s) and delete them from Ironic.
+The playbook utilized by the script, ``playbooks/test-bifrost-dynamic.yaml``, is a single playbook that will create a local virtual machine, save a baremetal.csv file out, and then utilize it to execute the remaining roles.  Two additional roles are invoked by this playbook which enables Ansible to connect to the new nodes by adding them to the inventory, and then logging into the remote machine via the user's ssh host key.  Once that has successfully occurred, additional roles will unprovision the host(s) and delete them from Ironic.
 
 Command::
 

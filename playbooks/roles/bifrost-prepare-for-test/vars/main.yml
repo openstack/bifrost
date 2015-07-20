@@ -1,4 +1,0 @@
----
-cleaning: false
-testing: true
-baremetal_csv_file: "/tmp/baremetal.csv"

@@ -1,20 +1,9 @@
 ---
 - hosts: localhost
   connection: local
-  name: "Enroll hardware from baremetal.csv into Ironic"
-  sudo: yes
-  gather_facts: yes
+  name: "Provide deprecation notice"
+  sudo: no
+  gather_facts: no
   pre_tasks:
-    - name: "Error if variable baremetal_csv_file is not defined"
-      local_action: fail msg="baremetal_csv_file must be defined for this playbook to execute, please pass option '-e baremetal_csv_file=<path/to/file>'"
-      when: baremetal_csv_file is not defined
-  roles:
-    - role: bifrost-validate-host-for-deploy
-      baremetal_csv_file: "{{ baremetal_csv_file }}"
-- hosts: localhost
-  connection: local
-  name: "Enroll hardware from baremetal.csv into Ironic"
-  gather_facts: yes
-  roles:
-    - role: bifrost-configdrives
-    - role: bifrost-setup-nodes
+    - name: "Error"
+      local_action: fail msg="Legacy roles have been removed.  Please use dynamic inventory and deploy-dynamic.yaml"

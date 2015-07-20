@@ -19,9 +19,6 @@ set -x
 # Change working directory
 cd $BIFROST_HOME/playbooks
 
-# Perform a syntax check
-ansible-playbook -vvvv -i inventory/localhost test-bifrost.yaml --syntax-check --list-tasks
-
 # Syntax check of dynamic inventory test path
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml --syntax-check --list-tasks
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks
