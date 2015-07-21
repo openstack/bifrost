@@ -1,0 +1,71 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Determine if ironic.conf needs to be put in place."
+  stat: path=/etc/ironic/ironic.conf
+  register: test_place_ironic_config
+- name: "Copy ironic sample config"
+  copy: src="{{ ironic_git_folder }}/etc/ironic/ironic.conf.sample" dest=/etc/ironic/ironic.conf owner=ironic group=ironic mode=0644
+  when: test_place_ironic_config.stat.exists == false
+- name: "If testing, set agent_ssh as the enabled driver"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)enabled_drivers=(.*)$' line="enabled_drivers=agent_ssh"
+  when: testing | bool == true
+- name: "If not testing, set driver list"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)enabled_drivers=(.*)$' line="enabled_drivers={{ enabled_drivers }}"
+  when: testing | bool == false
+- name: "Set rabbit user"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)rabbit_userid=(.*)$' line="rabbit_userid=ironic"
+- name: "Set rabbit password"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)rabbit_password=(.*)$' line="rabbit_password={{ ironic_db_password }}"
+- name: "Set auth_strategy to noauth"
+  command: sed -i 's/#auth_strategy=keystone/auth_strategy=noauth/g' /etc/ironic/ironic.conf
+#  lineinfile: dest=/etc/ironic/ironic.conf insertbefore='enabled_drivers=(.*)' regexp='^(.*)auth_strategy=(.*)$' line="auth_strategy=noauth"
+- name: "If testing, enable debug logging"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)debug=(.*)$' line="debug=true"
+  when: testing | bool == true
+- name: "If not testing, disable debug logging"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)debug=(.*)$' line="debug=false"
+  when: testing | bool == false
+- name: "For agent, disable coreos.configdrive"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[agent]" regexp='^(.*)agent_pxe_append_params=(.*)$' line="agent_pxe_append_params=coreos.configdrive=0"
+- name: "For agent, disable coreos.configdrive"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[agent]" regexp='^(.*)agent_pxe_config_template=(.*)$' line="agent_pxe_config_template=/etc/ironic/agent_config.template"
+- name: "Configure conductor api url"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[conductor]" regexp='^(.*)api_url=(.*)$' line="api_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:6385/"
+- name: "Configure conductor cleaning"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[conductor]" regexp='^(.*)clean_nodes=(.*)$' line="clean_nodes={{ cleaning | lower }}"
+- name: "Configure database connection"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[database]" regexp='^(.*)connection=(.*)$' line="connection=mysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8"
+- name: "Configure dhcp provider"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[dhcp]" regexp='^(.*)dhcp_provider=(.*)$' line="dhcp_provider=none"
+- name: "Set pxe pxe_config_template"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)pxe_config_template=(.*)$' line="pxe_config_template=$pybasedir/drivers/modules/ipxe_config.template"
+- name: "Set pxe tftp_server"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)tftp_server=(.*)$' line="tftp_server={{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}"
+- name: "Set pxe tftp_root"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)tftp_root=(.*)$' line="tftp_root=/tftpboot"
+- name: "Set iPXE pxe_bootfile_name"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)pxe_bootfile_name=(.*)$' line="pxe_bootfile_name=undionly.kpxe"
+- name: "Set iPXE http_url"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)http_url=(.*)$' line="http_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/"
+- name: "Set iPXE http_root"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)http_root=(.*)$' line="http_root={{ http_boot_folder }}"
+- name: "Set iPXE to be enabled"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)ipxe_enabled=(.*)$' line="ipxe_enabled=true"
+- name: "Set path to ipxe template file"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[pxe]" regexp='^(.*)ipxe_boot_script=(.*)$' line="ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe"
+- name: "Configure ssh libvirt URL if testing"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[ssh]" regexp='^(.*)libvirt_uri=(.*)$' line="libvirt_uri=qemu:///system"
+  when: testing | bool == true
