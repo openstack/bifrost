@@ -314,8 +314,14 @@ def _process_shade(groups, hostvars):
         else:
             name = machine['name']
         new_machine = {}
+        # TODO(TheJulia): At some point we need to retrieve the list of
+        # mac addresses from the ports and provide that information in the
+        # inventory output.
         for key, value in six.iteritems(machine):
-            if 'links' not in key:
+            # NOTE(TheJulia): We don't want to pass infomrational links
+            # nor do we want to pass links about the ports since they
+            # are API endpoint URLs.
+            if key not in ['links', 'ports']:
                 new_machine[key] = value
         new_machine['addressing_mode'] = "dhcp"
         groups['baremetal']['hosts'].append(name)
