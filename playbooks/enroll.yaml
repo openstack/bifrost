@@ -1,9 +1,9 @@
 ---
 - hosts: localhost
   connection: local
-  name: "Enroll hardware from baremetal.csv into Ironic"
-  sudo: yes
-  gather_facts: yes
-  roles:
-    - role: ironic-enroll
-      baremetal_csv_file: "{{ baremetal_csv_file | mandatory }}"
+  name: "Provide deprecation notice"
+  sudo: no
+  gather_facts: no
+  pre_tasks:
+    - name: "Error"
+      local_action: fail msg="Legacy roles have been removed.  Please use dynamic inventory and enroll-dynamic.yaml"
