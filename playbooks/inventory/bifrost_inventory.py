@@ -314,15 +314,25 @@ def _process_shade(groups, hostvars):
         else:
             name = machine['name']
         new_machine = {}
-        # TODO(TheJulia): At some point we need to retrieve the list of
-        # mac addresses from the ports and provide that information in the
-        # inventory output.
         for key, value in six.iteritems(machine):
             # NOTE(TheJulia): We don't want to pass infomrational links
             # nor do we want to pass links about the ports since they
             # are API endpoint URLs.
             if key not in ['links', 'ports']:
                 new_machine[key] = value
+
+        # NOTE(TheJulia): Collect network information, enumerate through
+        # and extract important values, presently MAC address. Once done,
+        # return the network information to the inventory.
+        nics = cloud.list_nics_for_machine(machine['uuid'])
+        new_nics = []
+        new_nic = {}
+        for nic in nics:
+            if 'address' in nic:
+                new_nic['mac'] = nic['address']
+            new_nics.append(new_nic)
+        new_machine['nics'] = new_nics
+
         new_machine['addressing_mode'] = "dhcp"
         groups['baremetal']['hosts'].append(name)
         hostvars.update({name: new_machine})
