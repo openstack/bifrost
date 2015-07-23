@@ -307,6 +307,8 @@ def _process_shade(groups, hostvars):
     cloud = shade.operator_cloud(**options)
     machines = cloud.list_machines()
     for machine in machines:
+        if 'properties' not in machine:
+            machine = cloud.get_machine(machine['uuid'])
         if machine['name'] is None:
             name = machine['uuid']
         else:
