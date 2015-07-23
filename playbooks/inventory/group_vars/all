@@ -27,6 +27,8 @@ deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
+# Add any extra elements you wish to have in the disk image
+extra_dib_elements: ""
 # Transform boot image is intended for use with the Ubuntu trusty image.  It makes the image bootable by installing Grub.
 # Setting to prepend a partition image with a boot sector and partition table.
 transform_boot_image: false
