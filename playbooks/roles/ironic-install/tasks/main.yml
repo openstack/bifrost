@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-
 - name: Include OS-specific packages variables.
   include_vars: "{{ item }}"
   with_first_found:
@@ -90,8 +89,8 @@
   user: name=ironic group=ironic
 - name: "Ensure /etc/ironic exists"
   file: name=/etc/ironic state=directory owner=ironic group=ironic mode=0755
-- name: "Place Ironic Config file"
-  template: src=ironic.conf.j2 dest=/etc/ironic/ironic.conf owner=ironic group=ironic mode=0640
+- name: "Generate Ironic Configuration"
+  include: ironic_config.yml
 - name: "Place Ironic IPA Agent PXE configuration file"
   template: src=agent_config.template.j2 dest=/etc/ironic/agent_config.template owner=ironic group=ironic mode=0644
 - name: "Copy policy.json to /etc/ironic"

@@ -40,3 +40,5 @@ disable_dnsmasq_dns: False
 ironic_git_folder: /tmp/ironic.git
 ironicclient_git_folder: /tmp/ironicclient.git
 shade_git_folder: /tmp/shade.git
+# Comma separated list, in the format of a string, of drivers that are enabled.
+enabled_drivers: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
