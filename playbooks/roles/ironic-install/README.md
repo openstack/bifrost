@@ -1,7 +1,8 @@
 ironic-install
 =========
 
-This role installs a standalone ironic deployment with all required substrate in order for it to be utilized, including MySQL, RabbitMQ, dnsmasq, nginx.
+This role installs a standalone ironic deployment with all required substrate
+in order for it to be utilized, including MySQL, RabbitMQ, dnsmasq, nginx.
 
 Requirements
 ------------
@@ -10,34 +11,54 @@ This role requires:
 
 - Ansible 1.9
 
-Internet access was originally a requirement but no longer is.  See doc/source/offline-install.rst for details on installing without it.
+Internet access was originally a requirement but no longer is. See
+doc/source/offline-install.rst for details on installing without it.
 
 Role Variables
 --------------
 
-Testing mode is intended to help facilitate testing of the Bifrost roles and Ironic by utilizing virtual machines on the localhost and the agent_ssh driver.  This variable should be set globally for playbooks utilizing the install-ironic role.
+Testing mode is intended to help facilitate testing of the Bifrost roles and
+ironic by utilizing virtual machines on the localhost and the agent_ssh
+driver. This variable should be set globally for playbooks utilizing the
+install-ironic role.
 
 testing: false
 
-Node cleaning, which was a feature added to Ironic during the Kilo cycle, removes the previous contents of a node once it has been moved from an active to available state, such as setting the provision state to deleted.  Bifrost disables this by default in order to allow initial users to not be impacted by node cleaning operations upfront when they are testing and evaluating bifrost.  In the event of a production deployment, cleaning should be enabled.
+Node cleaning, which was a feature added to ironic during the Kilo cycle,
+removes the previous contents of a node once it has been moved from an
+active to available state, such as setting the provision state to deleted.
+Bifrost disables this by default in order to allow initial users to not be
+impacted by node cleaning operations upfront when they are testing and
+evaluating bifrost. In the event of a production deployment, cleaning
+should be enabled.
 
 cleaning: false
 
-The Ironic python client and shade libraries can be installed directly from GIT.  The default is to utilize pip to install the current versions in pypi, however testing may require master branch or custom patches.  
+The ironic python client and shade libraries can be installed directly from
+GIT. The default is to utilize pip to install the current versions in pypi,
+however testing may require master branch or custom patches.
 
 ironicclient_source_install: false
 shade_source_install: false
 
-By default this role installs dnsmasq to act as a DHCP server for provisioning hosts.  In the event this is not required, set the following configuration:
+By default this role installs dnsmasq to act as a DHCP server for provisioning
+hosts.  In the event this is not required, set the following configuration:
 
 include_dhcp_server: false
 
-When testing, the default Ironic Conductor driver is "agent_ssh".  When
+When testing, the default ironic conductor driver is "agent_ssh". When
 testing mode has not been engaged, drivers can be set via the enabled_drivers
 variable which defaults to: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
 
-In the event of an external DHCP server being used, the user will need to configure their DHCP server such that PXE, and iPXE chain loading occurs. For additional information for setting up DHCP in this scenario refer to the Bifrost documentation file doc/source/deploy/dhcp.rst.
-Additional default variables exist in defaults/main.yml, however these are mainly limited to settings which are unlikely to be modified, unless a user has a custom Ironic Python Agent image, or needs to modify where the httpboot folder is set to.
+In the event of an external DHCP server being used, the user will need to
+configure their DHCP server such that PXE, and iPXE chain loading occurs.
+For additional information for setting up DHCP in this scenario refer to
+the bifrost documentation file doc/source/deploy/dhcp.rst.
+
+Additional default variables exist in defaults/main.yml, however these are
+mainly limited to settings which are unlikely to be modified, unless a user
+has a custom Ironic Python Agent image, or needs to modify where the httpboot
+folder is set to.
 
 Dependencies
 ------------
