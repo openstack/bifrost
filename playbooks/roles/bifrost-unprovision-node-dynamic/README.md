@@ -1,7 +1,8 @@
 bifrost-unprovision-node-dynamic
 =================================
 
-This role unprovisions nodes.  Essentially calls `ironic node-set-provisioned-state <uuid> deleted`
+This role unprovisions nodes.  Essentially calls
+`ironic node-set-provisioned-state <uuid> deleted`
 
 Requirements
 ------------
@@ -15,12 +16,14 @@ Role Variables
 
 uuid: The UUID value for the node, at the host level.
 
-ironic_url: The setting defining the URL to the Ironic API.  Presently defaulted to: "http://localhost:6385/"
+ironic_url: The setting defining the URL to the Ironic API.  Presently
+            defaulted to: "http://localhost:6385/"
 
 Dependencies
 ------------
 
-This role has no roles that it is directly dependent upon, but expects that the environment has been installed with the ironic-install role.
+This role has no roles that it is directly dependent upon, but expects that the
+environment has been installed with the ironic-install role.
 
 Example Playbook
 ----------------
