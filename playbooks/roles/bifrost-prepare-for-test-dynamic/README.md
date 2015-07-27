@@ -15,7 +15,7 @@ ipv4_address: The host IPv4 address defined on each host to perform
 
 node_ssh_pause: The amount of time, defaulted to 4 seconds, to pause
                 before attempting to connect to the node.  This is
-                useeful if the test image has a tendency to have
+                useful if the test image has a tendency to have
                 networking restart after sshd has started.
 
 wait_timeout: The number of seconds to wait for SSH connectivity to
