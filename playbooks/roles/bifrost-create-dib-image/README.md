@@ -13,18 +13,26 @@ This role requires:
 Role Variables
 --------------
 
-The role can use the disk-image-create or ramdisk-image-create scripts. Which script is used is controlled by the build_ramdisk variable. The default is false.
+The role can use the disk-image-create or ramdisk-image-create scripts. Which
+script is used is controlled by the build_ramdisk variable. The default is
+false.
 
 build_ramdisk: false
 
-The dib_env_vars are settings for the diskimage-builder environment variables which allow settings to be passed to elements that are being utilized to build a disk image.  More information on diskimage-builder can be found at http://git.openstack.org/cgit/openstack/diskimage-builder/.  Additionally, an extra_dib_elements setting exists which is a space separated list of elements to incorporate into the image.
+The dib_env_vars are settings for the diskimage-builder environment variables
+which allow settings to be passed to elements that are being utilized to build
+a disk image.  More information on diskimage-builder can be found at
+http://git.openstack.org/cgit/openstack/diskimage-builder/.  Additionally, an
+extra_dib_elements setting exists which is a space separated list of elements
+to incorporate into the image.
 
 dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
 extra_dib_elements: ""
 
-http_boot_folder, deploy_image_filename, and deploy_image all control the final destination of the built image.
+http_boot_folder, deploy_image_filename, and deploy_image all control the final
+destination of the built image.
 
 http_boot_folder: /httpboot
 deploy_image_filename: "deployment_image.qcow2"
@@ -70,4 +78,3 @@ limitations under the License.
 
 Author Information
 ------------------
-
