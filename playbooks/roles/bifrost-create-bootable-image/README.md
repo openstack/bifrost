@@ -17,7 +17,8 @@ This role requires:
 Role Variables
 --------------
 
-http_boot_folder, deploy_image_filename, and deploy_image all control the final destination of the built image.
+http_boot_folder, deploy_image_filename, and deploy_image all control the final
+destination of the built image.
 
 http_boot_folder: /httpboot
 deploy_image_filename: "partition_image.raw"
