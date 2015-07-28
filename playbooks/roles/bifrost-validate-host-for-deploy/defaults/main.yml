@@ -1,5 +1,0 @@
----
-# defaults file for bifrost-validate-host-for-deploy
-http_boot_folder: "/httpboot"
-deploy_image_filename: "deployment_image.qcow2"
-deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
