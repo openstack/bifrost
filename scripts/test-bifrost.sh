@@ -23,10 +23,10 @@ cd $BIFROST_HOME/playbooks
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml --syntax-check --list-tasks
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks
 
-set +e
-
 # Create the test VM
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
+
+set +e
 
 # Set BIFROST_INVENTORY_SOURCE
 export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
