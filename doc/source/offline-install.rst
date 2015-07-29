@@ -43,9 +43,8 @@ As an example, my current file looks like:
 
 .. code-block:: yaml
 
-    deploy_kernel_upstream_url: file:///vagrant/coreos_production_pxe.vmlinuz
-    deploy_ramdisk_upstream_url: file:///vagrant/coreos_production_pxe_image-oem.cpio.gz
-    deploy_image_upstream_url: file:///vagrant/ubuntu-14.04-server-cloudimg-amd64.tar.gz
+    ipa_kernel_upstream_url: file:///vagrant/coreos_production_pxe.vmlinuz
+    ipa_ramdisk_upstream_url: file:///vagrant/coreos_production_pxe_image-oem.cpio.gz
     cirros_deploy_image_upstream_url: file:///vagrant/cirros-0.3.4-x86_64-disk.img
     dib_git_url: file:///vagrant/git/diskimage-builder
     ironicclient_git_url: file:///vagrant/git/python-ironicclient

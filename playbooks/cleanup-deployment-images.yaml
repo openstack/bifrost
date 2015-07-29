@@ -6,5 +6,5 @@
   gather_facts: yes
   tasks:
     - file: path=/tftpboot/master_images state=absent
-    - file: path="{{deploy_kernel}}" state=absent
-    - file: path="{{deploy_ramdisk}}" state=absent
+    - file: path="{{ipa_kernel}}" state=absent
+    - file: path="{{ipa_ramdisk}}" state=absent

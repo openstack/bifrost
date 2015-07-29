@@ -25,6 +25,6 @@
     driver_info:
       power: "{{ driver_info.power }}"
       deploy:
-        deploy_kernel: "{{ deploy_kernel_url }}"
-        deploy_ramdisk: "{{ deploy_ramdisk_url }}"
+        deploy_kernel: "{{ ipa_kernel_url }}"
+        deploy_ramdisk: "{{ ipa_ramdisk_url }}"
   delegate_to: localhost

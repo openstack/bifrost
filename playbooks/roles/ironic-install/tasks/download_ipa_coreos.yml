@@ -16,14 +16,14 @@
 # This is overly complex, however get_url will always re-retrieve the file
 # if it already exists, and this is to prevent that behavior.
 - name: "Test if CoreOS kernel is present"
-  stat: path={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+  stat: path={{ ipa_kernel }}
   register: test_core_os_kernel_present
 - name: "Download CoreOS kernel"
-  get_url: url={{ deploy_kernel_upstream_url }} dest={{ http_boot_folder }}/coreos_production_pxe.vmlinuz
+  get_url: url={{ ipa_kernel_upstream_url }} dest={{ ipa_kernel }}
   when: test_core_os_kernel_present.stat.exists == false
 - name: "Test if CoreOS image is present"
-  stat: path={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+  stat: path={{ ipa_ramdisk }}
   register: test_core_os_image_present
 - name: "Download CoreOS image"
-  get_url: url={{ deploy_ramdisk_upstream_url }} dest={{ http_boot_folder }}/coreos_production_pxe_image-oem.cpio.gz
+  get_url: url={{ ipa_ramdisk_upstream_url }} dest={{ ipa_ramdisk }}
   when: test_core_os_image_present.stat.exists == false
