@@ -114,5 +114,4 @@ galaxy_info:
   #- system
   #- web
 dependencies:
-- bifrost-validate-host-for-deploy
 - bifrost-configdrives
