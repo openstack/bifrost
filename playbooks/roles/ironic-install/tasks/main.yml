@@ -21,6 +21,16 @@
 - name: "Update Package Cache"
   apt: update_cache=yes
   when: ansible_os_family == 'Debian'
+# NOTE(cinerama): On Fedora 22, ansible 1.9, ansible_pkg_mgr
+# defaults to yum, which may not be installed. This can be safely
+# removed when we start using an ansible release which prefers dnf.
+- name: "Check for dnf"
+  stat: path=/usr/bin/dnf
+  register: test_dnf
+- name: "Adjust ansible_pkg_mgr if dnf exists"
+  set_fact:
+    ansible_pkg_mgr: "dnf"
+  when: ansible_distribution == 'Fedora' and "{{ test_dnf.stat.exists|bool }}"
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }}"
   with_items: required_packages
