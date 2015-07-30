@@ -46,6 +46,10 @@ hosts.  In the event this is not required, set the following configuration:
 
 include_dhcp_server: false
 
+In case your HW needs a kernel option to boot, set the following variable:
+
+extra_kernel_options: Default undefined.
+
 When testing, the default ironic conductor driver is "agent_ssh". When
 testing mode has not been engaged, drivers can be set via the enabled_drivers
 variable which defaults to: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
