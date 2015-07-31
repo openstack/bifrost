@@ -38,3 +38,4 @@ required_packages:
   - sgabios-bin
 # NOTE(cinerama): amtterm is not currently packaged for RHEL/CentOS 7.
   - libvirt-daemon
+  - debootstrap
