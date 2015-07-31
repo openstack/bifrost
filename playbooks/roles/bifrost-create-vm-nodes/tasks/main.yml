@@ -14,6 +14,9 @@
 #
 # TODO: Consider converting to ansible virt module.
 ---
+- name: "Update apt cache if Ubuntu/Debian"
+  apt: update_cache=yes
+  when: ansible_os_family == "Debian"
 - name: "Load Distribution defaults"
   include_vars: "{{ item }}"
   with_first_found:
