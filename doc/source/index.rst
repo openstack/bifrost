@@ -8,6 +8,7 @@ Contents:
 
    readme
    contributing
+   Vagrant
 
 Indices and tables
 ==================

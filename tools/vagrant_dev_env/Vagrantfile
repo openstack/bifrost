@@ -1,0 +1,47 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = '2'
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  config.vm.box = 'ubuntu/trusty64'
+
+  config.vm.define 'bifrost' do |bifrost|
+    bifrost.vm.provider :virtualbox do |vb|
+      vb.customize ['modifyvm', :id, '--memory', '4096', '--cpus', '1', '--cpuexecutioncap', '80']
+      # the setting below are to improve performance on mac's and should have little impact elsewhere.
+      vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
+      vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+      vb.customize ["modifyvm", :id, "--nictype1", "Am79C973"]
+      vb.customize ["modifyvm", :id, "--nictype2", "Am79C973"]
+      vb.customize ["modifyvm", :id, "--nictype3", "Am79C973"]
+    end
+
+    # Set up private NAT'd network
+    bifrost.vm.network 'private_network', ip: '192.168.99.10' # it goes to 11
+    # This assumes you have DHCP on your bridged network. if not you will need
+    # to statically configure to allow  Bifrost to manage hardware attached to
+    # the bridged interface.
+    # NOTE(TheJulia): Is there a way to abstract the bridged networking...
+    # NOTE(NobodyCam): until the above is  done this needs to be set to a valid interface
+    bifrost.vm.network 'public_network', bridge: ''
+
+    # besure we get the entire bifrost directory tree
+    bifrost.vm.synced_folder "../../.", "/home/vagrant/bifrost", type: "rsync"
+
+    bifrost.vm.provision 'ansible' do |ansible|
+      ansible.verbose = 'v'
+      ansible.playbook = 'vagrant.yml'
+      ansible.extra_vars = {
+          # set key file name here
+          public_key: 'id_rsa.pub',
+          # Edit the network_interface to match your needs:
+          #  eth0 - connected to a Nat network
+          #  eth1 - connected to Host-only network named: 'vboxnet1'
+          #  eth2 - bridged - Interface must also be set above
+          network_interface: 'eth2'
+      }
+    end
+  end
+end
