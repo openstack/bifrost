@@ -1,0 +1,93 @@
+{
+      "sshexample0": {
+        "uuid": "00000000-0000-0000-0000-000000000001",
+        "driver_info": {
+          "power": {
+            "ssh_port": 22,
+            "ssh_username": "ironic",
+            "ssh_virt_type": "virsh",
+            "ssh_address": "192.168.122.1",
+            "ssh_key_filename": "/home/ironic/.ssh/id_rsa"
+          }
+        },
+        "nics": [
+          {
+            "mac": "00:00:00:f9:32:f6"
+          }
+        ],
+        "driver": "agent_ssh",
+        "ipv4_address": "192.168.122.2",
+        "properties": {
+          "cpu_arch": "x86_64",
+          "ram": "3072",
+          "disk_size": "10",
+          "cpus": "1"
+        },
+        "name": "sshexample0"
+      },
+      "basicipmiexample0": {
+        "uuid": "00000000-0000-0000-0000-000000000002",
+        "driver_info": {
+          "power": {
+            "ipmi_username": "ADMIN",
+            "ipmi_address": "192.168.2.20",
+            "ipmi_password": "ADMIN_PASSWORD"
+          }
+        },
+        "nics": [
+          {
+            "mac": "00:00:00:23:34:56"
+          },
+          {
+            "mac": "00:00:00:12:34:57"
+          }
+        ],
+        "driver": "agent_ipmitool",
+        "ipv4_address": "192.168.1.2",
+        "properties": {
+          "cpu_arch": "x86_64",
+          "ram": "32760",
+          "disk_size": "235",
+          "cpus": "16"
+        },
+        "name": "basicipmiexample0"
+      },
+      "advancedipmiexample0": {
+        "ipa_kernel_url": "http://192.168.1.1:8080/custom_ipa.vmlinuz",
+        "ipa_ramdisk_url": "http://192.168.1.1:8080/custom_ipa_image.cpio.gz",
+        "uuid": "00000000-0000-0000-0000-000000000003",
+        "driver_info": {
+          "power": {
+            "ipmi_username": "ADMIN",
+            "ipmi_address": "192.168.2.21",
+            "ipmi_password": "ADMIN_PASSWORD",
+            "ipmi_bridging": "dual",
+            "ipmi_target_channel": "0",
+            "ipmi_target_address": "1",
+            "ipmi_transit_channel": "2",
+            "ipmi_transit_address": "3"
+          }
+        },
+        "nics": [
+          {
+            "mac": "00:00:00:23:34:58"
+          },
+          {
+            "mac": "00:00:00:12:34:59"
+          }
+        ],
+        "instance_info": {
+          "image_source": "http://192.168.1.1:8080/custom_deployment_image.qcow2",
+          "image_checksum": "493972895dc465a09702ce6e85a836c5"
+        },
+        "driver": "agent_ipmitool",
+        "ipv4_address": "192.168.1.3",
+        "properties": {
+          "cpu_arch": "x86_64",
+          "ram": "32760",
+          "disk_size": "235",
+          "cpus": "16"
+        },
+        "name": "advancedipmiexample0"
+      }
+}
