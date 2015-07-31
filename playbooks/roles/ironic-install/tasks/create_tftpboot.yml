@@ -27,8 +27,12 @@
   set_fact:
      syslinux_tftp_dir: '/usr/lib/PXELINUX'
   when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.10', '>=')
+- name: "Determine if pxelinux.0 is in place"
+  stat: path=/tftpboot/pxelinux.0
+  register: test_pxelinux
 - name: "Placing pxelinux.0"
   copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot
+  when: test_pxelinux.stat.exists == false
 - name: "Place boot.ipxe helper script to HTTP root"
   copy: src=boot.ipxe dest=/httpboot/boot.ipxe
 - name: "Place tftp config file"
