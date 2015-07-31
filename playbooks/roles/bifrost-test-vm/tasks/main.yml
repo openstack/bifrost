@@ -17,7 +17,7 @@
   # hostname. This is because cirros lacks sftp support.
   raw: hostname
   register: instance_hostname
-- name: 'Error if hostname is set to "ubuntu"'
+- name: 'Error if hostname is set to "ubuntu", "cirros", "debian", or "centos"'
   # TODO: Presently this step is unable to cycle through each host and verify
   # it's hostname is properly set. Perhaps if there was some way to extract
   # the data on each host from Ironic's DB and then verify that information
@@ -28,4 +28,4 @@
   # NOTE(TheJulia): If we go down the path of additional validation, we need
   # to keep things like Cirros in mind.
   fail: msg='If this fails, the configdrive may not have been used as the hostname was set to the default.'
-  when: '"ubuntu" in instance_hostname.stdout or "cirros" in instance_hostname.stdout'
+  when: '"ubuntu" in instance_hostname.stdout or "cirros" in instance_hostname.stdout or "debian" in instance_hostname.stdout or "centos" in instance_hostname.stdout'
