@@ -28,16 +28,50 @@ dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
 
-http_boot_folder, deploy_image_filename, and deploy_image all control the final
-destination of the built image.
+The final destination of the image is specified by dib_imagename.
 
-http_boot_folder: /httpboot
-deploy_image_filename: "deployment_image.qcow2"
-deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+dib_imagename: "/path/to/image.qcow2"
 
 dib_os_element controls which OS will be used to build the image.
 
 dib_os_element: "ubuntu"
+
+dib_elements is a space-separated list of elements that will be
+added to the resulting disk image.
+
+dib_elements: "vm serial-console simple-init"
+
+dib_packages is a comma-separated list of packages to be installed
+on the resulting disk image.
+
+dib_packages: "traceroute,python-devel"
+
+All the other command-line options to disk-image-create or
+ramdisk-image-create can be used by the role. The following is a list
+of the command-line options, their corresponding variables, and the type
+of the value to supply. Please refer to the help text for disk-image-create
+for further information.
+
+| Option              | Variable name    | Value                |
+-----------------------------------------------------------------
+| -x                  | dib_trace        | boolean              |
+| -u                  | dib_uncompressed | boolean              |
+| -c                  | dib_clearenv     | boolean              |
+| --no-tmpfs          | dib_notmpfs      | boolean              |
+| --offline           | dib_offline      | boolean              |
+| -n                  | dib_skipbase     | boolean              |
+| -a                  | dib_arch         | arch                 |
+| -o                  | dib_imagename    | /path/to/image       |
+| -t                  | dib_imagetype    | image type           |
+| --image-size        | dib_imagesize    | size in GB           |
+| --image-cache       | dib_imagecache   | /path/to/cache       |
+| --max-online-resize | dib_maxresize    | size in blocks       |
+| --min-tmpfs         | dib_mintmpfs     | size in GB           |
+| --mkfs-options      | dib_mkfsopts     | mkfs flags           |
+| --qemu-img-options  | dib_qemuopts     | comma-separated list |
+| --root-label        | dib_rootlabel    | label                |
+| --ramdisk-element   | dib_rdelement    | element name         |
+| -t                  | dib_installtype  | source or package    |
 
 Dependencies
 ------------
