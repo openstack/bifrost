@@ -19,12 +19,12 @@ ironic_url: The setting defining the URL to the Ironic API.  Presently
             defaulted to: "http://localhost:6385/"
 
 ipa_kernel: The kernel url, image id, or file representing the kernel to
-               utilize for deploying to this node. This should be the
-               CoreOS kernel used by Ironic Python Agent.
+            utilize for deploying to this node. This should be the kernel
+            used for the Ironic Python Agent.
 
 ipa_ramdisk: The ramdisk url, image id, or file representing the ramdisk
-                image to load to deploy this node.  This should be the
-                CoreOS ramdisk used by Ironic Python Agent.
+             image to utilize to deploy this node. This should be the ramdisk
+             used for the Ironic Python Agent.
 
 This role expects a data structure similar to the one below, however it should
 be understood that the individual entries under power can vary based on power
