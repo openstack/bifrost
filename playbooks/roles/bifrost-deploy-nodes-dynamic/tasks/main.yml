@@ -32,6 +32,9 @@
   local_action: stat path={{deploy_image}}
   register: test_deploy_image
   when: instance_info is not defined
+- name: "Error if deploy_image is not present, and instance_info is not defined"
+  fail: msg="The user defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
+  when: test_deploy_image.stat.exists | bool == false and instance_info is not defined
 - name: "Deploy to Hardware - Bifrost Default"
   os_ironic_node:
     auth_type: None
