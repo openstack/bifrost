@@ -21,15 +21,12 @@ build_ramdisk: false
 
 The dib_env_vars are settings for the diskimage-builder environment variables
 which allow settings to be passed to elements that are being utilized to build
-a disk image.  More information on diskimage-builder can be found at
-http://git.openstack.org/cgit/openstack/diskimage-builder/.  Additionally, an
-extra_dib_elements setting exists which is a space separated list of elements
-to incorporate into the image.
+a disk image.  More information on diskimage-builder can be found at:
+http://git.openstack.org/cgit/openstack/diskimage-builder/
 
 dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
-extra_dib_elements: ""
 
 http_boot_folder, deploy_image_filename, and deploy_image all control the final
 destination of the built image.

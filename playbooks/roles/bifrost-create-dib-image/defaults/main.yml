@@ -4,8 +4,6 @@ dib_env_vars:
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
   http_proxy: "{{ lookup('env','http_proxy') }}"
   https_proxy: "{{ lookup('env','https_proxy') }}"
-# extra_dib_elements is a space separated list of elements.
-extra_dib_elements: ""
 build_ramdisk: false
 dib_trace: false
 dib_uncompressed: false
