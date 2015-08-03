@@ -37,8 +37,8 @@ ironic_git_url: https://git.openstack.org/openstack/ironic
 mysql_username: "root"
 mysql_password: ""
 disable_dnsmasq_dns: False
-ironic_git_folder: /tmp/ironic.git
-ironicclient_git_folder: /tmp/ironicclient.git
-shade_git_folder: /tmp/shade.git
+ironic_git_folder: /opt/stack/ironic
+ironicclient_git_folder: /opt/stack/python-ironicclient
+shade_git_folder: /opt/stack/shade
 # Comma separated list, in the format of a string, of drivers that are enabled.
 enabled_drivers: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
