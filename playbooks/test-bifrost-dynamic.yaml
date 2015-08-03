@@ -50,7 +50,7 @@
     - role: ironic-install
       cleaning: false
       testing: true
-    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib == true and transform_boot_image == false }
+    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "{{ dib_os_element|default('debian') }}", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", dib_packages: "{{ dib_packages|default('') }}", when: create_image_via_dib == true and transform_boot_image == false }
     - { role: bifrost-create-bootable-image, when: create_image_via_dib == false and transform_boot_image == true }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"

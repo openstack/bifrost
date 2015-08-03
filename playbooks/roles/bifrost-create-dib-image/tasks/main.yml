@@ -93,7 +93,7 @@
 - name: "Build packages (-p) option for disk-image-create"
   set_fact:
     dib_packages_arg: "-p {{dib_packages}}"
-  when: dib_packages is defined
+  when: dib_packages is defined and dib_packages != ""
 - name: "Build argument list"
   set_fact:
     dib_arglist: "{{dib_trace_arg|default('')}} {{dib_uncompressed_arg|default('')}} {{dib_clearenv_arg|default('')}} {{dib_notmpfs_arg|default('')}} {{dib_offline_arg|default('')}} {{dib_skipbase_arg|default('')}} {{dib_arch_arg|default('')}} {{dib_imagename_arg|default('')}} {{dib_imagetype_arg|default('')}} {{dib_imagesize_arg|default('')}} {{dib_imagecache_arg|default('')}} {{dib_maxresize_arg|default('')}} {{dib_mintmpfs_arg|default('')}} {{dib_mkfsopts_arg|default('')}} {{dib_qemuopts_arg|default('')}} {{dib_rootlabel_arg|default('')}} {{dib_rdelement_arg|default('')}} {{dib_installtype_arg|default('')}} {{dib_packages_arg|default('')}} {{dib_os_element}} {{dib_elements|default('')}}"
