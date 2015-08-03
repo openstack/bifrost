@@ -216,8 +216,8 @@
 - name: "Sending services a force-reload signal"
   service: name=dnsmasq state=restarted
   when: "{{include_dhcp_server|bool}}"
-- name: "Download Ironic Python Agent CoreOS kernel & image"
-  include: download_ipa_coreos.yml
+- name: "Download Ironic Python Agent kernel & image"
+  include: download_ipa_image.yml
 - name: "Download cirros to use for deployment if requested"
   get_url: url={{ cirros_deploy_image_upstream_url }} dest="{{ deploy_image }}"
   when: "{{use_cirros|bool}}"
