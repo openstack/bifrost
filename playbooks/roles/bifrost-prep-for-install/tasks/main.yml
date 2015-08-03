@@ -37,3 +37,11 @@
   command: git reset --hard {{ shade_git_branch }} chdir={{ shade_git_folder }}
 - name: "Shade - Resyncing local repository"
   command: git pull --ff-only chdir={{ shade_git_folder }}
+- name: "Disk Image Builder - Retrieving from git.openstack.org"
+  command: git clone {{ dib_git_url }} {{ dib_git_folder }} chdir={{ git_root }} creates={{ dib_git_folder }}
+- name: "Disk Image Builder - Checking out branch"
+  command: git checkout -f {{ dib_git_branch }} chdir={{ dib_git_folder }}
+- name: "Disk Image Builder - Resetting local repository"
+  command: git reset --hard {{ dib_git_branch }} chdir={{ dib_git_folder }}
+- name: "Disk Image Builder - Resyncing local repository"
+  command: git pull --ff-only chdir={{ dib_git_folder }}

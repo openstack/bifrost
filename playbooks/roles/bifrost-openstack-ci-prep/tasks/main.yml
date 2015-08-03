@@ -13,15 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+# TODO(TheJulia) Remove this once 199580 has landed
 - name: "Shade - Apply CI changes if necessary"
   script: parse_zuul_changes.py {{ shade_git_folder }} https://review.openstack.org openstack-infra/shade "{{ lookup('env', 'ZUUL_CHANGES') }}"
   when: ci_testing_zuul_changes is defined and skip_install | bool != true
 - name: "python-ironicclient - Apply CI changes if necessary"
   script: parse_zuul_changes.py {{ ironicclient_git_folder }} https://review.openstack.org openstack/python-ironicclient "{{ lookup('env', 'ZUUL_CHANGES') }}"
-  when: ci_testing_zuul_changes is defined and skip_install | bool != True
-- name: "Ironic - Apply CI changes if necessary"
+  when: ci_testing_zuul_changes is defined and skip_install | bool != true
+- name: "ironic - Apply CI changes if necessary"
   script: parse_zuul_changes.py {{ ironic_git_folder }} https://review.openstack.org openstack/ironic "{{ lookup('env', 'ZUUL_CHANGES') }}"
-  when: ci_testing_zuul_changes is defined and skip_install | bool != True
+  when: ci_testing_zuul_changes is defined and skip_install | bool != true
+- name: "diskimage-builder - Apply CI changes if necessary"
+  script: parse_zuul_changes.py {{ dib_git_folder }} https://review.openstack.org openstack/diskimage-builder "{{ lookup('env', 'ZUUL_CHANGES') }}"
+  when: ci_testing_zuul_changes is defined and skip_install | bool != true
 # NOTE(TheJulia): Override the stored fact values for username/password when operating
 # in OpenStack CI.
 - name: "Set facts for OpenStack CI"
