@@ -4,6 +4,7 @@ dib_env_vars:
   ELEMENTS_PATH: "/opt/stack/diskimage-builder/elements"
   http_proxy: "{{ lookup('env','http_proxy') }}"
   https_proxy: "{{ lookup('env','https_proxy') }}"
+  DIB_INSTALL_TYPE_simple_init: repo
 build_ramdisk: false
 dib_trace: false
 dib_uncompressed: false
