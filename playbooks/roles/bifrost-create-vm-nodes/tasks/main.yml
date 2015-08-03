@@ -22,6 +22,16 @@
   with_first_found:
     - "../defaults/required_defaults_{{ ansible_distribution }}.yml"
     - "../defaults/required_defaults_{{ ansible_os_family }}.yml"
+# NOTE(cinerama): On Fedora 22, ansible 1.9, ansible_pkg_mgr
+# defaults to yum, which may not be installed. This can be safely
+# removed when we start using an ansible release which prefers dnf.
+- name: "Check for dnf"
+  stat: path=/usr/bin/dnf
+  register: test_dnf
+- name: "Adjust ansible_pkg_mgr if dnf exists"
+  set_fact:
+    ansible_pkg_mgr: "dnf"
+  when: ansible_distribution == 'Fedora' and "{{ test_dnf.stat.exists|bool }}"
 - name: "Install required packages"
   action: "{{ ansible_pkg_mgr }} name={{item}} state=present"
   with_items: required_packages
