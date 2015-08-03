@@ -38,3 +38,4 @@ required_packages:
   - amtterm
   - sgabios
   - libvirt-bin
+  - debootstrap
