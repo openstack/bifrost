@@ -7,8 +7,8 @@ installed by Bifrost.
 Requirements
 ------------
 
-This role is expected to be executed on a node that the "ironic-install" node
-has been executed upon.
+This role is expected to be executed on a node that the
+"bifrost-ironic-install" node has been executed upon.
 
 This role expects to be executed in a sequence with
 bifrost-configdrives-dynamic, however that is un-necessary IF the host has a
@@ -53,10 +53,11 @@ instance_info: A dictionary containing the information to define an instance.
 Dependencies
 ------------
 
-This role is intended to be executed upon a node that the ironic-install role
-has been executed upon.  The configuration that is leveraged by this role
-utilizes a configuration drive to place network configuration and an SSH key on
-the newly deployed host.  As such, the bifrost-configdrives role is required.
+This role is intended to be executed upon a node that the
+bifrost-ironic-install role has been executed upon.  The configuration that
+is leveraged by this role utilizes a configuration drive to place network
+configuration and an SSH key on the newly deployed host.  As such, the
+bifrost-configdrives role is required.
 
 Example Playbook
 ----------------

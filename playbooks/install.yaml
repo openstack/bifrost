@@ -6,7 +6,7 @@
   gather_facts: yes
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
-    - ironic-install
+    - bifrost-ironic-install
     - { role: bifrost-create-dib-image, dib_imagename: "{{ deploy_image }}", dib_imagetype: "qcow2", dib_os_element: "{{ dib_os_element|default('debian') }}", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", dib_packages: "{{ dib_packages|default('') }}", when: create_image_via_dib == true and transform_boot_image == false }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"

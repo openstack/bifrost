@@ -23,7 +23,7 @@ Dependencies
 ------------
 
 This role has no roles that it is directly dependent upon, but expects that the
-environment has been installed with the ironic-install role.
+environment has been installed with the bifrost-ironic-install role.
 
 Example Playbook
 ----------------

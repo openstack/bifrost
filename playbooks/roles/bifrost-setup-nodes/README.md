@@ -7,8 +7,8 @@ baremetal_csv_file utilizing the os_ironic_node installed by Bifrost.
 Requirements
 ------------
 
-This role is expected to be executed on a node that the "ironic-install" node
-has been executed upon.
+This role is expected to be executed on a node that the
+"bifrost-ironic-install" node has been executed upon.
 
 As configured, this role requires the "bifrost-configdrives" role be executed
 prior to this role, utilizing the baremetal_csv_file variable which defines the
@@ -50,10 +50,11 @@ deploy_image: This is the full path to the image to be deployed to the system.
 Dependencies
 ------------
 
-This role is intended to be executed upon a node that the ironic-install role
-has been executed upon.  The configuration that is leveraged by this role
-utilizes a configuration drive to place network configuration and an SSH key on
-the newly deployed host.  As such, the bifrost-configdrives role is required.
+This role is intended to be executed upon a node that the
+bifrost-ironic-install role has been executed upon.  The configuration that
+is leveraged by this role utilizes a configuration drive to place network
+configuration and an SSH key on the newly deployed host.  As such,
+the bifrost-configdrives role is required.
 
 Example Playbook
 ----------------

@@ -88,9 +88,9 @@ Dependencies
 ------------
 
 This role is expected to be executed on a system that has had the
-ironic-install role executed upon it, however as the configuration
-drive creation step is fairly self contained, it can be executed
-as a separate step.
+bifrost-ironic-install role executed upon it, however as the configuration
+drive creation step is fairly self contained, it can be executed as a
+separate step.
 
 Example Playbook
 ----------------

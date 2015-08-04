@@ -63,8 +63,8 @@ driver required.
 Dependencies
 ------------
 
-This role is presently dependent upon the ironic-install role which installs
-the necessary requirements.
+This role is presently dependent upon the bifrost-ironic-install role which
+installs the necessary requirements.
 
 Example Playbook
 ----------------
