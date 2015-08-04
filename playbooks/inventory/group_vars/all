@@ -9,10 +9,10 @@ mysql_password:
 # virtual machines for the hardware instead of real hardware.
 # testing: true
 #
-# Normally this user should be ubuntu, however if cirros is used,
+# Normally this user should be root, however if cirros is used,
 # a user may wish to define a specific user for testing VM
-# connectivity during  atest sequence
-testing_user: ubuntu
+# connectivity during a test sequence
+testing_user: root
 http_boot_folder: /httpboot
 nginx_port: 8080
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"

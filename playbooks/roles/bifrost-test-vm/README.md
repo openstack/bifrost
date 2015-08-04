@@ -25,7 +25,7 @@ hosts: testvm
   name: "Tests connectivity to the VM"
   sudo: no
   gather_facts: yes
-  remote_user: ubuntu
+  remote_user: root
   roles:
     - role: bifrost-test-vm
 
