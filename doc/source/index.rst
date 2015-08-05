@@ -9,6 +9,8 @@ Contents:
    readme
    contributing
    Vagrant
+   deploy/dhcp
+   offline-install
 
 Indices and tables
 ==================
