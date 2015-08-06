@@ -79,7 +79,11 @@ The installation is split into two parts.
 The first part is a bash script which lays the basic groundwork of installing
 Ansible itself.
 
-Edit ``./playbooks/inventory/group_vars/all`` to match your environment.
+Edit ``./playbooks/inventory/group_vars/*`` to match your environment. The
+localhost file is intended for steps executed upon the localhost, such as
+installation, or image generation.  The baremetal file is geared for steps
+performed on baremetal nodes, such as enrollment, deployment, or any other
+custom playbooks that a user may bolt on to this toolkit.
 
 - If MySQL is already installed, update mysql_password to match your local installation.
 - Change network_interface to match the interface that will need to service DHCP requests.
@@ -339,7 +343,7 @@ virtual machines.
 An SSH key is generated for the ``ironic`` user when testing. The ironic conductor
 will use this key to connect to the host machine and run virsh commands.
 
-#. Set ``testing`` to *true* in the ``playbooks/inventory/group_vars/all`` file.
+#. Set ``testing`` to *true* in the ``playbooks/inventory/group_vars/localhost`` file.
 #. You may need to adjust the value for ``ssh_public_key_path``.
 #. Run the install step, as documented above, however adding "-e testing=true" to the Ansible command line.
 #. Execute the ``ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml`` command to create a test virtual machine.

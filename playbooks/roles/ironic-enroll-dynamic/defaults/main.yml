@@ -1,2 +1,6 @@
 ---
 ironic_url: "http://localhost:6385/"
+nginx_port: 8080
+network_interface: "virbr0"
+ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.vmlinuz"
+ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.initramfs"
