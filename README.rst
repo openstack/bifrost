@@ -241,6 +241,9 @@ which could potentially allow a user to provision different operating system
 images onto different hardware chassis by defining the appropriate settings
 in an "instance_info" variable.
 
+Examples utilizing JSON and YAML formatting, along host specific variable
+injection can be found in the playbooks/inventory/ folder.
+
 Legacy CSV File Format
 ----------------------
 
@@ -273,7 +276,7 @@ although the enrollment and deployment playbooks utilize the model
 of a host per line model in order to process through the entire
 list, as well as reference the specific field items.
 
-An example file can be found at inventory/baremetal.csv.example.
+An example file can be found at: playbooks/inventory/baremetal.csv.example
 
 How this works?
 ---------------
