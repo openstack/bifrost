@@ -10,11 +10,11 @@
 {% else %}
     "files": [],
 {% endif %}
-    "hostname": "{{ name }}",
-    "name": "{{ name }}",
+    "hostname": {{ name|to_json }},
+    "name": {{ name|to_json }},
     "meta": {},
     "public_keys": {
-        "mykey": "{{ ssh_public_key }}"
+        "mykey": {{ ssh_public_key|to_json }}
     },
     "uuid": "{{ uuid }}"
 }
