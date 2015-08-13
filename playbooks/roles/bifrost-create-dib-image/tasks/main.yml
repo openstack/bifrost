@@ -18,6 +18,16 @@
 - name: "Test if image is present"
   stat: path={{ dib_imagename }}
   register: test_image_present
+- name: "Test if image is present - {{ dib_imagename }}.{{ dib_imagetype | default('qcow2') }}"
+  stat: path={{ dib_imagename }}.{{ dib_imagetype }}
+  register: test_image_dib_present
+  when: test_image_present.stat.exists == false
+  # Note(TheJulia): We need to explicitly test for initramfs in the case
+  # that the ironic-agent element is used to build the image.
+- name: "Test if image is present - {{ dib_imagename }}.initramfs"
+  stat: path={{ dib_imagename }}.initramfs
+  register: test_image_initramfs_present
+  when: test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false
 - name: "Build tracing (-x) option for disk-image-create"
   set_fact:
     dib_trace_arg: "-x"
@@ -100,8 +110,8 @@
 - name: "Initiate image build"
   command: disk-image-create {{dib_arglist}}
   environment: dib_env_vars
-  when: test_image_present.stat.exists == false and build_ramdisk == false
+  when: build_ramdisk | bool == false and test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false and test_image_initramfs_present.stat.exists == false
 - name: "Initiate ramdisk build"
   command: ramdisk-image-create {{dib_arglist}}
   environment: dib_env_vars
-  when: test_image_present.stat.exists == false and build_ramdisk == true
+  when: build_ramdisk | bool == true and test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false and test_image_initramfs_present.stat.exists == false
