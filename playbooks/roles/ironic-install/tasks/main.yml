@@ -146,6 +146,12 @@
 - name: "Creating authorized_keys file for ironic user"
   command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
+- name: "Adjust init vars for Ubuntu >= 15.04, which is systemd"
+  set_fact:
+    init_template: systemd_template.j2
+    init_dest_dir: /lib/systemd/system/
+    init_ext: .service
+  when: ansible_distribution_version|version_compare('15.04', '>=') and ansible_distribution == 'Ubuntu'
 - name: "Placing services"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
