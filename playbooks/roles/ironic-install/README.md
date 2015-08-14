@@ -41,10 +41,23 @@ however testing may require master branch or custom patches.
 ironicclient_source_install: false
 shade_source_install: false
 
+Bifrost requires access to the network where nodes are located, in order to
+provision the nodes. By default, this setting is set to a value for local
+VM based testing, however if and when your ready to deploy to a physical
+environment, you will need to set the network_interface variable to the
+attached network.
+
+network_interface: "virbr0"
+
 By default this role installs dnsmasq to act as a DHCP server for provisioning
 hosts.  In the event this is not required, set the following configuration:
 
 include_dhcp_server: false
+
+If you chose to utilize the dhcp server, You may wish to set default ranges:
+
+dhcp_pool_start: 192.168.1.200
+dhcp_pool_end: 192.168.1.250
 
 In case your HW needs a kernel option to boot, set the following variable:
 
@@ -81,6 +94,7 @@ Example Playbook
     - role: ironic-install
       cleaning: false
       testing: true
+      network_interface: "virbr0"
 
 License
 -------
