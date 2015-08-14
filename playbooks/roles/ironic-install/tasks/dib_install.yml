@@ -13,13 +13,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "DIB - Retrieving diskimage-builder from git.openstack.org"
-  command: git clone {{ dib_git_url }} chdir=/opt/stack creates=/opt/stack/diskimage-builder
-- name: "DIB - Checking out master branch"
-  command: git checkout -f master chdir=/opt/stack/diskimage-builder
-- name: "DIB- Resetting local repository"
-  command: git reset --hard master chdir=/opt/stack/diskimage-builder
-- name: "DIB - Resyncing local repository"
-  command: git pull --ff-only chdir=/opt/stack/diskimage-builder
 - name: "DIB - Installing patched library."
-  command: pip install --force-reinstall /opt/stack/diskimage-builder
+  command: pip install --force-reinstall "{{ dib_git_folder }}"
