@@ -287,7 +287,7 @@ How this works?
 
 Utilizing the dynamic inventory module, enrollment is as simple as setting
 the BIFROST_INVENTORY_SOURCE environment variable to your inventory data
-source, and then executing the the enrollment playbook.::
+source, and then executing the enrollment playbook.::
 
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
