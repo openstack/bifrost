@@ -375,3 +375,16 @@ and thus will not automatically grow the root partition.
 Due to the nature of the design, it would be relatively easy for a user to
 import automatic growth or reconfiguration steps either in the image to be
 deployed, or in post-deployment steps via custom Ansible playbooks.
+
+Custom IPA Images
+=================
+
+Bifrost supports the ability for a user to build a custom IPA ramdisk
+utilizing the diskimage-builder element "ironic-agent".  In order to utilize
+this feature, the download_ipa setting must be set to "false" and the
+create_ipa_image must be set to "true".  By default, the playbook will build
+a Debian based IPA image, if a pre-existing IPA image is not present on disk.
+
+If you wish to include an extra element into the IPA disk image, such as a
+custom hardware manager, you can pass the variable "ipa_extra_dib_elements"
+as a space separated list of elements. This defaults to an emtpy string.
