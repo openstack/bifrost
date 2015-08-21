@@ -3,7 +3,7 @@ bifrost-openstack-ci-prep
 
 This role is intended to be utilized in order to set the installation
 environment and various job settings that are specific to OpenStack CI
-such that the Bifrost CI job is able to complete seccessfully.
+such that the Bifrost CI job is able to complete successfully.
 
 Requirements
 ------------

@@ -1,7 +1,7 @@
 bifrost-prep-for-install
 ========================
 
-This role performs the intial file downloads to allow a user to install
+This role performs the initial file downloads to allow a user to install
 bifrost.  It does not require internet access, as new URLs or local
 filesystem clones of repositories can be defined.
 
