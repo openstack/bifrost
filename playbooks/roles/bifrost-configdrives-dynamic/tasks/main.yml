@@ -33,6 +33,7 @@
     ipv4_interface_mac: "{{ ipv4_interface_mac | default('') }}"
     ipv4_nameserver: "{{ ipv4_nameserver }}"
     ipv4_subnet_mask: "{{ ipv4_subnet_mask }}"
+    vlan_id: "{{ vlan_id | default('') }}"
     network_mtu: "{{ network_mtu }}"
     nics: "{{ nics }}"
     node_network_info: "{{ node_network_info | default('') }}"
