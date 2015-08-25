@@ -6,6 +6,12 @@ galaxy_info:
   license: Apache
   min_ansible_version: 1.9
   platforms:
+  - name: EL
+    versions:
+    - 7
+  - name: Debian
+    versions:
+    - wheezy
   - name: Ubuntu
     versions:
     - trusty
