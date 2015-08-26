@@ -77,6 +77,29 @@ mainly limited to settings which are unlikely to be modified, unless a user
 has a custom Ironic Python Agent image, or needs to modify where the httpboot
 folder is set to.
 
+This role has several variables that can vary between OS families,
+distributions, and their specific versions. These are specified in the
+required_defaults_* files.  They are imported in a particular
+order. For example, for Ubuntu 15.04, the role will attempt to import
+the following files:
+
+- required_defaults_Debian.yml
+- required_defaults_Ubuntu.yml
+- required_defaults_Ubuntu_15.04.yml
+
+Not all of the possible files for a given distribution/version combination
+need to exist. The recommended approach for adding a new variable is:
+
+- Put the variable in the most generic set of defaults to which it applies:
+  for example, if a given variable is applicable to all Debian-family OSes,
+  put it in required_defaults_Debian.yml
+
+- Variables specified in the more specific files will be used to override
+  values in the more generic defaults files.
+
+- If a given default applies to multiple versions of a distribution, that
+  variable needs to be specified for each version which it affects.
+
 Dependencies
 ------------
 

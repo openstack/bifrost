@@ -13,24 +13,27 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: Include OS-specific packages variables.
+# NOTE(cinerama) dummy-defaults.yml is an empty defaults file. We use it
+# here to ensure that with_first_found won't fail should we not have
+# defaults for a particular distribution, version, etc.
+- name: Include OS family-specific defaults
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../defaults/required_defaults_{{ ansible_os_family }}_family.yml"
+    - "../defaults/dummy-defaults.yml"
+- name: Include OS distribution-specific defaults
   include_vars: "{{ item }}"
   with_first_found:
     - "../defaults/required_defaults_{{ ansible_distribution }}.yml"
-    - "../defaults/required_defaults_{{ ansible_os_family }}.yml"
+    - "../defaults/dummy-defaults.yml"
+- name: Include OS version-specific defaults
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
+    - "../defaults/dummy-defaults.yml"
 - name: "Update Package Cache"
   apt: update_cache=yes
   when: ansible_os_family == 'Debian'
-# NOTE(cinerama): On Fedora 22, ansible 1.9, ansible_pkg_mgr
-# defaults to yum, which may not be installed. This can be safely
-# removed when we start using an ansible release which prefers dnf.
-- name: "Check for dnf"
-  stat: path=/usr/bin/dnf
-  register: test_dnf
-- name: "Adjust ansible_pkg_mgr if dnf exists"
-  set_fact:
-    ansible_pkg_mgr: "dnf"
-  when: ansible_distribution == 'Fedora' and "{{ test_dnf.stat.exists|bool }}"
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }}"
   with_items: required_packages
@@ -146,12 +149,6 @@
 - name: "Creating authorized_keys file for ironic user"
   command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
-- name: "Adjust init vars for Ubuntu >= 15.04, which is systemd"
-  set_fact:
-    init_template: systemd_template.j2
-    init_dest_dir: /lib/systemd/system/
-    init_ext: .service
-  when: ansible_distribution_version|version_compare('15.04', '>=') and ansible_distribution == 'Ubuntu'
 - name: "Placing services"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
