@@ -60,6 +60,12 @@ If you chose to utilize the dhcp server, You may wish to set default ranges:
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 
+Alternatively, a user can choose to perform static DHCP assignments to nodes.
+This can be enabled by setting the ``inventory_dhcp`` setting to ``true``.
+This will result in the ``dhcp_pool_start`` and ``dhcp_pool_end`` settings
+being ignored and the ``ipv4_address`` setting being bound to the first
+listed MAC address for the node.
+
 In case your HW needs a kernel option to boot, set the following variable:
 
 extra_kernel_options: Default undefined.

@@ -57,3 +57,12 @@ in a trusted environment.
           +-------------+       +-----------+
           |Ironic Server|       |   Server  |
           +-------------+       +-----------+
+
+===============================================================
+Setting static DHCP assignments with the integrated DHCP server
+===============================================================
+
+You can set up a static DHCP reservation using the ``ipv4_address`` parameter
+and setting the ``inventory_dhcp`` setting to a value of ``true``.  This will
+result in the first MAC address defined in the list of hardware MAC addresses
+to receive a static address assignment in dnsmasq.

@@ -17,6 +17,13 @@
 # the pass-through could mean that the user could deploy
 # things that are not directly accessible or reasonable
 # to be inspected.
+- name: "Setup DHCP for nodes."
+  template: src=templates/dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ hostname }}
+  delegate_to: localhost
+  when: instance_info is defined and inventory_dhcp | bool
+- name: "Sending dnsmasq HUP"
+  service: name=dnsmasq state=reloaded
+  when: instance_info is not defined and inventory_dhcp | bool
 - name: "Deploy to hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: None
