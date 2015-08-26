@@ -159,7 +159,7 @@
     - { service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
 - name: "Reload systemd configuration"
   command: systemctl daemon-reload
-  when: ansible_os_family == 'RedHat'
+  when: init_template == 'systemd_template.j2'
 - name: "Start ironic-conductor"
   service: name=ironic-conductor state=started
 - name: "Start ironic-api"
