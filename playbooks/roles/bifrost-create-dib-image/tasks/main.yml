@@ -19,7 +19,7 @@
   stat: path={{ dib_imagename }}
   register: test_image_present
 - name: "Test if image is present - {{ dib_imagename }}.{{ dib_imagetype | default('qcow2') }}"
-  stat: path={{ dib_imagename }}.{{ dib_imagetype }}
+  stat: path={{ dib_imagename }}.{{ dib_imagetype | default('qcow2') }}
   register: test_image_dib_present
   when: test_image_present.stat.exists == false
   # Note(TheJulia): We need to explicitly test for initramfs in the case
