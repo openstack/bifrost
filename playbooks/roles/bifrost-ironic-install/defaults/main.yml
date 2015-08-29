@@ -45,8 +45,12 @@ shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
 # Comma separated list, in the format of a string, of drivers that are enabled.
 enabled_drivers: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
-# DHCP pool for requests
+# DHCP pool for requests.
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 # Default network interface that Bifrost will be attached to.
 network_interface: "virbr0"
+# Dnsmasq default route for clients. If not defined, dnsmasq will push to clients
+# as default route the same IP of the dnsmasq server.
+# Default: undefined
+# dnsmasq_router:
