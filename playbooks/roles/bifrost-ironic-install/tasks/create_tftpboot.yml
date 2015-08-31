@@ -34,7 +34,7 @@
   copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot
   when: test_pxelinux.stat.exists == false
 - name: "Place boot.ipxe helper script to HTTP root"
-  copy: src=boot.ipxe dest=/httpboot/boot.ipxe
+  copy: src=boot.ipxe dest=/httpboot/boot.ipxe owner=ironic group=ironic
 - name: "Place tftp config file"
   copy: src=xinetd.tftp dest=/etc/xinetd.d/tftp
 - name: "Copy iPXE image into place"
