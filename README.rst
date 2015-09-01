@@ -29,7 +29,6 @@ Pre-install steps
 
 Installing bifrost on RHEL or CentOS requires a few extra pre-install steps.
 
-------------------------------------------
 Enable additional repositories (RHEL only)
 ------------------------------------------
 
@@ -55,7 +54,6 @@ Use the names of the repositories (minus the version and architecture) to enable
   sudo yum-config-manager --enable rhui-REGION-rhel-server-optional
   sudo yum-config-manager --enable rhui-REGION-rhel-server-extras
 
----------------------------------
 Enable the EPEL repository (RHEL)
 ---------------------------------
 
@@ -63,7 +61,6 @@ The Extra Packages for Enterprise Linux (EPEL) repository contains some of bifro
 
   sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
 
------------------------------------
 Enable the EPEL repository (CentOS)
 -----------------------------------
 
@@ -89,14 +86,12 @@ custom playbooks that a user may bolt on to this toolkit.
 - Change network_interface to match the interface that will need to service DHCP requests.
 - Change the ironic_db_password which is set by Ansible in MySQL and in Ironic's configuration file.
 
-The install process builds or modifies a disk image to deploy. The following two settings (which are mutually exclusive) allow you to choose if a partition image is used or an image is created with diskimage-builder.
+The install process builds or modifies a disk image to deploy. The following two settings (which are mutually exclusive) allow you to choose if a partition image is used or an image is created with diskimage-builder::
 
-create_image_via_dib: true
-transform_boot_image: false
+  create_image_via_dib: true
+  transform_boot_image: false
 
-Proxy::
-
-if running behind the proxy. export environment variables http_proxy and https_proxy
+If running behind the proxy. export environment variables http_proxy and https_proxy
 So that ansible lookup plugin checks for proxy set and uses as environment variables.
 
 Then run::
@@ -132,9 +127,9 @@ restarted.
 Run::
 
   If you have password-less sudo enabled, run:
-	 ansible-playbook -vvvv -i inventory/localhost install.yaml
+     ansible-playbook -vvvv -i inventory/localhost install.yaml
   Otherwise, add -K option to let Ansible prompting for the sudo  password:
-	 ansible-playbook -K -vvvv -i inventory/localhost install.yaml
+     ansible-playbook -K -vvvv -i inventory/localhost install.yaml
 
 With regards to testing, ironic's node cleaning capability is disabled by
 default as it can be an unexpected surprise for a new user that their test
