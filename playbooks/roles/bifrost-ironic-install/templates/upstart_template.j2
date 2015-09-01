@@ -7,4 +7,4 @@ end script
 respawn
 respawn limit 2 10
 
-exec start-stop-daemon --start -c {{ item.username }} --exec /usr/local/bin/{{ item.service_name }} -- {{ item.args }}
+exec start-stop-daemon --start -c {{ item.username }} --exec {{ item.service_path }}/{{ item.service_name }} -- {{ item.args }}

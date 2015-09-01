@@ -149,11 +149,14 @@
 - name: "Creating authorized_keys file for ironic user"
   command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
+- name: "Get ironic-api & ironic-conductor install location"
+  shell: echo $(dirname $(which ironic-api))
+  register: ironic_install_prefix
 - name: "Placing services"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
-    - { service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
-    - { service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+    - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+    - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
 - name: "Reload systemd configuration"
   command: systemctl daemon-reload
   when: init_template == 'systemd_template.j2'
