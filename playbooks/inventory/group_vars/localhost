@@ -57,3 +57,8 @@ transform_boot_image: false
 
 # Create IPA image instead of downloading an pre-made CoreOS IPA image.
 create_ipa_image: false
+
+# Dnsmasq default route for clients. If not defined, dnsmasq will push to clients
+# as default route the same IP of the dnsmasq server.
+# Default: undefined
+# dnsmasq_router: {{ ipv4_gateway }}

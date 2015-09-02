@@ -321,9 +321,11 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
 
 # Override the default route supplied by dnsmasq, which assumes the
 # router is the same machine as the one running dnsmasq.
-#dhcp-option=3,1.2.3.4
+{% if dnsmasq_router is defined %}
+dhcp-option=3,{{dnsmasq_router}}
+{% endif %}
 
-# Do the same thing, but using the option name
+# Do the same thing, but using the option name.
 #dhcp-option=option:router,1.2.3.4
 
 # Override the default route supplied by dnsmasq and send no default
