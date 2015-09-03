@@ -84,13 +84,20 @@ deployment process.
 Obtaining IPA logs via the console
 ==================================
 
-1) By default, in testing mode Bifrost sets the agent journal to be logged
-   to the console, hover testing mode is geared more towards local Virtual
-   machine testing.  In order to get the IPA agent to at least detail
-   information to the screen, you will want to set the following setting
-   in ironic.conf::
+1) By default, Bifrost sets the agent journal to be logged to the system
+   console. Due to the variation in hardware, you may need to tune the
+   parameters passed to the deployment ramdisk.  This can be done, as shown
+   below in ironic.conf::
 
     agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
+
+   Parameters will vary by your hardware type and configuration, however the
+   systemd.journald.forward_to_console=yes setting is a default, and will only
+   work for systemd based IPA images such as the default CoreOS image.
+
+   The example above, effectively disables all attempts by the Kernel to set
+   the video mode, defines the console as ttyS0 or the first serial port, and
+   instructs systemd to direct logs to the console.
 
 2) Once set, restart the ironic-conductor service, e.g.
    `service ironic-conductor restart` and attempt to redeploy the node.

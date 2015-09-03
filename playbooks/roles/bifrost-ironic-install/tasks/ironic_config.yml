@@ -38,9 +38,9 @@
 - name: "If not testing, disable debug logging"
   lineinfile: dest=/etc/ironic/ironic.conf insertafter="[DEFAULT]" regexp='^(.*)debug=(.*)$' line="debug=false"
   when: testing | bool == false
-- name: "For agent, disable coreos.configdrive"
-  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[agent]" regexp='^(.*)agent_pxe_append_params=(.*)$' line="agent_pxe_append_params=coreos.configdrive=0"
-- name: "For agent, disable coreos.configdrive"
+- name: "For agent, Log to screen"
+  lineinfile: dest=/etc/ironic/ironic.conf insertafter="[agent]" regexp='^(.*)agent_pxe_append_params=(.*)$' line="agent_pxe_append_params=systemd.journald.forward_to_console=yes"
+- name: "For agent, place agent pxe template"
   lineinfile: dest=/etc/ironic/ironic.conf insertafter="[agent]" regexp='^(.*)agent_pxe_config_template=(.*)$' line="agent_pxe_config_template=/etc/ironic/agent_config.template"
 - name: "Configure conductor api url"
   lineinfile: dest=/etc/ironic/ironic.conf insertafter="[conductor]" regexp='^(.*)api_url=(.*)$' line="api_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:6385/"
