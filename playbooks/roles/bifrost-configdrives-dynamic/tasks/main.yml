@@ -18,7 +18,7 @@
 - name: "Name Make Temporary folder to build configdrive"
   local_action: command mktemp -d
   register: variable_configdrive_location
-- name: "Make Metadata folder - /openstack/{{ metaata_version }}"
+- name: "Make Metadata folder - /openstack/{{ metadata_version }}"
   local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/
 - name: "Make Metadata folder - /openstack/latest"
   local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/
