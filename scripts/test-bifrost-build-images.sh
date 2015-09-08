@@ -24,7 +24,8 @@ ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml --synt
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks
 
 # Create the test VM
-ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
+ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml \
+    -e test_vm_memory_size="4096"
 
 set +e
 
