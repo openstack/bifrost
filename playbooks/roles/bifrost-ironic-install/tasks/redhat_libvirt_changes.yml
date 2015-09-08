@@ -1,0 +1,25 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Create libvirt group on RedHat/Centos"
+  group: name=libvirt
+# NOTE(TheJulia): Modify the supplied libvirtd config as by default,
+# access to libvirt is restricted to the root group via polkit.
+- name: "Update libvirt configuration file on RedHat/CentOS so the libvirt group has access"
+  lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_group line='unix_sock_group = "libvirt"'
+- name: "Changing libvirt authentication to none as RedHat/CentOS use polkit by default"
+  lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^auth_unix_rw line='auth_unix_rw = "none"'
+- name: "Changing libvirt socket permissions to be restricted on on RedHat/CentOS"
+  lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_rw_perms line='unix_sock_rw_perms = "0770"'
