@@ -4,7 +4,7 @@ service tftp
   port            = 69
   socket_type     = dgram
   wait            = yes
-  # Note(TheJulia): While the line below looks incorrect, tftp-hpa changes it it's
+  # Note(TheJulia): While the line below looks incorrect, tftp-hpa changes its
   # effective user by default to the nobody user.
   user            = root
   server          = /usr/sbin/in.tftpd
