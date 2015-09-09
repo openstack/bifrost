@@ -18,6 +18,12 @@ Role Variables
 
 baremetal_csv_file: "/tmp/baremetal.csv"
 
+test_vm_memory_size: Tunable setting to allow a user to define a specific
+                     amount of RAM to allocate to guest/test VMs.  Defaults
+                     to "3072". Note: if this setting is modified between
+                     test runs, you may need to undefine the test virtual
+                     machine(s) that were previously created.
+
 Dependencies
 ------------
 
