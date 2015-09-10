@@ -9,7 +9,7 @@ Contents:
    readme
    contributing
    troubleshooting
-   Vagrant
+   vagrant
    deploy/dhcp
    offline-install
 
