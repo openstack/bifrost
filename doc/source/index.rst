@@ -8,6 +8,7 @@ Contents:
 
    readme
    contributing
+   troubleshooting
    Vagrant
    deploy/dhcp
    offline-install
