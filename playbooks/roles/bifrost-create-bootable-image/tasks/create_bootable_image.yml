@@ -46,7 +46,7 @@
 - name: "Disable Grub Prober"
   shell: echo "GRUB_DISABLE_OS_PROBER=true" >>/etc/default/grub
 - name: "Disable Grub Prober"
-  shell: echo 'GRUB_TERMIAL="serial console"' >>/etc/default/grub
+  shell: echo 'GRUB_TERMINAL="serial console"' >>/etc/default/grub
 - name: "Run the grub-install tool"
   command: chroot /mnt/bootimg grub-install --boot-directory=/boot --modules="biosdisk part_msdos" "{{stored_value_loopback_alpha.stdout}}"
 - name: "Unlink /dev/bootimg/dev"
