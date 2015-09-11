@@ -19,7 +19,7 @@
 # access to libvirt is restricted to the root group via polkit.
 - name: "Update libvirt configuration file on RedHat/CentOS so the libvirt group has access"
   lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_group line='unix_sock_group = "libvirt"'
-- name: "Changing libvirt authentication to none as RedHat/CentOS use polkit by default"
+- name: "Change libvirt authentication to none as RedHat/CentOS use polkit by default"
   lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^auth_unix_rw line='auth_unix_rw = "none"'
-- name: "Changing libvirt socket permissions to be restricted on on RedHat/CentOS"
+- name: "Change libvirt socket permissions to be restricted on on RedHat/CentOS"
   lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_rw_perms line='unix_sock_rw_perms = "0770"'

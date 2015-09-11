@@ -13,35 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Downloading Ironic"
+- name: "Download ironic"
   command: git clone {{ ironic_git_url }} {{ ironic_git_folder }} chdir={{ git_root }} creates={{ ironic_git_folder }}
-- name: "Ironic - checking out branch"
+- name: "Ironic - check out branch"
   command: git checkout -f {{ ironic_git_branch }} chdir={{ ironic_git_folder }}
-- name: "Ironic - resetting branch"
+- name: "Ironic - reset branch"
   command: git reset --hard {{ ironic_git_branch }} chdir={{ ironic_git_folder }}
-- name: "Ironic - resyncing to current branch"
+- name: "Ironic - resync to current branch"
   command: git pull --ff-only chdir={{ ironic_git_folder }}
-- name: "python-ironicclient - Retrieving library from git.openstack.org"
+- name: "python-ironicclient - Retrieve library from git.openstack.org"
   command: git clone {{ ironicclient_git_url }} {{ ironicclient_git_folder }} chdir={{ git_root }} creates={{ ironicclient_git_folder }}
-- name: "python-ironicclient - Checking out branch"
+- name: "python-ironicclient - Check out branch"
   command: git checkout -f {{ ironicclient_git_branch}} chdir={{ironicclient_git_folder}}
-- name: "python-ironicclient - Resetting local repository"
+- name: "python-ironicclient - Reset local repository"
   command: git reset --hard {{ ironicclient_git_branch }} chdir={{ ironicclient_git_folder }}
-- name: "python-ironicclient - Resyncing local repository"
+- name: "python-ironicclient - Resync local repository"
   command: git pull --ff-only chdir={{ ironicclient_git_folder }}
-- name: "Shade - Retrieving library from git.openstack.org"
+- name: "Shade - Retrieve library from git.openstack.org"
   command: git clone {{ shade_git_url }} {{ shade_git_folder }} chdir={{ git_root }} creates={{ shade_git_folder }}
-- name: "Shade - Checking out branch"
+- name: "Shade - Check out branch"
   command: git checkout -f {{ shade_git_branch }} chdir={{ shade_git_folder }}
-- name: "Shade - Resetting local repository"
+- name: "Shade - Reset local repository"
   command: git reset --hard {{ shade_git_branch }} chdir={{ shade_git_folder }}
-- name: "Shade - Resyncing local repository"
+- name: "Shade - Resync local repository"
   command: git pull --ff-only chdir={{ shade_git_folder }}
-- name: "Disk Image Builder - Retrieving from git.openstack.org"
+- name: "Disk Image Builder - Retrieve from git.openstack.org"
   command: git clone {{ dib_git_url }} {{ dib_git_folder }} chdir={{ git_root }} creates={{ dib_git_folder }}
-- name: "Disk Image Builder - Checking out branch"
+- name: "Disk Image Builder - Check out branch"
   command: git checkout -f {{ dib_git_branch }} chdir={{ dib_git_folder }}
-- name: "Disk Image Builder - Resetting local repository"
+- name: "Disk Image Builder - Reset local repository"
   command: git reset --hard {{ dib_git_branch }} chdir={{ dib_git_folder }}
-- name: "Disk Image Builder - Resyncing local repository"
+- name: "Disk Image Builder - Resync local repository"
   command: git pull --ff-only chdir={{ dib_git_folder }}

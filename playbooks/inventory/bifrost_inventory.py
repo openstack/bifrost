@@ -28,7 +28,7 @@ The inventory currently supplies two distinct groups:
     - baremetal
 
 The localhost group is required for Bifrost to perform local actions to
-Bifrost for local actions such as installing Ironic.
+bifrost for local actions such as installing Ironic.
 
 The baremetal group contains the hosts defined by the data source along with
 variables extracted from the data source. The variables are defined on a
@@ -36,7 +36,7 @@ per-host level which allows explict actions to be taken based upon the
 variables.
 
 Presently, the base mode of operation reads a CSV file in the format
-originally utilized by Bifrost and returns structured JSON that is
+originally utilized by bifrost and returns structured JSON that is
 interpretted by Ansible.  This has since been extended to support the
 parsing of JSON and YAML data if they are detected in the file.
 

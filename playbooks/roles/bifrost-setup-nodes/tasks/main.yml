@@ -15,7 +15,7 @@
 - name: "Collect the checksum of the deployment image."
   local_action: stat path={{deploy_image}}
   register: test_deploy_image
-- name: "Deploy to Hardware"
+- name: "Deploy to hardware"
   os_ironic_node:
     auth_type: None
     auth: None

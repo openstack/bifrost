@@ -19,5 +19,5 @@
 - name: "Defined ssh_public_key_path - Error if ssh_public_key_path is not valid"
   local_action: fail msg="ssh_public_key_path is not valid."
   when: test_ssh_public_key_path.stat.exists == false
-- name: "Defined ssh_public_key_path - Read ssh public key in"
+- name: "Defined ssh_public_key_path - Read SSH public key in"
   set_fact: ssh_public_key="{{ lookup('file', ssh_public_key_path ) }}"

@@ -15,12 +15,12 @@
 - name: "Identify ssh_public_key if ssh_public_key_path is defined"
   include: ssh_public_key_path.yaml
   when: ssh_public_key is undefined and ssh_public_key_path is defined
-- name: "Name Make Temporary folder to build configdrive"
+- name: "Make temporary folder to build configdrive"
   local_action: command mktemp -d
   register: variable_configdrive_location
-- name: "Make Metadata folder - /openstack/{{ metadata_version }}"
+- name: "Make metadata folder - /openstack/{{ metadata_version }}"
   local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/
-- name: "Make Metadata folder - /openstack/latest"
+- name: "Make metadata folder - /openstack/latest"
   local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/
 - name: "Place template in each openstack/{{ metadata_version }} folder"
   local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/meta_data.json
@@ -29,7 +29,7 @@
 - name: "Place network info template in each openstack/latest folder"
   local_action: template src=network_info.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json
   when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
-- name: "Make Metadata folder - /openstack/latest"
+- name: "Make metadata folder - /openstack/latest"
   local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/
 - name: "Write network Debian style interface template"
   local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000

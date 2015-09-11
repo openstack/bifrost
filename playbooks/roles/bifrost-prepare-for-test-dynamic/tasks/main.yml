@@ -12,19 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Waiting for the base testvm machine to become available."
+- name: "Wait for the base testvm machine to become available."
   wait_for: state=started port=22 host={{ ipv4_address }} timeout={{ wait_timeout }}
   when: ipv4_address is defined
-- name: "Pausing for 4 seconds to allow testvm to become fully operational and to avoid any potential sshd startup race."
+- name: "Pause for 4 seconds to allow testvm to become fully operational and to avoid any potential sshd startup race."
   # NOTE(TheJulia): AFAIK sshd opens it's socket and then loads/generates
   # keys, which can become visible as a race, hence the four second pause.
   pause: seconds={{ node_ssh_pause }}
-- name: "Adding testvm(s) to Ansible Inventory"
+- name: "Add testvm(s) to Ansible Inventory"
   add_host: name="{{ ipv4_address }}:22" groups=test
   when: ipv4_address is defined
-- name: "Removing testvm hosts from ssh known_hosts file."
+- name: "Remove testvm hosts from SSH known_hosts file."
   command: ssh-keygen -R "{{ ipv4_address }}"
   when: ipv4_address is defined
-- name: "Adding testvm hosts from ssh known_hosts file."
+- name: "Add testvm hosts from SSH known_hosts file."
   shell: ssh-keyscan "{{ ipv4_address }}" >> "{{ ansible_env.HOME }}/.ssh/known_hosts"
   when: ipv4_address is defined
