@@ -1,21 +1,22 @@
 ===============
 Troubleshooting
 ===============
+
 ***********
 Firewalling
 ***********
 
-Due to the nature of firewall settings and customizations, Bifrost does
+Due to the nature of firewall settings and customizations, bifrost does
 **not** change any local firewalling on the node. Users must ensure that
 their firewalling for the node running bifrost is such that the nodes that
 are being booted can connect to the following ports::
 
     67/UDP for DHCP requests to be serviced
     69/UDP for TFTP file transfers (Initial iPXE binary)
-    6301/TCP for the Ironic API
+    6301/TCP for the ironic API
     8080/TCP for HTTP File Downloads (iPXE, Ironic-Python-Agent)
 
-If you encounter any additional issues, use of tcpdump is highly recommended
+If you encounter any additional issues, use of ``tcpdump`` is highly recommended
 while attempting to deploy a single node in order to capture and review the
 traffic exchange between the two nodes.
 
@@ -23,15 +24,15 @@ traffic exchange between the two nodes.
 NodeLocked Errors
 *****************
 
-This is due to node status checking thread in Ironic, which is a locking
+This is due to node status checking thread in ironic, which is a locking
 action as it utilizes IPMI.  The best course of action is to retry the
 operation.  If this is occurring with a high frequency, tuning might be
 required.
 
-Example error:
+Example error::
 
-|    NodeLocked: Node 00000000-0000-0000-0000-046ebb96ec21 is locked by
-     host $HOSTNAME, please retry after the current operation is completed.
+    NodeLocked: Node 00000000-0000-0000-0000-046ebb96ec21 is locked by
+    host $HOSTNAME, please retry after the current operation is completed.
 
 *********************************************
 Unexpected/Unknown failure with the IPA Agent
@@ -47,7 +48,7 @@ file for deployments.  The default location for this folder is
 
 Additionally, a playbook has been included that can be used prior to a
 re-installation to ensure fresh images are deployed.  This playbook can
-be found at playbooks/cleanup-deployment-images.yaml
+be found at ``playbooks/cleanup-deployment-images.yaml``.
 
 Building an IPA image
 =====================
@@ -63,15 +64,15 @@ http://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/core
 
 This essentially boils down to the following steps:
 
-1. `git clone https://git.openstack.org/openstack/ironic-python-agent`
-2. `cd ironic-python-agent`
-3. `pip install -r ./requirements.txt`
-4. If you don't already have docker installed, execute: 
-   `sudo apt-get install docker docker.io`
-5. `cd imagebuild/coreos`
-6. Edit oem/cloudconfig.yml and add "--debug" to the end of the ExecStart
+#. ``git clone https://git.openstack.org/openstack/ironic-python-agent``
+#. ``cd ironic-python-agent``
+#. ``pip install -r ./requirements.txt``
+   #. If you don't already have docker installed, execute:
+   ``sudo apt-get install docker docker.io``
+#. ``cd imagebuild/coreos``
+#. Edit ``oem/cloudconfig.yml`` and add ``--debug`` to the end of the ExecStart
    setting for the ironic-python-agent.service unit.
-7. Execute `make` to complete the build process.
+#. Execute ``make`` to complete the build process.
 
 Once your build is completed, you will need to copy the images files written
 to the UPLOAD folder, into the /httpboot folder.  If your utilizing the
@@ -84,25 +85,26 @@ deployment process.
 Obtaining IPA logs via the console
 ==================================
 
-1) By default, Bifrost sets the agent journal to be logged to the system
+1) By default, bifrost sets the agent journal to be logged to the system
    console. Due to the variation in hardware, you may need to tune the
    parameters passed to the deployment ramdisk.  This can be done, as shown
    below in ironic.conf::
 
     agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
 
-   Parameters will vary by your hardware type and configuration, however the
-   systemd.journald.forward_to_console=yes setting is a default, and will only
-   work for systemd based IPA images such as the default CoreOS image.
+   Parameters will vary by your hardware type and configuration,
+   however the ``systemd.journald.forward_to_console=yes`` setting is
+   a default, and will only work for systemd based IPA images such as
+   the default CoreOS image.
 
-   The example above, effectively disables all attempts by the Kernel to set
+   The example above, effectively disables all attempts by the kernel to set
    the video mode, defines the console as ttyS0 or the first serial port, and
    instructs systemd to direct logs to the console.
 
 2) Once set, restart the ironic-conductor service, e.g.
-   `service ironic-conductor restart` and attempt to redeploy the node.
+   ``service ironic-conductor restart`` and attempt to redeploy the node.
    You will want to view the system console occurring. If possible, you
-   may wish to use ipmitool and write the output to a log file.
+   may wish to use ``ipmitool`` and write the output to a log file.
 
 Gaining access via SSH to the node running IPA
 ==============================================
@@ -110,8 +112,8 @@ Gaining access via SSH to the node running IPA
 If you wish to SSH into the node in order to perform any sort of post-mortem,
 you will need to do the following:
 
-1) Set an sshkey="ssh-rsa AAAA....." value on the agent_pxe_append_params
-   setting in /etc/ironic/ironic.conf
+1) Set an ``sshkey="ssh-rsa AAAA....."`` value on the
+   ``agent_pxe_append_params`` setting in ``/etc/ironic/ironic.conf``
 
 2) You will need to short circuit the ironic conductor process. An ideal
    place to do so is in ``ironic/drivers/modules/agent.py`` in the
@@ -120,11 +122,11 @@ you will need to do the following:
    the node, but the node should stay online after IPA has completed
    deployment.
 
-3) ssh -l core <ip-address-of-node>
+3) ``ssh -l core <ip-address-of-node>``
 
-********************************
-ssh_public_key_path is not valid
-********************************
+************************************
+``ssh_public_key_path is not valid``
+************************************
 
 Bifrost requires that the user who executes bifrost have an SSH key in
 their user home, or that the user defines a variable to tell bifrost where
@@ -134,15 +136,15 @@ deployment playbook can be re-run.
 Generating a new ssh key
 ========================
 
-See the manual page for the ssh-keygen command.
+See the manual page for the ``ssh-keygen`` command.
 
 Defining a specific public key file
 ===================================
 
 A user can define a specific public key file by utilizing the
-ssh_public_key_path variable.  This can be set in the
-group_vars/inventory/all file, or on the ansible-playbook command
-line utilizing the -e command line parameter.
+``ssh_public_key_path`` variable.  This can be set in the
+``group_vars/inventory/all`` file, or on the ``ansible-playbook`` command
+line utilizing the ``-e`` command line parameter.
 
 Example::
 
