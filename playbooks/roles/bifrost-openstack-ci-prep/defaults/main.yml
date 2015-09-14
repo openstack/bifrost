@@ -1,3 +1,3 @@
 ---
-# Default location to the ssh public key for the user operating Bifrost.
+# Default location of the ssh public key for the user operating Bifrost.
 ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"

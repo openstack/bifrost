@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Dynamic Enrollment"
+- name: "Dynamic enrollment"
   os_ironic:
     auth_type: None
     auth: None

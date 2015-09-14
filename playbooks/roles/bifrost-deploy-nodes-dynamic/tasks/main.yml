@@ -17,7 +17,7 @@
 # the pass-through could mean that the user could deploy
 # things that are not directly accessible or reasonable
 # to be inspected.
-- name: "Deploy to Hardware - Using custom instance_info."
+- name: "Deploy to hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: None
     auth: None
@@ -33,9 +33,9 @@
   register: test_deploy_image
   when: instance_info is not defined
 - name: "Error if deploy_image is not present, and instance_info is not defined"
-  fail: msg="The user defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
+  fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
   when: test_deploy_image.stat.exists | bool == false and instance_info is not defined
-- name: "Deploy to Hardware - Bifrost Default"
+- name: "Deploy to hardware - bifrost default"
   os_ironic_node:
     auth_type: None
     auth: None

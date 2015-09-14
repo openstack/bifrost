@@ -16,6 +16,6 @@
 - name: "Test if deploy image is present"
   stat: path={{ deploy_image }}
   register: test_image_present
-- name: "Creating bootable image"
+- name: "Create bootable image"
   include: create_bootable_image.yml
   when: test_image_present.stat.exists == true

@@ -18,7 +18,7 @@
 #    sudo NODEBASE=junk NODECOUNT=3 create_nodes.sh
 #
 # THANKS
-#    Thanks to the author(s) of the Ironic supporting code within devstack,
+#    Thanks to the author(s) of the ironic-supporting code within devstack,
 #    from which all of this is derived.
 #
 # AUTHOR
@@ -72,8 +72,8 @@ function create_node {
     NAME=$1
     CPU=$2
     MEM=$(( 1024 * $3 ))
-    # extra G to allow fuzz for partition table : flavor size and registered size
-    # need to be different to actual size.
+    # extra G to allow fuzz for partition table : flavor size and registered
+    # size need to be different to actual size.
     DISK=$(( $4 + 1))
 
     case $5 in
@@ -105,9 +105,9 @@ function create_node {
     if [ -n "$LOGDIR" ] ; then
       mkdir -p "$LOGDIR"
       if [ -e /etc/centos-release ]; then
-        # NOTE(TheJulia): For some unknown reason, libvirt's log folder permissions
-        # on CentOS ship in an inoperable state.  Users must be able to read a folder
-        # to open files in the folder structure.
+        # NOTE(TheJulia): For some unknown reason, libvirt's log folder
+        # permissions on CentOS ship in an inoperable state.  Users must
+        # be able to read a folder to open files in the folder structure.
         chmod o+rx "$LOGDIR/.."
       fi
     fi
@@ -129,7 +129,7 @@ function create_node {
       touch "$volume_path"
 
       # NOTE(TheJulia): CentOS default installs with an XFS root, and chattr
-      # fails to set +C on XFS.  This could be more elegent, however the use
+      # fails to set +C on XFS.  This could be more elegant, however the use
       # case is for CI testing.
       if [ ! -e /etc/centos-release ]; then
         chattr +C "$volume_path" || true

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Delete Hardware"
+- name: "Delete hardware"
   os_ironic:
     auth_type: None
     auth: None

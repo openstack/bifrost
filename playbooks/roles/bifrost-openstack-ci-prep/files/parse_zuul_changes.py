@@ -47,7 +47,7 @@ try:
                          '-n', 'FETCH_HEAD'], stdout=True) is 0:
                     print("Applied %s" % ref)
                 else:
-                    print("Failed to cherry pick %s on to %s branch %s"
+                    print("Failed to cherry pick %s onto %s branch %s"
                           % (ref, repo_name, branch))
                     sys.exit(1)
             else:

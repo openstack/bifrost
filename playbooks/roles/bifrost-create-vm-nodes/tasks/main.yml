@@ -17,7 +17,7 @@
 - name: "Update apt cache if Ubuntu/Debian"
   apt: update_cache=yes
   when: ansible_os_family == "Debian"
-- name: "Load Distribution defaults"
+- name: "Load distribution defaults"
   include_vars: "{{ item }}"
   with_first_found:
     - "../defaults/required_defaults_{{ ansible_distribution }}.yml"
@@ -52,8 +52,8 @@
   command: virsh capabilities
   when: task_create_vm_nodes.rc != 0
 - name: "Abort due to failed VM creation"
-  fail: msg="VM Creation step failed, please review dmesg output for additional details"
+  fail: msg="VM creation step failed, please review dmesg output for additional details"
   when: task_create_vm_nodes.rc != 0
-- name: "Setting file permissions such that the baremetal csv file at /tmp/baremetal.csv can be read by the user executing Ansible"
+- name: "Set file permissions such that the baremetal csv file at /tmp/baremetal.csv can be read by the user executing Ansible"
   file: path="{{baremetal_csv_file}}" owner="{{ansible_env.SUDO_USER}}"
   when: ansible_env.SUDO_USER is defined and baremetal_csv_file is defined and baremetal_csv_file != ""

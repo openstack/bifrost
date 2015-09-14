@@ -38,7 +38,7 @@
   action: "{{ ansible_pkg_mgr }} name={{ item }}"
   with_items: required_packages
 # Step required for Ubuntu 14.10
-- name: "Install 14.10 packages"
+- name: "Install Ubuntu 14.10 (and later) packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }}"
   with_items:
     - pxelinux
@@ -46,7 +46,7 @@
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
-- name: "Ensuring /opt/stack is present"
+- name: "Ensure /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 - name: "Ironic Client - Install from source if configured to do so."
   command: pip install --force-reinstall {{ ironicclient_git_folder }}
@@ -72,76 +72,76 @@
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
   when: create_image_via_dib == true
-- name: "Starting database service"
+- name: "Start database service"
   service: name={{ mysql_service_name }} state=started
-- name: "Starting rabbitmq-server"
+- name: "Start rabbitmq-server"
   service: name=rabbitmq-server state=started
-- name: "RabbitMQ - Testing if hostname is defined firsts in /etc/hosts"
+- name: "RabbitMQ - Testing if hostname is defined in /etc/hosts"
   command: grep -i "127.0.0.1.*{{ ansible_hostname }}\ localhost" /etc/hosts
   ignore_errors: yes
   register: test_grep_fix_hostname
 - name: "RabbitMQ - Fixing /etc/hosts"
   command: sed -i 's/localhost/{{ ansible_hostname }} localhost/' /etc/hosts
   when: test_grep_fix_hostname.rc != 0
-- name: "Ensuring guest user is removed from rabbitmq"
+- name: "Ensure guest user is removed from rabbitmq"
   rabbitmq_user: user=guest state=absent force=yes
-- name: "Creating Ironic user in RabbitMQ"
+- name: "Create ironic user in RabbitMQ"
   rabbitmq_user: user=ironic password={{ ironic_db_password }} force=yes state=present configure_priv=.* write_priv=.* read_priv=.*
   no_log: true
-- name: "MySQL - Creating DB"
+- name: "MySQL - Create database"
   mysql_db: login_user={{ mysql_username }} login_password={{ mysql_password }} name=ironic state=present encoding=utf8
   register: test_created_db
-- name: "MySQL - Creating user for Ironic"
+- name: "MySQL - Create user for ironic"
   mysql_user: login_user={{ mysql_username }} login_password={{ mysql_password }} name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
-- name: "Install Ironic using pip"
+- name: "Install ironic using pip"
   pip: name={{ ironic_git_folder }} state=latest
   when: skip_install is not defined
-- name: "Creating an ironic service group"
+- name: "Create an ironic service group"
   group: name=ironic
-- name: "Creating an ironic service user"
+- name: "Create an ironic service user"
   user: name=ironic group=ironic
 - name: "Ensure /etc/ironic exists"
   file: name=/etc/ironic state=directory owner=ironic group=ironic mode=0755
-- name: "Generate Ironic Configuration"
+- name: "Generate ironic Configuration"
   include: ironic_config.yml
-- name: "Place Ironic IPA Agent PXE configuration file"
+- name: "Place ironic IPA Agent PXE configuration file"
   template: src=agent_config.template.j2 dest=/etc/ironic/agent_config.template owner=ironic group=ironic mode=0644
 - name: "Copy policy.json to /etc/ironic"
   copy: src="{{ ironic_git_folder }}/etc/ironic/policy.json" dest=/etc/ironic/ owner=ironic group=ironic mode=0644
-- name: "Creating Ironic DB Schema"
+- name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   when: test_created_db.changed == true
-- name: "Upgrading Ironic DB Schema"
+- name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
   when: test_created_db.changed == false
 - name: "Do RedHat-specific changes for libvirt"
   include: redhat_libvirt_changes.yml
   when: ansible_os_family == 'RedHat'
-- name: "Adding ironic user to virtualization group"
+- name: "Add ironic user to virtualization group"
   user: name=ironic group="{{ virt_group }}" append=yes
   when: testing == true
-- name: "Creating SSH directory for ironic user"
+- name: "Create SSH directory for ironic user"
   local_action: file path=/home/ironic/.ssh owner=ironic group=ironic mode=0700 state=directory
   when: testing == true
-- name: "Checking for ironic user SSH key"
+- name: "Check for ironic user SSH key"
   local_action: stat path=/home/ironic/.ssh/id_rsa
   register: test_ironic_pvt_key
-- name: "Generating SSH key for ironic user"
+- name: "Generate SSH key for ironic user"
   local_action: command ssh-keygen -f /home/ironic/.ssh/id_rsa -N ""
   when: testing == true and test_ironic_pvt_key.stat.exists == false
-- name: "Setting ownership on ironic SSH private key"
+- name: "Set ownership on ironic SSH private key"
   local_action: file name=/home/ironic/.ssh/id_rsa owner=ironic group=ironic mode=0600 state=file
   when: testing == true and test_ironic_pvt_key.stat.exists == false
-- name: "Setting ownership on ironic SSH public key"
+- name: "Set ownership on ironic SSH public key"
   local_action: file name=/home/ironic/.ssh/id_rsa.pub owner=ironic group=ironic mode=0644 state=file
   when: testing == true and test_ironic_pvt_key.stat.exists == false
-- name: "Creating authorized_keys file for ironic user"
+- name: "Create authorized_keys file for ironic user"
   command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
-- name: "Placing services"
+- name: "Place services"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
     - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
@@ -165,50 +165,50 @@
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt. And the libvirt started dnsmasq processes
 # are not controlled by upstart, so we need to manually kill those.
-- name: "Looking for libvirt dnsmasq config"
+- name: "Look for libvirt dnsmasq config"
   stat: path=/etc/dnsmasq.d/libvirt-bin
   register: test_libvirt_dnsmasq
   when: "{{include_dhcp_server|bool}}"
-- name: "Disabling libvirt dnsmasq config"
+- name: "Disable libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
   when: "{{include_dhcp_server|bool and test_libvirt_dnsmasq.stat.exists|bool and testing|bool}}"
-- name: "Stopping existing libvirt dnsmasq processes"
+- name: "Stop existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
   when: "{{testing|bool and include_dhcp_server|bool}}"
 # NOTE(Shrews) We need to enable ip forwarding for the libvirt bridge to
 # operate properly with dnsmasq. This should be done before starting dnsmasq.
-- name: "Enabling IP forwarding in sysctl"
+- name: "Enable IP forwarding in sysctl"
   sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
   when: testing == true
 # NOTE(Shrews) Ubuntu packaging+apparmor issue prevents libvirt from loading
 # the ROM from /usr/share/misc.
-- name: "Looking for sgabios in {{ sgabios_dir }}"
+- name: "Look for sgabios in {{ sgabios_dir }}"
   stat: path={{ sgabios_dir }}/sgabios.bin
   register: test_sgabios_qemu
-- name: "Looking for sgabios in /usr/share/misc"
+- name: "Look for sgabios in /usr/share/misc"
   stat: path=/usr/share/misc/sgabios.bin
   register: test_sgabios_misc
 - name: "Place sgabios.bin"
   command: cp /usr/share/misc/sgabios.bin /usr/share/qemu/sgabios.bin
   when: test_sgabios_qemu == false and test_sgabios_misc == true and testing == true
-- name: "Deploying nginx configuration file for serving HTTP requests"
+- name: "Deploy nginx configuration file for serving HTTP requests"
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
-- name: "Ensuring services are running with current config"
+- name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted
   with_items:
     - xinetd
     - nginx
-- name: "Ensuring dnsmasq is running with current config"
+- name: "Ensure dnsmasq is running with current config"
   service: name={{ item }} state=restarted
   with_items:
     - dnsmasq
   when: "{{include_dhcp_server|bool}}"
-- name: "Sending services a reload signal"
+- name: "Send services a reload signal"
   service: name={{ item }} state=reloaded
   with_items:
     - xinetd
     - nginx
-- name: "Sending services a force-reload signal"
+- name: "Send services a force-reload signal"
   service: name=dnsmasq state=restarted
   when: "{{include_dhcp_server|bool}}"
 - name: "Download Ironic Python Agent kernel & image"

@@ -13,35 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Extracting the raw disk image"
+- name: "Extract the raw disk image"
   command: qemu-img convert -O raw "{{deploy_image}}" "{{deploy_image}}.raw"
-- name: "Copying Image however with 32k of empty space at the beginning of the file."
+- name: "Copy image however with 32k of empty space at the beginning of the file."
   command: dd if="{{deploy_image}}.raw" of="{{deploy_image}}.bootimg" seek=64
-- name: "Creating Partition Table lining up with the copied file's contents."
+- name: "Create partition table lining up with the copied file's contents."
   shell: echo '32;' | sfdisk "{{deploy_image}}.bootimg" -uB -f
-- name: "Allocating one of two loopbacks"
+- name: "Allocate one of two loopbacks"
   command: losetup -f
   register: stored_value_loopback_alpha
-- name: "Creating loopback connetion to new image file"
+- name: "Create loopback connetion to new image file"
   command: losetup "{{stored_value_loopback_alpha.stdout}}" "{{deploy_image}}.bootimg"
-- name: "Forcing partition table to be re-read"
+- name: "Force partition table to be re-read"
   command: kpartx -v -a "{{stored_value_loopback_alpha.stdout}}"
   # Using second loopback as for some reason /dev/mapper does not translate into a chroot cleanly when devfs is mounted
-- name: "Allocating second loopback pointing to the initial partition"
+- name: "Allocate second loopback pointing to the initial partition"
   command: losetup -f
   register: stored_value_loopback_beta
-- name: "Binding second loopback to the first partition"
+- name: "Bind second loopback to the first partition"
   shell: losetup "{{stored_value_loopback_beta.stdout}}" /dev/mapper/$(echo "{{stored_value_loopback_alpha.stdout}}"|cut -f3 -d '/')p1
   # TODO parameterize folder name/location
-- name: "Ensuring we have a location to mount the disk to"
+- name: "Ensure we have a location to mount the disk to"
   file: path=/mnt/bootimg state=directory
-- name: "Mounting volume on /mnt/bootimg"
+- name: "Mount volume on /mnt/bootimg"
   command: mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg
-- name: "Binding /sys into /mnt/bootimg/sys"
+- name: "Bind /sys into /mnt/bootimg/sys"
   command: mount -t sysfs sysfs /mnt/bootimg/sys
-- name: "Binding /proc into /mnt/bootimg/proc"
+- name: "Bind /proc into /mnt/bootimg/proc"
   command: mount -t proc proc /mnt/bootimg/proc
-- name: "Binding /dev into /mnt/bootimg/dev"
+- name: "Bind /dev into /mnt/bootimg/dev"
   command: mount --bind /dev /mnt/bootimg/dev
 - name: "Disable Grub Prober"
   shell: echo "GRUB_DISABLE_OS_PROBER=true" >>/etc/default/grub
@@ -55,15 +55,15 @@
   command: umount /mnt/bootimg/proc
 - name: "Unlink /dev/bootimg/sys"
   command: umount /mnt/bootimg/sys
-- name: "Unmounting image"
+- name: "Unmount image"
   command: umount /mnt/bootimg
-- name: "Detaching second loop device"
+- name: "Detach second loop device"
   command: losetup -d "{{stored_value_loopback_beta.stdout}}"
-- name: "Removing partition map"
+- name: "Remove partition map"
   command: kpartx -v -d "{{stored_value_loopback_alpha.stdout}}"
-- name: "Detaching first loop device"
+- name: "Detach first loop device"
   command: losetup -d "{{stored_value_loopback_alpha.stdout}}"
-- name: "Moving image to .oldimg"
+- name: "Move image to .oldimg"
   command: mv "{{deploy_image}}" "{{deploy_image}}.oldimg"
-- name: "Moving new image into place"
+- name: "Move new image into place"
   command: mv "{{deploy_image}}.bootimg" "{{deploy_image}}"
