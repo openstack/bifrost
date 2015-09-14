@@ -1,13 +1,13 @@
 bifrost-configdrives
 ====================
 
-Creates configdrives for nodes being provisioned in Bifrost.
+Creates configdrives for nodes being provisioned in bifrost.
 
 Requirements
 ------------
 
 This playbook is intended to be executed prior to the deployments of nodes
-via the bifrost-setup-nodes role, as part of Bifrost. It creates a basic
+via the bifrost-setup-nodes role, as part of bifrost. It creates a basic
 configuration drive containing network configuration and an SSH key
 permitting the user to login to the host.
 
@@ -33,15 +33,15 @@ node_default_network_interface: This is the default network interface within
                                 the nodes to be deployed which the new IP
                                 configuration will be applied to.
                                 Note: This is likely to be deprecated and
-                                removed in the future as Bifrost will likely
+                                removed in the future as bifrost will likely
                                 change methods utilized to include networking
                                 configuration into the configuration drive
                                 sufficiently that this should no longer be
                                 required.
-ipv4_nameserver: Defines the IPv4 Nameserver to configure the node with
+ipv4_nameserver: Defines the IPv4 nameserver to configure the node with
                  initially in order to support name resolution.
 ipv4_address: The IPv4 address of the node to be deployed, if applicable.
-ssh_public_key_path: Defines the path to the file to be SSH public key to be
+ssh_public_key_path: Defines the path to the SSH public key file to be
                      inserted into the configuration drive.
 ssh_public_key: If a user wishes to define an SSH public key as a string,
                 this variable can be utilized which overrides the
@@ -81,7 +81,7 @@ although this carries with it some risks if the filesystem is always
 treated as a source of truth upon system boot.
 
 One final note. The size of the configuration drives is limited to 64MB.
-This is not a limit of Bifrost, but a limit due to the code utilized to
+This is not a limit of bifrost, but a limit due to the code utilized to
 write the configuration drive out.
 
 Dependencies

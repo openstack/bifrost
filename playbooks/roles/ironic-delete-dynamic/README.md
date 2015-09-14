@@ -1,8 +1,8 @@
 ironic-delete-dynamic
 =====================
 
-Removes nodes from Ironic utilizing the os_ironic Ansible module that is
-installed by Bifrost.
+Removes nodes from ironic utilizing the os_ironic Ansible module that is
+installed by bifrost.
 
 Requirements
 ------------
@@ -28,7 +28,7 @@ Dependencies
 ------------
 
 This role has no direct role dependencies although is expected to be
-executed as part of Bifrost's test sequence.
+executed as part of bifrost's test sequence.
 
 Example Playbook
 ----------------

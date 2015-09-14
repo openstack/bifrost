@@ -11,7 +11,7 @@ This role is expected to be executed on a node that the
 "bifrost-ironic-install" node has been executed upon.
 
 This role expects to be executed in a sequence with
-bifrost-configdrives-dynamic, however that is un-necessary IF the host has a
+bifrost-configdrives-dynamic, however that is unnecessary IF the host has a
 dictionary named instance_info defined as that will be used as overriding
 values.
 
@@ -29,16 +29,16 @@ network_interface: This is the network interface that the nodes receive
 
 deploy_image_filename: This is the filename of the image to deploy, which is
                        combined with the network_interface variable to generate
-                       a URL used to set the Ironic instance image_source. This
+                       a URL used to set the ironic instance image_source. This
                        variable does not have a default in this role and
                        expects to receive this information from the calling
                        playbook.
 
 deploy_image: This is the full path to the image to be deployed to the system.
-              This is as Ironic requires the MD5 hash of the file to be
+              This is as ironic requires the MD5 hash of the file to be
               deployed for validation during the deployment process.  As a
               result of this requirement, the hash is automatically collected
-              and submitted to Ironic with the node deployment request. This
+              and submitted to ironic with the node deployment request. This
               variable does not have a default in this role and expects to
               receive this information from the calling playbook.
 
