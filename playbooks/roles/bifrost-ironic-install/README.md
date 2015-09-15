@@ -100,6 +100,24 @@ need to exist. The recommended approach for adding a new variable is:
 - If a given default applies to multiple versions of a distribution, that
   variable needs to be specified for each version which it affects.
 
+If you wish to enable Cross-Orogin Resource Sharing (CORS), such as to
+connect a javascript based web client, options have been added to allow
+a user to enable the integrated support.
+
+By default, this support is disabled, but the configuration options are below:
+
+enable_cors: Boolean value, default false, to enable CORS support.
+
+cors_allowed_origin: A URL string that represents the origin sent by the
+                     client web browser. If CORS is enabled, and this is
+                     not set, it will default to http://localhost:8000/.
+
+enable_cors_credential_support: Boolean value, default false.  This variable
+                                toggles the CORS configuration to expect user
+                                authentication.  Since bifrost makes use of
+                                noauth mode, this realistically should not
+                                be modified.
+
 Dependencies
 ------------
 

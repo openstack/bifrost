@@ -54,3 +54,13 @@ network_interface: "virbr0"
 # as default route the same IP of the dnsmasq server.
 # Default: undefined
 # dnsmasq_router:
+
+# Support for CORS configuration
+# By default CORS support is disabled.
+enable_cors: false
+# Origin to accept for CORS requests
+cors_allowed_origin: "http://localhost:8000"
+# bifrost utilizes noauth mode by default and as such
+# the setting should be set to false. This setting should
+# not need to be modified by the user.
+enable_cors_credential_support: false

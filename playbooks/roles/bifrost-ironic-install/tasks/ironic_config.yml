@@ -69,3 +69,17 @@
 - name: "Configure SSH libvirt URL if testing"
   lineinfile: dest=/etc/ironic/ironic.conf insertafter="[ssh]" regexp='^(.*)libvirt_uri=(.*)$' line="libvirt_uri=qemu:///system"
   when: testing | bool == true
+- name: "Set CORS allowed_origin if enable_cors is set"
+  lineinfile:
+    dest=/etc/ironic/ironic.conf
+    insertbefore='^(.*)cors.subdomain(.*)$'
+    regexp='^allowed_origin=(.*)$'
+    line="allowed_origin={{ cors_allowed_origin | default('allowed_origin=http://localhost:8000')}}"
+  when: enable_cors | bool
+- name: "Set CORS allow_credentials if enable_cors is set"
+  lineinfile:
+    dest=/etc/ironic/ironic.conf
+    insertbefore='^(.*)cors.subdomain(.*)$'
+    regexp='^allow_credentials=(.*)$'
+    line="allow_credentials={{ enable_cors_credential_support | default('true')}}"
+  when: enable_cors | bool
