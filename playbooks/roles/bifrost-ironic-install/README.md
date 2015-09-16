@@ -2,7 +2,8 @@ bifrost-ironic-install
 ======================
 
 This role installs a standalone ironic deployment with all required substrate
-in order for it to be utilized, including MySQL, RabbitMQ, dnsmasq, nginx.
+in order for it to be utilized, including MySQL, RabbitMQ, dnsmasq, and
+nginx.
 
 Requirements
 ------------
@@ -17,10 +18,10 @@ doc/source/offline-install.rst for details on installing without it.
 Role Variables
 --------------
 
-Testing mode is intended to help facilitate testing of the Bifrost roles and
+Testing mode is intended to help facilitate testing of the bifrost roles and
 ironic by utilizing virtual machines on the localhost and the agent_ssh
 driver. This variable should be set globally for playbooks utilizing the
-install-ironic role.
+bifrost-ironic-install role.
 
 testing: false
 
@@ -35,7 +36,7 @@ should be enabled.
 cleaning: false
 
 The ironic python client and shade libraries can be installed directly from
-GIT. The default is to utilize pip to install the current versions in pypi,
+Git. The default is to utilize pip to install the current versions in pypi,
 however testing may require master branch or custom patches.
 
 ironicclient_source_install: false
@@ -110,7 +111,7 @@ Example Playbook
 
 - hosts: localhost
   connection: local
-  name: "Install Ironic Locally"
+  name: "Install ironic locally"
   sudo: yes
   gather_facts: yes
   roles:
