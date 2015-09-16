@@ -11,7 +11,6 @@ virt_group: libvirtd
 mysql_service_name: mysql
 required_packages:
   - mysql-server
-  - dnsmasq
   - rabbitmq-server
   - python-dev
   - python-mysqldb
@@ -39,3 +38,4 @@ required_packages:
   - sgabios
   - libvirt-bin
   - debootstrap
+  - dnsmasq
