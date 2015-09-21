@@ -2,7 +2,7 @@
 
 # Note(TheJulia): If there is a workspace variable, we want to utilize that as
 # the preference of where to put logs
-LOG_LOCATION=${WORKSPACE:-../logs}
+LOG_LOCATION="${WORKSPACE:-..}/logs"
 
 set -eux
 set -o pipefail
