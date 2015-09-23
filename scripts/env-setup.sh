@@ -9,6 +9,9 @@ ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
 ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-1.9}
 
 if [ -x '/usr/bin/apt-get' ]; then
+    if ! $(gcc -v &>/dev/null); then
+        sudo -H apt-get -y install gcc
+    fi
     if ! $(git --version &>/dev/null) ; then
         sudo -H apt-get -y install git
     fi
