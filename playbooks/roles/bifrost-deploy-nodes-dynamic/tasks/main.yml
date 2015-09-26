@@ -34,7 +34,7 @@
   when: instance_info is not defined
 - name: "Error if deploy_image is not present, and instance_info is not defined"
   fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
-  when: test_deploy_image.stat.exists | bool == false and instance_info is not defined
+  when: instance_info is not defined and test_deploy_image.stat.exists | bool == false
 - name: "Deploy to hardware - bifrost default"
   os_ironic_node:
     auth_type: None
