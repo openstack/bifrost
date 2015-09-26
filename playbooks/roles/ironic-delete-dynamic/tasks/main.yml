@@ -18,7 +18,8 @@
     auth: None
     ironic_url: "{{ ironic_url }}"
     driver: ""
-    uuid: "{{ uuid }}"
+    uuid: "{{ uuid | default() }}"
+    name: "{{ name | default() }}"
     state: absent
     nics: "{{ nics }}"
     driver_info: "{}"

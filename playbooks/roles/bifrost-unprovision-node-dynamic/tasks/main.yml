@@ -17,7 +17,8 @@
     auth_type: None
     auth: None
     ironic_url: "{{ ironic_url }}"
-    uuid: "{{ uuid }}"
+    uuid: "{{ uuid | default() }}"
+    name: "{{ name | default() }}"
     state: absent
     instance_info: "{}"
   delegate_to: localhost
