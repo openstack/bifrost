@@ -16,3 +16,7 @@ ironicclient_git_branch: master
 ironic_git_branch: master
 shade_git_branch: master
 dib_git_branch: master
+
+# Conditional variables utilized based on CI or manual testing options.
+copy_from_local_path: false
+ci_testing_zuul: false
