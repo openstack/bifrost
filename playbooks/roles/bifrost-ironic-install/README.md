@@ -129,6 +129,51 @@ enable_cors_credential_support: Boolean value, default false.  This variable
                                 noauth mode, this realistically should not
                                 be modified.
 
+### Hardware Inspection Support
+
+Bifrost also supports the installation of the ironic-inspector in standalone
+mode, which enables the user to allow for identification of the system
+properties via a workflow.
+
+enable_inspector: Boolean value, default false.  This controls the
+                  installation and configuration of the ironic-
+                  inspector.
+
+inspector_auth: Inspector authentication mode, defaulted to "noauth".
+
+inspector_debug: Boolean Value, default true, this controls if the ironic
+                 inspector is writing debug logging.  This may change
+                 in the future, however it is the default for initial
+                 testing.
+
+inspector_manage_firewall: Boolean value, default false, that controls
+                           if the ironic-inspector is to manage the firewall
+                           rules of the host. This is un-necessary in the
+                           bifrost use case since the installation playbook
+                           adds the record to permit the callback traffic.
+
+ironic_auth_strategy: Boolean Value, default "noauth", controls the config
+                      of the ironic-inspector for it to understand that ironic
+                      is operating in noauth mode.
+
+inspector_data_dir: Defaults to "/opt/stack/ironic-inspector/var", Base folder
+                    for inspector temporary data and log files.
+
+inspector_port_addition: Default value, 'pxe' of three possible values,
+                         'all', 'active', and 'pxe'.  Controls the logic
+                         utilized for the addition of new port records
+                         associated with the ironic node.
+
+inspector_keep_ports: Default value, 'present' of three possible values,
+                      'all', 'present', and 'added'.  Controls the logic
+                      utilized by inspector for setting ports to be
+                      kept in association with an ironic node.
+
+inspector_store_ramdisk_logs: Boolean value, default true. Controls if the
+                              inspector agent will retain logs from the
+                              ramdisk that called the inspector service.
+
+
 Notes
 -----
 

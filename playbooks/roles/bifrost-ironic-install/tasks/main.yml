@@ -138,10 +138,13 @@
 - name: "Create authorized_keys file for ironic user"
   command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
+- name: "Install ironic-inspector to permit use of inspection interface"
+  include: inspector_install.yml
+  when: enable_inspector | bool
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
-- name: "Place services"
+- name: "Place ironic services"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
     - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
