@@ -1,0 +1,23 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "ironic - Copy into place"
+  command: cp -a {{ ironic_git_url }} {{ ironic_git_folder }} chdir={{ git_root }} creates={{ ironic_git_folder }}
+- name: "python-ironicclient - Copy into place"
+  command: cp -a {{ ironicclient_git_url }} {{ ironicclient_git_folder }} chdir={{ git_root }} creates={{ ironicclient_git_folder }}
+- name: "Shade - Copy into place"
+  command: cp -a {{ shade_git_url }} {{ shade_git_folder }} chdir={{ git_root }} creates={{ shade_git_folder }}
+- name: "Disk Image Builder - Copy into place"
+  command: cp -a {{ dib_git_url }} {{ dib_git_folder }} chdir={{ git_root }} creates={{ dib_git_folder }}

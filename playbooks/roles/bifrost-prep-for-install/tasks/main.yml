@@ -13,35 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Download ironic"
-  command: git clone {{ ironic_git_url }} {{ ironic_git_folder }} chdir={{ git_root }} creates={{ ironic_git_folder }}
-- name: "Ironic - check out branch"
-  command: git checkout -f {{ ironic_git_branch }} chdir={{ ironic_git_folder }}
-- name: "Ironic - reset branch"
-  command: git reset --hard {{ ironic_git_branch }} chdir={{ ironic_git_folder }}
-- name: "Ironic - resync to current branch"
-  command: git pull --ff-only chdir={{ ironic_git_folder }}
-- name: "python-ironicclient - Retrieve library from git.openstack.org"
-  command: git clone {{ ironicclient_git_url }} {{ ironicclient_git_folder }} chdir={{ git_root }} creates={{ ironicclient_git_folder }}
-- name: "python-ironicclient - Check out branch"
-  command: git checkout -f {{ ironicclient_git_branch}} chdir={{ironicclient_git_folder}}
-- name: "python-ironicclient - Reset local repository"
-  command: git reset --hard {{ ironicclient_git_branch }} chdir={{ ironicclient_git_folder }}
-- name: "python-ironicclient - Resync local repository"
-  command: git pull --ff-only chdir={{ ironicclient_git_folder }}
-- name: "Shade - Retrieve library from git.openstack.org"
-  command: git clone {{ shade_git_url }} {{ shade_git_folder }} chdir={{ git_root }} creates={{ shade_git_folder }}
-- name: "Shade - Check out branch"
-  command: git checkout -f {{ shade_git_branch }} chdir={{ shade_git_folder }}
-- name: "Shade - Reset local repository"
-  command: git reset --hard {{ shade_git_branch }} chdir={{ shade_git_folder }}
-- name: "Shade - Resync local repository"
-  command: git pull --ff-only chdir={{ shade_git_folder }}
-- name: "Disk Image Builder - Retrieve from git.openstack.org"
-  command: git clone {{ dib_git_url }} {{ dib_git_folder }} chdir={{ git_root }} creates={{ dib_git_folder }}
-- name: "Disk Image Builder - Check out branch"
-  command: git checkout -f {{ dib_git_branch }} chdir={{ dib_git_folder }}
-- name: "Disk Image Builder - Reset local repository"
-  command: git reset --hard {{ dib_git_branch }} chdir={{ dib_git_folder }}
-- name: "Disk Image Builder - Resync local repository"
-  command: git pull --ff-only chdir={{ dib_git_folder }}
+- name: "Download via GIT"
+  include: git_download.yaml
+  when: ci_testing_zuul | bool == false and copy_from_local_path | bool == false
+- name: "Copy from local path"
+  include: local_path.yaml
+  when: ci_testing_zuul | bool or copy_from_local_path | bool

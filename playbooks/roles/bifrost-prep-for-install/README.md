@@ -46,6 +46,14 @@ ironic_git_branch: Branch to install, defaults to "master".
 
 shade_git_branch: Branch to install, defaults to "master".
 
+copy_from_local_path: Boolean value, defaulting to false that allows
+                      a user to define the role to copy the files instead
+                      of cloning fresh copies from Git.
+
+ci_testing_zuul: Boolean value, default false. This value is utilized
+                 to tell the prepatory playbook when the prep role
+                 is running in a CI system with Zuul, which in such
+                 cases the repositories must be copied, not overwritten.
 Dependencies
 ------------
 
