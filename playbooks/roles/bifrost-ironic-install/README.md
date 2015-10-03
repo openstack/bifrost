@@ -43,7 +43,7 @@ shade_source_install: false
 
 Bifrost requires access to the network where nodes are located, in order to
 provision the nodes. By default, this setting is set to a value for local
-VM based testing, however if and when your ready to deploy to a physical
+VM based testing, however if and when you're ready to deploy to a physical
 environment, you will need to set the network_interface variable to the
 attached network.
 
@@ -100,7 +100,7 @@ need to exist. The recommended approach for adding a new variable is:
 - If a given default applies to multiple versions of a distribution, that
   variable needs to be specified for each version which it affects.
 
-If you wish to enable Cross-Orogin Resource Sharing (CORS), such as to
+If you wish to enable Cross-Origin Resource Sharing (CORS), such as to
 connect a javascript based web client, options have been added to allow
 a user to enable the integrated support.
 
