@@ -44,7 +44,7 @@ fi
 wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
 sudo python /tmp/get-pip.py
 
-sudo -E pip install -r "$(dirname $0)/../requirements.txt"
+sudo -H -E pip install -r "$(dirname $0)/../requirements.txt"
 
 u=$(whoami)
 g=$(groups | awk '{print $1}')
