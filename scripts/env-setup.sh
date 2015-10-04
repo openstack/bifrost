@@ -15,22 +15,11 @@ if [ -x '/usr/bin/apt-get' ]; then
     if ! $(git --version &>/dev/null) ; then
         sudo -H apt-get -y install git
     fi
-    # To install python packages, we need pip.
-    #
-    # We can't use the apt packaged version of pip since
-    # older versions of pip are incompatible with
-    # requests, one of our indirect dependencies (bug 1459947).
-    #
-    # So we use easy_install to install pip.
-    #
-    # But we may not have easy_install; if that's the case,
-    # our bootstrap's bootstrap is to use apt to install
-    # python-setuptools to get easy_install.
-    if ! $(easy_install --version &>/dev/null) ; then
-        sudo -H apt-get -y install python-setuptools
-    fi
     if ! $(dpkg -l libpython-dev &>/dev/null); then
         sudo -H apt-get -y install libpython-dev
+    fi
+    if ! $(dpkg -l wget &>/dev/null); then
+        sudo -H apt-get -y install wget
     fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! yum -q list installed python-devel; then
@@ -42,13 +31,20 @@ elif [ -x '/usr/bin/yum' ]; then
     if ! $(git --version &>/dev/null); then
         sudo -H yum -y install git
     fi
+    if ! $(wget --version &>/dev/null); then
+        sudo -H yum -y install wget
+    fi
 else
     echo "ERROR: Supported package manager not found.  Supported: apt,yum"
 fi
 
-if ! $(pip -v &>/dev/null); then
-       sudo easy_install pip
-fi
+# To install python packages, we need pip.
+#
+# We can't use the apt packaged version of pip since
+# older versions of pip are incompatible with
+# requests, one of our indirect dependencies (bug 1459947).
+wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
+sudo python /tmp/get-pip.py
 
 sudo -E pip install -r "$(dirname $0)/../requirements.txt"
 
