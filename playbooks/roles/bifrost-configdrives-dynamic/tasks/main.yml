@@ -12,6 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+# Note(TheJulia): Fact collection from ironic is necessary to obtain
+# the host's assigned UUID value.
+- name: "Update facts from ironic to fill in any missing values"
+  include: update_facts_from_ironic.yaml
 - name: "Identify ssh_public_key if ssh_public_key_path is defined"
   include: ssh_public_key_path.yaml
   when: ssh_public_key is undefined and ssh_public_key_path is defined
