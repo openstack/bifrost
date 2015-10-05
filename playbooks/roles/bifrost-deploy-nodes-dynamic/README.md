@@ -70,7 +70,7 @@ NOTE: The example below assumes bifrost's default and that an instance_info
         sudo: no
         roles:
           - role: bifrost-configdrives
-          - role: bifrost-setup-nodes
+          - role: bifrost-deploy-nodes-dynamic
 
 License
 -------

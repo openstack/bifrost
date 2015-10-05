@@ -7,8 +7,8 @@ Requirements
 ------------
 
 This playbook is intended to be executed prior to the deployments of nodes
-via the bifrost-setup-nodes role, as part of bifrost. It creates a basic
-configuration drive containing network configuration and an SSH key
+via the bifrost-deploy-nodes-dynamic role, as part of bifrost. It creates a
+basic configuration drive containing network configuration and an SSH key
 permitting the user to login to the host.
 
 Role Variables
