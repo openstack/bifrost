@@ -14,4 +14,4 @@
 # limitations under the License.
 ---
 - name: "DIB - Install patched library."
-  command: pip install --force-reinstall "{{ dib_git_folder }}"
+  command: pip install --upgrade --force-reinstall "{{ dib_git_folder }}"
