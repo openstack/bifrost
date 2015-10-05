@@ -127,6 +127,13 @@ def main():
                 if item in facts:
                     del facts[item]
 
+            # Remove ports and links as they are useless in the ansible
+            # use context.
+            if "ports" in facts:
+                del facts["ports"]
+            if "links" in facts:
+                del facts["links"]
+
             module.exit_json(changed=False, ansible_facts=facts)
 
         else:
