@@ -69,15 +69,15 @@
 - name: "For agent, Log to screen"
   lineinfile:
     dest=/etc/ironic/ironic.conf
-    insertafter="[agent]"
-    regexp='^(.*)agent_pxe_append_params=(.*)$'
-    line="agent_pxe_append_params=systemd.journald.forward_to_console=yes"
+    insertafter="[pxe]"
+    regexp='^(.*)pxe_append_params=(.*)$'
+    line="pxe_append_params=systemd.journald.forward_to_console=yes"
 - name: "For agent, place agent PXE template"
   lineinfile:
     dest=/etc/ironic/ironic.conf
-    insertafter="[agent]"
-    regexp='^(.*)agent_pxe_config_template=(.*)$'
-    line="agent_pxe_config_template=/etc/ironic/agent_config.template"
+    insertafter="[pxe]"
+    regexp='^(.*)pxe_config_template=(.*)$'
+    line="pxe_config_template=/etc/ironic/agent_config.template"
 - name: "Configure conductor API url"
   lineinfile:
     dest=/etc/ironic/ironic.conf
