@@ -35,11 +35,11 @@
   apt: update_cache=yes
   when: ansible_os_family == 'Debian'
 - name: "Install packages"
-  action: "{{ ansible_pkg_mgr }} name={{ item }}"
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: required_packages
 # Step required for Ubuntu 14.10
 - name: "Install Ubuntu 14.10 (and later) packages"
-  action: "{{ ansible_pkg_mgr }} name={{ item }}"
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items:
     - pxelinux
   when: ansible_distribution_version|version_compare('14.10', '>=') and ansible_distribution == 'Ubuntu'
@@ -88,12 +88,12 @@
 - name: "Create ironic user in RabbitMQ"
   rabbitmq_user: user=ironic password={{ ironic_db_password }} force=yes state=present configure_priv=.* write_priv=.* read_priv=.*
   no_log: true
-- name: "MySQL - Create database"
-  mysql_db: login_user={{ mysql_username }} login_password={{ mysql_password }} name=ironic state=present encoding=utf8
+- name: "MySQL - Creating DB"
+  mysql_db: name=ironic state=present encoding=utf8 login_user="{{ mysql_username | default(None) }}" login_password="{{ mysql_password | default(None) }}"
   register: test_created_db
-- name: "MySQL - Create user for ironic"
-  mysql_user: login_user={{ mysql_username }} login_password={{ mysql_password }} name=ironic password={{ ironic_db_password }} priv=ironic.*:ALL state=present
-- name: "Install ironic using pip"
+- name: "MySQL - Creating user for Ironic"
+  mysql_user: name=ironic password='{{ ironic_db_password }}' priv=ironic.*:ALL state=present login_user="{{ mysql_username | default(None) }}" login_password="{{ mysql_password | default(None) }}"
+- name: "Install Ironic using pip"
   pip: name={{ ironic_git_folder }} state=latest
   when: skip_install is not defined
 - name: "Create an ironic service group"

@@ -2,10 +2,8 @@
 set -e
 
 ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
-# NOTE(TheJulia): Switching to Ansible stable-1.9 branch as the development
-# branch is undergoing some massive changes and we are seeing odd failures
-# that we should not be seeing.  Until devel has stabilized, we should stay
-# on the stable branch.
+# Note(TheJulia): Presently defaulting to stable-1.9, although the syntax
+# is compatible with the Ansible devel branch as of 20150923.
 ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-1.9}
 
 if [ -x '/usr/bin/apt-get' ]; then

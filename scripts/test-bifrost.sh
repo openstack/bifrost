@@ -26,7 +26,7 @@ cd $BIFROST_HOME/playbooks
 
 # Syntax check of dynamic inventory test path
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml --syntax-check --list-tasks
-ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks
+ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks -e testing_user=cirros
 
 # Create the test VM
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
