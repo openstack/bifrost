@@ -15,9 +15,16 @@
            cache_valid_time=86400
       when: ansible_distribution == 'Ubuntu'
 
-    - name: Install easy_install
-      apt: name=python-setuptools state=present
+    - name: Make sure distro setuptools is not there
+      apt: name=python-setuptools state=absent
       when: ansible_distribution == 'Ubuntu'
+
+    - name: Download get-pip
+      get_url: https://bootstrap.pypa.io/get-pip.py
+      dest: /tmp/get-pip.py
+
+    - name: Install pip
+      shell: python /tmp/get-pip.py
 
     - name: Install python-dev
       apt: name=python-dev state=present
