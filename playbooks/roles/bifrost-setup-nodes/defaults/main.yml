@@ -1,3 +1,0 @@
----
-# defaults file for bifrost-setup-nodes
-ironic_url: "http://localhost:6385/"
