@@ -13,22 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- include: git.yml
-    git_url="{{ ironic_git_url }}"
-    git_folder="{{ ironic_git_folder }}"
-    git_branch="{{ ironic_git_branch }}"
-
-- include: git.yml
-    git_url="{{ ironicclient_git_url }}"
-    git_folder="{{ ironicclient_git_folder }}"
-    git_branch="{{ ironicclient_git_branch }}"
-
-- include: git.yml
-    git_url="{{ shade_git_url }}"
-    git_folder="{{ shade_git_folder }}"
-    git_branch="{{ shade_git_branch }}"
-
-- include: git.yml
-    git_url="{{ dib_git_url }}"
-    git_folder="{{ dib_git_folder }}"
-    git_branch="{{ dib_git_branch }}"
+- name: "Clone repository"
+  command: git clone {{ git_url }} {{ git_folder }} chdir={{ git_root }} creates={{ git_folder }}
+- name: "Check out branch"
+  command: git checkout -f {{ git_branch }} chdir={{ git_folder }}
+- name: "Reset local repository"
+  command: git reset --hard {{ git_branch }} chdir={{ git_folder }}
+- name: "Resync local repository"
+  command: git pull --ff-only chdir={{ git_folder }}
