@@ -3,6 +3,7 @@
 ironic_url: "http://localhost:6385/"
 nginx_port: 8080
 network_interface: "virbr0"
+ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 http_boot_folder: "/httpboot"
 deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"

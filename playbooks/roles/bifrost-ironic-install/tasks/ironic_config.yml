@@ -83,7 +83,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[conductor]"
     regexp='^(.*)api_url=(.*)$'
-    line="api_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:6385/"
+    line="api_url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385/"
 - name: "Configure conductor cleaning"
   lineinfile:
     dest=/etc/ironic/ironic.conf
@@ -112,7 +112,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[pxe]"
     regexp='^(.*)tftp_server=(.*)$'
-    line="tftp_server={{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}"
+    line="tftp_server={{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
 - name: "Set PXE tftp_root"
   lineinfile:
     dest=/etc/ironic/ironic.conf
@@ -130,7 +130,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[pxe]"
     regexp='^(.*)http_url=(.*)$'
-    line="http_url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/"
+    line="http_url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/"
 - name: "Set iPXE http_root"
   lineinfile:
     dest=/etc/ironic/ironic.conf
