@@ -48,12 +48,6 @@
 # here for the time being.
 - name: "Ensure /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
-- name: "Ironic Client - Install from source if configured to do so."
-  command: pip install --upgrade --force-reinstall {{ ironicclient_git_folder }}
-  when: skip_install is not defined and ((ironicclient_source_install is defined and ironicclient_source_install == true) or ci_testing == true)
-- name: "Ironic Client - Install from pip"
-  pip: name=python-ironicclient state=present
-  when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false) and (ci_testing == false)
 - name: "proliantutils - Install from pip"
   pip: name=proliantutils state=present
   when: skip_install is not defined and testing | bool != true
@@ -69,6 +63,12 @@
 - name: "dib-utils - install from pip"
   pip: name=dib-utils state=present
   when: skip_install is not defined and create_image_via_dib == true
+- name: "Ironic Client - Install from source if configured to do so."
+  command: pip install --upgrade --force-reinstall {{ ironicclient_git_folder }}
+  when: skip_install is not defined and ((ironicclient_source_install is defined and ironicclient_source_install == true) or ci_testing == true)
+- name: "Ironic Client - Install from pip"
+  pip: name=python-ironicclient state=latest
+  when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false) and (ci_testing == false)
 - name: "Include diskimage-builder installation"
   include: dib_install.yml
   when: create_image_via_dib == true
