@@ -68,6 +68,7 @@
   connection: local
   roles:
     - role: ironic-enroll-dynamic
+    - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool }
 - hosts: baremetal
   name: "Creat configuration drive files and deploy machines."
   become: no
