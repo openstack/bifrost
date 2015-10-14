@@ -50,6 +50,10 @@ instance_info: A dictionary containing the information to define an instance.
                expected are image_source, image_checksum, root_gb, however,
                any supported key/value can be submitted to the API.
 
+inventory_dhcp: A boolean value, defaulted to false, which causes the role
+                to update a template file and reload dhsmasq upon each update
+                in order to perform static dhcp assignments utilizing the
+                ipv4_address parameter.
 Dependencies
 ------------
 

@@ -51,7 +51,8 @@ shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
 # Comma-separated list, in the format of a string, of drivers that are enabled.
 enabled_drivers: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
-# DHCP pool for requests.
+# DHCP pool for requests -- ignored if inventory_dhcp is set to True
+# since IP allocation will be static.
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 # Dnsmasq default route for clients. If not defined, dnsmasq will push to clients
@@ -68,3 +69,7 @@ cors_allowed_origin: "http://localhost:8000"
 # the setting should be set to false. This setting should
 # not need to be modified by the user.
 enable_cors_credential_support: false
+
+# Set this to true to configure dnsmasq to respond to requests from the
+# hosts in your dynamic inventory.
+inventory_dhcp: False

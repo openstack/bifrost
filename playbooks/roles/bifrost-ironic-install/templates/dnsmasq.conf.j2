@@ -125,6 +125,10 @@ bind-interfaces
 # or if you want it to read another file, as well as /etc/hosts, use
 # this.
 #addn-hosts=/etc/banner_add_hosts
+{% if inventory_dhcp %}
+addn-hosts=/etc/dnsmasq.d/bifrost.hosts.d
+dhcp-hostsfile=/etc/dnsmasq.d/bifrost.dhcp-hosts.d
+{% endif %}
 
 # Set this (and domain: see below) if you want to have a domain
 # automatically added to simple names in a hosts-file.
@@ -150,10 +154,12 @@ bind-interfaces
 # a lease time. If you have more than one network, you will need to
 # repeat this for each network on which you want to supply DHCP
 # service.
+{% if not inventory_dhcp %}
 {% if testing %}
 dhcp-range=192.168.122.2,192.168.122.254,12h
 {% else %}
 dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},12h
+{% endif %}
 {% endif %}
 
 # This is an example of a DHCP range where the netmask is given. This

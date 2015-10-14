@@ -159,6 +159,12 @@
   service: name=ironic-api state=restarted
 - name: "Create and populate /tftpboot"
   include: create_tftpboot.yml
+- name: "Setup Inventory Hosts Directory"
+  file: path=/etc/dnsmasq.d/bifrost.hosts.d state=directory owner=root group=root mode=0755
+  when: "{{inventory_dhcp|bool}}"
+- name: "Setup Inventory DHCP Hosts Directory"
+  file: path=/etc/dnsmasq.d/bifrost.dhcp-hosts.d state=directory owner=root group=root mode=0755
+  when: "{{inventory_dhcp|bool}}"
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
   when: "{{include_dhcp_server|bool}}"

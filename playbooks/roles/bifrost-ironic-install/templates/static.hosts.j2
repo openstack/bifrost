@@ -1,0 +1,4 @@
+# This file is managed by bifrost
+{% for hostname, host in dynamic_inventory %}
+{% host['ipv4_address'] %} {% hostname %}
+{% endfor %}
