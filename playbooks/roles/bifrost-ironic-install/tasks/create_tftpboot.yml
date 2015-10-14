@@ -33,7 +33,7 @@
 - name: "Place pxelinux.0"
   copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot
   when: test_pxelinux.stat.exists == false
-- name: "Place boot.ipxe helper script /etc/ironic/"
+- name: "Place boot.ipxe helper script /etc/ironic"
   copy: src=boot.ipxe dest=/etc/ironic/boot.ipxe owner=ironic group=ironic mode=0744
 - name: "Place tftp config file"
   copy: src=xinetd.tftp dest=/etc/xinetd.d/tftp
