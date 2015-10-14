@@ -25,7 +25,7 @@ Example Playbook
 
 hosts: testvm
   name: "Tests connectivity to the VM"
-  sudo: no
+  become: no
   gather_facts: yes
   remote_user: root
   roles:

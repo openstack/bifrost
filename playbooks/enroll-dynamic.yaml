@@ -2,11 +2,11 @@
 - hosts: localhost
   connection: local
   name: "Collect facts"
-  sudo: no
+  become: no
   gather_facts: yes
 - hosts: baremetal
   connection: local
   name: "Enroll hardware from inventory into Ironic"
-  sudo: no
+  become: no
   roles:
     - role: ironic-enroll-dynamic

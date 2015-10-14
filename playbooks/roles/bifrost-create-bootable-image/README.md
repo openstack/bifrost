@@ -35,7 +35,7 @@ Example Playbook
 - hosts: localhost
   connection: local
   name: "Create bootable image"
-  sudo: yes
+  become: yes
   gather_facts: yes
   roles:
     - role: bifrost-create-bootable-image

@@ -31,7 +31,7 @@ Example Playbook
 - hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
-  sudo: no
+  become: no
   gather_facts: no
   roles:
     - role: bifrost-unprovision-node-dynamic

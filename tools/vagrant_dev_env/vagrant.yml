@@ -3,7 +3,7 @@
 #
 #
 - hosts: bifrost
-  sudo: yes
+  become: yes
   tasks:
     ############################################################################
     # Install some reqired bits into the vm
@@ -56,7 +56,7 @@
                removes=/var/run/reboot-required
       register: rebooted
     - name: Wait for VM Reboot.
-      sudo: no
+      become: no
       local_action: wait_for
                     port=22
                     host="{{guest_ip.stdout}}"

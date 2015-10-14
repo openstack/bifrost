@@ -2,7 +2,7 @@
 - hosts: localhost
   connection: local
   name: "Provide deprecation notice"
-  sudo: no
+  become: no
   gather_facts: no
   pre_tasks:
     - name: "Error"

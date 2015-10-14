@@ -50,14 +50,14 @@
   local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
   when: write_interfaces_file | bool
 - name: "Make config drive files"
-  sudo: yes
+  become: yes
   local_action: command mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}
 - name: "Make config drive files base64 encoded and gzip compressed"
-  sudo:  yes
+  become:  yes
   local_action: shell gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
 - name: "Cleanup configdrive .iso files"
-  sudo: yes
+  become: yes
   local_action: file state=absent name={{http_boot_folder}}/configdrive-{{ uuid }}.iso
 - name: "Cleanup configdrive temp folder"
-  sudo: yes
+  become: yes
   local_action: file state=absent force=yes name={{ variable_configdrive_location.stdout }}

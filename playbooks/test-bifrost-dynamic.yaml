@@ -9,7 +9,7 @@
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
-  sudo: no
+  become: no
   gather_facts: yes
   pre_tasks:
     - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
@@ -40,7 +40,7 @@
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
-  sudo: yes
+  become: yes
   gather_facts: yes
   pre_tasks:
     - name: "Collect process list if running in a CI System"
@@ -64,13 +64,13 @@
     https_proxy: "{{ lookup('env','https_proxy') }}"
 - hosts: baremetal
   name: "Enroll node with Ironic"
-  sudo: no
+  become: no
   connection: local
   roles:
     - role: ironic-enroll-dynamic
 - hosts: baremetal
   name: "Creat configuration drive files and deploy machines."
-  sudo: no
+  become: no
   connection: local
   roles:
     - role: bifrost-configdrives-dynamic
@@ -80,7 +80,7 @@
 # on the contents of the CSV file.
 - hosts: test
   name: "Tests connectivity to the VM"
-  sudo: no
+  become: no
   gather_facts: no
   remote_user: "{{ testing_user }}"
   roles:
@@ -88,7 +88,7 @@
 - hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
-  sudo: no
+  become: no
   gather_facts: no
   roles:
     - role: bifrost-unprovision-node-dynamic
