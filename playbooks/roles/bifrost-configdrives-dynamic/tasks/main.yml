@@ -30,6 +30,16 @@
   local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/meta_data.json
 - name: "Place template in each openstack/latest folder"
   local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/meta_data.json
+- name: "Generate network_info"
+  network_metadata:
+    ipv4_address: "{{ ipv4_address }}"
+    ipv4_gateway: "{{ ipv4_gateway }}"
+    ipv4_interface_mac: "{{ ipv4_interface_mac | default('') }}"
+    ipv4_nameserver: "{{ ipv4_nameserver }}"
+    ipv4_subnet_mask: "{{ ipv4_subnet_mask }}"
+    network_mtu: "{{ network_mtu }}"
+    nics: "{{ nics }}"
+    node_network_info: "{{ node_network_info | default('') }}"
 - name: "Place network info template in each openstack/latest folder"
   local_action: template src=network_info.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json
   when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
