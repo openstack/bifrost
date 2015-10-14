@@ -148,7 +148,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[pxe]"
     regexp='^(.*)ipxe_boot_script=(.*)$'
-    line="ipxe_boot_script=$pybasedir/drivers/modules/boot.ipxe"
+    line="ipxe_boot_script=/etc/ironic/boot.ipxe"
 - name: "Configure SSH libvirt URL if testing"
   lineinfile:
     dest=/etc/ironic/ironic.conf
