@@ -18,3 +18,6 @@ ipv4_subnet_mask: 255.255.255.0
 ipv4_gateway: 192.168.1.1
 ipv4_nameserver: 8.8.8.8
 network_mtu: 1500
+
+# Default URL to Ironic
+ironic_url: "http://localhost:6385/"
