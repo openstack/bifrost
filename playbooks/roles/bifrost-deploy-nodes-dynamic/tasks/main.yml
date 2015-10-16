@@ -18,12 +18,14 @@
 # things that are not directly accessible or reasonable
 # to be inspected.
 - name: "Setup DHCP for nodes."
-  template: src=templates/dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ hostname }}
+  template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ hostname }}
   delegate_to: localhost
-  when: instance_info is defined and inventory_dhcp | bool
+  when: inventory_dhcp | bool and instance_info is defined and instance_info | to_json != '{}'
 - name: "Sending dnsmasq HUP"
-  service: name=dnsmasq state=reloaded
-  when: instance_info is not defined and inventory_dhcp | bool
+  # Note(TheJulia): We need to actually to send a hup signal directly as
+  # Ansible's reloaded state does not pass through to the init script.
+  command: killall -HUP dnsmasq
+  when: inventory_dhcp | bool and instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
 - name: "Deploy to hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: None
@@ -34,11 +36,11 @@
     config_drive: "http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ nginx_port }}/configdrive-{{ uuid }}.iso.gz"
     instance_info: "{{ instance_info }}"
   delegate_to: localhost
-  when: instance_info is defined
+  when: instance_info is defined and instance_info | to_json != '{}'
 - name: "Collect the checksum of the deployment image."
   local_action: stat path={{deploy_image}}
   register: test_deploy_image
-  when: instance_info is not defined
+  when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
 - name: "Error if deploy_image is not present, and instance_info is not defined"
   fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
   when: instance_info is not defined and test_deploy_image.stat.exists | bool == false
@@ -56,4 +58,4 @@
       image_disk_format: "raw"
       root_gb: 10
   delegate_to: localhost
-  when: instance_info is not defined
+  when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
