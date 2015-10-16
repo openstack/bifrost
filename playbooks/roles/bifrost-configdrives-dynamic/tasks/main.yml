@@ -32,15 +32,16 @@
   local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/meta_data.json
 - name: "Generate network_info"
   network_metadata:
-    ipv4_address: "{{ ipv4_address }}"
-    ipv4_gateway: "{{ ipv4_gateway }}"
+    ipv4_address: "{{ ipv4_address | default('') }}"
+    ipv4_gateway: "{{ ipv4_gateway | default('') }}"
     ipv4_interface_mac: "{{ ipv4_interface_mac | default('') }}"
-    ipv4_nameserver: "{{ ipv4_nameserver }}"
-    ipv4_subnet_mask: "{{ ipv4_subnet_mask }}"
+    ipv4_nameserver: "{{ ipv4_nameserver | default('') }}"
+    ipv4_subnet_mask: "{{ ipv4_subnet_mask | default('') }}"
     vlan_id: "{{ vlan_id | default('') }}"
-    network_mtu: "{{ network_mtu }}"
-    nics: "{{ nics }}"
+    network_mtu: "{{ network_mtu | default('1500') }}"
+    nics: "{{ nics | default('') }}"
     node_network_info: "{{ node_network_info | default('') }}"
+  when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
 - name: "Place network info template in each openstack/latest folder"
   local_action: template src=network_info.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json
   when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
