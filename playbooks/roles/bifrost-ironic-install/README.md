@@ -193,6 +193,26 @@ inspector_store_ramdisk_logs: Boolean value, default true. Controls if the
                               inspector agent will retain logs from the
                               ramdisk that called the inspector service.
 
+### Virtual Environment Install
+
+Bifrost can install ironic into a python virtual environment using the
+following configuration options:
+
+enable_venv: Enables virtual environment support. Boolean value; the default
+             is false. enable_venv is automatically defined as true if VENV
+             is set in the user's environment.
+
+bifrost_venv_dir: The full path of the virtual environment directory. The
+                  default value is /opt/stack/bifrost. When VENV is set in
+                  the user's environment, its contents will be used to set
+                  bifrost_venv_dir.
+
+bifrost_venv_env: An environment dictionary that includes the environment
+                  variables used to run commands which require the virtual
+                  environment. The default values are derived from the
+                  standard 'activate' script which virtualenv installs.
+                  It is best not to reset this value unless you know you
+                  need to.
 
 Notes
 -----

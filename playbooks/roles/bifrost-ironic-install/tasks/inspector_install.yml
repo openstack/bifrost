@@ -70,10 +70,14 @@
     group=ironic
     mode=0755
 - name: "Upgrade inspector DB Schema"
-  command: su ironic -c "ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade"
+  shell: ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
+  become: true
+  become_user: ironic
+  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
 - name: "Inspector - Get ironic-inspector install location"
   shell: echo $(dirname $(which ironic-inspector))
   register: ironic_install_prefix
+  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
 - name: "Inspector - Place service"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
