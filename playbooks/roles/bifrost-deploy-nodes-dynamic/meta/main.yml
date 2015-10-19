@@ -19,5 +19,4 @@ galaxy_info:
   categories:
   - cloud
   - cloud:openstack
-dependencies:
-- bifrost-configdrives-dynamic
+dependencies: []
