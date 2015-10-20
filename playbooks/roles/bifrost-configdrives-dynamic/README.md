@@ -41,6 +41,7 @@ node_default_network_interface: This is the default network interface within
 ipv4_nameserver: Defines the IPv4 nameserver to configure the node with
                  initially in order to support name resolution.
 ipv4_address: The IPv4 address of the node to be deployed, if applicable.
+ironic_url: Defines URL to ironic API. Defaults to "http://localhost:6385/"
 ssh_public_key_path: Defines the path to the SSH public key file to be
                      inserted into the configuration drive.
 ssh_public_key: If a user wishes to define an SSH public key as a string,
