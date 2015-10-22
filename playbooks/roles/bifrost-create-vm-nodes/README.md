@@ -34,7 +34,7 @@ Example Playbook
 
 - hosts: localhost
   connection: local
-  sudo: yes
+  become: yes
   gather_facts: yes
   roles:
     - role: bifrost-create-vm-nodes

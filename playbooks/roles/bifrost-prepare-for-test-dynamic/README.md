@@ -35,7 +35,7 @@ Example Playbook
 - hosts: baremetal
   connection: local
   name: "Adds and removes a .ssh/known_hosts entry"
-  sudo: no
+  become: no
   gather_facts: no
   roles:
     - role: bifrost-prepare-for-test-dynamic

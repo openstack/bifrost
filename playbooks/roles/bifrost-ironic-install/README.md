@@ -145,7 +145,7 @@ Example Playbook
 - hosts: localhost
   connection: local
   name: "Install ironic locally"
-  sudo: yes
+  become: yes
   gather_facts: yes
   roles:
     - role: bifrost-ironic-install

@@ -71,7 +71,7 @@ NOTE: The example below assumes bifrost's default and that an instance_info
 
       - hosts: baremetal
         connection: local
-        sudo: no
+        become: no
         roles:
           - role: bifrost-configdrives
           - role: bifrost-deploy-nodes-dynamic

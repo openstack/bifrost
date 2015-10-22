@@ -48,7 +48,7 @@ of the logic to properly handle an OpenStack CI environment node.
 - hosts: localhost
   connection: local
   name: "Prepare for installation"
-  sudo: no
+  become: no
   gather_facts: yes
   pre_tasks:
     - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"

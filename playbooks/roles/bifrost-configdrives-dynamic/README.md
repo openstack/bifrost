@@ -98,7 +98,7 @@ Example Playbook
 
 - hosts: baremetal
   connection: local
-  sudo: no
+  become: no
   roles:
     - role: bifrost-configdrives-dynamic
 

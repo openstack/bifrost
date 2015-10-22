@@ -3,7 +3,7 @@
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
-  sudo: yes
+  become: yes
   gather_facts: yes
   pre_tasks:
     - name: "Set default baremetal.csv file if not already defined"

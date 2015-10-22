@@ -2,7 +2,7 @@
 - hosts: localhost
   name: "Install Ironic on the local host."
   connection: local
-  sudo: yes
+  become: yes
   gather_facts: yes
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }

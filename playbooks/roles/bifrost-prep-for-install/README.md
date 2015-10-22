@@ -65,7 +65,7 @@ Example Playbook
 - hosts: localhost
   connection: local
   name: "Install Ironic"
-  sudo: yes
+  become: yes
   gather_facts: yes
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }

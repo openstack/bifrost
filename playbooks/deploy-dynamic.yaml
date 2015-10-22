@@ -2,11 +2,11 @@
 - hosts: localhost
   connection: local
   name: "Collect facts"
-  sudo: no
+  become: no
   gather_facts: yes
 - hosts: baremetal
   name: "Create configuration drive files and deploy machines from inventory"
-  sudo: no
+  become: no
   connection: local
   roles:
     - role: bifrost-configdrives-dynamic

@@ -36,7 +36,7 @@ Example Playbook
 - hosts: baremetal
   connection: local
   name: "Delete the node"
-  sudo: no
+  become: no
   gather_facts: no
   roles:
     - role: ironic-delete-dynamic
