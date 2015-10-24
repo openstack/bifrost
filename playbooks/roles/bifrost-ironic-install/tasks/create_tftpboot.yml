@@ -35,6 +35,8 @@
   when: test_pxelinux.stat.exists == false
 - name: "Place boot.ipxe helper script /etc/ironic/"
   copy: src=boot.ipxe dest=/etc/ironic/boot.ipxe owner=ironic group=ironic mode=0744
+- name: "Pre-stage boot.ipxe into /httpboot/"
+  copy: src=boot.ipxe dest=/httpboot/boot.ipxe owner=ironic group=ironic mode=0744
 - name: "Place tftp config file"
   copy: src=xinetd.tftp dest=/etc/xinetd.d/tftp
 - name: "Copy iPXE image into place"
