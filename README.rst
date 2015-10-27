@@ -6,6 +6,18 @@ deploying a base image onto a set of known hardware using ironic. It
 provides modular utility for one-off operating system deployment with
 as few operational requirements as reasonably possible.
 
+Use Cases
+=========
+
+* Installation of ironic in stand alone/noauth mode without other OpenStack
+  components.
+* Deployment of an operating system to a known pool of hardware as
+  a batch operation.
+* Testing and development of ironic in a standalone use case.
+
+Use
+===
+
 This is split into roughly three steps:
 
 - **install**:
