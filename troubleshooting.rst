@@ -106,8 +106,8 @@ Obtaining IPA logs via the console
    You will want to view the system console occurring. If possible, you
    may wish to use ``ipmitool`` and write the output to a log file.
 
-Gaining access via SSH to the node running IPA
-==============================================
+Gaining access via SSH to the node running IPA on CoreOS based images
+=====================================================================
 
 If you wish to SSH into the node in order to perform any sort of post-mortem,
 you will need to do the following:
@@ -123,6 +123,22 @@ you will need to do the following:
    deployment.
 
 3) ``ssh -l core <ip-address-of-node>``
+
+Gaining access via SSH to the node running IPA for custom images
+================================================================
+
+Custom built images will require a user to be burned into the image.
+Typically a user would use the diskimage-builder devuser element
+to achieve this. More detail on this can be located at::
+
+  https://github.com/openstack/diskimage-builder/tree/master/elements/devuser
+
+Example::
+
+  export DIB_DEV_USER_USERNAME=customuser
+  export DIB_DEV_USER_PWDLESS_SUDO=yes
+  export DIB_DEV_USER_AUTHORIZED_KEYS=$HOME/.ssh/id_rsa.pub
+  disk-image-create -o /path/to/custom-ipa debian ironic-agent devuser
 
 ************************************
 ``ssh_public_key_path is not valid``
