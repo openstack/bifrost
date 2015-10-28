@@ -23,13 +23,21 @@
   local_action: command mktemp -d
   register: variable_configdrive_location
 - name: "Make metadata folder - /openstack/{{ metadata_version }}"
-  local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/
+  file:
+    state: directory
+    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/"
 - name: "Make metadata folder - /openstack/latest"
-  local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/
+  file:
+    state: directory
+    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/"
 - name: "Place template in each openstack/{{ metadata_version }} folder"
-  local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/meta_data.json
+  template:
+    src: openstack_meta_data.json.j2
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/meta_data.json"
 - name: "Place template in each openstack/latest folder"
-  local_action: template src=openstack_meta_data.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/meta_data.json
+  template:
+    src: openstack_meta_data.json.j2
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/meta_data.json"
 - name: "Generate network_info"
   network_metadata:
     ipv4_address: "{{ ipv4_address | default('') }}"
@@ -43,22 +51,31 @@
     node_network_info: "{{ node_network_info | default('') }}"
   when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
 - name: "Place network info template in each openstack/latest folder"
-  local_action: template src=network_info.json.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json
+  template:
+    src: network_info.json.j2
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json"
   when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
 - name: "Make metadata folder - /openstack/latest"
-  local_action: file state=directory name={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/
+  file:
+    state: directory
+    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/"
 - name: "Write network Debian style interface template"
   local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
   when: write_interfaces_file | bool
 - name: "Make config drive files"
   become: yes
-  local_action: command mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}
+  command: mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}
 - name: "Make config drive files base64 encoded and gzip compressed"
   become:  yes
-  local_action: shell gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
+  shell: gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
 - name: "Cleanup configdrive .iso files"
   become: yes
-  local_action: file state=absent name={{http_boot_folder}}/configdrive-{{ uuid }}.iso
+  file:
+    state: absent
+    name: "{{http_boot_folder}}/configdrive-{{ uuid }}.iso"
 - name: "Cleanup configdrive temp folder"
   become: yes
-  local_action: file state=absent force=yes name={{ variable_configdrive_location.stdout }}
+  file:
+    state: absent
+    force: yes
+    name: "{{ variable_configdrive_location.stdout }}"
