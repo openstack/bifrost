@@ -9,7 +9,7 @@ as few operational requirements as reasonably possible.
 Use Cases
 =========
 
-* Installation of ironic in stand alone/noauth mode without other OpenStack
+* Installation of ironic in standalone/noauth mode without other OpenStack
   components.
 * Deployment of an operating system to a known pool of hardware as
   a batch operation.
