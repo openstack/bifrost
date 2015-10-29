@@ -11,12 +11,12 @@ For a highly abridged version, read on.
 Communicating
 -------------
 
-Before you file a ticket or submit a pull request, its often helpful to chat
-with other developers.  The #openstack-ironic channel is a good place to start,
-and if you don't have IRC (or would prefer email), openstack-dev@lists.openstack.org
-is the mailing list for all OpenStack projects.  As the name implies, that mailing
-list is for all OpenStack development, so it's often harder to get attention on
-your particular issue.
+Before you file an Bug or new review set, its often helpful to chat with other
+developers.  The #openstack-ironic channel is a good place to start, and if
+you don't have IRC (or would prefer email), openstack-dev@lists.openstack.org
+is the mailing list for all OpenStack projects.  As the name implies, that
+mailing list is for all OpenStack development, so it's often harder to get
+attention on your particular issue.
 
 -----------
 Filing Bugs
@@ -57,3 +57,44 @@ Once that's done, the development workflow is, roughly::
 From that point on, the link the git review command generated is
 the place to do final tweaks.  When its approved, the code
 will be merged in automatically.
+
+If you propose a new feature and are unable to complete it, please
+let the community know by commenting in the review set indicating
+that someone else is free to carry on your change.  If the core
+reviewers observe reviews that are not being actively worked on,
+we are likely to inquire with you. If a review is untouched and the
+owner of the review is unreachable for a lengthy period of time,
+such as three to six months, the core reviewers may abandon the
+change as we do not utilize auto-abandon.
+
+----------
+Code Style
+----------
+
+Bifrost is a mix of Python, YaML, and bash thrown in for good measure.
+
+The overall intent is to keep features, and changes simple to permit a user
+to easily understand and extend bifrost to meet their operational needs as
+we recognize needs may vary.
+
+With this, we have a list of things that we would like people to keep in mind
+when contributing code.
+
+1. Try to limit YaML to 79 characters per row, we understand this is not
+   always possible, but please make an effort.
+2. Try to keep change sets as short and to the point as possible.
+3. Rather than pass key-value pair strings to Ansible modules, try to utilize
+   key-value pair lists on a module command line.  Example::
+
+      - name: "Stat file for x reason"
+        stat:
+          file: '/path/to/file'
+          get_md5: no
+
+4. Be clear and explicit with actions in playbooks and comments.
+5. Simplicity is favored over magic.
+6. Documentation should generally be paired with code changes as we feel
+   that it is important for us to be able to release the master branch
+   at any time.
+7. Documentation should always be limited to 79 characters per row.
+8. If you have any questions, ask in #openstack-ironic.
