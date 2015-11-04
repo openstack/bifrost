@@ -17,3 +17,7 @@ import pbr.version
 
 __version__ = pbr.version.VersionInfo(
     'bifrost').version_string()
+
+__all__ = [
+    'inventory'
+]
