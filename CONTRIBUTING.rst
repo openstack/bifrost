@@ -97,4 +97,4 @@ when contributing code.
    that it is important for us to be able to release the master branch
    at any time.
 7. Documentation should always be limited to 79 characters per row.
-8. If you have any questions, ask in #openstack-ironic.
+8. If you have any questions, please ask in #openstack-ironic.
