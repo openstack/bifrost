@@ -1,5 +1,5 @@
-00:1c:ab:8a:97:eb,root,undefined,192.168.122.1,1,8192,512,Control,VM,a8cb6624-0d9f-c882-affc-046ebb96ec01,hostname0,192.168.1.2,,,,
-00:2b:b7:65:83:19,root,undefined,192.168.122.1,1,8192,512,Control,VM,a8cb6624-0d9f-c882-affc-046ebb96ec02,hostname1,192.168.1.3,,,,
+00:1c:ab:8a:97:eb,root,undefined,192.168.122.1,1,8192,512,Control,VM,a8cb6624-0d9f-c882-affc-046ebb96ec01,hostname0,192.168.1.2,,,,,agent_ipmitool
+00:2b:b7:65:83:19,root,undefined,192.168.122.1,1,8192,512,Control,VM,a8cb6624-0d9f-c882-affc-046ebb96ec02,hostname1,192.168.1.3,,,,,pxe_ipmitool
 00:3a:ca:56:7d:2e,root,undefined,192.168.122.1,1,8192,512,Control,VM,a8cb6624-0d9f-c882-affc-046ebb96ec03,hostname2,192.168.1.4,,,,
 00:4e:d5:45:6f:31,root,undefined,192.168.122.1,1,8192,512,SwiftStorage,VM,a8cb6624-0d9f-c882-affc-046ebb96ec04,hostname3,192.168.1.5,,,,
 00:5a:ed:39:57:31,root,undefined,192.168.122.1,1,8192,512,SwiftStorage,VM,a8cb6624-0d9f-c882-affc-046ebb96ec05,hostname4,192.168.1.6,,,,
