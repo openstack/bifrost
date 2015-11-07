@@ -170,3 +170,9 @@
     regexp='^allow_credentials=(.*)$'
     line="allow_credentials={{ enable_cors_credential_support | default('true')}}"
   when: enable_cors | bool
+- name: "Set ilo driver to utilize web server"
+  lineinfile:
+    dest=/etc/ironic/ironic.conf
+    insertafter="[ilo]"
+    regexp='^(.*)use_web_server_for_images=(.*)$'
+    line="use_web_server_for_images=true"
