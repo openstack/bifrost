@@ -131,43 +131,43 @@ enable_cors_credential_support: Boolean value, default false.  This variable
 
 ### Hardware Inspection Support
 
-Bifrost also supports the installation of the ironic-inspector in standalone
+Bifrost also supports the installation of ironic-inspector in standalone
 mode, which enables the user to allow for identification of the system
 properties via a workflow.
 
-enable_inspector: Boolean value, default false.  This controls the
-                  installation and configuration of the ironic-
-                  inspector.
+enable_inspector: Boolean value, default false.  Set this value to true to
+                  install ironic-inspector.
 
-inspector_auth: Inspector authentication mode, defaulted to "noauth".
+inspector_auth: Sets ironic-inspector's authentication method. Possible values
+                are `keystone` and `noauth`. `noauth` is recommended since
+                bifrost by default installs ironic as standalone without
+                keystone. The default value is `noauth`.
 
-inspector_debug: Boolean Value, default true, this controls if the ironic
-                 inspector is writing debug logging.  This may change
-                 in the future, however it is the default for initial
-                 testing.
+inspector_debug: Boolean value, default true. Enables debug level logging
+                 for inspector. Note that this default may change in
+                 future.
 
-inspector_manage_firewall: Boolean value, default false, that controls
-                           if the ironic-inspector is to manage the firewall
-                           rules of the host. This is un-necessary in the
-                           bifrost use case since the installation playbook
-                           adds the record to permit the callback traffic.
+inspector_manage_firewall: Boolean value, default false. Controls whether
+                           ironic-inspector should manage the firewall
+                           rules of the host. Bifrost's installation playbook
+                           adds the rule to permit the callback traffic,
+                           so you shouldn't need to enable this.
 
-ironic_auth_strategy: Boolean Value, default "noauth", controls the config
-                      of the ironic-inspector for it to understand that ironic
-                      is operating in noauth mode.
+ironic_auth_strategy: Sets the `auth_strategy` ironic-inspector should use
+                      with ironic.  Possible values are `noauth` and
+                      `keystone`. The default value is `noauth`.
 
-inspector_data_dir: Defaults to "/opt/stack/ironic-inspector/var", Base folder
-                    for inspector temporary data and log files.
+inspector_data_dir: Base path for ironic-inspector's temporary data and log
+                    files. The default location is
+                    `/opt/stack/ironic-inspector/var`.
 
-inspector_port_addition: Default value, 'pxe' of three possible values,
-                         'all', 'active', and 'pxe'.  Controls the logic
-                         utilized for the addition of new port records
-                         associated with the ironic node.
+inspector_port_addition: Defines which MAC addresses to add as ports during
+                         introspection. Possible values are `all`, `active`,
+                         and `pxe`. The default value is `pxe`.
 
-inspector_keep_ports: Default value, 'present' of three possible values,
-                      'all', 'present', and 'added'.  Controls the logic
-                      utilized by inspector for setting ports to be
-                      kept in association with an ironic node.
+inspector_keep_ports: Defines which ports on a node to keep after
+                      introspection. Possible values are `all`, `present`,
+                      and `added`. The default value is `present`.
 
 inspector_store_ramdisk_logs: Boolean value, default true. Controls if the
                               inspector agent will retain logs from the
