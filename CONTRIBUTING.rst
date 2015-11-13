@@ -11,7 +11,7 @@ For a highly abridged version, read on.
 Communicating
 -------------
 
-Before you file an Bug or new review set, its often helpful to chat with other
+Before you file a bug or new review set, it's often helpful to chat with other
 developers.  The #openstack-ironic channel is a good place to start, and if
 you don't have IRC (or would prefer email), openstack-dev@lists.openstack.org
 is the mailing list for all OpenStack projects.  As the name implies, that
