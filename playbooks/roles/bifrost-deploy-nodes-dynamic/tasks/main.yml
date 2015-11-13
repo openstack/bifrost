@@ -18,7 +18,7 @@
 # things that are not directly accessible or reasonable
 # to be inspected.
 - name: "Setup DHCP for nodes."
-  template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ hostname }}
+  template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}
   delegate_to: localhost
   when: inventory_dhcp | bool and instance_info is defined and instance_info | to_json != '{}'
 - name: "Sending dnsmasq HUP"
