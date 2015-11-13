@@ -95,7 +95,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[database]"
     regexp='^(.*)connection=(.*)$'
-    line="connection=mysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8"
+    line="connection=mysql+pymysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8"
 - name: "Configure DHCP provider"
   lineinfile:
     dest=/etc/ironic/ironic.conf
