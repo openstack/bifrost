@@ -20,13 +20,13 @@
 - name: "Setup DHCP for nodes."
   template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}
   delegate_to: localhost
-  when: inventory_dhcp | bool and instance_info is defined and instance_info | to_json != '{}'
+  when: inventory_dhcp | bool
 - name: "Sending dnsmasq HUP"
   # Note(TheJulia): We need to actually to send a hup signal directly as
   # Ansible's reloaded state does not pass through to the init script.
   command: killall -HUP dnsmasq
   become: yes
-  when: inventory_dhcp | bool and instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
+  when: inventory_dhcp | bool
 - name: "Deploy to hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: None
