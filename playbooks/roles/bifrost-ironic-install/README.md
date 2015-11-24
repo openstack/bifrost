@@ -60,6 +60,10 @@ If you chose to utilize the dhcp server, You may wish to set default ranges:
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 
+And also set the default dhcp address lease time:
+
+dhcp_lease_time: 12h
+
 Alternatively, a user can choose to perform static DHCP assignments to nodes.
 This can be enabled by setting the ``inventory_dhcp`` setting to ``true``.
 This will result in the ``dhcp_pool_start`` and ``dhcp_pool_end`` settings
