@@ -154,12 +154,10 @@ dhcp-hostsfile=/etc/dnsmasq.d/bifrost.dhcp-hosts.d
 # a lease time. If you have more than one network, you will need to
 # repeat this for each network on which you want to supply DHCP
 # service.
-{% if not inventory_dhcp %}
 {% if testing %}
 dhcp-range=192.168.122.2,192.168.122.254,12h
 {% else %}
 dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},{{dhcp_lease_time}}
-{% endif %}
 {% endif %}
 
 # This is an example of a DHCP range where the netmask is given. This
