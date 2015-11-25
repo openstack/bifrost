@@ -13,10 +13,10 @@
 # under the License.
 
 """
-test_bifrost
+test_inventory
 ----------------------------------
 
-Tests for `bifrost` module.
+Tests for `inventory` module.
 """
 
 from bifrost import inventory
@@ -31,11 +31,11 @@ class TestBifrostInventory(base.TestCase):
         self.assertIn("localhost", groups)
         self.assertDictEqual(hostvars, {})
         localhost_value = dict(hosts=["127.0.0.1"])
-        self.assertDictEqual(groups['localhost'], localhost_value)
+        self.assertDictEqual(localhost_value, groups['localhost'])
 
     def test__val_or_none(self):
         array = ['no', '', 'yes']
-        self.assertEqual(inventory._val_or_none(array, 0), 'no')
-        self.assertEqual(inventory._val_or_none(array, 1), None)
-        self.assertEqual(inventory._val_or_none(array, 2), 'yes')
-        self.assertEqual(inventory._val_or_none(array, 4), None)
+        self.assertEqual('no', inventory._val_or_none(array, 0))
+        self.assertEqual(None, inventory._val_or_none(array, 1))
+        self.assertEqual('yes', inventory._val_or_none(array, 2))
+        self.assertEqual(None, inventory._val_or_none(array, 4))
