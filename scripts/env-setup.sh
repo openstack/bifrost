@@ -42,7 +42,7 @@ fi
 # older versions of pip are incompatible with
 # requests, one of our indirect dependencies (bug 1459947).
 wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-sudo python /tmp/get-pip.py
+sudo -H -E python /tmp/get-pip.py
 
 sudo -H -E pip install -r "$(dirname $0)/../requirements.txt"
 
