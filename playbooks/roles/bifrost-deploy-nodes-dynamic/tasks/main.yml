@@ -56,7 +56,7 @@
     instance_info:
       image_source: "http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ nginx_port }}/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.stat.md5 }}"
-      image_disk_format: "raw"
+      image_disk_format: "qcow2"
       root_gb: 10
   delegate_to: localhost
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
