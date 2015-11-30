@@ -55,6 +55,7 @@ enabled_drivers: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
 # since IP allocation will be static.
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
+dhcp_lease_time: 12h
 # Dnsmasq default route for clients. If not defined, dnsmasq will push to clients
 # as default route the same IP of the dnsmasq server.
 # Default: undefined
