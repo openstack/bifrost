@@ -8,7 +8,7 @@ Requirements
 
 This role requires:
 
-- Ansible 1.9
+- Ansible 2.0
 
 Role Variables
 --------------
@@ -45,6 +45,14 @@ dib_packages is a comma-separated list of packages to be installed
 on the resulting disk image.
 
 dib_packages: "traceroute,python-devel"
+
+dib_os_release can be utilized to set the DIB_RELEASE environment
+variable for semi-dynamic disk image creation by a user or the
+test script.  By default, it is not set, but an example if
+dib_os_element is set to ``debian``, then a user could choose
+the ``jessie`` release.
+
+dib_os_release: jessie
 
 All the other command-line options to disk-image-create or
 ramdisk-image-create can be used by the role. The following is a list
