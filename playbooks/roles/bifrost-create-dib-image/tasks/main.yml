@@ -104,6 +104,10 @@
   set_fact:
     dib_packages_arg: "-p {{dib_packages}}"
   when: dib_packages is defined and dib_packages != ""
+- name: "Set default of Debian Jessie if building debian and not explicitly set, overwride with dib_os_release setting"
+  set_fact:
+    dib_os_release: "jessie"
+  when: dib_os_element == "debian" and dib_os_release is undefined
 - name: "Set the DIB_RELEASE environment variable if set"
   set_fact:
     dib_env_vars: "{{dib_env_vars | combine({'DIB_RELEASE':dib_os_release}) }}"
