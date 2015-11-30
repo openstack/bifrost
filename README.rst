@@ -159,7 +159,7 @@ default as it can be an unexpected surprise for a new user that their test
 node is unusable for however long it takes for the disks to be wiped.
 
 If you wish to enable cleaning, you can achieve this by passing the option
-``-e cleaning=true`` to the command line or executing the command below.::
+``-e cleaning=true`` to the command line or executing the command below::
 
   ansible-playbook -K -vvvv -i inventory/localhost install.yaml -e cleaning=true
 
@@ -183,7 +183,8 @@ to a local ironic installation operating in noauth mode.
 Hardware enrollment
 ===================
 
-The following requirements are installed during the `Installation`_ step above:
+The following requirements are installed during the `Installation`_ step
+above:
 
 - openstack-infra/shade library
 - openstack-infra/os-client-config
@@ -203,7 +204,8 @@ parser will convert and provide to Ansible.
 
 In order to use, you will need to define the environment variable
 ``BIFROST_INVENTORY_SOURCE`` to equal a file, which then allows you to
-execute Ansible utilizing the ``bifrost_inventory.py`` file as the data source.
+execute Ansible utilizing the ``bifrost_inventory.py`` file as the data
+source.
 
 Conversion from CSV to JSON formats
 -----------------------------------
