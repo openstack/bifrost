@@ -20,10 +20,11 @@ Tests for `inventory` module.
 """
 
 from bifrost import inventory
+
 from bifrost.tests import base
 
 
-class TestBifrostInventory(base.TestCase):
+class TestBifrostInventoryUnit(base.TestCase):
 
     def test_inventory_preparation(self):
         (groups, hostvars) = inventory._prepare_inventory()
