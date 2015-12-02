@@ -102,8 +102,8 @@ Not all of the possible files for a given distribution/version combination
 need to exist. The recommended approach for adding a new variable is:
 
 - Put the variable in the most generic set of defaults to which it applies:
-  for example, if a given variable is applicable to all Debian-family OSes,
-  put it in required_defaults_Debian.yml
+  for example, if a given variable is applicable to all Debian-family
+  operating systems, put it in required_defaults_Debian.yml
 
 - Variables specified in the more specific files will be used to override
   values in the more generic defaults files.
