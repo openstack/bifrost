@@ -2,9 +2,7 @@
 set -e
 
 ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
-# Note(TheJulia): Presently defaulting to stable-1.9, although the syntax
-# is compatible with the Ansible devel branch as of 20150923.
-ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-1.9}
+ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-2.0}
 
 if [ -x '/usr/bin/apt-get' ]; then
     if ! $(gcc -v &>/dev/null); then
