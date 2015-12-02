@@ -92,6 +92,11 @@ The installation is split into two parts.
 The first part is a bash script which lays the basic groundwork of installing
 Ansible itself.
 
+Biforst source code should be pulled directly from git first::
+
+  git clone https://git.openstack.org/openstack/bifrost.git
+  cd bifrost
+
 Edit ``./playbooks/inventory/group_vars/*`` to match your environment. The
 localhost file is intended for steps executed upon the localhost, such as
 installation, or image generation.  The baremetal file is geared for steps
