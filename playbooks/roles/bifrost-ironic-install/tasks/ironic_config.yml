@@ -66,12 +66,12 @@
     regexp='^(.*)debug=(.*)$'
     line="debug=false"
   when: testing | bool == false
-- name: "For agent, Log to screen"
+- name: "For agent, send extra params"
   lineinfile:
     dest=/etc/ironic/ironic.conf
     insertafter="[pxe]"
     regexp='^(.*)pxe_append_params=(.*)$'
-    line="pxe_append_params=systemd.journald.forward_to_console=yes"
+    line="pxe_append_params=systemd.journald.forward_to_console=yes {{extra_kernel_options | default('')}}"
 - name: "Configure conductor API url"
   lineinfile:
     dest=/etc/ironic/ironic.conf
