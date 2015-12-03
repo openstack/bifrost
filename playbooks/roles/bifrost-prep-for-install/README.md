@@ -46,9 +46,13 @@ ironic_git_branch: Branch to install, defaults to "master".
 
 shade_git_branch: Branch to install, defaults to "master".
 
-copy_from_local_path: Boolean value, defaulting to false that allows
-                      a user to define the role to copy the files instead
-                      of cloning fresh copies from Git.
+copy_from_local_path: Boolean value, defaults to false. If set to true,
+                      the role will attempt to perform a filesystem copy of
+                      locally defined git repositories instead of cloning
+                      the local repositories in order to preserve the
+                      pre-existing repository state.  This is largely
+                      something that is needed in CI testing if dependent
+                      changes are pre-staged in the local repositories.
 
 ci_testing_zuul: Boolean value, default false. This value is utilized
                  to tell the prepatory playbook when the prep role
