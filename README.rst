@@ -92,7 +92,7 @@ The installation is split into two parts.
 The first part is a bash script which lays the basic groundwork of installing
 Ansible itself.
 
-Biforst source code should be pulled directly from git first::
+Bifrost source code should be pulled directly from git first::
 
   git clone https://git.openstack.org/openstack/bifrost.git
   cd bifrost
