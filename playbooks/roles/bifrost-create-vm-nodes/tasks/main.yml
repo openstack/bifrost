@@ -23,6 +23,11 @@
   with_first_found:
     - "../defaults/required_defaults_{{ ansible_distribution }}.yml"
     - "../defaults/required_defaults_{{ ansible_os_family }}.yml"
+- name: "Include OS version-specific defaults"
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
+    - "../defaults/dummy-defaults.yml"
 # NOTE(cinerama): On Fedora 22, ansible 1.9, ansible_pkg_mgr
 # defaults to yum, which may not be installed. This can be safely
 # removed when we start using an ansible release which prefers dnf.
@@ -39,6 +44,13 @@
   with_items: required_packages
 - name: "Restart libvirt service"
   service: name="{{libvirt_service_name}}" state=restarted
+- name: "Verify default network is running"
+  shell: virsh net-info default |grep Active|grep -q yes
+  register: virsh_network_status
+  ignore_errors: yes
+- name: "Start default network if not running"
+  command: virsh net-start default
+  when: virsh_network_status.rc != 0
 - name: "Create virtual machines"
   script: create_vm_nodes-for-role.sh
   environment:
