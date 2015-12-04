@@ -1,0 +1,37 @@
+{#
+# Note(TheJulia): This file is based upon the file format provided by the git
+# committed example located at:
+# http://git.openstack.org/cgit/openstack/ironic-inspector/tree/example.conf
+#}
+[DEFAULT]
+auth_strategy = {{ inspector_auth }}
+debug = {{ inspector_debug | bool }}
+
+[database]
+connection=sqlite:///{{ inspector_data_dir }}/inspector.sqlite
+
+[firewall]
+manage_firewall = {{ inspector_manage_firewall | bool }}
+
+[ironic]
+auth_strategy = {{ ironic_auth_strategy }}
+{#
+# Note(TheJulia) preserving ironic_url in the configuration
+# in case future changes allow breaking of the deployment across
+# multiple nodes.
+#ironic_url = http://localhost:6385/
+#}
+
+[processing]
+add_ports = {{ inspector_port_addition | default('pxe') }}
+keep_ports = {{ inspector_keep_ports | default('present') }}
+ramdisk_logs_dir = {{ inspector_data_dir }}/log
+always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | bool }}
+{#
+# Note(TheJulia): Preserving node_not_found_hook for potential future
+# use by bifrost.
+# The name of the hook to run when inspector receives inspection
+# information from a node it isn't already aware of. This hook is
+# ignored by default. (string value)
+#node_not_found_hook = <None>
+#}

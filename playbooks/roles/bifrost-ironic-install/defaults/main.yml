@@ -74,3 +74,17 @@ enable_cors_credential_support: false
 # Set this to true to configure dnsmasq to respond to requests from the
 # hosts in your dynamic inventory.
 inventory_dhcp: False
+
+# Settings to enable the use of inspector
+enable_inspector: false
+inspector_auth: "noauth"
+inspector_debug: true
+inspector_manage_firewall: false
+ironic_auth_strategy: "noauth"
+inspector_data_dir: "/opt/stack/ironic-inspector/var"
+inspector_store_ramdisk_logs: true
+# Note: inspector_port_addition has three valid values: all, active, pxe
+inspector_port_addition: "pxe"
+
+# Note: inspector_keep_ports has three valid values: all, present, added
+inspector_keep_ports: "present"

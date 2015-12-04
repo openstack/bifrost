@@ -170,3 +170,10 @@
     insertafter="[ilo]"
     regexp='^(.*)use_web_server_for_images=(.*)$'
     line="use_web_server_for_images=true"
+- name: "Enable Inspector"
+  lineinfile:
+    dest=/etc/ironic/ironic.conf
+    insertafter="[inspector]"
+    regexp='(^#|^)enabled( |)=(.*)$'
+    line="enabled = True"
+  when: enable_inspector | bool

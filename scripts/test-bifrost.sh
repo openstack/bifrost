@@ -43,7 +43,13 @@ export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
 # interfaces file out to the configuration drive as cirros does
 # not support the network_info.json format file placed in the
 # configuration drive.
-ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dynamic.yaml -e use_cirros=true -e testing_user=cirros -e write_interfaces_file=true
+ansible-playbook -vvvv \
+    -i inventory/bifrost_inventory.py \
+    test-bifrost-dynamic.yaml \
+    -e use_cirros=true \
+    -e testing_user=cirros \
+    -e write_interfaces_file=true \
+    -e enable_inspector=true
 EXITCODE=$?
 
 if [ $EXITCODE != 0 ]; then

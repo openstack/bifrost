@@ -1,0 +1,10 @@
+#!ipxe
+
+dhcp
+
+goto introspect
+
+:introspect
+kernel http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }}/ipa.vmlinuz ipa-inspection-callback-url=http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:5050/v1/continue systemd.journald.forward_to_console=yes ip=${ip}:${next-server}:${gateway}:${netmask} BOOTIF=${mac} nofb nomodeset vga=normal console=ttyS0
+initrd http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{ nginx_port }}/ipa.initramfs
+boot

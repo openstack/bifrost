@@ -19,6 +19,7 @@
     - /tftpboot
     - /tftpboot/pxelinux.cfg
     - "{{ http_boot_folder }}"
+    - "{{ http_boot_folder }}/pxelinux.cfg"
 - name: "Place tftpd map-file"
   copy: src=tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
 - name: "Disable service tftpd-hpa"
@@ -53,3 +54,10 @@
 - name: "Create master_images folder"
   file: name=/tftpboot/master_images state=directory owner=ironic group=ironic
   when: test_master_images.stat.exists == false
+- name: "Inspector - Place default tftp boot file in {{ http_boot_folder}}/pxelinux.cfg/"
+  template:
+    src=inspector-default-boot-ipxe.j2
+    dest="{{ http_boot_folder }}/pxelinux.cfg/default"
+    owner=ironic
+    group=ironic
+  when: enable_inspector | bool
