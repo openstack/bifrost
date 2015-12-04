@@ -10,3 +10,4 @@
   become: no
   roles:
     - role: ironic-enroll-dynamic
+    - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool }

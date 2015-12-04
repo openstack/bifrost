@@ -1,0 +1,24 @@
+---
+galaxy_info:
+  author: Ironic Developers
+  description: Invoke ironic node hardware introspection.
+  company: OpenStack
+  license: Apache
+  min_ansible_version: 1.9
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  - name: Fedora
+    versions:
+    - 20
+  - name: Ubuntu
+    versions:
+    - trusty
+  - name: Debian
+    versions:
+    - wheezy
+  categories:
+  - cloud
+  - cloud:openstack
+dependencies: []

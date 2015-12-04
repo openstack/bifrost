@@ -48,7 +48,9 @@ ansible-playbook -vvvv -i inventory/bifrost_inventory.py \
     test-bifrost-dynamic.yaml \
     -e testing_user=root \
     -e download_ipa=false \
-    -e create_ipa_image=true
+    -e create_ipa_image=true \
+    -e inspect_nodes=true \
+    -e enable_inspector=true
 EXITCODE=$?
 
 if [ $EXITCODE != 0 ]; then
@@ -67,4 +69,6 @@ sudo cp /var/log/upstart/ironic-api.log .${LOG_LOCATION}/
 sudo chown $USER ${LOG_LOCATION}/ironic-api.log
 sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
 sudo chown $USER ${LOG_LOCATION}/ironic-conductor.log
+sudo cp /var/log/upstart/ironic-inspector.log ${LOG_LOCATION}/
+sudo chown $USER ${LOG_LOCATION}/ironic-inspector.log
 exit $EXITCODE
