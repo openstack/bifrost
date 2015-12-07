@@ -14,3 +14,11 @@ inventory_dhcp_static_ip: true
 inventory_dns: false
 deploy_url_protocol: "http"
 noauth_mode: true
+
+# Under normal circumstances, the os_ironic_node module does not wait for
+# the node to reach active state before continuing with the deployment
+# process.  This means we may have to timeout, to figure out a deployment
+# failed.  Change wait_for_node_deploy to true to cause bifrost to wait for
+# Ironic to show the instance in Active state.
+wait_for_node_deploy: false
+wait_timeout: 1800

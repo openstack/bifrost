@@ -39,6 +39,7 @@ PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 NOAUTH_MODE=true
 ENABLE_KEYSTONE=false
 CLOUD_CONFIG=""
+WAIT_FOR_DEPLOY=true
 
 # NOTE(cinerama): We could remove this if we change the CI job to use
 # USE_DHCP, BUILD_IMAGE, etc.
@@ -148,6 +149,7 @@ ${ANSIBLE} -vvvv \
     -e wait_timeout=${PROVISION_WAIT_TIMEOUT} \
     -e noauth_mode=${NOAUTH_MODE} \
     -e enable_keystone=${ENABLE_KEYSTONE} \
+    -e wait_for_node_deploy=${WAIT_FOR_DEPLOY} \
     ${CLOUD_CONFIG}
 EXITCODE=$?
 

@@ -42,3 +42,10 @@ testing_user: root
 # will be generated using diskimage-builder.
 # deploy_image_filename: "deployment_image.qcow2"
 # deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+
+# Under normal circumstances, the os_ironic_node module does not wait for
+# the node to reach active state before continuing with the deployment
+# process.  This means we may have to timeout, to figure out a deployment
+# failed.  Change wait_for_node_deploy to true to cause bifrost to wait for
+# Ironic to show the instance in Active state.
+wait_for_node_deploy: false
