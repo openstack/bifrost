@@ -113,9 +113,17 @@ def main():
                         'type': 'ipv4_dhcp',
                     })
 
+        services = []
+        if module.params['ipv4_nameserver']:
+            services.append({
+                'type': 'dns',
+                'address': module.params['ipv4_nameserver']
+            })
+
         network_metadata = {
             'links': links,
-            'networks': networks
+            'networks': networks,
+            'services': services
         }
         facts = {'network_metadata': network_metadata}
 
