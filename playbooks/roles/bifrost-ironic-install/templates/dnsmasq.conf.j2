@@ -156,6 +156,8 @@ dhcp-hostsfile=/etc/dnsmasq.d/bifrost.dhcp-hosts.d
 # service.
 {% if testing %}
 dhcp-range=192.168.122.2,192.168.122.254,12h
+{% elif inventory_dhcp %}
+dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},static,{{dhcp_static_mask}},{{dhcp_lease_time}}
 {% else %}
 dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},{{dhcp_lease_time}}
 {% endif %}
