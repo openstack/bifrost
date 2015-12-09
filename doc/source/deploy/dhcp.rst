@@ -27,7 +27,7 @@ depending on the environment configuration.
 dnsmasq::
 
     dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
-    dhcp-boot=tag:!ipxe,undionly.kpxe,<TFTP Server Hostname>,<TFTP Server IP Address>
+    dhcp-boot=tag:!ipxe,/undionly.kpxe,<TFTP Server Hostname>,<TFTP Server IP Address>
     dhcp-boot=http://<Bifrost Host IP Address>:8080/boot.ipxe
 
 Internet Systems Consortium DHCPd::
@@ -35,7 +35,7 @@ Internet Systems Consortium DHCPd::
     if exists user-class and option user-class = "iPXE" {
           filename "http://<Bifrost Host IP Address>:8080/boot.ipxe";
     } else {
-          filename "undionly.kpxe";
+          filename "/undionly.kpxe";
           next-server <TFTP Server IP Address>;
     }
 
