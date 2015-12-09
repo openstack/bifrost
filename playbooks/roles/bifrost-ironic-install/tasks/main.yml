@@ -29,6 +29,7 @@
 - name: Include OS version-specific defaults
   include_vars: "{{ item }}"
   with_first_found:
+    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ansible_distribution_release }}.yml"
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
 - name: "Update Package Cache"
@@ -136,6 +137,12 @@
 - name: "Create authorized_keys file for ironic user"
   command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
+- name: "Create service folder if systemd template is defined"
+  file:
+    path: "{{ init_dest_dir }}"
+    state: directory
+    mode: 0755
+  when: init_template == 'systemd_template.j2'
 - name: "Install ironic-inspector to permit use of inspection interface"
   include: inspector_install.yml
   when: enable_inspector | bool

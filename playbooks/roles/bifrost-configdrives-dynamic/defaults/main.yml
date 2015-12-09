@@ -21,3 +21,6 @@ network_mtu: 1500
 
 # Default URL to Ironic
 ironic_url: "http://localhost:6385/"
+
+# Default ISO generation utility
+iso_gen_utility: "mkisofs"
