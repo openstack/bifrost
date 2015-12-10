@@ -67,8 +67,15 @@ dhcp_lease_time: 12h
 Alternatively, a user can choose to perform static DHCP assignments to nodes.
 This can be enabled by setting the ``inventory_dhcp`` setting to ``true``.
 This will result in the ``dhcp_pool_start`` and ``dhcp_pool_end`` settings
-being ignored and the ``ipv4_address`` setting being bound to the first
-listed MAC address for the node.
+only being used to define the range of valid ips to be accepted, and the
+``ipv4_address`` setting being bound to the first listed MAC address for
+the node.
+If you choose to use the static DHCP assignments, you may need to set
+the ``dhcp_static_mask`` setting according to your needs. It defaults to
+a /24 range.
+In the case of static inventory, please also consider to set the
+``dhcp_lease_time`` setting to infinite, to avoid unnecessary refreshes
+of ips.
 
 In case your HW needs a kernel option to boot, set the following variable:
 
