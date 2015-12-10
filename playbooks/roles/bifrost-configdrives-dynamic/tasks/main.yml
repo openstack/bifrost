@@ -62,9 +62,17 @@
 - name: "Write network Debian style interface template"
   local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
   when: write_interfaces_file | bool
+- name: "Check if mkisofs is available"
+  shell: mkisofs --help >>/dev/null
+  ignore_errors: yes
+  register: test_mkisofs
+- name: "If mkisofs is not available, fallback to genisoimage"
+  set_fact:
+    iso_gen_utility: "genisoimage"
+  when: test_mkisofs.rc != 0
 - name: "Make config drive files"
   become: yes
-  command: mkisofs -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}
+  command: "{{iso_gen_utility}} -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}"
 - name: "Make config drive files base64 encoded and gzip compressed"
   become:  yes
   shell: gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
