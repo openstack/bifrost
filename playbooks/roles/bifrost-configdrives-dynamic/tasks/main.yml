@@ -70,6 +70,13 @@
   set_fact:
     iso_gen_utility: "genisoimage"
   when: test_mkisofs.rc != 0
+- name: "Check if genisoimage is available"
+  shell: genisoimage --help >>/dev/null
+  ignore_errors: yes
+  register: test_genisoimage
+- name: "fail if genisoimage is not available."
+  fail: msg="Neither mkisofs or genisoimage is available. Cannot make config drive files."
+  when: test_genisoimage.rc != 0 and test_mkisofs.rc != 0
 - name: "Make config drive files"
   become: yes
   command: "{{iso_gen_utility}} -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}"
