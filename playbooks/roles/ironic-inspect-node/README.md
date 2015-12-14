@@ -29,7 +29,7 @@ Example Playbook
 
 hosts: testvm
   name: "Introspect node"
-  sudo: no
+  become: no
   gather_facts: no
   roles:
     - role: ironic-inspect-node
