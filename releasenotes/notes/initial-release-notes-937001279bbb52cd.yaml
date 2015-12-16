@@ -1,0 +1,6 @@
+---
+prelude: >
+    Starting with bifrost 0.1.x, release note generation
+    is via the reno utility.
+feature:
+  - Bifrost has adopted reno for release note management.

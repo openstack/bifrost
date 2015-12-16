@@ -55,3 +55,6 @@ ChangeLog
 
 # test-bifrost log output
 logs
+
+#Files created by release notes generation
+releasenotes/build
