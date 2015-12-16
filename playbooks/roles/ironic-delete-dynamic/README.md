@@ -24,6 +24,13 @@ nics: A list of dictionary key-value pairs in the format of a key value
 
   [{'mac':'01:02:03:04:05:06'},{'mac':'01:02:03:04:05:07'}]
 
+noauth_mode: Controls if the module is called in noauth mode.
+             By default, this is the standard mode of operation,
+             however if set to false, the role utilizes os_client_config
+             which expects a clouds.yml file.  More information about
+             this file format can be found at:
+             http://docs.openstack.org/developer/os-client-config/
+
 Dependencies
 ------------
 

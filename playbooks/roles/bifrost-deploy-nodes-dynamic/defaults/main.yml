@@ -8,5 +8,5 @@ http_boot_folder: "/httpboot"
 deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 inventory_dhcp: false
-
 deploy_url_protocol: "http"
+noauth_mode: true

@@ -33,6 +33,13 @@ ipa_file_protocol: The protocol to utilize to access IPA files. The default is
                    Do note, that a user wishing to utilize HTTPS may wish to
                    review the iPXE documentation: http://ipxe.org/crypto
 
+noauth_mode: Controls if the module is called in noauth mode.
+             By default, this is the standard mode of operation,
+             however if set to false, the role utilizes os_client_config
+             which expects a clouds.yml file.  More information about
+             this file format can be found at:
+             http://docs.openstack.org/developer/os-client-config/
+
 This role expects a data structure similar to the one below, however it should
 be understood that the individual entries under power can vary based on power
 driver required.

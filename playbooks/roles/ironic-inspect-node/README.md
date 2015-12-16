@@ -18,6 +18,13 @@ uuid: The UUID of the node to invoke ironic node introspection upon.
 name: A node name to invoke inspection upon.  This variable is not
       required if the node uuid value is supplied.
 
+noauth_mode: Controls if the module is called in noauth mode.
+             By default, this is the standard mode of operation,
+             however if set to false, the role utilizes os_client_config
+             which expects a clouds.yml file.  More information about
+             this file format can be found at:
+             http://docs.openstack.org/developer/os-client-config/
+
 Dependencies
 ------------
 

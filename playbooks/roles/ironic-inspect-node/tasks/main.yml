@@ -12,10 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Execute node introspection"
-  os_ironic_inspect:
+- name: "If in noauth mode, set Auth parameters to None"
+  set_fact:
     auth_type: None
     auth: None
+  when: noauth_mode | bool == true
+- name: "Execute node introspection - NoAuth Mode"
+  os_ironic_inspect:
+    auth_type: "{{ auth_type | default(omit) }}"
+    auth: "{{ auth | default(omit) }}"
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid }}"
   delegate_to: localhost

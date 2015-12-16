@@ -15,3 +15,5 @@ ipa_file_protocol: "http"
 
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.vmlinuz"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.initramfs"
+
+noauth_mode: true

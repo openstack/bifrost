@@ -17,6 +17,11 @@
 # the pass-through could mean that the user could deploy
 # things that are not directly accessible or reasonable
 # to be inspected.
+- name: "If in noauth mode, set Auth parameters to None"
+  set_fact:
+    auth_type: None
+    auth: None
+  when: noauth_mode | bool == true
 - name: "Setup DHCP for nodes."
   template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}  owner=root group=root mode=0644
   delegate_to: localhost
@@ -28,10 +33,10 @@
   command: killall -HUP dnsmasq
   become: yes
   when: inventory_dhcp | bool
-- name: "Deploy to hardware - Using custom instance_info."
+- name: "Deploy to hardware - Using custom instance_info"
   os_ironic_node:
-    auth_type: None
-    auth: None
+    auth_type: "{{ auth_type | default(omit) }}"
+    auth: "{{ auth | default(omit) }}"
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid }}"
     state: present
@@ -48,8 +53,8 @@
   when: instance_info is not defined and test_deploy_image.stat.exists | bool == false
 - name: "Deploy to hardware - bifrost default"
   os_ironic_node:
-    auth_type: None
-    auth: None
+    auth_type: "{{ auth_type | default(omit) }}"
+    auth: "{{ auth | default(omit) }}"
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid }}"
     state: present
