@@ -21,6 +21,7 @@
   template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}
   delegate_to: localhost
   when: inventory_dhcp | bool
+  become: yes
 - name: "Sending dnsmasq HUP"
   # Note(TheJulia): We need to actually to send a hup signal directly as
   # Ansible's reloaded state does not pass through to the init script.
