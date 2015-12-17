@@ -14,12 +14,12 @@
 # limitations under the License.
 ---
 - name: "Inspector - PIP Install"
-  pip:
-    name=ironic-inspector
+  include: pip_install.yml
+    package=ironic-inspector
     state=latest
 - name: "Inspector - PIP client install"
-  pip:
-    name=python-ironic-inspector-client
+  include: pip_install.yml
+    package=python-ironic-inspector-client
     state=latest
 # Note(TheJulia): Until support exists in the inspector database schema, to
 # allow for inspector to define its preferred database engine, MySQL cannot
