@@ -41,7 +41,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
 192.168.1.3,,,,,agent_ipmitool""".replace('\n', '').replace('|', '\n')
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
- "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
+ "name": "hostname1", "ipv4_address": "192.168.1.3",
+ "provisioning_ipv4_address": "192.168.1.3" ,"ansible_ssh_host":
  "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
  "ipmi_password": "undefined", "ipmi_username": "root",
  "ipmi_target_address": null, "ipmi_target_channel": null,
@@ -49,7 +50,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
  "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
  {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
- "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
+ "name": "hostname0", "ipv4_address": "192.168.1.2",
+ "provisioning_ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "driver_info": {"power": {"ssh_virt_type": "virsh",
  "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
  "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
@@ -69,7 +71,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
 
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
- "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
+ "name": "hostname1", "ipv4_address": "192.168.1.3",
+ "provisioning_ipv4_address": "192.168.1.3", "ansible_ssh_host":
  "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
  "ipmi_password": "undefined", "ipmi_username": "root",
  "ipmi_target_address": "20", "ipmi_target_channel": "10",
@@ -92,7 +95,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
 
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
- "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
+ "name": "hostname1", "ipv4_address": "192.168.1.3",
+ "provisioning_ipv4_address": "192.168.1.3", "ansible_ssh_host":
  "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
  "ipmi_password": "undefined", "ipmi_username": "root",
  "ipmi_target_address": "20", "ipmi_target_channel": "10",
@@ -112,6 +116,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
  "name": "hostname1", "addressing_mode": "dhcp", "ipv4_address": null,
+ "provisioning_ipv4_address": null,
  "driver_info": {"power": {"ipmi_address": "192.0.2.3", "ipmi_password":
  "undefined", "ipmi_username": "root", "ipmi_target_address": null,
  "ipmi_target_channel": null, "ipmi_transit_address": null,
@@ -134,6 +139,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
  "name": "hostname1", "addressing_mode": "dhcp", "ipv4_address": null,
+ "provisioning_ipv4_address": null,
  "driver_info": {"power": {"ipmi_address": "192.0.2.3", "ipmi_password":
  "undefined", "ipmi_username": "root", "ipmi_target_address": null,
  "ipmi_target_channel": null, "ipmi_transit_address": null,
@@ -157,7 +163,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
  "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
- "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
+ "192.168.1.3", "provisioning_ipv4_address": "192.168.1.3",
+ "driver_info": {"power": {"ipmi_address": "192.0.2.3",
  "ipmi_password": "undefined", "ipmi_username": "root",
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
@@ -165,7 +172,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
  {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
- "192.168.1.2", "driver_info": {"power": {"ssh_virt_type": "virsh",
+ "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
+ "driver_info": {"power": {"ssh_virt_type": "virsh",
  "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
  "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
@@ -184,7 +192,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
         expected_hostvars = """{"hostname1":
  {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
  "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
- "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
+ "192.168.1.3", "provisioning_ipv4_address": "192.168.1.3",
+ "driver_info": {"power": {"ipmi_address": "192.0.2.3",
  "ipmi_password": "undefined", "ipmi_username": "root",
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
@@ -192,7 +201,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
  {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
- "192.168.1.2", "driver_info": {"power": {"ssh_virt_type": "virsh",
+ "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
+ "driver_info": {"power": {"ssh_virt_type": "virsh",
  "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
  "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",

@@ -256,6 +256,7 @@ Example::
         "driver": "agent_ssh",
         "ansible_ssh_host": "192.168.122.2",
         "ipv4_address": "192.168.122.2",
+        "provisioning_ipv4_address": "10.0.0.9",
         "properties": {
           "cpu_arch": "x86_64",
           "ram": "3072",
@@ -296,10 +297,11 @@ The CSV file has the following columns:
 14. ``ipmi_transit_channel`` - Requires: ``ipmi_bridging`` set to dual
 15. ``ipmi_transit_address`` - Requires: ``ipmi_bridging`` set to dual
 16. ironic driver
+17. Host provisioning IP Address
 
 Example definition::
 
-  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,agent_ipmitool
+  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,agent_ipmitool,10.0.0.9
 
 This file format is fairly flexible and can be easily modified
 although the enrollment and deployment playbooks utilize the model

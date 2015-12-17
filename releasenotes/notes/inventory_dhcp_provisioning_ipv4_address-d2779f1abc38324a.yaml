@@ -1,0 +1,16 @@
+---
+features:
+  -
+    The inventory_dhcp feature permits configuration
+    of dnsmasq to provide the IP configuration on
+    servers deployed by Bifrost, rather than setting
+    that information into the config drive.
+    Previously, the feature assumed the IP set by
+    dnsmasq was both the provisioning and the
+    management IP, but on some scenarios that is
+    not always the case.
+    With the inclusion of the inventory_dhcp_static_ip
+    option a user can provide an specific provisioning 
+    IP via the JSON/YAML/CSV inventory in a server by
+    server basis, which will be used just for the
+    provisioning.

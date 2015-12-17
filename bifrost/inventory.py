@@ -188,6 +188,9 @@ def _process_baremetal_data(data_source, groups, hostvars):
                 host['addressing_mode'] = "dhcp"
             else:
                 host['ansible_ssh_host'] = host['ipv4_address']
+
+            if 'provisioning_ipv4_address' not in host.keys():
+                host['provisioning_ipv4_address'] = host['ipv4_address']
             # Add each host to the values to be returned.
             groups['baremetal']['hosts'].append(host['name'])
             hostvars.update({host['name']: host})
@@ -228,8 +231,15 @@ def _process_baremetal_csv(data_source, groups, hostvars):
             host['ipv4_address'] = _val_or_none(row, 11)
             if not host['ipv4_address']:
                 host['addressing_mode'] = "dhcp"
+                host['provisioning_ipv4_address'] = None
             else:
                 host['ansible_ssh_host'] = host['ipv4_address']
+
+            if len(row) > 17:
+                host['provisioning_ipv4_address'] = row[18]
+            else:
+                host['provisioning_ipv4_address'] = host['ipv4_address']
+
             # Default Driver unless otherwise defined or determined.
             host['driver'] = "agent_ssh"
 
