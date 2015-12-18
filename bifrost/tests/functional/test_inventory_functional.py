@@ -16,6 +16,7 @@
 # limitations under the License.
 
 import json
+import yaml
 
 from bifrost.tests import base
 from bifrost.tests import utils
@@ -119,4 +120,83 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1
  "x86_64", "disk_size": "1024", "cpus": "2"}}}""".replace('\n', '')
 
         (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
+        self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
+
+    def test_csv_json_reconsumability_dhcp(self):
+        # Note(TheJulia) This intentionally takes CSV data, converts it
+        # and then attempts reconsumption of the same data through the
+        # JSON/YAML code path of Bifrost to ensure that the output
+        # is identical.
+        CSV = """00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
+unused,,00000000-0000-0000-0000-000000000002,hostname1
+,,,,,,agent_ipmitool""".replace('\n', '')
+
+        expected_hostvars = """{"hostname1":
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ "name": "hostname1", "addressing_mode": "dhcp", "ipv4_address": null,
+ "driver_info": {"power": {"ipmi_address": "192.0.2.3", "ipmi_password":
+ "undefined", "ipmi_username": "root", "ipmi_target_address": null,
+ "ipmi_target_channel": null, "ipmi_transit_address": null,
+ "ipmi_transit_channel": null}}, "nics":
+ [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
+ "x86_64", "disk_size": "1024", "cpus": "2"}}}""".replace('\n', '')
+
+        (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
+        self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
+        (groups, hostvars) = utils.bifrost_data_conversion(
+            json.dumps(hostvars))
+        self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
+
+    def test_csv_json_reconsumability_general(self):
+        CSV = """00:01:02:03:04:05,root,undefined,192.0.2.2,1,8192,512,
+unused,,00000000-0000-0000-0000-000000000001,hostname0,
+192.168.1.2,,,,|
+00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
+unused,,00000000-0000-0000-0000-000000000002,hostname1,
+192.168.1.3,,,,,agent_ipmitool""".replace('\n', '').replace('|', '\n')
+        expected_hostvars = """{"hostname1":
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
+ "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
+ "ipmi_password": "undefined", "ipmi_username": "root",
+ "ipmi_target_address": null, "ipmi_target_channel": null,
+ "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
+ [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
+ "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
+ {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
+ "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
+ "192.168.1.2", "driver_info": {"power": {"ssh_virt_type": "virsh",
+ "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
+ "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
+ [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
+ "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"}}}""".replace('\n', '')
+
+        (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
+        self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
+        (groups, hostvars) = utils.bifrost_data_conversion(
+            json.dumps(hostvars))
+        self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
+
+    def test_yaml_to_json_conversion(self):
+        # Note(TheJulia) Ultimately this is just ensuring
+        # that we get the same output when we pass something
+        # in as YAML
+        expected_hostvars = """{"hostname1":
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
+ "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
+ "ipmi_password": "undefined", "ipmi_username": "root",
+ "ipmi_target_address": null, "ipmi_target_channel": null,
+ "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
+ [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
+ "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
+ {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
+ "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
+ "192.168.1.2", "driver_info": {"power": {"ssh_virt_type": "virsh",
+ "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
+ "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
+ [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
+ "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"}}}""".replace('\n', '')
+        (groups, hostvars) = utils.bifrost_data_conversion(
+            yaml.dump(json.loads(str(expected_hostvars))))
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
