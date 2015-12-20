@@ -180,7 +180,12 @@
 - name: "Generate ironic Configuration"
   include: ironic_config.yml
 - name: "Copy policy.json to /etc/ironic"
-  copy: src="{{ ironic_git_folder }}/etc/ironic/policy.json" dest=/etc/ironic/ owner=ironic group=ironic mode=0644
+  copy:
+    src: "{{ ironic_git_folder }}/etc/ironic/policy.json"
+    dest: "/etc/ironic/"
+    owner: "ironic"
+    group: "ironic"
+    mode: 0644
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   when: test_created_db.changed == true
@@ -194,7 +199,13 @@
   user: name=ironic group="{{ virt_group }}" append=yes
   when: testing == true
 - name: "Create SSH directory for ironic user"
-  local_action: file path=/home/ironic/.ssh owner=ironic group=ironic mode=0700 state=directory
+  local_action: >
+    file
+    path=/home/ironic/.ssh
+    owner=ironic
+    group=ironic
+    mode=0700
+    state=directory
   when: testing == true
 - name: "Check for ironic user SSH key"
   local_action: stat path=/home/ironic/.ssh/id_rsa
@@ -203,13 +214,26 @@
   local_action: command ssh-keygen -f /home/ironic/.ssh/id_rsa -N ""
   when: testing == true and test_ironic_pvt_key.stat.exists == false
 - name: "Set ownership on ironic SSH private key"
-  local_action: file name=/home/ironic/.ssh/id_rsa owner=ironic group=ironic mode=0600 state=file
+  local_action: >
+    file
+    name=/home/ironic/.ssh/id_rsa
+    owner=ironic
+    group=ironic
+    mode=0600
+    state=file
   when: testing == true and test_ironic_pvt_key.stat.exists == false
 - name: "Set ownership on ironic SSH public key"
-  local_action: file name=/home/ironic/.ssh/id_rsa.pub owner=ironic group=ironic mode=0644 state=file
+  local_action: >
+    file
+    name=/home/ironic/.ssh/id_rsa.pub
+    owner=ironic
+    group=ironic
+    mode=0644
+    state=file
   when: testing == true and test_ironic_pvt_key.stat.exists == false
 - name: "Create authorized_keys file for ironic user"
-  command: cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
+  command: >
+    cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
   when: testing == true
 - name: "Create service folder if systemd template is defined"
   file:
