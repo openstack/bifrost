@@ -106,15 +106,36 @@
   command: sed -i 's/localhost/{{ ansible_hostname }} localhost/' /etc/hosts
   when: test_grep_fix_hostname.rc != 0
 - name: "Ensure guest user is removed from rabbitmq"
-  rabbitmq_user: user=guest state=absent force=yes
+  rabbitmq_user:
+    user: "guest"
+    state: absent
+    force: yes
 - name: "Create ironic user in RabbitMQ"
-  rabbitmq_user: user=ironic password={{ ironic_db_password }} force=yes state=present configure_priv=.* write_priv=.* read_priv=.*
+  rabbitmq_user:
+    user: "ironic"
+    password: "{{ ironic_db_password }}"
+    force: yes
+    state: present
+    configure_priv: ".*"
+    write_priv: ".*"
+    read_priv: ".*"
   no_log: true
 - name: "MySQL - Creating DB"
-  mysql_db: name=ironic state=present encoding=utf8 login_user="{{ mysql_username | default(None) }}" login_password="{{ mysql_password | default(None) }}"
+  mysql_db:
+    name: "ironic"
+    state: present
+    encoding: utf8
+    login_user: "{{ mysql_username | default(None) }}"
+    login_password: "{{ mysql_password | default(None) }}"
   register: test_created_db
 - name: "MySQL - Creating user for Ironic"
-  mysql_user: name=ironic password='{{ ironic_db_password }}' priv=ironic.*:ALL state=present login_user="{{ mysql_username | default(None) }}" login_password="{{ mysql_password | default(None) }}"
+  mysql_user:
+    name: "ironic"
+    password: "{{ ironic_db_password }}"
+    priv: "ironic.*:ALL"
+    state: present
+    login_user: "{{ mysql_username | default(None) }}"
+    login_password: "{{ mysql_password | default(None) }}"
 - name: "Install Ironic using pip"
   include: pip_install.yml
     package=ironic
