@@ -231,10 +231,20 @@
 - name: "Create and populate /tftpboot"
   include: create_tftpboot.yml
 - name: "Setup Inventory Hosts Directory"
-  file: path=/etc/dnsmasq.d/bifrost.hosts.d state=directory owner=root group=root mode=0755
+  file:
+    path: "/etc/dnsmasq.d/bifrost.hosts.d"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
   when: "{{inventory_dhcp|bool}}"
 - name: "Setup Inventory DHCP Hosts Directory"
-  file: path=/etc/dnsmasq.d/bifrost.dhcp-hosts.d state=directory owner=root group=root mode=0755
+  file:
+    path: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: 0755
   when: "{{inventory_dhcp|bool}}"
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
@@ -267,7 +277,10 @@
   register: test_sgabios_misc
 - name: "Place sgabios.bin"
   command: cp /usr/share/misc/sgabios.bin /usr/share/qemu/sgabios.bin
-  when: test_sgabios_qemu == false and test_sgabios_misc == true and testing == true
+  when: >
+    test_sgabios_qemu == false and
+    test_sgabios_misc == true and
+    testing == true
 - name: "Deploy nginx configuration file for serving HTTP requests"
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 - name: "Ensure services are running with current config"
@@ -292,9 +305,16 @@
   include: download_ipa_image.yml
   when: download_ipa | bool == true
 - name: "Download cirros to use for deployment if requested"
-  get_url: url={{ cirros_deploy_image_upstream_url }} dest="{{ deploy_image }}"
+  get_url:
+    url: "{{ cirros_deploy_image_upstream_url }}"
+    dest: "{{ deploy_image }}"
   when: "{{use_cirros|bool}}"
-- name: "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned"
-  command: iptables -I INPUT -p tcp --dport {{nginx_port}} -i {{network_interface}} -j ACCEPT
+- name: >
+    "Explicitly permit nginx port (TCP) for
+    file downloads from nodes to be provisioned"
+  command: >
+    iptables -I INPUT -p tcp --dport {{nginx_port}}
+    -i {{network_interface}} -j ACCEPT
 - name: "Explicitly permit TCP/6385 for IPA callback"
-  command: iptables -I INPUT -p tcp --dport 6385 -i {{network_interface}} -j ACCEPT
+  command: >
+    iptables -I INPUT -p tcp --dport 6385 -i {{network_interface}} -j ACCEPT
