@@ -87,10 +87,10 @@ variable which defaults to: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
 
 By default, PXE driver baseline support, in terms of installation of the
 iSCSI client and configuration of sudoers and rootwrap configuration is
-enabled. If you wish to disable this functionality, set ``pxe_drivers``
-to a value of ``false``.
+enabled. If you wish to disable this functionality, set
+``enable_pxe_drivers`` to a value of ``false``.
 
-pxe_drivers: false
+enable_pxe_drivers: false
 
 In the event of an external DHCP server being used, the user will need to
 configure their DHCP server such that PXE, and iPXE chain loading occurs.

@@ -68,7 +68,7 @@
   package:
     name: "{{ iscsi_client_package }}"
     state: present
-  when: skip_install is not defined and pxe_drivers | bool == true
+  when: skip_install is not defined and enable_pxe_drivers | bool == true
 - name: "Shade - Install"
   include: pip_install.yml
     package=shade
@@ -146,7 +146,7 @@
     mode: 0644
     owner: root
     group: root
-  when: skip_install is not defined and pxe_drivers | bool == true
+  when: skip_install is not defined and enable_pxe_drivers | bool == true
 - name: "Copy rootwrap.d contents from ironic source folder"
   copy:
     src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/"
@@ -155,7 +155,7 @@
     owner: root
     group: root
     directory_mode: yes
-  when: skip_install is not defined and pxe_drivers | bool == true
+  when: skip_install is not defined and enable_pxe_drivers | bool == true
 - name: "Generate ironic Configuration"
   include: ironic_config.yml
 - name: "Copy policy.json to /etc/ironic"

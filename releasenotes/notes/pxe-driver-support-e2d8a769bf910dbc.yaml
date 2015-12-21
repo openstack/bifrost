@@ -5,7 +5,7 @@ features:
     target node. By default, this support is enabled.
 upgrade:
   - PXE driver substrate support is now enabled by default.
-    If a user wishes to prevent this, the ``pxe_drivers``
+    If a user wishes to prevent this, the ``enable_pxe_drivers``
     setting should be set to ``false``.
 security:
   - PXE driver support substrate has been added, however
