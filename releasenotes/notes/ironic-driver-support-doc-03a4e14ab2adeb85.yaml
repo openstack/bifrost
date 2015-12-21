@@ -1,0 +1,9 @@
+---
+other:
+  - The README.rst file was updated to include a list
+    of the drivers enabled by default, as well as what
+    driver is available in testing mode.
+  - A pointer was added to the README.rst file for users
+    possibly wishing to utilize the OneView driver for mass
+    machine deployment via bifrost, since the driver cannot
+    be enabled by default.

@@ -438,3 +438,38 @@ addition to ``dib_os_element``.
 If you wish to include an extra element into the IPA disk image, such as a
 custom hardware manager, you can pass the variable ``ipa_extra_dib_elements``
 as a space-separated list of elements. This defaults to an empty string.
+
+Driver Support
+==============
+
+Testing Mode
+------------
+
+When setup in testing mode, bifrost configures ironic to utilize the
+``agent_ssh`` driver to help facilitate the deployment of local test
+machines.
+
+Default Mode
+------------
+
+When not in testing mode, bifrost enables the following ironic drivers:
+
+* agent_ipmitool
+* pxe_amt
+* agent_ilo
+* agent_ucs
+
+OneView Driver Support
+----------------------
+
+As the OneView driver requires configuration information to be populated
+in the ironic.conf configuration file that points to the OneView manager
+node as well as credentials, bifrost does not support installation and
+configuration of the driver.
+
+Please reference the ironic OneView driver documentation at if you wish
+to update the configuration after installation in order to leverage bifrost
+for mass node deployment.
+
+The OneView documentation can be found
+`here <http://docs.openstack.org/developer/ironic/drivers/oneview.html>`_.
