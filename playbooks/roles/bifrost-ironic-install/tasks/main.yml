@@ -44,35 +44,51 @@
   with_items:
     - pxelinux
   when: ansible_distribution_version|version_compare('14.10', '>=') and ansible_distribution == 'Ubuntu'
+- name: "If running in CI, set source install facts just to be sure"
+  set_fact:
+    shade_source_install: true
+    ironicclient_source_install: true
+  when: ci_testing | bool == true
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
 - name: "Ensure /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 - name: "proliantutils - Install from pip"
-  pip: name=proliantutils state=present
+  include: pip_install.yml
+     package=proliantutils
+     state=present
   when: skip_install is not defined and testing | bool != true
 - name: "UcsSdk - Install from pip"
-  pip: name=UcsSdk version=0.8.1.9
+  include: pip_install.yml
+    package=UcsSdk
+    version=0.8.1.9
   when: skip_install is not defined and testing | bool != true
-- name: "Shade - Install from source if configured to do so"
-  command: pip install --upgrade --force-reinstall {{ shade_git_folder }}
-  when: skip_install is not defined and ((shade_source_install is defined and shade_source_install == true) or ci_testing == true)
-- name: "Shade - Installing patched shade library."
-  pip: name=shade state=latest
-  when: skip_install is not defined and (shade_source_install is not defined or shade_source_install == false) and (ci_testing == false)
+- name: "Shade - Install"
+  include: pip_install.yml
+    package=shade
+    state=latest
+    sourcedir={{ shade_git_folder }}
+    source_install={{ shade_source_install }}
+  when: skip_install is not defined
 - name: "dib-utils - install from pip"
-  pip: name=dib-utils state=present
+  include: pip_install.yml
+    package=dib-utils
+    state=present
   when: skip_install is not defined and create_image_via_dib == true
-- name: "Ironic Client - Install from source if configured to do so."
-  command: pip install --upgrade --force-reinstall {{ ironicclient_git_folder }}
-  when: skip_install is not defined and ((ironicclient_source_install is defined and ironicclient_source_install == true) or ci_testing == true)
-- name: "Ironic Client - Install from pip"
-  pip: name=python-ironicclient state=latest
-  when: skip_install is not defined and (ironicclient_source_install is not defined or ironicclient_source_install == false) and (ci_testing == false)
-- name: "Include diskimage-builder installation"
-  include: dib_install.yml
-  when: create_image_via_dib == true
+- name: "Diskimage-builder - Install"
+  include: pip_install.yml
+    package=diskimage-builder
+    sourcedir={{ dib_git_folder }}
+    source_install=true
+  when: skip_install is not defined and create_image_via_dib == true
+- name: "Ironic Client - Install"
+  include: pip_install.yml
+    package=python-ironicclient
+    state=latest
+    sourcedir={{ ironicclient_git_folder }}
+    source_install={{ ironicclient_source_install }}
+  when: skip_install is not defined
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started
 - name: "Start rabbitmq-server"
@@ -95,7 +111,11 @@
 - name: "MySQL - Creating user for Ironic"
   mysql_user: name=ironic password='{{ ironic_db_password }}' priv=ironic.*:ALL state=present login_user="{{ mysql_username | default(None) }}" login_password="{{ mysql_password | default(None) }}"
 - name: "Install Ironic using pip"
-  pip: name={{ ironic_git_folder }} state=latest
+  include: pip_install.yml
+    package=ironic
+    state=latest
+    sourcedir={{ ironic_git_folder }}
+    source_install=true
   when: skip_install is not defined
 - name: "Create an ironic service group"
   group: name=ironic
