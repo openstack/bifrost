@@ -18,7 +18,7 @@
 # things that are not directly accessible or reasonable
 # to be inspected.
 - name: "Setup DHCP for nodes."
-  template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}
+  template: src=dhcp-host.j2 dest=/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}  owner=root group=root mode=0644
   delegate_to: localhost
   when: inventory_dhcp | bool
   become: yes
