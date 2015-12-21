@@ -196,7 +196,7 @@ def _process_baremetal_data(data_source, groups, hostvars):
 
 def _process_baremetal_csv(data_source, groups, hostvars):
     """Process legacy baremetal.csv format"""
-    with open(data_source, 'rb') as file_data:
+    with open(data_source, 'r') as file_data:
         for row in csv.reader(file_data, delimiter=','):
             if not row:
                 break
