@@ -14,11 +14,12 @@
 # limitations under the License.
 ---
 - name: "Install {{ package }} package from pip"
-  pip: name="{{ package }}"
-       state="{{ state | default(omit) }}"
-       version="{{ version | default(omit) }}"
-       virtualenv="{{ virtualenv | default(omit) }}"
-  when: source_install is not defined or source_install == false
+  pip:
+    name: "{{ package }}"
+    state: "{{ state | default(omit) }}"
+    version: "{{ version | default(omit) }}"
+    virtualenv: "{{ virtualenv | default(omit) }}"
+  when: source_install is not defined or (source_install | bool == false)
 # NOTE (cinerama): We should be able to use the pip module here and
 # possibly merge these two tasks when
 # https://github.com/ansible/ansible-modules-core/pull/2600 lands.
