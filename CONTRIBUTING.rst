@@ -91,10 +91,20 @@ when contributing code.
           file: '/path/to/file'
           get_md5: no
 
-4. Be clear and explicit with actions in playbooks and comments.
-5. Simplicity is favored over magic.
-6. Documentation should generally be paired with code changes as we feel
+4. Playbook conditionals utilizing variables intended as booleans,
+   should make use of the ``| bool`` casting feature.  This is due
+   to command line overrides are typically interpreted as strings
+   instead of booleans.  Example::
+
+      - name: "Something something something something"
+        module:
+          parameter: "value"
+        when: boolean_value | bool == true
+
+5. Be clear and explicit with actions in playbooks and comments.
+6. Simplicity is favored over magic.
+7. Documentation should generally be paired with code changes as we feel
    that it is important for us to be able to release the master branch
    at any time.
-7. Documentation should always be limited to 79 characters per row.
-8. If you have any questions, please ask in #openstack-ironic.
+8. Documentation should always be limited to 79 characters per row.
+9. If you have any questions, please ask in #openstack-ironic.
