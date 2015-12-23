@@ -43,7 +43,9 @@
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items:
     - pxelinux
-  when: ansible_distribution_version|version_compare('14.10', '>=') and ansible_distribution == 'Ubuntu'
+  when: >
+    ansible_distribution_version|version_compare('14.10', '>=') and
+    ansible_distribution == 'Ubuntu'
 - name: "If running in CI, set source install facts just to be sure"
   set_fact:
     shade_source_install: true
@@ -258,7 +260,11 @@
     - "/var/lib/ironic"
     - "/var/lib/ironic/images"
 - name: "Place ironic services"
-  template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
+  template:
+    src: "{{ init_template }}"
+    dest: "{{ init_dest_dir }}{{item.service_name}}{{ init_ext }}"
+    owner: "root"
+    group: "root"
   with_items:
     - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
     - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
@@ -303,14 +309,22 @@
   when: "{{include_dhcp_server|bool}}"
 - name: "Disable libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
-  when: "{{include_dhcp_server|bool and test_libvirt_dnsmasq.stat.exists|bool and testing|bool}}"
+  when: >
+     include_dhcp_server | bool == true and
+     test_libvirt_dnsmasq.stat.exists | bool == true and
+     testing|bool == true
 - name: "Stop existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
   when: "{{testing|bool and include_dhcp_server|bool}}"
 # NOTE(Shrews) We need to enable ip forwarding for the libvirt bridge to
 # operate properly with dnsmasq. This should be done before starting dnsmasq.
 - name: "Enable IP forwarding in sysctl"
-  sysctl: name="net.ipv4.ip_forward" value=1 sysctl_set=yes state=present reload=yes
+  sysctl:
+    name: "net.ipv4.ip_forward"
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
   when: testing == true
 # NOTE(Shrews) Ubuntu packaging+apparmor issue prevents libvirt from loading
 # the ROM from /usr/share/misc.
