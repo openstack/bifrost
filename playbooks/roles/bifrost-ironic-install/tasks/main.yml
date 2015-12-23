@@ -64,6 +64,11 @@
     package=UcsSdk
     version=0.8.1.9
   when: skip_install is not defined and testing | bool != true
+- name: "Install iSCSI client if PXE driver support is enabled"
+  package:
+    name: "{{ iscsi_client_package }}"
+    state: present
+  when: skip_install is not defined and pxe_drivers | bool == true
 - name: "Shade - Install"
   include: pip_install.yml
     package=shade
@@ -118,11 +123,39 @@
     source_install=true
   when: skip_install is not defined
 - name: "Create an ironic service group"
-  group: name=ironic
+  group:
+    name: "ironic"
 - name: "Create an ironic service user"
-  user: name=ironic group=ironic
+  user:
+    name: "ironic"
+    group: "ironic"
 - name: "Ensure /etc/ironic exists"
-  file: name=/etc/ironic state=directory owner=ironic group=ironic mode=0755
+  file:
+    name: "/etc/ironic"
+    state: directory
+    owner: "ironic"
+    group: "ironic"
+    mode: 0755
+# Note(TheJulia): The rootwrap copies will need to be re-tooled
+# to possibly directly retreive current files if a source install
+# is not utilized.
+- name: "Copy rootwrap.conf from ironic source folder"
+  copy:
+    src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.conf"
+    dest: "/etc/ironic/rootwrap.conf"
+    mode: 0644
+    owner: root
+    group: root
+  when: skip_install is not defined and pxe_drivers | bool == true
+- name: "Copy rootwrap.d contents from ironic source folder"
+  copy:
+    src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/"
+    dest: "/etc/ironic/rootwrap.d"
+    mode: 0644
+    owner: root
+    group: root
+    directory_mode: yes
+  when: skip_install is not defined and pxe_drivers | bool == true
 - name: "Generate ironic Configuration"
   include: ironic_config.yml
 - name: "Copy policy.json to /etc/ironic"
@@ -169,6 +202,16 @@
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
+- name: "Set permissions for /var/lib/ironic for the ironic user"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0750
+    owner: "ironic"
+    group: "ironic"
+  with_items:
+    - "/var/lib/ironic"
+    - "/var/lib/ironic/images"
 - name: "Place ironic services"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:

@@ -1,0 +1,26 @@
+---
+features:
+  - Support for PXE driver substrate is now installed
+    which utilizes iSCSI to write the disk image to the
+    target node. By default, this support is enabled.
+upgrade:
+  - PXE driver substrate support is now enabled by default.
+    If a user wishes to prevent this, the ``pxe_drivers``
+    setting should be set to ``false``.
+security:
+  - PXE driver support substrate has been added, however
+    this requires the ability for the conductor to connect
+    to the node being provisioned via iSCSI. As a result
+    sudoers configuration is updated by default to enable
+    ironic to initiate the iSCSI connection and apply
+    the image to the remote disk. As a reminder, users
+    should default to using agent drivers as cleaning
+    support does not exist in the PXE drivers.
+fixes:
+  - PXE driver support substrate was previously incomplete
+    and has been revised to properly support PXE drivers.
+    This has been tested on Ubuntu 14.04 LTS.
+issues:
+  - Basic testing has revealed that PXE drivers may not
+    result in the configurtion drive being written out
+    with the current configuration of bifrost.

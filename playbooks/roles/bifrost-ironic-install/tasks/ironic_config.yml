@@ -29,7 +29,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[DEFAULT]"
     regexp='^(.*)enabled_drivers=(.*)$'
-    line="enabled_drivers=agent_ssh"
+    line="enabled_drivers=agent_ssh,pxe_ssh"
   when: testing | bool == true
 - name: "If not testing, set driver list"
   lineinfile:
@@ -177,3 +177,9 @@
     regexp='(^#|^)enabled( |)=(.*)$'
     line="enabled = True"
   when: enable_inspector | bool
+- name: "Set sudoers for PXE driver support if enabled"
+  lineinfile:
+    dest: /etc/sudoers
+    regexp: '^ironic(.*)/etc/ironic/rootwrap.conf(.*)'
+    line: "ironic ALL = (root) NOPASSWD: /usr/local/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *"
+  when: pxe_drivers | bool == true

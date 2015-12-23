@@ -89,3 +89,4 @@ inspector_port_addition: "pxe"
 
 # Note: inspector_keep_ports has three valid values: all, present, added
 inspector_keep_ports: "present"
+pxe_drivers: true
