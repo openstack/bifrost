@@ -49,8 +49,11 @@ ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
 shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
-# Comma-separated list, in the format of a string, of drivers that are enabled.
-enabled_drivers: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
+# Comma-separated list, in the format of a string, of drivers that are enabled
+# by default. This is intended to be a list of agent based drivers.
+# PXE drivers can be found in the setting pxe_drivers that can be found below.
+enabled_drivers: "agent_ipmitool,agent_ilo,agent_ucs"
+
 # DHCP pool for requests -- ignored if inventory_dhcp is set to True
 # since IP allocation will be static.
 dhcp_pool_start: 192.168.1.200
@@ -89,4 +92,9 @@ inspector_port_addition: "pxe"
 
 # Note: inspector_keep_ports has three valid values: all, present, added
 inspector_keep_ports: "present"
-pxe_drivers: true
+
+# This enables installation of substrate for PXE driver support
+enable_pxe_drivers: true
+# Comma-separated list of PXE drivers to enable when
+# enable_pxe_drivers is set to true
+pxe_drivers: "pxe_amt,pxe_ssh,pxe_ipmitool,pxe_ilo"
