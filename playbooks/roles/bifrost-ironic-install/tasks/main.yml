@@ -67,9 +67,7 @@
     version=0.8.1.9
   when: skip_install is not defined and testing | bool != true
 - name: "Install iSCSI client if PXE driver support is enabled"
-  package:
-    name: "{{ iscsi_client_package }}"
-    state: present
+  action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
   when: skip_install is not defined and enable_pxe_drivers | bool == true
 - name: "Shade - Install"
   include: pip_install.yml
