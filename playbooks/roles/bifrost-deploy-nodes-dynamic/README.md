@@ -34,6 +34,12 @@ deploy_image_filename: This is the filename of the image to deploy, which is
                        expects to receive this information from the calling
                        playbook.
 
+deploy_url_protocol: The protocol to utilize to access config_drive and
+                     image_source files. The default is to utilize HTTP in
+                     generated HTTP URLs for bifrost, however this setting
+                     allows a user to change that default if they they have
+                     a modified local webserver configuration.
+
 deploy_image: This is the full path to the image to be deployed to the system.
               This is as ironic requires the MD5 hash of the file to be
               deployed for validation during the deployment process.  As a
