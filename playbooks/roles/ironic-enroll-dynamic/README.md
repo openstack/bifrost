@@ -26,6 +26,13 @@ ipa_ramdisk: The ramdisk url, image id, or file representing the ramdisk
              image to utilize to deploy this node. This should be the ramdisk
              used for the Ironic Python Agent.
 
+ipa_file_protocol: The protocol to utilize to access IPA files. The default is
+                   to utilize HTTP in generated HTTP URLs for bifrost, however
+                   this setting allows a user to change that default if they
+                   they have a modified local webserver configuration.
+                   Do note, that a user wishing to utilize HTTPS may wish to
+                   review the iPXE documentation: http://ipxe.org/crypto
+
 This role expects a data structure similar to the one below, however it should
 be understood that the individual entries under power can vary based on power
 driver required.

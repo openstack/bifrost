@@ -1,0 +1,8 @@
+---
+features:
+  - Bifrost traditionally utilized a generated HTTP URL to
+    point ironic to the location of IPA, which is utilized
+    for the boot sequence of machines. A user may now override
+    that default and explicitly choose https if their
+    environment has been pre-configured such that HTTPS
+    support is in place.
