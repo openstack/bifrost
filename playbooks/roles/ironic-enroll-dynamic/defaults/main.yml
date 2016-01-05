@@ -6,5 +6,12 @@ nginx_port: 8080
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 
-ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.vmlinuz"
-ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.initramfs"
+# Normally this would setting would be http in a bifrost installation
+# without TLS. This setting allows a user to override the setting in case
+# the local webserver has been updated to support HTTPS.
+# Note: Users wishing to leverage HTTPS should reference the iPXE
+# documentation at http://ipxe.org/crypto
+ipa_file_protocol: "http"
+
+ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.vmlinuz"
+ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.initramfs"
