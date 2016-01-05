@@ -37,6 +37,6 @@ class TestBifrostInventoryUnit(base.TestCase):
     def test__val_or_none(self):
         array = ['no', '', 'yes']
         self.assertEqual('no', inventory._val_or_none(array, 0))
-        self.assertEqual(None, inventory._val_or_none(array, 1))
+        self.assertIsNone(inventory._val_or_none(array, 1))
         self.assertEqual('yes', inventory._val_or_none(array, 2))
-        self.assertEqual(None, inventory._val_or_none(array, 4))
+        self.assertIsNone(inventory._val_or_none(array, 4))
