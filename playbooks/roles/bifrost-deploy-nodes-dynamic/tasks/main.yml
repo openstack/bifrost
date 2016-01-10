@@ -27,13 +27,18 @@
   delegate_to: localhost
   when: inventory_dhcp | bool
   become: yes
+- name: "Setup DNS address for nodes."
+  template: src=dns-address.j2 dest=/etc/dnsmasq.d/host_record_{{ inventory_hostname }} owner=root group=root mode=0644
+  delegate_to: localhost
+  when: inventory_dns | bool
+  become: yes
 - name: "Sending dnsmasq HUP"
   # Note(TheJulia): We need to actually to send a hup signal directly as
   # Ansible's reloaded state does not pass through to the init script.
   command: killall -HUP dnsmasq
   become: yes
-  when: inventory_dhcp | bool
-- name: "Deploy to hardware - Using custom instance_info"
+  when: (inventory_dhcp | bool) or (inventory_dns | bool)
+- name: "Deploy to hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"

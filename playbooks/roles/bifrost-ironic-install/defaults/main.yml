@@ -86,6 +86,10 @@ enable_cors_credential_support: false
 # hosts in your dynamic inventory.
 inventory_dhcp: False
 
+# Set this to true to configure dnsmasq to resolv to ipv4_address from the
+# hosts in your dynamic inventory.
+inventory_dns: False
+
 # Settings to enable the use of inspector
 enable_inspector: false
 inspector_auth: "noauth"

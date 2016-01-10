@@ -56,7 +56,6 @@ instance_info: A dictionary containing the information to define an instance.
                expected are image_source, image_checksum, root_gb, however,
                any supported key/value can be submitted to the API.
 
-
 inventory_dhcp: A boolean value, defaulted to false, which allows dnsmasq
                 to configure the IP of the machines, rather than putting
                 the IP configuration of the machine in the config drive.
@@ -85,6 +84,12 @@ noauth_mode: Controls if the module is called in noauth mode.
              which expects a clouds.yml file.  More information about
              this file format can be found at:
              http://docs.openstack.org/developer/os-client-config/
+
+inventory_dns: A boolean value, defaulted to false, which causes the role
+                to update a template file and reload dnsmasq upon each update
+                in order to perform static dns addressing utilizing the
+                ipv4_address parameter.
+
 Dependencies
 ------------
 

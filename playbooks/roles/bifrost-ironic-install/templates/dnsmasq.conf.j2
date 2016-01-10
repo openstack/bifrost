@@ -119,6 +119,10 @@ interface={{ network_interface }}
 # running another nameserver on the same machine.
 bind-interfaces
 
+# Include another lot of configuration options.
+#conf-file=/etc/dnsmasq.more.conf
+conf-dir=/etc/dnsmasq.d
+
 # If you don't want dnsmasq to read /etc/hosts, uncomment the
 # following line.
 #no-hosts
@@ -652,10 +656,6 @@ dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interf
 
 # Log lots of extra information about DHCP transactions.
 #log-dhcp
-
-# Include another lot of configuration options.
-#conf-file=/etc/dnsmasq.more.conf
-#conf-dir=/etc/dnsmasq.d
 
 {% if testing %}
 log-queries
