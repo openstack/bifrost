@@ -142,6 +142,9 @@ dhcp-hostsfile=/etc/dnsmasq.d/bifrost.dhcp-hosts.d
 #    domain of all systems configured by DHCP
 # 3) Provides the domain part for "expand-hosts"
 #domain=thekelleys.org.uk
+{% if domain is defined %}
+domain={{ domain }}
+{% endif %}
 
 # Set a different domain for a particular subnet
 #domain=wireless.thekelleys.org.uk,192.168.2.0/24
