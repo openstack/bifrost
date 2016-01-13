@@ -2,7 +2,10 @@
 set -e
 
 ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
-ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-2.0}
+# Note(TheJulia): Normally this should be stable-2.0, pinning due to
+# issues with the stable branch.
+# https://github.com/ansible/ansible-modules-core/issues/2804
+ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-v2.0.0.0-1}
 
 if [ -x '/usr/bin/apt-get' ]; then
     if ! $(gcc -v &>/dev/null); then
@@ -58,7 +61,7 @@ if [ ! -d ansible ]; then
 else
     cd ansible
     git checkout $ANSIBLE_GIT_BRANCH
-    git pull --rebase
+    git pull --rebase origin $ANSIBLE_GIT_BRANCH
     git submodule update --init --recursive
     git fetch
 fi
