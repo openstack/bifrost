@@ -69,7 +69,7 @@
 - name: "If mkisofs is not available, fallback to genisoimage"
   set_fact:
     iso_gen_utility: "genisoimage"
-  when: test_mkisofs.rc != 0
+  when: ('genisoimage' in test_mkisofs.stderr) or test_mkisofs.rc != 0
 - name: "Check if genisoimage is available"
   shell: genisoimage --help >>/dev/null
   ignore_errors: yes
