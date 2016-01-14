@@ -33,7 +33,10 @@
 - name: >
     "Create an empty SSH known_hosts file for Jenkins user
     if operating in OpenStack CI"
-  shell: touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
+  file:
+    path: "~/.ssh/known_hosts"
+    state: touch
+    mode: 0600
   when: >
     ci_testing_zuul is defined and
     test_ssh_public_key_path.stat.exists | bool == false
