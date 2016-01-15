@@ -1,0 +1,16 @@
+---
+upgrade:
+  - Bifrost has moved to focusing its use on Ansible 2.0.
+    While Ansible 2.0 is relatively new, it has been stable
+    development for quite some time. If a pre-existing user
+    intends to reinstall/upgrade their environment, they may find
+    the need to remove their pre-existing ansible environment
+    located at ``/opt/stack/ansible``.
+deprecations:
+  - Moving forward, bifrost will be targeting use of
+    Ansible 2.0. Due to some style/configuration changes,
+    some roles have been marked in their metadata as being
+    intended and only functional with Ansible 2.0 due to
+    required features having been added in 2.0 that were
+    not present or available to reproduce in a 1.9.x
+    compatible way.
