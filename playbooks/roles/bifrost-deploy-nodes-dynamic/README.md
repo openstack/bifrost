@@ -56,10 +56,28 @@ instance_info: A dictionary containing the information to define an instance.
                expected are image_source, image_checksum, root_gb, however,
                any supported key/value can be submitted to the API.
 
-inventory_dhcp: A boolean value, defaulted to false, which causes the role
-                to update a template file and reload dhsmasq upon each update
-                in order to perform static dhcp assignments utilizing the
-                ipv4_address parameter.
+
+inventory_dhcp: A boolean value, defaulted to false, which allows dnsmasq
+                to configure the IP of the machines, rather than putting
+                the IP configuration of the machine in the config drive.
+                If set to true, the role will create a file for each machine
+                under /etc/dnsmasq.d/bifrost.dhcp-hosts.d containing the mac,
+                name of the machine, lease time and optionally the IP address
+                that will be offered to the machine by DHCP.
+                This optional IP is controlled by the inventory_dhcp_static_ip
+                parameter.
+
+inventory_dhcp_static_ip: A boolean value, defaulted to true, which configures
+                           the mechanism for setting up the IP of machines when
+                           inventory_dhcp is enabled.
+                           If set to true, it will read the value of the key
+                           'provisioning_ipv4_address' from the inventory section
+                           of each machine and dnsmasq will assign that IP to each
+                           machine accordingly. Note, that if you don't assign
+                           the key 'provisioning_ipv4_address' it will default
+                           to the value of 'ipv4_address'.
+                           If set to false, dnsmasq will assign IPs
+                           automatically from the configured DHCP range.
 
 noauth_mode: Controls if the module is called in noauth mode.
              By default, this is the standard mode of operation,
@@ -67,7 +85,6 @@ noauth_mode: Controls if the module is called in noauth mode.
              which expects a clouds.yml file.  More information about
              this file format can be found at:
              http://docs.openstack.org/developer/os-client-config/
-
 Dependencies
 ------------
 
