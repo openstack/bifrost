@@ -143,6 +143,9 @@ enable_cors_credential_support: Boolean value, default false.  This variable
                                 noauth mode, this realistically should not
                                 be modified.
 
+domain: String value, default to false. If set, domain setting is configured
+        in dnsmasq.
+
 ### Hardware Inspection Support
 
 Bifrost also supports the installation of ironic-inspector in standalone
