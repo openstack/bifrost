@@ -52,6 +52,31 @@
 - name: "Copy full iPXE image into /tftpboot"
   copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/ remote_src=true
 
+- name: "Set up iPXE for EFI booting"
+  block:
+    - name: "Check if the iPXE EFI image is present"
+      stat:
+        path: "{{ ipxe_dir }}/{{ ipxe_efi_binary }}"
+        get_md5: false
+      register: test_ipxe_efi_binary_path
+      ignore_errors: true
+
+    - name: "Abort if iPXE EFI image is missing"
+      fail:
+        msg: >
+          Aborting installation: The {{ ipxe_efi_binary }} image was not found
+          at the {{ ipxe_dir }} location.  Please place this file or consider
+          re-running with download_ipxe set to a value of true.
+      when:
+        - test_ipxe_efi_binary_path.stat.exists | bool == false
+
+    - name: "Copy iPXE EFI image into {{ http_boot_folder }}/"
+      copy: src={{ ipxe_dir }}/{{ ipxe_efi_binary }} dest={{ http_boot_folder }}/ remote_src=true
+
+    - name: "Copy iPXE EFI image into /tftpboot"
+      copy: src={{ ipxe_dir }}/{{ ipxe_efi_binary }} dest=/tftpboot/ remote_src=true
+  when: enable_uefi_ipxe | bool == true
+
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."
   stat: path="{{ ironic_tftp_master_path }}"

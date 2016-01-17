@@ -94,6 +94,14 @@ dhcp-userclass=set:gpxe,"gPXE"
 dhcp-boot=tag:gpxe,/ipxe.pxe
 
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
+{% if enable_uefi_ipxe | bool == true %}
+dhcp-match=set:efi,option:client-arch,7
+dhcp-match=set:efi,option:client-arch,9
+dhcp-match=set:efi,option:client-arch,11
+# Client is PXE booting over EFI without iPXE ROM; send EFI version of iPXE chainloader
+dhcp-boot=tag:efi,tag:!ipxe,/{{ ipxe_efi_binary }}
+{% endif %}
+
 {% if testing | bool == true %}
 dhcp-boot=tag:ipxe,http://192.168.122.1:{{ file_url_port }}/boot.ipxe
 {% else %}

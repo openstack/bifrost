@@ -44,6 +44,10 @@ ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 ipa_file_protocol: "http"
 
 ipa_upstream_release: "master"
+
+enable_uefi_ipxe: true
+ipxe_efi_binary: ipxe.efi
+
 ipa_kernel: "{{http_boot_folder}}/ipa.vmlinuz"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.vmlinuz"
