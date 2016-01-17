@@ -210,3 +210,16 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
         (groups, hostvars) = utils.bifrost_data_conversion(
             yaml.dump(json.loads(str(expected_hostvars))))
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
+
+    def test_minimal_json(self):
+        input_json = """{"h0000-01":{"uuid":
+"00000000-0000-0000-0001-bad00000010","name":"h0000-01","driver_info"
+:{"power":{"ipmi_address":"10.0.0.78","ipmi_username":"ADMIN","
+ipmi_password":"ADMIN"}},"driver":"agent_ipmitool"}}""".replace('\n', '')
+        expected_json = """{"h0000-01":{"uuid":
+"00000000-0000-0000-0001-bad00000010","name":"h0000-01","driver_info"
+:{"power":{"ipmi_address":"10.0.0.78","ipmi_username":"ADMIN","
+ipmi_password":"ADMIN"}},"driver":"agent_ipmitool","addressing_mode":
+"dhcp"}}""".replace('\n', '')
+        (groups, hostvars) = utils.bifrost_data_conversion(input_json)
+        self.assertDictEqual(json.loads(str(expected_json)), hostvars)

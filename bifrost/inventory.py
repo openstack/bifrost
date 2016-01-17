@@ -184,12 +184,14 @@ def _process_baremetal_data(data_source, groups, hostvars):
         for name in file_data:
             host = file_data[name]
             # Perform basic validation
-            if not host['ipv4_address']:
+            if ('ipv4_address' not in host or
+                    not host['ipv4_address']):
                 host['addressing_mode'] = "dhcp"
             else:
                 host['ansible_ssh_host'] = host['ipv4_address']
 
-            if 'provisioning_ipv4_address' not in host.keys():
+            if ('provisioning_ipv4_address' not in host and
+                    'addressing_mode' not in host):
                 host['provisioning_ipv4_address'] = host['ipv4_address']
             # Add each host to the values to be returned.
             groups['baremetal']['hosts'].append(host['name'])
@@ -229,13 +231,15 @@ def _process_baremetal_csv(data_source, groups, hostvars):
             host['uuid'] = _val_or_none(row, 9)
             host['name'] = _val_or_none(row, 10)
             host['ipv4_address'] = _val_or_none(row, 11)
-            if not host['ipv4_address']:
+            if ('ipv4_address' not in host or
+                    not host['ipv4_address']):
                 host['addressing_mode'] = "dhcp"
                 host['provisioning_ipv4_address'] = None
             else:
                 host['ansible_ssh_host'] = host['ipv4_address']
-
-            if len(row) > 17:
+            # Note(TheJulia): We can't assign ipv4_address if we are
+            # using DHCP.
+            if (len(row) > 17 and 'addressing_mode' not in host):
                 host['provisioning_ipv4_address'] = row[18]
             else:
                 host['provisioning_ipv4_address'] = host['ipv4_address']
