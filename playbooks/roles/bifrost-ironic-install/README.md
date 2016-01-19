@@ -77,6 +77,9 @@ In the case of static inventory, please also consider to set the
 ``dhcp_lease_time`` setting to infinite, to avoid unnecessary refreshes
 of ips.
 
+If you want to force all hostnames to resolve to ``ipv4_address`` set on
+the inventory, please set the ``inventory_dns`` setting to ``true``.
+
 In case your HW needs a kernel option to boot, set the following variable:
 
 extra_kernel_options: Default undefined.

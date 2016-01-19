@@ -66,3 +66,15 @@ You can set up a static DHCP reservation using the ``ipv4_address`` parameter
 and setting the ``inventory_dhcp`` setting to a value of ``true``.  This will
 result in the first MAC address defined in the list of hardware MAC addresses
 to receive a static address assignment in dnsmasq.
+
+======================================
+Forcing DNS to resolve to ipv4_address
+======================================
+
+dnsmasq will resolve all entries to the IP assigned to each server in
+the leases file. However, this IP will not always be the desired one, if you
+are working with multiple networks.
+To force DNS to always resolve to ``ipv4_address`` please set the
+``inventory_dns`` setting to a value of ``true``. This will result in each
+server to resolve to ``ipv4_address`` by explicitly using address capabilities
+of dnsmasq.

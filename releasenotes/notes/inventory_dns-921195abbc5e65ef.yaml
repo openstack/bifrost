@@ -1,0 +1,9 @@
+---
+features:
+  - Adds new feature to manage DNS with the settings
+    on the inventory. When ``inventory_dns`` setting is
+    True, it will populate a set of record-host entries,
+    for each of the hostnames present on the inventory,
+    matching the ``ipv4_address``.  This will override
+    the default dnsmasq behaviour, that will associate
+    hostnames with IP present on the leases file.
