@@ -42,9 +42,19 @@ fi
 # We can't use the apt packaged version of pip since
 # older versions of pip are incompatible with
 # requests, one of our indirect dependencies (bug 1459947).
-wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-sudo -H -E python /tmp/get-pip.py
 
+# Note(TheJulia) This originally appeared because older
+# versions of pip would do the wrong thing, 1459947.
+# However, now pip 8.0 breaks things.  See 1536627
+#wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
+#sudo -H -E python /tmp/get-pip.py
+
+if ! which pip; then
+    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
+    sudo -H -E python /tmp/get-pip.py
+fi
+
+sudo -H -E pip install "pip>6.0,<8.0"
 sudo -H -E pip install -r "$(dirname $0)/../requirements.txt"
 
 u=$(whoami)
