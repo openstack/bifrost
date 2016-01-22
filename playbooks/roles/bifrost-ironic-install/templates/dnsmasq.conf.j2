@@ -87,9 +87,9 @@ dhcp-boot=tag:gpxe,/ipxe.pxe
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 dhcp-boot=tag:!ipxe,/undionly.kpxe
 {% if testing %}
-dhcp-boot=http://192.168.122.1:{{nginx_port}}/boot.ipxe
+dhcp-boot=http://192.168.122.1:{{ file_url_port }}/boot.ipxe
 {% else %}
-dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/boot.ipxe
+dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/boot.ipxe
 {% endif %}
 
 {% if testing %}

@@ -45,7 +45,7 @@
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid }}"
     state: present
-    config_drive: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ nginx_port }}/configdrive-{{ uuid }}.iso.gz"
+    config_drive: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
     instance_info: "{{ instance_info }}"
   delegate_to: localhost
   when: instance_info is defined and instance_info | to_json != '{}'
@@ -63,9 +63,9 @@
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid }}"
     state: present
-    config_drive: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ nginx_port }}/configdrive-{{ uuid }}.iso.gz"
+    config_drive: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
     instance_info:
-      image_source: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ nginx_port }}/{{deploy_image_filename}}"
+      image_source: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.stat.md5 }}"
       image_disk_format: "qcow2"
       root_gb: 10

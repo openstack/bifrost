@@ -40,7 +40,7 @@ http {
 	gzip on;
 
 	server {
-		listen {{nginx_port}};
+		listen {{ file_url_port }};
 		server_name {{ ansible_hostname }};
 		root {{ http_boot_folder }};
 		location {{ http_boot_folder }}/ {

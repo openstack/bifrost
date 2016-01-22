@@ -32,6 +32,12 @@
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ansible_distribution_release }}.yml"
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
+- name: "Warn if deprecated variable nginx_port is set"
+  debug:
+    msg: >
+      WARNING - nginx_port is a deprecated variable and support will be
+      removed during the Newton cycle.
+  when: nginx_port is defined
 - name: "Update Package Cache"
   apt: update_cache=yes
   when: ansible_os_family == 'Debian'
@@ -370,7 +376,7 @@
     "Explicitly permit nginx port (TCP) for
     file downloads from nodes to be provisioned"
   command: >
-    iptables -I INPUT -p tcp --dport {{nginx_port}}
+    iptables -I INPUT -p tcp --dport {{file_url_port}}
     -i {{network_interface}} -j ACCEPT
 - name: "Explicitly permit TCP/6385 for IPA callback"
   command: >

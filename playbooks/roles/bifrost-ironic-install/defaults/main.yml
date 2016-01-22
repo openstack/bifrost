@@ -3,7 +3,9 @@
 # which causes the nodes to be wiped after deletion.
 cleaning: false
 http_boot_folder: /httpboot
-nginx_port: 8080
+# Deprecated: nginx_port is no longer used and file_url_port should
+# be used instead.
+file_url_port: "{{ nginx_port | default('8080') }}"
 ironicclient_source_install: false
 shade_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
@@ -29,9 +31,9 @@ ipa_file_protocol: "http"
 
 ipa_kernel: "{{http_boot_folder}}/ipa.vmlinuz"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
-ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.vmlinuz"
+ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.vmlinuz"
 ipa_kernel_upstream_url: http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe.vmlinuz
-ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.initramfs"
+ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
 ipa_ramdisk_upstream_url: http://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz
 deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"

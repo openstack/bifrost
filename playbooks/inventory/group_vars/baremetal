@@ -19,15 +19,15 @@ testing_user: root
 # The default port to download files via.  Required for IPA URL generation.
 # Presently the defaults are located in the roles, however if changed both
 # the localhost and baremetal group files must be updated.
-# nginx_port: 8080
+# file_url_port: 8080
 
 # IPA Image parameters.  If these are changed, they must be changed in
 # Both localhost and baremetal groups.  Presently the defaults
 # in each role should be sufficent for proper operation.
 # ipa_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
 # ipa_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
-# ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/coreos_production_pxe.vmlinuz"
-# ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{nginx_port}}/coreos_production_pxe_image-oem.cpio.gz"
+# ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/coreos_production_pxe.vmlinuz"
+# ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/coreos_production_pxe_image-oem.cpio.gz"
 
 # The http_boot_folder defines the root folder for the webserver.
 # If this setting is changed, it must be applied to both the baremetal
