@@ -115,6 +115,7 @@ import csv
 import json
 import os
 import six
+import sys
 import yaml
 
 from oslo_config import cfg
@@ -359,14 +360,14 @@ def main():
 
     if not config.list:
         LOG.error("This program must be executed in list mode.")
-        exit(1)
+        sys.exit(1)
 
     (groups, hostvars) = _prepare_inventory()
 
     if 'BIFROST_INVENTORY_SOURCE' not in os.environ:
         LOG.error('Please define a BIFROST_INVENTORY_SOURCE environment'
                   'variable with a comma separated list of data sources')
-        exit(1)
+        sys.exit(1)
 
     try:
         data_source = os.environ['BIFROST_INVENTORY_SOURCE']
@@ -389,7 +390,7 @@ def main():
                     LOG.error("BIFROST_INVENTORY_SOURCE does not define "
                               "a file that could be processed: "
                               "Tried JSON, YAML, and CSV formats")
-                    exit(1)
+                    sys.exit(1)
         elif "ironic" in data_source:
             if SHADE_LOADED:
                 (groups, hostvars) = _process_shade(groups, hostvars)
@@ -397,14 +398,14 @@ def main():
                 LOG.error("BIFROST_INVENTORY_SOURCE is set to ironic "
                           "however the shade library failed to load, and may "
                           "not be present.")
-                exit(1)
+                sys.exit(1)
         else:
             LOG.error('BIFROST_INVENTORY_SOURCE does not define a file')
-            exit(1)
+            sys.exit(1)
 
     except Exception as error:
         LOG.error('Failed processing: %s' % error)
-        exit(1)
+        sys.exit(1)
 
     # General Data Conversion
 
