@@ -1,0 +1,11 @@
+---
+features:
+  - Allow to populate the DNS servers setting of
+    dnsmasq. This is optional, but if
+    ``dnsmasq_dns_servers``setting is set, it adds a
+    ``dhcp-option=6,dnsmasq_dns_servers`` to the
+    generated dnsmasq configuration for bifrost.
+other:
+  - When configuring the ``dnsmasq_dns_servers`` setting,
+    several nameservers can be specified, separated by
+    commas.
