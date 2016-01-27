@@ -62,7 +62,7 @@ if ! which pip; then
     sudo -H -E python /tmp/get-pip.py
 fi
 
-sudo -H -E pip install "pip>6.0,<8.0"
+sudo -H -E pip install "pip>6.0"
 sudo -H -E pip install -r "$(dirname $0)/../requirements.txt"
 
 u=$(whoami)
