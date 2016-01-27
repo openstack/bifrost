@@ -8,7 +8,7 @@ set -eux
 set -o pipefail
 export PYTHONUNBUFFERED=1
 
-SCRIPT_HOME=$(dirname $0)
+SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 BIFROST_HOME=$SCRIPT_HOME/..
 # Install Ansible
 $SCRIPT_HOME/env-setup.sh
