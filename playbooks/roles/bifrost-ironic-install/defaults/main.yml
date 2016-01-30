@@ -72,6 +72,10 @@ dhcp_static_mask: 255.255.255.0
 # Default: undefined
 # dnsmasq_router:
 
+# Dnsmasq default dns servers for clients. If defined, dnsmasq will use the specified
+# DNS servers for name resolving.
+# dnsmasq_dns_servers: 8.8.8.8,8.8.4.4
+
 # Support for CORS configuration
 # By default CORS support is disabled.
 enable_cors: false

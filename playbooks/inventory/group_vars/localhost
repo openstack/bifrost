@@ -65,3 +65,8 @@ create_ipa_image: false
 # clients as default route the same IP of the dnsmasq server.
 # Default: undefined
 # dnsmasq_router: {{ ipv4_gateway }}
+
+# Dnsmasq default nameserver for clients. If not defined, this setting
+# will be ignored.
+# Default: undefined
+# dnsmasq_dns_servers: 8.8.8.8,8.8.4.4
