@@ -8,7 +8,7 @@
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
     - bifrost-ironic-install
     - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_elements: "ironic-agent {{ ipa_extra_dib_elements | default('') }}", when: create_ipa_image | bool == true }
-    - { role: bifrost-create-dib-image, dib_imagename: "{{ deploy_image }}", dib_imagetype: "qcow2", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib == true and transform_boot_image == false }
+    - { role: bifrost-create-dib-image, dib_imagename: "{{ deploy_image }}", dib_imagetype: "qcow2", dib_elements: "vm serial-console {{ dib_init_element|default('simple-init') }} {{ extra_dib_elements|default('') }}", when: create_image_via_dib == true and transform_boot_image == false }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"

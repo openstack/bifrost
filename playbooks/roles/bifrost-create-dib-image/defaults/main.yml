@@ -1,5 +1,6 @@
 ---
 dib_os_element: "debian"
+dib_init_element: "simple-init"
 dib_env_vars:
   http_proxy: "{{ lookup('env','http_proxy') }}"
   https_proxy: "{{ lookup('env','https_proxy') }}"
