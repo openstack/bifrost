@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Infra-cloud Developers
+  description: Basic dnsmasq checks created by Bifrost.
+  company: OpenStack
+  license: Apache
+  min_ansible_version: 1.9
+  platforms:
+  - name: Ubuntu
+    versions:
+    - trusty
+  categories:
+  - cloud
+  - cloud:openstack
+dependencies: []
