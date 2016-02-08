@@ -69,6 +69,7 @@ dhcp_lease_time: 12h
 dhcp_static_mask: 255.255.255.0
 # Dnsmasq default route for clients. If not defined, dnsmasq will push to clients
 # as default route the same IP of the dnsmasq server.
+# If set to false, it will disable default route creation in clients.
 # Default: undefined
 # dnsmasq_router:
 
