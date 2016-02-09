@@ -2,3 +2,4 @@
 # defaults file for bifrost-create-vm-nodes
 baremetal_csv_file: "/tmp/baremetal.csv"
 test_vm_memory_size: "3072"
+test_vm_num_nodes: "1"
