@@ -39,7 +39,16 @@ dib_os_element: "ubuntu"
 dib_elements is a space-separated list of elements that will be
 added to the resulting disk image.
 
-dib_elements: "vm serial-console simple-init"
+dib_elements: "vm serial-console"
+
+dib_init_element is used to set the init tool that will be used to provision
+the installed OS. This is an argument that is passed to
+[diskimage-builder](http://docs.openstack.org/developer/diskimage-builder/)
+which generates a deployable image of the OS defined in 'dib_os_element'. By
+default we use 'simple-init'. You can modify this to use other init tools, for
+example: cloud-init (see below)
+
+dib_init_element: simple-init
 
 dib_packages is a comma-separated list of packages to be installed
 on the resulting disk image.
@@ -80,6 +89,14 @@ for further information.
 | --root-label        | dib_rootlabel    | label                |
 | --ramdisk-element   | dib_rdelement    | element name         |
 | -t                  | dib_installtype  | source or package    |
+
+Using cloud-init
+----------------
+
+By default, bifrost uses the 'simple-init' dib element, which will disable
+cloud-init. If you have cloud-init enabled in your image(Ubuntu/Fedora) and you
+wish to allow configdrive to work with it, you set 'dib_init_element' to
+['cloud-init-datasources'](http://docs.openstack.org/developer/diskimage-builder/elements/cloud-init-datasources/README.html).
 
 Dependencies
 ------------
