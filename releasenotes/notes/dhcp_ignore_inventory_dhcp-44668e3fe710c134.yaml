@@ -1,0 +1,4 @@
+---
+fixes:
+  - Dnsmasq option was added to only offer DHCP leases
+    to known mac addresses when inventory_dhcp is being used.
