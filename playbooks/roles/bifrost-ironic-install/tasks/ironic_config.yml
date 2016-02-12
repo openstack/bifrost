@@ -128,7 +128,7 @@
     dest=/etc/ironic/ironic.conf
     insertafter="[pxe]"
     regexp='^(.*)http_url=(.*)$'
-    line="http_url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/"
+    line="http_url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/"
 - name: "Set iPXE http_root"
   lineinfile:
     dest=/etc/ironic/ironic.conf

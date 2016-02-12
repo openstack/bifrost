@@ -1,7 +1,8 @@
 ---
 ironic_url: "http://localhost:6385/"
-nginx_port: 8080
-
+# Deprecated: nginx_port is no longer used and file_url_port should
+# be used instead.
+file_url_port: "{{ nginx_port | default('8080') }}"
 # Default network interface that bifrost will be attached to.
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
@@ -13,7 +14,7 @@ ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 # documentation at http://ipxe.org/crypto
 ipa_file_protocol: "http"
 
-ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.vmlinuz"
-ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{nginx_port}}/ipa.initramfs"
+ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.vmlinuz"
+ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
 
 noauth_mode: true
