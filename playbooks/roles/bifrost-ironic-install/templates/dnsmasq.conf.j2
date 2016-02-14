@@ -75,7 +75,11 @@ dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},{{dhcp_lease_time}}
 # Override the default route supplied by dnsmasq, which assumes the
 # router is the same machine as the one running dnsmasq.
 {% if dnsmasq_router is defined %}
+{% if dnsmasq_router | bool == false %}
+dhcp-option=3
+{% else %}
 dhcp-option=3,{{dnsmasq_router}}
+{% endif %}
 {% endif %}
 
 {% if dnsmasq_dns_servers is defined %}
