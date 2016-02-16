@@ -28,6 +28,13 @@ if [ -x '/usr/bin/apt-get' ]; then
     if ! $(dpkg -l wget &>/dev/null); then
         sudo -H apt-get -y install wget
     fi
+    if [ -n "${VENV-}" ]; then
+        if ! $(virtualenv --version &>/dev/null); then
+            if $(sudo -H apt-get -y install virtualenv); then
+                sudo -H apt-get -y install python-virtualenv
+            fi
+        fi
+    fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! yum -q list installed python-devel; then
         sudo -H yum -y install python-devel
@@ -41,9 +48,34 @@ elif [ -x '/usr/bin/yum' ]; then
     if ! $(wget --version &>/dev/null); then
         sudo -H yum -y install wget
     fi
+    if [ -n "${VENV-}" ]; then
+        if $(virtualenv --version &>/dev/null); then
+            sudo -H yum -y install python-virtualenv
+        fi
+    fi
 else
     echo "ERROR: Supported package manager not found.  Supported: apt,yum"
 fi
+
+if [ -n "${VENV-}" ]; then
+    echo "NOTICE: Using virtualenv for this installation."
+    if [ ! -f ${VENV}/bin/activate ]; then
+        # only create venv if one doesn't exist
+        sudo -H -E virtualenv --no-site-packages ${VENV}
+    fi
+    # Note(cinerama): activate is not compatible with "set -u";
+    # disable it just for this line.
+    set +u
+    source ${VENV}/bin/activate
+    set -u
+    VIRTUAL_ENV=${VENV}
+else
+    echo "NOTICE: Not using virtualenv for this installation."
+fi
+
+# If we're using a venv, we need to work around sudo not
+# keeping the path even with -E.
+PYTHON=$(which python)
 
 # To install python packages, we need pip.
 #
@@ -59,12 +91,12 @@ fi
 
 if ! which pip; then
     wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-    sudo -H -E python /tmp/get-pip.py
+    sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-sudo -H -E pip install "pip>6.0"
-sudo -H -E pip install -r "$(dirname $0)/../requirements.txt"
-
+PIP=$(which pip)
+sudo -H -E ${PIP} install "pip>6.0"
+sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 u=$(whoami)
 g=$(groups | awk '{print $1}')
 
@@ -94,10 +126,21 @@ check_get_module `pwd`/lib/ansible/modules/core/cloud/openstack/os_ironic.py \
 check_get_module `pwd`/lib/ansible/modules/core/cloud/openstack/os_ironic_node.py \
     https://raw.githubusercontent.com/ansible/ansible-modules-core/stable-2.0/cloud/openstack/os_ironic_node.py
 
-echo
-echo "If you're using this script directly, execute the"
-echo "following commands to update your shell."
-echo
-echo "source env-vars"
-echo "source /opt/stack/ansible/hacking/env-setup"
-echo
+if [ -n "${VENV-}" ]; then
+    sudo -H -E ${PIP} install --upgrade /opt/stack/ansible
+    echo
+    echo "To use bifrost, do"
+
+    echo "source ${VENV}/bin/activate"
+    echo "source env-vars"
+    echo "Then run playbooks as normal."
+    echo
+else
+    echo
+    echo "If you're using this script directly, execute the"
+    echo "following commands to update your shell."
+    echo
+    echo "source env-vars"
+    echo "source /opt/stack/ansible/hacking/env-setup"
+    echo
+fi

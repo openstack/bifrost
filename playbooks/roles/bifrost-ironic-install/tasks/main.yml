@@ -57,6 +57,10 @@
     shade_source_install: true
     ironicclient_source_install: true
   when: ci_testing | bool == true
+- name: "If VENV is set in the environment, enable installation into venv"
+  set_fact:
+    enable_venv: true
+  when: lookup('env', 'VENV') | length > 0
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
@@ -100,6 +104,12 @@
     sourcedir={{ ironicclient_git_folder }}
     source_install={{ ironicclient_source_install }}
   when: skip_install is not defined
+- name: "Install configparser in venv if using"
+  include: pip_install.yml package=configparser virtualenv=bifrost_venv_dir
+  when: skip_install is not defined and (enable_venv | bool == true)
+- name: "Install pymysql in venv if using"
+  include: pip_install.yml package=pymysql virtualenv=bifrost_venv_dir
+  when: skip_install is not defined and (enable_venv | bool == true)
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started
 - name: "Start rabbitmq-server"
@@ -194,9 +204,11 @@
     mode: 0644
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
+  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
   when: test_created_db.changed == true
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
+  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
   when: test_created_db.changed == false
 - name: "Do RedHat-specific changes for libvirt"
   include: redhat_libvirt_changes.yml
@@ -253,6 +265,7 @@
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
+  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
 - name: "Set permissions for /var/lib/ironic for the ironic user"
   file:
     path: "{{ item }}"
