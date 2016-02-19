@@ -82,12 +82,13 @@ PYTHON=$(which python)
 # We can't use the apt packaged version of pip since
 # older versions of pip are incompatible with
 # requests, one of our indirect dependencies (bug 1459947).
-
-# Note(TheJulia) This originally appeared because older
-# versions of pip would do the wrong thing, 1459947.
-# However, now pip 8.0 breaks things.  See 1536627
-#wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
-#sudo -H -E python /tmp/get-pip.py
+#
+# Note(cinerama): We use pip to install an updated pip plus our
+# other python requirements. pip breakages can seriously impact us,
+# so we've chosen to install/upgrade pip here rather than in
+# requirements (which are synced automatically from the global ones)
+# so we can quickly and easily adjust version parameters.
+# See bug 1536627.
 
 if ! which pip; then
     wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
