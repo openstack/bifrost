@@ -82,12 +82,19 @@
     insertafter="[conductor]"
     regexp='^(.*)api_url=(.*)$'
     line="api_url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385/"
-- name: "Configure conductor cleaning"
+  # Note(TheJulia): clean_nodes config option is deprecated and to be removed in Newton.
+- name: "Configure conductor cleaning - Pre-Mitaka"
   lineinfile:
     dest=/etc/ironic/ironic.conf
-    insertafter="[conductor]"
+    insertbefore="[console]"
     regexp='^(.*)clean_nodes=(.*)$'
     line="clean_nodes={{ cleaning | lower }}"
+- name: "Configure conductor cleaning - Mitaka"
+  lineinfile:
+    dest=/etc/ironic/ironic.conf
+    insertbefore="[console]"
+    regexp='^(.*)automated_clean=(.*)$'
+    line="automated_clean={{ cleaning | lower }}"
 - name: "Configure database connection"
   lineinfile:
     dest=/etc/ironic/ironic.conf
