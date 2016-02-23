@@ -30,9 +30,7 @@ if [ -x '/usr/bin/apt-get' ]; then
     fi
     if [ -n "${VENV-}" ]; then
         if ! $(virtualenv --version &>/dev/null); then
-            if $(sudo -H apt-get -y install virtualenv); then
-                sudo -H apt-get -y install python-virtualenv
-            fi
+            sudo -H apt-get -y install python-virtualenv
         fi
     fi
 elif [ -x '/usr/bin/yum' ]; then
