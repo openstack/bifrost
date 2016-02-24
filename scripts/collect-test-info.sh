@@ -13,9 +13,18 @@ echo "Making logs directory and collecting logs."
 sudo cp /var/log/libvirt/baremetal_logs/testvm1_console.log ${LOG_LOCATION}
 sudo chown $USER ${LOG_LOCATION}/testvm1_console.log
 dmesg &> ${LOG_LOCATION}/dmesg.log
-sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
-sudo iptables -L -n -v &> ${LOG_LOCATION}/iptables.log
-sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
+if $(netstat --version &>/dev/null); then
+    sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
+fi
+if $(iptables --version &>/dev/null); then
+    sudo iptables -L -n -v &> ${LOG_LOCATION}/iptables.log
+fi
+if $(journalctl --version &>/dev/null); then
+    sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
+    sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
+else
+   sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
+   sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
+fi
 sudo chown $USER ${LOG_LOCATION}/ironic-api.log
-sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
 sudo chown $USER ${LOG_LOCATION}/ironic-conductor.log
