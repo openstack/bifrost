@@ -9,6 +9,7 @@ sgabios_dir: /usr/share/sgabios/
 nginx_user: nginx
 virt_group: libvirt
 mysql_service_name: mariadb
+tftp_service_name: tftp
 required_packages:
   - mariadb-server
   - dnsmasq

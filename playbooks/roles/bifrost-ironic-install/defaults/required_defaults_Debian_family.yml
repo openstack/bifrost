@@ -9,6 +9,7 @@ sgabios_dir: /usr/share/qemu/
 nginx_user: www-data
 virt_group: libvirtd
 mysql_service_name: mysql
+tftp_service_name: tftpd-hpa
 required_packages:
   - mysql-server
   - rabbitmq-server
