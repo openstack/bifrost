@@ -22,8 +22,8 @@
     - "{{ http_boot_folder }}/pxelinux.cfg"
 - name: "Place tftpd map-file"
   copy: src=tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
-- name: "Disable service tftpd-hpa"
-  service: name=tftpd-hpa state=stopped enabled=no
+- name: "Disable service {{ tftp_service_name }}"
+  service: name="{{ tftp_service_name }}" state=stopped enabled=no
 - name: "Set pxelinux.0 source (for Ubuntu >=14.10)"
   set_fact:
      syslinux_tftp_dir: '/usr/lib/PXELINUX'
