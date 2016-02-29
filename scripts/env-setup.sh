@@ -112,6 +112,8 @@ if [ ! -d ansible ]; then
     cd ansible
 else
     cd ansible
+    git remote update origin --prune
+    git fetch --tags
     git checkout $ANSIBLE_GIT_BRANCH
     git pull --rebase origin $ANSIBLE_GIT_BRANCH
     git submodule update --init --recursive
