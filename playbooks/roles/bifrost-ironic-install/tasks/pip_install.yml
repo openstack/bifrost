@@ -18,7 +18,7 @@
     name: "{{ package }}"
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
-    virtualenv: "{{ bifrost_venv_dir if enable_venv else 'undefined' }}"
+    virtualenv: "{{ bifrost_venv_dir if enable_venv else omit }}"
   when: source_install is not defined or source_install == false
 # NOTE (cinerama): We should be able to use the pip module here and
 # possibly merge these two tasks when
