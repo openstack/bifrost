@@ -379,7 +379,7 @@
   when: "{{include_dhcp_server|bool}}"
 - name: "Download Ironic Python Agent kernel & image"
   include: download_ipa_image.yml
-  when: download_ipa | bool == true
+  when: create_ipa_image | bool == false and download_ipa | bool == true
 - name: "Download cirros to use for deployment if requested"
   get_url:
     url: "{{ cirros_deploy_image_upstream_url }}"
