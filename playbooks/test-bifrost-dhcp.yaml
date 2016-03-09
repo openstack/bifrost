@@ -73,6 +73,7 @@
 - hosts: baremetal
   vars:
     inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool }}"
+    multinode_testing: true
   name: "Creat configuration drive files and deploy machines."
   become: no
   connection: local
