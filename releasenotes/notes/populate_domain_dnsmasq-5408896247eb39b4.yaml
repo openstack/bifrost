@@ -1,7 +1,7 @@
 ---
 features:
   - Allow to populate the domain setting of
-    dnsmasq. As shown in documentation: this is optional,
+    dnsmasq. As shown in documentation, this is optional,
     but if it is set, it does the following things.
     1) Allows DHCP hosts to have fully qualified domain
     names, as long as the domain part matches this setting.
