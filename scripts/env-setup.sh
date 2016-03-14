@@ -22,6 +22,9 @@ if [ -x '/usr/bin/apt-get' ]; then
     if ! $(git --version &>/dev/null) ; then
         sudo -H apt-get -y install git
     fi
+    if ! $(python --version &>/dev/null); then
+        sudo -H apt-get -y install python-minimal
+    fi
     if ! $(dpkg -l libpython-dev &>/dev/null); then
         sudo -H apt-get -y install libpython-dev
     fi
@@ -34,6 +37,9 @@ if [ -x '/usr/bin/apt-get' ]; then
         fi
     fi
 elif [ -x '/usr/bin/yum' ]; then
+    if ! $(python --version $>/dev/null); then
+        sudo -H yum -y install python
+    fi
     if ! yum -q list installed python-devel; then
         sudo -H yum -y install python-devel
     fi
