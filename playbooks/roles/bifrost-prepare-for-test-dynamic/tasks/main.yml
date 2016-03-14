@@ -27,6 +27,7 @@
   when: ipv4_address is defined
 - name: "Pause before asking for keyscan, to avoid races"
   pause: minutes=2
+  when: multinode_testing | bool == true
 - name: "Add testvm hosts from SSH known_hosts file."
   shell: ssh-keyscan "{{ ipv4_address }}" >> "{{ ansible_env.HOME }}/.ssh/known_hosts"
   when: ipv4_address is defined
