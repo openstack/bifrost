@@ -136,6 +136,16 @@
     write_priv: ".*"
     read_priv: ".*"
   no_log: true
+- name: "Set mysql_username if environment variable mysql_user is set"
+  set_fact:
+    mysql_username: "{{ lookup('env', 'mysql_user') }}"
+  when: lookup('env', 'mysql_user') | length > 0
+  no_log: true
+- name: "Set mysql_password if environment variable mysql_pass is set"
+  set_fact:
+    mysql_password: "{{ lookup('env', 'mysql_pass') }}"
+  when: lookup('env', 'mysql_pass') | length > 0
+  no_log: true
 - name: "MySQL - Creating DB"
   mysql_db:
     name: "ironic"
