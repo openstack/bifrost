@@ -1,6 +1,8 @@
 #!/bin/bash
 
-set -eux
+# Note(TheJulia): We should proceed with attempting to collect information
+# even if a command fails, and as such set -e should not be present.
+set -ux
 set -o pipefail
 
 # Note(TheJulia): If there is a workspace variable, we want to utilize that as
@@ -13,11 +15,13 @@ echo "Making logs directory and collecting logs."
 sudo cp /var/log/libvirt/baremetal_logs/testvm1_console.log ${LOG_LOCATION}
 sudo chown $USER ${LOG_LOCATION}/testvm1_console.log
 dmesg &> ${LOG_LOCATION}/dmesg.log
-if $(netstat --version &>/dev/null); then
-    sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
-fi
+# NOTE(TheJulia): Netstat exits with error code 5 when --version is used.
+sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
 if $(iptables --version &>/dev/null); then
     sudo iptables -L -n -v &> ${LOG_LOCATION}/iptables.log
+fi
+if $(ip link &>/dev/null); then
+    ip -s link &> ${LOG_LOCATION}/interface_counters.log
 fi
 if $(journalctl --version &>/dev/null); then
     sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
