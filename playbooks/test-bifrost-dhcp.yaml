@@ -8,11 +8,23 @@
 ---
 - hosts: localhost
   connection: local
-  name: "Remove existing leases file"
+  name: "Setting pre-test conditions"
   become: yes
   ignore_errors: yes
   tasks:
-    - command: rm /var/lib/misc/dnsmasq.leases
+    # NOTE(TheJulia): While the test was created to run with five VMs,
+    # in the interest of keeping the active memory footprint small,
+    # should stop all of the VMs in advance, so we can proceed with
+    # install and initial deploy.
+  - name: Attempt to stop all test VMs
+    virt:
+      name: "testvm{{ item }}"
+      command: "stop"
+      state: shutdown
+    with_sequence: start=1 end={{ test_vm_num_nodes | default('5') }}
+    ignore_errors: yes
+  - name: Remove pre-existing leases file
+    command: rm /var/lib/misc/dnsmasq.leases
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
@@ -94,6 +106,32 @@
   max_fail_percentage: 0
   roles:
     - role: bifrost-test-vm
+- hosts: baremetal
+  connection: local
+  name: "Unprovisions the test node"
+  become: no
+  gather_facts: no
+  roles:
+    - role: bifrost-unprovision-node-dynamic
+    - role: ironic-delete-dynamic
+- hosts: localhost
+  connection: local
+  name: "Executes test script"
+  become: yes
+  tasks:
+    # NOTE(TheJulia): Moved the power ON of the excess VMs until after
+    # the other test VMs have been shutdown, in order to explicitly
+    # validate that the dhcp config is working as expected and not
+    # serving these requests.
+  - name: Power on remaining test VMs
+    virt:
+      name: "testvm{{ item }}"
+      command: "start"
+    with_sequence: start=4 end={{ test_vm_num_nodes | default('5') }}
+    ignore_errors: yes
+  - name: Wait 30 seconds
+    pause:
+      seconds: 30
 - hosts: localhost
   connection: local
   name: "Executes test script"
@@ -104,16 +142,6 @@
     inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool }}"
   roles:
     - role: bifrost-test-dhcp
-      cleaning: false
-      testing: true
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
-- hosts: baremetal
-  connection: local
-  name: "Unprovisions the test node"
-  become: no
-  gather_facts: no
-  roles:
-    - role: bifrost-unprovision-node-dynamic
-    - role: ironic-delete-dynamic

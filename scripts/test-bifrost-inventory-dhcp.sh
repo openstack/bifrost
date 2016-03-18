@@ -29,7 +29,7 @@ ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml --synt
 ansible-playbook -vvvv -i inventory/localhost test-bifrost-dynamic.yaml --syntax-check --list-tasks
 
 # Create the test VMS
-ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml -e test_vm_num_nodes="5" -e test_vm_memory_size="512"
+ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml -e test_vm_num_nodes="5" -e test_vm_memory_size="1024"
 
 # cut file
 head -n -2 /tmp/baremetal.csv > /tmp/baremetal.csv.new && mv /tmp/baremetal.csv.new /tmp/baremetal.csv
@@ -52,7 +52,8 @@ ansible-playbook -vvvv \
     -e use_cirros=true \
     -e testing_user=cirros \
     -e inventory_dhcp=true \
-    -e inventory_dhcp_static_ip=true
+    -e inventory_dhcp_static_ip=true \
+    -e test_vm_num_nodes="5"
 EXITCODE=$?
 
 if [ $EXITCODE != 0 ]; then
