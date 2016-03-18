@@ -1,0 +1,10 @@
+---
+upgrade:
+  - Ironic inspector has been switched to using MySQL as
+    its back-end database. This was to correct a bug that
+    functionally broke inspection.
+fixes:
+  - A bug in file ownership resulted in the ironic-inspector
+    functionality not working as expected, and the test being
+    unable to be re-executed without manual clean-up. This has
+    been corrected by moving the database use to MySQL.

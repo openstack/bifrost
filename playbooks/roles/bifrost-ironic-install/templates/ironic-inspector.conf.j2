@@ -8,7 +8,7 @@ auth_strategy = {{ inspector_auth }}
 debug = {{ inspector_debug | bool }}
 
 [database]
-connection=sqlite:///{{ inspector_data_dir }}/inspector.sqlite
+connection=mysql+pymysql://inspector:{{ ironic_db_password }}@localhost/inspector?charset=utf8
 
 [firewall]
 manage_firewall = {{ inspector_manage_firewall | bool }}
