@@ -24,7 +24,7 @@
     with_sequence: start=1 end={{ test_vm_num_nodes | default('5') }}
     ignore_errors: yes
   - name: Remove pre-existing leases file
-    command: rm /var/lib/misc/dnsmasq.leases
+    file: path=/var/lib/misc/dnsmasq.leases state=absent
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
