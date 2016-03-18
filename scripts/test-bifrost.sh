@@ -45,7 +45,8 @@ ansible-playbook -vvvv \
     -e use_cirros=true \
     -e testing_user=cirros \
     -e write_interfaces_file=true \
-    -e enable_inspector=true
+    -e enable_inspector=true \
+    -e inspect_nodes=true
 EXITCODE=$?
 
 if [ $EXITCODE != 0 ]; then
