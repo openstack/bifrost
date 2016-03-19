@@ -33,7 +33,7 @@ def main():
         ipv4_subnet_mask=dict(required=False),
         vlan_id=dict(required=False),
         network_mtu=dict(required=False),
-        nics=dict(required=False),
+        nics=dict(required=False, type='list'),
         node_network_info=dict(required=False)
     )
 
