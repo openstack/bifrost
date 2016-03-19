@@ -49,12 +49,12 @@
     network_mtu: "{{ network_mtu | default('1500') }}"
     nics: "{{ nics | default('') }}"
     node_network_info: "{{ node_network_info | default('') }}"
-  when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
+  when: addressing_mode is undefined or "dhcp" not in addressing_mode
 - name: "Place network info template in each openstack/latest folder"
   template:
     src: network_info.json.j2
     dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json"
-  when: addressing_mode is undefined and '"dhcp" not in addressing_mode'
+  when: addressing_mode is undefined or "dhcp" not in addressing_mode
 - name: "Make metadata folder - /openstack/latest"
   file:
     state: directory
