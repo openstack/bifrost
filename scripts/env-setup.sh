@@ -129,6 +129,12 @@ check_get_module `pwd`/lib/ansible/modules/core/cloud/openstack/os_ironic.py \
 check_get_module `pwd`/lib/ansible/modules/core/cloud/openstack/os_ironic_node.py \
     https://raw.githubusercontent.com/ansible/ansible-modules-core/stable-2.0/cloud/openstack/os_ironic_node.py
 
+# Note(TheJulia): Proposed, however not yet accepted. Once the pull request
+# https://github.com/ansible/ansible-modules-extras/pull/1681 has merged, this
+# URL should be changed.
+check_get_module `pwd`/lib/ansible/modules/extras/cloud/openstack/os_ironic_inspect.py \
+    https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/feature/os-ironic-inspect/cloud/openstack/os_ironic_inspect.py
+
 if [ -n "${VENV-}" ]; then
     sudo -H -E ${PIP} install --upgrade /opt/stack/ansible
     echo
