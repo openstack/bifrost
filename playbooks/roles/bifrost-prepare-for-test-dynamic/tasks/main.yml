@@ -20,7 +20,10 @@
   # keys, which can become visible as a race, hence the four second pause.
   pause: seconds={{ node_ssh_pause }}
 - name: "Add testvm(s) to Ansible Inventory"
-  add_host: name="{{ ipv4_address }}:22" groups=test
+  # NOTE(TheJulia): add_host only triggers once per play. Since we need to
+  # add all hosts, we need to use a loop.
+  add_host: name="{{ hostvars[item]['ipv4_address'] }}:22" groups=test
+  with_items: "{{ groups['baremetal'] }}"
   when: ipv4_address is defined
 - name: "Remove testvm hosts from SSH known_hosts file."
   command: ssh-keygen -R "{{ ipv4_address }}"
