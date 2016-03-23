@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Note(TheJulia): If there is a workspace variable, we want to utilize that as
-# the preference of where to put logs
-LOG_LOCATION="${WORKSPACE:-..}/logs"
-
 set -eux
 set -o pipefail
 export PYTHONUNBUFFERED=1
@@ -30,8 +26,6 @@ echo $(which python)
 # Change working directory
 cd $BIFROST_HOME/playbooks
 echo $(which ansible-playbook)
-
-${VENV}/bin/ansible-playbook -vvvv -i inventory/localhost test.yaml
 
 # Syntax check of dynamic inventory test path
 ${VENV}/bin/ansible-playbook -vvvv \
