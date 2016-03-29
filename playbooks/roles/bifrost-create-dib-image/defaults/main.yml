@@ -5,6 +5,9 @@ dib_env_vars:
   http_proxy: "{{ lookup('env','http_proxy') }}"
   https_proxy: "{{ lookup('env','https_proxy') }}"
   DIB_INSTALLTYPE_simple_init: repo
+  LANG: C
+  LC_ALL: C
+  LC_MESSAGES: C
 build_ramdisk: false
 dib_trace: false
 dib_uncompressed: false
