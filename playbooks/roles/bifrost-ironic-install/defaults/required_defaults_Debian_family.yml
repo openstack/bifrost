@@ -40,6 +40,7 @@ required_packages:
   - libvirt-bin
   - debootstrap
   - uuid-runtime
+  - curl
   - dnsmasq
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
 # package list as the installation causes name resolution changes that can
