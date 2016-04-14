@@ -197,3 +197,9 @@ ironic:
   keystone:
     default_username: "bifrost_user"
     default_password: "ChangeThisPa55w0rd"
+
+
+# TODO(TheJulia): Thinking outloud, I think we ought to head in
+# the direction of identifying the address of the conductor host
+# in a more uniform fashion. What that is exactly, is TBD.
+my_ip_address: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
