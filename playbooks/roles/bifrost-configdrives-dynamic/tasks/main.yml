@@ -45,7 +45,7 @@
     src: openstack_meta_data.json.j2
     dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/meta_data.json"
 
-- name: "Generate network_info"
+- name: "Generate network_data"
   network_metadata:
     ipv4_address: "{{ ipv4_address | default('') }}"
     ipv4_gateway: "{{ ipv4_gateway | default('') }}"
@@ -55,12 +55,22 @@
     vlan_id: "{{ vlan_id | default('') }}"
     network_mtu: "{{ network_mtu | default('1500') }}"
     nics: "{{ nics | default(omit) }}"
-    node_network_info: "{{ node_network_info | default({}) }}"
+    node_network_data: "{{ node_network_data | default(node_network_info) }}"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode
 
-- name: "Place network info template in each openstack/latest folder"
+- name: "Place network data template in each openstack/latest folder"
   template:
-    src: network_info.json.j2
+    src: network_data.json.j2
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_data.json"
+  when: addressing_mode is undefined or "dhcp" not in addressing_mode
+
+# TODO(TheJulia): Deprecation removal of the old network_info file name
+# should likely take place after an elongated deprecation cycle.
+# Begind eprecated in the Ocata release suggests Queens as the point
+# in which we should remove it.
+- name: "Place deprecated network info file location in each openstack/latest folder"
+  template:
+    src: network_data.json.j2
     dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode
 
