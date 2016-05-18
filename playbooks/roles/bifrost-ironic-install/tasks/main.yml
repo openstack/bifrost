@@ -90,13 +90,13 @@
   include: pip_install.yml
     package=dib-utils
     state=present
-  when: skip_install is not defined and create_image_via_dib == true
+  when: skip_install is not defined and install_dib == true
 - name: "Diskimage-builder - Install"
   include: pip_install.yml
     package=diskimage-builder
     sourcedir={{ dib_git_folder }}
     source_install=true
-  when: skip_install is not defined and create_image_via_dib == true
+  when: skip_install is not defined and install_dib == true
 - name: "Ironic Client - Install"
   include: pip_install.yml
     package=python-ironicclient

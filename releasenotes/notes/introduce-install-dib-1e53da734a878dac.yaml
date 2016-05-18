@@ -1,0 +1,6 @@
+---
+other:
+  - A new install_dib varible has been introduced to the ironic install role
+    to control installation of disk image builder and dib-utils. 
+    To maintain  the previous behavior install_dib will default to
+    the value of create_image_via_dib.
