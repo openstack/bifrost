@@ -19,6 +19,7 @@ if [ -x '/usr/bin/apt-get' ]; then
     if ! $(gcc -v &>/dev/null); then
         sudo -H apt-get -y install gcc
     fi
+	apt-get install libssl-dev libffi-dev
     if ! $(git --version &>/dev/null) ; then
         sudo -H apt-get -y install git
     fi
@@ -44,8 +45,9 @@ elif [ -x '/usr/bin/yum' ]; then
         sudo -H yum -y install python-devel
     fi
     if ! $(gcc -v &>/dev/null); then
-        sudo -H yum -y install gcc
+        sudo -H yum -y install gcc 
     fi
+	sudo -H yum -y install libffi-devel openssl-devel
     if ! $(git --version &>/dev/null); then
         sudo -H yum -y install git
     fi
