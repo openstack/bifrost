@@ -30,7 +30,7 @@
     group: root
     mode: 0644
   delegate_to: localhost
-  when: inventory_dhcp | bool
+  when: inventory_dhcp | bool == true
   become: yes
 - name: "Setup DNS address for nodes."
   template:
@@ -40,7 +40,7 @@
     group: root
     mode: 0644
   delegate_to: localhost
-  when: inventory_dns | bool
+  when: inventory_dns | bool == true
   become: yes
 - name: "Sending dnsmasq HUP"
   # Note(TheJulia): We need to actually to send a hup signal directly as

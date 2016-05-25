@@ -60,4 +60,4 @@
     dest="{{ http_boot_folder }}/pxelinux.cfg/default"
     owner=ironic
     group=ironic
-  when: enable_inspector | bool
+  when: enable_inspector | bool == true

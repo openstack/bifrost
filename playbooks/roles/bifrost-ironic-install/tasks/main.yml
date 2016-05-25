@@ -29,7 +29,7 @@
 - name: Include OS version-specific defaults
   include_vars: "{{ item }}"
   with_first_found:
-    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ansible_distribution_release }}.yml"
+    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
 - name: "Warn if deprecated variable nginx_port is set"
@@ -90,13 +90,13 @@
   include: pip_install.yml
     package=dib-utils
     state=present
-  when: skip_install is not defined and install_dib == true
+  when: skip_install is not defined and install_dib | bool == true
 - name: "Diskimage-builder - Install"
   include: pip_install.yml
     package=diskimage-builder
     sourcedir={{ dib_git_folder }}
     source_install=true
-  when: skip_install is not defined and install_dib == true
+  when: skip_install is not defined and install_dib | bool == true
 - name: "Ironic Client - Install"
   include: pip_install.yml
     package=python-ironicclient
@@ -214,17 +214,17 @@
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
-  when: test_created_db.changed == true
+  when: test_created_db.changed | bool == true
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
-  when: test_created_db.changed == false
+  when: test_created_db.changed | bool == false
 - name: "Do RedHat-specific changes for libvirt"
   include: redhat_libvirt_changes.yml
   when: ansible_os_family == 'RedHat'
 - name: "Add ironic user to virtualization group"
   user: name=ironic group="{{ virt_group }}" append=yes
-  when: testing == true
+  when: testing | bool == true
 - name: "Create SSH directory for ironic user"
   local_action: >
     file
@@ -233,13 +233,15 @@
     group=ironic
     mode=0700
     state=directory
-  when: testing == true
+  when: testing | bool == true
 - name: "Check for ironic user SSH key"
   local_action: stat path=/home/ironic/.ssh/id_rsa
   register: test_ironic_pvt_key
 - name: "Generate SSH key for ironic user"
   local_action: command ssh-keygen -f /home/ironic/.ssh/id_rsa -N ""
-  when: testing == true and test_ironic_pvt_key.stat.exists == false
+  when: >
+    testing | bool == true and
+    test_ironic_pvt_key.stat.exists | bool == false
 - name: "Set ownership on ironic SSH private key"
   local_action: >
     file
@@ -248,7 +250,9 @@
     group=ironic
     mode=0600
     state=file
-  when: testing == true and test_ironic_pvt_key.stat.exists == false
+  when: >
+    testing | bool == true and
+    test_ironic_pvt_key.stat.exists | bool == false
 - name: "Set ownership on ironic SSH public key"
   local_action: >
     file
@@ -257,11 +261,11 @@
     group=ironic
     mode=0644
     state=file
-  when: testing == true and test_ironic_pvt_key.stat.exists == false
+  when: testing | bool == true and test_ironic_pvt_key.stat.exists | bool == false
 - name: "Create authorized_keys file for ironic user"
   command: >
     cp -p /home/ironic/.ssh/id_rsa.pub /home/ironic/.ssh/authorized_keys
-  when: testing == true
+  when: testing | bool == true
 - name: "Create service folder if systemd template is defined"
   file:
     path: "{{ init_dest_dir }}"
@@ -288,7 +292,7 @@
 - name: "Place ironic services"
   template:
     src: "{{ init_template }}"
-    dest: "{{ init_dest_dir }}{{item.service_name}}{{ init_ext }}"
+    dest: "{{ init_dest_dir }}{{ item.service_name }}{{ init_ext }}"
     owner: "root"
     group: "root"
   with_items:
@@ -314,7 +318,7 @@
     owner: "root"
     group: "root"
     mode: 0755
-  when: "{{inventory_dhcp|bool}}"
+  when: "{{ inventory_dhcp | bool == true }}"
 - name: "Setup Inventory DHCP Hosts Directory"
   file:
     path: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
@@ -322,26 +326,26 @@
     owner: "root"
     group: "root"
     mode: 0755
-  when: "{{inventory_dhcp|bool}}"
+  when: "{{ inventory_dhcp | bool == true }}"
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
-  when: "{{include_dhcp_server|bool}}"
+  when: "{{ include_dhcp_server | bool == true }}"
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt. And the libvirt started dnsmasq processes
 # are not controlled by upstart, so we need to manually kill those.
 - name: "Look for libvirt dnsmasq config"
   stat: path=/etc/dnsmasq.d/libvirt-bin
   register: test_libvirt_dnsmasq
-  when: "{{include_dhcp_server|bool}}"
+  when: "{{ include_dhcp_server | bool == true }}"
 - name: "Disable libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
   when: >
      include_dhcp_server | bool == true and
      test_libvirt_dnsmasq.stat.exists | bool == true and
-     testing|bool == true
+     testing | bool == true
 - name: "Stop existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
-  when: "{{testing|bool and include_dhcp_server|bool}}"
+  when: "{{ testing | bool == true and include_dhcp_server | bool == true }}"
 # NOTE(Shrews) We need to enable ip forwarding for the libvirt bridge to
 # operate properly with dnsmasq. This should be done before starting dnsmasq.
 - name: "Enable IP forwarding in sysctl"
@@ -351,7 +355,7 @@
     sysctl_set: yes
     state: present
     reload: yes
-  when: testing == true
+  when: testing | bool == true
 # NOTE(Shrews) Ubuntu packaging+apparmor issue prevents libvirt from loading
 # the ROM from /usr/share/misc.
 - name: "Look for sgabios in {{ sgabios_dir }}"
@@ -365,7 +369,7 @@
   when: >
     test_sgabios_qemu == false and
     test_sgabios_misc == true and
-    testing == true
+    testing | bool == true
 - name: "Deploy nginx configuration file for serving HTTP requests"
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 - name: "Ensure services are running with current config"
@@ -377,7 +381,7 @@
   service: name={{ item }} state=restarted
   with_items:
     - dnsmasq
-  when: "{{include_dhcp_server|bool}}"
+  when: "{{ include_dhcp_server | bool == true }}"
 - name: "Send services a reload signal"
   service: name={{ item }} state=reloaded
   with_items:
@@ -385,7 +389,7 @@
     - nginx
 - name: "Send services a force-reload signal"
   service: name=dnsmasq state=restarted
-  when: "{{include_dhcp_server|bool}}"
+  when: "{{ include_dhcp_server | bool == true }}"
 - name: "Download Ironic Python Agent kernel & image"
   include: download_ipa_image.yml
   when: create_ipa_image | bool == false and download_ipa | bool == true
@@ -393,7 +397,7 @@
   get_url:
     url: "{{ cirros_deploy_image_upstream_url }}"
     dest: "{{ deploy_image }}"
-  when: "{{use_cirros|bool}}"
+  when: "{{ use_cirros | bool == true }}"
 - name: >
     "Explicitly permit nginx port (TCP) for
     file downloads from nodes to be provisioned"
@@ -402,4 +406,4 @@
     -i {{network_interface}} -j ACCEPT
 - name: "Explicitly permit TCP/6385 for IPA callback"
   command: >
-    iptables -I INPUT -p tcp --dport 6385 -i {{network_interface}} -j ACCEPT
+    iptables -I INPUT -p tcp --dport 6385 -i {{ network_interface }} -j ACCEPT

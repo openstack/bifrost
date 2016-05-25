@@ -62,7 +62,7 @@
   become: yes
   gather_facts: yes
   vars:
-    inventory_dhcp: "{{ inventory_dhcp | bool }}"
+    inventory_dhcp: "{{ inventory_dhcp | bool == true }}"
   roles:
     - role: bifrost-ironic-install
       cleaning: false
@@ -81,10 +81,10 @@
   connection: local
   roles:
     - role: ironic-enroll-dynamic
-    - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool }
+    - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
 - hosts: baremetal
   vars:
-    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool }}"
+    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
     multinode_testing: true
   name: "Creat configuration drive files and deploy machines."
   become: no
@@ -138,8 +138,8 @@
   become: yes
   gather_facts: yes
   vars:
-    inventory_dhcp: "{{ inventory_dhcp | bool }}"
-    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool }}"
+    inventory_dhcp: "{{ inventory_dhcp | bool == true }}"
+    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
   roles:
     - role: bifrost-test-dhcp
   environment:
