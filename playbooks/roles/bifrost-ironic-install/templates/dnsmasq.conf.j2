@@ -17,7 +17,7 @@ port=53
 # specified interfaces (and the loopback) give the name of the
 # interface (eg eth0) here.
 # Repeat the line for more than one interface.
-{% if testing %}
+{% if testing | bool == true %}
 interface=virbr0
 {% else %}
 interface={{ network_interface }}
@@ -42,7 +42,7 @@ conf-dir=/etc/dnsmasq.d
 # or if you want it to read another file, as well as /etc/hosts, use
 # this.
 #addn-hosts=/etc/banner_add_hosts
-{% if inventory_dhcp %}
+{% if inventory_dhcp | bool == true %}
 addn-hosts=/etc/dnsmasq.d/bifrost.hosts.d
 dhcp-hostsfile=/etc/dnsmasq.d/bifrost.dhcp-hosts.d
 dhcp-ignore=tag:!known
@@ -65,7 +65,7 @@ domain={{ domain }}
 # a lease time. If you have more than one network, you will need to
 # repeat this for each network on which you want to supply DHCP
 # service.
-{% if testing %}
+{% if testing | bool == true %}
 dhcp-range=192.168.122.2,192.168.122.254,12h
 {% elif inventory_dhcp %}
 dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},static,{{dhcp_static_mask}},{{dhcp_lease_time}}
@@ -95,13 +95,13 @@ dhcp-boot=tag:gpxe,/ipxe.pxe
 
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 dhcp-boot=tag:!ipxe,/undionly.kpxe
-{% if testing %}
+{% if testing | bool == true %}
 dhcp-boot=http://192.168.122.1:{{ file_url_port }}/boot.ipxe
 {% else %}
 dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/boot.ipxe
 {% endif %}
 
-{% if testing %}
+{% if testing | bool == true %}
 log-queries
 log-dhcp
 {% endif %}
