@@ -343,6 +343,13 @@ To utilize the newer dynamic inventory based deployment::
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
 
+Note::
+
+  Before running the above command, ensure that the value for `ssh_public_key_path` in
+  ``./playbooks/inventory/group_vars/baremetal`` refers to a valid public key file,
+  or set the ssh_public_key_path option on the ansible-playbook command line by
+  setting the variable. Example: "-e ssh_public_key_path=~/.ssh/id_rsa.pub"
+
 Testing with a single command
 =============================
 
