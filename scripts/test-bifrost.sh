@@ -5,6 +5,7 @@ set -o pipefail
 export PYTHONUNBUFFERED=1
 SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 BIFROST_HOME=$SCRIPT_HOME/..
+ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
 ENABLE_VENV="false"
 USE_DHCP="false"
 USE_VENV="false"
@@ -59,7 +60,7 @@ if [ ${USE_VENV} = "true" ]; then
     ENABLE_VENV="true"
 else
     $SCRIPT_HOME/env-setup.sh
-    source /opt/stack/ansible/hacking/env-setup
+    source ${ANSIBLE_INSTALL_ROOT}/ansible/hacking/env-setup
     ANSIBLE=$(which ansible-playbook)
 fi
 set -x -o nounset
