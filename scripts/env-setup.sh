@@ -36,6 +36,12 @@ if [ -x '/usr/bin/apt-get' ]; then
             sudo -H apt-get -y install python-virtualenv
         fi
     fi
+    if ! $(dpkg -l libssl-dev &>/dev/null); then
+        sudo -H apt-get -y install libssl-dev
+    fi
+    if ! $(dpkg -l libffi-dev &>/dev/null); then
+        sudo -H apt-get -y install libffi-dev
+    fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! $(python --version $>/dev/null); then
         sudo -H yum -y install python
