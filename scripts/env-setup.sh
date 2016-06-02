@@ -57,6 +57,12 @@ elif [ -x '/usr/bin/yum' ]; then
             sudo -H yum -y install python-virtualenv
         fi
     fi
+    if ! $(rpm -q openssl-devel &>/dev/null); then
+        sudo -H yum -y install openssl-devel
+    fi
+    if ! $(rpm -q libffi-devel &>/dev/null); then
+        sudo -H yum -y install libffi-devel
+    fi
 else
     echo "ERROR: Supported package manager not found.  Supported: apt,yum"
 fi
