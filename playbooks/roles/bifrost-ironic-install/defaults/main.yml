@@ -10,6 +10,8 @@ ironicclient_source_install: false
 shade_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
+# Setting to install diskimage-builder
+install_dib: "{{ create_image_via_dib }}"
 # Setting to prepend a partition image with a boot sector and partition table.
 transform_boot_image: false
 # If testing is true, then the environment is setup for using libvirt
