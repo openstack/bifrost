@@ -40,6 +40,9 @@
   copy: src=boot.ipxe dest=/httpboot/boot.ipxe owner=ironic group=ironic mode=0744
 - name: "Place tftp config file"
   copy: src=xinetd.tftp dest=/etc/xinetd.d/tftp
+- name: "Download ipxe files if asked"
+  include: get_ipxe.yml
+  when: download_ipxe | bool == true
 - name: "Copy iPXE image into place"
   copy: src={{ ipxe_dir }}/undionly.kpxe dest=/tftpboot/
 # NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
