@@ -1,0 +1,74 @@
+# This playbook redeploys nodes by doing the following:
+# 1) For each node in provision active state, unprovision the node
+#    (ie. set the provision state to 'available'
+# 2) Each node is given a configurable amount of time to transition
+#    to 'available' state.
+# 3) For each node now in 'available' state, deploy the node.
+# 4) Each node is given a configurable amount of time to transition
+#    to 'active' state.
+#
+# To utilize:
+# export BIFROST_INVENTORY_SOURCE=<path to json, csv, or yaml data source>
+# ansible-playbook -vvvv -i inventory/bifrost_inventory.py redeploy-dynamic.yaml
+# NOTE: 'ironic' may be used as the data source, in which case ironic will
+# will be queried for all the nodes.
+#
+# NOTE(TheJulia): The format of this example will cause hosts to be deployed
+# utilizing DHCP on eth0 of Ubuntu/Debian hosts. It is advisable you build
+# your deployment image with the dhcp-all-interfaces element when deploying
+# other operating systems or if your target node has multiple ethernet
+# interfaces.
+---
+- hosts: localhost
+  connection: local
+  name: "Collect facts"
+  become: no
+  gather_facts: yes
+- hosts: baremetal
+  name: "Unprovision the nodes"
+  become: no
+  connection: local
+  pre_tasks:
+    - name: "Pull initial ironic facts"
+      os_ironic_facts:
+        auth_type: "{{ auth_type | default(omit) }}"
+        auth: "{{ auth | default(omit) }}"
+        name: "{{ inventory_hostname }}"
+        ironic_url: "{{ ironic_url }}"
+        skip_items: []
+  roles:
+    - { role: bifrost-unprovision-node-dynamic, when: (provision_state == "active"
+              or provision_state == "deploy failed"
+              or provision_state == "error") and maintenance | bool != true }
+  post_tasks:
+    - name: "Pull ironic facts until provision state available"
+      os_ironic_facts:
+        auth_type: "{{ auth_type | default(omit) }}"
+        auth: "{{ auth | default(omit) }}"
+        name: "{{ inventory_hostname }}"
+        ironic_url: "{{ ironic_url }}"
+        skip_items: []
+      register: result
+      until: provision_state == "available"
+      retries: "{{ available_state_wait_retries | default(15) }}"
+      delay: "{{ provision_state_retry_interval | default(20) }}"
+- hosts: baremetal
+  name: "Activate the nodes"
+  become: no
+  connection: local
+  roles:
+    - { role: bifrost-configdrives-dynamic, when: provision_state == "available" and maintenance | bool != true }
+    - { role: bifrost-deploy-nodes-dynamic, when: provision_state == "available" and maintenance | bool != true }
+  post_tasks:
+    - name: "Pull ironic facts until provision state active"
+      os_ironic_facts:
+        auth_type: "{{ auth_type | default(omit) }}"
+        auth: "{{ auth | default(omit) }}"
+        name: "{{ inventory_hostname }}"
+        ironic_url: "{{ ironic_url }}"
+        skip_items: []
+      register: result
+      until: provision_state == "active"
+      retries: "{{ active_state_wait_retries | default(30) }}"
+      delay: "{{ provision_state_retry_interval | default(20) }}"
+

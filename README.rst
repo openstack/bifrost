@@ -350,6 +350,14 @@ Note::
   or set the ssh_public_key_path option on the ansible-playbook command line by
   setting the variable. Example: "-e ssh_public_key_path=~/.ssh/id_rsa.pub"
 
+If the hosts need to be re-deployed, the dynamic redeploy playbook may be used::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  ansible-playbook -vvvv -i inventory/bifrost_inventory.py redeploy-dynamic.yaml
+
+This playbook will undeploy the hosts, followed by a deployment, allowing
+a configurable timeout for the hosts to transition in each step.
+
 Testing with a single command
 =============================
 
