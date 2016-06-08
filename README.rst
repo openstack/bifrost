@@ -374,18 +374,17 @@ Testing with a single command
 
 A simple ``scripts/test-bifrost.sh`` script can be utilized to install
 pre-requisite software packages, Ansible, and then execute the
-test-bifrost.yaml playbook in order to provide a single step testing
-mechanism.
+``test-bifrost-create-vm.yaml`` and ``test-bifrost.yaml`` playbooks in order
+to provide a single step testing mechanism.
 
-The playbook utilized by the script,
-``playbooks/test-bifrost-dynamic.yaml``, is a single playbook that
-will create a local virtual machine, save a baremetal.csv file out,
-and then utilize it to execute the remaining roles.  Two additional
-roles are invoked by this playbook which enables Ansible to connect to
-the new nodes by adding them to the inventory, and then logging into
-the remote machine via the user's ssh host key.  Once that has
-successfully occurred, additional roles will unprovision the host(s)
-and delete them from ironic.
+``playbooks/test-bifrost-create-vm.yaml`` creates one or more VMs for
+testing and saves out a baremetal.csv file which is used by
+``playbooks/test-bifrost.yaml`` to execute the remaining roles.  Two
+additional roles are invoked by this playbook which enables Ansible to
+connect to the new nodes by adding them to the inventory, and then
+logging into the remote machine via the user's ssh host key.  Once
+that has successfully occurred, additional roles will unprovision the
+host(s) and delete them from ironic.
 
 Command::
 

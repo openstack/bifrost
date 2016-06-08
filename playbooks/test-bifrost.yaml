@@ -1,10 +1,10 @@
 # Example command line to use:
 # Create a VM:
-# ansible-playbook -vvvv -i inventory/localhost test-bifrost-dhcp.yaml
+# ansible-playbook -vvvv -i inventory/localhost test-bifrost-create-vm.yaml
 # Set BIFROST_INVENTORY_SOURCE
 # export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
 # Execute the installation and VM startup test.
-# ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost-dhcp.yaml -e use_cirros=true -e testing_user=cirros
+# ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost.yaml -e use_cirros=true -e testing_user=cirros
 ---
 - hosts: localhost
   connection: local
@@ -61,8 +61,13 @@
   name: "Executes install, enrollment, and testing in one playbook"
   become: yes
   gather_facts: yes
-  vars:
-    inventory_dhcp: "{{ inventory_dhcp | bool == true }}"
+  pre_tasks:
+    - name: "Collect process list if running in a CI System"
+      command: ps aux
+      when: ci_testing is defined
+    - name: "Collect list of listening network sockets if running in a CI system"
+      shell: netstat -apn|grep LISTEN
+      when: ci_testing is defined
   roles:
     - role: bifrost-ironic-install
       cleaning: false
@@ -71,7 +76,7 @@
     # do not support ramdisk-image-create as they invoke steps to cleanup
     # the ramdisk which causes ramdisk-image-create to believe it failed.
     - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "jessie", dib_elements: "ironic-agent {{ ipa_extra_dib_elements | default('') }}", when: create_ipa_image | bool == true }
-    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "jessie", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib == true and transform_boot_image == false }
+    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "jessie", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
@@ -84,9 +89,8 @@
     - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
 - hosts: baremetal
   vars:
-    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
-    multinode_testing: true
-  name: "Creat configuration drive files and deploy machines."
+    multinode_testing: "{{ inventory_dhcp | bool == true }}"
+  name: "Create configuration drive files and deploy machines."
   become: no
   connection: local
   roles:
@@ -105,7 +109,7 @@
   any_errors_fatal: yes
   max_fail_percentage: 0
   roles:
-    - { role: bifrost-test-vm, deprecated_test_playbook: true }
+    - role: bifrost-test-vm
 - hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
@@ -114,9 +118,10 @@
   roles:
     - role: bifrost-unprovision-node-dynamic
     - role: ironic-delete-dynamic
+# The following tasks are intended to test DHCP functionality
 - hosts: localhost
   connection: local
-  name: "Executes test script"
+  name: "Executes DHCP test script"
   become: yes
   tasks:
     # NOTE(TheJulia): Moved the power ON of the excess VMs until after
@@ -129,19 +134,22 @@
       command: "start"
     with_sequence: start=4 end={{ test_vm_num_nodes | default('5') }}
     ignore_errors: yes
+    when: inventory_dhcp | bool == true
   - name: Wait 30 seconds
     pause:
       seconds: 30
+      when: inventory_dhcp | bool == true
 - hosts: localhost
   connection: local
-  name: "Executes test script"
+  name: "Executes DHCP test script"
   become: yes
   gather_facts: yes
   vars:
     inventory_dhcp: "{{ inventory_dhcp | bool == true }}"
     inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
   roles:
-    - role: bifrost-test-dhcp
+    - { role: bifrost-test-dhcp, when: inventory_dhcp | bool == true }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
+
