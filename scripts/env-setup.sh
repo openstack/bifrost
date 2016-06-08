@@ -6,6 +6,7 @@ ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
 # issues with the stable branch.
 # https://github.com/ansible/ansible-modules-core/issues/2804
 ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-v2.0.0.0-1}
+ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
 
 function check_get_module () {
     local file=${1}
@@ -117,11 +118,11 @@ sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 u=$(whoami)
 g=$(groups | awk '{print $1}')
 
-if [ ! -d /opt/stack ]; then
-    mkdir -p /opt/stack || (sudo mkdir -p /opt/stack)
+if [ ! -d ${ANSIBLE_INSTALL_ROOT} ]; then
+    mkdir -p ${ANSIBLE_INSTALL_ROOT} || (sudo mkdir -p ${ANSIBLE_INSTALL_ROOT})
 fi
-sudo -H chown -R $u:$g /opt/stack
-cd /opt/stack
+sudo -H chown -R $u:$g ${ANSIBLE_INSTALL_ROOT}
+cd ${ANSIBLE_INSTALL_ROOT}
 
 if [ ! -d ansible ]; then
     git clone $ANSIBLE_GIT_URL --recursive -b $ANSIBLE_GIT_BRANCH
@@ -152,7 +153,7 @@ check_get_module `pwd`/lib/ansible/modules/extras/cloud/openstack/os_ironic_insp
     https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/feature/os-ironic-inspect/cloud/openstack/os_ironic_inspect.py
 
 if [ -n "${VENV-}" ]; then
-    sudo -H -E ${PIP} install --upgrade /opt/stack/ansible
+    sudo -H -E ${PIP} install --upgrade ${ANSIBLE_INSTALL_ROOT}/ansible
     echo
     echo "To use bifrost, do"
 
@@ -166,6 +167,6 @@ else
     echo "following commands to update your shell."
     echo
     echo "source env-vars"
-    echo "source /opt/stack/ansible/hacking/env-setup"
+    echo "source ${ANSIBLE_INSTALL_ROOT}/ansible/hacking/env-setup"
     echo
 fi

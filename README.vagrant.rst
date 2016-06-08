@@ -46,3 +46,19 @@ Edit the Vagrantfile:
 Boot the VM with::
 
   vagrant up
+
+--------------------
+Installation Options
+--------------------
+Ansible is installed within the VM directly from `source
+<https://github.com/ansible/ansible.git>`_ or from the path set by
+``ANSIBLE_GIT_URL``. You can modify the path of installation by setting
+``ANSIBLE_INSTALL_ROOT`` environment variable. The default value is
+``/opt/stack``. When set in the host, this variable will also be set as an
+environment variable inside the VM for use by test scripts.
+
+Note:
+
+  Only the ansible installation path is configurable at this point using
+  the enviroment variable. All other dependencies will still continue to cloned
+  under ``/opt/stack``.

@@ -71,11 +71,16 @@
     - name: Ensure /opt/stack folder exists
       file: path=/opt/stack state=directory owner=vagrant
 
+    - name: Ensure ansible root folder exists
+      file: path={{ansible_install_root}} state=directory owner=vagrant
+
     - name: Prepare VM for Bifrost
       command: /home/vagrant/bifrost/scripts/env-setup.sh
+      environment:
+        ANSIBLE_INSTALL_ROOT: "{{ansible_install_root}}"
 
     - name: Install Bifrost
-      shell: source /opt/stack/ansible/hacking/env-setup && ansible-playbook -vvvv -i inventory/localhost install.yaml -e network_interface={{network_interface}}
+      shell: source {{ansible_install_root}}/ansible/hacking/env-setup && ansible-playbook -vvvv -i inventory/localhost install.yaml -e network_interface={{network_interface}}
       args:
           chdir: /home/vagrant/bifrost/playbooks
           executable: /bin/bash
