@@ -19,6 +19,13 @@ transform_boot_image: false
 testing: false
 ci_testing: false
 
+# set to true to skip installing ironic dependencies
+skip_package_install: False
+# set to true to skip generation of configs, ironic db and rabbitmq configuration
+skip_bootstrap: False
+# set to true to skip starting ironic services and dependencies
+skip_start: False
+
 # Default network interface that bifrost will be attached to.
 # This is used in ipa_* so it must be before
 network_interface: "virbr0"

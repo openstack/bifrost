@@ -1,0 +1,9 @@
+---
+features:
+  The ironic install role has been split into 3 phases.
+  (install)   installs all ironic packages and dependencies
+  (bootstrap) the bootstrap pahse generates configs
+              and initializes the ironic db.
+  (start)     starts all ironic services and dependencies.
+  Each phase is run by default and can be skiped by defining
+  skip_package_install,skip_bootstrap and skip_start respectively.
