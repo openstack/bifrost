@@ -1,0 +1,9 @@
+---
+features:
+  - A new playbook was added to redeploy nodes.
+    The playbook transitions each node's provision state
+    to 'available', waiting for the nodes to reach
+    that state.  Next, the playbook deploys the
+    nodes, waiting for the nodes to reach provision
+    state 'active'.  The playbook is redeploy-dynamic.yaml
+    in the playbooks directory.
