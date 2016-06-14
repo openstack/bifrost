@@ -42,7 +42,7 @@ if [ $SOURCE = "test-bifrost-inventory-dhcp.sh" ]; then
      USE_DHCP="true"
 elif [ $SOURCE = "test-bifrost-venv.sh" ]; then
      USE_VENV="true"
-elif [ $SOURCE = "test-bifrost-create-vm.sh" ]; then
+elif [ $SOURCE = "test-bifrost-build-images.sh" ]; then
      BUILD_IMAGE="true"
 fi
 
