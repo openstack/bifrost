@@ -1,0 +1,97 @@
+# Copyright (c) 2015 Hewlett-Packard Development Company, L.P.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Update Package Cache"
+  apt: update_cache=yes
+  when: ansible_os_family == 'Debian'
+- name: "Install packages"
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items: required_packages
+# Step required for Ubuntu 14.10
+- name: "Install Ubuntu 14.10 (and later) packages"
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items:
+    - pxelinux
+  when: >
+    ansible_distribution_version|version_compare('14.10', '>=') and
+    ansible_distribution == 'Ubuntu'
+- name: "If running in CI, set source install facts just to be sure"
+  set_fact:
+    shade_source_install: true
+    ironicclient_source_install: true
+  when: ci_testing | bool == true
+- name: "If VENV is set in the environment, enable installation into venv"
+  set_fact:
+    enable_venv: true
+  when: lookup('env', 'VENV') | length > 0
+# NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
+# and it should already be created by the Ansible setup, we will leave this
+# here for the time being.
+- name: "Ensure /opt/stack is present"
+  file: name=/opt/stack state=directory owner=root group=root
+- name: "proliantutils - Install from pip"
+  include: pip_install.yml
+     package=proliantutils
+     state=present
+  when: skip_install is not defined and testing | bool != true
+- name: "UcsSdk - Install from pip"
+  include: pip_install.yml
+    package=UcsSdk
+    version=0.8.1.9
+  when: skip_install is not defined and testing | bool != true
+- name: "Install iSCSI client if PXE driver support is enabled"
+  action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
+  when: skip_install is not defined and enable_pxe_drivers | bool == true
+- name: "Shade - Install"
+  include: pip_install.yml
+    package=shade
+    state=latest
+    sourcedir={{ shade_git_folder }}
+    source_install={{ shade_source_install }}
+  when: skip_install is not defined
+- name: "dib-utils - install from pip"
+  include: pip_install.yml
+    package=dib-utils
+    state=present
+  when: skip_install is not defined and install_dib | bool == true
+- name: "Diskimage-builder - Install"
+  include: pip_install.yml
+    package=diskimage-builder
+    sourcedir={{ dib_git_folder }}
+    source_install=true
+  when: skip_install is not defined and install_dib | bool == true
+- name: "Ironic Client - Install"
+  include: pip_install.yml
+    package=python-ironicclient
+    state=latest
+    sourcedir={{ ironicclient_git_folder }}
+    source_install={{ ironicclient_source_install }}
+  when: skip_install is not defined
+- name: "Install configparser in venv if using"
+  include: pip_install.yml package=configparser virtualenv=bifrost_venv_dir
+  when: skip_install is not defined and (enable_venv | bool == true)
+- name: "Install pymysql in venv if using"
+  include: pip_install.yml package=pymysql virtualenv=bifrost_venv_dir
+  when: skip_install is not defined and (enable_venv | bool == true)
+- name: "Install Ironic using pip"
+  include: pip_install.yml
+    package=ironic
+    state=latest
+    sourcedir={{ ironic_git_folder }}
+    source_install=true
+  when: skip_install is not defined
+- name: "Install ironic-inspector to permit use of inspection interface"
+  include: inspector_install.yml
+  when: enable_inspector | bool == true

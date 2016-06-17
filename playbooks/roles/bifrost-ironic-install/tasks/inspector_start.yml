@@ -13,11 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Inspector - PIP Install"
-  include: pip_install.yml
-    package=ironic-inspector
-    state=latest
-- name: "Inspector - PIP client install"
-  include: pip_install.yml
-    package=python-ironic-inspector-client
-    state=latest
+- name: "Inspector - (re)starting ironic-inspector service"
+  service:
+    name=ironic-inspector
+    state=restarted
