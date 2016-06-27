@@ -14,6 +14,7 @@ echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
 sudo cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}
 sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
+sudo chmod o+r ${LOG_LOCATION}/testvm[[:digit:]]_console.log
 dmesg &> ${LOG_LOCATION}/dmesg.log
 # NOTE(TheJulia): Netstat exits with error code 5 when --version is used.
 sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
@@ -32,3 +33,6 @@ else
 fi
 sudo chown $USER ${LOG_LOCATION}/ironic-api.log
 sudo chown $USER ${LOG_LOCATION}/ironic-conductor.log
+# In CI scenarios, we want other users to be able to read the logs.
+sudo chmod o+r ${LOG_LOCATION}/ironic-api.log
+sudo chmod o+r ${LOG_LOCATION}/ironic-conductor.log
