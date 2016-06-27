@@ -19,11 +19,11 @@
   stat: path={{ ipa_kernel }}
   register: test_ipa_kernel_present
 - name: "Download IPA kernel"
-  get_url: url={{ ipa_kernel_upstream_url }} dest={{ ipa_kernel }}
+  get_url: url={{ ipa_kernel_upstream_url }} dest={{ ipa_kernel }} timeout=300
   when: test_ipa_kernel_present.stat.exists == false
 - name: "Test if IPA image is present"
   stat: path={{ ipa_ramdisk }}
   register: test_ipa_image_present
 - name: "Download IPA image"
-  get_url: url={{ ipa_ramdisk_upstream_url }} dest={{ ipa_ramdisk }}
+  get_url: url={{ ipa_ramdisk_upstream_url }} dest={{ ipa_ramdisk }} timeout=300
   when: test_ipa_image_present.stat.exists == false
