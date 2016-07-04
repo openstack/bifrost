@@ -1,0 +1,12 @@
+---
+
+upgrade:
+  - A new test playbook, test-bifrost.yaml, has been added.
+    This playbook merges the functionality of the existing
+    test-bifrost-dynamic.yaml and test-bifrost-dhcp.yaml
+    playbooks.
+
+deprecations:
+  - test-bifrost-dynamic.yaml and test-bifrost-dhcp.yaml
+    have been superseded by test-bifrost.yaml and will be
+    removed in the Ocata release.

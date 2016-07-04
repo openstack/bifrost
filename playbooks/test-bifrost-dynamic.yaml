@@ -12,6 +12,7 @@
   become: no
   gather_facts: yes
   pre_tasks:
+    - debug: msg="WARNING - This playbook will be deprecated in a future release. Please use test-bifrost.yaml."
     - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
       set_fact:
          ci_testing: true
@@ -85,7 +86,7 @@
   gather_facts: no
   remote_user: "{{ testing_user }}"
   roles:
-    - role: bifrost-test-vm
+    - { role: bifrost-test-vm, deprecated_test_playbook: true }
 - hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
