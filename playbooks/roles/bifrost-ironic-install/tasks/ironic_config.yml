@@ -203,4 +203,4 @@
   lineinfile:
     dest: /etc/ironic/ironic.conf
     regexp: '^(#|)enabled_network_interfaces( |)\s?=( |)\s?(.*)$'
-    line: "enabled_network_interfaces = none"
+    line: "enabled_network_interfaces = noop"
