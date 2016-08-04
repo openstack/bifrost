@@ -32,12 +32,12 @@ bifrost for local actions such as installing Ironic.
 
 The baremetal group contains the hosts defined by the data source along with
 variables extracted from the data source. The variables are defined on a
-per-host level which allows explict actions to be taken based upon the
+per-host level which allows explicit actions to be taken based upon the
 variables.
 
 Presently, the base mode of operation reads a CSV file in the format
 originally utilized by bifrost and returns structured JSON that is
-interpretted by Ansible.  This has since been extended to support the
+interpreted by Ansible.  This has since been extended to support the
 parsing of JSON and YAML data if they are detected in the file.
 
 Conceivably, this inventory module can be extended to allow for direct
@@ -97,7 +97,7 @@ Utilizing ironic as the data source
 
 The functionality exists to allow a user to query an existing ironic
 installation for the inventory data.  This is an advanced feature,
-as the node may not have sufficent information to allow for node
+as the node may not have sufficient information to allow for node
 deployment or automated testing, unless DHCP reservations are used.
 
 This setting can be invoked by setting the source to "ironic"::
