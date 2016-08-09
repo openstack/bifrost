@@ -16,13 +16,6 @@
     # in the interest of keeping the active memory footprint small,
     # should stop all of the VMs in advance, so we can proceed with
     # install and initial deploy.
-  - name: Attempt to stop all test VMs
-    virt:
-      name: "testvm{{ item }}"
-      command: "stop"
-      state: shutdown
-    with_sequence: start=1 end={{ test_vm_num_nodes | default('5') }}
-    ignore_errors: yes
   - name: Remove pre-existing leases file
     file: path=/var/lib/misc/dnsmasq.leases state=absent
 - hosts: localhost
@@ -129,9 +122,7 @@
     # validate that the dhcp config is working as expected and not
     # serving these requests.
   - name: Power on remaining test VMs
-    virt:
-      name: "testvm{{ item }}"
-      command: "start"
+    command: virsh start testvm{{item}}
     with_sequence: start=4 end={{ test_vm_num_nodes | default('5') }}
     ignore_errors: yes
     when: inventory_dhcp | bool == true
