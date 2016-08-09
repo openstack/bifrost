@@ -1,0 +1,12 @@
+---
+upgrade:
+  - Bifrost has changed to using TinyIPA as the default
+    IPA image for testing. TinyIPA has a smaller footprint
+    for downloads and memory utilization. Users can continue
+    to utilize CoreOS or diskimage-builder based IPA images,
+    however this was done to improve testing performance and
+    reliability.
+    If the pre-existing IPA image is removed, bifrost will
+    automatically re-download the file upon being updated
+    in an installation process.  Otherwise, the pre-existing
+    IPA image will be utilized.
