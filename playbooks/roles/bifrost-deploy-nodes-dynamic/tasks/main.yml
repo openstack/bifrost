@@ -20,7 +20,6 @@
 - name: "If in noauth mode, set Auth parameters to None"
   set_fact:
     auth_type: None
-    auth: None
   when: noauth_mode | bool == true
 - name: "Setup DHCP for nodes."
   template:
