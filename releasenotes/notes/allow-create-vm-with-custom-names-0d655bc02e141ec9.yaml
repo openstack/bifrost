@@ -1,0 +1,6 @@
+---
+features:
+  - Allows to create VMs with custom names instead
+    of using testvm or NODE_BASE and sequential
+    prefixes. This can be achieved by passing the
+    TEST_VM_NODE_NAMES env var.

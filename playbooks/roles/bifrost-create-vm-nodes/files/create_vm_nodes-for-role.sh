@@ -20,6 +20,9 @@
 #   # Create 2 nodes that use KVM acceleration
 #    sudo VM_DOMAIN_TYPE=kvm NODECOUNT=2 create_nodes.sh
 #
+#    # Create 3 nodes with different naming
+#   sudo TEST_VM_NODE_NAMES="controller00 compute00 compute01" create_nodes.sh
+#
 # THANKS
 #    Thanks to the author(s) of the ironic-supporting code within devstack,
 #    from which all of this is derived.
@@ -229,6 +232,7 @@ function create_node {
 
 NODEBASE=${NODEBASE:-testvm}
 NODECOUNT=${NODECOUNT:-1}
+TEST_VM_NODE_NAMES=${TEST_VM_NODE_NAMES:-""}
 NODEOUTPUT=${NODEOUTPUT:-"/tmp/baremetal.csv"}
 TEMPFILE=`mktemp`
 
@@ -243,7 +247,14 @@ fi
 
 for (( i=1; i<=${NODECOUNT}; i++ ))
 do
-    name=${NODEBASE}${i}
+    if [ -z "${TEST_VM_NODE_NAMES}" ]; then
+        name=${NODEBASE}${i}
+    else
+        names=($TEST_VM_NODE_NAMES)
+        arrayindex=$(($i-1))
+        name=${names[$arrayindex]}
+    fi
+
     mac=$(create_node $name $VM_CPU $VM_RAM $VM_DISK amd64 $VM_NET_BRIDGE $VM_EMULATOR $VM_LOGDIR $VM_DOMAIN_TYPE)
 
     printf "$mac,root,undefined,192.168.122.1,$VM_CPU,$VM_RAM,$VM_DISK,flavor,type,a8cb6624-0d9f-c882-affc-046ebb96ec0${i},$name,192.168.122.$((i+1))\n" >>$TEMPFILE
