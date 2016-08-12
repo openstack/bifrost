@@ -190,8 +190,8 @@ If you wish to utilize ironic's CLI in no-auth mode, you must set two
 environment variables:
 
 - ``IRONIC_URL`` - A URL to the ironic API, such as http://localhost:6385/
-- ``OS_AUTH_TOKEN`` - Any value, such as an empty space, is required to
-  cause the client library to send requests directly to the API.
+- ``OS_AUTH_TOKEN`` - Any value except empty space, such as 'fake-token',
+  is required to cause the client library to send requests directly to the API.
 
 For your ease of use, ``env-vars`` can be sourced to allow the CLI to connect
 to a local ironic installation operating in noauth mode.
