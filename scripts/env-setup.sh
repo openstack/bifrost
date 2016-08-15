@@ -44,7 +44,7 @@ if [ -x '/usr/bin/apt-get' ]; then
         sudo -H apt-get -y install libffi-dev
     fi
 elif [ -x '/usr/bin/yum' ]; then
-    if ! $(python --version $>/dev/null); then
+    if ! $(python --version &>/dev/null); then
         sudo -H yum -y install python
     fi
     if ! yum -q list installed python-devel; then
