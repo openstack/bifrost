@@ -197,7 +197,9 @@ function create_node {
 "
 
       echo ${vm_xml} > /tmp/vm.xml
-      virsh create /tmp/vm.xml 2>&1 >/dev/null
+      # NOTE(TheJulia): the create command powers on a VM that has been defined,
+      # where as define creates the VM, but does not change the power state.
+      virsh define /tmp/vm.xml 2>&1 >/dev/null
       if [ $? != 0 ]
       then
          echo "failed to create VM $NAME" >&2
