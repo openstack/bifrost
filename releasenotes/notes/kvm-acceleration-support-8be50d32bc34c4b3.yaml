@@ -1,0 +1,7 @@
+---
+features:
+  - Add support for kvm acceleration for the VMs created
+    by bifrost-create-vm-nodes. The default domain type
+    for the created VMs is qemu which uses tcg acceleration.
+    In order to use kvm acceleration, users need to set
+    VM_DOMAIN_TYPE to kvm.

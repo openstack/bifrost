@@ -24,6 +24,10 @@ test_vm_memory_size: Tunable setting to allow a user to define a specific
                      between test runs, you may need to undefine the test
                      virtual machine(s) that were previously created.
 
+test_vm_domain_type: Tunable setting to allow a user to chosee the domain
+                     type of the created VMs. The default is "qemu" and can
+                     be set to kvm to enable kvm acceleration.
+
 test_vm_num_nodes: Tunable setting to allow a user to define the number of
                    test VMs that will be created. They will all be created
                    with same settings.
