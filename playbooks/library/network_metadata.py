@@ -34,7 +34,7 @@ def main():
         vlan_id=dict(required=False),
         network_mtu=dict(required=False),
         nics=dict(required=False, type='list'),
-        node_network_info=dict(required=False)
+        node_network_info=dict(required=False, type='dict')
     )
 
     module = AnsibleModule(argument_spec)
