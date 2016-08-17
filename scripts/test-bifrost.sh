@@ -23,6 +23,7 @@ BUILD_IMAGE="false"
 # use cirros.
 
 VM_MEMORY_SIZE="3072"
+VM_DOMAIN_TYPE=qemu
 TEST_VM_NUM_NODES=1
 USE_CIRROS=true
 TESTING_USER=cirros
@@ -106,6 +107,7 @@ ${ANSIBLE} -vvvv \
        test-bifrost-create-vm.yaml \
        -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
        -e test_vm_memory_size=${VM_MEMORY_SIZE} \
+       -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
        -e enable_venv=${ENABLE_VENV}
 
 if [ ${USE_DHCP} = "true" ]; then

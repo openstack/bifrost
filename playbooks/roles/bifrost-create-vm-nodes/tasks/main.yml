@@ -56,6 +56,7 @@
   environment:
     NODEOUTPUT: "{{baremetal_csv_file}}"
     VM_RAM: "{{ test_vm_memory_size }}"
+    VM_DOMAIN_TYPE: "{{ test_vm_domain_type }}"
     NODECOUNT: "{{ test_vm_num_nodes }}"
   register: task_create_vm_nodes
   ignore_errors: yes

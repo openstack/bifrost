@@ -17,6 +17,9 @@
 #    # Create 3 nodes with base name of 'junk'
 #    sudo NODEBASE=junk NODECOUNT=3 create_nodes.sh
 #
+#   # Create 2 nodes that use KVM acceleration
+#    sudo VM_DOMAIN_TYPE=kvm NODECOUNT=2 create_nodes.sh
+#
 # THANKS
 #    Thanks to the author(s) of the ironic-supporting code within devstack,
 #    from which all of this is derived.
@@ -34,6 +37,7 @@ LIBVIRT_CONNECT_URI=${LIBVIRT_CONNECT_URI:-"qemu:///system"}
 export VIRSH_DEFAULT_CONNECT_URI="$LIBVIRT_CONNECT_URI"
 
 # VM specs
+VM_DOMAIN_TYPE=${VM_DOMAIN_TYPE:-qemu}
 VM_EMULATOR=${VM_EMULATOR:-/usr/bin/qemu-system-x86_64}
 VM_CPU=${VM_CPU:-1}
 VM_RAM=${VM_RAM:-3072}
@@ -67,6 +71,7 @@ VM_LOGDIR=/var/log/libvirt/baremetal_logs
 #   $6: Network bridge for the VMs
 #   $7: Path to VM emulator
 #   $8: Logging directory for the VMs
+#   $9: Domain type of the VM
 #############################################################################
 function create_node {
     NAME=$1
@@ -85,6 +90,7 @@ function create_node {
     BRIDGE=$6
     EMULATOR=$7
     LOGDIR=$8
+    DOMAIN_TYPE=$9
 
     LIBVIRT_NIC_DRIVER=${LIBVIRT_NIC_DRIVER:-"e1000"}
     LIBVIRT_STORAGE_POOL=${LIBVIRT_STORAGE_POOL:-"default"}
@@ -135,7 +141,7 @@ function create_node {
         chattr +C "$volume_path" || true
       fi
       vm_xml="
-<domain type='qemu'>
+<domain type='${DOMAIN_TYPE}'>
   <name>${NAME}</name>
   <memory unit='KiB'>${MEM}</memory>
   <vcpu>${CPU}</vcpu>
@@ -238,7 +244,7 @@ fi
 for (( i=1; i<=${NODECOUNT}; i++ ))
 do
     name=${NODEBASE}${i}
-    mac=$(create_node $name $VM_CPU $VM_RAM $VM_DISK amd64 $VM_NET_BRIDGE $VM_EMULATOR $VM_LOGDIR)
+    mac=$(create_node $name $VM_CPU $VM_RAM $VM_DISK amd64 $VM_NET_BRIDGE $VM_EMULATOR $VM_LOGDIR $VM_DOMAIN_TYPE)
 
     printf "$mac,root,undefined,192.168.122.1,$VM_CPU,$VM_RAM,$VM_DISK,flavor,type,a8cb6624-0d9f-c882-affc-046ebb96ec0${i},$name,192.168.122.$((i+1))\n" >>$TEMPFILE
 done
