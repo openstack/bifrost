@@ -18,7 +18,7 @@
 - name: "Collecting node facts"
   os_ironic_facts:
     auth_type: None
-    auth: None
+    auth: {}
     ironic_url: "{{ ironic_url }}"
     uuid: "{{ uuid | default() }}"
     name: "{{ name | default() }}"
