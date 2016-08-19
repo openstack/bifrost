@@ -28,7 +28,7 @@
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started
 - name: "RabbitMQ - Testing if hostname is defined in /etc/hosts"
-  command: grep -i "127.0.0.1.*{{ ansible_hostname }}\ localhost" /etc/hosts
+  command: grep -i "{{ ansible_hostname }}" /etc/hosts
   ignore_errors: yes
   register: test_grep_fix_hostname
 # NOTE(sean-k-mooney) in a docker container this will fail so /etc/hosts
