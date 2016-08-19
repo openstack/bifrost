@@ -16,7 +16,43 @@ function check_get_module () {
     fi
 }
 
-if [ -x '/usr/bin/apt-get' ]; then
+# Check zypper before apt-get in case zypper-aptitude
+# is installed
+if [ -x '/usr/bin/zypper' ]; then
+    if ! $(python --version &>/dev/null); then
+        sudo -H zypper install -y python
+    fi
+    if ! zypper search --match-exact --installed python-devel &>/dev/null; then
+        sudo -H zypper install -y python-devel
+    fi
+    if ! $(gcc -v &>/dev/null); then
+        sudo -H zypper install -y gcc
+    fi
+    if ! $(git --version &>/dev/null); then
+        sudo -H zypper install -y git
+    fi
+    if ! $(wget --version &>/dev/null); then
+        sudo -H zypper install -y wget
+    fi
+    if [ -n "${VENV-}" ]; then
+        if $(virtualenv --version &>/dev/null); then
+            sudo -H zypper install -y python-virtualenv
+        fi
+    fi
+    if ! zypper search --match-exact --installed libopenssl-devel &>/dev/null; then
+        sudo -H zypper install -y libopenssl-devel
+    fi
+    if ! zypper search --installed libffi-devel &>/dev/null; then
+        sudo -H zypper install -y libffi-devel
+    fi
+    if ! zypper search --match-exact --installed python-pip &>/dev/null; then
+        sudo -H zypper install -y python-pip
+    fi
+    # Make sure python-pip is the preferred one
+    if readlink -f /etc/alternatives/pip | grep -q "3."; then
+        sudo -H update-alternatives --set pip /usr/bin/pip2.*
+    fi
+elif [ -x '/usr/bin/apt-get' ]; then
     if ! $(gcc -v &>/dev/null); then
         sudo -H apt-get -y install gcc
     fi
@@ -71,7 +107,7 @@ elif [ -x '/usr/bin/yum' ]; then
         sudo -H yum -y install libffi-devel
     fi
 else
-    echo "ERROR: Supported package manager not found.  Supported: apt,yum"
+    echo "ERROR: Supported package manager not found.  Supported: apt,yum,zypper"
 fi
 
 if [ -n "${VENV-}" ]; then
