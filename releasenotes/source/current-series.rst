@@ -1,5 +1,5 @@
-===========================
-Mitaka Series Release Notes
-===========================
+============================
+Current Series Release Notes
+============================
 
 .. release-notes::
