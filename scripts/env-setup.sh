@@ -2,10 +2,7 @@
 set -eu
 
 ANSIBLE_GIT_URL=${ANSIBLE_GIT_URL:-https://github.com/ansible/ansible.git}
-# Note(TheJulia): Normally this should be stable-2.0, pinning due to
-# issues with the stable branch.
-# https://github.com/ansible/ansible-modules-core/issues/2804
-ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-v2.0.0.0-1}
+ANSIBLE_GIT_BRANCH=${ANSIBLE_GIT_BRANCH:-stable-2.0}
 ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
 
 function check_get_module () {
