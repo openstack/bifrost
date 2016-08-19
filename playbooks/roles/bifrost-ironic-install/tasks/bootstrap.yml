@@ -27,8 +27,6 @@
 # during bootstrapping. all other services are started in the Start phase.
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started
-- name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started
 - name: "RabbitMQ - Testing if hostname is defined in /etc/hosts"
   command: grep -i "127.0.0.1.*{{ ansible_hostname }}\ localhost" /etc/hosts
   ignore_errors: yes
@@ -38,6 +36,8 @@
 - name: "RabbitMQ - Fixing /etc/hosts"
   command: sed -i 's/localhost/{{ ansible_hostname }} localhost/' /etc/hosts
   when: test_grep_fix_hostname.rc != 0
+- name: "Start rabbitmq-server"
+  service: name=rabbitmq-server state=started
 - name: "Ensure guest user is removed from rabbitmq"
   rabbitmq_user:
     user: "guest"
