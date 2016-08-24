@@ -42,6 +42,9 @@ if [ -x '/usr/bin/zypper' ]; then
     if ! zypper search --installed libffi-devel &>/dev/null; then
         sudo -H zypper install -y libffi-devel
     fi
+    if ! zypper search --installed net-tools &>/dev/null; then
+        sudo -H zypper install -y net-tools
+    fi
     if ! zypper search --match-exact --installed python-pip &>/dev/null; then
         sudo -H zypper install -y python-pip
     fi
@@ -76,6 +79,9 @@ elif [ -x '/usr/bin/apt-get' ]; then
     if ! $(dpkg -l libffi-dev &>/dev/null); then
         sudo -H apt-get -y install libffi-dev
     fi
+    if ! $(dpkg -l net-tools &>/dev/null); then
+        sudo -H apt-get -y install net-tools
+    fi
 elif [ -x '/usr/bin/yum' ]; then
     if ! $(python --version &>/dev/null); then
         sudo -H yum -y install python
@@ -102,6 +108,9 @@ elif [ -x '/usr/bin/yum' ]; then
     fi
     if ! $(rpm -q libffi-devel &>/dev/null); then
         sudo -H yum -y install libffi-devel
+    fi
+    if ! $(rpm -q net-tools &>/dev/null); then
+        sudo -H yum -y install net-tools
     fi
 else
     echo "ERROR: Supported package manager not found.  Supported: apt,yum,zypper"
