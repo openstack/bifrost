@@ -10,7 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.define 'bifrost' do |bifrost|
     bifrost.vm.provider :virtualbox do |vb|
-      vb.customize ['modifyvm', :id, '--memory', '4096', '--cpus', '1', '--cpuexecutioncap', '80']
+      vb.customize ['modifyvm', :id, '--memory', '8196', '--cpus', '4']
       # the setting below are to improve performance on mac's and should have little impact elsewhere.
       vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
       vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
