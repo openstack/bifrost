@@ -34,24 +34,22 @@ Example error::
     NodeLocked: Node 00000000-0000-0000-0000-046ebb96ec21 is locked by
     host $HOSTNAME, please retry after the current operation is completed.
 
-*********************************************
-Unexpected/Unknown failure with the IPA Agent
-*********************************************
-
-New image appears not to be deploying
-=====================================
+*****************************************************
+New image appears not to be deploying upon deployment
+*****************************************************
 
 When deploying a new image with the same previous name, it is necessary to
 purge the contents of the TFTP master_images folder which caches the image
-file for deployments.  The default location for this folder is 
+file for deployments.  The default location for this folder is
 ``/tftpboot/master_images``.
 
 Additionally, a playbook has been included that can be used prior to a
 re-installation to ensure fresh images are deployed.  This playbook can
 be found at ``playbooks/cleanup-deployment-images.yaml``.
 
+*********************
 Building an IPA image
-=====================
+*********************
 
 Troubleshooting issues involving IPA can be time consuming.  The IPA
 developers **HIGHLY** recommend that users build their own custom IPA
@@ -59,8 +57,23 @@ images in order to inject things such as SSH keys, and turn on agent
 debugging which must be done in a custom image as there is no mechanism
 to enable debugging via the kernel command line at present.
 
-IPA's instructions on building a custom image can be found at:
-http://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/coreos/README.rst
+Custom IPA images can be built a number of ways, the most generally useful
+mechanism is with diskimage-builder as the distributions typically have
+better hardware support than CoreOS and Tiny Core Linux. However, CoreOS
+and Tiny Core based images are what are used by the OpenStack CI for
+ironic tests.
+
+CoreOS::
+  http://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/coreos/README.rst
+TinyIPA::
+  https://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/tinyipa/README.rst
+
+For documentation on diskimage-builder, See::
+  http://docs.openstack.org/developer/diskimage-builder/.
+
+It should be noted that the steps for diskimage-builder installation and
+use to create an IPA image for Bifrost are the same as for ironic. See::
+  http://docs.openstack.org/developer/ironic/deploy/install-guide.html#image-requirements
 
 This essentially boils down to the following steps:
 
@@ -82,6 +95,14 @@ Since you have updated the image to be deployed, you will need to purge the
 contents of /tftpboot/master_images for the new image to be utilized for the
 deployment process.
 
+*********************************************
+Unexpected/Unknown failure with the IPA Agent
+*********************************************
+
+Many failures due to the IPA agent can be addressed by building a custom
+IPA Image.  See `Building an IPA image`_ for information on building
+your own IPA image.
+
 Obtaining IPA logs via the console
 ==================================
 
@@ -95,7 +116,7 @@ Obtaining IPA logs via the console
    Parameters will vary by your hardware type and configuration,
    however the ``systemd.journald.forward_to_console=yes`` setting is
    a default, and will only work for systemd based IPA images such as
-   the default CoreOS image.
+   the CoreOS image.
 
    The example above, effectively disables all attempts by the kernel to set
    the video mode, defines the console as ttyS0 or the first serial port, and
@@ -168,3 +189,28 @@ Example::
 
 NOTE: The matching private key will need to be utilized to login to the
 machine deployed.
+
+***********************************************************
+Changing from TinyIPA to CoreOS IPA, or any other IPA Image
+***********************************************************
+
+With-in the Newton cycle, the default IPA image for Bifrost was changed
+to TinyIPA, which is based on Tiny Core Linux. This has a greately reduced
+boot time for testing, however should be expected to have less hardware
+support. If on a fresh install, or a re-install, you wish to change to CoreOS
+or any other IPA image, you will need to take the following steps:
+
+#. Remove the existing IPA image ipa.vmlinuz and ipa.initramfs.
+#. Edit the ``playbooks/roles/bifrost-ironic-install/defaults/main.yml``
+   file and update the ``ipa_kernel_upstream_url`` and
+   ``ipa_kernel_upstream_url`` settings to a new URL.
+   For CoreOS, these urls would be,
+   ``https://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe.vmlinuz``
+   and
+   ``https://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz``
+   respectively.
+#. Execute the installation playbook, and the set files will be automatically
+   downloaded again. If the files are not removed prior to (re)installation,
+   then they will not be replaced. Alternatively, the files can just be directly
+   replaced on disk. The default where the kernel and ramdisk are located is in
+   ``/httboot/``.
