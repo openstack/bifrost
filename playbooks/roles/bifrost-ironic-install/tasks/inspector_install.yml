@@ -17,7 +17,11 @@
   include: pip_install.yml
     package=ironic-inspector
     state=latest
+    sourcedir={{ ironicinspector_git_folder }}
+    source_install={{ ironicinspector_source_install }}
 - name: "Inspector - PIP client install"
   include: pip_install.yml
     package=python-ironic-inspector-client
     state=latest
+    source_dir={{ ironicinspectorclient_git_folder }}
+    sourc_install={{ ironicinspectorclient_source_install }}

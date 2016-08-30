@@ -1,0 +1,5 @@
+---
+features:
+  - Allows install of ironic-inspector and
+    python-ironic-inspector-client from git sources
+    and to specify source branch via env variables.
