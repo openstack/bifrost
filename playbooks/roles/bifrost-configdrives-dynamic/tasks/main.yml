@@ -48,7 +48,7 @@
     vlan_id: "{{ vlan_id | default('') }}"
     network_mtu: "{{ network_mtu | default('1500') }}"
     nics: "{{ nics | default(omit) }}"
-    node_network_info: "{{ node_network_info | default('') }}"
+    node_network_info: "{{ node_network_info | default({}) }}"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode
 - name: "Place network info template in each openstack/latest folder"
   template:
