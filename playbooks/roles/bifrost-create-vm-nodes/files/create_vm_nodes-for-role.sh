@@ -47,10 +47,21 @@ VM_RAM=${VM_RAM:-3072}
 VM_DISK=${VM_DISK:-10}
 VM_MACHINE="pc-1.0"
 
+function is_distro {
+  local os_release=false
+  [[ -e /etc/os-release ]] && os_release=true
+  case "$1" in
+    centos) { $os_release && grep -q -i "centos" /etc/os-release; } || [[ -e /etc/centos-release ]] ;;
+    debian) { $os_release && grep -q -i "debian" /etc/os-release; } || [[ -e /etc/debian_version ]] ;;
+    suse) { $os_release && grep -q -i "suse" /etc/os-release; } || [[ -e /etc/SuSE-release ]] ;;
+    *) echo "Unsupported distribution '$1'" >&2; exit 1 ;;
+  esac
+}
+
 # CentOS provides a single emulator package
 # which differs from other distributions, and
 # needs to be explicitly set.
-if [ -e /etc/centos-release ]; then
+if is_distro "centos"; then
   VM_EMULATOR=/usr/libexec/qemu-kvm
   VM_MACHINE="pc"
 fi
@@ -113,7 +124,7 @@ function create_node {
 
     if [ -n "$LOGDIR" ] ; then
       mkdir -p "$LOGDIR"
-      if [ -e /etc/centos-release ]; then
+      if is_distro "centos" || is_distro "suse"; then
         # NOTE(TheJulia): For some unknown reason, libvirt's log folder
         # permissions on CentOS ship in an inoperable state.  Users must
         # be able to read a folder to open files in the folder structure.
@@ -122,7 +133,7 @@ function create_node {
     fi
 
     PREALLOC=
-    if [ -f /etc/debian_version ]; then
+    if is_distro "debian"; then
         PREALLOC="--prealloc-metadata"
     fi
 
@@ -140,7 +151,7 @@ function create_node {
       # NOTE(TheJulia): CentOS default installs with an XFS root, and chattr
       # fails to set +C on XFS.  This could be more elegant, however the use
       # case is for CI testing.
-      if [ ! -e /etc/centos-release ]; then
+      if ! is_distro "centos"; then
         chattr +C "$volume_path" || true
       fi
       vm_xml="
