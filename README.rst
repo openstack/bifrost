@@ -136,7 +136,7 @@ Note:
 Then run::
 
   bash ./scripts/env-setup.sh
-  source ${ANSIBLE_INSTALL_ROOT}/stack/ansible/hacking/env-setup
+  source ${ANSIBLE_INSTALL_ROOT}/ansible/hacking/env-setup
   cd playbooks
 
 The second part is an Ansible playbook that installs and configures ironic
@@ -194,7 +194,16 @@ environment variables:
   is required to cause the client library to send requests directly to the API.
 
 For your ease of use, ``env-vars`` can be sourced to allow the CLI to connect
-to a local ironic installation operating in noauth mode.
+to a local ironic installation operating in noauth mode. Run e.g.::
+
+  source env-vars
+  ironic node-list
+  +------+------+---------------+-------------+--------------------+-------------+
+  | UUID | Name | Instance UUID | Power State | Provisioning State | Maintenance |
+  +------+------+---------------+-------------+--------------------+-------------+
+  +------+------+---------------+-------------+--------------------+-------------+
+
+which should print an empty table if connection to Ironic works as expected.
 
 Hardware enrollment
 ===================
