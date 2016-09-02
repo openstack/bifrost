@@ -12,9 +12,18 @@ LOG_LOCATION="${WORKSPACE:-${SCRIPT_HOME}/..}/logs"
 
 echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
-sudo cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}
-sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
-sudo chmod o+r ${LOG_LOCATION}/testvm[[:digit:]]_console.log
+
+if [ -z "${TEST_VM_NODE_NAMES}" ]; then
+    sudo cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}
+    sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
+    sudo chmod o+r ${LOG_LOCATION}/testvm[[:digit:]]_console.log
+else
+    for TEST_VM_NODE_NAME in ${TEST_VM_NODE_NAMES}; do
+        sudo cp /var/log/libvirt/baremetal_logs/${TEST_VM_NODE_NAME}_console.log ${LOG_LOCATION}
+        sudo chown $USER ${LOG_LOCATION}/${TEST_VM_NODE_NAME}_console.log
+        sudo chmod o+r ${LOG_LOCATION}/${TEST_VM_NODE_NAME}_console.log
+    done
+fi
 dmesg &> ${LOG_LOCATION}/dmesg.log
 # NOTE(TheJulia): Netstat exits with error code 5 when --version is used.
 sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
