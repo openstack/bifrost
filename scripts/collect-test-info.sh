@@ -13,7 +13,7 @@ LOG_LOCATION="${WORKSPACE:-${SCRIPT_HOME}/..}/logs"
 echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
 
-if [ -z "${TEST_VM_NODE_NAMES}" ]; then
+if [ -z "${TEST_VM_NODE_NAMES+x}" ]; then
     sudo cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}
     sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
     sudo chmod o+r ${LOG_LOCATION}/testvm[[:digit:]]_console.log
