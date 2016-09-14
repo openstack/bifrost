@@ -1,0 +1,10 @@
+---
+libvirt_service_name: libvirtd
+required_packages:
+ - qemu-tools
+ - qemu-kvm
+ - qemu-x86
+ - qemu-sgabios
+ - libvirt
+ - libvirt-client
+ - libvirt-daemon
