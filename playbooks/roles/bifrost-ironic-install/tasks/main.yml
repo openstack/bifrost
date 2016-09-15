@@ -13,6 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+# NOTE(cinerama) openSUSE Tumbleweed & Leap have different distribution
+# IDs which are not currently accounted for in Ansible, so adjust facts
+# so we can have shared defaults for the whole SuSE family.
+# This change can be removed when the pull request at
+# https://github.com/ansible/ansible/pull/17575 lands in a new version.
+- name: Ensure openSUSE Tumbleweed has the correct family
+  set_fact:
+    ansible_os_family: "Suse"
+  when: ansible_os_family | search("openSUSE Tumbleweed")
+- name: Ensure openSUSE Leap has the correct family
+  set_fact:
+    ansible_os_family: "Suse"
+  when: (ansible_os_family | search("SUSE LINUX")) or
+        (ansible_os_family | search("openSUSE Leap"))
 # NOTE(cinerama) dummy-defaults.yml is an empty defaults file. We use it
 # here to ensure that with_first_found won't fail should we not have
 # defaults for a particular distribution, version, etc.
