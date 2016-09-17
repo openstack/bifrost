@@ -13,107 +13,103 @@ function check_get_module () {
     fi
 }
 
+declare -A PKG_MAP
+
+CHECK_CMD_PKGS=(
+    libffi
+    libopenssl
+    net-tools
+    python-devel
+)
+
 # Check zypper before apt-get in case zypper-aptitude
 # is installed
 if [ -x '/usr/bin/zypper' ]; then
-    if ! $(python --version &>/dev/null); then
-        sudo -H zypper install -y python
-    fi
-    if ! zypper search --match-exact --installed python-devel &>/dev/null; then
-        sudo -H zypper install -y python-devel
-    fi
-    if ! $(gcc -v &>/dev/null); then
-        sudo -H zypper install -y gcc
-    fi
-    if ! $(git --version &>/dev/null); then
-        sudo -H zypper install -y git
-    fi
-    if ! $(wget --version &>/dev/null); then
-        sudo -H zypper install -y wget
-    fi
-    if [ -n "${VENV-}" ]; then
-        if $(virtualenv --version &>/dev/null); then
-            sudo -H zypper install -y python-virtualenv
-        fi
-    fi
-    if ! zypper search --match-exact --installed libopenssl-devel &>/dev/null; then
-        sudo -H zypper install -y libopenssl-devel
-    fi
-    if ! zypper search --installed libffi-devel &>/dev/null; then
-        sudo -H zypper install -y libffi-devel
-    fi
-    if ! zypper search --installed net-tools &>/dev/null; then
-        sudo -H zypper install -y net-tools
-    fi
-    if ! zypper search --match-exact --installed python-pip &>/dev/null; then
-        sudo -H zypper install -y python-pip
-    fi
-    # Make sure python-pip is the preferred one
-    if readlink -f /etc/alternatives/pip | grep -q "3."; then
-        sudo -H update-alternatives --set pip /usr/bin/pip2.*
+    OS_FAMILY="Suse"
+    INSTALLER_CMD="sudo -H zypper install -y"
+    CHECK_CMD="zypper search --match-exact --installed"
+    PKG_MAP=(
+        [gcc]=gcc
+        [git]=git
+        [libffi]=libffi-devel
+        [libopenssl]=libopenssl-devel
+        [net-tools]=net-tools
+        [python]=python
+        [python-devel]=python-devel
+        [venv]=python-virtualenv
+        [wget]=wget
+    )
+    EXTRA_PKG_DEPS=( python-xml )
+    # NOTE (cinerama): we can't install python without removing this package
+    # if it exists
+    if $(${CHECK_CMD} patterns-openSUSE-minimal_base-conflicts &> /dev/null); then
+        sudo -H zypper remove -y patterns-openSUSE-minimal_base-conflicts
     fi
 elif [ -x '/usr/bin/apt-get' ]; then
-    if ! $(gcc -v &>/dev/null); then
-        sudo -H apt-get -y install gcc
-    fi
-    if ! $(git --version &>/dev/null) ; then
-        sudo -H apt-get -y install git
-    fi
-    if ! $(python --version &>/dev/null); then
-        sudo -H apt-get -y install python-minimal
-    fi
-    if ! $(dpkg -l libpython-dev &>/dev/null); then
-        sudo -H apt-get -y install libpython-dev
-    fi
-    if ! $(dpkg -l wget &>/dev/null); then
-        sudo -H apt-get -y install wget
-    fi
-    if [ -n "${VENV-}" ]; then
-        if ! $(virtualenv --version &>/dev/null); then
-            sudo -H apt-get -y install python-virtualenv
-        fi
-    fi
-    if ! $(dpkg -l libssl-dev &>/dev/null); then
-        sudo -H apt-get -y install libssl-dev
-    fi
-    if ! $(dpkg -l libffi-dev &>/dev/null); then
-        sudo -H apt-get -y install libffi-dev
-    fi
-    if ! $(dpkg -l net-tools &>/dev/null); then
-        sudo -H apt-get -y install net-tools
-    fi
+    OS_FAMILY="Debian"
+    INSTALLER_CMD="sudo -H apt-get -y install"
+    CHECK_CMD="dpkg -l"
+    PKG_MAP=( [gcc]=gcc
+              [git]=git
+              [libffi]=libffi-dev
+              [libopenssl]=libssl-dev
+              [net-tools]=net-tools
+              [python]=python-minimal
+              [python-devel]=libpython-dev
+              [venv]=python-virtualenv
+              [wget]=wget
+            )
+    EXTRA_PKG_DEPS=()
 elif [ -x '/usr/bin/yum' ]; then
-    if ! $(python --version &>/dev/null); then
-        sudo -H yum -y install python
-    fi
-    if ! yum -q list installed python-devel; then
-        sudo -H yum -y install python-devel
-    fi
-    if ! $(gcc -v &>/dev/null); then
-        sudo -H yum -y install gcc
-    fi
-    if ! $(git --version &>/dev/null); then
-        sudo -H yum -y install git
-    fi
-    if ! $(wget --version &>/dev/null); then
-        sudo -H yum -y install wget
-    fi
-    if [ -n "${VENV-}" ]; then
-        if $(virtualenv --version &>/dev/null); then
-            sudo -H yum -y install python-virtualenv
-        fi
-    fi
-    if ! $(rpm -q openssl-devel &>/dev/null); then
-        sudo -H yum -y install openssl-devel
-    fi
-    if ! $(rpm -q libffi-devel &>/dev/null); then
-        sudo -H yum -y install libffi-devel
-    fi
-    if ! $(rpm -q net-tools &>/dev/null); then
-        sudo -H yum -y install net-tools
-    fi
+    OS_FAMILY="RedHat"
+    INSTALLER_CMD="sudo -H yum -y install"
+    CHECK_CMD="rpm -q"
+    PKG_MAP=(
+        [gcc]=gcc
+        [git]=git
+        [libffi]=libffi-devel
+        [libopenssl]=openssl-devel
+        [net-tools]=net-tools
+        [python]=python
+        [python-devel]=python-devel
+        [venv]=python-virtualenv
+        [wget]=wget
+    )
+    EXTRA_PKG_DEPS=()
 else
     echo "ERROR: Supported package manager not found.  Supported: apt,yum,zypper"
+fi
+
+if ! $(python --version &>/dev/null); then
+    ${INSTALLER_CMD} ${PKG_MAP[python]}
+fi
+if ! $(gcc -v &>/dev/null); then
+    ${INSTALLER_CMD} ${PKG_MAP[gcc]}
+fi
+if ! $(git --version &>/dev/null); then
+    ${INSTALLER_CMD} ${PKG_MAP[git]}
+fi
+if ! $(wget --version &>/dev/null); then
+    ${INSTALLER_CMD} ${PKG_MAP[wget]}
+fi
+if [ -n "${VENV-}" ]; then
+    if $(virtualenv --version &>/dev/null); then
+        ${INSTALLER_CMD} ${PKG_MAP[venv]}
+    fi
+fi
+
+for pkg in ${CHECK_CMD_PKGS[@]}; do
+    if ! $(${CHECK_CMD} ${PKG_MAP[$pkg]} &>/dev/null); then
+        ${INSTALLER_CMD} ${PKG_MAP[$pkg]}
+    fi
+done
+
+if [ -n "${EXTRA_PKG_DEPS-}" ]; then
+    for pkg in ${EXTRA_PKG_DEPS}; do
+        if ! $(${CHECK_CMD} ${pkg} &>/dev/null); then
+            ${INSTALLER_CMD} ${pkg}
+        fi
+    done
 fi
 
 if [ -n "${VENV-}" ]; then
@@ -148,6 +144,13 @@ PYTHON=$(which python)
 # requirements (which are synced automatically from the global ones)
 # so we can quickly and easily adjust version parameters.
 # See bug 1536627.
+#
+# Note(cinerama): If pip is linked to pip3, the rest of the install
+# won't work. Remove the alternatives. This is due to ansible's
+# python 2.x requirement.
+if [[ $(readlink -f /etc/alternatives/pip) =~ "pip3" ]]; then
+    sudo -H update-alternatives --remove pip $(readlink -f /etc/alternatives/pip)
+fi
 
 if ! which pip; then
     wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
@@ -155,6 +158,7 @@ if ! which pip; then
 fi
 
 PIP=$(which pip)
+
 sudo -H -E ${PIP} install "pip>6.0"
 sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 u=$(whoami)
