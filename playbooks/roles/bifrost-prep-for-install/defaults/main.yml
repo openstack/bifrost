@@ -12,8 +12,8 @@ ironic_git_folder: "{{ git_root}}/ironic"
 shade_git_folder: "{{ git_root}}/shade"
 dib_git_folder: "{{ git_root }}/diskimage-builder"
 # *_git_branch can be overridden for stable branch testing
-ironicclient_git_branch: master
-ironic_git_branch: master
+ironicclient_git_branch: stable/mitaka
+ironic_git_branch: stable/mitaka
 shade_git_branch: master
 dib_git_branch: master
 
