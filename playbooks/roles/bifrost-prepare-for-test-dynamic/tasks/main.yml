@@ -25,6 +25,12 @@
   add_host: name="{{ hostvars[item]['ipv4_address'] }}:22" groups=test
   with_items: "{{ groups['baremetal'] }}"
   when: ipv4_address is defined
+- name: "Ensure ~/.ssh/known_hosts is present"
+  file:
+    path: "~/.ssh/known_hosts"
+    state: touch
+    mode: 0600
+  when: ipv4_address is defined
 - name: "Remove testvm hosts from SSH known_hosts file."
   command: ssh-keygen -R "{{ ipv4_address }}"
   when: ipv4_address is defined
