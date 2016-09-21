@@ -123,3 +123,10 @@
   command: ramdisk-image-create {{dib_arglist}}
   environment: "{{ dib_env_vars }}"
   when: build_ramdisk | bool == true and test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false and test_image_initramfs_present.stat.exists == false
+- name: "Update permission of generated image"
+  file:
+    path: "{{ http_boot_folder }}"
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes
+    state: directory
+  when: http_boot_folder is defined and http_boot_folder != ''
