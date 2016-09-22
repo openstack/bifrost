@@ -1,10 +1,10 @@
 Bifrost
 =======
 
-Bifrost is a set of Ansible playbooks that automates the task of
-deploying a base image onto a set of known hardware using ironic. It
-provides modular utility for one-off operating system deployment with
-as few operational requirements as reasonably possible.
+Bifrost (pronounced bye-frost) is a set of Ansible playbooks that
+automates the task of deploying a base image onto a set of known hardware using
+ironic. It provides modular utility for one-off operating system deployment
+with as few operational requirements as reasonably possible.
 
 Use Cases
 =========
