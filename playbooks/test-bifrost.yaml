@@ -18,6 +18,7 @@
     # install and initial deploy.
   - name: Remove pre-existing leases file
     file: path=/var/lib/misc/dnsmasq.leases state=absent
+
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
@@ -51,6 +52,7 @@
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
+
 - hosts: localhost
   connection: local
   name: "Executes install, enrollment, and testing in one playbook"
@@ -75,6 +77,7 @@
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
+
 - hosts: baremetal
   name: "Enroll node with Ironic"
   become: no
@@ -82,6 +85,7 @@
   roles:
     - role: ironic-enroll-dynamic
     - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
+
 - hosts: baremetal
   vars:
     multinode_testing: "{{ inventory_dhcp | bool == true }}"
@@ -93,6 +97,7 @@
     - role: bifrost-deploy-nodes-dynamic
     - role: bifrost-prepare-for-test-dynamic
       serial: 1
+
 # The testvm Host group is added by bifrost-prepare-for-test based
 # on the contents of the CSV file.
 - hosts: test
@@ -105,6 +110,7 @@
   max_fail_percentage: 0
   roles:
     - role: bifrost-test-vm
+
 - hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
@@ -113,6 +119,7 @@
   roles:
     - role: bifrost-unprovision-node-dynamic
     - role: ironic-delete-dynamic
+
 # The following tasks are intended to test DHCP functionality
 - hosts: localhost
   connection: local
@@ -132,6 +139,7 @@
     pause:
       seconds: 30
       when: inventory_dhcp | bool == true
+
 - hosts: localhost
   connection: local
   name: "Executes DHCP test script"

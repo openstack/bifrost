@@ -21,15 +21,18 @@
     mysql_password: "openstack_citest"
     disable_dnsmasq_dns: True
   when: ci_testing_zuul_changes is defined
+
 - name: "Determine if OpenStack CI is missing an SSH key"
   stat: path={{ssh_public_key_path}}
   register: test_ssh_public_key_path
   when: ci_testing_zuul is defined
+
 - name: "Create an SSH key for Jenkins user if operating in OpenStack CI"
   shell: ssh-keygen -f ~/.ssh/id_rsa -N ""
   when: >
     ci_testing_zuul is defined and
     test_ssh_public_key_path.stat.exists |bool  == false
+
 - name: >
     "Create an empty SSH known_hosts file for Jenkins user
     if operating in OpenStack CI"

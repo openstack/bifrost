@@ -15,13 +15,18 @@
 ---
 - name: "ironic - Copy into place"
   command: cp -a {{ ironic_git_url }} {{ ironic_git_folder }} chdir={{ git_root }} creates={{ ironic_git_folder }}
+
 - name: "python-ironicclient - Copy into place"
   command: cp -a {{ ironicclient_git_url }} {{ ironicclient_git_folder }} chdir={{ git_root }} creates={{ ironicclient_git_folder }}
+
 - name: "Shade - Copy into place"
   command: cp -a {{ shade_git_url }} {{ shade_git_folder }} chdir={{ git_root }} creates={{ shade_git_folder }}
+
 - name: "Disk Image Builder - Copy into place"
   command: cp -a {{ dib_git_url }} {{ dib_git_folder }} chdir={{ git_root }} creates={{ dib_git_folder }}
+
 - name: "ironic-inspector - Copy into place"
   command: cp -a {{ ironicinspector_git_url }} {{ ironicinspector_git_folder }} chdir={{ git_root }} creates={{ ironicinspector_git_folder }}
+
 - name: "python-ironic-inspector-client - Copy into place"
   command: cp -a {{ ironicinspectorclient_git_url }} {{ ironicinspectorclient_git_folder }} chdir={{ git_root }} creates={{ ironicinspectorclient_git_folder }}
