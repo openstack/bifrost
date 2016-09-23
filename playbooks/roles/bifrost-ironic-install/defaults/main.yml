@@ -126,6 +126,10 @@ inspector_port_addition: "pxe"
 # Note: inspector_keep_ports has three valid values: all, present, added
 inspector_keep_ports: "present"
 
+# We may not have packaged iPXE files on some distros, or may want to
+# download them on their own.
+download_ipxe: false
+
 # This enables installation of substrate for PXE driver support
 enable_pxe_drivers: true
 # Comma-separated list of PXE drivers to enable when
