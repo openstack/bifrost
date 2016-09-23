@@ -6,7 +6,7 @@
    :maxdepth: 1
 
    Current Series <current-series>
-   Newton (unreleased) <newton>
+   Newton (2.0.0 - 2.1.x) <newton>
    Mitaka (0.0.1 - 1.0.x) <mitaka>
 
 .. toctree::
