@@ -58,3 +58,6 @@ logs
 
 #Files created by release notes generation
 releasenotes/build
+
+# Ansible retry files
+*.retry
