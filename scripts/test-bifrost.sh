@@ -35,6 +35,7 @@ INVENTORY_DHCP_STATIC_IP=false
 DOWNLOAD_IPA=true
 CREATE_IPA_IMAGE=false
 WRITE_INTERFACES_FILE=true
+PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 
 # NOTE(cinerama): We could remove this if we change the CI job to use
 # USE_DHCP, BUILD_IMAGE, etc.
@@ -135,7 +136,8 @@ ${ANSIBLE} -vvvv \
     -e inspect_nodes=${INSPECT_NODES} \
     -e download_ipa=${DOWNLOAD_IPA} \
     -e create_ipa_image=${CREATE_IPA_IMAGE} \
-    -e write_interfaces_file=${WRITE_INTERFACES_FILE}
+    -e write_interfaces_file=${WRITE_INTERFACES_FILE} \
+    -e wait_timeout=${PROVISION_WAIT_TIMEOUT}
 EXITCODE=$?
 
 if [ $EXITCODE != 0 ]; then
