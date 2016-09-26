@@ -15,9 +15,12 @@
 ---
 - name: "Clone repository"
   command: git clone {{ git_url }} {{ git_folder }} chdir={{ git_root }} creates={{ git_folder }}
+
 - name: "Check out branch"
   command: git checkout -f {{ git_branch }} chdir={{ git_folder }}
+
 - name: "Reset local repository"
   command: git reset --hard {{ git_branch }} chdir={{ git_folder }}
+
 - name: "Resync local repository"
   command: git pull --ff-only chdir={{ git_folder }}
