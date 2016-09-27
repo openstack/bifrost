@@ -1,0 +1,9 @@
+---
+features:
+  - Bifrost has been updated to utilize Ansible 2.1's stable branch
+    for the version of ansible installed.
+upgrade:
+  - Bifrost has been changed to utilize Ansible 2.1 by default.
+    Should a deployment encounter issues with Ansible, they may
+    wish to check/update their version of Ansible, or re-execute
+    the env-setup.sh script.

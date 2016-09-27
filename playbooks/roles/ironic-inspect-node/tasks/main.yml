@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "If in noauth mode, set Auth parameters to None"
+- name: "If in noauth mode, unset authentication parameters."
   set_fact:
     auth_type: None
-    auth: None
+    auth: {}
   when: noauth_mode | bool == true
 - name: "Execute node introspection - NoAuth Mode"
   os_ironic_inspect:

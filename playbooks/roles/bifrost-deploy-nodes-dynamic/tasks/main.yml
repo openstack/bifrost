@@ -17,9 +17,10 @@
 # the pass-through could mean that the user could deploy
 # things that are not directly accessible or reasonable
 # to be inspected.
-- name: "If in noauth mode, set Auth parameters to None"
+- name: "If in noauth mode, unset authentication parameters."
   set_fact:
     auth_type: None
+    auth: {}
   when: noauth_mode | bool == true
 - name: "Setup DHCP for nodes."
   template:
