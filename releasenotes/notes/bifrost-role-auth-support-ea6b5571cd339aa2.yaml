@@ -1,6 +1,6 @@
 ---
 features:
-  - Allows to choose to leverage authenticaiton with roles that
+  - Allows to choose to leverage authentication with roles that
     interact with ironic services via ansible modules. This is
     limited to sessions that obtain authentication information
     via os-client-config. The role defaults ultimately remain
