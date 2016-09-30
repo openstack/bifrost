@@ -144,3 +144,56 @@ bifrost_venv_env:
   VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
   PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
   pydoc: "python -m pydoc"
+
+# Authentication support
+# By default, bifrost was developed around being a toolkit
+# for noauth mode. Since we are introducing the concept of
+# authentication, we need to record the default for
+# conditional statements in the playbooks.
+noauth_mode: true
+
+# Keystone Support
+# Default parameter if keystone is enabled, or disabled.
+enable_keystone: false
+
+# NOTE: The keystone support in this role
+# expects the keystone.bootstrap variables to
+# either be loaded OR present from keystone
+# installation. The keystone settings below
+# should only be used if the role is utilized
+# independently of the keystone installation
+# role, such as leveraging a pre-existing
+# keystone installation.
+# WARNING: Using a pre-existing keystone has
+# not been tested.
+#
+#keystone:
+#  debug: true
+#  bootstrap:
+#    enabled: true
+#    username: admin
+#    password: ChangeThisPa55w0rd
+#    project_name: admin
+#    admin_url: "http://127.0.0.1:35357/v3/"
+#    public_url: "http://127.0.0.1:5000/v3/"
+#    internal_url: "http://127.0.0.1:5000/v3/"
+#    region_name: "RegionOne"
+#  message_queue:
+#    username: keystone
+#    password: ChangeThisPa55w0rd
+#    host: 127.0.0.1
+#  database:
+#    name: keystone
+#    username: keystone
+#    password: ChangeThisPa55w0rd
+#    host: 127.0.0.1
+
+ironic:
+  service_catalog:
+    username: "ironic"
+    password: "ChangeThisPa55w0rd"
+    auth_url: "http://127.0.0.1:5000/v3"
+    project_name: "service"
+  keystone:
+    default_username: "bifrost_user"
+    default_password: "ChangeThisPa55w0rd"
