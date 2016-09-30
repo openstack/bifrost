@@ -12,14 +12,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "If in noauth mode, set auth parameters accordingly."
+  set_fact:
+    auth_type: None
+    auth: {}
+  when: noauth_mode is defined and noauth_mode | bool == true
+
+- name: "Execute os_client_config to collect facts"
+  os_client_config:
+  no_log: yes
+
+# NOTE(TheJulia): The first record returned by os_client_config
+# is utilized as the default. A user can still define the parameters
+# if so desired.
+- name: "Set os_client_config's auth parameters if not already set."
+  set_fact:
+    auth: "{{ openstack.clouds[0].auth }}"
+    auth_type: "{{ openstack.clouds[0].auth_type }}"
+  when: auth is undefined
+  no_log: yes
+
 # Note(TheJulia): This step allows us to collect things that
 # ironic knows, that we do not know potentially, such as an UUID
 # should a node have been created without one.
 - name: "Collecting node facts"
   os_ironic_facts:
-    auth_type: None
-    auth: {}
-    ironic_url: "{{ ironic_url }}"
+    cloud: "{{ cloud_name | default(omit) }}"
+    auth_type: "{{ auth_type }}"
+    auth: "{{ auth }}"
+    ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid | default() }}"
     name: "{{ name | default() }}"
     skip_items:

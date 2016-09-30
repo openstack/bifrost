@@ -58,6 +58,9 @@ node_network_info: Optional: If defined, the contents are written out to the
                    override the network configuration contents based on
                    the inventory data.
 
+cloud_name: Optional: String value defining a clouds.yaml entry for
+            the ansible module to leverage.
+
 Customizing
 -----------
 

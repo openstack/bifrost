@@ -21,7 +21,22 @@
   set_fact:
     auth_type: None
     auth: {}
-  when: noauth_mode | bool == true
+  when: noauth_mode is defined and noauth_mode | bool == true
+
+- name: "Execute os_client_config to collect facts"
+  os_client_config:
+  no_log: yes
+
+# NOTE(TheJulia): The first record returned by os_client_config
+# is utilized as the default. A user can still define the parameters
+# if so desired.
+- name: "Set os_client_config's auth parameters if not already set."
+  set_fact:
+    auth: "{{ openstack.clouds[0].auth }}"
+    auth_type: "{{ openstack.clouds[0].auth_type }}"
+  when: auth is undefined
+  no_log: yes
+
 - name: "Setup DHCP for nodes."
   template:
     src: dhcp-host.j2
@@ -68,9 +83,10 @@
   when: instance_info is not defined and test_deploy_image.stat.exists | bool == false
 - name: "Deploy to hardware - bifrost default"
   os_ironic_node:
+    cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
-    ironic_url: "{{ ironic_url }}"
+    ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid }}"
     state: present
     config_drive: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"

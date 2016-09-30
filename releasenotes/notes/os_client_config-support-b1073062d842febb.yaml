@@ -1,0 +1,24 @@
+---
+features:
+  - The capability for Bifrost to read directly from
+    the os-client-config data has been added. While shade
+    can do this for us to a degree, bifrost also allows
+    a user to directly choose the server which they are
+    connecting to via the ``ironic_url`` parameter.
+    Instead of duplicate code and retool, if no global
+    ``auth`` parameter is detected, the authentication
+    parameters from the ``os_client_config`` module is
+    utilized to set the parameters.
+  - An optional parameter has been added to the roles
+    that interact with ironic that defines a ``cloud_name``.
+    This cloud name is utilized by the roles to determine
+    the entry from os-client-config to utilize.
+issues:
+  - The addition of support for os-client-config does
+    not allow a user to choose their ``cloud``
+    directly. Only the first entry returned is utilized.
+  - Log entries where authentication data is read and
+    stored have been masked with the ``no_log`` parameter.
+    Troubleshooting non-standard authentication configurations
+    may require modifying the playbooks so users can debug their
+    input OR pass data directly in a different way.
