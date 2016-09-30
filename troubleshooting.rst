@@ -195,7 +195,7 @@ Changing from TinyIPA to CoreOS IPA, or any other IPA Image
 ***********************************************************
 
 With-in the Newton cycle, the default IPA image for Bifrost was changed
-to TinyIPA, which is based on Tiny Core Linux. This has a greately reduced
+to TinyIPA, which is based on Tiny Core Linux. This has a greatly reduced
 boot time for testing, however should be expected to have less hardware
 support. If on a fresh install, or a re-install, you wish to change to CoreOS
 or any other IPA image, you will need to take the following steps:
