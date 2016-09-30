@@ -45,6 +45,19 @@ def main():
         networks = []
 
         if module.params['ipv4_interface_mac']:
+            nic_id = module.params['ipv4_interface_mac']
+
+            if module.params['vlan_id']:
+                nic_id = 'vlan-%s' % module.params['ipv4_interface_mac']
+
+                links.append({
+                    'id': nic_id,
+                    'type': 'vlan',
+                    'vlan_id': module.params['vlan_id'],
+                    'vlan_link': module.params['ipv4_interface_mac'],
+                    'vlan_mac_address': module.params['ipv4_interface_mac'],
+                })
+
             links.append({
                 'id': module.params['ipv4_interface_mac'],
                 'type': 'phy',
@@ -55,8 +68,8 @@ def main():
             for nic in module.params['nics']:
                 if nic['mac'] == module.params['ipv4_interface_mac']:
                     networks.append({
-                        'id': 'ipv4-%s' % nic['mac'],
-                        'link': nic['mac'],
+                        'id': 'ipv4-%s' % nic_id,
+                        'link': nic_id,
                         'type': 'ipv4',
                         'ip_address': module.params['ipv4_address'],
                         'netmask': module.params['ipv4_subnet_mask'],
