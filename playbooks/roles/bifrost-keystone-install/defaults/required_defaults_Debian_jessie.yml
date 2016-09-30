@@ -1,0 +1,20 @@
+---
+init_template: systemd_template.j2
+init_dest_dir: /usr/lib/systemd/system/
+init_ext: .service
+nginx_user: www-data
+mysql_service_name: mysql
+required_packages:
+  - mysql-server
+  - rabbitmq-server
+  - python-dev
+  - python-mysqldb
+  - python-configparser
+  - libffi-dev
+  - libxslt1-dev
+  - libssl-dev
+  - libxml2-dev
+  - nginx
+  - uwsgi
+  - uwsgi-core
+  - uwsgi-plugin-python

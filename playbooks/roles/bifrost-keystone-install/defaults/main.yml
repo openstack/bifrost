@@ -1,0 +1,57 @@
+---
+keystone_source_install: true
+# *_git_url can be overridden by local clones for offline installs
+keystone_git_url: https://git.openstack.org/openstack/keystone
+keystone_git_folder: /opt/stack/keystone
+
+# set to true to skip installing ironic dependencies
+skip_package_install: False
+# set to true to skip generation of configs, ironic db and rabbitmq configuration
+skip_bootstrap: False
+# set to true to skip starting ironic services and dependencies
+skip_start: False
+
+# Parameters for connecting to mysql for database manipulation.
+mysql_username: "root"
+mysql_password: ""
+
+# Support for CORS configuration
+# By default CORS support is disabled.
+enable_cors: false
+# Origin to accept for CORS requests
+cors_allowed_origin: "http://localhost:8000"
+# bifrost utilizes noauth mode by default and as such
+# the setting should be set to false. This setting should
+# not need to be modified by the user.
+enable_cors_credential_support: false
+
+# Settings related to installing bifrost in a virtual environment
+enable_venv: false
+bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
+bifrost_venv_env:
+  VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
+  PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
+  pydoc: "python -m pydoc"
+
+
+keystone:
+  debug: true
+  bootstrap:
+    enabled: true
+    username: admin
+    password: ChangeThisPa55w0rd
+    project_name: admin
+    admin_url: "http://127.0.0.1:35357/v3/"
+    public_url: "http://127.0.0.1:5000/v3/"
+    internal_url: "http://127.0.0.1:5000/v3/"
+    region_name: "RegionOne"
+  message_queue:
+    username: keystone
+    password: ChangeThisPa55w0rd
+    host: 127.0.0.1
+  database:
+    name: keystone
+    username: keystone
+    password: ChangeThisPa55w0rd
+    host: 127.0.0.1
+

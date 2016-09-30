@@ -1,0 +1,10 @@
+[Unit]
+Description={{ item.service_name }} service
+
+[Service]
+ExecStart={{ item.service_path }}/{{ item.service_name }} {{ item.args }}
+User={{ item.username }}
+
+[Install]
+WantedBy=multi-user.target
+Alias={{ item.service_name }}{{ init_ext }}

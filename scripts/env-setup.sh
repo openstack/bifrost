@@ -198,6 +198,10 @@ check_get_module `pwd`/lib/ansible/modules/core/cloud/openstack/os_ironic_node.p
 check_get_module `pwd`/lib/ansible/modules/extras/cloud/openstack/os_ironic_inspect.py \
     https://raw.githubusercontent.com/juliakreger/ansible-modules-extras/feature/os-ironic-inspect/cloud/openstack/os_ironic_inspect.py
 
+# os_keystone_service is targeted for Ansible 2.2
+check_get_module `pwd`/lib/ansible/modules/extras/cloud/openstack/os_keystone_service.py \
+    https://raw.githubusercontent.com/ansible/ansible-modules-extras/devel/cloud/openstack/os_keystone_service.py
+
 if [ -n "${VENV-}" ]; then
     sudo -H -E ${PIP} install --upgrade ${ANSIBLE_INSTALL_ROOT}/ansible
     echo

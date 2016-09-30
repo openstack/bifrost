@@ -1,0 +1,21 @@
+---
+init_template: upstart_template.j2
+init_dest_dir: /etc/init/
+init_ext: .conf
+nginx_user: www-data
+mysql_service_name: mysql
+required_packages:
+  - mysql-server
+  - rabbitmq-server
+  - python-dev
+  - python-mysqldb
+  - python-configparser
+  - libffi-dev
+  - libxslt1-dev
+  - libssl-dev
+  - libxml2-dev
+  - nginx
+  - uwsgi
+  - uwsgi-core
+  # - python-django-uwsgi - This may not be needed
+  - uwsgi-plugin-python
