@@ -67,6 +67,7 @@
       shell: netstat -apn|grep LISTEN
       when: ci_testing is defined
   roles:
+    - role: bifrost-keystone-install
     - role: bifrost-ironic-install
       cleaning: false
       testing: true
@@ -75,6 +76,7 @@
     # the ramdisk which causes ramdisk-image-create to believe it failed.
     - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "jessie", dib_elements: "ironic-agent {{ ipa_extra_dib_elements | default('') }}", when: create_ipa_image | bool == true }
     - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "jessie", dib_elements: "vm serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
+    - { role: bifrost-keystone-client-config, config_username: "{{ ironic.keystone.default_username }}", config_password: "{{ ironic.keystone.default_password }}", config_project_name: "baremetal", config_region_name: "{{ keystone.bootstrap.region_name }}", config_auth_url: "{{ keystone.bootstrap.public_url }}", user: "{{ ansible_env.SUDO_USER }}", when: enable_keystone is defined and enable_keystone | bool == true }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
