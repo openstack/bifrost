@@ -85,17 +85,22 @@
     - role: ironic-enroll-dynamic
     - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
 - hosts: baremetal
-  vars:
-    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
-    multinode_testing: true
-  name: "Creat configuration drive files and deploy machines."
+  name: "Create configuration drive files."
   become: no
   connection: local
   roles:
     - role: bifrost-configdrives-dynamic
+- hosts: baremetal
+  vars:
+    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
+    multinode_testing: true
+  name: "Deploy machines."
+  become: no
+  connection: local
+  serial: 1
+  roles:
     - role: bifrost-deploy-nodes-dynamic
     - role: bifrost-prepare-for-test-dynamic
-      serial: 1
 # The testvm Host group is added by bifrost-prepare-for-test based
 # on the contents of the CSV file.
 - hosts: test
