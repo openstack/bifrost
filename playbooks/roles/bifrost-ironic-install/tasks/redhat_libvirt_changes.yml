@@ -21,5 +21,5 @@
   lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_group line='unix_sock_group = "libvirt"'
 - name: "Change libvirt authentication to none as RedHat/CentOS use polkit by default"
   lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^auth_unix_rw line='auth_unix_rw = "none"'
-- name: "Change libvirt socket permissions to be restricted on on RedHat/CentOS"
+- name: "Change libvirt socket permissions to be restricted on RedHat/CentOS"
   lineinfile: dest=/etc/libvirt/libvirtd.conf regexp=^unix_sock_rw_perms line='unix_sock_rw_perms = "0770"'
