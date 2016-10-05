@@ -14,7 +14,7 @@
 # limitations under the License.
 ---
 - name: "Set up PXE and iPXE folders"
-  file: name={{item}} owner=ironic group=ironic state=directory
+  file: name={{item}} owner=ironic group=ironic state=directory mode=0755
   with_items:
     - /tftpboot
     - /tftpboot/pxelinux.cfg
