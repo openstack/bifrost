@@ -32,7 +32,7 @@
   when: auth is undefined
   no_log: yes
 
-- name: "Execute node introspection - NoAuth Mode"
+- name: "Execute node introspection"
   os_ironic_inspect:
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
