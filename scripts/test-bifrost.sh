@@ -38,6 +38,7 @@ WRITE_INTERFACES_FILE=true
 PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 NOAUTH_MODE=true
 ENABLE_KEYSTONE=false
+CLOUD_CONFIG=""
 
 # NOTE(cinerama): We could remove this if we change the CI job to use
 # USE_DHCP, BUILD_IMAGE, etc.
@@ -48,6 +49,8 @@ elif [ $SOURCE = "test-bifrost-venv.sh" ]; then
      USE_VENV="true"
 elif [ $SOURCE = "test-bifrost-build-images.sh" ]; then
      BUILD_IMAGE="true"
+elif [ $SOURCE = "test-bifrost-keystone-auth.sh" ]; then
+     ENABLE_KEYSTONE="true"
 fi
 
 # Source Ansible
@@ -69,7 +72,7 @@ else
 fi
 set -x -o nounset
 
-# Adjust options for DHCP or create VM tests
+# Adjust options for DHCP, VM, or Keystone tests
 if [ ${USE_DHCP} = "true" ]; then
     VM_MEMORY_SIZE="1024"
     ENABLE_INSPECTOR=false
@@ -86,6 +89,9 @@ elif [ ${BUILD_IMAGE} = "true" ]; then
     INSPECT_NODES=false
     DOWNLOAD_IPA=false
     CREATE_IPA_IMAGE=true
+elif [ ${ENABLE_KEYSTONE} = "true" ]; then
+    NOAUTH_MODE=false
+    CLOUD_CONFIG="-e cloud_name=bifrost"
 fi
 
 # Change working directory
@@ -141,7 +147,8 @@ ${ANSIBLE} -vvvv \
     -e write_interfaces_file=${WRITE_INTERFACES_FILE} \
     -e wait_timeout=${PROVISION_WAIT_TIMEOUT} \
     -e noauth_mode=${NOAUTH_MODE} \
-    -e enable_keystone=${ENABLE_KEYSTONE}
+    -e enable_keystone=${ENABLE_KEYSTONE} \
+    ${CLOUD_CONFIG}
 EXITCODE=$?
 
 if [ $EXITCODE != 0 ]; then
