@@ -1,0 +1,12 @@
+---
+features:
+  - Functionality to configure the ironic-inspector to
+    utilize keystone, utilizing the base ``enable_keystone``
+    boolean parameter.
+deprecations:
+  - The ``ironic_auth_strategy`` setting is deprecated and will
+    be removed in Pike. The setting has no effect if the
+    ``enable_keystone`` setting is present and set to ``true``.
+  - The ``inspector_auth`` setting is deprecated and will
+    be removed in Pike. The setting has no effect if the
+    ``enable_keystone`` setting is present and set to ``true``.

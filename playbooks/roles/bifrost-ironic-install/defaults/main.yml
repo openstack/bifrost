@@ -116,9 +116,15 @@ inventory_dns: False
 # Settings to enable the use of inspector
 enable_inspector: true
 inspector_auth: "noauth"
+# Deprecated: inspector_auth will be removed in Pike, and is
+# overriden when enable_keystone is set to true.
+#inspector_auth: "noauth"
 inspector_debug: true
 inspector_manage_firewall: false
+
+# Deprecated: ironic_auth_strategy will be removed in Pike.
 ironic_auth_strategy: "noauth"
+
 inspector_data_dir: "/opt/stack/ironic-inspector/var"
 inspector_store_ramdisk_logs: true
 # Note: inspector_port_addition has three valid values: all, active, pxe
@@ -204,8 +210,19 @@ ironic:
     default_username: "bifrost_user"
     default_password: "ChangeThisPa55w0rd"
 
-
-# TODO(TheJulia): Thinking outloud, I think we ought to head in
-# the direction of identifying the address of the conductor host
+ironic_inspector:
+  service_catalog:
+    username: "ironic_inspector"
+    password: "ChangeThisPa55w0rd"
+    auth_url: "http://127.0.0.1:5000/v3"
+    project_name: "service"
+  keystone:
+    default_username: "inspector_user"
+    default_password: "ChangeThisPa55w0rd"
+#    public_url: "http://127.0.0.1:5050/"
+#    private_url: "http://127.0.0.1:5050/"
+#    internal_url: "http://127.0.0.1:5050/"
+# TODO(TheJulia): Thinking outloud, I we ought to head in the
+# direction of identifying the address of the conductor host
 # in a more uniform fashion. What that is exactly, is TBD.
 my_ip_address: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"

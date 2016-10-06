@@ -4,17 +4,46 @@
 # http://git.openstack.org/cgit/openstack/ironic-inspector/tree/example.conf
 #}
 [DEFAULT]
-auth_strategy = {{ inspector_auth }}
+{% if enable_keystone is defined and enable_keystone | bool == true %}
+auth_strategy = keystone
+{% else %}
+auth_strategy = {{ inspector_auth | default('noauth') }}
+{% endif %}
 debug = {{ inspector_debug | bool }}
 
 [database]
 connection=mysql+pymysql://inspector:{{ ironic_db_password }}@localhost/inspector?charset=utf8
 
 [firewall]
-manage_firewall = {{ inspector_manage_firewall | bool }}
+manage_firewall = {{ inspector_manage_firewall | bool | default('false') }}
 
 [ironic]
-auth_strategy = {{ ironic_auth_strategy }}
+{% if enable_keystone is defined and enable_keystone | bool == true %}
+os_region = {{ keystone.bootstrap.region_name | default('RegionOne') }}
+project_name = baremetal
+username = {{ ironic_inspector.keystone.default_username }}
+password = {{ ironic_inspector.keystone.default_password }}
+auth_url = {{ ironic_inspector.service_catalog.auth_url }}
+auth_type = password
+auth_strategy = keystone
+user_domain_id = default
+project_domain_id = default
+
+{% else %}
+auth_strategy = {{ ironic_auth_strategy | default('noauth') }}
+{% endif %}
+
+{% if enable_keystone is defined and enable_keystone | bool == true %}
+[keystone_authtoken]
+auth_plugin = password
+auth_url = {{ ironic_inspector.service_catalog.auth_url }}
+username = {{ ironic_inspector.service_catalog.username }}
+password = {{ ironic_inspector.service_catalog.password }}
+user_domain_id = default
+project_name = service
+project_domain_id = default
+
+{% endif %}
 {#
 # Note(TheJulia) preserving ironic_url in the configuration
 # in case future changes allow breaking of the deployment across

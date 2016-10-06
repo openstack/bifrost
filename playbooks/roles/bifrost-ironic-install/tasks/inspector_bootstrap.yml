@@ -36,6 +36,11 @@
     group=ironic
     mode=0755
     state=directory
+
+- name: "Populate keystone for ironic-inspector "
+  include: keystone_setup_inspector.yml
+  when: enable_keystone is defined and enable_keystone | bool == true
+
 - name: "Inspector - Place Configuration"
   template:
     src=ironic-inspector.conf.j2
