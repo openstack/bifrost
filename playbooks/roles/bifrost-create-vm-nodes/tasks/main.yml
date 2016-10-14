@@ -23,11 +23,13 @@
   set_fact:
     ansible_os_family: "Suse"
   when: ansible_os_family | search("openSUSE Tumbleweed")
+
 - name: Ensure openSUSE Leap has the correct family
   set_fact:
     ansible_os_family: "Suse"
   when: (ansible_os_family | search("SUSE LINUX")) or
         (ansible_os_family | search("openSUSE Leap"))
+
 - name: "Update apt cache if Ubuntu/Debian"
   apt:
     update_cache: yes

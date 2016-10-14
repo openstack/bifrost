@@ -18,6 +18,7 @@
   set_fact:
     deprecated: true
   when: deprecated_test_playbook | bool == true
+
 - name: >
     "Execute ping step to verify connectivity and login to the host.
     If this fails, the configdrive may not have loaded."
@@ -25,6 +26,7 @@
   # hostname. This is because cirros lacks sftp support.
   raw: hostname
   register: instance_hostname
+
 - name: >
     'Error if hostname is set to "ubuntu", "cirros", "debian", or "centos"'
   # TODO: Presently this step is unable to cycle through each host and verify

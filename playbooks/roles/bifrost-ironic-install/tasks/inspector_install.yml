@@ -19,6 +19,7 @@
     state=latest
     sourcedir={{ ironicinspector_git_folder }}
     source_install={{ ironicinspector_source_install }}
+
 - name: "Inspector - PIP client install"
   include: pip_install.yml
     package=python-ironic-inspector-client

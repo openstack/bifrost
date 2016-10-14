@@ -16,42 +16,54 @@
 - name: "Reload systemd configuration"
   command: systemctl daemon-reload
   when: init_template == 'systemd_template.j2'
+
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started
+
 - name: "Start rabbitmq-server"
   service: name=rabbitmq-server state=started
+
 - name: "start ironic-inspector"
   include: inspector_start.yml
   when: enable_inspector | bool == true
+
 - name: "Start ironic-conductor"
   service: name=ironic-conductor state=started
+
 - name: "Start ironic-api"
   service: name=ironic-api state=started
+
 - name: "Start ironic-conductor"
   service: name=ironic-conductor state=restarted
+
 - name: "Start ironic-api"
   service: name=ironic-api state=restarted
+
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt. And the libvirt started dnsmasq processes
 # are not controlled by upstart, so we need to manually kill those.
 - name: "Stop existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
   when: "{{ testing | bool == true and include_dhcp_server | bool == true }}"
+
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted
   with_items:
     - xinetd
     - nginx
+
 - name: "Ensure dnsmasq is running with current config"
   service: name={{ item }} state=restarted
   with_items:
     - dnsmasq
   when: "{{ include_dhcp_server | bool == true }}"
+
 - name: "Send services a reload signal"
   service: name={{ item }} state=reloaded
   with_items:
     - xinetd
     - nginx
+
 - name: "Send services a force-reload signal"
   service: name=dnsmasq state=restarted
   when: "{{ include_dhcp_server | bool == true }}"

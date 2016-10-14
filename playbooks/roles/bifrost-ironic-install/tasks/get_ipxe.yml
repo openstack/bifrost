@@ -20,6 +20,7 @@
     owner=root
     group=root
     mode=0755
+
 - name: Get ipxe files
   get_url:
     url: "https://boot.ipxe.org/{{ item }}"
