@@ -126,6 +126,12 @@ inspector_port_addition: "pxe"
 # Note: inspector_keep_ports has three valid values: all, present, added
 inspector_keep_ports: "present"
 
+# Inspector defaults
+inspector:
+  discovery:
+    enabled: "{{ enable_inspector_discovery | default(true) }}"
+    default_node_driver: "{{ inspector_default_node_driver | default('agent_ipmitool')}}"
+
 # We may not have packaged iPXE files on some distros, or may want to
 # download them on their own.
 download_ipxe: false
