@@ -87,21 +87,21 @@
     - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
 
 - hosts: baremetal
-  name: "Create configuration drive files."
+  name: "Create configuration drive files and deploy machines"
+  vars:
+    multinode_testing: "{{ inventory_dhcp | bool == true }}"
   become: no
   connection: local
   roles:
     - role: bifrost-configdrives-dynamic
+    - role: bifrost-deploy-nodes-dynamic
 
 - hosts: baremetal
-  vars:
-    multinode_testing: "{{ inventory_dhcp | bool == true }}"
-  name: "Deploy machines."
+  name: "Prepare for deployment verification"
   become: no
   connection: local
   serial: 1
   roles:
-    - role: bifrost-deploy-nodes-dynamic
     - role: bifrost-prepare-for-test-dynamic
 
 # The testvm Host group is added by bifrost-prepare-for-test based
