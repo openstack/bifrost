@@ -378,7 +378,7 @@ def main():
                     groups,
                     hostvars)
             except Exception as e:
-                LOG.error("File does not appear to be JSON or YAML - %s" % e)
+                LOG.debug("File does not appear to be JSON or YAML - %s" % e)
                 try:
                     (groups, hostvars) = _process_baremetal_csv(
                         data_source,
