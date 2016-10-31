@@ -23,6 +23,7 @@
          dib_git_url: "/opt/git/openstack/diskimage-builder"
          ironicinspector_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-inspector"
          ironicinspectorclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironic-inspector-client"
+         reqs_git_url: "/opt/git/openstack/requirements"
       # TODO(TheJulia) Fix the above paths to be consistent, because the NV job gets the dib
       # folder cloned, while the gate job does not.  Likely need to work out a semi-hybrid
       # solution.

@@ -29,4 +29,7 @@
   command: cp -a {{ ironicinspector_git_url }} {{ ironicinspector_git_folder }} chdir={{ git_root }} creates={{ ironicinspector_git_folder }}
 
 - name: "python-ironic-inspector-client - Copy into place"
-  command: cp -a {{ ironicinspectorclient_git_url }} {{ ironicinspectorclient_git_folder }} chdir={{ git_root }} creates={{ ironicinspectorclient_git_folder }}
+  command: cp -a {{ ironicinspectorclient_git_url }} {{ ironicinspectorclient_git_folder }} chdir={{ git_root }} creates={{ ironicinspectorclient_git_folder }}i
+
+- name: "Clone upper requirements"
+  command: cp -a {{ reqs_git_url }} {{ reqs_git_folder }} chdir={{ git_root }} creates={{ reqs_git_folder }}

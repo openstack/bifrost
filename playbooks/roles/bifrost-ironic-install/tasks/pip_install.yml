@@ -19,11 +19,12 @@
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
     virtualenv: "{{ bifrost_venv_dir if enable_venv else omit }}"
+    extra_args: "{{ extra_args | default(omit) }}"
   when: source_install is not defined or source_install == false
 # NOTE (cinerama): We should be able to use the pip module here and
 # possibly merge these two tasks when
 # https://github.com/ansible/ansible-modules-core/pull/2600 lands.
 - name: "Install from {{ sourcedir }} using pip"
-  command: pip install --upgrade --force-reinstall {{ sourcedir }}
+  command: pip install {{ sourcedir }} {{ extra_args | default('') }}
   when: source_install is defined and (source_install | bool == true)
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"

@@ -42,3 +42,8 @@
    git_url="{{ ironicinspectorclient_git_url }}"
    git_folder="{{ ironicinspectorclient_git_folder }}"
    git_branch="{{ ironicinspectorclient_git_branch }}"
+
+- include: git.yml
+   git_url="{{ reqs_git_url }}"
+   git_folder="{{ reqs_git_folder }}"
+   git_branch="{{ reqs_git_branch }}"

@@ -91,6 +91,7 @@
     state=latest
     sourcedir={{ ironic_git_folder }}
     source_install=true
+    extra_args="--no-cache-dir --upgrade --force-reinstall -c {{ reqs_git_folder }}/upper-constraints.txt"
   when: skip_install is not defined
 - name: "Install ironic-inspector to permit use of inspection interface"
   include: inspector_install.yml
