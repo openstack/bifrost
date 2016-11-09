@@ -3,7 +3,7 @@
 # process, which may cause wedges in the gate later.
 PyYAML>=3.10.0 # MIT
 Jinja2>=2.8 # BSD License (3 clause)
-pbr>=1.6 # Apache-2.0
+pbr>=1.8 # Apache-2.0
 Babel>=2.3.4 # BSD
 oslo.config!=3.18.0,>=3.14.0 # Apache-2.0
 oslo.log>=3.11.0 # Apache-2.0
