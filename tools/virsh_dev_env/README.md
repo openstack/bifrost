@@ -27,6 +27,12 @@ virsh define --file vm/baremetal.xml
 virsh start baremetal
 virsh console baremetal
 
+When you login into baremetal, the interface for the provisioning
+network will be down. You may need to add an IP manually:
+
+ip addr add <<provisioning_ip_address>>/<<mask>> dev <<interface>>
+ip link set <<interface>> up
+
 Where to get guest images
 =========================
 In order to create the guest VMs, you will need a cloud image
