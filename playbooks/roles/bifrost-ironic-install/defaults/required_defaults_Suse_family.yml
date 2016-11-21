@@ -16,6 +16,7 @@ virt_group: libvirt
 mysql_service_name: mysql
 tftp_service_name: tftp
 required_packages:
+  - python-selinux
   - mariadb-server
   - dnsmasq
   - rabbitmq-server
@@ -40,6 +41,7 @@ required_packages:
   - qemu-tools
   - openwsman-python
   - qemu-sgabios
+  - policycoreutils-python
 # NOTE(cinerama): amtterm is not currently packaged for SuSE.
   - libvirt-daemon
   - debootstrap

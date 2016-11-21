@@ -37,6 +37,8 @@ required_packages:
   - qemu-img
   - openwsman-python
   - sgabios-bin
+  - libselinux-python
+  - policycoreutils-python
 # NOTE(cinerama): amtterm is not currently packaged for RHEL/CentOS 7.
   - libvirt-daemon
   - debootstrap
