@@ -132,7 +132,7 @@
   lineinfile:
     dest=/etc/ironic/ironic.conf
     insertafter="[pxe]"
-    regexp='^\#?\s?pxe_bootfile_name\s?=\s?\#?\s?$'
+    regexp='^\#?\s?pxe_bootfile_name\s?=\s?(.*)$'
     line="pxe_bootfile_name = undionly.kpxe"
 - name: "Set iPXE http_url"
   lineinfile:
