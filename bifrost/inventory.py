@@ -114,7 +114,6 @@ intended to support specific host queries.
 import csv
 import json
 import os
-import six
 import sys
 import yaml
 
@@ -329,7 +328,7 @@ def _process_shade(groups, hostvars):
         else:
             name = machine['name']
         new_machine = {}
-        for key, value in six.iteritems(machine):
+        for key, value in machine.items():
             # NOTE(TheJulia): We don't want to pass infomrational links
             # nor do we want to pass links about the ports since they
             # are API endpoint URLs.
