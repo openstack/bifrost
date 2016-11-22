@@ -27,11 +27,9 @@ add_ports = {{ inspector_port_addition | default('pxe') }}
 keep_ports = {{ inspector_keep_ports | default('present') }}
 ramdisk_logs_dir = {{ inspector_data_dir }}/log
 always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | bool }}
-{#
-# Note(TheJulia): Preserving node_not_found_hook for potential future
-# use by bifrost.
-# The name of the hook to run when inspector receives inspection
-# information from a node it isn't already aware of. This hook is
-# ignored by default. (string value)
-#node_not_found_hook = <None>
-#}
+{% if inspector.discovery.enabled == true %}
+node_not_found_hook = enroll
+
+[discovery]
+enroll_node_driver = {{ inspector.discovery.enroll_node_driver | default('fake') }}
+{% endif %}

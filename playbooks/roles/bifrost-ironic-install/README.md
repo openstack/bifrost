@@ -193,6 +193,17 @@ inspector_store_ramdisk_logs: Boolean value, default true. Controls if the
                               inspector agent will retain logs from the
                               ramdisk that called the inspector service.
 
+enable_inspector_discovery: Boolean value, default true. This instructs
+                            inspector to add new nodes that are discovered
+                            via PXE booting on the same network to ironic.
+
+inspector_default_node_driver: The default driver to utilize when adding
+                               discovered nodes to ironic.
+                               The default value set by bifrost is
+                               `agent_ipmitool`. Users should change this
+                               setting for their install environment if
+                               an alternative default driver is required.
+
 ### Virtual Environment Install
 
 Bifrost can install ironic into a python virtual environment using the

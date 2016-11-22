@@ -1,0 +1,6 @@
+---
+features:
+  - Discovery of nodes via the ironic-inspector is now
+    enabled by default.  If you wish to disable this, set
+    ``enable_inspector_discovery`` to ``false`` and re-execute
+    the installation playbook.
