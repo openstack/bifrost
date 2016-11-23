@@ -36,6 +36,16 @@
 - name: "RabbitMQ - Fixing /etc/hosts"
   command: sed -i 's/localhost/{{ ansible_hostname }} localhost/' /etc/hosts
   when: test_grep_fix_hostname.rc != 0
+# NOTE(hwoarang): The erlang SUSE package forces epmd to listen on localhost
+# address which breaks rabbitmq-server when listening on a different address.
+# Make sure the systemd service and socket are stopped so rabbitmq-server will
+# start epmd on its own (https://bugzilla.suse.com/show_bug.cgi?id=1003085)
+- name: "Stop and disable the epmd service and socket on SUSE"
+  service: name={{ item }} state=stopped enabled=no
+  with_items:
+    - epmd.socket
+    - epmd
+  when: ansible_os_family == 'Suse'
 - name: "Start rabbitmq-server"
   service: name=rabbitmq-server state=started
 # NOTE(cinerama): on some systems, rabbit may not be ready when we want to
