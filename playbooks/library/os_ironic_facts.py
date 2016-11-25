@@ -22,8 +22,6 @@ try:
 except ImportError:
     HAS_SHADE = False
 
-import six
-
 DOCUMENTATION = '''
 ---
 module: os_ironic_facts
@@ -117,7 +115,7 @@ def main():
             new_driver_info = dict()
             # Rebuild driver_info to remove any password values
             # as they will be masked.
-            for key, value in six.iteritems(facts['driver_info']):
+            for key, value in facts['driver_info'].items():
                 if 'password' not in key:
                     new_driver_info[key] = value
             if new_driver_info:
