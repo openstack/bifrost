@@ -4,7 +4,7 @@ galaxy_info:
   description: Enrolls nodes into Ironic
   company: OpenStack
   license: Apache
-  min_ansible_version: 1.9
+  min_ansible_version: 2.0
   platforms:
   - name: EL
     versions:

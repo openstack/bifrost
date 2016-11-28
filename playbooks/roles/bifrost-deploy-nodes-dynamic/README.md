@@ -85,6 +85,9 @@ noauth_mode: Controls if the module is called in noauth mode.
              this file format can be found at:
              http://docs.openstack.org/developer/os-client-config/
 
+cloud_name: Optional: String value defining a clouds.yaml entry for
+            the ansible module to leverage.
+
 inventory_dns: A boolean value, defaulted to false, which causes the role
                 to update a template file and reload dnsmasq upon each update
                 in order to perform static dns addressing utilizing the

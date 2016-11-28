@@ -26,6 +26,9 @@ noauth_mode: Controls if the module is called in noauth mode.
              this file format can be found at:
              http://docs.openstack.org/developer/os-client-config/
 
+cloud_name: Optional: String value defining a clouds.yaml entry for
+            the ansible module to leverage.
+
 Dependencies
 ------------
 
