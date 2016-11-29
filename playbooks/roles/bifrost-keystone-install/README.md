@@ -29,10 +29,10 @@ exists three subsections.  ``bootstrap``, ``message_queue``, and
 The ``keystone.bootstrap`` settings provide the information to access
 keystone as it provides the main administrative credentials.
 If keystone is being installed, then these credentials will be used
-to bootstrap keystone the keystone installation.
-Along with those settings we provide the ability to define the initial
-``region_name``, as well as ``admin_url``, ``public_url``, and
-``internal_url`` endpoints URLs for keystone.
+to bootstrap the new keystone installation.
+In addition to the bootstrap parameters, we provide the ability to
+define the initial ``region_name``, as well as ``admin_url``,
+``public_url``, and ``internal_url`` endpoints URLs for keystone.
 
 If the intent is to utilize a pre-existing keystone service that has
 already undergone bootstrapping, set the ``keystone.bootstrap.enabled``
