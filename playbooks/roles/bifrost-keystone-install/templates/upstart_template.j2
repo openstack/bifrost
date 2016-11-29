@@ -1,0 +1,10 @@
+start on runlevel [2345]
+stop on runlevel [016]
+pre-start script
+  mkdir -p /var/run/{{ item.username }}
+  chown -R {{ item.username }}:{{ item.username }} /var/run/{{ item.username }}
+end script
+respawn
+respawn limit 2 10
+
+exec start-stop-daemon --start -c {{ item.username }} --exec {{ item.service_path }}/{{ item.service_name }} -- {{ item.args }}

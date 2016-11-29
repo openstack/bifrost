@@ -1,0 +1,25 @@
+---
+init_template: systemd_template.j2
+init_dest_dir: /usr/lib/systemd/system/
+init_ext: .service
+syslinux_tftp_dir: /var/lib/tftpboot
+ipxe_dir: /usr/share/ipxe/
+ipxe_full_binary: ipxe.lkrn
+sgabios_dir: /usr/share/sgabios/
+nginx_user: nginx
+virt_group: libvirt
+mysql_service_name: mariadb
+tftp_service_name: tftp
+required_packages:
+  - mariadb-server
+  - rabbitmq-server
+  - python-devel
+  - MySQL-python
+  - python-iniparse
+  - libffi-devel
+  - libxslt-devel
+  - openssl-devel
+  - libxml2-devel
+  - nginx
+  - uwsgi
+  - uwsgi-plugin-python

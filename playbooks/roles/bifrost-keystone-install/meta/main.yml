@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Ironic Developers
+  description: Install keystone for Bifrost
+  company: OpenStack
+  license: Apache
+  min_ansible_version: 2.1
+  platforms:
+  - name: Ubuntu
+    versions:
+    - xenial
+  categories:
+  - cloud
+  - cloud:openstack
+dependencies: []

@@ -1,0 +1,5 @@
+---
+features:
+  - An ansible role enabling the installation of keystone has
+    been added in preparation for the addition of keystone
+    support to bifrost.

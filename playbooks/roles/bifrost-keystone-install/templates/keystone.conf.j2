@@ -1,0 +1,23 @@
+{{ ansible_managed }}
+[DEFAULT]
+
+debug = {{ keystone.debug | bool }}
+transport_url = amqp://{{ keystone.message_queue.username }}:{{ keystone.message_queue.password }}@{{ keystone.message_queue.host }}:{{ keystone.message_queue.port | default('5672') }}/
+
+[auth]
+
+methods = password,token
+
+{% if enable_cors | bool == true %}
+[cors]
+allowed_origin = {{ cors_allowed_origin | default('allowed_origin=http://localhost:8000') }}
+allow_credentials = {{ enable_cors_credential_support | default('true') }}
+{% endif %}
+
+[database]
+
+connection = mysql+pymysql://{{ keystone.database.username }}:{{ keystone.database.password }}@{{ keystone.database.host }}/{{ keystone.database.name }}?charset=utf8
+use_db_reconnect = true
+
+[security_compliance]
+lockout_failure_attempts = 3

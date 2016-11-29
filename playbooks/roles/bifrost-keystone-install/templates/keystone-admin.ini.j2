@@ -1,0 +1,18 @@
+{{ ansible_managed }}
+[uwsgi]
+master = true
+processes = 2
+threads = 2
+plugin = python
+no-orphans = true
+chmod-socket = 660
+
+socket = /run/uwsgi/keystone-admin.socket
+pidfile = /run/uwsgi/keystone-admin.pid
+
+name = keystone
+uid = keystone
+gid = {{ nginx_user }}
+
+chdir = /var/www/keystone/
+wsgi-file = /var/www/keystone/admin

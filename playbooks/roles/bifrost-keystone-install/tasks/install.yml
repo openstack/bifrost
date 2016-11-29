@@ -1,0 +1,47 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Install packages"
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  with_items: required_packages
+
+- name: "If VENV is set in the environment, enable installation into venv"
+  set_fact:
+    enable_venv: true
+  when: lookup('env', 'VENV') | length > 0
+
+# NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
+# and it should already be created by the Ansible setup, we will leave this
+# here for the time being.
+- name: "Ensure /opt/stack is present"
+  file: name=/opt/stack state=directory owner=root group=root
+  when: skip_install is not defined
+
+# NOTE(TheJulia): Part of Bifrost's install does this as well, but
+# duplicating here as we are installing a separate service with this.
+# We may wish to refactor this at a later point in time.
+- name: "Install configparser in venv if using"
+  include: pip_install.yml package=configparser virtualenv=bifrost_venv_dir
+  when: skip_install is not defined and (enable_venv | bool == true)
+
+- name: "Install pymysql in venv if using"
+  include: pip_install.yml package=pymysql virtualenv=bifrost_venv_dir
+  when: skip_install is not defined and (enable_venv | bool == true)
+
+- name: "Install keystone using pip"
+  include: pip_install.yml
+    package=keystone
+    state=latest
+    sourcedir={{ keystone_git_folder }}
+    source_install={{ keystone_source_install | bool }}
+  when: skip_install is not defined

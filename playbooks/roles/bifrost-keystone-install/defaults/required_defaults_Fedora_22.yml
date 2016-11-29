@@ -1,0 +1,5 @@
+---
+# NOTE(cinerama): On Fedora 22, ansible 1.9, ansible_pkg_mgr
+# defaults to yum, which may not be installed. This can be safely
+# removed when we start using an ansible release which prefers dnf.
+ansible_pkg_mgr: "dnf"
