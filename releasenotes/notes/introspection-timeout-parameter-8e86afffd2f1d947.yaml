@@ -1,0 +1,6 @@
+---
+fixes:
+  - Some users have encountered issues with introspection
+    periodically timing out for systems. As a result, we have
+    added a new parameter ``inspection_wait_timeout`` that is
+    now defaulted to ``1800`` seconds.

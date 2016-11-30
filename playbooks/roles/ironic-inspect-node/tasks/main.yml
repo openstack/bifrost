@@ -39,4 +39,5 @@
     auth: "{{ auth | default(omit) }}"
     ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid }}"
+    timeout: "{{ inspection_wait_timeout }}"
   delegate_to: localhost
