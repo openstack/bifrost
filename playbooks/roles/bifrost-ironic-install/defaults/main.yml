@@ -114,7 +114,7 @@ inventory_dhcp: False
 inventory_dns: False
 
 # Settings to enable the use of inspector
-enable_inspector: false
+enable_inspector: true
 inspector_auth: "noauth"
 inspector_debug: true
 inspector_manage_firewall: false
