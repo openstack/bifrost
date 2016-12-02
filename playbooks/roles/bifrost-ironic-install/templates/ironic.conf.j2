@@ -1,0 +1,66 @@
+# {{ ansible_managed }}
+# For additional details on configuring ironic, you may wish to reference
+# the sample configuration file which can be located at
+# http://git.openstack.org/cgit/openstack/ironic/tree/etc/ironic/ironic.conf.sample
+
+
+[DEFAULT]
+# NOTE(TheJulia): Until Bifrost supports neutron or some other network
+# configuration besides a flat network where bifrost orchustrates the
+# control instead of ironic, noop is the only available network driver.
+enabled_network_interfaces = noop
+{% if testing | bool == true %}
+enabled_drivers = agent_ssh,pxe_ssh
+debug = true
+{% else %}
+enabled_drivers = {{ enabled_drivers }}
+debug = false
+{% endif %}
+
+rabbit_userid = ironic
+rabbit_password = {{ ironic_db_password }}
+
+auth_strategy = noauth
+
+[pxe]
+pxe_append_params = systemd.journald.forward_to_console=yes {{ extra_kernel_options | default('') }}
+pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
+tftp_server = {{ my_ip_address }}
+tftp_root = /tftpboot
+pxe_bootfile_name = undionly.kpxe
+ipxe_enabled = true
+ipxe_boot_script = /etc/ironic/boot.ipxe
+
+[deploy]
+http_url = http://{{ my_ip_address }}:{{ file_url_port }}/
+http_root = {{ http_boot_folder }}
+
+[conductor]
+api_url = http://{{ my_ip_address }}:6385/
+clean_nodes = {{ cleaning | lower }}
+automated_clean = {{ cleaning | lower }}
+
+[database]
+connection = mysql+pymysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8
+
+[dhcp]
+dhcp_provider = none
+
+{% if testing | bool == true %}
+[ssh]
+libvirt_uri = qemu:///system
+{% endif %}
+
+{% if enable_cors | bool == true %}
+[cors]
+allowed_origin = {{ cors_allowed_origin | default('allowed_origin=http://localhost:8000') }}
+allow_credentials = {{ enable_cors_credential_support | default('true') }}
+{% endif %}
+
+[ilo]
+use_web_server_for_images = true
+
+{% if enable_inspector | bool == true %}
+[inspector]
+enabled = true
+{% endif %}

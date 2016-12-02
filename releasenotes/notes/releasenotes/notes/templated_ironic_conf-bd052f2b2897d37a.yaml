@@ -1,0 +1,22 @@
+---
+prelude: >
+    Ironic.conf is templated and only sets required
+    options now, as opposed to editing the Sample
+    configuration of Ironic.
+features:
+  - Ironic.conf is templated and only sets required
+    options now, as opposed to editing the Sample
+    configuration of Ironic.
+other:
+  - In the past, the sample config in Ironic may have
+    set some boilerplate that Bifrost took advantage
+    of. But now that config is entirely made up of
+    comments, and so this change does not change much
+    except stripping out all of those comments and
+    leaving just the required content in ironic.conf
+    to use Ironic with Bifrost.
+upgrade:
+  - Upon installation, bifrost will replace the installed
+    ironic.conf file with a template generated file.
+    Custom setting changes to that file, which were previously
+    retained, will now be lost upon re-installation.
