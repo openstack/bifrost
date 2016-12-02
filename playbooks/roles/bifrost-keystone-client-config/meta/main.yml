@@ -1,0 +1,22 @@
+---
+galaxy_info:
+  author: Ironic Developers
+  description: Creates simple clouds.yaml file for Bifrost usage
+  company: OpenStack
+  license: Apache
+  min_ansible_version: 2.0
+  platforms:
+  - name: EL
+    versions:
+    - 7
+  - name: Debian
+    versions:
+    - wheezy
+  - name: Ubuntu
+    versions:
+    - trusty
+    - utopic
+  categories:
+  - cloud
+  - cloud:openstack
+dependencies: []

@@ -1,0 +1,12 @@
+---
+features:
+  - Bifrost now has a role that can create a clouds.yaml
+    file for os-client-config based client auto-configuration.
+issues:
+  - Bifrost now has a role that can create a clouds.yaml
+    file for os-client-config based client auto-configuration.
+    This file overwrites the default file for the user
+    executing bifrost, located at
+    ``~/.config/openstack/clouds.yaml``.
+    It is recommended that users execute bifrost's installation
+    via a service account.
