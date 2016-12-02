@@ -1,0 +1,8 @@
+---
+features:
+  - The functionality to create a service account
+    and default user account to bifrost has been added.
+    This is controlled by the ``enable_keystone`` parameter
+    as well a ``keystone`` and ``ironic`` data structure that
+    contains all required parameters.  Please consult the
+    bifrost-ironic-install/defaults/main.yml file for more details.

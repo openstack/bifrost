@@ -1,0 +1,224 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+# TODO(TheJulia): The user and project domains are hardcoded in this.
+# We should likely address that at some point, however I think a user
+# should be the driver of that work.
+
+- name: "Error if credentials are undefined."
+  fail:
+    msg: |
+        Credentials are missing or undefined, unable to proceed.
+        Please consult roled defaults/main.yml.
+  when: >
+      keystone is undefined or keystone.bootstrap is undefined or
+      keystone.bootstrap.username is undefined or
+      keystone.bootstrap.password is undefined or
+      keystone.bootstrap.project_name is undefined or
+      ironic.service_catalog.auth_url is undefined or
+      ironic.service_catalog.username is undefined or
+      ironic.service_catalog.password is undefined or
+      ironic.service_catalog.project_name is undefined or
+      ironic.keystone is undefined or
+      ironic.keystone.default_username is undefined or
+      ironic.keystone.default_password is undefined
+
+- name: "Ensure service project is present"
+  os_project:
+    name: "service"
+    state: present
+    description: "Service Project"
+    domain_id: default
+    enabled: yes
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}/"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Create service user for ironic"
+  os_user:
+    name: "{{ ironic.service_catalog.username }}"
+    password: "{{ ironic.service_catalog.password }}"
+    state: present
+    domain: "default"
+    default_project: "{{ ironic.service_catalog.project_name }}"
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Associate ironic user to admin role"
+  os_user_role:
+    user: "{{ ironic.service_catalog.username }}"
+    role: admin
+    project: "{{ ironic.service_catalog.project_name }}"
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Create keystone service record for ironic"
+  os_keystone_service:
+    state: present
+    name: ironic
+    service_type: baremetal
+    description: OpenStack Baremetal Service
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Create ironic admin endpoint"
+  command: |
+    openstack
+    --os-identity-api-version 3
+    --os-username "{{ keystone.bootstrap.username }}"
+    --os-password "{{ keystone.bootstrap.password }}"
+    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+    --os-project-name admin
+    endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    baremetal admin "{{ ironic.keystone.admin_url | default('http://127.0.0.1:6385/') }}"
+
+- name: "Create ironic public endpoint"
+  command: |
+    openstack
+    --os-identity-api-version 3
+    --os-username "{{ keystone.bootstrap.username }}"
+    --os-password "{{ keystone.bootstrap.password }}"
+    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+    --os-project-name admin
+    endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    baremetal public "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') }}"
+
+- name: "Create ironic internal endpoint"
+  command: |
+    openstack
+    --os-identity-api-version 3
+    --os-username "{{ keystone.bootstrap.username }}"
+    --os-password "{{ keystone.bootstrap.password }}"
+    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+    --os-project-name admin
+    endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    baremetal internal "{{ ironic.keystone.internal_url | default('http://127.0.0.1:6385/') }}"
+  no_log: true
+
+- name: "Create baremetal_admin role"
+  os_keystone_role:
+    name: "baremetal_admin"
+    state: present
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Create baremetal_observer role"
+  os_keystone_role:
+    name: "baremetal_observer"
+    state: present
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Create baremetal project"
+  os_project:
+    name: "baremetal"
+    state: present
+    description: "Baremetal Project"
+    domain_id: default
+    enabled: yes
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "admin"
+      project_domain_id: "default"
+      user_domain_id: "default"
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Create bifrost user"
+  os_user:
+    name: "{{ ironic.keystone.default_username }}"
+    password: "{{ ironic.keystone.default_password }}"
+    default_project: "baremetal"
+    domain: "default"
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: admin
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
+
+- name: "Associate bifrost user with baremetal_admin"
+  os_user_role:
+    user: "{{ ironic.keystone.default_username }}"
+    role: "baremetal_admin"
+    project: baremetal
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: admin
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+  environment:
+    OS_IDENTITY_API_VERSION: "3"
+  no_log: true
