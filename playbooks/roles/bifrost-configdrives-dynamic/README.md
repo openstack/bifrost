@@ -53,8 +53,8 @@ write_interfaces_file: Legacy option to write an debian style network
                        interfaces configuration file. This is required for
                        deployment where simple-init cannot be used, in
                        particular when using Cirros.
-node_network_info: Optional: If defined, the contents are written out to the
-                   network_info.json file, effectively allowing a user to
+node_network_data: Optional: If defined, the contents are written out to the
+                   network_data.json file, effectively allowing a user to
                    override the network configuration contents based on
                    the inventory data.
 

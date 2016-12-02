@@ -24,3 +24,6 @@ ironic_url: "http://localhost:6385/"
 
 # Default ISO generation utility
 iso_gen_utility: "mkisofs"
+
+# Deprecated, remove in Queens release
+node_network_info: {}

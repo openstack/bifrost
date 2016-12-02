@@ -448,7 +448,7 @@ Deployment and configuration of operating systems
 
 By default, Bifrost deploys a configuration drive which includes the user SSH
 public key, hostname, and the network configuration in the form of
-network_info.json that can be read/parsed by the
+network_data.json that can be read/parsed by the
 `glean <https://github.com/openstack-infra/glean>`_ utility. This allows for
 the deployment of Ubuntu, CentOS, or Fedora "tenants" on baremetal.  This file
 format is not yet supported by Cloud-Init, however it is on track for

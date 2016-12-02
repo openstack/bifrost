@@ -34,12 +34,12 @@ def main():
         vlan_id=dict(required=False),
         network_mtu=dict(required=False),
         nics=dict(required=False, type='list'),
-        node_network_info=dict(required=False, type='dict')
+        node_network_data=dict(required=False, type='dict')
     )
 
     module = AnsibleModule(argument_spec)
 
-    network_metadata = module.params['node_network_info']
+    network_metadata = module.params['node_network_data']
     if not network_metadata:
         links = []
         networks = []
