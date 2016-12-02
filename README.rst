@@ -192,6 +192,13 @@ After you have performed an installation, you can edit /etc/ironic/ironic.conf
 to enable or disable cleaning as desired, however it is highly encouraged to
 utilize cleaning in any production environment.
 
+The ironic community maintains a repository additional of drivers outside ironic.
+These drivers and information about them can be found `here <http://git.openstack.org/cgit/openstack/ironic-staging-drivers/>`_.
+If you would like to install the ironic staging drivers, simply pass
+``-e staging_drivers_include=true`` when executing the install playbook::
+
+  ansible-playbook -K -vvvv -i inventory/localhost install.yaml -e staging_drivers_include=true
+
 Manual CLI use
 --------------
 

@@ -1,0 +1,9 @@
+---
+features:
+  - Ironic-Staging-Drivers can now be installed. These are
+    drivers that are not included in the ironic repo, and
+    provide additional hardware support for ironic. More
+    information about the drivers can be found at
+    `Ironic-Staging-Drivers <http://git.openstack.org/cgit/openstack/ironic-staging-drivers>`_
+    To install the staging drivers set `staging_drivers_include`
+    to true. The default value is false.

@@ -3,6 +3,7 @@
 # which causes the nodes to be wiped after deletion.
 cleaning: false
 http_boot_folder: /httpboot
+staging_drivers_include: false
 # Deprecated: nginx_port is no longer used and file_url_port should
 # be used instead.
 file_url_port: "{{ nginx_port | default('8080') }}"
@@ -10,6 +11,7 @@ ironicclient_source_install: false
 shade_source_install: true
 ironicinspector_source_install: false
 ironicinspectorclient_source_install: false
+staging_drivers_source_install: false
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
 # Setting to install diskimage-builder
@@ -72,8 +74,11 @@ ironicclient_git_folder: /opt/stack/python-ironicclient
 shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
 reqs_git_folder: /opt/stack/requirements
+staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
+staging_drivers_git_url: http://git.openstack.org/cgit/openstack/ironic-staging-drivers
+
 # Comma-separated list, in the format of a string, of drivers that are enabled
 # by default. This is intended to be a list of agent based drivers.
 # PXE drivers can be found in the setting pxe_drivers that can be found below.
