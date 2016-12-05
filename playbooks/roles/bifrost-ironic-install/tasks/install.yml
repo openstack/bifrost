@@ -18,7 +18,7 @@
   when: ansible_os_family == 'Debian'
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
-  with_items: required_packages
+  with_items: "{{ required_packages }}"
 # Step required for Ubuntu 14.10
 - name: "Install Ubuntu 14.10 (and later) packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
