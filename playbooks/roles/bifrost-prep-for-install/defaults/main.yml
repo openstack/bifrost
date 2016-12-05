@@ -29,3 +29,33 @@ reqs_git_branch: master
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
 ci_testing_zuul: false
+
+bifrost_install_sources:
+  - git_folder: "{{ ironic_git_folder }}"
+    git_url: "{{ ironic_git_url }}"
+    git_branch: "{{ ironic_git_branch }}"
+    name: ironic
+  - git_folder: "{{ ironicclient_git_folder }}"
+    git_url: "{{ ironicclient_git_url }}"
+    git_branch: "{{ ironicclient_git_branch }}"
+    name: ironicclient
+  - git_folder: "{{ shade_git_folder }}"
+    git_url: "{{ shade_git_url }}"
+    git_branch: "{{ shade_git_branch }}"
+    name: shade
+  - git_folder: "{{ dib_git_folder }}"
+    git_url: "{{ dib_git_url }}"
+    git_branch: "{{ dib_git_branch }}"
+    name: dib
+  - git_folder: "{{ ironicinspector_git_folder }}"
+    git_url: "{{ ironicinspector_git_url }}"
+    git_branch: "{{ ironicinspector_git_branch }}"
+    name: ironicinspector
+  - git_folder: "{{ ironicinspectorclient_git_folder }}"
+    git_url: "{{ ironicinspectorclient_git_url }}"
+    git_branch: "{{ ironicinspectorclient_git_branch }}"
+    name: ironicinspectorclient
+  - git_folder: "{{ reqs_git_folder }}"
+    git_url: "{{ reqs_git_url }}"
+    git_branch: "{{ reqs_git_branch }}"
+    name: requirements
