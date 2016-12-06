@@ -164,7 +164,7 @@
     --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
     --os-project-name admin
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal internal "{{ ironic_inspector.keystone.internal_url | default('http://127.0.0.1:5050/') }}"
+    baremetal-introspection internal "{{ ironic_inspector.keystone.internal_url | default('http://127.0.0.1:5050/') }}"
   no_log: true
   when: test_ironic_inspector_internal_endpoint.rc != 0 or test_ironic_inspector_internal_endpoint.stdout == '[]'
 
