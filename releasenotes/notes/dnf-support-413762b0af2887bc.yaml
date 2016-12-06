@@ -1,0 +1,5 @@
+---
+features:
+  - bifrost now supports ``dnf`` as package manager on RedHat-based distros.
+    It tries to use it by default and falls back to ``yum`` when ``dnf`` is
+    not available.
