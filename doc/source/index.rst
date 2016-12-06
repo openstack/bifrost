@@ -11,6 +11,7 @@ Contents:
    troubleshooting
    vagrant
    deploy/dhcp
+   deploy/keystone
    offline-install
 
 Indices and tables

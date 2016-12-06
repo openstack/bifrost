@@ -27,7 +27,7 @@ Use Cases
 Use
 ===
 
-This is split into roughly three steps:
+Installation and use of bifrost is split into roughly three steps:
 
 - **install**:
   prepare the local environment by downloading and/or building machine images,
@@ -41,7 +41,7 @@ This is split into roughly three steps:
 
 Supported operating systems:
 
-* Ubuntu 14.04, 14.10, 15.04
+* Ubuntu 14.04, 14.10, 15.04, 16.04
 * Red Hat Enterprise Linux (RHEL) 7
 * CentOS 7
 * Fedora 22
@@ -151,9 +151,13 @@ Then run::
 The second part is an Ansible playbook that installs and configures ironic
 in a stand-alone fashion.
 
-* Keystone is NOT installed, and ironic's API is accessible without
+* Keystone is NOT installed by default, and ironic's API is accessible without
   authentication.  It is possible to put basic password auth on ironic's API by
   changing the nginx configuration accordingly.
+
+  * Bifrost playbooks can leverage and optionally install keystone.
+    See :ref:`keystone`.
+
 * Neutron is NOT installed. Ironic performs static IP injection via
   config-drive.
 * dnsmasq is configured statically and responds to all PXE boot requests by

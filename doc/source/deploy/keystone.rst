@@ -1,3 +1,5 @@
+.. _keystone:
+
 *********************
 Bifrost with Keystone
 *********************
