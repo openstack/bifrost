@@ -48,9 +48,10 @@ elif [ -x '/usr/bin/apt-get' ]; then
               [wget]=wget
             )
     EXTRA_PKG_DEPS=()
-elif [ -x '/usr/bin/yum' ]; then
+elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
     OS_FAMILY="RedHat"
-    INSTALLER_CMD="sudo -H yum -y install"
+    PKG_MANAGER=$(which dnf || which yum)
+    INSTALLER_CMD="sudo -H ${PKG_MANAGER} -y install"
     CHECK_CMD="rpm -q"
     PKG_MAP=(
         [gcc]=gcc
