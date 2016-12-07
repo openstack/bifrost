@@ -45,6 +45,7 @@ Supported operating systems:
 * Red Hat Enterprise Linux (RHEL) 7
 * CentOS 7
 * Fedora 22
+* openSUSE Leap 42.1, 42.2
 
 Pre-install steps
 =================
