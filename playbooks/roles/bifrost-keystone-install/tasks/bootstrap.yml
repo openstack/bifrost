@@ -271,4 +271,4 @@
     owner: "root"
     group: "root"
   with_items:
-    - { service_path: "{{ uwsgi_install_prefix.stdout }}", service_name: 'uwsgi', username: "{{nginx_user}}", args: '--master --emperor /etc/uwsgi/apps-enabled'}
+    - { service_path: "{{ uwsgi_install_prefix.stdout | default('') }}", service_name: 'uwsgi', username: "{{nginx_user}}", args: '--master --emperor /etc/uwsgi/apps-enabled'}
