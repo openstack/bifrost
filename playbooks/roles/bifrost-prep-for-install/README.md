@@ -20,7 +20,7 @@ Role Variables
 --------------
 
 git_root: The base location for cloned git repositories.  This defaults to
-          "/tmp".
+          "/opt/stack".
 
 ironicclient_git_url: URL for ironicclient, defaults to:
                       https://git.openstack.org/openstack/python-ironicclient
