@@ -208,7 +208,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
  "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"}}}""".replace('\n', '')
         (groups, hostvars) = utils.bifrost_data_conversion(
-            yaml.dump(json.loads(str(expected_hostvars))))
+            yaml.safe_dump(json.loads(str(expected_hostvars))))
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
 
     def test_minimal_json(self):
