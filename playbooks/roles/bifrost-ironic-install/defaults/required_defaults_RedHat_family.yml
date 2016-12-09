@@ -42,4 +42,6 @@ required_packages:
 # NOTE(cinerama): amtterm is not currently packaged for RHEL/CentOS 7.
   - libvirt-daemon
   - debootstrap
+  - gcc
+  - python2-pip
 iscsi_client_package: "iscsi-initiator-utils"

@@ -2,3 +2,37 @@
 init_template: systemd_template.j2
 init_dest_dir: /lib/systemd/system/
 init_ext: .service
+required_packages:
+  - mysql-server
+  - rabbitmq-server
+  - python-dev
+  - python-mysqldb
+  - python-configparser
+  - libffi-dev
+  - libxslt1-dev
+  - libssl-dev
+  - libxml2-dev
+  - ipxe
+  - tftpd-hpa
+  - tftp-hpa
+  - syslinux-common
+  - syslinux
+  - xinetd
+  - parted
+  - ipmitool
+  - psmisc
+  - nginx
+  - wget
+  - genisoimage
+  - kpartx
+  - qemu-utils
+  - python-openwsman
+  - amtterm
+  - sgabios
+  - libvirt-bin
+  - debootstrap
+  - uuid-runtime
+  - curl
+  - dnsmasq
+  - python-pip
+  - python-pymysql

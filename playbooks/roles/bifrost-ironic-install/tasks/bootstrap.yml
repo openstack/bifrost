@@ -123,17 +123,15 @@
   copy:
     src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.conf"
     dest: "/etc/ironic/rootwrap.conf"
+    remote_src: yes
     mode: 0644
     owner: root
     group: root
   when: skip_install is not defined and enable_pxe_drivers | bool == true
+# Note(ashestakov): "copy" module in ansible doesn't support recursive
+# copying on remote host. "cp" command used instead.
 - name: "Copy rootwrap.d contents from ironic source folder"
-  copy:
-    src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/"
-    dest: "/etc/ironic/rootwrap.d"
-    mode: 0644
-    owner: root
-    group: root
+  command: cp -r "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/" "/etc/ironic/rootwrap.d"
   when: skip_install is not defined and enable_pxe_drivers | bool == true
 
 - name: "Populate keystone for Bifrost"
@@ -146,6 +144,7 @@
   copy:
     src: "{{ ironic_git_folder }}/etc/ironic/policy.json"
     dest: "/etc/ironic/"
+    remote_src: yes
     owner: "ironic"
     group: "ironic"
     mode: 0644

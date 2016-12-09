@@ -117,6 +117,7 @@
   copy:
     src: "{{ keystone_git_folder }}/etc/policy.json"
     dest: "/etc/keystone/"
+    remote_src: true
     owner: "keystone"
     group: "keystone"
     mode: 0644
@@ -125,6 +126,7 @@
   copy:
     src: "{{ keystone_git_folder }}/etc/keystone-paste.ini"
     dest: "/etc/keystone/"
+    remote_src: true
     owner: "keystone"
     group: "keystone"
     mode: 0644
@@ -184,18 +186,26 @@
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: 0755
 
+# Note(ashestakov): "copy" module in ansible doesn't support recursive
+# copying on remote host. "cp" command used instead.
 - name: "Copy keystone-wsgi-public  to /var/www/keystone/public"
-  copy:
-    src: "{{ keystone_install_prefix.stdout }}/keystone-wsgi-public"
-    dest: /var/www/keystone/public
+  command: cp -r "{{ keystone_install_prefix.stdout }}/keystone-wsgi-public" /var/www/keystone/public
+
+- name: "Ensure owner and mode of keystone-wsgi-public"
+  file:
+    path: /var/www/keystone/public
     owner: "keystone"
     group: "{{nginx_user}}"
     mode: 0754
 
+# Note(ashestakov): "copy" module in ansible doesn't support recursive
+# copying on remote host. "cp" command used instead.
 - name: "Copy keystone-wsgi-admin to /var/www/keystone/admin"
-  copy:
-    src: "{{ keystone_install_prefix.stdout }}/keystone-wsgi-admin"
-    dest: /var/www/keystone/admin
+  command: cp -r "{{ keystone_install_prefix.stdout }}/keystone-wsgi-admin" /var/www/keystone/admin
+
+- name: "Ensure owner and mode of keystone-wsgi-admin"
+  file:
+    path: /var/www/keystone/admin
     owner: "keystone"
     group: "{{nginx_user}}"
     mode: 0754
@@ -267,7 +277,7 @@
         service_name: 'uwsgi',
         username: "{{ nginx_user }}",
         exec_start_pre: "/usr/bin/install -m 755 -o {{ nginx_user }} -g {{ nginx_user }} -d /run/uwsgi",
-        args: '--master --emperor /etc/uwsgi/apps-enabled'}
+        args: '--master --emperor /etc/uwsgi/apps-enabled'} # TODO(TheJulia): Split webserver user/group.
 
 # NOTE(ashestakov) https://github.com/ansible/ansible-modules-core/issues/3764
 - name: "Remove uwsgi sysvinit init script"
