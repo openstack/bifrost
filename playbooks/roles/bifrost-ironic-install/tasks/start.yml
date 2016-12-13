@@ -17,6 +17,10 @@
   command: systemctl daemon-reload
   when: init_template == 'systemd_template.j2'
 
+- name: "Ensure rsyslog is running with current config"
+  service: name=rsyslog state=restarted
+  when: remote_syslog_server is defined and remote_syslog_server != ""
+
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started
 
