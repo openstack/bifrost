@@ -155,8 +155,8 @@ Bifrost also supports the installation of ironic-inspector in standalone
 mode, which enables the user to allow for identification of the system
 properties via a workflow.
 
-enable_inspector: Boolean value, default false.  Set this value to true to
-                  install ironic-inspector.
+enable_inspector: Boolean value, default true.  Set this value to false to
+                  prevent installing ironic-inspector.
 
 inspector_auth: Sets ironic-inspector's authentication method. Possible values
                 are `keystone` and `noauth`. `noauth` is recommended since
