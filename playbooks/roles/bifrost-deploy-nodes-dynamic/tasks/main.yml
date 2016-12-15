@@ -17,6 +17,9 @@
 # the pass-through could mean that the user could deploy
 # things that are not directly accessible or reasonable
 # to be inspected.
+- name: "Obtain setup facts"
+  setup:
+
 - name: "If in noauth mode, unset authentication parameters."
   set_fact:
     auth_type: None
@@ -44,7 +47,6 @@
     owner: root
     group: root
     mode: 0644
-  delegate_to: localhost
   when: inventory_dhcp | bool == true
   become: yes
 - name: "Setup DNS address for nodes."
@@ -54,7 +56,6 @@
     owner: root
     group: root
     mode: 0644
-  delegate_to: localhost
   when: inventory_dns | bool == true
   become: yes
 - name: "Sending dnsmasq HUP"
@@ -74,10 +75,9 @@
     instance_info: "{{ instance_info }}"
     wait: "{{ wait_for_node_deploy }}"
     timeout: " {{ wait_timeout | default(1800) }}"
-  delegate_to: localhost
   when: instance_info is defined and instance_info | to_json != '{}'
 - name: "Collect the checksum of the deployment image."
-  local_action: stat path={{deploy_image}}
+  stat: path={{deploy_image}}
   register: test_deploy_image
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
 - name: "Error if deploy_image is not present, and instance_info is not defined"
