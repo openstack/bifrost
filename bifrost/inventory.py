@@ -171,31 +171,26 @@ def _process_baremetal_data(data_source, groups, hostvars):
     """Process data through as pre-formatted data"""
     with open(data_source, 'rb') as file_object:
         try:
-            file_data = json.load(file_object)
+            file_data = yaml.safe_load(file_object)
         except Exception as e:
-            LOG.debug("Attempting to parse JSON: %s" % e)
-            try:
-                file_object.seek(0)
-                file_data = yaml.load(file_object)
-            except Exception as e:
-                LOG.debug("Attempting to parse YAML: %s" % e)
-                raise Exception("Failed to parse JSON and YAML")
+            LOG.debug("Failed to parse JSON or YAML: %s" % e)
+            raise Exception("Failed to parse JSON or YAML")
 
-        for name in file_data:
-            host = file_data[name]
-            # Perform basic validation
-            if ('ipv4_address' not in host or
-                    not host['ipv4_address']):
-                host['addressing_mode'] = "dhcp"
-            else:
-                host['ansible_ssh_host'] = host['ipv4_address']
+    for name in file_data:
+        host = file_data[name]
+        # Perform basic validation
+        if ('ipv4_address' not in host or
+                not host['ipv4_address']):
+            host['addressing_mode'] = "dhcp"
+        else:
+            host['ansible_ssh_host'] = host['ipv4_address']
 
-            if ('provisioning_ipv4_address' not in host and
-                    'addressing_mode' not in host):
-                host['provisioning_ipv4_address'] = host['ipv4_address']
-            # Add each host to the values to be returned.
-            groups['baremetal']['hosts'].append(host['name'])
-            hostvars.update({host['name']: host})
+        if ('provisioning_ipv4_address' not in host and
+                'addressing_mode' not in host):
+            host['provisioning_ipv4_address'] = host['ipv4_address']
+        # Add each host to the values to be returned.
+        groups['baremetal']['hosts'].append(host['name'])
+        hostvars.update({host['name']: host})
     return (groups, hostvars)
 
 
