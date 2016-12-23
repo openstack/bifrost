@@ -149,6 +149,12 @@ enable_cors_credential_support: Boolean value, default false.  This variable
 domain: String value, default to false. If set, domain setting is configured
         in dnsmasq.
 
+remote_syslog_server: String value, default undefined. If set, rsyslog is
+                      configured to send logs to this server.
+
+remote_syslog_port: String value, default is 514. If set, custom port is
+                    configured for remote syslog server.
+
 ### Hardware Inspection Support
 
 Bifrost also supports the installation of ironic-inspector in standalone

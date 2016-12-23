@@ -1,0 +1,8 @@
+---
+features:
+  - Add support of remote logging. This feature allows to send logs
+    from local syslog server and not collects logs from services on
+    baremetal nodes. To collect from the actual running nodes requires
+    configuration injected into each deployed host.
+    Syslog server address and port can be specified in options
+    ``remote_syslog_server`` and ``remote_syslog_port`` respectively.

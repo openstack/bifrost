@@ -341,4 +341,6 @@
       command: semodule -e ironic_policy
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
          ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
-
+- name: "Configure remote logging"
+  template: src=10-rsyslog-remote.conf.j2 dest=/etc/rsyslog.d/10-rsyslog-remote.conf
+  when: remote_syslog_server is defined and remote_syslog_server != ""
