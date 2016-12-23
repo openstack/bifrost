@@ -35,7 +35,7 @@
 # NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
 # during bootstrapping. all other services are started in the Start phase.
 - name: "Start database service"
-  service: name={{ mysql_service_name }} state=started
+  service: name={{ mysql_service_name }} state=started enabled=yes
 - name: "RabbitMQ - Testing if hostname is defined in /etc/hosts"
   command: grep -i "{{ ansible_hostname }}" /etc/hosts
   ignore_errors: yes
@@ -56,7 +56,7 @@
     - epmd
   when: ansible_os_family == 'Suse'
 - name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started
+  service: name=rabbitmq-server state=started enabled=yes
 # NOTE(cinerama): on some systems, rabbit may not be ready when we want to
 # make changes to users if we don't wait first
 - name: "Wait for rabbitmq"

@@ -15,18 +15,8 @@
   command: systemctl daemon-reload
   when: init_template == 'systemd_template.j2'
 
-- name: "Ensure required services are started"
-  service: name={{ item }} state=started
+- name: "Ensure services are running with current config"
+  service: name={{ item }} state=restarted enabled=yes
   with_items:
     - nginx
     - uwsgi
-
-# In the event that this server was already running,
-# we need to HUP the service to help ensure that it
-# has the latest configuration. We do this because we
-# cannot trust what service returns as each init system
-# behaves differently.
-- name: "Send services a reload signal"
-  service: name={{ item }} state=reloaded
-  with_items:
-    - nginx

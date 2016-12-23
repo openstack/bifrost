@@ -17,3 +17,4 @@
   service:
     name=ironic-inspector
     state=restarted
+    enabled=yes
