@@ -1,0 +1,6 @@
+# This file is managed by bifrost
+{% if inventory_dhcp_static_ip | bool == true %}
+{{ nics[0]['mac'] }},{{provisioning_ipv4_address}},{{name}},12h
+{% else %}
+{{ nics[0]['mac'] }},{{name}},12h
+{% endif %}

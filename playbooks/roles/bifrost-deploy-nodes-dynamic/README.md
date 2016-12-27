@@ -67,16 +67,16 @@ inventory_dhcp: A boolean value, defaulted to false, which allows dnsmasq
                 parameter.
 
 inventory_dhcp_static_ip: A boolean value, defaulted to true, which configures
-                           the mechanism for setting up the IP of machines when
-                           inventory_dhcp is enabled.
-                           If set to true, it will read the value of the key
-                           'provisioning_ipv4_address' from the inventory section
-                           of each machine and dnsmasq will assign that IP to each
-                           machine accordingly. Note, that if you don't assign
-                           the key 'provisioning_ipv4_address' it will default
-                           to the value of 'ipv4_address'.
-                           If set to false, dnsmasq will assign IPs
-                           automatically from the configured DHCP range.
+                          the mechanism for setting up the IP of machines when
+                          inventory_dhcp is enabled.
+                          If set to true, it will read the value of the key
+                          'provisioning_ipv4_address' from the inventory section
+                          of each machine and dnsmasq will assign that IP to each
+                          machine accordingly. Note, that if you don't assign
+                          the key 'provisioning_ipv4_address' it will default
+                          to the value of 'ipv4_address'.
+                          If set to false, dnsmasq will assign IPs
+                          automatically from the configured DHCP range.
 
 noauth_mode: Controls if the module is called in noauth mode.
              By default, this is the standard mode of operation,
@@ -89,9 +89,9 @@ cloud_name: Optional: String value defining a clouds.yaml entry for
             the ansible module to leverage.
 
 inventory_dns: A boolean value, defaulted to false, which causes the role
-                to update a template file and reload dnsmasq upon each update
-                in order to perform static dns addressing utilizing the
-                ipv4_address parameter.
+               to update a template file and reload dnsmasq upon each update
+               in order to perform static dns addressing utilizing the
+               ipv4_address parameter.
 
 Dependencies
 ------------

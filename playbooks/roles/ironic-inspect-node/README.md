@@ -39,6 +39,33 @@ inspection_wait_timeout: Integer value in seconds, defaults to 1800.
                          under 300 seconds, although that will vary based
                          upon the hardware configuration.
 
+inventory_dhcp: A boolean value, defaulted to false, which allows dnsmasq
+                to configure the IP of the machines, rather than putting
+                the IP configuration of the machine in the config drive.
+                If set to true, the role will create a file for each machine
+                under /etc/dnsmasq.d/bifrost.dhcp-hosts.d containing the mac,
+                name of the machine, lease time and optionally the IP address
+                that will be offered to the machine by DHCP.
+                This optional IP is controlled by the inventory_dhcp_static_ip
+                parameter.
+
+inventory_dhcp_static_ip: A boolean value, defaulted to true, which configures
+                          the mechanism for setting up the IP of machines when
+                          inventory_dhcp is enabled.
+                          If set to true, it will read the value of the key
+                          'provisioning_ipv4_address' from the inventory section
+                          of each machine and dnsmasq will assign that IP to each
+                          machine accordingly. Note, that if you don't assign
+                          the key 'provisioning_ipv4_address' it will default
+                          to the value of 'ipv4_address'.
+                          If set to false, dnsmasq will assign IPs
+                          automatically from the configured DHCP range.
+
+inventory_dns: A boolean value, defaulted to false, which causes the role
+               to update a template file and reload dnsmasq upon each update
+               in order to perform static dns addressing utilizing the
+               ipv4_address parameter.
+
 Dependencies
 ------------
 

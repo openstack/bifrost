@@ -1,0 +1,7 @@
+---
+fixes:
+  - Added dhcp configuration tasks to inspection role.
+    In case when inventory_dhcp is enabled and node is not deployed yet,
+    inspection is not working because dnsmasq ignores requests from unknown
+    address. This fix introduces tasks which configures dhcp before
+    inspection.
