@@ -106,6 +106,45 @@
     OS_IDENTITY_API_VERSION: "3"
   no_log: true
 
+- name: "Check ironic admin endpoint exists"
+  command: |
+    openstack
+    --os-identity-api-version 3
+    --os-username "{{ keystone.bootstrap.username }}"
+    --os-password "{{ keystone.bootstrap.password }}"
+    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+    --os-project-name admin
+    endpoint list -f json --noindent --service baremetal --interface admin
+    --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+  no_log: true
+  register: test_ironic_admin_endpoint
+
+- name: "Check ironic public endpoint exists"
+  command: |
+    openstack
+    --os-identity-api-version 3
+    --os-username "{{ keystone.bootstrap.username }}"
+    --os-password "{{ keystone.bootstrap.password }}"
+    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+    --os-project-name admin
+    endpoint list -f json --noindent --service baremetal --interface public
+    --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+  no_log: true
+  register: test_ironic_public_endpoint
+
+- name: "Check ironic internal endpoint exists"
+  command: |
+    openstack
+    --os-identity-api-version 3
+    --os-username "{{ keystone.bootstrap.username }}"
+    --os-password "{{ keystone.bootstrap.password }}"
+    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+    --os-project-name admin
+    endpoint list -f json --noindent --service baremetal --interface internal
+    --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+  no_log: true
+  register: test_ironic_internal_endpoint
+
 - name: "Create ironic admin endpoint"
   command: |
     openstack
@@ -116,6 +155,8 @@
     --os-project-name admin
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal admin "{{ ironic.keystone.admin_url | default('http://127.0.0.1:6385/') }}"
+  no_log: true
+  when: test_ironic_admin_endpoint.rc != 0 or test_ironic_admin_endpoint.stdout == '[]'
 
 - name: "Create ironic public endpoint"
   command: |
@@ -127,6 +168,8 @@
     --os-project-name admin
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal public "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') }}"
+  no_log: true
+  when: test_ironic_public_endpoint.rc != 0 or test_ironic_public_endpoint.stdout == '[]'
 
 - name: "Create ironic internal endpoint"
   command: |
@@ -139,6 +182,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal internal "{{ ironic.keystone.internal_url | default('http://127.0.0.1:6385/') }}"
   no_log: true
+  when: test_ironic_internal_endpoint.rc != 0 or test_ironic_internal_endpoint.stdout == '[]'
 
 - name: "Create baremetal_admin role"
   os_keystone_role:
