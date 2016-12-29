@@ -234,8 +234,8 @@
     owner: "root"
     group: "root"
   with_items:
-    - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
-    - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+    - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+    - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
 - name: "Create and populate /tftpboot"
   include: create_tftpboot.yml
 - name: "Setup Inventory Hosts Directory"
