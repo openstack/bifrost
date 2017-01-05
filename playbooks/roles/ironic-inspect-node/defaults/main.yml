@@ -2,3 +2,6 @@
 # defaults file for ironic-inspect-node
 noauth_mode: true
 inspection_wait_timeout: 1800
+inventory_dhcp: false
+inventory_dhcp_static_ip: true
+inventory_dns: false
