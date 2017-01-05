@@ -73,6 +73,6 @@
 - name: "Inspector - Place service"
   template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
   with_items:
-    - { service_path: "{{ ironic_install_prefix.stdout }}", service_name: 'ironic-inspector', username: 'ironic', args: '--config-file /etc/ironic-inspector/inspector.conf'}
+    - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-inspector', username: 'ironic', args: '--config-file /etc/ironic-inspector/inspector.conf'}
 - name: "Inspector - Explicitly permit TCP/5050 for ironic-inspector callback"
   command: iptables -I INPUT -p tcp --dport 5050 -i {{network_interface}} -j ACCEPT
