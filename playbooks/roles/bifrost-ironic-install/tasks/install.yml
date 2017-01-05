@@ -95,8 +95,8 @@
   when: skip_install is not defined
 - name: "Install ironic-inspector to permit use of inspection interface"
   include: inspector_install.yml
-  when: enable_inspector | bool == true
+  when: skip_install is not defined and enable_inspector | bool == true
 - name: "Install ironic-staging-drivers"
   include: staging_install.yml
-  when: staging_drivers_include | bool == true
+  when: skip_install is not defined and staging_drivers_include | bool == true
 
