@@ -31,10 +31,10 @@
 # NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
 # during bootstrapping. all other services are started in the Start phase.
 - name: "Start database service"
-  service: name={{ mysql_service_name }} state=started
+  service: name={{ mysql_service_name }} state=started enabled=yes
 
 - name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started
+  service: name=rabbitmq-server state=started enabled=yes
 
 # NOTE(cinerama): on some systems, rabbit may not be ready when we want to
 # make changes to users if we don't wait first
@@ -208,14 +208,6 @@
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: 0755
 
-- name: "Ensure /run/uwsgi exists"
-  file:
-    name: "/run/uwsgi"
-    state: directory
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0775
-
 - name: "Place keystone public uwsgi config"
   template:
     src: keystone-public.ini.j2
@@ -271,4 +263,13 @@
     owner: "root"
     group: "root"
   with_items:
-    - { service_path: "{{ uwsgi_install_prefix.stdout | default('') }}", service_name: 'uwsgi', username: "{{nginx_user}}", args: '--master --emperor /etc/uwsgi/apps-enabled'}
+    - { service_path: "{{ uwsgi_install_prefix.stdout | default('') }}",
+        service_name: 'uwsgi',
+        username: "{{ nginx_user }}",
+        exec_start_pre: "/usr/bin/install -m 755 -o {{ nginx_user }} -g {{ nginx_user }} -d /run/uwsgi",
+        args: '--master --emperor /etc/uwsgi/apps-enabled'}
+
+# NOTE(ashestakov) https://github.com/ansible/ansible-modules-core/issues/3764
+- name: "Remove uwsgi sysvinit init script"
+  command: update-rc.d -f uwsgi remove
+  ignore_errors: yes

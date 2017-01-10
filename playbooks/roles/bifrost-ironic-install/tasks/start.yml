@@ -22,20 +22,20 @@
   when: remote_syslog_server is defined and remote_syslog_server != ""
 
 - name: "Start database service"
-  service: name={{ mysql_service_name }} state=started
+  service: name={{ mysql_service_name }} state=started enabled=yes
 
 - name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started
+  service: name=rabbitmq-server state=started enabled=yes
 
 - name: "start ironic-inspector"
   include: inspector_start.yml
   when: enable_inspector | bool == true
 
 - name: "Start ironic-conductor"
-  service: name=ironic-conductor state=started
+  service: name=ironic-conductor state=started enabled=yes
 
 - name: "Start ironic-api"
-  service: name=ironic-api state=started
+  service: name=ironic-api state=started enabled=yes
 
 - name: "Start ironic-conductor"
   service: name=ironic-conductor state=restarted
@@ -51,13 +51,13 @@
   when: "{{ testing | bool == true and include_dhcp_server | bool == true }}"
 
 - name: "Ensure services are running with current config"
-  service: name={{ item }} state=restarted
+  service: name={{ item }} state=restarted enabled=yes
   with_items:
     - xinetd
     - nginx
 
 - name: "Ensure dnsmasq is running with current config"
-  service: name={{ item }} state=restarted
+  service: name={{ item }} state=restarted enabled=yes
   with_items:
     - dnsmasq
   when: "{{ include_dhcp_server | bool == true }}"
