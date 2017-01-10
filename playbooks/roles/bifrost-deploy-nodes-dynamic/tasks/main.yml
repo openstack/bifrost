@@ -95,5 +95,7 @@
       image_checksum: "{{ test_deploy_image.stat.md5 }}"
       image_disk_format: "qcow2"
       root_gb: 10
+    wait: "{{ wait_for_node_deploy }}"
+    timeout: " {{ wait_timeout | default(1800) }}"
   delegate_to: localhost
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
