@@ -22,13 +22,17 @@ Additional key variables are:
 
 addressing_mode: If defined and set to a value of "dhcp", this role sets the
                  primary interface to utilize DHCP.
+
 ipv4_subnet_mask: This is the subnet mask(e.g. 255.255.255.0 or similar) that
                   matches the static addressing which desires to be imprinted
                   into the configuration drive.
+
 ipv4_gateway: This is the IPv4 default router address within the IPv4 subnet
               being utilized for IP addresses for the nodes being deployed.
+
 ipv4_interface_mac: Optional: The MAC address of the network interface to
                     assign the IPv4 address to.
+
 node_default_network_interface: This is the default network interface within
                                 the nodes to be deployed which the new IP
                                 configuration will be applied to.
@@ -38,21 +42,30 @@ node_default_network_interface: This is the default network interface within
                                 configuration into the configuration drive
                                 sufficiently that this should no longer be
                                 required.
+
 ipv4_nameserver: Defines the IPv4 nameserver to configure the node with
                  initially in order to support name resolution.
+
 ipv4_address: The IPv4 address of the node to be deployed, if applicable.
+
 ironic_url: Defines URL to ironic API. Defaults to "http://localhost:6385/"
+
 ssh_public_key_path: Defines the path to the SSH public key file to be
                      inserted into the configuration drive.
+
 ssh_public_key: If a user wishes to define an SSH public key as a string,
                 this variable can be utilized which overrides the
                 ssh_public_key_path setting.
+
 uuid: The UUID value for the node.
+
 http_boot_folder: The folder where to save the configuration drive file to.
+
 write_interfaces_file: Legacy option to write an debian style network
                        interfaces configuration file. This is required for
                        deployment where simple-init cannot be used, in
                        particular when using Cirros.
+
 node_network_data: Optional: If defined, the contents are written out to the
                    network_data.json file, effectively allowing a user to
                    override the network configuration contents based on
