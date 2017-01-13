@@ -1,0 +1,12 @@
+---
+- name: "Defined ssh_private_key_path - Check to see if there is a file where the ssh_private_key_path is defined"
+  local_action: stat path={{ ssh_private_key_path }}
+  register: test_ssh_private_key_path
+
+- name: "Defined ssh_private_key_path - Error if ssh_private_key_path is not valid"
+  local_action: fail msg="ssh_private_key_path is not valid."
+  when: test_ssh_private_key_path.stat.exists == false
+
+- name: "Defined ssh_private_key_path - Read SSH private key in"
+  set_fact: ssh_private_key="{{ lookup('file', ssh_private_key_path ) }}"
+  no_log: true

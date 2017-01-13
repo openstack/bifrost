@@ -1,0 +1,6 @@
+---
+features:
+  - Allow user to insert private SSH key for ironic user.
+    This is useful for ansible deploy driver and another ssh based drivers.
+    The private key can be specified as path to local file in
+    ``ssh_private_key_path`` variable, or as string in ``ssh_private_key``.
