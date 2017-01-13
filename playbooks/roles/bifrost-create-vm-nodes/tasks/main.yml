@@ -70,11 +70,23 @@
 - name: "Verify default network is running"
   shell: virsh net-info default |grep Active|grep -q yes
   register: virsh_network_status
+  delegate_to: localhost
   ignore_errors: yes
 
 - name: "Start default network if not running"
   command: virsh net-start default
   when: virsh_network_status.rc != 0
+  register: task_start_default_net
+  ignore_errors: yes
+  delegate_to: localhost
+
+- name: "Fail if default network is not available"
+  fail:
+    msg: "Unable to verify the libvirt default network is available"
+  when: >
+    virsh_network_status.rc != 0 and
+    task_start_default_net.rc != 0 and
+    'File exists' not in task_start_default_net.stderr
 
 - name: "Create virtual machines"
   script: create_vm_nodes-for-role.sh
