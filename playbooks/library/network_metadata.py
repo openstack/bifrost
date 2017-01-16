@@ -138,9 +138,9 @@ def main():
             'networks': networks,
             'services': services
         }
-        facts = {'network_metadata': network_metadata}
+    facts = {'network_metadata': network_metadata}
 
-        module.exit_json(changed=False, ansible_facts=facts)
+    module.exit_json(changed=False, ansible_facts=facts)
 
 
 # this is magic, see lib/ansible/module_common.py
