@@ -179,8 +179,9 @@ def _process_baremetal_data(data_source, groups, hostvars):
     for name in file_data:
         host = file_data[name]
         # Perform basic validation
-        if ('ipv4_address' not in host or
-                not host['ipv4_address']):
+        node_net_data = host.get('node_network_data')
+        ipv4_addr = host.get('ipv4_address')
+        if not node_net_data and not ipv4_addr:
             host['addressing_mode'] = "dhcp"
         else:
             host['ansible_ssh_host'] = host['ipv4_address']
