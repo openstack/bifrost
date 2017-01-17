@@ -23,6 +23,7 @@
          dib_git_url: "/opt/git/openstack/diskimage-builder"
          ironicinspector_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-inspector"
          ironicinspectorclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironic-inspector-client"
+         keystone_git_url: https://git.openstack.org/openstack/keystone
          reqs_git_url: "/opt/git/openstack/requirements"
          staging_drivers_git_url: "/opt/git/openstack/ironic-staging-drivers"
       # TODO(TheJulia) Fix the above paths to be consistent, because the NV job gets the dib

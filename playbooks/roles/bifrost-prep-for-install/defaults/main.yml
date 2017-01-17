@@ -10,6 +10,7 @@ ironicinspector_git_url: https://github.com/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://github.com/openstack/python-ironic-inspector-client
 reqs_git_url: https://git.openstack.org/openstack/requirements
 staging_drivers_git_url: https://git.openstack.org/openstack/ironic-staging-drivers
+keystone_git_url: https://git.openstack.org/openstack/keystone
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
 ironic_git_folder: "{{ git_root}}/ironic"
@@ -19,6 +20,7 @@ shade_git_folder: "{{ git_root}}/shade"
 dib_git_folder: "{{ git_root }}/diskimage-builder"
 reqs_git_folder: "{{ git_root }}/requirements"
 staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
+keystone_git_folder: "{{ git_root}}/keystone"
 # *_git_branch can be overridden for stable branch testing
 ironicclient_git_branch: master
 ironic_git_branch: master
@@ -28,6 +30,7 @@ ironicinspector_git_branch: master
 ironicinspectorclient_git_branch: master
 reqs_git_branch: master
 staging_drivers_git_branch: master
+keystone_git_branch: master
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
@@ -66,3 +69,7 @@ bifrost_install_sources:
     git_url: "{{ staging_drivers_git_url }}"
     git_branch: "{{ staging_drivers_git_branch }}"
     name: ironic-staging-drivers
+  - git_folder: "{{ keystone_git_folder }}"
+    git_url: "{{ keystone_git_url }}"
+    git_branch: "{{ keystone_git_branch }}"
+    name: keystone
