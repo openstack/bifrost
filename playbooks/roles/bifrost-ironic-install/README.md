@@ -231,6 +231,14 @@ bifrost_venv_env: An environment dictionary that includes the environment
                   It is best not to reset this value unless you know you
                   need to.
 
+ssh_private_key_path: Defines the path to the SSH private key file to be
+                      placed as default ssh key for ironic user. Can be useful
+                      when ironic requires ssh access to another server.
+
+ssh_private_key: If a user wishes to define an SSH private key as a string,
+                 this variable can be utilized which overrides the
+                 ssh_private_key_path setting.
+
 Notes
 -----
 

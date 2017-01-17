@@ -163,6 +163,12 @@
 - name: "Add ironic user to virtualization group"
   user: name=ironic group="{{ virt_group }}" append=yes
   when: testing | bool == true
+- name: "Identify ssh_private_key from ssh_private_key_path"
+  include: set_ssh_private_key.yml
+  when: >
+    testing | bool == false and
+    ssh_private_key is undefined and
+    ssh_private_key_path is defined
 - name: "Create SSH directory for ironic user"
   local_action: >
     file
@@ -171,7 +177,20 @@
     group=ironic
     mode=0700
     state=directory
-  when: testing | bool == true
+  when: >
+    testing | bool == true or
+    ssh_private_key is defined
+- name: "Set private key file"
+  copy:
+    content: "{{ ssh_private_key }}"
+    dest: /home/ironic/.ssh/id_rsa
+    owner: ironic
+    group: ironic
+    mode: 0600
+  no_log: true
+  when: >
+    testing | bool == false and
+    ssh_private_key is defined
 - name: "Check for ironic user SSH key"
   local_action: stat path=/home/ironic/.ssh/id_rsa
   register: test_ironic_pvt_key
