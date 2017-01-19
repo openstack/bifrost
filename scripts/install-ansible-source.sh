@@ -52,8 +52,9 @@ check_get_module `pwd`/lib/ansible/modules/extras/cloud/openstack/os_ironic_insp
 check_get_module `pwd`/lib/ansible/modules/extras/cloud/openstack/os_keystone_service.py \
     https://raw.githubusercontent.com/ansible/ansible-modules-extras/stable-2.2/cloud/openstack/os_keystone_service.py
 
+sudo -H -E ${PIP} install --upgrade ${ANSIBLE_INSTALL_ROOT}/ansible
+
 if [ -n "${VENV-}" ]; then
-    sudo -H -E ${PIP} install --upgrade ${ANSIBLE_INSTALL_ROOT}/ansible
     echo
     echo "To use bifrost, do"
 
