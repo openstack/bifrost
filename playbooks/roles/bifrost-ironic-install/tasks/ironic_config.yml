@@ -28,5 +28,5 @@
   lineinfile:
     dest: /etc/sudoers
     regexp: '^ironic(.*)/etc/ironic/rootwrap.conf(.*)'
-    line: "ironic ALL = (root) NOPASSWD: /usr/local/bin/ironic-rootwrap /etc/ironic/rootwrap.conf *"
+    line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-rootwrap /etc/ironic/rootwrap.conf *"
   when: enable_pxe_drivers | bool == true

@@ -6,6 +6,7 @@ syslinux_tftp_dir: /usr/lib/syslinux/
 ipxe_dir: /usr/lib/ipxe/
 ipxe_full_binary: ipxe.pxe
 sgabios_dir: /usr/share/qemu/
+ironic_rootwrap_dir: /usr/local/bin/
 nginx_user: www-data
 virt_group: libvirtd
 mysql_service_name: mysql
