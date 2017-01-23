@@ -135,7 +135,7 @@
     --os-auth-url "{{ ironic_inspector.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
     --os-project-name admin
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal admin "{{ ironic_inspector.keystone.admin_url | default('http://127.0.0.1:5050/') }}"
+    baremetal-introspection admin "{{ ironic_inspector.keystone.admin_url | default('http://127.0.0.1:5050/') }}"
   no_log: true
   when: test_ironic_inspector_admin_endpoint.rc != 0 or test_ironic_inspector_admin_endpoint.stdout == '[]'
 
@@ -151,7 +151,7 @@
     --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
     --os-project-name admin
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal public "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') }}"
+    baremetal-introspection public "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') }}"
   no_log: true
   when: test_ironic_inspector_public_endpoint.rc != 0 or test_ironic_inspector_public_endpoint.stdout == '[]'
 
