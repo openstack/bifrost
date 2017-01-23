@@ -72,6 +72,8 @@
     state: present
     config_drive: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
     instance_info: "{{ instance_info }}"
+    wait: "{{ wait_for_node_deploy }}"
+    timeout: " {{ wait_timeout | default(1800) }}"
   delegate_to: localhost
   when: instance_info is defined and instance_info | to_json != '{}'
 - name: "Collect the checksum of the deployment image."
