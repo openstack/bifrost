@@ -48,4 +48,5 @@ required_packages:
   - iptables
   - tar
   - curl
+  - socat
 iscsi_client_package: "open-iscsi"
