@@ -60,5 +60,5 @@ environment variable inside the VM for use by test scripts.
 Note:
 
   Only the ansible installation path is configurable at this point using
-  the enviroment variable. All other dependencies will still continue to cloned
-  under ``/opt/stack``.
+  the environment variable. All other dependencies will still continue to
+  cloned under ``/opt/stack``.
