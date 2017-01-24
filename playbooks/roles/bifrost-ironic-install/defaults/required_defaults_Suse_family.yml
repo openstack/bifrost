@@ -49,4 +49,6 @@ required_packages:
   - tar
   - curl
   - socat
+  - python-pip
+  - gcc
 iscsi_client_package: "open-iscsi"
