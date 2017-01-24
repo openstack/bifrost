@@ -108,7 +108,7 @@ Bifrost source code should be pulled directly from git first::
   cd bifrost
 
 Edit ``./playbooks/inventory/group_vars/*`` to match your environment. The
-localhost file is intended for steps executed upon the localhost, such as
+target file is intended for steps executed upon the target server, such as
 installation, or image generation.  The baremetal file is geared for steps
 performed on baremetal nodes, such as enrollment, deployment, or any other
 custom playbooks that a user may bolt on to this toolkit.
@@ -180,9 +180,9 @@ restarted.
 Run::
 
   If you have passwordless sudo enabled, run:
-     ansible-playbook -vvvv -i inventory/localhost install.yaml
+     ansible-playbook -vvvv -i inventory/target install.yaml
   Otherwise, add -K option to let Ansible prompting for the sudo  password:
-     ansible-playbook -K -vvvv -i inventory/localhost install.yaml
+     ansible-playbook -K -vvvv -i inventory/target install.yaml
 
 With regard to testing, ironic's node cleaning capability is disabled by
 default as it can be an unexpected surprise for a new user that their test
@@ -191,7 +191,7 @@ node is unusable for however long it takes for the disks to be wiped.
 If you wish to enable cleaning, you can achieve this by passing the option
 ``-e cleaning=true`` to the command line or executing the command below::
 
-  ansible-playbook -K -vvvv -i inventory/localhost install.yaml -e cleaning=true
+  ansible-playbook -K -vvvv -i inventory/target install.yaml -e cleaning=true
 
 After you have performed an installation, you can edit /etc/ironic/ironic.conf
 to enable or disable cleaning as desired, however it is highly encouraged to
@@ -202,7 +202,7 @@ These drivers and information about them can be found `here <http://git.openstac
 If you would like to install the ironic staging drivers, simply pass
 ``-e staging_drivers_include=true`` when executing the install playbook::
 
-  ansible-playbook -K -vvvv -i inventory/localhost install.yaml -e staging_drivers_include=true
+  ansible-playbook -K -vvvv -i inventory/target install.yaml -e staging_drivers_include=true
 
 Manual CLI use
 --------------
@@ -441,11 +441,11 @@ ironic conductor will use this key to connect to the host machine and
 run virsh commands.
 
 #. Set ``testing`` to *true* in the
-   ``playbooks/inventory/group_vars/localhost`` file.
+   ``playbooks/inventory/group_vars/target`` file.
 #. You may need to adjust the value for ``ssh_public_key_path``.
 #. Run the install step, as documented above, however adding ``-e
    testing=true`` to the Ansible command line.
-#. Execute the ``ansible-playbook -vvvv -i inventory/localhost
+#. Execute the ``ansible-playbook -vvvv -i inventory/target
    test-bifrost-create-vm.yaml`` command to create a test virtual
    machine.
 #. Set the environment variable of ``BIFROST_INVENTORY_SOURCE`` to the
@@ -545,6 +545,6 @@ ansible into it, run ``env-setup.sh`` as follows::
 
 Then run the install playbook with the following arguments::
 
-  ansible-playbook -vvvv -i inventory/localhost install.yaml
+  ansible-playbook -vvvv -i inventory/target install.yaml
 
 This will install ironic and its dependencies into the virtual environment.

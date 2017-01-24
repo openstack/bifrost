@@ -1,0 +1,72 @@
+---
+# The ironic API URL for bifrost operations.  Defaults to localhost.
+# ironic_url: "http://localhost:6385/"
+
+# The network interface that bifrost will be operating on.  Defaults
+# to virbr0 in roles, can be overridden here.
+# network_interface: "virbr0"
+
+
+# ironic_db_password ironic user password for rabbit
+ironic_db_password: aSecretPassword473z
+# mysql_username: Default mysql admin username
+mysql_username: root
+# mysql_password: Default mysql admin user password
+mysql_password:
+
+# The path to the SSH key to be utilized for testing and burn-in
+# to configuration drives. When set, it should be set in both baremetal
+# and localhost groups, however this is only an override to the default.
+# ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+
+# If testing is true, then the environment is setup for using libvirt
+# virtual machines for the hardware instead of real hardware.
+# testing: true
+
+# The default port to download files via.  Required for IPA URL generation.
+# Presently the defaults are located in the roles, however if changed both
+# the localhost and baremetal group files must be updated.
+# file_url_port: 8080
+
+# IPA Image parameters.  If these are changed, they must be changed in
+# Both localhost and baremetal groups.  Presently the defaults
+# in each role should be sufficent for proper operation.
+# ipa_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
+# ipa_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
+# ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/coreos_production_pxe.vmlinuz"
+# ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/coreos_production_pxe_image-oem.cpio.gz"
+
+# The http_boot_folder defines the root folder for the webserver.
+# If this setting is changed, it must be applied to both the baremetal
+# and localhost groups. Presently the role defaults are set to the value
+# below.
+# http_boot_folder: /httpboot
+
+# The settings for the name of the image to be deployed along with the
+# on disk location are below.  If changed, these settings must be applied
+# to both the baremetal and localhost groups.  If the file is already on
+# disk, then the image generation will not take place, otherwise an image
+# will be generated using diskimage-builder.
+# deploy_image_filename: "deployment_image.qcow2"
+# deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+
+# Setting to utilize diskimage-builder to create a bootable image.
+create_image_via_dib: true
+
+# Transform boot image is intended for use with the Ubuntu trusty image.
+# It makes the image bootable by installing Grub.
+# Setting to prepend a partition image with a boot sector and partition table.
+transform_boot_image: false
+
+# Create IPA image instead of downloading an pre-made CoreOS IPA image.
+create_ipa_image: false
+
+# Dnsmasq default route for clients. If not defined, dnsmasq will push to
+# clients as default route the same IP of the dnsmasq server.
+# Default: undefined
+# dnsmasq_router: {{ ipv4_gateway }}
+
+# Dnsmasq default nameserver for clients. If not defined, this setting
+# will be ignored.
+# Default: undefined
+# dnsmasq_dns_servers: 8.8.8.8,8.8.4.4

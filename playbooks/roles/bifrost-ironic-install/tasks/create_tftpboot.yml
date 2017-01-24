@@ -37,7 +37,7 @@
   register: test_pxelinux
 
 - name: "Place pxelinux.0"
-  copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot
+  copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot remote_src=true
   when: test_pxelinux.stat.exists == false
 
 - name: "Place boot.ipxe helper script /etc/ironic"
@@ -54,14 +54,14 @@
   when: download_ipxe | bool == true
 
 - name: "Copy iPXE image into place"
-  copy: src={{ ipxe_dir }}/undionly.kpxe dest=/tftpboot/
+  copy: src={{ ipxe_dir }}/undionly.kpxe dest=/tftpboot/ remote_src=true
 
 # NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
 - name: "Copy full iPXE image into /httpboot"
-  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/httpboot/
+  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/httpboot/ remote_src=true
 
 - name: "Copy full iPXE image into /tftpboot"
-  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/
+  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/ remote_src=true
 
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."

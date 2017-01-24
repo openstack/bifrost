@@ -1,0 +1,6 @@
+---
+features:
+  - Allow install Ironic on remote server.
+    Added group 'target' to inventory, which is same as localhost by default.
+    For install ironic remotely, address and ssh credentials should be
+    configured in playbooks/inventory/target file.

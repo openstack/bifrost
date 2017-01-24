@@ -18,10 +18,10 @@ Installation with Keystone
 Bifrost can now install and make use of keystone. In order to enable
 this as part of the installation, the ``enable_keystone`` variable
 must be set to ``true``.
-Either in ``playbooks/inventory/group_vars/localhost`` or on the
+Either in ``playbooks/inventory/group_vars/target`` or on the
 command line during installation. Example::
 
-    ansible-playbook -vvvv -i inventory/localhost install.yaml -e enable_keystone=true
+    ansible-playbook -vvvv -i inventory/target install.yaml -e enable_keystone=true
 
 However, prior to installation, overriding credentials should be set
 in order to customize the deployment to meet your needs. See::
@@ -38,7 +38,7 @@ will need to set the appropriate defaults, via
 ``playbooks/roles/bifrost-ironic-install/defaults/main.yml``
 which would be a good source for the role level defaults.
 Ideally, when setting new defaults, they should be set in the
-``playbooks/inventory/group_vars/localhost`` file.
+``playbooks/inventory/group_vars/target`` file.
 
 Creation of clouds.yaml
 -----------------------
@@ -66,8 +66,8 @@ following steps need to take place.
 
        -e noauth_mode=false -e cloud_name=bifrost
 
-#. Set the global defaults for localhost
-   (``master/playbooks/inventory/group_vars/localhost``).
+#. Set the global defaults for tagret
+   (``master/playbooks/inventory/group_vars/target``).
 
 
 OpenStack Client

@@ -1,7 +1,6 @@
 ---
-- hosts: localhost
-  name: "Install Ironic on the local host."
-  connection: local
+- hosts: target
+  name: "Install Ironic on the target host."
   become: yes
   gather_facts: yes
   roles:
