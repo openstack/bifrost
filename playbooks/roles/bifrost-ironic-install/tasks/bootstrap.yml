@@ -170,13 +170,12 @@
     ssh_private_key is undefined and
     ssh_private_key_path is defined
 - name: "Create SSH directory for ironic user"
-  local_action: >
-    file
-    path=/home/ironic/.ssh
-    owner=ironic
-    group=ironic
-    mode=0700
-    state=directory
+  file:
+    path: "/home/ironic/.ssh"
+    owner: "ironic"
+    group: "ironic"
+    mode: 0700
+    state: directory
   when: >
     testing | bool == true or
     ssh_private_key is defined
