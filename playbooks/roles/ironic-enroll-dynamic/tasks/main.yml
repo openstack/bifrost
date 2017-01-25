@@ -43,7 +43,7 @@
     name: "{{ name | default() }}"
     state: present
     nics: "{{nics}}"
-    properties: "{{ properties }}"
+    properties: "{{ properties | default({}) }}"
     driver_info:
       power: "{{ driver_info.power }}"
       deploy:
