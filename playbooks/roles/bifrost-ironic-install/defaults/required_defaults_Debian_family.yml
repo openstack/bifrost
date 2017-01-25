@@ -42,6 +42,7 @@ required_packages:
   - uuid-runtime
   - curl
   - dnsmasq
+  - socat
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
 # package list as the installation causes name resolution changes that can
 # temporarily block packages following it while the system is being
