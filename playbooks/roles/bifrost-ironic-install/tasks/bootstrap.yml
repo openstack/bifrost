@@ -190,32 +190,30 @@
     testing | bool == false and
     ssh_private_key is defined
 - name: "Check for ironic user SSH key"
-  local_action: stat path=/home/ironic/.ssh/id_rsa
+  stat: path=/home/ironic/.ssh/id_rsa
   register: test_ironic_pvt_key
 - name: "Generate SSH key for ironic user"
-  local_action: command ssh-keygen -f /home/ironic/.ssh/id_rsa -N ""
+  command: ssh-keygen -f /home/ironic/.ssh/id_rsa -N ""
   when: >
     testing | bool == true and
     test_ironic_pvt_key.stat.exists | bool == false
 - name: "Set ownership on ironic SSH private key"
-  local_action: >
-    file
-    name=/home/ironic/.ssh/id_rsa
-    owner=ironic
-    group=ironic
-    mode=0600
-    state=file
+  file:
+    name: /home/ironic/.ssh/id_rsa
+    owner: ironic
+    group: ironic
+    mode: 0600
+    state: file
   when: >
     testing | bool == true and
     test_ironic_pvt_key.stat.exists | bool == false
 - name: "Set ownership on ironic SSH public key"
-  local_action: >
-    file
-    name=/home/ironic/.ssh/id_rsa.pub
-    owner=ironic
-    group=ironic
-    mode=0644
-    state=file
+  file:
+    name: /home/ironic/.ssh/id_rsa.pub
+    owner: ironic
+    group: ironic
+    mode: 0644
+    state: file
   when: testing | bool == true and test_ironic_pvt_key.stat.exists | bool == false
 - name: "Create authorized_keys file for ironic user"
   command: >
