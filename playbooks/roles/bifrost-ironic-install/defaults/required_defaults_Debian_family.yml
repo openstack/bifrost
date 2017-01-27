@@ -36,7 +36,6 @@ required_packages:
   - kpartx
   - qemu-utils
   - python-openwsman
-  - amtterm
   - sgabios
   - libvirt-bin
   - debootstrap

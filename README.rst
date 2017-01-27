@@ -165,9 +165,7 @@ in a stand-alone fashion.
   chain-loading to iPXE, which then fetches the ironic-python-agent ramdisk
   from Nginx.
 * Deployments are performed by the Ironic Python Agent, which as configured
-  supports IPMI, iLO, and UCS drivers.  AMT driver support is also enabled,
-  however it should only be used for testing as due to a known bug which
-  can be read about at https://bugs.launchpad.net/ironic/+bug/1454492.
+  supports IPMI, iLO, and UCS drivers.
 * By default, installation will build an Ubuntu-based image for deployment
   to nodes.  This image can be easily customized if so desired.
 
@@ -512,7 +510,6 @@ Default Mode
 When not in testing mode, bifrost enables the following ironic drivers:
 
 * agent_ipmitool
-* pxe_amt
 * agent_ilo
 * agent_ucs
 

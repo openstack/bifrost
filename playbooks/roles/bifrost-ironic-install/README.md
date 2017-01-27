@@ -86,7 +86,7 @@ extra_kernel_options: Default undefined.
 
 When testing, the default ironic conductor driver is "agent_ssh". When
 testing mode has not been engaged, drivers can be set via the enabled_drivers
-variable which defaults to: "agent_ipmitool,pxe_amt,agent_ilo,agent_ucs"
+variable which defaults to: "agent_ipmitool,agent_ilo,agent_ucs"
 
 By default, PXE driver baseline support, in terms of installation of the
 iSCSI client and configuration of sudoers and rootwrap configuration is

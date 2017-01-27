@@ -152,7 +152,7 @@ download_ipxe: false
 enable_pxe_drivers: true
 # Comma-separated list of PXE drivers to enable when
 # enable_pxe_drivers is set to true
-pxe_drivers: "pxe_amt,pxe_ssh,pxe_ipmitool,pxe_ilo"
+pxe_drivers: "pxe_ssh,pxe_ipmitool,pxe_ilo"
 
 # Settings related to installing bifrost in a virtual environment
 enable_venv: false

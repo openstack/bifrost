@@ -34,7 +34,6 @@ required_packages:
   - genisoimage
   - kpartx
   - qemu-utils
-  - amtterm
   - sgabios
   - libvirt-bin
   - debootstrap

@@ -43,7 +43,6 @@ required_packages:
   - openwsman-python
   - qemu-sgabios
   - policycoreutils-python
-# NOTE(cinerama): amtterm is not currently packaged for SuSE.
   - libvirt-daemon
   - debootstrap
   - iptables
