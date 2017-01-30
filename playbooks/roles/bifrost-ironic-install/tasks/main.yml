@@ -55,6 +55,10 @@
   include: install.yml
   when: skip_package_install | bool != True
 
+# NOTE(pas-ha) needed to e.g. pick up new interfaces after libvirt install
+- name: "Refresh facts"
+  setup:
+
 - name: "Bootstrap Ironic"
   include: bootstrap.yml
   when: skip_bootstrap | bool != True
