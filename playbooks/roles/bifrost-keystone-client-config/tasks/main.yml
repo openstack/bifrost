@@ -11,6 +11,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: redefine cloud settings vars for backward compat
+  set_fact:
+    clouds:
+      bifrost:
+        config_username: "{{ config_username }}"
+        config_password: "{{ config_password }}"
+        config_project_name: "{{ config_project_name }}"
+        config_region_name: "{{ config_region_name }}"
+        config_auth_url: "{{ config_auth_url}}"
+        config_project_domain_id: "{{ config_project_domain_id|default('default') }}"
+        config_user_domain_id: "{{ config_user_domain_id|default('default') }}"
+  when:
+    - "{{ clouds is undefined }}"
+    - "{{ config_username is defined }}"
+    - "{{ config_password is defined }}"
+    - "{{ config_project_name is defined }}"
+    - "{{ config_region_name is defined }}"
+    - "{{ config_auth_url is defined }}"
+
 - name: "Ensure the ~/.config/openstack/ exists"
   file:
     name: "~{{ user | default('root') }}/.config/openstack"

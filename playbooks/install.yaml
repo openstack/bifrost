@@ -7,7 +7,22 @@
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
     - bifrost-keystone-install
     - bifrost-ironic-install
-    - { role: bifrost-keystone-client-config, config_username: "{{ ironic.keystone.default_username }}", config_password: "{{ ironic.keystone.default_password }}", config_project_name: "baremetal", config_region_name: "{{ keystone.bootstrap.region_name }}", config_auth_url: "{{ keystone.bootstrap.public_url }}", user: "{{ ansible_env.SUDO_USER }}", when: enable_keystone is defined and enable_keystone | bool == true }
+    - role: bifrost-keystone-client-config
+      user: "{{ ansible_env.SUDO_USER }}"
+      clouds:
+        bifrost:
+          config_username: "{{ ironic.keystone.default_username }}"
+          config_password: "{{ ironic.keystone.default_password }}"
+          config_project_name: "baremetal"
+          config_region_name: "{{ keystone.bootstrap.region_name }}"
+          config_auth_url: "{{ keystone.bootstrap.public_url }}"
+        bifrost-admin:
+          config_username: "{{ keystone.bootstrap.username }}"
+          config_password: "{{ ironic.bootstrap.password }}"
+          config_project_name: "{{ keystone.bootstrap.project_name }}"
+          config_region_name: "{{ keystone.bootstrap.region_name }}"
+          config_auth_url: "{{ keystone.bootstrap.public_url }}"
+      when: enable_keystone is defined and enable_keystone | bool == true }
     - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_elements: "ironic-agent {{ ipa_extra_dib_elements | default('') }}", when: create_ipa_image | bool == true }
     - { role: bifrost-create-dib-image, dib_imagename: "{{ deploy_image }}", dib_imagetype: "qcow2", dib_elements: "vm serial-console {{ dib_init_element|default('simple-init') }} {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
   environment:

@@ -1,0 +1,21 @@
+---
+features:
+  - |
+    'bifrost-keystone-client-config' role can now write 'clouds.yaml' file
+    with several clouds settings. It starts to accept a single compound
+    variable 'clouds' that should contain a dict of
+    '<cloud-name>:<dict-of-cloud-settings>'.
+    Previous way of passing 'config_*' vars to the role is supported for
+    backward compatibility but is deprecated.
+
+    In addition to previous 'bifrost' cloud, the default 'install.yaml'
+    playbook now also writes 'bifrost-admin' cloud settings that contain
+    Keystone admin credentials so that when installed, the Keystone service
+    is fully usable right away (users/projects etc can be managed).
+
+deprecations:
+  - |
+    Passing 'config_*' variables defining credentials for 'bifrost'
+    cloud to 'bifrost-keystone-client-config' role is deprecated.
+    Instead a single compound variable named 'clouds' defining sets of
+    settings to be written to 'clouds.yaml' should be passed to that role.
