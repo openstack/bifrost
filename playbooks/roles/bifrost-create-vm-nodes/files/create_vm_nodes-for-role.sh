@@ -46,6 +46,7 @@ VM_CPU=${VM_CPU:-1}
 VM_RAM=${VM_RAM:-3072}
 VM_DISK=${VM_DISK:-10}
 VM_MACHINE="pc-1.0"
+VM_DISK_CACHE=${VM_DISK_CACHE:-writeback}
 
 function is_distro {
   local os_release=false
@@ -94,6 +95,7 @@ function create_node {
     # extra G to allow fuzz for partition table : flavor size and registered
     # size need to be different to actual size.
     DISK=$(( $4 + 1))
+    DISK_CACHE=${10}
 
     case $5 in
         i386) ARCH='i686' ;;
@@ -177,7 +179,7 @@ function create_node {
   <devices>
     <emulator>${EMULATOR}</emulator>
     <disk type='file' device='disk'>
-      <driver name='qemu' type='qcow2' cache='writeback'/>
+      <driver name='qemu' type='qcow2' cache='${DISK_CACHE}'/>
       <source file='${volume_path}'/>
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
@@ -266,7 +268,7 @@ do
         name=${names[$arrayindex]}
     fi
 
-    mac=$(create_node $name $VM_CPU $VM_RAM $VM_DISK amd64 $VM_NET_BRIDGE $VM_EMULATOR $VM_LOGDIR $VM_DOMAIN_TYPE)
+    mac=$(create_node $name $VM_CPU $VM_RAM $VM_DISK amd64 $VM_NET_BRIDGE $VM_EMULATOR $VM_LOGDIR $VM_DOMAIN_TYPE $VM_DISK_CACHE)
 
     printf "$mac,root,undefined,192.168.122.1,$VM_CPU,$VM_RAM,$VM_DISK,flavor,type,a8cb6624-0d9f-c882-affc-046ebb96ec0${i},$name,192.168.122.$((i+1))\n" >>$TEMPFILE
 done
