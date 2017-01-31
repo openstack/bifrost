@@ -1,0 +1,16 @@
+<network>
+  <name>{{ test_vm_network }}</name>
+  <forward mode='nat'>
+    <nat>
+      <port start='1024' end='65535'/>
+    </nat>
+  </forward>
+  <bridge name='{{ network_interface }}' stp='on' delay='0'/>
+  <ip address='{{ test_vm_network_ip }}' netmask='{{ test_vm_network_netmask }}'>
+  {% if test_vm_network_enable_dhcp | bool %}
+    <dhcp>
+      <range start='{{ test_vm_network_dhcp_start }}' end='{{ test_vm_network_dhcp_end }}'/>
+    </dhcp>
+  {% endif %}
+  </ip>
+</network>

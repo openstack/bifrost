@@ -19,3 +19,7 @@ required_packages:
  - libvirt-daemon-driver-secret
  - libvirt-daemon-driver-storage
  - libvirt-daemon-kvm
+ - libvirt-python
+ - python-lxml
+test_vm_machine: "pc"
+test_vm_emulator: "/usr/libexec/qemu-kvm"

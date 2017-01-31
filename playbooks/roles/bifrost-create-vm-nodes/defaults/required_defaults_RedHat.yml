@@ -11,3 +11,5 @@ required_packages:
  - libvirt
  - libvirt-client
  - libvirt-daemon
+ - python-libvirt
+ - python-lxml

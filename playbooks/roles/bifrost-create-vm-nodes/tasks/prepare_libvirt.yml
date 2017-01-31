@@ -1,0 +1,82 @@
+# Copyright (c) 2017 Mirantis Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Setup libvirt - ensure network and storage pool are defined and active,
+# prepare dir for vm logs
+---
+- name: "Restart libvirt service"
+  service: name="{{libvirt_service_name}}" state=restarted
+
+- name: ensure libvirt network is present
+  virt_net:
+    name: "{{ test_vm_network }}"
+    state: present
+    xml: "{{ lookup('template', 'net.xml.j2') }}"
+    uri: "{{ test_vm_libvirt_uri }}"
+
+- name: find facts on libvirt networks
+  virt_net:
+    command: facts
+    uri: "{{ test_vm_libvirt_uri }}"
+
+# NOTE(pas-ha) yet another place where non-local libvirt will not work
+- name: "Delete network interface if virtual network is not active"
+  command: ip link del {{ ansible_libvirt_networks[test_vm_network].bridge }}
+  when:
+    - ansible_libvirt_networks[test_vm_network].state != 'active'
+    - test_vm_libvirt_uri == 'qemu:///system'
+  ignore_errors: yes
+
+- name: set libvirt network to autostart
+  virt_net:
+    name: "{{ test_vm_network }}"
+    autostart: yes
+    uri: "{{ test_vm_libvirt_uri }}"
+
+- name: ensure libvirt network is running
+  virt_net:
+    name: "{{ test_vm_network }}"
+    state: active
+    uri: "{{ test_vm_libvirt_uri }}"
+
+- name: get libvirt network status
+  virt_net:
+    name: "{{ test_vm_network }}"
+    command: status
+    uri: "{{ test_vm_libvirt_uri }}"
+  register: test_vm_net_status
+
+- name: fail if libvirt network is not active
+  assert:
+    that: test_vm_net_status.status == 'active'
+
+- name: define a libvirt pool if not set
+  virt_pool:
+    name: "{{ test_vm_storage_pool }}"
+    state: present
+    uri: "{{ test_vm_libvirt_uri }}"
+    xml: "{{ lookup('template', 'pool_dir.xml.j2') }}"
+
+- name: ensure libvirt pool is running
+  virt_pool:
+    name: "{{ test_vm_storage_pool }}"
+    state: active
+    autostart: yes
+    uri: "{{ test_vm_libvirt_uri }}"
+
+- name: create dir for bm logs
+  file:
+    state: directory
+    path: "{{ test_vm_logdir }}"
+    mode: "o+rx"

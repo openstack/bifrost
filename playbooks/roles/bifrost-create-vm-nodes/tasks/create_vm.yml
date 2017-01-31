@@ -1,0 +1,119 @@
+# Copyright (c) 2017 Mirantis Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Create a VM and volume for it, save its MAC address
+---
+# NOTE(pas-ha) item here refers to name of the test vm
+- set_fact:
+    vm_name: "{{ item }}"
+    vm_log_file: "{{ test_vm_logdir }}/{{ item }}_console.log"
+
+- name: set prealloc arg for Debian
+  set_fact:
+    prealloc: "--prealloc-metadata"
+  when:
+    - "{{ ansible_os_family == 'Debian' }}"
+    - "{{ test_vm_libvirt_uri == 'qemu:///system' }}"
+
+- name: list info on pools
+  virt_pool:
+    command: facts
+    uri: "{{ test_vm_libvirt_uri }}"
+
+- name: list existing vms
+  virt:
+    command: list_vms
+  register: existing_vms
+
+# NOTE(pas-ha) wrapping in block/rescue to have diagnostic output, requires Ansible>=2
+- block:
+  # NOTE(pas-ha) Ansible still lacks modules to operate on libvirt volumes
+  # NOTE(pas-ha) adding extra 1G for disk size to accomodate for partition table / configdrive
+  - name: create volume for vm
+    command: >
+      virsh --connect {{ test_vm_libvirt_uri }}
+      vol-create-as {{ test_vm_storage_pool }} {{ vm_name }}.qcow2
+      {{ test_vm_disk_gib | int + 1 }}G
+      --format qcow2 {{ prealloc|default("") }}
+    when: "{{ vm_name + '.qcow2' not in ansible_libvirt_pools[test_vm_storage_pool].volumes }}"
+
+  - name: set path to the volume created
+    set_fact:
+      vm_volume_path: "{{ ansible_libvirt_pools[test_vm_storage_pool].path }}/{{ vm_name }}.qcow2"
+
+  - name: pre-touch the vm volume
+    file:
+      state: touch
+      path: "{{ vm_volume_path }}"
+    when: "{{ test_vm_libvirt_uri == 'qemu:///system' }}"
+
+  # NOTE(TheJulia): CentOS default installs with an XFS root, and chattr
+  # fails to set +C on XFS.  This could be more elegant, however the use
+  # case is for CI testing.
+  - name: set copy-on-write for volume on non-CentOS systems
+    command: chattr +C {{ vm_volume_path }}
+    ignore_errors: yes
+    when:
+      - "{{ ansible_distribution != 'CentOS' }}"
+      - "{{ test_vm_libvirt_uri == 'qemu:///system' }}"
+
+  - name: create_vm
+    virt:
+      command: define
+      name: "{{ vm_name }}"
+      uri: "{{ test_vm_libvirt_uri }}"
+      xml: "{{ lookup('template', 'testvm.xml.j2') }}"
+
+  rescue:
+    - name: "Execute `dmesg` to collect debugging output should VM creation fail."
+      command: dmesg
+    - name: >
+        "Execute `virsh capabilities` to collect debugging output
+        should VM creation fail."
+      command: virsh capabilities
+    - name: "Abort due to failed VM creation"
+      fail: >
+        msg="VM creation step failed, please review dmesg
+        output for additional details"
+  when: "{{ vm_name not in existing_vms.list_vms }}"
+
+- name: get XML of the vm
+  virt:
+    name: "{{ vm_name }}"
+    command: get_xml
+  register: testvm_xml
+
+- name: get MAC from vm XML
+  set_fact:
+    vm_mac: "{{ (testvm_xml.get_xml | regex_findall(\"<mac address='.*'/>\") | first).split('=') | last | regex_replace(\"['/>]\", '') }}"
+
+- name: set the csv entry for vm
+  set_fact:
+    vm_csv_items:
+      - "{{ vm_mac }}"
+      - "root"
+      - "undefined"
+      - "192.168.122.1"
+      - "{{ test_vm_cpu_count }}"
+      - "{{ test_vm_memory_size }}"
+      - "{{ test_vm_disk_gib }}"
+      - "flavor"
+      - "type"
+      - "a8cb6624-0d9f-c882-affc-046ebb96ec0{{ testvm_csv_data | length + 1 }}"
+      - "{{ vm_name }}"
+      - "192.168.122.{{ testvm_csv_data | length + 2 }}"
+
+- name: add created vm info
+  set_fact:
+    testvm_csv_data: "{{ testvm_csv_data + [vm_csv_items] }}"

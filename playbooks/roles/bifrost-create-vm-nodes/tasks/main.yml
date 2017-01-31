@@ -11,8 +11,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# TODO: Consider converting to ansible virt module.
 ---
 # NOTE(cinerama) openSUSE Tumbleweed & Leap have different distribution
 # IDs which are not currently accounted for in Ansible, so adjust facts
@@ -64,68 +62,55 @@
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: "{{ required_packages }}"
 
-- name: "Restart libvirt service"
-  service: name="{{libvirt_service_name}}" state=restarted
+- include: prepare_libvirt.yml
 
-- name: "Verify default network is running"
-  shell: virsh net-info default |grep Active|grep -q yes
-  register: virsh_network_status
-  delegate_to: localhost
-  ignore_errors: yes
+- name: truncate explicit list of vm names
+  set_fact:
+    test_vm_node_names: "{{ test_vm_node_names[:(test_vm_num_nodes|int)] }}"
 
-- name: "Delete default network interface if not running"
-  shell: ip link del $(virsh net-info default | awk '$1 == "Bridge:" { print $2 }')
-  when: virsh_network_status.rc != 0
-  ignore_errors: yes
-  delegate_to: localhost
+- name: generate test vm names
+  set_fact:
+    generated_test_vm_node_names: "{{ generated_test_vm_node_names|default([]) + [item] }}"
+  with_sequence: count={{ test_vm_num_nodes | int }} format={{ test_vm_node_name_base }}%i
+  when: "{{ test_vm_node_names | length == 0 }}"
 
-- name: "Start default network if not running"
-  command: virsh net-start default
-  when: virsh_network_status.rc != 0
-  register: task_start_default_net
-  ignore_errors: yes
-  delegate_to: localhost
+- name: set test vm names
+  set_fact:
+    test_vm_node_names: "{{ generated_test_vm_node_names }}"
+  when: "{{ test_vm_node_names | length == 0 }}"
 
-- name: "Fail if default network is not available"
-  fail:
-    msg: "Unable to verify the libvirt default network is available"
-  when: >
-    virsh_network_status.rc != 0 and
-    task_start_default_net.rc != 0
+- name: create placeholder var for vm entries in CSV format
+  set_fact:
+    testvm_csv_data: []
 
-- name: "Create virtual machines"
-  script: create_vm_nodes-for-role.sh
-  environment:
-    NODEOUTPUT: "{{baremetal_csv_file}}"
-    VM_RAM: "{{ test_vm_memory_size }}"
-    VM_DOMAIN_TYPE: "{{ test_vm_domain_type }}"
-    NODECOUNT: "{{ test_vm_num_nodes }}"
-  register: task_create_vm_nodes
-  ignore_errors: yes
-  delegate_to: localhost
+- include: create_vm.yml
+  with_items: "{{ test_vm_node_names }}"
 
-- name: "Execute `dmesg` to collect debugging output should VM creation fail."
-  command: dmesg
-  when: task_create_vm_nodes.rc != 0
+- name: remove previous baremetal csv file
+  file:
+    state: absent
+    path: "{{ baremetal_csv_file }}"
 
-- name: >
-    "Execute `virsh capabilities` to collect debugging output
-    should VM creation fail."
-  command: virsh capabilities
-  when: task_create_vm_nodes.rc != 0
+- name: create empty baremetal csv file
+  file:
+    state: touch
+    path: "{{ baremetal_csv_file }}"
 
-- name: "Abort due to failed VM creation"
-  fail: >
-    msg="VM creation step failed, please review dmesg
-    output for additional details"
-  when: task_create_vm_nodes.rc != 0
+# NOTE(pas-ha) this is a weird Ansible way to not flatten list of lists
+- name: write to baremetal csv file
+  lineinfile:
+    state: present
+    name: "{{ baremetal_csv_file }}"
+    line: "{{ item | join(',') }}"
+  with_nested:
+    - "{{ testvm_csv_data }}"
 
 - name: >
     "Set file permissions such that the baremetal csv file at /tmp/baremetal.csv
     can be read by the user executing Ansible"
   file:
-    path: "{{baremetal_csv_file}}"
-    owner: "{{ansible_env.SUDO_USER}}"
+    path: "{{ baremetal_csv_file }}"
+    owner: "{{ ansible_env.SUDO_USER }}"
   when: >
     ansible_env.SUDO_USER is defined and
     baremetal_csv_file is defined and
