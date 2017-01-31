@@ -241,7 +241,7 @@ def _process_baremetal_csv(data_source, groups, hostvars):
                 host['provisioning_ipv4_address'] = host['ipv4_address']
 
             # Default Driver unless otherwise defined or determined.
-            host['driver'] = "agent_ssh"
+            host['driver'] = "agent_ipmitool"
 
             if len(row) > 15:
                 driver = _val_or_none(row, 16)

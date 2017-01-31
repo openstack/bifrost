@@ -1,0 +1,33 @@
+---
+features:
+  - |
+    Bifrost starts to phase out support of SSH power and management drivers
+    in ironic as these drivers are unsupported and targeted for removal
+    from ironic in Pike release.
+
+    Bifrost testing is moved to ``ipmitools``-based ironic drivers and
+    virtual hardware exposed via 'virtualbmc' utility.
+
+    Default ironic drivers set up by bifrost are changed to
+    ``pxe_ipmitool`` and ``agent_ipmitool``.
+
+    Default driver for CSV baremetal data files in bifrost's dynamic inventory
+    is changed to ``agent_ipmitool``.
+
+    ``bifrost-ironic-install`` role is decoupled from libvirt, and
+    all preparation for testing with 'virtual' hardware are now handled in
+    ``bifrost-create-vm-nodes`` role.
+upgrade:
+  - |
+    Default ironic drivers set up by bifrost are changed to
+    ``pxe_ipmitool`` and ``agent_ipmitool``.
+
+  - |
+    Default driver for CSV baremetal data files in bifrost's dynamic inventory
+    is changed to ``agent_ipmitool``.
+    Those bifrost users relying on such behavior must explicitly set the
+    driver in CSV baremetal data file.
+deprecations:
+  - |
+    Handling of ``*_ssh`` drivers for CSV baremetal data format is
+    deprecated and will be removed in Queens release.

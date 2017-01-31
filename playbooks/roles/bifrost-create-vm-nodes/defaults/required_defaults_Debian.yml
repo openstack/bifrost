@@ -1,4 +1,5 @@
 ---
+sgabios_dir: /usr/share/qemu/
 libvirt_service_name: libvirt-bin
 required_packages:
  - libvirt-bin
@@ -8,3 +9,5 @@ required_packages:
  - sgabios
  - python-libvirt
  - python-lxml
+ - pkg-config
+ - libvirt-dev

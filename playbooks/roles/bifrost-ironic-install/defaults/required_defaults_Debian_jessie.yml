@@ -5,9 +5,7 @@ init_ext: .service
 syslinux_tftp_dir: /usr/lib/PXELINUX/
 ipxe_dir: /usr/lib/ipxe/
 ipxe_full_binary: ipxe.pxe
-sgabios_dir: /usr/share/qemu/
 nginx_user: www-data
-virt_group: libvirt
 mysql_service_name: mysql
 required_packages:
   - mysql-server
@@ -34,8 +32,6 @@ required_packages:
   - genisoimage
   - kpartx
   - qemu-utils
-  - sgabios
-  - libvirt-bin
   - debootstrap
   - uuid-runtime
   - dnsmasq

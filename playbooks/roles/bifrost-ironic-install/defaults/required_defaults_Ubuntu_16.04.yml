@@ -27,8 +27,6 @@ required_packages:
   - kpartx
   - qemu-utils
   - python-openwsman
-  - sgabios
-  - libvirt-bin
   - debootstrap
   - uuid-runtime
   - curl

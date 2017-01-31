@@ -10,7 +10,7 @@
 # control instead of ironic, noop is the only available network driver.
 enabled_network_interfaces = noop
 {% if testing | bool == true %}
-enabled_drivers = agent_ssh,pxe_ssh
+enabled_drivers = agent_ipmitool,pxe_ipmitool
 debug = true
 {% else %}
 enabled_drivers = {{ enabled_drivers }}
