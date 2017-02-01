@@ -1,0 +1,6 @@
+---
+other:
+  - By default, the installation process now downloads iPXE binaries
+    from ipxe.org upon re-installation. Previously, the download was
+    not set to be forced, and thus would be skipped if the file was
+    already present.
