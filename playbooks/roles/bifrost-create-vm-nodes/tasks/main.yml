@@ -12,6 +12,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: produce warning when csv file is defined
+  debug:
+    msg: >
+      "WARNING - Variable 'baremetal_csv_file' is deprecated.
+      For backward compatibility, its value will be used as path for
+      file to write data for created 'virtual' baremetal nodes,
+      but the file will be JSON formatted."
+  when: baremetal_csv_file is defined
+
+- name: override baremetal_json_file with csv file path
+  set_fact:
+    baremetal_json_file: "{{ baremetal_csv_file }}"
+  when: baremetal_csv_file is defined
+
 # NOTE(cinerama) openSUSE Tumbleweed & Leap have different distribution
 # IDs which are not currently accounted for in Ansible, so adjust facts
 # so we can have shared defaults for the whole SuSE family.
@@ -81,37 +95,27 @@
 
 - name: create placeholder var for vm entries in CSV format
   set_fact:
-    testvm_csv_data: []
+    testvm_json_data: {}
 
 - include: create_vm.yml
   with_items: "{{ test_vm_node_names }}"
 
-- name: remove previous baremetal csv file
+- name: remove previous baremetal data file
   file:
     state: absent
-    path: "{{ baremetal_csv_file }}"
+    path: "{{ baremetal_json_file }}"
 
-- name: create empty baremetal csv file
-  file:
-    state: touch
-    path: "{{ baremetal_csv_file }}"
-
-# NOTE(pas-ha) this is a weird Ansible way to not flatten list of lists
-- name: write to baremetal csv file
-  lineinfile:
-    state: present
-    name: "{{ baremetal_csv_file }}"
-    line: "{{ item | join(',') }}"
-  with_nested:
-    - "{{ testvm_csv_data }}"
+- name: write to baremetal json file
+  copy:
+    dest: "{{ baremetal_json_file }}"
+    content: "{{ testvm_json_data | to_nice_json }}"
 
 - name: >
-    "Set file permissions such that the baremetal csv file at /tmp/baremetal.csv
+    "Set file permissions such that the baremetal data file
     can be read by the user executing Ansible"
   file:
-    path: "{{ baremetal_csv_file }}"
+    path: "{{ baremetal_json_file }}"
     owner: "{{ ansible_env.SUDO_USER }}"
   when: >
     ansible_env.SUDO_USER is defined and
-    baremetal_csv_file is defined and
-    baremetal_csv_file != ""
+    baremetal_json_file != ""

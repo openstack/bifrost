@@ -10,6 +10,7 @@ ENABLE_VENV="false"
 USE_DHCP="false"
 USE_VENV="false"
 BUILD_IMAGE="false"
+BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -157,17 +158,23 @@ ${ANSIBLE} -vvvv \
        -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
        -e test_vm_memory_size=${VM_MEMORY_SIZE} \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
+       -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
        -e enable_venv=${ENABLE_VENV}
 
 if [ ${USE_DHCP} = "true" ]; then
-    # cut file to limit number of nodes to enroll for testing purposes
-    head -n -2 /tmp/baremetal.csv > /tmp/baremetal.csv.new && mv /tmp/baremetal.csv.new /tmp/baremetal.csv
+    # reduce the number of nodes in JSON file
+    # to limit number of nodes to enroll for testing purposes
+    python $BIFROST_HOME/scripts/split_json.py 3 \
+        ${BAREMETAL_DATA_FILE} \
+        ${BAREMETAL_DATA_FILE}.new \
+        ${BAREMETAL_DATA_FILE}.rest \
+        && mv ${BAREMETAL_DATA_FILE}.new ${BAREMETAL_DATA_FILE}
 fi
 
 set +e
 
 # Set BIFROST_INVENTORY_SOURCE
-export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
+export BIFROST_INVENTORY_SOURCE=${BAREMETAL_DATA_FILE}
 
 # Execute the installation and VM startup test.
 
@@ -189,6 +196,7 @@ ${ANSIBLE} -vvvv \
     -e noauth_mode=${NOAUTH_MODE} \
     -e enable_keystone=${ENABLE_KEYSTONE} \
     -e wait_for_node_deploy=${WAIT_FOR_DEPLOY} \
+    -e not_enrolled_data_file=${BAREMETAL_DATA_FILE}.rest \
     ${CLOUD_CONFIG}
 EXITCODE=$?
 

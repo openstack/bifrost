@@ -1,0 +1,30 @@
+---
+features:
+  - |
+    Bifrost's testing has been moved to use JSON-formatted baremetal inventory
+    file instead of deprecated CSV-formatted one.
+    The ``bifrost-create-vm-nodes`` role still accepts ``baremetal_csv_file``
+    variable as path to where to write inventory, but the file content will
+    always be in JSON format.
+    A new variable ``baremetal_json_file`` should instead be used
+    as a location to where to write the test baremetal inventory file.
+upgrade:
+  - |
+    The ``baremetal_csv_file`` variable in ``bifrost-create-vm-nodes`` role
+    has been deprecated and will be removed in the Queens release.
+    The inventory file written to this location by this role is now always
+    in JSON format.
+    The variable ``baremetal_json_file`` should be used instead of
+    ``baremetal_csv_file``.
+    This concerns only those operators who run tests for bifrost on
+    virtual hardware using ``bifrost-create-vm-nodes`` role and out-of-tree
+    scripts to process the baremetal inventory file produced by this role.
+    If such scripts do rely on this file being in CSV format,
+    they must be updated to use JSON format instead.
+deprecations:
+  - |
+    The CSV format for baremetal inventory file is deprecated and using
+    it will be impossible in the Queens release.
+    During deprecation period it's handling is still supported by bifrost's
+    dynamic inventory, but this functionality will be removed in the Queens
+    release.
