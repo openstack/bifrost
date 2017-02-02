@@ -12,24 +12,29 @@ None
 Role Variables
 --------------
 
-This role expects to be invoked with seven variables:
+This role expects to be invoked with two variables:
 
-- config_username
-- config_password
-- config_project_name
-- config_region_name
-- config_auth_url
 - user: Username of the user who will own the
          configuration file.
+- clouds: a dictionary with keys being names of the clouds to create in
+          clouds.yaml, and values are dictionaries of authentication
+          parameters for each cloud:
+    - config_username
+    - config_password
+    - config_project_name
+    - config_region_name
+    - config_auth_url
+    - config_project_domain_id (optional, defaults to 'default')
+    - config_user_domain_id (optional, defaults to 'default')
 
-Additionally, two optional variables exist, which when not defined
-default to "default":
+Alternatively, for backward compatibility, the role can accept the above
+`config_*` variables directly, but this is deprecated.
+In this case, a single cloud named 'bifrost' will be written.
 
-- config_project_domain_id
-- config_user_domain_id
-
-The resulting clouds.yaml file, will be created at
+The resulting clouds.yaml file will be created at
 ~{{user}}/.config/openstack/clouds.yaml.
+If several sets of cloud settings are written, they will be sorted by
+cloud name, in case-insensitive order.
 
 Notes
 -----
@@ -51,12 +56,20 @@ Example Playbook
   gather_facts: no
   roles:
     - role: bifrost-keystone-client-config
-      config_username: username
-      config_password: password
-      config_project_name: baremetal
-      config_region_name: RegionOne
-      config_auth_url: http://localhost:5000/v2.0/
       user: joe
+      clouds:
+        local-cloud-user:
+          config_username: username
+          config_password: password
+          config_project_name: baremetal
+          config_region_name: RegionOne
+          config_auth_url: http://localhost:5000
+        local-cloud-admin:
+          config_username: admin
+          config_password: verysecretpassword
+          config_project_name: admin
+          config_region_name: RegionOne
+          config_auth_url: http://localhost:5000
 
 License
 -------
