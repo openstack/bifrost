@@ -218,17 +218,23 @@ function create_node {
 </domain>
 "
 
-      echo ${vm_xml} > /tmp/vm.xml
+      local vm_tmpfile=$(mktemp -p /tmp vm.XXXX.xml)
+      # This is very unlikely to happen but still better safe than sorry
+      if [ $? != 0 ]; then
+        echo "Failed to create the temporary VM XML file"
+        exit 1
+      fi
+      echo ${vm_xml} > ${vm_tmpfile}
       # NOTE(TheJulia): the create command powers on a VM that has been defined,
       # where as define creates the VM, but does not change the power state.
-      virsh define /tmp/vm.xml 2>&1 >/dev/null
+      virsh define ${vm_tmpfile} &>/dev/null
       if [ $? != 0 ]
       then
          echo "failed to create VM $NAME" >&2
-         rm -f /tmp/vm.xml
+         rm -f ${vm_tmpfile}
          exit 1
       fi
-      rm -f /tmp/vm.xml
+      rm -f ${vm_tmpfile}
 
     fi
 
