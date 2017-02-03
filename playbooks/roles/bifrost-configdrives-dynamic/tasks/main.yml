@@ -66,7 +66,7 @@
 
 # TODO(TheJulia): Deprecation removal of the old network_info file name
 # should likely take place after an elongated deprecation cycle.
-# Begind eprecated in the Ocata release suggests Queens as the point
+# Begin deprecated in the Ocata release suggests Queens as the point
 # in which we should remove it.
 - name: "Place deprecated network info file location in each openstack/latest folder"
   template:
