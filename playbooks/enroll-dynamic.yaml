@@ -1,13 +1,11 @@
 ---
-- hosts: localhost
-  connection: local
-  name: "Collect facts"
-  become: no
-  gather_facts: yes
 - hosts: baremetal
-  connection: local
   name: "Enroll hardware from inventory into Ironic"
   become: no
+  gather_facts: no
   roles:
     - role: ironic-enroll-dynamic
-    - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
+      delegate_to: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"
+    - role: ironic-inspect-node
+      when: inspect_nodes | default('false') | bool == true
+      delegate_to: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"
