@@ -55,7 +55,7 @@ copy_from_local_path: Boolean value, defaults to false. If set to true,
                       changes are pre-staged in the local repositories.
 
 ci_testing_zuul: Boolean value, default false. This value is utilized
-                 to tell the prepatory playbook when the prep role
+                 to tell the preparatory playbook when the prep role
                  is running in a CI system with Zuul, which in such
                  cases the repositories must be copied, not overwritten.
 Dependencies
