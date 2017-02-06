@@ -138,8 +138,13 @@
   include: keystone_setup.yml
   when: enable_keystone is defined and enable_keystone | bool == true
 
+# NOTE(pas-ha) needed to e.g. pick up new interfaces after libvirt install
+- name: "Refresh facts"
+  setup:
+
 - name: "Generate ironic Configuration"
   include: ironic_config.yml
+
 - name: "Copy policy.json to /etc/ironic"
   copy:
     src: "{{ ironic_git_folder }}/etc/ironic/policy.json"
