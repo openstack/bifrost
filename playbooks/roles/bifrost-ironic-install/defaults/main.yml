@@ -4,9 +4,7 @@
 cleaning: false
 http_boot_folder: /httpboot
 staging_drivers_include: false
-# Deprecated: nginx_port is no longer used and file_url_port should
-# be used instead.
-file_url_port: "{{ nginx_port | default('8080') }}"
+file_url_port: "8080"
 ironicclient_source_install: false
 shade_source_install: true
 ironicinspector_source_install: false

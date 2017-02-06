@@ -1,8 +1,6 @@
 ---
 ironic_url: "http://localhost:6385/"
-# Deprecated: nginx_port is no longer used and file_url_port should
-# be used instead.
-file_url_port: "{{ nginx_port | default('8080') }}"
+file_url_port: "8080"
 # Default network interface that bifrost will be attached to.
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"

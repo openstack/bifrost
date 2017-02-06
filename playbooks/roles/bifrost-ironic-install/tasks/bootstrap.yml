@@ -22,12 +22,6 @@
     noauth_mode | bool == true and enable_keystone is defined and
     enable_keystone | bool == true
 
-- name: "Warn if deprecated variable nginx_port is set"
-  debug:
-    msg: >
-      WARNING - nginx_port is a deprecated variable and support will be
-      removed during the Newton cycle.
-  when: nginx_port is defined
 - name: "If VENV is set in the environment, enable installation into venv"
   set_fact:
     enable_venv: true
