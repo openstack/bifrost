@@ -359,6 +359,18 @@ source, and then executing the enrollment playbook.::
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
 
+When ironic is installed on remote server, a regular ansible inventory
+with a target server should be added to ansible. This can be achieved by
+specifying a directory with files, each file in that directory will be part of
+the ansible inventory. Refer to ansible documentation
+http://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-inventory-directories-and-multiple-inventory-sources
+
+::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  rm inventory/*.example
+  ansible-playbook -vvvv -i inventory/ enroll-dynamic.yaml
+
 Note that enrollment is a one-time operation. The Ansible module *does not*
 synchronize data for existing nodes.  You should use the ironic CLI to do this
 manually at the moment.
@@ -381,6 +393,18 @@ To utilize the newer dynamic inventory based deployment::
 
   export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
+
+When ironic is installed on remote server, a regular ansible inventory
+with a target server should be added to ansible. This can be achieved by
+specifying a directory with files, each file in that directory will be part of
+the ansible inventory. Refer to ansible documentation
+http://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-inventory-directories-and-multiple-inventory-sources
+
+::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  rm inventory/*.example
+  ansible-playbook -vvvv -i inventory/ deploy-dynamic.yaml
 
 Note::
 

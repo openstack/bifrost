@@ -1,13 +1,10 @@
 ---
-- hosts: localhost
-  connection: local
-  name: "Collect facts"
-  become: no
-  gather_facts: yes
 - hosts: baremetal
   name: "Create configuration drive files and deploy machines from inventory"
   become: no
-  connection: local
+  gather_facts: no
   roles:
     - role: bifrost-configdrives-dynamic
+      delegate_to: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"
     - role: bifrost-deploy-nodes-dynamic
+      delegate_to: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"

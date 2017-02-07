@@ -22,7 +22,7 @@
   when: ssh_public_key is undefined
 
 - name: "Make temporary folder to build configdrive"
-  local_action: command mktemp -d
+  command: mktemp -d
   register: variable_configdrive_location
 
 - name: "Make metadata folder - /openstack/{{ metadata_version }}"
@@ -80,7 +80,7 @@
     name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/"
 
 - name: "Write network Debian style interface template"
-  local_action: template src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
+  template: src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
   when: write_interfaces_file | bool == true
 
 - name: "Check if mkisofs is available"
