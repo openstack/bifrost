@@ -13,5 +13,5 @@ chain pxelinux.cfg/default || goto error_no_config
 :error_no_config
 echo PXE boot failed. No configuration found for MAC ${mac}
 echo Press any key to reboot...
-prompt --timeout 180
+prompt --timeout 180 || reboot
 reboot
