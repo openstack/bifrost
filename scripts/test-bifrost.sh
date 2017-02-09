@@ -55,24 +55,21 @@ elif [ $SOURCE = "test-bifrost-keystone-auth.sh" ]; then
      ENABLE_KEYSTONE="true"
 fi
 
-# Source Ansible
-# NOTE(TheJulia): Ansible stable-1.9 source method tosses an error deep
-# under the hood which -x will detect, so for this step, we need to suspend
-# and then re-enable the feature.
-set +x +o nounset
 if [ ${USE_VENV} = "true" ]; then
     export VENV=/opt/stack/bifrost
     export PATH=${VENV}/bin:${PATH}
     $SCRIPT_HOME/env-setup.sh
+    # Note(cinerama): activate is not compatible with "set -u";
+    # disable it just for this line.
+    set +u
     source /opt/stack/bifrost/bin/activate
+    set -u
     ANSIBLE=${VENV}/bin/ansible-playbook
     ENABLE_VENV="true"
 else
     $SCRIPT_HOME/env-setup.sh
-    source ${ANSIBLE_INSTALL_ROOT}/ansible/hacking/env-setup
-    ANSIBLE=$(which ansible-playbook)
+    ANSIBLE=${HOME}/.local/bin/ansible-playbook
 fi
-set -x -o nounset
 
 # Adjust options for DHCP, VM, or Keystone tests
 if [ ${USE_DHCP} = "true" ]; then

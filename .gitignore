@@ -61,3 +61,9 @@ releasenotes/build
 
 # Ansible retry files
 *.retry
+
+# Ansible modules that may be downloaded during env-setup.sh
+playbooks/library/os_ironic.py
+playbooks/library/os_ironic_node.py
+playbooks/library/os_ironic_inspect.py
+playbooks/library/os_keystone_service.py

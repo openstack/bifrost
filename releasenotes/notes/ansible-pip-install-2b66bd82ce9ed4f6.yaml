@@ -1,0 +1,56 @@
+---
+features:
+  - |
+    Bifrost now prefers to use a system with Ansible already installed.
+    When this is the case, execution of the ``env-setup.sh`` script is not
+    required as it is geared for development and testing use of bifrost.
+
+    In order to use the playbooks on a system with Ansible already installed,
+    the library requirements must be installed prior to playbook
+    execution:
+
+        ``pip install -r requirements.txt``
+
+    Administrative privileges may be required if the packages
+    must be installed system wide.
+
+  - |
+    The environment setup script will now attempt to install bifrost from PyPI
+    instead of using a stable branch. This is to address stability issues
+    with Ansible stable branches.
+
+    If not requested to be installed into virtualenv, Ansible will be installed
+    into user's ``~/.local`` directory to not clobber possibly existing
+    system installation.
+    To use such installed Ansible, modifications of ``$PATH``
+    environment variable might be required to include ``~/.local/bin`` path.
+
+    Some backwards compatibility is provided via the use of the
+    ``ANSIBLE_GIT_BRANCH`` variable, where a user can define ``stable-X.Y``
+    and the latest available version in that series will be installed.
+    To install the Ansible 2.1 series as part of the env-setup script,
+    execute ``env ANSIBLE_GIT_BRANCH="stable-2.1" scripts/env-setup``.
+
+    Similarly, ``ANSIBLE_PIP_VERSION`` can be utilized to specify
+    the exact version, or range of version desired. Example:
+
+        ``ANSIBLE_PIP_VERSION=2.1.0.1`` or ``ANSIBLE_PIP_VERSION=<2.2``
+
+issues:
+  - |
+    If installing bifrost in a virtualenv (venv) and running playbooks
+    against localhost, you must install the basic python requirements
+    on a system-wide level due to the operating behavior of Ansible.
+
+fixes:
+  - |
+    Due to breaking change in the stable branch tags utilized with Ansible,
+    bifrost now utilizes installation of Ansible from PyPI.
+
+deprecations:
+  - |
+    The ``ANSIBLE_INSTALL_ROOT`` variable has been deprecated and is used
+    only to raise a warning for third party scripts.
+  - |
+    The ``ANSIBLE_FROM_PYPI`` variable no longer has any effect, as Ansible
+    is always installed from PyPI now.

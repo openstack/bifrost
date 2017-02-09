@@ -5,7 +5,8 @@ prelude: >
     Coupled with a number of fixes, and improvements, users upgrading should
     take the time to read the entire release notes. A few highlights are below:
 
-        * Bifrost now installs and utilizes Ansible 2.1 by default.
+        * Bifrost now installs and utilizes Ansible 2.1 by default from
+          PyPI.
         * Ironic's default of modifying a pre-existing ironic.conf upon the
           installation being re-executed, has been changed to a utilize a
           template file.

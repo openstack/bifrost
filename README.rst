@@ -132,21 +132,34 @@ If you are running the installation behind a proxy, export the
 environment variables ``http_proxy`` and ``https_proxy`` so that
 Ansible will use these proxy settings.
 
-The below script ``env-setup.sh`` will install ansible and all of bifrost's
-dependencies. You can configure the ansible installation location by setting
-``ANSIBLE_INSTALL_ROOT`` environment variable. The default value will be
-``/opt/stack``.
+The recommended path for use is with a local Ansible installation, and to
+install the library requirements. Alternatively the ``env-setup.sh`` script
+will install ansible and all of bifrost's dependencies.
 
-Note:
+If you use ``env-setup.sh``, ansible will be installed along
+with its missing Python dependencies into user's ``~/.local`` directory.
 
-  Only ansible installation location will be moved as part of the
-  environment variable.  The other components will continue to be cloned under
-  ``/opt/stack``
+Warning::
 
-Then run::
+  Use of the ``env-setup.sh`` script can squash an existing
+  Ansible installation, and is intended primarily for development
+  and testing.
+
+Note::
+
+  The next setup steps require elevated privilges, and might need to
+  be executed with the ``sudo`` command, depending on the access rights
+  of the user executing the command.
+
+If using the environment setup script::
 
   bash ./scripts/env-setup.sh
-  source ${ANSIBLE_INSTALL_ROOT}/ansible/hacking/env-setup
+  export PATH=${HOME}/.local/bin:${PATH}
+  cd playbooks
+
+Otherwise::
+
+  pip install -r requirements.txt
   cd playbooks
 
 The second part is an Ansible playbook that installs and configures ironic

@@ -14,6 +14,7 @@
 # limitations under the License.
 ---
 - name: ensure installation root folder exists
+  become: yes
   file:
     state: directory
     dest: "{{ git_root }}"
