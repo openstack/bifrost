@@ -1,6 +1,5 @@
 ---
-prelude: >
-    Inspector now installed and enabled by default.
 features:
-  - Changes default value for enable_inspector variable
-    from false to true.
+  - Inspector is now installed and enabled by default.
+    This changes default value for the ``enable_inspector``
+    variable from ``false`` to ``true``.

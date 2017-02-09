@@ -1,0 +1,18 @@
+---
+prelude: >
+    During the Ocata cycle, a number of improvements have been made to bifrost
+    to improve the managability and longevity of a bifrost installation.
+    Coupled with a number of fixes, and improvements, users upgrading should
+    take the time to read the entire release notes. A few highlights are below:
+
+        * Bifrost now installs and utilizes Ansible 2.1 by default.
+        * Ironic's default of modifying a pre-existing ironic.conf upon the
+          installation being re-executed, has been changed to a utilize a
+          template file.
+        * Bifrost supports generating and reading from a os-client-config
+          ``clouds.yaml`` file for obtaining credentials.
+        * Bifrost can now leverage authentiation, as well as install and
+          configure keystone if requested by the installer.
+        * As a number of in-tree drivers in ironic were removed this past
+          cycle, due to lack of third-party CI, support has been added to
+          enable installation of the staging drivers repository.
