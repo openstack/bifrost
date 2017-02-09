@@ -1,11 +1,7 @@
 ---
-prelude: >
-    Ironic.conf is templated and only sets required
-    options now, as opposed to editing the Sample
-    configuration of Ironic.
 features:
   - Ironic.conf is templated and only sets required
-    options now, as opposed to editing the Sample
+    options now, as opposed to editing the sample
     configuration of Ironic.
 other:
   - In the past, the sample config in Ironic may have

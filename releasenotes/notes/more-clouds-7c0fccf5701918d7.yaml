@@ -1,21 +1,24 @@
 ---
 features:
   - |
-    'bifrost-keystone-client-config' role can now write 'clouds.yaml' file
-    with several clouds settings. It starts to accept a single compound
-    variable 'clouds' that should contain a dict of
-    '<cloud-name>:<dict-of-cloud-settings>'.
-    Previous way of passing 'config_*' vars to the role is supported for
-    backward compatibility but is deprecated.
+    The ``bifrost-keystone-client-config`` role can now write a
+    ``clouds.yaml`` file with several clouds settings. It starts to
+    accept a single compound variable ``clouds`` that must contain a
+    dictionary describing key:value pairs in the format of
+    ``<cloud-name>:<dict-of-cloud-settings>``.
+    The previous way of passing ``config_*`` vars to the role is supported for
+    backward compatibility but is deprecated and should be expected to be
+    removed in Pike.
 
-    In addition to previous 'bifrost' cloud, the default 'install.yaml'
-    playbook now also writes 'bifrost-admin' cloud settings that contain
+    In addition to previous ``bifrost`` cloud, the default ``install.yaml``
+    playbook now also writes ``bifrost-admin`` cloud settings that contain
     Keystone admin credentials so that when installed, the Keystone service
     is fully usable right away (users/projects etc can be managed).
 
 deprecations:
   - |
-    Passing 'config_*' variables defining credentials for 'bifrost'
-    cloud to 'bifrost-keystone-client-config' role is deprecated.
-    Instead a single compound variable named 'clouds' defining sets of
-    settings to be written to 'clouds.yaml' should be passed to that role.
+    Passing ``config_*`` variables defining credentials for ``bifrost``
+    cloud to the ``bifrost-keystone-client-config`` role has been deprecated,
+    and will be removed in the Pike cycle.
+    Instead a single compound variable named ``clouds`` defining sets of
+    settings to be written to ``clouds.yaml`` should be passed to that role.

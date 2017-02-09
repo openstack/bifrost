@@ -1,6 +1,6 @@
 ---
 upgrade:
   - |
-    bifrost no longer supports installing ironic AMT drivers when PXE drivers
-    are enabled (which is the default) due to AMT drivers have been removed
+    Bifrost no longer supports installing ironic AMT drivers when PXE drivers
+    are enabled (which is the default) due to AMT drivers having been removed
     from ironic in Ocata release.
