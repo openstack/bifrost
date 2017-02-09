@@ -13,13 +13,6 @@
 # limitations under the License.
 ---
 - name: >
-    "WARNING - This playbook will be removed in the Ocata
-    release. Please use test-bifrost.yaml."
-  set_fact:
-    deprecated: true
-  when: deprecated_test_playbook | bool == true
-
-- name: >
     "Execute ping step to verify connectivity and login to the host.
     If this fails, the configdrive may not have loaded."
   # NOTE(TheJulia): This is executed as a raw command to validate the remote
