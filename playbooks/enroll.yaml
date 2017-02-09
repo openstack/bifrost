@@ -1,9 +1,0 @@
----
-- hosts: localhost
-  connection: local
-  name: "Provide deprecation notice"
-  become: no
-  gather_facts: no
-  pre_tasks:
-    - name: "Error"
-      local_action: fail msg="Legacy roles have been removed.  Please use dynamic inventory and enroll-dynamic.yaml"
