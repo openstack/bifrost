@@ -25,6 +25,7 @@
   get_url:
     url: "https://boot.ipxe.org/{{ item }}"
     dest: "{{ ipxe_dir }}/{{ item }}"
+    force: yes
   with_items:
     - undionly.kpxe
     - ipxe.lkrn
