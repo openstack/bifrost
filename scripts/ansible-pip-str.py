@@ -19,6 +19,8 @@
 from __future__ import print_function
 import sys
 
+import six
+
 in_str = sys.argv[1]
 HELP_MSG = ("Unsupported version or format %s - "
             "Supporting format [stable-]MAJ.MIN where MAJ.MIN is 1.9 or 2.x"
@@ -27,7 +29,7 @@ HELP_MSG = ("Unsupported version or format %s - "
 if in_str.startswith('stable-'):
     in_version = in_str.split('stable-')[1]
 else:
-    if in_str[0].isdecimal():
+    if six.text_type(in_str[0]).isdecimal():
         print("ansible==%s" % in_str)
     else:
         print("ansible%s" % in_str)
