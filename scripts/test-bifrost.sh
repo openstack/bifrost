@@ -93,6 +93,11 @@ elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     CLOUD_CONFIG="-e cloud_name=bifrost"
 fi
 
+logs_on_exit() {
+    $SCRIPT_HOME/collect-test-info.sh
+}
+trap logs_on_exit EXIT
+
 # Change working directory
 cd $BIFROST_HOME/playbooks
 
@@ -156,7 +161,5 @@ if [ $EXITCODE != 0 ]; then
     echo "Test failed. See logs folder"
     echo "****************************"
 fi
-
-$SCRIPT_HOME/collect-test-info.sh
 
 exit $EXITCODE

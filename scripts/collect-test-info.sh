@@ -45,3 +45,5 @@ sudo chown $USER ${LOG_LOCATION}/ironic-conductor.log
 # In CI scenarios, we want other users to be able to read the logs.
 sudo chmod o+r ${LOG_LOCATION}/ironic-api.log
 sudo chmod o+r ${LOG_LOCATION}/ironic-conductor.log
+
+exit 0
