@@ -60,5 +60,5 @@ always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | 
 node_not_found_hook = enroll
 
 [discovery]
-enroll_node_driver = {{ inspector.discovery.enroll_node_driver | default('pxe_ssh') }}
+enroll_node_driver = {{ inspector.discovery.default_node_driver }}
 {% endif %}
