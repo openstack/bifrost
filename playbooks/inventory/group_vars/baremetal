@@ -9,7 +9,7 @@
 # The path to the SSH key to be utilized for testing and burn-in
 # to configuration drives. When set, it should be set in both baremetal
 # and localhost groups, however this is only an override to the default.
-# ssh_public_key_path: "{{ ansible_env.HOME }}/.ssh/id_rsa.pub"
+# ssh_public_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
 
 # Normally this user should be root, however if cirros is used,
 # a user may wish to define a specific user for testing VM
