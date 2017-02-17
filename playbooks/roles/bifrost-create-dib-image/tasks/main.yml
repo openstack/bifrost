@@ -108,9 +108,12 @@
   set_fact:
     dib_os_release: "jessie"
   when: dib_os_element == "debian" and dib_os_release is undefined
+- name: "Initialize the DIB environment variables fact"
+  set_fact:
+    dib_env_vars_final: "{{dib_env_vars}}"
 - name: "Set the DIB_RELEASE environment variable if set"
   set_fact:
-    dib_env_vars_final: "{{dib_env_vars | combine({'DIB_RELEASE':dib_os_release}) }}"
+    dib_env_vars_final: "{{dib_env_vars_final | combine({'DIB_RELEASE':dib_os_release}) }}"
   when: dib_os_release is defined
 - name: "Build argument list"
   set_fact:
