@@ -73,6 +73,12 @@
   delegate_to: localhost
   ignore_errors: yes
 
+- name: "Delete default network interface if not running"
+  shell: ip link del $(virsh net-info default | awk '$1 == "Bridge:" { print $2 }')
+  when: virsh_network_status.rc != 0
+  ignore_errors: yes
+  delegate_to: localhost
+
 - name: "Start default network if not running"
   command: virsh net-start default
   when: virsh_network_status.rc != 0
@@ -85,8 +91,7 @@
     msg: "Unable to verify the libvirt default network is available"
   when: >
     virsh_network_status.rc != 0 and
-    task_start_default_net.rc != 0 and
-    'File exists' not in task_start_default_net.stderr
+    task_start_default_net.rc != 0
 
 - name: "Create virtual machines"
   script: create_vm_nodes-for-role.sh
