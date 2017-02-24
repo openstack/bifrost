@@ -22,6 +22,6 @@
 # possibly merge these two tasks when
 # https://github.com/ansible/ansible-modules-core/pull/2600 lands.
 - name: "Install from {{ sourcedir }} using pip"
-  command: pip install --upgrade --force-reinstall {{ sourcedir }}
+  command: pip install --upgrade {{ sourcedir }}
   when: source_install is defined and (source_install | bool == true)
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
