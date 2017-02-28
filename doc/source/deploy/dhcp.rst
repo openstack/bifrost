@@ -1,7 +1,3 @@
-=======================================
-Using Bifrost with your own DHCP server
-=======================================
-
 The possibility exists that a user may already have a Dynamic Host
 Configuration Protocol (DHCP) server on their network.
 
@@ -58,18 +54,16 @@ in a trusted environment.
           |Ironic Server|       |   Server  |
           +-------------+       +-----------+
 
-===============================================================
 Setting static DHCP assignments with the integrated DHCP server
-===============================================================
+---------------------------------------------------------------
 
 You can set up a static DHCP reservation using the ``ipv4_address`` parameter
 and setting the ``inventory_dhcp`` setting to a value of ``true``.  This will
 result in the first MAC address defined in the list of hardware MAC addresses
 to receive a static address assignment in dnsmasq.
 
-======================================
 Forcing DNS to resolve to ipv4_address
-======================================
+--------------------------------------
 
 dnsmasq will resolve all entries to the IP assigned to each server in
 the leases file. However, this IP will not always be the desired one, if you

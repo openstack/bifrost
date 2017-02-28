@@ -1,7 +1,3 @@
-=======================
-Bifrost Offline Install
-=======================
-
 The ansible scripts that compose Bifrost download and install
 software via a number of means, which generally assumes connectivity
 to the internet.

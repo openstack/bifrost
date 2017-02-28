@@ -1,9 +1,5 @@
 .. _keystone:
 
-*********************
-Bifrost with Keystone
-*********************
-
 .. NOTE:: Use of keystone with bifrost is a very new feature and should
    be considered an advanced topic. Please feel free to reach out to the
    bifrost contributors and the ironic community as a whole in the project's
@@ -11,9 +7,8 @@ Bifrost with Keystone
 
 .. _`IRC`: https://wiki.openstack.org/wiki/Ironic#IRC
 
-##########################
 Installation with Keystone
-##########################
+--------------------------
 
 Bifrost can now install and make use of keystone. In order to enable
 this as part of the installation, the ``enable_keystone`` variable
@@ -49,8 +44,8 @@ the installation.  That file can be located at
 ``~/.config/openstack/clouds.yaml``. The cloud that is written
 to that file is named ``bifrost``.
 
-Use of bifrost with Keystone
-============================
+Bifrost execution with Keystone
+===============================
 
 Ultimately, as bifrost was designed for relatively short-lived
 installations for rapid hardware deployment, the default operating
@@ -69,9 +64,8 @@ following steps need to take place.
 #. Set the global defaults for tagret
    (``master/playbooks/inventory/group_vars/target``).
 
-
-OpenStack Client
-----------------
+OpenStack Client use with bifrost installed Keystone
+----------------------------------------------------
 
 A user wishing to invoke OSC commands against the bifrost
 installation, should set the ``OS_CLOUD`` environment variable.
@@ -94,9 +88,8 @@ guide`_.
 
 .. _`install guide`: http://docs.openstack.org/project-install-guide/baremetal/draft/configure-integration.html#configure-the-identity-service-for-the-bare-metal-service
 
-##############################
-Use of playbooks with Keystone
-##############################
+Individual playbook use with os-client-config
+=============================================
 
 The OpenStack Ansible modules utilize os-client-config to obtain
 authentication details to connect to determine details.

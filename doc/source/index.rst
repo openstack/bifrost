@@ -7,12 +7,10 @@ Contents:
    :maxdepth: 2
 
    readme
+   howto
    contributing
    troubleshooting
    vagrant
-   deploy/dhcp
-   deploy/keystone
-   offline-install
 
 Indices and tables
 ==================
