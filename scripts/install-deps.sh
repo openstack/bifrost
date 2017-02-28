@@ -14,7 +14,7 @@ CHECK_CMD_PKGS=(
 # is installed
 if [ -x '/usr/bin/zypper' ]; then
     OS_FAMILY="Suse"
-    INSTALLER_CMD="sudo -H zypper install -y"
+    INSTALLER_CMD="sudo -H -E zypper install -y"
     CHECK_CMD="zypper search --match-exact --installed"
     PKG_MAP=(
         [gcc]=gcc
@@ -35,7 +35,7 @@ if [ -x '/usr/bin/zypper' ]; then
     fi
 elif [ -x '/usr/bin/apt-get' ]; then
     OS_FAMILY="Debian"
-    INSTALLER_CMD="sudo -H apt-get -y install"
+    INSTALLER_CMD="sudo -H -E apt-get -y install"
     CHECK_CMD="dpkg -l"
     PKG_MAP=( [gcc]=gcc
               [git]=git
@@ -51,7 +51,7 @@ elif [ -x '/usr/bin/apt-get' ]; then
 elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
     OS_FAMILY="RedHat"
     PKG_MANAGER=$(which dnf || which yum)
-    INSTALLER_CMD="sudo -H ${PKG_MANAGER} -y install"
+    INSTALLER_CMD="sudo -H -E ${PKG_MANAGER} -y install"
     CHECK_CMD="rpm -q"
     PKG_MAP=(
         [gcc]=gcc
