@@ -19,14 +19,60 @@
   stat: path={{ ipa_kernel }}
   register: test_ipa_kernel_present
 
+- block:
+  - name: "Download IPA kernel checksum file"
+    get_url: url="{{ ipa_kernel_upstream_checksum_url }}" dest="{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}" timeout=300
+  - name: "Extract IPA kernel checksum"
+    shell: awk '/{{ ipa_kernel_upstream_url | basename }}/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
+    register: parsed_ipa_kernel_checksum
+  - fail:
+      msg: "Failed to extract checksum for {{ ipa_kernel_upstream_url | basename }}"
+    when: parsed_ipa_kernel_checksum.stdout == ""
+  - set_fact:
+      ipa_kernel_checksum: "{{ ipa_kernel_upstream_checksum_algo }}:{{ parsed_ipa_kernel_checksum.stdout }}"
+  when: ipa_kernel_upstream_checksum_url != ""
+
 - name: "Download IPA kernel"
-  get_url: url={{ ipa_kernel_upstream_url }} dest={{ ipa_kernel }} timeout=300
+  get_url:
+    url: "{{ ipa_kernel_upstream_url }}"
+    dest: "{{ ipa_kernel }}"
+    checksum: "{{ ipa_kernel_checksum | default(omit) }}"
+    timeout: 300
+    # Keep downloading it until we get a good copy
+    force: yes
+  register: ipa_kernel_download_done
+  until: ipa_kernel_download_done|succeeded
+  retries: 5
+  delay: 10
   when: test_ipa_kernel_present.stat.exists == false
 
 - name: "Test if IPA image is present"
   stat: path={{ ipa_ramdisk }}
   register: test_ipa_image_present
 
+- block:
+  - name: "Download IPA image checksum"
+    get_url: url="{{ ipa_ramdisk_upstream_checksum_url }}" dest="{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}" timeout=300
+  - name: "Extract IPA ramdisk checksum"
+    shell: awk '/{{ ipa_ramdisk_upstream_url | basename }}/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
+    register: parsed_ipa_ramdisk_checksum
+  - fail:
+      msg: "Failed to extract checksum for {{ ipa_ramdisk_upstream_url | basename }}"
+    when: parsed_ipa_ramdisk_checksum.stdout == ""
+  - set_fact:
+      ipa_ramdisk_checksum: "{{ ipa_ramdisk_upstream_checksum_algo }}:{{ parsed_ipa_ramdisk_checksum.stdout }}"
+  when: ipa_ramdisk_upstream_checksum_url != ""
+
 - name: "Download IPA image"
-  get_url: url={{ ipa_ramdisk_upstream_url }} dest={{ ipa_ramdisk }} timeout=300
+  get_url:
+    url: "{{ ipa_ramdisk_upstream_url }}"
+    dest: "{{ ipa_ramdisk }}"
+    checksum: "{{ ipa_ramdisk_checksum | default(omit) }}"
+    timeout: 300
+    # Keep downloading it until we get a good copy
+    force: yes
+  register: ipa_ramdisk_download_done
+  until: ipa_ramdisk_download_done|succeeded
+  retries: 5
+  delay: 10
   when: test_ipa_image_present.stat.exists == false

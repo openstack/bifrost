@@ -44,8 +44,12 @@ ipa_kernel: "{{http_boot_folder}}/ipa.vmlinuz"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.vmlinuz"
 ipa_kernel_upstream_url: https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-master.vmlinuz
+ipa_kernel_upstream_checksum_algo: "sha256"
+ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
 ipa_ramdisk_upstream_url: https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-master.gz
+ipa_ramdisk_upstream_checksum_algo: "sha256"
+ipa_ramdisk_upstream_checksum_url: "{{ ipa_ramdisk_upstream_url }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
 deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 # Use cirros instead of building an image via diskimage-builder
