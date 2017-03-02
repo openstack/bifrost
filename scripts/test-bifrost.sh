@@ -35,6 +35,7 @@ INVENTORY_DHCP_STATIC_IP=false
 DOWNLOAD_IPA=true
 CREATE_IPA_IMAGE=false
 WRITE_INTERFACES_FILE=true
+ZUUL_BRANCH=${ZUUL_BRANCH:-}
 
 # This sets up the MySQL database like it's done for all OpenStack
 # projects for CI testing.
