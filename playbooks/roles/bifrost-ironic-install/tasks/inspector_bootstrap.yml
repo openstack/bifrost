@@ -15,20 +15,23 @@
 ---
 - name: "MySQL - Create database"
   mysql_db:
-    login_user={{ mysql_username }}
-    login_password={{ mysql_password }}
-    name=inspector
-    state=present
-    encoding=utf8
-  register: test_created_inspector_db
+    login_user: "{{ mysql_username }}"
+    login_password: "{{ mysql_password }}"
+    name: "{{ ironic_inspector.database.name }}"
+    state: present
+    encoding: utf8
+  when: ironic_inspector.database.host == 'localhost'
+
 - name: "MySQL - Create user for inspector"
   mysql_user:
-    login_user={{ mysql_username }}
-    login_password={{ mysql_password }}
-     name=inspector
-     password={{ ironic_db_password }}
-     priv=inspector.*:ALL
-     state=present
+    login_user: "{{ mysql_username }}"
+    login_password: "{{ mysql_password }}"
+    name: "{{ ironic_inspector.database.username }}"
+    password: "{{ ironic_inspector.database.password }}"
+    priv: "{{ ironic_inspector.database.name }}.*:ALL"
+    state: present
+  when: ironic_inspector.database.host == 'localhost'
+
 - name: "Inspector - Ensure /etc/ironic-inspector/ exists"
   file:
     dest=/etc/ironic-inspector

@@ -239,6 +239,25 @@ ssh_private_key: If a user wishes to define an SSH private key as a string,
                  this variable can be utilized which overrides the
                  ssh_private_key_path setting.
 
+### Changing Database Configuration
+
+Bifrost utilizes a nested data stucture for the configuration of database.
+Simply put:
+
+  - Values cannot be overrriden via set_fact.
+  - Values cannot be overrriden via the command line with ``-e``.
+  - The entire data structure must be defined if is modified.
+
+Please see defaults/main.yml file for the structure named ``ironic``.
+
+Please note, if the hostname is set to something besides``localhost``,
+then the playbook will not attempt to create databases, database users,
+and grant privileges.
+
+Similarly, if hardware introspection support is installed, the
+nearly identical data structure for inspector can be found in the
+same file named ``ironic_inspector``.
+
 Notes
 -----
 

@@ -12,7 +12,7 @@ auth_strategy = {{ inspector_auth | default('noauth') }}
 debug = {{ inspector_debug | bool }}
 
 [database]
-connection=mysql+pymysql://inspector:{{ ironic_db_password }}@localhost/inspector?charset=utf8
+connection=mysql+pymysql://{{ ironic_inspector.database.username }}:{{ ironic_inspector.database.password }}@{{ ironic_inspector.database.host }}/{{ ironic_inspector.database.name }}?charset=utf8
 
 [firewall]
 manage_firewall = {{ inspector_manage_firewall | bool | default('false') }}

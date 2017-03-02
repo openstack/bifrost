@@ -45,7 +45,7 @@ clean_nodes = {{ cleaning | lower }}
 automated_clean = {{ cleaning | lower }}
 
 [database]
-connection = mysql+pymysql://ironic:{{ ironic_db_password }}@localhost/ironic?charset=utf8
+connection = mysql+pymysql://{{ ironic.database.username }}:{{ ironic.database.password }}@{{ ironic.database.host }}/{{ ironic.database.name }}?charset=utf8
 
 [dhcp]
 dhcp_provider = none

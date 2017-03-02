@@ -26,10 +26,13 @@
   set_fact:
     enable_venv: true
   when: lookup('env', 'VENV') | length > 0
+
 # NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
 # during bootstrapping. all other services are started in the Start phase.
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started enabled=yes
+  when: ironic.database.host == 'localhost'
+
 - name: "RabbitMQ - Testing if hostname is defined in /etc/hosts"
   command: grep -i "{{ ansible_hostname }}" /etc/hosts
   ignore_errors: yes
@@ -70,32 +73,39 @@
     write_priv: ".*"
     read_priv: ".*"
   no_log: true
+
 - name: "Set mysql_username if environment variable mysql_user is set"
   set_fact:
     mysql_username: "{{ lookup('env', 'mysql_user') }}"
   when: lookup('env', 'mysql_user') | length > 0
   no_log: true
+
 - name: "Set mysql_password if environment variable mysql_pass is set"
   set_fact:
     mysql_password: "{{ lookup('env', 'mysql_pass') }}"
   when: lookup('env', 'mysql_pass') | length > 0
   no_log: true
+
 - name: "MySQL - Creating DB"
   mysql_db:
-    name: "ironic"
+    name: "{{ ironic.database.name }}"
     state: present
     encoding: utf8
     login_user: "{{ mysql_username | default(None) }}"
     login_password: "{{ mysql_password | default(None) }}"
   register: test_created_db
+  when: ironic.database.host == 'localhost'
+
 - name: "MySQL - Creating user for Ironic"
   mysql_user:
-    name: "ironic"
-    password: "{{ ironic_db_password }}"
-    priv: "ironic.*:ALL"
+    name: "{{ ironic.database.username }}"
+    password: "{{ ironic.database.password }}"
+    priv: "{{ ironic.database.name }}.*:ALL"
     state: present
     login_user: "{{ mysql_username | default(None) }}"
     login_password: "{{ mysql_password | default(None) }}"
+  when: ironic.database.host == 'localhost'
+
 - name: "Create an ironic service group"
   group:
     name: "ironic"
@@ -147,14 +157,21 @@
     owner: "ironic"
     group: "ironic"
     mode: 0644
+
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
-  when: test_created_db.changed | bool == true
+  when: >
+      ironic.database.host == 'localhost' and
+      test_created_db.changed | bool == true
+
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
-  when: test_created_db.changed | bool == false
+  when: >
+      ironic.database.host != 'localhost' or
+      test_created_db.changed | bool == false
+
 - name: "Create service folder if systemd template is defined"
   file:
     path: "{{ init_dest_dir }}"

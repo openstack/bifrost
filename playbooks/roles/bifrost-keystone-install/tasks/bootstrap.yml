@@ -78,6 +78,7 @@
     login_user: "{{ mysql_username | default(None) }}"
     login_password: "{{ mysql_password | default(None) }}"
   register: test_created_keystone_db
+  when: keystone.database.host == 'localhost'
 
 - name: "MySQL - Creating user for keystone"
   mysql_user:
@@ -87,6 +88,7 @@
     state: present
     login_user: "{{ mysql_username | default(None) }}"
     login_password: "{{ mysql_password | default(None) }}"
+  when: keystone.database.host == 'localhost'
 
 - name: "Create an keystone service group"
   group:
@@ -154,7 +156,8 @@
   environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
   when: >
     test_created_keystone_db.changed | bool == true and
-    keystone.bootstrap.enabled | bool == true
+    keystone.bootstrap.enabled | bool == true and
+    keystone.database.host == 'localhost'
 
 - name: "Reserve keystone admin port"
   sysctl:
