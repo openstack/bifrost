@@ -165,7 +165,7 @@ function create_node {
     <type arch='${ARCH}' machine='${VM_MACHINE}'>hvm</type>
     <boot dev='network'/>
     <bootmenu enable='no'/>
-    <bios useserial='yes'/>
+    <bios useserial='yes' rebootTimeout='10000'/>
   </os>
   <features>
     <acpi/>
