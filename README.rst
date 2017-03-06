@@ -1,3 +1,12 @@
+#######
+Bifrost
+#######
+
+Bifrost (pronounced bye-frost) is a set of Ansible playbooks that
+automates the task of deploying a base image onto a set of known hardware using
+ironic. It provides modular utility for one-off operating system deployment
+with as few operational requirements as reasonably possible.
+
 ========================
 Team and repository tags
 ========================
@@ -7,15 +16,7 @@ Team and repository tags
 
 .. Change things from this point on
 
-=======
-Bifrost
-=======
-
-Bifrost (pronounced bye-frost) is a set of Ansible playbooks that
-automates the task of deploying a base image onto a set of known hardware using
-ironic. It provides modular utility for one-off operating system deployment
-with as few operational requirements as reasonably possible.
-
+=========
 Use Cases
 =========
 
@@ -25,6 +26,7 @@ Use Cases
   a batch operation.
 * Testing and development of ironic in a standalone use case.
 
+==========
 How to Use
 ==========
 
@@ -214,7 +216,8 @@ to enable or disable cleaning as desired, however it is highly encouraged to
 utilize cleaning in any production environment.
 
 The ironic community maintains a repository additional of drivers outside ironic.
-These drivers and information about them can be found `here <http://git.openstack.org/cgit/openstack/ironic-staging-drivers/>`_.
+These drivers and information about them can be found in
+`ironic-staging-drivers docs <http://git.openstack.org/cgit/openstack/ironic-staging-drivers/>`_.
 If you would like to install the ironic staging drivers, simply pass
 ``-e staging_drivers_include=true`` when executing the install playbook::
 
@@ -224,15 +227,17 @@ If you would like to install the ironic staging drivers, simply pass
 Driver Support
 ==============
 
+
 Testing Mode
-------------
+============
 
 When setup in testing mode, bifrost configures ironic to utilize the
 ``agent_ssh`` driver to help facilitate the deployment of local test
 machines.
 
+
 Default Mode
-------------
+============
 
 When not in testing mode, bifrost enables the following ironic drivers:
 
@@ -240,8 +245,9 @@ When not in testing mode, bifrost enables the following ironic drivers:
 * agent_ilo
 * agent_ucs
 
+
 OneView Driver Support
-----------------------
+======================
 
 As the OneView driver requires configuration information to be populated
 in the ironic.conf configuration file that points to the OneView manager
@@ -252,5 +258,5 @@ Please reference the ironic OneView driver documentation at if you wish
 to update the configuration after installation in order to leverage bifrost
 for mass node deployment.
 
-The OneView documentation can be found
-`here <http://docs.openstack.org/developer/ironic/drivers/oneview.html>`_.
+More information about this driver can be found in the
+`OneView driver documentation <http://docs.openstack.org/developer/ironic/drivers/oneview.html>`_.
