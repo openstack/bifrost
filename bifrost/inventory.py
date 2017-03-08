@@ -336,8 +336,8 @@ def _process_shade(groups, hostvars):
         # return the network information to the inventory.
         nics = cloud.list_nics_for_machine(machine['uuid'])
         new_nics = []
-        new_nic = {}
         for nic in nics:
+            new_nic = {}
             if 'address' in nic:
                 new_nic['mac'] = nic['address']
             new_nics.append(new_nic)
