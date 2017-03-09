@@ -93,7 +93,7 @@
     test_vm_node_names: "{{ generated_test_vm_node_names }}"
   when: "{{ test_vm_node_names | length == 0 }}"
 
-- name: create placeholder var for vm entries in CSV format
+- name: create placeholder var for vm entries in JSON format
   set_fact:
     testvm_json_data: {}
 

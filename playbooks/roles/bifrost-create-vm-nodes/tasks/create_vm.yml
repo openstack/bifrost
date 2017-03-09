@@ -88,29 +88,50 @@
         output for additional details"
   when: "{{ vm_name not in existing_vms.list_vms }}"
 
+# TODO(pas-ha) replace 'command: vbmc ...' tasks
+# with a custom Ansible module using vbmc Python API
+- name: get list of nodes from virtualbmc
+  command: vbmc list
+  register: vbmc_list
+
+- name: delete vm from virtualbmc if it is there
+  command: vbmc delete {{ vm_name }}
+  when: "{{ vm_name in vbmc_list.stdout }}"
+
+- set_fact:
+    virtual_ipmi_port: "{{ (test_vm_ipmi_port_start|default(623) | int ) + (testvm_json_data | length) }}"
+
+- name: plug vm into vbmc
+  command: vbmc add {{ vm_name }} --libvirt-uri {{ test_vm_libvirt_uri }} --port {{ virtual_ipmi_port }}
+
+- name: start virtualbmc
+  command: vbmc start {{ vm_name }}
+
 - name: get XML of the vm
   virt:
     name: "{{ vm_name }}"
     command: get_xml
   register: testvm_xml
 
+# NOTE(pas-ha) relies on our XML template for VM that defines a single NIC
 - name: get MAC from vm XML
   set_fact:
     vm_mac: "{{ (testvm_xml.get_xml | regex_findall(\"<mac address='.*'/>\") | first).split('=') | last | regex_replace(\"['/>]\", '') }}"
 
+# NOTE(pas-ha) using default username and password set by virtualbmc - "admin" and "password" respectively
+# see vbmc add --help
 - name: set the json entry for vm
   set_fact:
     testvm_data:
       name: "{{ vm_name }}"
       uuid: "{{ vm_name | to_uuid }}"
-      driver: "agent_ssh"
+      driver: "{{ test_vm_node_driver|default('agent_ipmitool') }}"
       driver_info:
         power:
-          ssh_address: "192.168.122.1"
-          ssh_port: "22"
-          ssh_username: "ironic"
-          ssh_key_filename: "/home/ironic/.ssh/id_rsa"
-          ssh_virt_type: "virsh"
+          ipmi_address: "192.168.122.1"
+          ipmi_port: "{{ virtual_ipmi_port }}"
+          ipmi_username: "admin"
+          ipmi_password: "password"
       nics:
         - mac: "{{ vm_mac }}"
       ansible_ssh_host: "192.168.122.{{ testvm_json_data | length + 2 }}"

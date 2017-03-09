@@ -5,10 +5,8 @@ init_ext: .service
 syslinux_tftp_dir: /var/lib/tftpboot
 ipxe_dir: /usr/share/ipxe/
 ipxe_full_binary: ipxe.lkrn
-sgabios_dir: /usr/share/sgabios/
 ironic_rootwrap_dir: /usr/bin/
 nginx_user: nginx
-virt_group: libvirt
 mysql_service_name: mariadb
 tftp_service_name: tftp
 required_packages:
@@ -37,10 +35,8 @@ required_packages:
   - qemu-kvm-tools
   - qemu-img
   - openwsman-python
-  - sgabios-bin
   - libselinux-python
   - policycoreutils-python
-  - libvirt-daemon
   - debootstrap
   - gcc
   - python2-pip

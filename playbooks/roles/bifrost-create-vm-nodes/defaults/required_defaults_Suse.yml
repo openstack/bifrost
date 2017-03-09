@@ -1,4 +1,5 @@
 ---
+sgabios_dir: /usr/share/sgabios/
 libvirt_service_name: libvirtd
 required_packages:
  - qemu-tools
@@ -10,3 +11,5 @@ required_packages:
  - libvirt-daemon
  - libvirt-python
  - python-lxml
+ - pkg-config
+ - libvirt-devel

@@ -10,10 +10,8 @@ syslinux_tftp_dir: /usr/share/syslinux
 download_ipxe: true
 ipxe_dir: /usr/local/share/ipxe
 ipxe_full_binary: ipxe.lkrn
-sgabios_dir: /usr/share/sgabios/
 ironic_rootwrap_dir: /usr/bin/
 nginx_user: nginx
-virt_group: libvirt
 mysql_service_name: mysql
 tftp_service_name: tftp
 required_packages:
@@ -41,9 +39,7 @@ required_packages:
   - kpartx
   - qemu-tools
   - openwsman-python
-  - qemu-sgabios
   - policycoreutils-python
-  - libvirt-daemon
   - debootstrap
   - iptables
   - tar
