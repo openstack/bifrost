@@ -1,0 +1,20 @@
+---
+features:
+  - Downloaded IPA files can now be verified using checksum files.
+    Upstream builds will be verified by default but you can disable
+    this behavior by setting ``ipa_kernel_upstream_checksum_url`` or
+    ``ipa_ramdisk_upstream_checksum_url`` variables to empty strings.
+    The default checksum algorithm is ``sha256`` which matches
+    the one provided in the upstream files. In case you want to
+    provide your own checksum files, you can set the previously mentioned
+    variables appropriately to match your setup. You can also set
+    ``ipa_kernel_upstream_checksum_algo`` or ``ipa_ramdisk_upstream_checksum_algo``
+    to checksum algorithms like ``md5`` in case you want to provide
+    non-sha256 checksums. Be careful though because these values
+    must be valid for Ansible ``get_url`` module's ``checksum``
+    parameter. Finally, it's also possible to provide the checksum
+    directly by setting the ``ipa_kernel_checksum`` or ``ipa_ramdisk_checksum``
+    variables to ``$algorithm:$checksum``.
+    In case the verification fails, bifrost will retry a few more times
+    to re-download and re-verify the files before giving up assuming
+    there is a network issue or a file corruption on the remote server.
