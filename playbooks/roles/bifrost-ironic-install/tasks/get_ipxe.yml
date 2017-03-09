@@ -26,6 +26,10 @@
     url: "https://boot.ipxe.org/{{ item }}"
     dest: "{{ ipxe_dir }}/{{ item }}"
     force: yes
+  register: ipxe_files_download_done
+  until: ipxe_files_download_done|succeeded
+  retries: 5
+  delay: 10
   with_items:
     - undionly.kpxe
     - ipxe.lkrn
