@@ -17,8 +17,32 @@
 
 from __future__ import print_function
 import csv
+import json
 import os
 import sys
+
+
+def _load_data_from_csv(path):
+    with open(path) as csvfile:
+        csvdata = [row for row in csv.reader(csvfile)]
+    inventory = {}
+    # NOTE(pas-ha) convert to structure similar to JSON inventory
+    for entry in csvdata:
+        mac = entry[0]
+        hostname = entry[10]
+        ip = entry[11]
+        inventory[hostname] = {
+            'nics': [{'mac': mac}],
+            'name': hostname,
+            'ipv4_address': ip
+        }
+    return inventory
+
+
+def _load_data_from_json(path):
+    with open(path) as jsonfile:
+        inventory = json.load(jsonfile)
+    return inventory
 
 
 def main(argv):
@@ -31,16 +55,19 @@ def main(argv):
         # nothing to validate
         sys.exit(0)
 
-    # extract data from csv file
-    inventory = []
-    if not os.path.exists('/tmp/baremetal.csv'):
+    # load data from json file
+    if os.path.exists('/tmp/baremetal.json'):
+        inventory = _load_data_from_json('/tmp/baremetal.json')
+    # load data from csv file
+    elif os.path.exists('/tmp/baremetal.csv'):
+        try:
+            inventory = _load_data_from_csv('/tmp/baremetal.csv')
+        except Exception:
+            # try load *.csv as json for backward compatibility
+            inventory = _load_data_from_json('/tmp/baremetal.csv')
+    else:
         print('ERROR: Inventory file has not been generated')
         sys.exit(1)
-
-    with open('/tmp/baremetal.csv') as csvfile:
-        inventory_reader = csv.reader(csvfile)
-        for row in inventory_reader:
-            inventory.append(row)
 
     # now check that we only have these entries in leases file
     leases = []
@@ -59,27 +86,23 @@ def main(argv):
         sys.exit(1)
 
     # then we check that all macs and hostnames are present
-    for entry in inventory:
-        mac = entry[0]
-        hostname = entry[10]
-        ip = entry[11]
+    for value in inventory.values():
+        # NOTE(pas-ha) supporting only single nic
+        mac = value['nics'][0]['mac']
+        hostname = value['name']
+        ip = value['ipv4_address']
 
         # mac check
-        found = False
         for lease_entry in leases:
             if lease_entry[1] == mac:
-                found = True
                 break
-        if not found:
+        else:
             print('ERROR: No mac found in leases')
             sys.exit(1)
 
         # hostname check
-        found = False
         for lease_entry in leases:
             if lease_entry[3] == hostname:
-                found = True
-
                 # if we use static ip, we need to check that ip matches
                 # with hostname in leases
                 if inventory_dhcp_static_ip:
@@ -87,7 +110,7 @@ def main(argv):
                         print('ERROR: IP does not match with inventory')
                         sys.exit(1)
                 break
-        if not found:
+        else:
             print('ERROR: No hostname found in leases')
             sys.exit(1)
 

@@ -98,22 +98,29 @@
   set_fact:
     vm_mac: "{{ (testvm_xml.get_xml | regex_findall(\"<mac address='.*'/>\") | first).split('=') | last | regex_replace(\"['/>]\", '') }}"
 
-- name: set the csv entry for vm
+- name: set the json entry for vm
   set_fact:
-    vm_csv_items:
-      - "{{ vm_mac }}"
-      - "root"
-      - "undefined"
-      - "192.168.122.1"
-      - "{{ test_vm_cpu_count }}"
-      - "{{ test_vm_memory_size }}"
-      - "{{ test_vm_disk_gib }}"
-      - "flavor"
-      - "type"
-      - "a8cb6624-0d9f-c882-affc-046ebb96ec0{{ testvm_csv_data | length + 1 }}"
-      - "{{ vm_name }}"
-      - "192.168.122.{{ testvm_csv_data | length + 2 }}"
+    testvm_data:
+      name: "{{ vm_name }}"
+      uuid: "{{ vm_name | to_uuid }}"
+      driver: "agent_ssh"
+      driver_info:
+        power:
+          ssh_address: "192.168.122.1"
+          ssh_port: "22"
+          ssh_username: "ironic"
+          ssh_key_filename: "/home/ironic/.ssh/id_rsa"
+          ssh_virt_type: "virsh"
+      nics:
+        - mac: "{{ vm_mac }}"
+      ansible_ssh_host: "192.168.122.{{ testvm_json_data | length + 2 }}"
+      ipv4_address: "192.168.122.{{ testvm_json_data | length + 2 }}"
+      properties:
+        cpu_arch: "{{ test_vm_arch }}"
+        ram: "{{ test_vm_memory_size }}"
+        cpus: "{{ test_vm_cpu_count }}"
+        disk_size: "{{ test_vm_disk_gib }}"
 
 - name: add created vm info
   set_fact:
-    testvm_csv_data: "{{ testvm_csv_data + [vm_csv_items] }}"
+    testvm_json_data: "{{ testvm_json_data | combine({vm_name: testvm_data}) }}"

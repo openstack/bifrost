@@ -230,7 +230,7 @@ pre-requisite software packages, Ansible, and then execute the
 to provide a single step testing mechanism.
 
 ``playbooks/test-bifrost-create-vm.yaml`` creates one or more VMs for
-testing and saves out a baremetal.csv file which is used by
+testing and saves out a baremetal.json file which is used by
 ``playbooks/test-bifrost.yaml`` to execute the remaining roles.  Two
 additional roles are invoked by this playbook which enables Ansible to
 connect to the new nodes by adding them to the inventory, and then
@@ -270,8 +270,8 @@ run virsh commands.
    test-bifrost-create-vm.yaml`` command to create a test virtual
    machine.
 #. Set the environment variable of ``BIFROST_INVENTORY_SOURCE`` to the
-   path to the csv file, which by default has been written to
-   /tmp/baremetal.csv.
+   path to the JSON file, which by default has been written to
+   /tmp/baremetal.json.
 #. Run the enrollment step, as documented above, using the CSV file
    you created in the previous step.
 #. Run the deployment step, as documented above.

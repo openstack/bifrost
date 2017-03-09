@@ -28,7 +28,17 @@ as extra-vars instead.
 Role Variables
 --------------
 
-baremetal_csv_file: "/tmp/baremetal.csv"
+baremetal_csv_file: Deprecated. CSV file format is deprecated, and
+                    this variable will be removed in the Queens release.
+                    Use 'baremetal_json_file' variable instead.
+                    Default is undefined. If defined, its value will be
+                    used for 'baremetal_json_file' variable (see below),
+                    although file created will still be in JSON format.
+                    The driver assigned to nodes will be 'agent_ssh'
+
+baremetal_json_file: Defaults to '/tmp/baremetal.json' but will be overridden
+                     by 'baremetal_csv_file' if that is defined.
+                     The driver assigned to nodes will be 'agent_ssh'
 
 test_vm_memory_size: Tunable setting to allow a user to define a specific
                      amount of RAM in MB to allocate to guest/test VMs.
