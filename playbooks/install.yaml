@@ -24,7 +24,7 @@
           config_auth_url: "{{ keystone.bootstrap.public_url }}"
       when: enable_keystone is defined and enable_keystone | bool == true
     - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_elements: "ironic-agent {{ ipa_extra_dib_elements | default('') }}", when: create_ipa_image | bool == true }
-    - { role: bifrost-create-dib-image, dib_imagename: "{{ deploy_image }}", dib_imagetype: "qcow2", dib_elements: "vm serial-console {{ dib_init_element|default('simple-init') }} {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
+    - { role: bifrost-create-dib-image, dib_imagename: "{{ deploy_image }}", dib_imagetype: "qcow2", dib_elements: "vm enable-serial-console {{ dib_init_element|default('simple-init') }} {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
