@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    bifrost now always writes ``clouds.yaml`` configuration file
+    for os-client-config independently of whether keystone is installed
+    or not.
+
+    This allows unified usage of ironic-related openstackclient commands
+    both in presence and absence of installed keystone by using the
+    ``openstack`` command in the following form for both situations::
+
+      openstack --os-cloud bifrost baremetal ...
