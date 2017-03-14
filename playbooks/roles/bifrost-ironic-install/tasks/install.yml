@@ -54,13 +54,18 @@
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
   when: skip_install is not defined and enable_pxe_drivers | bool == true
-- name: "Shade - Install"
-  include: pip_install.yml
-    package=shade
-    state=latest
-    sourcedir={{ shade_git_folder }}
-    source_install={{ shade_source_install }}
+
+# NOTE(pas-ha) even when install into virtualenv is requested,
+# we need to install shade into system for enroll-dynamic to succeed
+- block:
+  - name: install shade from PyPI
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install shade"
+    when: not (shade_source_install | default(false) | bool)
+  - name: install shade from source
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ shade_git_folder }}"
+    when: shade_source_install | default(false) | bool
   when: skip_install is not defined
+
 - name: "dib-utils - install from pip"
   include: pip_install.yml
     package=dib-utils
