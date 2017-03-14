@@ -94,12 +94,11 @@ fi
 
 if [ ${USE_VENV} = "true" ]; then
     export VENV=/opt/stack/bifrost
-    export PATH=${VENV}/bin:${PATH}
     $SCRIPT_HOME/env-setup.sh
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
     set +u
-    source /opt/stack/bifrost/bin/activate
+    source ${VENV}/bin/activate
     set -u
     ANSIBLE=${VENV}/bin/ansible-playbook
     ENABLE_VENV="true"

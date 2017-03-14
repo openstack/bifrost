@@ -80,10 +80,10 @@
     source_install={{ ironicclient_source_install }}
   when: skip_install is not defined
 - name: "Install configparser in venv if using"
-  include: pip_install.yml package=configparser virtualenv=bifrost_venv_dir
+  include: pip_install.yml package=configparser virtualenv={{ bifrost_venv_dir }}
   when: skip_install is not defined and (enable_venv | bool == true)
 - name: "Install pymysql in venv if using"
-  include: pip_install.yml package=pymysql virtualenv=bifrost_venv_dir
+  include: pip_install.yml package=pymysql virtualenv={{ bifrost_venv_dir }}
   when: skip_install is not defined and (enable_venv | bool == true)
 - name: "Install Ironic using pip"
   include: pip_install.yml

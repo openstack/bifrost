@@ -82,7 +82,7 @@ if ! $(wget --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[wget]}
 fi
 if [ -n "${VENV-}" ]; then
-    if $(virtualenv --version &>/dev/null); then
+    if ! $(python -m virtualenv --version &>/dev/null); then
         ${INSTALLER_CMD} ${PKG_MAP[venv]}
     fi
 fi
@@ -105,7 +105,7 @@ if [ -n "${VENV-}" ]; then
     echo "NOTICE: Using virtualenv for this installation."
     if [ ! -f ${VENV}/bin/activate ]; then
         # only create venv if one doesn't exist
-        sudo -H -E virtualenv --no-site-packages ${VENV}
+        sudo -H -E python -m virtualenv --no-site-packages ${VENV}
     fi
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
