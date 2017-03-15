@@ -39,7 +39,7 @@ dib_os_element: "ubuntu"
 dib_elements is a space-separated list of elements that will be
 added to the resulting disk image.
 
-dib_elements: "vm serial-console"
+dib_elements: "vm enable-serial-console"
 
 dib_init_element is used to set the init tool that will be used to provision
 the installed OS. This is an argument that is passed to
