@@ -23,6 +23,7 @@
         config_project_domain_id: "{{ config_project_domain_id|default('default') }}"
         config_user_domain_id: "{{ config_user_domain_id|default('default') }}"
   when:
+    - "{{ enable_keystone | default(false) | bool }}"
     - "{{ clouds is undefined }}"
     - "{{ config_username is defined }}"
     - "{{ config_password is defined }}"

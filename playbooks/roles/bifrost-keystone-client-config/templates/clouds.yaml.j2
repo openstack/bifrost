@@ -1,5 +1,6 @@
 # WARNING: This file is managed by bifrost.
 clouds:
+{% if (enable_keystone | default(false) | bool) %}
 {% for cloud in clouds | default({}) | dictsort %}
   {{ cloud.0 }}:
     region_name: {{ cloud.1.config_region_name }}
@@ -12,3 +13,9 @@ clouds:
       user_domain_id: "{{ cloud.1.config_user_domain_id | default('default') }}"
     identity_api_version: "3"
 {% endfor %}
+{% else %}
+  bifrost:
+    auth_type: None
+    auth: {}
+    url: {{ ironic_api_url }}
+{% endif %}
