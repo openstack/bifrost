@@ -13,12 +13,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+
+- name: set virtualenv_command
+  set_fact:
+    venv_command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m virtualenv"
+  when: enable_venv
+
 - name: "Install {{ package }} package from pip"
   pip:
     name: "{{ package }}"
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
     virtualenv: "{{ bifrost_venv_dir if enable_venv else omit }}"
+    virtualenv_command: "{{ venv_command | default(omit) }}"
     extra_args: "{{ extra_args | default(omit) }}"
   when: source_install is not defined or source_install == false
 # NOTE (cinerama): We should be able to use the pip module here and
