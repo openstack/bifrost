@@ -94,6 +94,7 @@
   command: vbmc list
   register: vbmc_list
 
+# NOTE(NobodyCam): Space at the end of the find clause is required for proper matching.
 - name: delete vm from virtualbmc if it is there
   command: vbmc delete {{ vm_name }}
   when: vbmc_list.stdout.find("{{ vm_name }} ") != -1
