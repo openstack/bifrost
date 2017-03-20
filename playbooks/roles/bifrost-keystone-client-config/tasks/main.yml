@@ -35,12 +35,12 @@
   file:
     name: "~{{ user | default('root') }}/.config/openstack"
     state: directory
-    owner: "{{ user }}"
+    owner: "{{ user | default('root') }}"
     mode: 0700
 
 - name: "Write clouds.yaml configuration from template"
   template:
     src: clouds.yaml.j2
     dest: "~{{ user | default('root') }}/.config/openstack/clouds.yaml"
-    owner: "{{ user }}"
+    owner: "{{ user | default('root') }}"
     mode: 0600
