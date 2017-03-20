@@ -96,7 +96,7 @@
 
 - name: delete vm from virtualbmc if it is there
   command: vbmc delete {{ vm_name }}
-  when: "{{ vm_name in vbmc_list.stdout }}"
+  when: vbmc_list.stdout.find("{{ vm_name }} ") != -1
 
 - set_fact:
     virtual_ipmi_port: "{{ (test_vm_ipmi_port_start|default(623) | int ) + (testvm_json_data | length) }}"
