@@ -41,6 +41,7 @@ NOAUTH_MODE=true
 ENABLE_KEYSTONE=false
 CLOUD_CONFIG=""
 WAIT_FOR_DEPLOY=true
+ZUUL_BRANCH=${ZUUL_BRANCH:-}
 
 # This sets up the MySQL database like it's done for all OpenStack
 # projects for CI testing.
