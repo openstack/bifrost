@@ -44,4 +44,5 @@
     state=latest
     sourcedir={{ keystone_git_folder }}
     source_install={{ keystone_source_install | bool }}
+    extra_args="--no-cache-dir --upgrade --force-reinstall -c {{ reqs_git_folder }}/upper-constraints.txt"
   when: skip_install is not defined
