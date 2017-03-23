@@ -94,12 +94,14 @@ dhcp-userclass=set:gpxe,"gPXE"
 dhcp-boot=tag:gpxe,/ipxe.pxe
 
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
-dhcp-boot=tag:!ipxe,/undionly.kpxe
 {% if testing | bool == true %}
-dhcp-boot=http://192.168.122.1:{{ file_url_port }}/boot.ipxe
+dhcp-boot=tag:ipxe,http://192.168.122.1:{{ file_url_port }}/boot.ipxe
 {% else %}
-dhcp-boot=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/boot.ipxe
+dhcp-boot=tag:ipxe,http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/boot.ipxe
 {% endif %}
+
+# Catch-all boot options used when no other boot options are matched.
+dhcp-boot=/undionly.kpxe
 
 {% if testing | bool == true %}
 log-queries

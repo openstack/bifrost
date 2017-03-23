@@ -317,8 +317,6 @@ If you wish to include an extra element into the IPA disk image, such as a
 custom hardware manager, you can pass the variable ``ipa_extra_dib_elements``
 as a space-separated list of elements. This defaults to an empty string.
 
-Use Bifrost with your own DHCP server
-=====================================
 .. include:: deploy/dhcp.rst
 
 Use Bifrost with Keystone

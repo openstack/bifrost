@@ -1,0 +1,17 @@
+---
+fixes:
+  - |
+    Allows ``undionly.kpxe`` boot option to be overridden.
+
+    As an operator, I may wish to provide DHCP boot options for hosts not
+    managed by bifrost using the bifrost dnsmasq server.
+
+    Previously, if a ``dhcp-boot`` configuration option was provided to dnsmasq
+    via a file in ``/etc/dnsmasq.d/``, and the server was not booted via iPXE,
+    the option would have been overridden by the ``undionly.kpxe`` option added
+    by bifrost in ``/etc/dnsmasq.conf``.
+
+    Bifrost now supports user-provided ``dhcp-boot`` options in
+    ``/etc/dnsmasq.d``. These should be specified with an appropriate set of
+    tags to match against to ensure that the rule overrides the default rule
+    configured by bifrost.
