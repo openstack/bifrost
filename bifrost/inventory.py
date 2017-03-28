@@ -22,7 +22,7 @@ Bifrost Inventory Module
 This is a dynamic inventory module intended to provide a platform for
 consistent inventory information for Bifrost.
 
-The inventory currently supplies two distinct groups:
+The inventory supplies two distinct groups by default:
 
     - localhost
     - baremetal
@@ -34,6 +34,21 @@ The baremetal group contains the hosts defined by the data source along with
 variables extracted from the data source. The variables are defined on a
 per-host level which allows explicit actions to be taken based upon the
 variables.
+
+It is also possible for users to specify additional per-host groups by
+simply setting the host_groups variable in the inventory file. See below for
+an example JSON file.
+
+The default group can also be changed by setting the DEFAULT_HOST_GROUPS
+variable to contain the desired groups separated by whitespace as follows:
+
+DEFAULT_HOST_GROUPS="foo bar zoo"
+
+In case of provisioning virtual machines, additional per-VM groups can
+be set by simply setting the test_vm_groups[$host] variable to a list
+of desired groups. Moreover, users can override the default 'baremetal'
+group by assigning a list of default groups to the test_vm_default_group
+variable.
 
 Presently, the base mode of operation reads a CSV file in the format
 originally utilized by bifrost and returns structured JSON that is
@@ -62,6 +77,10 @@ Example JSON Element:
 {
   "node1": {
     "uuid": "a8cb6624-0d9f-c882-affc-046ebb96ec01",
+    "host_groups": [
+        "nova",
+        "neutron"
+    ],
     "driver_info": {
       "power": {
         "ipmi_target_channel": "0",
@@ -181,6 +200,11 @@ def _process_baremetal_data(data_source, groups, hostvars):
         # Perform basic validation
         node_net_data = host.get('node_network_data')
         ipv4_addr = host.get('ipv4_address')
+        default_groups = os.environ.get('DEFAULT_HOST_GROUPS',
+                                        'baremetal').split()
+        host['host_groups'] = sorted(list(set(host.get('host_groups', []) +
+                                              default_groups)))
+
         if not node_net_data and not ipv4_addr:
             host['addressing_mode'] = "dhcp"
         else:
@@ -190,7 +214,10 @@ def _process_baremetal_data(data_source, groups, hostvars):
                 'addressing_mode' not in host):
             host['provisioning_ipv4_address'] = host['ipv4_address']
         # Add each host to the values to be returned.
-        groups['baremetal']['hosts'].append(host['name'])
+        for group in host['host_groups']:
+            if group not in groups:
+                groups.update({group: {'hosts': []}})
+            groups[group]['hosts'].append(host['name'])
         hostvars.update({host['name']: host})
     return (groups, hostvars)
 
@@ -226,6 +253,7 @@ def _process_baremetal_csv(data_source, groups, hostvars):
             properties['cpu_arch'] = "x86_64"
             host['uuid'] = _val_or_none(row, 9)
             host['name'] = _val_or_none(row, 10)
+            host['host_groups'] = ["baremetal"]
             host['ipv4_address'] = _val_or_none(row, 11)
             if ('ipv4_address' not in host or
                     not host['ipv4_address']):
@@ -401,6 +429,14 @@ def main():
     except Exception as error:
         LOG.error('Failed processing: %s' % error)
         sys.exit(1)
+
+    # Drop empty groups. This is usually necessary when
+    # the default ["baremetal"] group has been overridden
+    # by the user.
+    for group in groups.keys():
+        # Empty groups
+        if len(groups[group]['hosts']) == 0:
+            del groups[group]
 
     # General Data Conversion
 

@@ -5,6 +5,8 @@ test_vm_memory_size: "3072"
 test_vm_num_nodes: 1
 test_vm_domain_type: "qemu"
 test_vm_arch: "x86_64"
+test_vm_groups: {}
+test_vm_default_groups: "{{ lookup('env', 'DEFAULT_HOST_GROUPS').split() | default(['baremetal'], true) }}"
 test_vm_disk_gib: "{{ lookup('env', 'VM_DISK') | default(10, true) }}"
 test_vm_cpu_count: "{{ lookup('env', 'VM_CPU') | default(1, true) }}"
 test_vm_disk_cache: "{{ lookup('env', 'VM_DISK_CACHE') | default('writeback', true) }}"
