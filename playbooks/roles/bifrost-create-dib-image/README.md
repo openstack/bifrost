@@ -98,11 +98,6 @@ cloud-init. If you have cloud-init enabled in your image(Ubuntu/Fedora) and you
 wish to allow configdrive to work with it, you set 'dib_init_element' to
 ['cloud-init-datasources'](http://docs.openstack.org/developer/diskimage-builder/elements/cloud-init-datasources/README.html).
 
-Dependencies
-------------
-
-dib-utils must be installed from pip for the image creation to work.
-
 Example Playbook
 ----------------
 
