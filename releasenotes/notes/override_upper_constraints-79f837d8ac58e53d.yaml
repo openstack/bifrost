@@ -1,0 +1,8 @@
+---
+features:
+  - Allow consuming upper_constraints_file from an env
+    var UPPER_CONSTRAINTS_FILE. This will be specially
+    useful for OpenStack CI, where this var is defined
+    on each job run, pointing to the right requirements
+    file depending on branch.
+
