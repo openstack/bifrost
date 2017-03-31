@@ -76,6 +76,7 @@ ironicclient_git_folder: /opt/stack/python-ironicclient
 shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
 reqs_git_folder: /opt/stack/requirements
+upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
 staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client

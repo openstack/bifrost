@@ -19,6 +19,7 @@ ironicinspectorclient_git_folder: "{{ git_root}}/python-ironic-inspector-client"
 shade_git_folder: "{{ git_root}}/shade"
 dib_git_folder: "{{ git_root }}/diskimage-builder"
 reqs_git_folder: "{{ git_root }}/requirements"
+upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
 staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
 # *_git_branch can be overridden for stable branch testing
