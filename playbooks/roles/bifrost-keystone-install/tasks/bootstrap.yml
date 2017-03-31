@@ -113,15 +113,6 @@
     group: "keystone"
     mode: 0755
 
-- name: "Copy policy.json to /etc/keystone"
-  copy:
-    src: "{{ keystone_git_folder }}/etc/policy.json"
-    dest: "/etc/keystone/"
-    remote_src: true
-    owner: "keystone"
-    group: "keystone"
-    mode: 0644
-
 - name: "Copy keystone-paste.ini to /etc/keystone"
   copy:
     src: "{{ keystone_git_folder }}/etc/keystone-paste.ini"
