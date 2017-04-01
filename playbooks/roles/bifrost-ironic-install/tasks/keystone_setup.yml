@@ -118,6 +118,7 @@
     --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
   no_log: true
   register: test_ironic_admin_endpoint
+  ignore_errors: true
 
 - name: "Check ironic public endpoint exists"
   command: |
@@ -131,6 +132,7 @@
     --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
   no_log: true
   register: test_ironic_public_endpoint
+  ignore_errors: true
 
 - name: "Check ironic internal endpoint exists"
   command: |
@@ -144,6 +146,7 @@
     --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
   no_log: true
   register: test_ironic_internal_endpoint
+  ignore_errors: true
 
 - name: "Create ironic admin endpoint"
   command: |
