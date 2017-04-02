@@ -17,11 +17,7 @@ port=53
 # specified interfaces (and the loopback) give the name of the
 # interface (eg eth0) here.
 # Repeat the line for more than one interface.
-{% if testing | bool == true %}
-interface=virbr0
-{% else %}
 interface={{ network_interface }}
-{% endif %}
 
 # On systems which support it, dnsmasq binds the wildcard address,
 # even when it is listening on only some interfaces. It then discards
