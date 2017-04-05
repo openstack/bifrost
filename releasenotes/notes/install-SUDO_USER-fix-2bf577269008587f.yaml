@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Corrects an issue where execution of ``install.yaml`` would return
+    an error indicating ``SUDO_USER`` was not found, by providing a fallback
+    to the ``ansible_user_id`` variable.
