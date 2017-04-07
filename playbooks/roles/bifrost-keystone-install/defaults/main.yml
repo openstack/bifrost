@@ -25,6 +25,11 @@ cors_allowed_origin: "http://localhost:8000"
 # not need to be modified by the user.
 enable_cors_credential_support: false
 
+# Defaults required by this role that are normally inherited via
+# other roles.
+file_url_port: 8080
+http_boot_folder: /httpboot
+
 # Settings related to installing bifrost in a virtual environment
 enable_venv: false
 bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
