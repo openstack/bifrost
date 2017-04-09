@@ -49,6 +49,7 @@
 - name: "Stop existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
   when: "{{ testing | bool == true and include_dhcp_server | bool == true }}"
+  ignore_errors: yes
 
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted enabled=yes
