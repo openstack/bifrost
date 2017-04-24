@@ -228,6 +228,14 @@ inspector_processing_hooks: String value containing a comma-separated list,
                             non-default list of comma-separated processing
                             hooks for inspector.
 
+inspector_store_data_in_nginx: Boolean value, default true. If true, this
+                               enables data gathered during introspection to be
+                               stored in the local Nginx web server. In this
+                               mode, Nginx masquerades as an unauthenticated
+                               'Swift' object storage service. Nginx is
+                               configured to only allow the required operations
+                               on the 'ironic-inspector' object container.
+
 ### Virtual Environment Install
 
 Bifrost can install ironic into a python virtual environment using the

@@ -99,6 +99,9 @@
   roles:
     - role: ironic-enroll-dynamic
     - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
+    - role: bifrost-test-inspection
+      when: inspect_nodes | default('false') | bool == true
+
 
 - hosts: baremetal
   name: "Create configuration drive files and deploy machines"

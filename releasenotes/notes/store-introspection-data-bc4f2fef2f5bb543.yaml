@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Stores introspection data in nginx.
+
+    In the absence of swift, we can now use the bifrost nginx web server -
+    masquerading as an object store - to store raw and processed introspection
+    data for nodes.  This is configured via the boolean variable
+    ``inspector_store_data_in_nginx`` and is enabled by default.

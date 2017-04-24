@@ -46,6 +46,14 @@ http {
 		location {{ http_boot_folder }}/ {
 			alias {{ http_boot_folder }}/;
 		}
+{% if inspector_store_data_in_nginx | bool %}
+                location /ironic-inspector {
+                        return 200 "";
+                }
+                location /ironic-inspector/ {
+                        dav_methods  PUT DELETE;
+                }
+{% endif %}
 	}
         include /etc/nginx/conf.d/bifrost*.conf;
 }
