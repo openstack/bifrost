@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    Bifrost now supports the definition of a specific database server,
+    username, password, and database name for ironic and ironic-inspector.
+  - |
+    If the host for the database is not set to ``localhost``, then actions
+    such as database and user creation are skipped. This functionality
+    is present in both the bootstrapping for ironic, ironic-inspector, and
+    keystone, and applies to initial explicit database schema creation steps
+    where applicable.
+deprecations:
+  - |
+    Use of the ``ironic_db_password`` variable as an available default will
+    be removed in the Queens release of bifrost.
