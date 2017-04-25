@@ -11,6 +11,10 @@ auth_strategy = {{ inspector_auth | default('noauth') }}
 {% endif %}
 debug = {{ inspector_debug | bool }}
 
+{% if inspector_log_dir is defined %}
+log_dir = {{ inspector_log_dir }}
+{% endif %}
+
 [database]
 connection=mysql+pymysql://inspector:{{ ironic_db_password }}@localhost/inspector?charset=utf8
 

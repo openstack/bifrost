@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Allows log directories to be configured
+
+    In some cases it is useful to be able to configure the directory into which
+    log files are written by bifrost services.
+
+    It is now possible to configure the ironic, inspector and nginx log
+    directories using the ``ironic_log_dir``, ``inspector_log_dir``, and
+    ``nginx_log_dir`` variables respectively.
