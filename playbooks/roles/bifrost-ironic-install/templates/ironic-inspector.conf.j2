@@ -60,6 +60,9 @@ add_ports = {{ inspector_port_addition | default('pxe') }}
 keep_ports = {{ inspector_keep_ports | default('present') }}
 ramdisk_logs_dir = {{ inspector_data_dir }}/log
 always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | bool }}
+{% if inspector_processing_hooks is defined %}
+processing_hooks = {{ inspector_processing_hooks }}
+{% endif %}
 {% if inspector.discovery.enabled == true %}
 node_not_found_hook = enroll
 

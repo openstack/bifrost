@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Allows configuration of inspector processing hooks.
+
+    It is now possible to configure the set of inspection data processing hooks
+    used by ironic inspector via the variable ``inspector_processing_hooks``,
+    which defaults to using inspector's default list.

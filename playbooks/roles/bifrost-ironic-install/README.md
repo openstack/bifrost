@@ -223,6 +223,11 @@ inspector_extra_kernel_options: String value, default undefined. Extra
                                 kernel parameters for the inspector default
                                 PXE configuration.
 
+inspector_processing_hooks: String value containing a comma-separated list,
+                            default undefined. Use this to specify a
+                            non-default list of comma-separated processing
+                            hooks for inspector.
+
 ### Virtual Environment Install
 
 Bifrost can install ironic into a python virtual environment using the

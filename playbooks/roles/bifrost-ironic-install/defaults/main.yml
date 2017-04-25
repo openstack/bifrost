@@ -154,6 +154,10 @@ inspector_keep_ports: "present"
 # PXE configuration.
 #inspector_extra_kernel_options:
 
+# Set inspector_processing_hooks to specify a non-default comma-separated
+# list of processing hooks for inspector.
+#inspector_processing_hooks:
+
 # Inspector defaults
 inspector:
   discovery:
