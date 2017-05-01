@@ -155,6 +155,15 @@ remote_syslog_server: String value, default undefined. If set, rsyslog is
 remote_syslog_port: String value, default is 514. If set, custom port is
                     configured for remote syslog server.
 
+ironic_log_dir: String value, default undefined. If set, it specifies a
+                a non-default log directory for ironic.
+
+inspector_log_dir: String value, default undefined. If set, it specifies a
+                   non-default log directory for inspector.
+
+nginx_log_dir: String value, default /var/log/nginx. It specifies a log
+               directory for nginx.
+
 ### Hardware Inspection Support
 
 Bifrost also supports the installation of ironic-inspector in standalone
