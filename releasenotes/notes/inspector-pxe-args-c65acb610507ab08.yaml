@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Allows additional kernel arguments to be specified in inspector PXE config.
+
+    A number of optional features in the Ironic Python Agent (IPA) are
+    configured via kernel command line arguments, e.g. ``ipa-collect-lldp``.
+
+    It is now possible to specify additional kernel arguments for use by the
+    IPA ramdisk during inspection with the ``inspector_extra_kernel_options``
+    variable.

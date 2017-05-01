@@ -141,6 +141,10 @@ inspector_port_addition: "pxe"
 # Note: inspector_keep_ports has three valid values: all, present, added
 inspector_keep_ports: "present"
 
+# String value containing extra kernel parameters for the inspector default
+# PXE configuration.
+#inspector_extra_kernel_options:
+
 # Inspector defaults
 inspector:
   discovery:

@@ -210,6 +210,10 @@ inspector_default_node_driver: The default driver to utilize when adding
                                setting for their install environment if
                                an alternative default driver is required.
 
+inspector_extra_kernel_options: String value, default undefined. Extra
+                                kernel parameters for the inspector default
+                                PXE configuration.
+
 ### Virtual Environment Install
 
 Bifrost can install ironic into a python virtual environment using the
