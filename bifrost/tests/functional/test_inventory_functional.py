@@ -48,7 +48,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
+ "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups": ["baremetal"]},
+ "hostname0":
  {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ipmitool",
  "name": "hostname0", "ipv4_address": "192.168.1.2",
  "provisioning_ipv4_address": "192.168.1.2", "ansible_ssh_host":
@@ -57,7 +58,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
- "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"}}}""".replace('\n', '')
+ "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"},
+ "host_groups": ["baremetal"]}}""".replace('\n', '')
         expected_groups = """{"baremetal": {"hosts": ["hostname0",
  "hostname1"]}, "localhost": {"hosts": ["127.0.0.1"]}}""".replace('\n', '')
 
@@ -80,7 +82,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_transit_address": "40", "ipmi_transit_channel": "30",
  "ipmi_bridging": "dual"}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}}""".replace('\n', '')
+ "x86_64", "disk_size": "1024", "cpus": "2"},
+ "host_groups": ["baremetal"]}}""".replace('\n', '')
 
         expected_groups = """{"baremetal": {"hosts": ["hostname1"]},
  "localhost": {"hosts": ["127.0.0.1"]}}""".replace('\n', '')
@@ -104,7 +107,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_transit_address": null, "ipmi_transit_channel": null,
  "ipmi_bridging": "single"}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}}""".replace('\n', '')
+ "x86_64", "disk_size": "1024", "cpus": "2"},
+ "host_groups": ["baremetal"]}}""".replace('\n', '')
 
         (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
@@ -123,7 +127,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1
  "ipmi_target_channel": null, "ipmi_transit_address": null,
  "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}}""".replace('\n', '')
+ "x86_64", "disk_size": "1024", "cpus": "2"},
+ "host_groups": ["baremetal"]}}""".replace('\n', '')
 
         (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
@@ -146,7 +151,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1
  "ipmi_target_channel": null, "ipmi_transit_address": null,
  "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}}""".replace('\n', '')
+ "x86_64", "disk_size": "1024", "cpus": "2"},
+ "host_groups": ["baremetal"]}}""".replace('\n', '')
 
         (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
@@ -170,7 +176,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
+ "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups": ["baremetal"]},
+ "hostname0":
  {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ipmitool",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
@@ -179,7 +186,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
- "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"}}}""".replace('\n', '')
+ "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"},
+ "host_groups": ["baremetal"]}}""".replace('\n', '')
 
         (groups, hostvars) = utils.bifrost_csv_conversion(CSV)
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
@@ -200,7 +208,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ipmi_target_address": null, "ipmi_target_channel": null,
  "ipmi_transit_address": null, "ipmi_transit_channel": null}}, "nics":
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
- "x86_64", "disk_size": "1024", "cpus": "2"}}, "hostname0":
+ "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups":
+ ["baremetal", "nova"]}, "hostname0":
  {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
@@ -208,7 +217,8 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
  "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
- "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"}}}""".replace('\n', '')
+ "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"},
+ "host_groups": ["baremetal", "nova"]}}""".replace('\n', '')
         (groups, hostvars) = utils.bifrost_data_conversion(
             yaml.safe_dump(json.loads(str(expected_hostvars))))
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
@@ -222,6 +232,6 @@ ipmi_password":"ADMIN"}},"driver":"agent_ipmitool"}}""".replace('\n', '')
 "00000000-0000-0000-0001-bad00000010","name":"h0000-01","driver_info"
 :{"power":{"ipmi_address":"10.0.0.78","ipmi_username":"ADMIN","
 ipmi_password":"ADMIN"}},"driver":"agent_ipmitool","addressing_mode":
-"dhcp"}}""".replace('\n', '')
+"dhcp","host_groups": ["baremetal"]}}""".replace('\n', '')
         (groups, hostvars) = utils.bifrost_data_conversion(input_json)
         self.assertDictEqual(json.loads(str(expected_json)), hostvars)
