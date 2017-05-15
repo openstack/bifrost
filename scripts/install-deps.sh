@@ -66,7 +66,7 @@ elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
     )
     EXTRA_PKG_DEPS=()
 else
-    echo "ERROR: Supported package manager not found.  Supported: apt,yum,zypper"
+    echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"
 fi
 
 if ! $(python --version &>/dev/null); then
