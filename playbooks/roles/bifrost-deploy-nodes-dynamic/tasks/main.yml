@@ -29,6 +29,7 @@
 - name: "Execute os_client_config to collect facts"
   os_client_config:
   no_log: yes
+  when: noauth_mode is defined and noauth_mode | bool == false
 
 # NOTE(TheJulia): The first record returned by os_client_config
 # is utilized as the default. A user can still define the parameters

@@ -31,6 +31,7 @@
     auth_type: "{{ openstack.clouds[0].auth_type }}"
   when: auth is undefined
   no_log: yes
+  when: noauth_mode is defined and noauth_mode | bool == false
 
 - name: "Unprovision node"
   os_ironic_node:
