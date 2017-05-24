@@ -30,5 +30,5 @@ test_vm_logdir: "/var/log/libvirt/baremetal_logs"
 # NOTE(pas-ha) next two are generic values for most OSes, overriden by distro-specifc vars
 test_vm_emulator: "/usr/bin/qemu-system-x86_64"
 test_vm_machine: "pc-1.0"
-# NOTE(pas-ha) not really tested whith non-local qemu connections
+# NOTE(pas-ha) not really tested with non-local qemu connections
 test_vm_libvirt_uri: "{{ lookup('env', 'LIBVIRT_CONNECT_URI') | default('qemu:///system', true) }}"
