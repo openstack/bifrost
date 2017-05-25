@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    The CI test playbook previously looked for the requirements respository in
+    ``/opt/git/openstack/``. This has been changed to use the ``WORKSPACE``
+    environment variable when being executed.
