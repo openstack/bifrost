@@ -31,7 +31,14 @@
     - "{{ config_region_name is defined }}"
     - "{{ config_auth_url is defined }}"
 
-- name: "Ensure the ~/.config/openstack/ exists"
+- name: "Ensure the ~/.config exists"
+  file:
+    name: "~{{ user | default('root') }}/.config"
+    state: directory
+    owner: "{{ user | default('root') }}"
+    mode: 0700
+
+- name: "Ensure ~/.config/openstack/ exists"
   file:
     name: "~{{ user | default('root') }}/.config/openstack"
     state: directory
