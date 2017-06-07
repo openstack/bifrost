@@ -86,6 +86,9 @@ case ${ID,,} in
     )
     EXTRA_PKG_DEPS=()
     sudo yum updateinfo
+    if $(grep -q Fedora /etc/redhat-release); then
+        EXTRA_PKG_DEPS="python-dnf redhat-rpm-config"
+    fi
     ;;
 
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;

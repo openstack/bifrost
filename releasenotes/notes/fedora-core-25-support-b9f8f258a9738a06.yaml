@@ -1,0 +1,23 @@
+---
+features:
+  - |
+    Adds support for Fedora 25, 26, and 27.
+upgrades:
+  - The location for the tftp master_images cache folder has
+    changed from ``/tftpboot/master_images`` to
+    ``/var/lib/ironic/master_images``. This was done due to
+    security enhancements in Fedora that break the ironic-conductor
+    process as-architected.
+fixes:
+  - |
+    Addresses issues with setuptools on various distributions
+    such as Centos 7.3 and Fedora 25 where the shipped version
+    is too old to build the python packages.
+  - |
+    Changes the application of SELinux security policy from using
+    the command line tools to leveraging the Ansible module which
+    addresses issues with newer version of Ansible on Fedora.
+deprecates:
+  - |
+    Support for Fedora versions prior to Fedora Core 25, will be removed
+    during the Rocky release cycle.
