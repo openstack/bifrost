@@ -4,10 +4,15 @@ set -eu
 declare -A PKG_MAP
 
 CHECK_CMD_PKGS=(
+    gcc
+    git
     libffi
     libopenssl
+    make
     net-tools
     python-devel
+    venv
+    wget
 )
 
 # Check zypper before apt-get in case zypper-aptitude
@@ -21,6 +26,7 @@ if [ -x '/usr/bin/zypper' ]; then
         [git]=git
         [libffi]=libffi-devel
         [libopenssl]=libopenssl-devel
+        [make]=make
         [net-tools]=net-tools
         [python]=python
         [python-devel]=python-devel
@@ -41,6 +47,7 @@ elif [ -x '/usr/bin/apt-get' ]; then
               [git]=git
               [libffi]=libffi-dev
               [libopenssl]=libssl-dev
+              [make]=make
               [net-tools]=net-tools
               [python]=python-minimal
               [python-devel]=libpython-dev
@@ -58,6 +65,7 @@ elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
         [git]=git
         [libffi]=libffi-devel
         [libopenssl]=openssl-devel
+        [make]=make
         [net-tools]=net-tools
         [python]=python
         [python-devel]=python-devel
