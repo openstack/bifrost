@@ -20,7 +20,7 @@ CHECK_CMD_PKGS=(
 # is installed
 if [ -x '/usr/bin/zypper' ]; then
     OS_FAMILY="Suse"
-    INSTALLER_CMD="sudo -H -E zypper install -y"
+    INSTALLER_CMD="sudo -H -E zypper install -y --no-recommends"
     CHECK_CMD="zypper search --match-exact --installed"
     PKG_MAP=(
         [gcc]=gcc
