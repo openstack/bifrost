@@ -5,12 +5,13 @@ declare -A PKG_MAP
 
 CHECK_CMD_PKGS=(
     gcc
-    git
     libffi
     libopenssl
+    lsb-release
     make
     net-tools
     python-devel
+    python
     venv
     wget
 )
@@ -23,9 +24,9 @@ if [ -x '/usr/bin/zypper' ]; then
     CHECK_CMD="zypper search --match-exact --installed"
     PKG_MAP=(
         [gcc]=gcc
-        [git]=git
         [libffi]=libffi-devel
         [libopenssl]=libopenssl-devel
+        [lsb-release]=lsb-release
         [make]=make
         [net-tools]=net-tools
         [python]=python
@@ -43,17 +44,18 @@ elif [ -x '/usr/bin/apt-get' ]; then
     OS_FAMILY="Debian"
     INSTALLER_CMD="sudo -H -E apt-get -y install"
     CHECK_CMD="dpkg -l"
-    PKG_MAP=( [gcc]=gcc
-              [git]=git
-              [libffi]=libffi-dev
-              [libopenssl]=libssl-dev
-              [make]=make
-              [net-tools]=net-tools
-              [python]=python-minimal
-              [python-devel]=libpython-dev
-              [venv]=python-virtualenv
-              [wget]=wget
-            )
+    PKG_MAP=(
+        [gcc]=gcc
+        [libffi]=libffi-dev
+        [libopenssl]=libssl-dev
+        [lsb-release]=lsb-release
+        [make]=make
+        [net-tools]=net-tools
+        [python]=python-minimal
+        [python-devel]=libpython-dev
+        [venv]=python-virtualenv
+        [wget]=wget
+    )
     EXTRA_PKG_DEPS=()
 elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
     OS_FAMILY="RedHat"
@@ -62,9 +64,9 @@ elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
     CHECK_CMD="rpm -q"
     PKG_MAP=(
         [gcc]=gcc
-        [git]=git
         [libffi]=libffi-devel
         [libopenssl]=openssl-devel
+        [lsb-release]=redhat-lsb
         [make]=make
         [net-tools]=net-tools
         [python]=python
@@ -82,9 +84,6 @@ if ! $(python --version &>/dev/null); then
 fi
 if ! $(gcc -v &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[gcc]}
-fi
-if ! $(git --version &>/dev/null); then
-    ${INSTALLER_CMD} ${PKG_MAP[git]}
 fi
 if ! $(wget --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[wget]}
@@ -158,3 +157,9 @@ PIP=$(which pip)
 
 sudo -H -E ${PIP} install "pip>6.0"
 sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
+
+# Install the rest of required packages using bindep
+sudo -H -E ${PIP} install bindep
+
+# bindep returns 1 if packages are missing
+bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)

@@ -1,0 +1,17 @@
+gcc
+git
+libffi-devel        [platform:rpm]
+libffi-dev          [platform:dpkg]
+libopenssl-devel    [platform:suse]
+openssl-devel       [platform:redhat]
+libssl-dev          [platform:dpkg]
+lsb-release         [platform:suse platform:dpkg]
+redhat-lsb          [platform:redhat]
+make
+net-tools
+python              [platform:rpm]
+python-minimal      [platform:dpkg]
+python-devel        [platform:rpm]
+python-dev          [platform:dpkg]
+python-virtualenv
+wget

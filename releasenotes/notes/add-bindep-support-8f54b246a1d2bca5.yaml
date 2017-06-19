@@ -1,0 +1,14 @@
+---
+other:
+  - bifrost host dependencies are now being installed using the
+    ``bindep`` tool. New dependencies should be added to the bindep.txt
+    file with the appropriate profile information if necessary. Core
+    dependencies (ie those needed to bootstrap the system such as python,
+    gcc, libffi, etc) must be listed in both the bindep.txt file and the
+    scripts/install-deps.sh one for mainly two reasons. First of all, the
+    OpenStack CI may only consult the bindep.txt in order to pull the
+    necessary dependencies. Second, ``bindep`` needs certain packages to
+    be present in order to its dependencies to build properly.
+
+    More information about the ``bindep`` tool can be found at
+    https://docs.openstack.org/infra/bindep/
