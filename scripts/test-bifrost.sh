@@ -56,6 +56,9 @@ mysql_setup() {
     local DB_USER=openstack_citest
     local DB_PW=openstack_citest
 
+    # Make sure MySQL is running
+    sudo service mysql start || sudo service mysqld start || sudo service mariadb start
+
     sudo -H mysqladmin -u root password $DB_ROOT_PW
 
     # It's best practice to remove anonymous users from the database.  If
