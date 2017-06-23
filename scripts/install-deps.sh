@@ -79,6 +79,15 @@ else
     echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"
 fi
 
+# if running in OpenStack CI, then make sure epel is enabled
+# since it may already be present (but disabled) on the host
+if env | grep -q ^ZUUL; then
+    if [[ -x '/usr/bin/yum' ]]; then
+        ${INSTALLER_CMD} yum-utils
+        sudo yum-config-manager --enable epel || true
+    fi
+fi
+
 if ! $(python --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[python]}
 fi
