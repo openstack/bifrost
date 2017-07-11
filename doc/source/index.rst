@@ -1,20 +1,17 @@
 Welcome to bifrost's documentation!
-========================================================
+===================================
+
+.. include:: ../../README.rst
+
+.. include:: ../../MISSION.rst
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-   readme
+   install/index
    howto
    contributing
    troubleshooting
    vagrant
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
-

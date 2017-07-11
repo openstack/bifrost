@@ -1,8 +1,10 @@
+Offline Installation
+--------------------
+
 The ansible scripts that compose Bifrost download and install
 software via a number of means, which generally assumes connectivity
-to the internet.
-
-That connectivity is not required.
+to the internet. However, it is possible to use Bifrost without external
+connectivity.
 
 If you want or need to install Bifrost without having a dependency on
 a connection to the internet, there are a number of steps that you will
@@ -14,7 +16,7 @@ steps that need to be done in your inventory file, and the second being
 steps that need to be done on your target host outside of Ansible.
 
 Ansible Specific Steps
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 The script ``scripts/env-setup.sh`` will do a ``git clone`` to create
 ``/opt/stack/ansible``, if it doesn't already exist.  You can use the
@@ -28,14 +30,16 @@ are also cloned from an alternate location - otherwise, the submodules
 will still try to clone from GitHub.
 
 Bifrost Specific Steps
-----------------------
+^^^^^^^^^^^^^^^^^^^^^^
 
 As a general rule, any URL referenced by Bifrost scripts is configured in a
-``playbook/roles/<role>/defaults/main.yml`` file, which means that all of those
-can be redirected to point to a local copy by creating a file named
-``playbooks/host_vars/<hostname>.yml`` and redirecting the appropriate variables.
+``playbook/roles/<role>/defaults/main.yml`` file, which means that all of
+those can be redirected to point to a local copy by creating a file named
+``playbooks/host_vars/<hostname>.yml`` and redirecting the appropriate
+variables.
 
-As an example, my current file looks like:
+As an example, the yaml file's contents may look like something like like
+this.
 
 .. code-block:: yaml
 
@@ -52,7 +56,7 @@ need to be fixed by looking for any URLs in the
 ``playbook/roles/<role>/defaults/main.yml`` files, as noted above.
 
 External Steps
---------------
+^^^^^^^^^^^^^^
 
 Bifrost doesn't attempt to configure ``apt``, ``yum``, or ``pip``, so if you are
 working in an offline mode, you'll need to make sure those work independently.
