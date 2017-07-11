@@ -23,7 +23,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 extensions = [
     'sphinx.ext.autodoc',
     # 'sphinx.ext.intersphinx',
-    'oslosphinx',
+    'openstackdocstheme',
     'reno.sphinxext',
 ]
 
@@ -56,11 +56,19 @@ pygments_style = 'sphinx'
 # The theme to use for HTML and HTML Help pages.  Major themes that come with
 # Sphinx are currently 'default' and 'sphinxdoc'.
 # html_theme_path = ["."]
-# html_theme = '_theme'
+html_theme = 'openstackdocs'
 # html_static_path = ['static']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'BifrostReleaseNotesdoc'
+
+# openstackdocstheme options
+repository_name = 'openstack/bifrost'
+bug_project = 'bifrost'
+bug_tag = ''
+
+# Must set this variable to include year, month, day, hours, and minutes.
+html_last_updated_fmt = '%Y-%m-%d %H:%M'
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass
