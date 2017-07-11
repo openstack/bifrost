@@ -72,8 +72,8 @@ For documentation on diskimage-builder, See::
   http://docs.openstack.org/developer/diskimage-builder/.
 
 It should be noted that the steps for diskimage-builder installation and
-use to create an IPA image for Bifrost are the same as for ironic. See::
-  http://docs.openstack.org/developer/ironic/deploy/install-guide.html#image-requirements
+use to create an IPA image for Bifrost are the same as for ironic. See:
+http://docs.openstack.org/developer/ironic/deploy/install-guide.html#image-requirements
 
 This essentially boils down to the following steps:
 

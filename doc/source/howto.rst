@@ -27,8 +27,8 @@ which should print an empty table if connection to Ironic works as expected.
 Enroll Hardware
 ===============
 
-The following requirements are installed during the `Installation`_ step
-above:
+The following requirements are installed during the install process
+as documented in the install documentation.
 
 - openstack-infra/shade library
 - openstack-infra/os-client-config

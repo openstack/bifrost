@@ -177,7 +177,7 @@ in a stand-alone fashion.
   changing the nginx configuration accordingly.
 
   * Bifrost playbooks can leverage and optionally install keystone.
-    See :ref:`keystone`.
+    See `doc/source/keystone.rst`.
 
 * Neutron is NOT installed. Ironic performs static IP injection via
   config-drive.
