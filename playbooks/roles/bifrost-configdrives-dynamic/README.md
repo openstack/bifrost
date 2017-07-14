@@ -44,7 +44,9 @@ node_default_network_interface: This is the default network interface within
                                 required.
 
 ipv4_nameserver: Defines the IPv4 nameserver to configure the node with
-                 initially in order to support name resolution.
+                 initially in order to support name resolution. It accepts
+                 a string with a single nameserver, or a list with several
+                 ones.
 
 ipv4_address: The IPv4 address of the node to be deployed, if applicable.
 
