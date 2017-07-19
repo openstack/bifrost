@@ -182,8 +182,8 @@ def _val_or_none(array, location):
             return array[location]
         return None
     except IndexError:
-        LOG.debug(("Out of range value encountered.  Requested "
-                  "field %s Had: %s" % (location, array)))
+        LOG.debug("Out of range value encountered.  Requested "
+                  "field %s Had: %s", location, array)
 
 
 def _process_baremetal_data(data_source, groups, hostvars):
@@ -192,7 +192,7 @@ def _process_baremetal_data(data_source, groups, hostvars):
         try:
             file_data = yaml.safe_load(file_object)
         except Exception as e:
-            LOG.debug("Failed to parse JSON or YAML: %s" % e)
+            LOG.debug("Failed to parse JSON or YAML: %s", e)
             raise Exception("Failed to parse JSON or YAML")
 
     for name in file_data:
@@ -401,7 +401,7 @@ def main():
                     groups,
                     hostvars)
             except Exception as e:
-                LOG.debug("File does not appear to be JSON or YAML - %s" % e)
+                LOG.debug("File does not appear to be JSON or YAML - %s", e)
                 try:
                     (groups, hostvars) = _process_baremetal_csv(
                         data_source,
@@ -409,7 +409,7 @@ def main():
                         hostvars)
                 except Exception as e:
                     LOG.debug("CSV fallback processing failed, "
-                              "received: &s" % e)
+                              "received: %s", e)
                     LOG.error("BIFROST_INVENTORY_SOURCE does not define "
                               "a file that could be processed: "
                               "Tried JSON, YAML, and CSV formats")
