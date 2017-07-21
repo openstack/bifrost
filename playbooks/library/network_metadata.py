@@ -29,7 +29,7 @@ def main():
         ipv4_address=dict(required=False),
         ipv4_gateway=dict(required=False),
         ipv4_interface_mac=dict(required=False),
-        ipv4_nameserver=dict(required=False),
+        ipv4_nameserver=dict(required=False, type='list'),
         ipv4_subnet_mask=dict(required=False),
         vlan_id=dict(required=False),
         network_mtu=dict(required=False),
@@ -73,9 +73,7 @@ def main():
                         'type': 'ipv4',
                         'ip_address': module.params['ipv4_address'],
                         'netmask': module.params['ipv4_subnet_mask'],
-                        'dns_nameservers': [
-                            module.params['ipv4_nameserver']
-                        ],
+                        'dns_nameservers': module.params['ipv4_nameserver'],
                         'routes': [{
                             'network': '0.0.0.0',
                             'netmask': '0.0.0.0',
@@ -110,9 +108,7 @@ def main():
                         'type': 'ipv4',
                         'ip_address': module.params['ipv4_address'],
                         'netmask': module.params['ipv4_subnet_mask'],
-                        'dns_nameservers': [
-                            module.params['ipv4_nameserver']
-                        ],
+                        'dns_nameservers': module.params['ipv4_nameserver'],
                         'routes': [{
                             'network': '0.0.0.0',
                             'netmask': '0.0.0.0',
@@ -128,10 +124,11 @@ def main():
 
         services = []
         if module.params['ipv4_nameserver']:
-            services.append({
-                'type': 'dns',
-                'address': module.params['ipv4_nameserver']
-            })
+            for item in module.params['ipv4_nameserver']:
+                services.append({
+                    'type': 'dns',
+                    'address': module.params['ipv4_nameserver']
+                })
 
         network_metadata = {
             'links': links,

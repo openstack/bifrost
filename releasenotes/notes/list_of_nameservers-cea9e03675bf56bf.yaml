@@ -1,0 +1,7 @@
+---
+features:
+  - Allows to set more than one nameserver in the
+    provisioned instances. The ipv4_nameserver setting
+    can now accept either a string or a list of strings,
+    allowing to populate all desired nameservers.
+
