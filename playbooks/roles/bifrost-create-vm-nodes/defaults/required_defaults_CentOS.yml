@@ -6,6 +6,7 @@ required_packages:
  - qemu-kvm-tools
  - qemu-kvm
  - qemu-kvm-common
+ - qemu-system-x86
  - sgabios
  - sgabios-bin
  - libvirt
@@ -24,5 +25,4 @@ required_packages:
  - python-lxml
  - pkgconfig
  - libvirt-devel
-test_vm_machine: "pc"
-test_vm_emulator: "/usr/libexec/qemu-kvm"
+test_vm_emulator: "/bin/qemu-system-x86_64"
