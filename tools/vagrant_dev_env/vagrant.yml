@@ -75,13 +75,15 @@
       file: path={{ansible_install_root}} state=directory owner=vagrant
 
     - name: Prepare VM for Bifrost
-      command: /home/vagrant/bifrost/scripts/env-setup.sh
+      command: scripts/env-setup.sh
       environment:
-        ANSIBLE_INSTALL_ROOT: "{{ansible_install_root}}"
+          ANSIBLE_INSTALL_ROOT: "{{ansible_install_root}}"
+      args:
+          chdir: /home/vagrant/bifrost
 
     - name: Install Bifrost
-      shell: source {{ansible_install_root}}/ansible/hacking/env-setup && ansible-playbook -vvvv -i inventory/localhost install.yaml -e network_interface={{network_interface}}
+      command: ansible-playbook -vvvv -i inventory/localhost install.yaml -e network_interface={{network_interface}}
+      environment:
+          PATH: "{{ansible_env.HOME}}/.local/bin:{{ansible_env.PATH}}"
       args:
           chdir: /home/vagrant/bifrost/playbooks
-          executable: /bin/bash
-
