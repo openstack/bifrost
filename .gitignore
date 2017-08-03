@@ -66,3 +66,7 @@ playbooks/library/os_ironic.py
 playbooks/library/os_ironic_node.py
 playbooks/library/os_ironic_inspect.py
 playbooks/library/os_keystone_service.py
+
+# Other
+*.DS_Store
+.idea
