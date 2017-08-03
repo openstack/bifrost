@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Supports passing ``no_proxy`` environment variable to Ansible, users
+    can use ``no_proxy`` to exclude specified hosts from using proxy.
