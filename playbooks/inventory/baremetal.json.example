@@ -1,30 +1,4 @@
 {
-      "sshexample0": {
-        "uuid": "00000000-0000-0000-0000-000000000001",
-        "driver_info": {
-          "power": {
-            "ssh_port": 22,
-            "ssh_username": "ironic",
-            "ssh_virt_type": "virsh",
-            "ssh_address": "192.168.122.1",
-            "ssh_key_filename": "/home/ironic/.ssh/id_rsa"
-          }
-        },
-        "nics": [
-          {
-            "mac": "00:00:00:f9:32:f6"
-          }
-        ],
-        "driver": "agent_ssh",
-        "ipv4_address": "192.168.122.2",
-        "properties": {
-          "cpu_arch": "x86_64",
-          "ram": "3072",
-          "disk_size": "10",
-          "cpus": "1"
-        },
-        "name": "sshexample0"
-      },
       "basicipmiexample0": {
         "uuid": "00000000-0000-0000-0000-000000000002",
         "driver_info": {

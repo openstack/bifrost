@@ -210,12 +210,10 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
  "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups":
  ["baremetal", "nova"]}, "hostname0":
- {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ssh",
+ {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ipmitool",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
- "driver_info": {"power": {"ssh_virt_type": "virsh",
- "ssh_key_filename": "/home/ironic/.ssh/id_rsa", "ssh_username":
- "ironic", "ssh_port": 22, "ssh_address": "192.0.2.2"}}, "nics":
+ "driver_info": {"power": {}}, "nics":
  [{"mac": "00:01:02:03:04:05"}], "properties": {"ram": "8192",
  "cpu_arch": "x86_64", "disk_size": "512", "cpus": "1"},
  "host_groups": ["baremetal", "nova"]}}""".replace('\n', '')

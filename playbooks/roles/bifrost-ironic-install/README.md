@@ -19,7 +19,7 @@ Role Variables
 --------------
 
 Testing mode is intended to help facilitate testing of the bifrost roles and
-ironic by utilizing virtual machines on the localhost and the agent_ssh
+ironic by utilizing virtual machines on the localhost and the agent_ipmitool
 driver. This variable should be set globally for playbooks utilizing the
 bifrost-ironic-install role.
 
@@ -84,7 +84,7 @@ In case your HW needs a kernel option to boot, set the following variable:
 
 extra_kernel_options: Default undefined.
 
-When testing, the default ironic conductor driver is "agent_ssh". When
+When testing, the default ironic conductor driver is "agent_ipmitool". When
 testing mode has not been engaged, drivers can be set via the enabled_drivers
 variable which defaults to: "agent_ipmitool,agent_ilo,agent_ucs"
 

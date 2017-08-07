@@ -295,22 +295,6 @@ def _process_baremetal_csv(data_source, groups, hostvars):
                             power['ipmi_transit_address']):
                         power['ipmi_bridging'] = 'dual'
 
-            if "ssh" in host['driver']:
-                # Under another model, a user would define
-                # and value translations to load these
-                # values.  Since we're supporting the base
-                # model bifrost was developed with, then
-                # we need to make sure these are present as
-                # they are expected values.
-                power['ssh_virt_type'] = "virsh"
-                power['ssh_address'] = management_address
-                power['ssh_port'] = 22
-                # NOTE: The CSV format is desynced from the enrollment
-                # playbook at present, so we're hard coding ironic here
-                # as that is what the test is known to work with.
-                power['ssh_username'] = "ironic"
-                power['ssh_key_filename'] = "/home/ironic/.ssh/id_rsa"
-
             # Group variables together under host.
             # NOTE(TheJulia): Given the split that this demonstrates, where
             # deploy details could possible be imported from a future
