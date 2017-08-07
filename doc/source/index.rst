@@ -11,7 +11,5 @@ Contents:
    :maxdepth: 1
 
    install/index
-   howto
+   user/index
    contributing
-   troubleshooting
-   vagrant
