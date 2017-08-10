@@ -1,12 +1,13 @@
 ---
 features:
   - |
-    ``bifrost-create-vm-nodes`` role now uses Ansible's virt modules to
-    create virtual machines for bifrost testing.
+    Changes the ``bifrost-create-vm-nodes`` role to use Ansible's virt
+    modules to create virtual machines for bifrost testing.
     This supersedes the embedded bash script to create virtual machines.
     As a result, all variables that were present in the bash script are
     now available as default role variables and can be overridden by standard
     Ansible means.
+
     For backward compatibility, some of the variables still support the
     use of shell variables, but this is deprecated and should be avoided.
 deprecations:

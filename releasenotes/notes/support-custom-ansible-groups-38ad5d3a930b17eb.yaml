@@ -5,9 +5,10 @@ features:
     groups for all the hosts that make use of the dynamic JSON
     inventory. The way to do that is to simply define a
     list of groups in the `host_group` property as illustrated
-    in the following example::
+    in the following example:
 
     .. code-block:: yaml
+
         "node1": {
             "uuid": "a8cb6624-0d9f-c882-affc-046ebb96ec01",
             "host_groups": [
@@ -20,19 +21,19 @@ features:
     the per-VM inventory groups by setting the ``test_vm_host_groups``
     variable as follows::
 
-    ``{ test_vm_host_groups: { testhost: [nova, cinder] } }``
+        { test_vm_host_groups: { testhost: [nova, cinder] } }
 
     It is also possible to change the default ``baremetal`` group
     for virtual machines by simply setting the ``host_default_group``
     variable to a list of default groups as follows::
 
-    ``{ test_vm_default_groups: [baremetal vms] }``
+        { test_vm_default_groups: [baremetal vms] }
 
     The list of default groups can also be set in the
     ``DEFAULT_HOST_GROUPS`` environmental variable. This is currently
-    the only way to change the default group for baremetal hosts.
+    the only way to change the default group for baremetal hosts::
 
-    ``export DEFAULT_HOST_GROUPS="foo bar zoo"``
+        export DEFAULT_HOST_GROUPS="foo bar zoo"
 
     This will change the default groups to [foo, bar, zoo] instead of
     the currently [baremetal] default. Extra care should be taken when
