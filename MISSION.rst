@@ -1,5 +1,5 @@
 Bifrost's Mission
-=================
+~~~~~~~~~~~~~~~~~
 
 The mission of bifrost is to provide an easy path to deploy ironic in
 a stand-alone fashion, in order to help facilitate the deployment of
