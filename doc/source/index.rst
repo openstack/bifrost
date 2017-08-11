@@ -5,7 +5,8 @@ Welcome to bifrost's documentation!
 
 .. include:: ../../MISSION.rst
 
-Contents:
+Contents
+--------
 
 .. toctree::
    :maxdepth: 1

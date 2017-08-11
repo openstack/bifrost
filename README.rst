@@ -1,22 +1,18 @@
-#######
 Bifrost
-#######
+-------
 
 Bifrost (pronounced bye-frost) is a set of Ansible playbooks that
 automates the task of deploying a base image onto a set of known hardware using
 ironic. It provides modular utility for one-off operating system deployment
 with as few operational requirements as reasonably possible.
 
-Team and repository tags
-========================
+Team and repository tags:
 
 .. image:: http://governance.openstack.org/badges/bifrost.svg
     :target: http://governance.openstack.org/reference/tags/index.html
 
-.. Change things from this point on
-
 Use Cases
-=========
+~~~~~~~~~
 
 * Installation of ironic in standalone/noauth mode without other OpenStack
   components.
@@ -25,8 +21,8 @@ Use Cases
 * Testing and development of ironic in a standalone use case.
 
 Documentation
-=============
+~~~~~~~~~~~~~
 
 Bifrost's documentation can be found at the
-`OpenStack documentation site <https://docs.openstack.org/bifrost/latest>`.
+`OpenStack documentation site <https://docs.openstack.org/bifrost/latest>`_.
 
