@@ -11,10 +11,10 @@ Bifrost execution with Keystone
 ===============================
 
 Ultimately, as bifrost was designed for relatively short-lived
-installations for rapid hardware deployment, the default operating
-mode is referred to as ``noauth`` mode. With that, in order to
-leverage keystone authentication for the roles, one of the
-following steps need to take place.
+installations to facilitate rapid hardware deployment, the default
+operating mode is referred to as ``noauth`` mode. With that,
+in order to leverage keystone authentication for the roles,
+one of the following steps need to take place.
 
 #. Update the role defaults for each role you plan to make use.
    This may not make much sense  for most users, unless they are
