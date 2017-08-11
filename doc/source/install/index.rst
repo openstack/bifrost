@@ -176,8 +176,8 @@ to set ``create_image_via_dib`` to ``true``.
           ``/etc/httpboot/ipa.initramfs``.
 
 If you are running the installation behind a proxy, export the
-environment variables ``http_proxy`` and ``https_proxy`` so that
-ansible will use these proxy settings.
+environment variables ``http_proxy``, ``https_proxy`` and ``no_proxy``
+so that ansible will use these proxy settings.
 
 Installing
 ----------
