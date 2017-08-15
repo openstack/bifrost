@@ -6,5 +6,6 @@ Bifrost Release Notes
    :maxdepth: 1
 
    unreleased
+   pike
    newton
    mitaka
