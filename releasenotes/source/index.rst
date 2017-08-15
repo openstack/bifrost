@@ -7,5 +7,6 @@ Bifrost Release Notes
 
    unreleased
    pike
+   ocata
    newton
    mitaka
