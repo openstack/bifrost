@@ -118,7 +118,9 @@
   file:
     state: directory
     path: "{{ test_vm_logdir }}"
-    mode: "o+rx"
+
+- name: Add read/execute perms for the whole directory path
+  shell: f="{{ test_vm_logdir }}" ; while [[ $f != "/" ]]; do chmod 0755 $f; f=$(dirname $f); done;
 
 - name: install virtualbmc
   pip:
