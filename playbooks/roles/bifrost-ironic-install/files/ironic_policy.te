@@ -16,4 +16,4 @@ require {
 allow httpd_t root_t:file open;
 allow httpd_t default_t:file open;
 allow httpd_t root_t:file { read getattr };
-allow httpd_t default_t:file open;
+allow httpd_t default_t:file { read getattr };
