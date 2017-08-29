@@ -61,7 +61,7 @@
   become: yes
   when: (inventory_dhcp | bool == true) or (inventory_dns | bool == true)
 
-- name: "Execute node introspection"
+- name: "Execute node introspection - noauth_mode"
   os_ironic_inspect:
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
@@ -70,3 +70,19 @@
     uuid: "{{ uuid | default('') }}"
     name: "{{ name | default('') }}"
     timeout: "{{ inspection_wait_timeout }}"
+  when: noauth_mode is not defined or noauth_mode | bool == True
+
+# NOTE(TheJulia): Some behavior appears to have changed in ansible at
+# some point where arguments are passed that are part of the spec for,
+# which raises a bug in the inspection module where auth_type must be
+# defined, as it is otherwise always sent as a null value.
+- name: "Execute node introspection"
+  os_ironic_inspect:
+    cloud: "{{ cloud_name | default(omit) }}"
+    auth_type: "{{ auth_type | default('password') }}"
+    auth: "{{ auth | default(omit) }}"
+    ironic_url: "{{ ironic_url | default(omit) }}"
+    uuid: "{{ uuid | default('') }}"
+    name: "{{ name | default('') }}"
+    timeout: "{{ inspection_wait_timeout }}"
+  when: noauth_mode is defined and noauth_mode | bool == False
