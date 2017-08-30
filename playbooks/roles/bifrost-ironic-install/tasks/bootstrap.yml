@@ -54,10 +54,14 @@
   when: ansible_os_family == 'Suse'
 - name: "Start rabbitmq-server"
   service: name=rabbitmq-server state=started enabled=yes
+
 # NOTE(cinerama): on some systems, rabbit may not be ready when we want to
 # make changes to users if we don't wait first
+# TODO(TheJulia): This needs to be changed to a variable, however
+# should update this playbook all at once with new variable structures.
 - name: "Wait for rabbitmq"
   wait_for: port=5672 delay=5
+
 - name: "Ensure guest user is removed from rabbitmq"
   rabbitmq_user:
     user: "guest"

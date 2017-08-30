@@ -64,6 +64,7 @@ Below is the full data structure.
       username: keystone
       password: ChangeThisPa55w0rd
       host: 127.0.0.1
+      port: 5672
     database:
       name: keystone
       username: keystone

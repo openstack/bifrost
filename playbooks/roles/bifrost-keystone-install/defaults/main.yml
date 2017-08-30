@@ -54,9 +54,9 @@ keystone:
     username: keystone
     password: ChangeThisPa55w0rd
     host: localhost
+    port: 5672
   database:
     name: keystone
     username: keystone
     password: ChangeThisPa55w0rd
     host: localhost
-
