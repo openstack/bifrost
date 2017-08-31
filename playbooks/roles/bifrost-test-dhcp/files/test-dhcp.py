@@ -72,10 +72,15 @@ def main(argv):
     # now check that we only have these entries in leases file
     leases = []
     if not os.path.exists('/var/lib/misc/dnsmasq.leases'):
-        print('ERROR: dnsmasq leases file has not been generated')
-        sys.exit(1)
+        if not os.path.exists('/var/lib/dnsmasq/dnsmasq.leases'):
+            print('ERROR: dnsmasq leases file has not been generated')
+            sys.exit(1)
+        else:
+            dns_path = '/var/lib/dnsmasq/dnsmasq.leases'
+    else:
+        dns_path = '/var/lib/misc/dnsmasq.leases'
 
-    with open('/var/lib/misc/dnsmasq.leases') as csvfile:
+    with open(dns_path) as csvfile:
         leases_reader = csv.reader(csvfile, delimiter=' ')
         for row in leases_reader:
             leases.append(row)
