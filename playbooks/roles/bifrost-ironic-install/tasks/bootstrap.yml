@@ -27,21 +27,21 @@
     enable_venv: true
   when: lookup('env', 'VENV') | length > 0
 
+- name: "Ensure /etc/hosts has good defaults"
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: "{{ item.regexp }}.*({{ ansible_hostname }}|localhost).*"
+    line: "{{ item.contents }}"
+  with_items:
+    - { regexp: '^127\.0\.0\.1', contents: '127.0.0.1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost' }
+    - { regexp: '^::1', contents: '::1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost ipv6-localhost ipv6-loopback' }
+
 # NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
 # during bootstrapping. all other services are started in the Start phase.
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started enabled=yes
   when: ironic.database.host == 'localhost'
 
-- name: "RabbitMQ - Testing if hostname is defined in /etc/hosts"
-  command: grep -i "{{ ansible_hostname }}" /etc/hosts
-  ignore_errors: yes
-  register: test_grep_fix_hostname
-# NOTE(sean-k-mooney) in a docker container this will fail so /etc/hosts
-# should be fixed before running the bootstrap phase in a container.
-- name: "RabbitMQ - Fixing /etc/hosts"
-  command: sed -i 's/localhost/{{ ansible_hostname }} localhost/' /etc/hosts
-  when: test_grep_fix_hostname.rc != 0
 # NOTE(hwoarang): The erlang SUSE package forces epmd to listen on localhost
 # address which breaks rabbitmq-server when listening on a different address.
 # Make sure the systemd service and socket are stopped so rabbitmq-server will
