@@ -10,7 +10,7 @@ Requirements
 This role is dependent upon the os-ironic ansible module, which is dependent
 upon shade (https://git.openstack.org/cgit/openstack-infra/shade/), which in
 this case is presently dependent upon the Ironic Python Client Library
-(http://git.openstack.org/cgit/openstack/python-ironicclient/).
+(https://git.openstack.org/cgit/openstack/python-ironicclient/).
 
 Role Variables
 --------------
@@ -38,7 +38,7 @@ noauth_mode: Controls if the module is called in noauth mode.
              however if set to false, the role utilizes os_client_config
              which expects a clouds.yml file.  More information about
              this file format can be found at:
-             http://docs.openstack.org/developer/os-client-config/
+             https://docs.openstack.org/os-client-config/latest/
 
 cloud_name: Optional: String value defining a clouds.yaml entry for
             the ansible module to leverage.

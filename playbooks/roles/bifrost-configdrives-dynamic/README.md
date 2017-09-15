@@ -89,7 +89,7 @@ delineate the file destinations between different configuration drives
 that may be in the process of being created.
 
 Additional detail on the format of configuration drives can be found at:
-http://docs.openstack.org/user-guide/cli_config_drive.html
+https://docs.openstack.org/os-client-config/latest/
 
 If one wishes to manually modify a configuration drive after the fact,
 the files are base64 encoded, gzip compressed, ISO9660 filesystems.

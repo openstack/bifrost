@@ -45,7 +45,7 @@ guest image on a directory on the host, and then in the template
 for the VM, you can specify it on the disk section, as shown
 in the example template.
 
-Please see the `OpenStack Image Guide <http://docs.openstack.org/image-guide/obtain-images.html>`_
+Please see the `OpenStack Image Guide <https://docs.openstack.org/image-guide/obtain-images.html>`_
 for options and locations for obtaining guest images.
 
 Add credentials to guest image

@@ -3,7 +3,7 @@ thus follows OpenStack development procedures.
 
 For a full (and official) description of the development workflow, see:
 
-    http://docs.openstack.org/infra/manual/developers.html#development-workflow
+    https://docs.openstack.org/infra/manual/developers.html#development-workflow
 
 For a highly abridged version, read on.
 

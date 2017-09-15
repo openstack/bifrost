@@ -69,11 +69,11 @@ TinyIPA::
   https://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/tinyipa/README.rst
 
 For documentation on diskimage-builder, See::
-  http://docs.openstack.org/developer/diskimage-builder/.
+  https://docs.openstack.org/diskimage-builder/latest/.
 
 It should be noted that the steps for diskimage-builder installation and
 use to create an IPA image for Bifrost are the same as for ironic. See:
-http://docs.openstack.org/developer/ironic/deploy/install-guide.html#image-requirements
+https://docs.openstack.org/ironic/latest/install/deploy-ramdisk.html
 
 This essentially boils down to the following steps:
 
