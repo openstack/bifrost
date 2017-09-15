@@ -53,10 +53,10 @@ keystone:
   message_queue:
     username: keystone
     password: ChangeThisPa55w0rd
-    host: 127.0.0.1
+    host: localhost
   database:
     name: keystone
     username: keystone
     password: ChangeThisPa55w0rd
-    host: 127.0.0.1
+    host: localhost
 
