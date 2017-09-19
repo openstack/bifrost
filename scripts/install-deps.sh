@@ -3,6 +3,9 @@ set -eu
 
 declare -A PKG_MAP
 
+# workaround: for latest bindep to work, it needs to use en_US local
+export LANG=c
+
 CHECK_CMD_PKGS=(
     gcc
     libffi
