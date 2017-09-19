@@ -15,7 +15,7 @@ environment variables:
 For your ease of use, ``env-vars`` can be sourced to allow the CLI to connect
 to a local ironic installation operating in noauth mode. Run e.g.::
 
-  source env-vars
+  . env-vars
   ironic node-list
   +------+------+---------------+-------------+--------------------+-------------+
   | UUID | Name | Instance UUID | Power State | Provisioning State | Maintenance |

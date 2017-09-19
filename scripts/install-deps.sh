@@ -129,7 +129,7 @@ if [ -n "${VENV-}" ]; then
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
     set +u
-    source ${VENV}/bin/activate
+    . ${VENV}/bin/activate
     set -u
     VIRTUAL_ENV=${VENV}
 else

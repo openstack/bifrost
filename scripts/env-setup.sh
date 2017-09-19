@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
 
-source $(dirname $0)/install-deps.sh
+. $(dirname $0)/install-deps.sh
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
