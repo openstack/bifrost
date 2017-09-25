@@ -16,3 +16,9 @@ dib_notmpfs: false
 dib_offline: false
 dib_skipbase: false
 dib_packages: ""
+# Settings related to installing bifrost in a virtual environment
+enable_venv: false
+bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
+bifrost_venv_env:
+  VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
+  PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
