@@ -175,3 +175,6 @@ sudo -H -E ${PIP} install bindep
 
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
+
+# upgrade setuptools, as latest version is needed to install some projects
+sudo -H -E ${PIP} install --upgrade setuptools
