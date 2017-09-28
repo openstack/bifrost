@@ -127,7 +127,7 @@ def main():
             for item in module.params['ipv4_nameserver']:
                 services.append({
                     'type': 'dns',
-                    'address': module.params['ipv4_nameserver']
+                    'address': item
                 })
 
         network_metadata = {
