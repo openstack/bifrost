@@ -120,11 +120,11 @@
     dib_arglist: "{{dib_trace_arg|default('')}} {{dib_uncompressed_arg|default('')}} {{dib_clearenv_arg|default('')}} {{dib_notmpfs_arg|default('')}} {{dib_offline_arg|default('')}} {{dib_skipbase_arg|default('')}} {{dib_arch_arg|default('')}} {{dib_imagename_arg|default('')}} {{dib_imagetype_arg|default('')}} {{dib_imagesize_arg|default('')}} {{dib_imagecache_arg|default('')}} {{dib_maxresize_arg|default('')}} {{dib_mintmpfs_arg|default('')}} {{dib_mkfsopts_arg|default('')}} {{dib_qemuopts_arg|default('')}} {{dib_rootlabel_arg|default('')}} {{dib_rdelement_arg|default('')}} {{dib_installtype_arg|default('')}} {{dib_packages_arg|default('')}} {{dib_os_element}} {{dib_elements|default('')}}"
 - name: "Initiate image build"
   command: disk-image-create {{dib_arglist}}
-  environment: "{{ dib_env_vars_final }}"
+  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env if enable_venv|bool else '{}') }}"
   when: build_ramdisk | bool == false and test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false and test_image_initramfs_present.stat.exists == false
 - name: "Initiate ramdisk build"
   command: ramdisk-image-create {{dib_arglist}}
-  environment: "{{ dib_env_vars_final }}"
+  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env if enable_venv|bool else '{}') }}"
   when: build_ramdisk | bool == true and test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false and test_image_initramfs_present.stat.exists == false
 - name: "Update permission of generated image"
   file:
