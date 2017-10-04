@@ -47,6 +47,7 @@ case ${ID,,} in
 
     ubuntu|debian)
     OS_FAMILY="Debian"
+    export DEBIAN_FRONTEND=noninteractive
     INSTALLER_CMD="sudo -H -E apt-get -y install"
     CHECK_CMD="dpkg -l"
     PKG_MAP=(
