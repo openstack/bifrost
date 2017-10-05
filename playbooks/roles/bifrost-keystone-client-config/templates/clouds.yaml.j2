@@ -15,7 +15,6 @@ clouds:
 {% endfor %}
 {% else %}
   bifrost:
-    auth_type: None
-    auth: {}
+    auth_type: "none"
     url: {{ ironic_api_url }}
 {% endif %}
