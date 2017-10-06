@@ -43,8 +43,8 @@
 - name: "Place boot.ipxe helper script /etc/ironic"
   copy: src=boot.ipxe dest=/etc/ironic/boot.ipxe owner=ironic group=ironic mode=0744
 
-- name: "Pre-stage boot.ipxe into /httpboot/"
-  copy: src=boot.ipxe dest=/httpboot/boot.ipxe owner=ironic group=ironic mode=0744
+- name: "Pre-stage boot.ipxe into {{ http_boot_folder }}/"
+  copy: src=boot.ipxe dest={{ http_boot_folder }}/boot.ipxe owner=ironic group=ironic mode=0744
 
 - name: "Place tftp config file"
   copy: src=xinetd.tftp dest=/etc/xinetd.d/tftp
@@ -57,8 +57,8 @@
   copy: src={{ ipxe_dir }}/undionly.kpxe dest=/tftpboot/ remote_src=true
 
 # NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
-- name: "Copy full iPXE image into /httpboot"
-  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/httpboot/ remote_src=true
+- name: "Copy full iPXE image into {{ http_boot_folder }}/"
+  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest={{ http_boot_folder }}/ remote_src=true
 
 - name: "Copy full iPXE image into /tftpboot"
   copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/ remote_src=true
