@@ -1,0 +1,79 @@
+- project:
+    name: openstack/bifrost
+
+    experimental:
+      jobs:
+        - bifrost-integration-tinyipa-opensuse-423:
+            branches: ^(?!stable/ocata).*$
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+    check:
+      jobs:
+        - bifrost-integration-tinyipa-centos-7:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-dibipa-debian-centos-7:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-tinyipa:
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-tinyipa-opensuse-423:
+            branches: ^(?!stable/ocata).*$
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-dibipa-debian:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-dibipa-debian-opensuse-423:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-dhcp:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-dhcp-opensuse-423:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-dhcp-centos-7:
+            voting: false
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+    gate:
+      jobs:
+        - bifrost-integration-tinyipa:
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+        - bifrost-integration-tinyipa-opensuse-423:
+            branches: ^(?!stable/ocata).*$
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^doc/.*$
+              - ^releasenotes/.*$

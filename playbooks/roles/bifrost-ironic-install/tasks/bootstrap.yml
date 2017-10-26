@@ -241,6 +241,17 @@
   with_items:
     - "/var/lib/ironic"
     - "/var/lib/ironic/images"
+# Due to CI failures on stable/ocata, we need to ensure
+# this folder exists.
+- name: "Create and set /var/log/ironic"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "ironic"
+    group: "ironic"
+  with_items:
+    - "/var/log/ironic"
 - name: "Place ironic services"
   template:
     src: "{{ init_template }}"

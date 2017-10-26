@@ -64,7 +64,7 @@ elif [ -x '/usr/bin/dnf' ] || [ -x '/usr/bin/yum' ]; then
         [venv]=python-virtualenv
         [wget]=wget
     )
-    EXTRA_PKG_DEPS=()
+    EXTRA_PKG_DEPS=( epel-release )
 else
     echo "ERROR: Supported package manager not found.  Supported: apt,yum,zypper"
 fi
