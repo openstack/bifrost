@@ -160,14 +160,14 @@
 
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
-  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: >
       ironic.database.host == 'localhost' and
       test_created_db.changed | bool == true
 
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
-  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: >
       ironic.database.host != 'localhost' or
       test_created_db.changed | bool == false
@@ -184,7 +184,7 @@
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
-  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 - name: "Set permissions for /var/lib/ironic for the ironic user"
   file:
     path: "{{ item }}"

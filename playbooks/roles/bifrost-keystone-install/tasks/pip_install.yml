@@ -25,4 +25,4 @@
 - name: "Install from {{ sourcedir }} using pip"
   command: pip install --upgrade {{ sourcedir }} {{ extra_args | default('') }}
   when: source_install is defined and (source_install | bool == true)
-  environment: "{{ bifrost_venv_env if enable_venv else '{}' }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
