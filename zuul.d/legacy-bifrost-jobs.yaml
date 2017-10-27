@@ -1,0 +1,146 @@
+- job:
+    name: bifrost-integration-dhcp
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-dhcp/run
+    post-run: playbooks/legacy/bifrost-integration-dhcp/post
+    timeout: 7200
+    required-projects:
+      - openstack/bifrost
+      - openstack/diskimage-builder
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-dhcp-centos-7
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-dhcp-centos-7/run
+    post-run: playbooks/legacy/bifrost-integration-dhcp-centos-7/post
+    timeout: 7200
+    nodeset: legacy-centos-7
+    required-projects:
+      - openstack/bifrost
+      - openstack/diskimage-builder
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-dhcp-opensuse-423
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-dhcp-opensuse-423/run
+    post-run: playbooks/legacy/bifrost-integration-dhcp-opensuse-423/post
+    timeout: 7200
+    nodeset: legacy-opensuse-423
+    required-projects:
+      - openstack/bifrost
+      - openstack/diskimage-builder
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-dibipa-debian
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-dibipa-debian/run
+    post-run: playbooks/legacy/bifrost-integration-dibipa-debian/post
+    timeout: 7200
+    required-projects:
+      - openstack/bifrost
+      - openstack/diskimage-builder
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-dibipa-debian-centos-7
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-dibipa-debian-centos-7/run
+    post-run: playbooks/legacy/bifrost-integration-dibipa-debian-centos-7/post
+    timeout: 7200
+    nodeset: legacy-centos-7
+    required-projects:
+      - openstack/bifrost
+      - openstack/diskimage-builder
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-dibipa-debian-opensuse-423
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-dibipa-debian-opensuse-423/run
+    post-run: playbooks/legacy/bifrost-integration-dibipa-debian-opensuse-423/post
+    timeout: 7200
+    nodeset: legacy-opensuse-423
+    required-projects:
+      - openstack/bifrost
+      - openstack/diskimage-builder
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-tinyipa
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-tinyipa/run
+    post-run: playbooks/legacy/bifrost-integration-tinyipa/post
+    timeout: 3600
+    required-projects:
+      - openstack/bifrost
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-tinyipa-centos-7
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-tinyipa-centos-7/run
+    post-run: playbooks/legacy/bifrost-integration-tinyipa-centos-7/post
+    timeout: 3600
+    nodeset: legacy-centos-7
+    required-projects:
+      - openstack/bifrost
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
+
+- job:
+    name: bifrost-integration-tinyipa-opensuse-423
+    parent: legacy-base
+    run: playbooks/legacy/bifrost-integration-tinyipa-opensuse-423/run
+    post-run: playbooks/legacy/bifrost-integration-tinyipa-opensuse-423/post
+    timeout: 3600
+    nodeset: legacy-opensuse-423
+    required-projects:
+      - openstack/bifrost
+      - openstack/ironic
+      - openstack/ironic-inspector
+      - openstack/python-ironic-inspector-client
+      - openstack/python-ironicclient
+      - openstack/requirements
+      - openstack-infra/shade
