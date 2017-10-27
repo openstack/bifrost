@@ -70,7 +70,7 @@
 - name: "Adjust ansible_pkg_mgr if dnf exists"
   set_fact:
     ansible_pkg_mgr: "dnf"
-  when: ansible_distribution == 'Fedora' and "{{ test_dnf.stat.exists|bool }}"
+  when: ansible_distribution == 'Fedora' and test_dnf.stat.exists|bool
 
 - name: "Install required packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
@@ -86,12 +86,12 @@
   set_fact:
     generated_test_vm_node_names: "{{ generated_test_vm_node_names|default([]) + [item] }}"
   with_sequence: count={{ test_vm_num_nodes | int }} format={{ test_vm_node_name_base }}%i
-  when: "{{ test_vm_node_names | length == 0 }}"
+  when: test_vm_node_names | length == 0
 
 - name: set test vm names
   set_fact:
     test_vm_node_names: "{{ generated_test_vm_node_names }}"
-  when: "{{ test_vm_node_names | length == 0 }}"
+  when: test_vm_node_names | length == 0
 
 - name: create placeholder var for vm entries in JSON format
   set_fact:

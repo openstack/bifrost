@@ -48,7 +48,7 @@
 # are not controlled by upstart, so we need to manually kill those.
 - name: "Stop existing libvirt dnsmasq processes"
   command: killall -w dnsmasq
-  when: "{{ testing | bool == true and include_dhcp_server | bool == true }}"
+  when: testing | bool == true and include_dhcp_server | bool == true
   ignore_errors: yes
 
 - name: "Ensure services are running with current config"
@@ -61,7 +61,7 @@
   service: name={{ item }} state=restarted enabled=yes
   with_items:
     - dnsmasq
-  when: "{{ include_dhcp_server | bool == true }}"
+  when: include_dhcp_server | bool == true
 
 - name: "Send services a reload signal"
   service: name={{ item }} state=reloaded
@@ -71,4 +71,4 @@
 
 - name: "Send services a force-reload signal"
   service: name=dnsmasq state=restarted
-  when: "{{ include_dhcp_server | bool == true }}"
+  when: include_dhcp_server | bool == true

@@ -213,7 +213,7 @@
     owner: "root"
     group: "root"
     mode: 0755
-  when: "{{ inventory_dhcp | bool == true }}"
+  when: inventory_dhcp | bool == true
 - name: "Setup Inventory DHCP Hosts Directory"
   file:
     path: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
@@ -221,16 +221,16 @@
     owner: "root"
     group: "root"
     mode: 0755
-  when: "{{ inventory_dhcp | bool == true }}"
+  when: inventory_dhcp | bool == true
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
-  when: "{{ include_dhcp_server | bool == true }}"
+  when: include_dhcp_server | bool == true
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt.
 - name: "Look for libvirt dnsmasq config"
   stat: path=/etc/dnsmasq.d/libvirt-bin
   register: test_libvirt_dnsmasq
-  when: "{{ include_dhcp_server | bool == true }}"
+  when: include_dhcp_server | bool == true
 - name: "Disable libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
   when: >
@@ -246,7 +246,7 @@
   get_url:
     url: "{{ cirros_deploy_image_upstream_url }}"
     dest: "{{ deploy_image }}"
-  when: "{{ use_cirros | bool == true }}"
+  when: use_cirros | bool == true
 - name: >
     "Explicitly permit nginx port (TCP) for
     file downloads from nodes to be provisioned"

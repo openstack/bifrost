@@ -18,13 +18,13 @@
     msg: >
       The configured network interface {{ network_interface }} does
       not exist
-  when: "{{ 'ansible_' ~ ans_network_interface not in hostvars[inventory_hostname] }}"
+  when: ('ansible_' ~ network_interface) not in hostvars[inventory_hostname]
 - name: "Fail if the network interface has no IP address assigned"
   fail:
     msg: >
       The configured network interface {{ network_interface }} does
       not have an IP address assigned
-  when: "{{ not hostvars[inventory_hostname]['ansible_' ~ ans_network_interface].get('ipv4', {}).get('address') }}"
+  when: not hostvars[inventory_hostname]['ansible_' ~ network_interface].get('ipv4', {}).get('address')
 - name: "Update driver list if PXE drivers are enabled"
   set_fact:
     enabled_drivers: "{{ enabled_drivers }},{{ pxe_drivers }}"
