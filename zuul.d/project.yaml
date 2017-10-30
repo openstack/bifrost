@@ -1,14 +1,6 @@
 - project:
     name: openstack/bifrost
 
-    experimental:
-      jobs:
-        - bifrost-integration-tinyipa-opensuse-423:
-            branches: ^(?!stable/ocata).*$
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
     check:
       jobs:
         - bifrost-integration-tinyipa-centos-7:
@@ -24,12 +16,6 @@
               - ^doc/.*$
               - ^releasenotes/.*$
         - bifrost-integration-tinyipa:
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-        - bifrost-integration-tinyipa-opensuse-423:
-            branches: ^(?!stable/ocata).*$
             irrelevant-files:
               - ^.*\.rst$
               - ^doc/.*$
@@ -67,12 +53,6 @@
     gate:
       jobs:
         - bifrost-integration-tinyipa:
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-        - bifrost-integration-tinyipa-opensuse-423:
-            branches: ^(?!stable/ocata).*$
             irrelevant-files:
               - ^.*\.rst$
               - ^doc/.*$
