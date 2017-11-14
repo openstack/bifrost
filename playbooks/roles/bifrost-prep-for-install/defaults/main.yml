@@ -24,14 +24,14 @@ staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
 # *_git_branch can be overridden for stable branch testing
 ironicclient_git_branch: master
-ironic_git_branch: master
+ironic_git_branch: stable/pike
 shade_git_branch: master
 dib_git_branch: master
-ironicinspector_git_branch: master
+ironicinspector_git_branch: stable/pike
 ironicinspectorclient_git_branch: master
-reqs_git_branch: master
-staging_drivers_git_branch: master
-keystone_git_branch: master
+reqs_git_branch: stable/pike
+staging_drivers_git_branch: stable/pike
+keystone_git_branch: stable/pike
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false

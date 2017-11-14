@@ -36,14 +36,26 @@ fi
 if $(journalctl --version &>/dev/null); then
     sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
     sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
+    sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
 else
    sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
    sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
+   sudo cp /var/log/upstart/ironic-inspector.log ${LOG_LOCATION}/ || true
 fi
+sudo cp -r /var/log/libvirt ${LOG_LOCATION}/
+sudo virsh net-show default >> ${LOG_LOCATION}/virsh-net-show.log
+
 sudo chown $USER ${LOG_LOCATION}/ironic-api.log
 sudo chown $USER ${LOG_LOCATION}/ironic-conductor.log
+sudo chown $USER ${LOG_LOCATION}/ironic-inspector.log || true
 # In CI scenarios, we want other users to be able to read the logs.
 sudo chmod o+r ${LOG_LOCATION}/ironic-api.log
 sudo chmod o+r ${LOG_LOCATION}/ironic-conductor.log
+sudo chmod o+r ${LOG_LOCATION}/ironic-inspector.log || true
 
+if [ -d "/var/log/ironic" ]; then
+    sudo cp -a /var/log/ironic ${LOG_LOCATION}/
+fi
+sudo chown -R $USER ${LOG_LOCATION}/
+sudo chmod -R o+r ${LOG_LOCATION}/
 exit 0
