@@ -40,10 +40,13 @@ else
    sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
    sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
 fi
-sudo chown $USER ${LOG_LOCATION}/ironic-api.log
-sudo chown $USER ${LOG_LOCATION}/ironic-conductor.log
+
+if [ -d "/var/log/ironic" ]; then
+   cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
+fi
+
+sudo chown -R $USER ${LOG_LOCATION}
 # In CI scenarios, we want other users to be able to read the logs.
-sudo chmod o+r ${LOG_LOCATION}/ironic-api.log
-sudo chmod o+r ${LOG_LOCATION}/ironic-conductor.log
+sudo chmod -R o+r ${LOG_LOCATION}
 
 exit 0
