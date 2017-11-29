@@ -66,7 +66,8 @@ The output will look like this::
   rhui-REGION-rhel-server-source-extras/7Server/x86_64        Red H disabled
   rhui-REGION-rhel-server-source-optional/7Server/x86_64      Red H disabled
 
-Use the names of the repositories (minus the version and architecture) to enable them::
+Use the names of the repositories (minus the version and architecture)
+to enable them::
 
   sudo yum-config-manager --enable rhui-REGION-rhel-server-optional
   sudo yum-config-manager --enable rhui-REGION-rhel-server-extras

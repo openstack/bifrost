@@ -16,9 +16,9 @@ are being booted can connect to the following ports::
     6301/TCP for the ironic API
     8080/TCP for HTTP File Downloads (iPXE, Ironic-Python-Agent)
 
-If you encounter any additional issues, use of ``tcpdump`` is highly recommended
-while attempting to deploy a single node in order to capture and review the
-traffic exchange between the two nodes.
+If you encounter any additional issues, use of ``tcpdump`` is highly
+recommended while attempting to deploy a single node in order to capture
+and review the traffic exchange between the two nodes.
 
 *****************
 NodeLocked Errors
@@ -211,6 +211,6 @@ or any other IPA image, you will need to take the following steps:
    respectively.
 #. Execute the installation playbook, and the set files will be automatically
    downloaded again. If the files are not removed prior to (re)installation,
-   then they will not be replaced. Alternatively, the files can just be directly
-   replaced on disk. The default where the kernel and ramdisk are located is in
-   ``/httboot/``.
+   then they will not be replaced. Alternatively, the files can just be
+   directly replaced on disk. The default where the kernel and ramdisk are
+   located is in ``/httboot/``.

@@ -208,10 +208,11 @@ http://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-inventory-dir
 
 Note::
 
-  Before running the above command, ensure that the value for `ssh_public_key_path` in
-  ``./playbooks/inventory/group_vars/baremetal`` refers to a valid public key file,
-  or set the ssh_public_key_path option on the ansible-playbook command line by
-  setting the variable. Example: "-e ssh_public_key_path=~/.ssh/id_rsa.pub"
+  Before running the above command, ensure that the value for
+  `ssh_public_key_path` in ``./playbooks/inventory/group_vars/baremetal``
+  refers to a valid public key file, or set the ssh_public_key_path option
+  on the ansible-playbook command line by setting the variable.
+  Example: "-e ssh_public_key_path=~/.ssh/id_rsa.pub"
 
 If the hosts need to be re-deployed, the dynamic redeploy playbook may be used::
 

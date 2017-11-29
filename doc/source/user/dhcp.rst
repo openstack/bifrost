@@ -89,8 +89,8 @@ Internet Systems Consortium DHCPd::
 Architecture
 ------------
 
-It should be emphasized that Ironic in standalone mode is intended to be used only
-in a trusted environment.
+It should be emphasized that Ironic in standalone mode is intended to be used
+only in a trusted environment.
 
 ::
 
