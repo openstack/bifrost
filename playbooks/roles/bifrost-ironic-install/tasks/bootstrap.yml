@@ -182,13 +182,16 @@
     state: directory
     mode: 0755
   when: init_template == 'systemd_template.j2'
+
 - name: "Install ironic-inspector to permit use of inspection interface"
   include: inspector_bootstrap.yml
   when: enable_inspector | bool == true
+
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+
 - name: "Set permissions for /var/lib/ironic for the ironic user"
   file:
     path: "{{ item }}"
@@ -199,6 +202,17 @@
   with_items:
     - "/var/lib/ironic"
     - "/var/lib/ironic/images"
+
+- name: "Set permissions for /var/log/ironic for the ironic user"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "ironic"
+    group: "ironic"
+  with_items:
+    - "/var/log/ironic"
+
 - name: "Place ironic services"
   template:
     src: "{{ init_template }}"
