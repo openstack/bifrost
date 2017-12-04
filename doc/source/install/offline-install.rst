@@ -58,8 +58,9 @@ need to be fixed by looking for any URLs in the
 External Steps
 ^^^^^^^^^^^^^^
 
-Bifrost doesn't attempt to configure ``apt``, ``yum``, or ``pip``, so if you are
-working in an offline mode, you'll need to make sure those work independently.
+Bifrost doesn't attempt to configure ``apt``, ``yum``, or ``pip``,
+so if you are working in an offline mode, you'll need to make sure
+those work independently.
 
 ``pip`` in particular will be sensitive; Bifrost tends to use the most recent
 version of python modules, so you'll want to make sure your cache isn't stale.
