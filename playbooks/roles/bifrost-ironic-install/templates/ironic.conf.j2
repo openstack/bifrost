@@ -73,13 +73,16 @@ use_web_server_for_images = true
 enabled = true
 {% endif %}
 {% if enable_keystone is defined and enable_keystone | bool == true %}
-auth_plugin = password
+auth_type = password
 auth_url = {{ ironic.service_catalog.auth_url }}
 username = {{ ironic.service_catalog.username }}
 password = {{ ironic.service_catalog.password }}
 user_domain_id = default
 project_name = {{ ironic.service_catalog.project_name }}
 project_domain_id = default
+{% else %}
+auth_type=none
+endpoint_override=http://127.0.0.1:5050
 {% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}
