@@ -38,6 +38,7 @@ case ${ID,,} in
         [wget]=wget
     )
     EXTRA_PKG_DEPS=( python-xml )
+    sudo zypper -n ref
     # NOTE (cinerama): we can't install python without removing this package
     # if it exists
     if $(${CHECK_CMD} patterns-openSUSE-minimal_base-conflicts &> /dev/null); then
@@ -63,6 +64,7 @@ case ${ID,,} in
         [wget]=wget
     )
     EXTRA_PKG_DEPS=()
+    sudo apt-get update
     ;;
 
     rhel|fedora|centos)
@@ -83,6 +85,7 @@ case ${ID,,} in
         [wget]=wget
     )
     EXTRA_PKG_DEPS=()
+    sudo yum updateinfo
     ;;
 
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
