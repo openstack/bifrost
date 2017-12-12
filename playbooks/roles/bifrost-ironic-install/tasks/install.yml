@@ -55,13 +55,6 @@
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
   when: skip_install is not defined and enable_pxe_drivers | bool == true
-- name: "Shade - Install"
-  include: pip_install.yml
-    package=shade
-    state=latest
-    sourcedir={{ shade_git_folder }}
-    source_install={{ shade_source_install }}
-  when: skip_install is not defined
 - name: "dib-utils - install from pip"
   include: pip_install.yml
     package=dib-utils
@@ -101,3 +94,13 @@
   include: staging_install.yml
   when: skip_install is not defined and staging_drivers_include | bool == true
 
+# NOTE(TheJulia): The upper constraint for ironic installs an older version of
+# keystoneauth1 which breaks shde, As such, install shade after so the library
+# is at the sufficent revision.
+- name: "Shade - Install"
+  include: pip_install.yml
+    package=shade
+    state=latest
+    sourcedir={{ shade_git_folder }}
+    source_install={{ shade_source_install }}
+  when: skip_install is not defined
