@@ -1,59 +1,23 @@
 - project:
     name: openstack/bifrost
-
     check:
       jobs:
-        - bifrost-integration-tinyipa-centos-7:
-            voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-        - bifrost-integration-dibipa-debian-centos-7:
-            voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-        - bifrost-integration-tinyipa:
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-        - bifrost-integration-dibipa-debian:
-            voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-        - bifrost-integration-dibipa-debian-opensuse-423:
-            voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
+        - bifrost-integration-tinyipa
+        # Non-voting jobs
         - bifrost-integration-dhcp:
             voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
         - bifrost-integration-dhcp-opensuse-423:
             voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
         - bifrost-integration-dhcp-centos-7:
             voting: false
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
+        - bifrost-integration-dibipa-debian-centos-7:
+            voting: false
+        - bifrost-integration-dibipa-debian:
+            voting: false
+        - bifrost-integration-dibipa-debian-opensuse-423:
+            voting: false
+        - bifrost-integration-tinyipa-centos-7:
+            voting: false
     gate:
       jobs:
-        - bifrost-integration-tinyipa:
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^doc/.*$
-              - ^releasenotes/.*$
+        - bifrost-integration-tinyipa
