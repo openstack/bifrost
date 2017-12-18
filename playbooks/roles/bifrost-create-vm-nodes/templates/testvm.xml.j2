@@ -13,6 +13,9 @@
     <apic/>
     <pae/>
   </features>
+  <cpu mode='{{ test_vm_cpu }}'>
+    <model fallback='allow'/>
+  </cpu>
   <clock offset='utc'/>
   <on_poweroff>destroy</on_poweroff>
   <on_reboot>restart</on_reboot>
