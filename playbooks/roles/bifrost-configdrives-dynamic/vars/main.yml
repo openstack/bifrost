@@ -1,2 +1,9 @@
 ---
-metadata_version: "2012-08-10"
+metadata_versions:
+  - "2012-08-10"
+  - "2015-10-15"
+  - "latest"
+
+metadata_versions_supporting_network_data:
+  - "2015-10-15"
+  - "latest"
