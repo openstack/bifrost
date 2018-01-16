@@ -3,5 +3,5 @@
 # process, which may cause wedges in the gate later.
 pbr!=2.1.0,>=2.0.0 # Apache-2.0
 oslo.config>=5.1.0 # Apache-2.0
-oslo.log>=3.30.0 # Apache-2.0
+oslo.log>=3.36.0 # Apache-2.0
 paramiko>=2.0.0 # LGPLv2.1+
