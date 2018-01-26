@@ -25,25 +25,17 @@
   command: mktemp -d
   register: variable_configdrive_location
 
-- name: "Make metadata folder - /openstack/{{ metadata_version }}"
+- name: "Make metadata folders - /openstack/<version>"
   file:
     state: directory
-    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/"
+    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/"
+  with_items: "{{ metadata_versions }}"
 
-- name: "Make metadata folder - /openstack/latest"
-  file:
-    state: directory
-    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/"
-
-- name: "Place template in each openstack/{{ metadata_version }} folder"
+- name: "Place template in each openstack/<version> folder"
   template:
     src: openstack_meta_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ metadata_version }}/meta_data.json"
-
-- name: "Place template in each openstack/latest folder"
-  template:
-    src: openstack_meta_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/meta_data.json"
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/meta_data.json"
+  with_items: "{{ metadata_versions }}"
 
 - name: "Generate network_data"
   network_metadata:
@@ -58,23 +50,29 @@
     node_network_data: "{{ node_network_data | default(node_network_info) }}"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode
 
-- name: "Place network data template in each openstack/latest folder"
+- name: "Place network data template in each openstack/<version> folder"
   template:
     src: network_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_data.json"
-  when: addressing_mode is undefined or "dhcp" not in addressing_mode
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/network_data.json"
+  with_items: "{{ metadata_versions }}"
+  when:
+    - item in metadata_versions_supporting_network_data
+    - addressing_mode is undefined or "dhcp" not in addressing_mode
 
 # TODO(TheJulia): Deprecation removal of the old network_info file name
 # should likely take place after an elongated deprecation cycle.
 # Begin deprecated in the Ocata release suggests Queens as the point
 # in which we should remove it.
-- name: "Place deprecated network info file location in each openstack/latest folder"
+- name: "Place deprecated network info file location in each openstack/<version> folder"
   template:
     src: network_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/latest/network_info.json"
-  when: addressing_mode is undefined or "dhcp" not in addressing_mode
+    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/network_info.json"
+  with_items: "{{ metadata_versions }}"
+  when:
+    - item in metadata_versions_supporting_network_data
+    - addressing_mode is undefined or "dhcp" not in addressing_mode
 
-- name: "Make metadata folder - /openstack/latest"
+- name: "Make metadata folder - /openstack/content"
   file:
     state: directory
     name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/"
