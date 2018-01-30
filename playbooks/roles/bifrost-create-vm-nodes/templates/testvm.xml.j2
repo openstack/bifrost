@@ -33,6 +33,7 @@
     </controller>
     <interface type='network'>
       <source network='{{ test_vm_network }}'/>
+      <model type='{{ test_vm_nic }}'/>
     </interface>
     <input type='mouse' bus='ps2'/>
     <graphics type='vnc' port='-1' autoport='yes'/>
