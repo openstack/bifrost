@@ -51,3 +51,10 @@
     dest: "~{{ user | default('root') }}/.config/openstack/clouds.yaml"
     owner: "{{ user | default('root') }}"
     mode: 0600
+
+- name: "Write openrc configuration from template"
+  template:
+    src: openrc.j2
+    dest: "~{{ user | default('root') }}/openrc"
+    owner: "{{ user | default('root') }}"
+    mode: 0600

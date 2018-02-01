@@ -1,0 +1,6 @@
+---
+features:
+  - The Bifrost role which is used to create a clouds.yaml, now also
+    creates a openrc file in the user home directory when keystone
+    is enabled. This should be used to call OpenStack CLI utilities
+    and have proper credentials. The file location is ``~/openrc``.

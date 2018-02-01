@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+# WARNING: This file is managed by bifrost.
+{% if (enable_keystone | default(false) | bool) %}
+case "$1" in
+{% for cloud in clouds | default({}) | dictsort %}
+# Section for {{ cloud.0 }}
+    {{ cloud.0 }}")
+    export OS_PROJECT_DOMAIN_NAME="{{ cloud.1.config_project_domain_id | default('default') }}"
+    export OS_USER_DOMAIN_NAME="{{ cloud.1.config_user_domain_id | default('default') }}"
+    export OS_PROJECT_NAME={{ cloud.1.config_project_name }}
+    export OS_USERNAME={{ cloud.1.config_username }}
+    export OS_PASSWORD={{ cloud.1.config_password }}
+    export OS_AUTH_URL={{ cloud.1.config_auth_url }}
+    export OS_IDENTITY_API_VERSION=3
+    ;;
+{% endfor %}
+    *) echo -e "\nERROR unsupported or unspecified profile: $1\nMust be one of {{ clouds | default({}) | dictsort | map(attribute='0') | join(',') }}";;
+esac
+{% else %}
+export IRONIC_URL={{ ironic_api_url }}
+export OS_AUTH_TOKEN='fake-token'
+{% endif %}
