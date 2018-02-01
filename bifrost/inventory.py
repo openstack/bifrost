@@ -99,7 +99,7 @@ Example JSON Element:
         "mac": "00:01:02:03:04:06"
       }
    ],
-   "driver": "agent_ipmitool",
+   "driver": "ipmi",
    "ipv4_address": "192.168.122.2",
    "properties": {
       "cpu_arch": "x86_64",
@@ -269,7 +269,7 @@ def _process_baremetal_csv(data_source, groups, hostvars):
                 host['provisioning_ipv4_address'] = host['ipv4_address']
 
             # Default Driver unless otherwise defined or determined.
-            host['driver'] = "agent_ipmitool"
+            host['driver'] = "ipmi"
 
             if len(row) > 15:
                 driver = _val_or_none(row, 16)
@@ -277,8 +277,8 @@ def _process_baremetal_csv(data_source, groups, hostvars):
                     host['driver'] = driver
 
             if "ipmi" in host['driver']:
-                # Set agent_ipmitool by default
-                host['driver'] = "agent_ipmitool"
+                # Set ipmi by default
+                host['driver'] = "ipmi"
                 power['ipmi_address'] = management_address
                 power['ipmi_username'] = management_username
                 power['ipmi_password'] = management_password

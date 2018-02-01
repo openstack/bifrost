@@ -1,0 +1,19 @@
+---
+features:
+  - |
+    The ``enabled_hardware_types`` variable has been introduced to support
+    use of hardware types.
+    The ``default_deploy_interface`` variable has been introduced to support
+    setting a default method of deployment for new nodes. It defaults to the
+    ``direct`` deployment interface.
+deprecations:
+  - |
+    Ironic has deprecated support for classic drivers. These were the drivers
+    that were prepended with ``agent`` or ``pxe``. The new default hardware type,
+    which superceeds drivers, is ``ipmi``. The default deployment interface is
+    ``direct``, which superceeds the ``agent`` driver type. Support for classic
+    Drivers, will be removed from Bifrost in the Rocky release cycle.
+issues:
+  - |
+    Support for hardware types is in the beginning stages in Bifrost. Presently
+    the ``os_ironic`` ansible module does not yet understand hardware types.

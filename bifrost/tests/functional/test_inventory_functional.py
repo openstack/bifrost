@@ -38,9 +38,9 @@ unused,,00000000-0000-0000-0000-000000000001,hostname0,
 192.168.1.2,,,,|
 00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
 unused,,00000000-0000-0000-0000-000000000002,hostname1,
-192.168.1.3,,,,,agent_ipmitool""".replace('\n', '').replace('|', '\n')
+192.168.1.3,,,,,ipmi""".replace('\n', '').replace('|', '\n')
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "ipv4_address": "192.168.1.3",
  "provisioning_ipv4_address": "192.168.1.3" ,"ansible_ssh_host":
  "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
@@ -50,7 +50,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
  "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups": ["baremetal"]},
  "hostname0":
- {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "ipmi",
  "name": "hostname0", "ipv4_address": "192.168.1.2",
  "provisioning_ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "driver_info": {"power": {"ipmi_address": "192.0.2.2",
@@ -70,10 +70,10 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
     def test_csv_file_conversion_ipmi_dual_bridging(self):
         CSV = """00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
 unused,,00000000-0000-0000-0000-000000000002,hostname1,
-192.168.1.3,10,20,30,40,agent_ipmitool""".replace('\n', '').replace('|', '\n')
+192.168.1.3,10,20,30,40,ipmi""".replace('\n', '').replace('|', '\n')
 
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "ipv4_address": "192.168.1.3",
  "provisioning_ipv4_address": "192.168.1.3", "ansible_ssh_host":
  "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
@@ -95,10 +95,10 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
     def test_csv_file_conversion_ipmi_single_bridging(self):
         CSV = """00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
 unused,,00000000-0000-0000-0000-000000000002,hostname1,
-192.168.1.3,10,20,,,agent_ipmitool""".replace('\n', '').replace('|', '\n')
+192.168.1.3,10,20,,,ipmi""".replace('\n', '').replace('|', '\n')
 
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "ipv4_address": "192.168.1.3",
  "provisioning_ipv4_address": "192.168.1.3", "ansible_ssh_host":
  "192.168.1.3", "driver_info": {"power": {"ipmi_address": "192.0.2.3",
@@ -116,10 +116,10 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
     def test_csv_file_conversion_dhcp(self):
         CSV = """00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
 unused,,00000000-0000-0000-0000-000000000002,hostname1
-,,,,,,agent_ipmitool""".replace('\n', '').replace('|', '\n')
+,,,,,,ipmi""".replace('\n', '').replace('|', '\n')
 
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "addressing_mode": "dhcp", "ipv4_address": null,
  "provisioning_ipv4_address": null,
  "driver_info": {"power": {"ipmi_address": "192.0.2.3", "ipmi_password":
@@ -140,10 +140,10 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1
         # is identical.
         CSV = """00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
 unused,,00000000-0000-0000-0000-000000000002,hostname1
-,,,,,,agent_ipmitool""".replace('\n', '')
+,,,,,,ipmi""".replace('\n', '')
 
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "addressing_mode": "dhcp", "ipv4_address": null,
  "provisioning_ipv4_address": null,
  "driver_info": {"power": {"ipmi_address": "192.0.2.3", "ipmi_password":
@@ -166,9 +166,9 @@ unused,,00000000-0000-0000-0000-000000000001,hostname0,
 192.168.1.2,,,,|
 00:01:02:03:04:06,root,undefined,192.0.2.3,2,8192,1024,
 unused,,00000000-0000-0000-0000-000000000002,hostname1,
-192.168.1.3,,,,,agent_ipmitool""".replace('\n', '').replace('|', '\n')
+192.168.1.3,,,,,ipmi""".replace('\n', '').replace('|', '\n')
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
  "192.168.1.3", "provisioning_ipv4_address": "192.168.1.3",
  "driver_info": {"power": {"ipmi_address": "192.0.2.3",
@@ -178,7 +178,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
  "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups": ["baremetal"]},
  "hostname0":
- {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "ipmi",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
  "driver_info": {"power": {"ipmi_address": "192.0.2.2",
@@ -200,7 +200,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
         # that we get the same output when we pass something
         # in as YAML
         expected_hostvars = """{"hostname1":
- {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000002", "driver": "ipmi",
  "name": "hostname1", "ipv4_address": "192.168.1.3", "ansible_ssh_host":
  "192.168.1.3", "provisioning_ipv4_address": "192.168.1.3",
  "driver_info": {"power": {"ipmi_address": "192.0.2.3",
@@ -210,7 +210,7 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
  [{"mac": "00:01:02:03:04:06"}], "properties": {"ram": "8192", "cpu_arch":
  "x86_64", "disk_size": "1024", "cpus": "2"}, "host_groups":
  ["baremetal", "nova"]}, "hostname0":
- {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "agent_ipmitool",
+ {"uuid": "00000000-0000-0000-0000-000000000001", "driver": "ipmi",
  "name": "hostname0", "ipv4_address": "192.168.1.2", "ansible_ssh_host":
  "192.168.1.2", "provisioning_ipv4_address": "192.168.1.2",
  "driver_info": {"power": {}}, "nics":
@@ -225,11 +225,11 @@ unused,,00000000-0000-0000-0000-000000000002,hostname1,
         input_json = """{"h0000-01":{"uuid":
 "00000000-0000-0000-0001-bad00000010","name":"h0000-01","driver_info"
 :{"power":{"ipmi_address":"10.0.0.78","ipmi_username":"ADMIN","
-ipmi_password":"ADMIN"}},"driver":"agent_ipmitool"}}""".replace('\n', '')
+ipmi_password":"ADMIN"}},"driver":"ipmi"}}""".replace('\n', '')
         expected_json = """{"h0000-01":{"uuid":
 "00000000-0000-0000-0001-bad00000010","name":"h0000-01","driver_info"
 :{"power":{"ipmi_address":"10.0.0.78","ipmi_username":"ADMIN","
-ipmi_password":"ADMIN"}},"driver":"agent_ipmitool","addressing_mode":
+ipmi_password":"ADMIN"}},"driver":"ipmi","addressing_mode":
 "dhcp","host_groups": ["baremetal"]}}""".replace('\n', '')
         (groups, hostvars) = utils.bifrost_data_conversion(input_json)
         self.assertDictEqual(json.loads(str(expected_json)), hostvars)

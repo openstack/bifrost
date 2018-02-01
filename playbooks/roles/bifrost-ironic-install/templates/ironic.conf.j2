@@ -9,10 +9,18 @@
 # configuration besides a flat network where bifrost orchustrates the
 # control instead of ironic, noop is the only available network driver.
 enabled_network_interfaces = noop
+default_deploy_interface = {{ default_deploy_interface }}
+{% if enable_inspector | bool == true %}
+enabled_inspect_interfaces = no-inspect,inspector
+default_inspect_interface = inspector
+{% endif %}
+
 {% if testing | bool == true %}
-enabled_drivers = agent_ipmitool,pxe_ipmitool
 debug = true
+# Default enable ipmi for CI testing
+enabled_hardware_types = ipmi
 {% else %}
+enabled_hardware_types = {{ enabled_hardware_types }}
 enabled_drivers = {{ enabled_drivers }}
 debug = false
 {% endif %}

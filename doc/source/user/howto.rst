@@ -140,7 +140,7 @@ The CSV file has the following columns:
 
 Example definition::
 
-  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,agent_ipmitool,10.0.0.9
+  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,ipmi,10.0.0.9
 
 This file format is fairly flexible and can be easily modified
 although the enrollment and deployment playbooks utilize the model
