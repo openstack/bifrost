@@ -64,6 +64,14 @@
     - skip_install is not defined
     - enable_venv | bool == false
 
+- name: "Install python-openstackclient if not using a venv"
+  include: pip_install.yml
+    package=python-openstackclient
+    extra_args="-c {{ upper_constraints_file }}"
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == false
+
 - name: "Install keystone using pip"
   include: pip_install.yml
     package=keystone

@@ -11,9 +11,11 @@ Installation with Keystone
 Bifrost can now install and make use of keystone. In order to enable
 this as part of the installation, the ``enable_keystone`` variable
 must be set to ``true``, either in ``playbooks/inventory/group_vars/target``
-or on the command line during installation. Example::
+or on the command line during installation. Note that enable_keystone and
+noauth_mode are mutually exclusive so they should have an opposite value of
+oneanother. Example::
 
-    ansible-playbook -vvvv -i inventory/target install.yaml -e enable_keystone=true
+    ansible-playbook -vvvv -i inventory/target install.yaml -e enable_keystone=true -e noauth_mode=false
 
 However, prior to installation, overriding credentials should be set
 in order to customize the deployment to meet your needs.
