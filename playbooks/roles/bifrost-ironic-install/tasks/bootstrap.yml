@@ -266,14 +266,18 @@
     dest: "{{ deploy_image }}"
   when: use_cirros | bool == true
 - name: >
-    "Explicitly permit nginx port (TCP) for
-    file downloads from nodes to be provisioned"
-  command: >
-    iptables -I INPUT -p tcp --dport {{file_url_port}}
-    -i {{network_interface}} -j ACCEPT
-- name: "Explicitly permit TCP/6385 for IPA callback"
-  command: >
-    iptables -I INPUT -p tcp --dport 6385 -i {{ network_interface }} -j ACCEPT
+    "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned
+     and TCP/6385 for IPA callback"
+  iptables:
+    chain: INPUT
+    action: insert
+    protocol: tcp
+    destination_port: "{{ item }}"
+    in_interface: "{{ network_interface }}"
+    jump: ACCEPT
+  with_items:
+    - "{{ file_url_port }}"
+    - 6385
 - block:
     - name: "Explicitly allow nginx and IPA port (TCP) on selinux"
       seport:
