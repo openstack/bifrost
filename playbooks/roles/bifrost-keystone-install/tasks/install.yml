@@ -31,11 +31,17 @@
 # duplicating here as we are installing a separate service with this.
 # We may wish to refactor this at a later point in time.
 - name: "Install configparser in venv if using"
-  include: pip_install.yml package=configparser virtualenv=bifrost_venv_dir
+  include: pip_install.yml
+    package=configparser
+    virtualenv=bifrost_venv_dir
+    extra_args="-c {{ upper_constraints_file }}"
   when: skip_install is not defined and (enable_venv | bool == true)
 
 - name: "Install pymysql in venv if using"
-  include: pip_install.yml package=pymysql virtualenv=bifrost_venv_dir
+  include: pip_install.yml
+    package=pymysql
+    virtualenv=bifrost_venv_dir
+    extra_args="-c {{ upper_constraints_file }}"
   when: skip_install is not defined and (enable_venv | bool == true)
 
 - name: "Install keystone using pip"
