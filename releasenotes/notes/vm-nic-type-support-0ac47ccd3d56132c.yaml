@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Add support for tweaking the vNIC model for the VMs created
+    by bifrost-create-vm-nodes. The default vNIC model is 'virtio'
+    which should provide the best possible performance. The model can be
+    changed using the `test_vm_nic` Ansible variable.
