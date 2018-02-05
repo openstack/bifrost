@@ -25,6 +25,9 @@
       The configured network interface {{ network_interface }} does
       not have an IP address assigned
   when: not hostvars[inventory_hostname]['ansible_' ~ network_interface].get('ipv4', {}).get('address')
+# DEPRECATED: enabled_drivers, pxe_drivers, and enable_pxe_drivers has
+# been deprecated and will be removed in the Rocky release. Please consult
+# enabled_hardware_types.
 - name: "Update driver list if PXE drivers are enabled"
   set_fact:
     enabled_drivers: "{{ enabled_drivers }},{{ pxe_drivers }}"

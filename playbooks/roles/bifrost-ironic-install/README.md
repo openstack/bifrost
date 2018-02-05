@@ -19,8 +19,8 @@ Role Variables
 --------------
 
 Testing mode is intended to help facilitate testing of the bifrost roles and
-ironic by utilizing virtual machines on the localhost and the agent_ipmitool
-driver. This variable should be set globally for playbooks utilizing the
+ironic by utilizing virtual machines on the localhost and the ipmi hardware
+type. This variable should be set globally for playbooks utilizing the
 bifrost-ironic-install role.
 
 testing: false
@@ -84,9 +84,9 @@ In case your HW needs a kernel option to boot, set the following variable:
 
 extra_kernel_options: Default undefined.
 
-When testing, the default ironic conductor driver is "agent_ipmitool". When
-testing mode has not been engaged, drivers can be set via the enabled_drivers
-variable which defaults to: "agent_ipmitool,agent_ilo,agent_ucs"
+When testing, the default ironic conductor hardware type is "ipmi". When
+testing mode has not been engaged, hardware types can be enabled using
+the "enabled_hardare_types" variable, which defaults to "ipmi, ilo, ucs".
 
 By default, PXE driver baseline support, in terms of installation of the
 iSCSI client and configuration of sudoers and rootwrap configuration is
@@ -215,7 +215,7 @@ enable_inspector_discovery: Boolean value, default true. This instructs
 inspector_default_node_driver: The default driver to utilize when adding
                                discovered nodes to ironic.
                                The default value set by bifrost is
-                               `agent_ipmitool`. Users should change this
+                               `ipmi`. Users should change this
                                setting for their install environment if
                                an alternative default driver is required.
 

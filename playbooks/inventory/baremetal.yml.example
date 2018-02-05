@@ -11,7 +11,7 @@
         mac: "00:00:00:23:34:56"
       -
         mac: "00:00:00:12:34:57"
-    driver: "agent_ipmitool"
+    driver: "ipmi"
     ipv4_address: "192.168.1.2"
     properties:
       cpu_arch: "x86_64"
@@ -41,7 +41,7 @@
     instance_info:
       image_source: "http://192.168.1.1:8080/custom_deployment_image.qcow2"
       image_checksum: "493972895dc465a09702ce6e85a836c5"
-    driver: "agent_ipmitool"
+    driver: "ipmi"
     ipv4_address: "192.168.1.3"
     properties:
       cpu_arch: "x86_64"
