@@ -86,7 +86,7 @@ extra_kernel_options: Default undefined.
 
 When testing, the default ironic conductor hardware type is "ipmi". When
 testing mode has not been engaged, hardware types can be enabled using
-the "enabled_hardare_types" variable, which defaults to "ipmi, ilo, ucs".
+the "enabled_hardware_types" variable, which defaults to "ipmi, ilo, ucs".
 
 By default, PXE driver baseline support, in terms of installation of the
 iSCSI client and configuration of sudoers and rootwrap configuration is
