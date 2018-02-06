@@ -153,23 +153,6 @@
 - name: "Generate ironic Configuration"
   include: ironic_config.yml
 
-# TODO(mgoddard): Remove this check and the following copy when ironic's pike release is no longer
-# supported.
-- name: "Check for ironic policy.json"
-  stat:
-    path: "{{ ironic_git_folder }}/etc/ironic/policy.json"
-  register: test_ironic_policy_json
-
-- name: "Copy policy.json to /etc/ironic"
-  copy:
-    src: "{{ ironic_git_folder }}/etc/ironic/policy.json"
-    dest: "/etc/ironic/"
-    remote_src: yes
-    owner: "ironic"
-    group: "ironic"
-    mode: 0644
-  when: test_ironic_policy_json.stat.exists
-
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
