@@ -40,3 +40,13 @@ a file will be written to the user's home directory that is executing
 the installation.  That file can be located at
 ``~/.config/openstack/clouds.yaml``. The cloud that is written
 to that file is named ``bifrost``.
+
+Creation of openrc
+------------------
+
+Also by default, after bifrost installation and again, when keystone
+is enabled, a file will be written to the user's home directory that
+you can use to set the appropriate environment variables in your
+current shell to be able to use OpenStack utilities:
+
+    . ~/openrc bifrost && openstack baremetal driver list
