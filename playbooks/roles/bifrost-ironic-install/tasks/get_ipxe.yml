@@ -32,4 +32,4 @@
   delay: 10
   with_items:
     - undionly.kpxe
-    - ipxe.lkrn
+    - ipxe.pxe
