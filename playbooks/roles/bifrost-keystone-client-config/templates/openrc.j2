@@ -5,7 +5,7 @@
 case "$1" in
 {% for cloud in clouds | default({}) | dictsort %}
 # Section for {{ cloud.0 }}
-    {{ cloud.0 }}")
+    "{{ cloud.0 }}")
     export OS_PROJECT_DOMAIN_NAME="{{ cloud.1.config_project_domain_id | default('default') }}"
     export OS_USER_DOMAIN_NAME="{{ cloud.1.config_user_domain_id | default('default') }}"
     export OS_PROJECT_NAME={{ cloud.1.config_project_name }}
