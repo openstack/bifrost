@@ -35,14 +35,34 @@
     package=configparser
     virtualenv=bifrost_venv_dir
     extra_args="-c {{ upper_constraints_file }}"
-  when: skip_install is not defined and (enable_venv | bool == true)
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == true
 
 - name: "Install pymysql in venv if using"
   include: pip_install.yml
     package=pymysql
     virtualenv=bifrost_venv_dir
     extra_args="-c {{ upper_constraints_file }}"
-  when: skip_install is not defined and (enable_venv | bool == true)
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == true
+
+- name: "Install configparser if not using a venv"
+  include: pip_install.yml
+    package=configparser
+    extra_args="-c {{ upper_constraints_file }}"
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == false
+
+- name: "Install pymysql if not using a venv"
+  include: pip_install.yml
+    package=pymysql
+    extra_args="-c {{ upper_constraints_file }}"
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == false
 
 - name: "Install keystone using pip"
   include: pip_install.yml
