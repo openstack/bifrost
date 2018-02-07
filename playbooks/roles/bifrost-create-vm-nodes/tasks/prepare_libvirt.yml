@@ -57,6 +57,15 @@
     state: stopped
   ignore_errors: true
 
+# NOTE(TheJulia): Seems if you test in a VM, this might
+# be helpful if your installed your host originally
+# with the default 192.168.122/0/24 network
+- name: destroy libvirt network
+  virt_net:
+    name: "{{ test_vm_network }}"
+    state: absent
+    uri: "{{ test_vm_libvirt_uri }}"
+
 - name: ensure libvirt network is present
   virt_net:
     name: "{{ test_vm_network }}"

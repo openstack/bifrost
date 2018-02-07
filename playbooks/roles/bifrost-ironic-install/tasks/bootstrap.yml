@@ -192,6 +192,7 @@
     group: "ironic"
   with_items:
     - "/var/lib/ironic"
+    - "/var/lib/ironic/master_images"
     - "/var/lib/ironic/images"
 
 - name: "Set permissions for /var/log/ironic for the ironic user"
@@ -278,7 +279,10 @@
         state: present
 
     - name: "Add proper context on created data for http_boot"
-      command: semanage fcontext -a -t httpd_sys_content_t "{{ http_boot_folder }}(/.*)?"
+      sefcontext:
+        target: "{{ http_boot_folder }}(/.*)?"
+        setype: httpd_sys_content_t
+        state: present
 
     - name: Copy ironic policy file to temporary directory
       copy:

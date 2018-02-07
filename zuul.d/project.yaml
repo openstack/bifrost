@@ -18,6 +18,8 @@
             voting: false
         - bifrost-integration-tinyipa-centos-7:
             voting: false
+        - bifrost-integration-tinyipa-fedora26:
+            voting: false
     gate:
       jobs:
         - bifrost-integration-tinyipa

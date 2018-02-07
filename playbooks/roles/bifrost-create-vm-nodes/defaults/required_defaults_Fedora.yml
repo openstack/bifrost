@@ -1,0 +1,16 @@
+---
+sgabios_dir: /usr/share/sgabios/
+libvirt_service_name: libvirtd
+required_packages:
+ - qemu-img
+ - qemu-kvm
+ - qemu-system-x86
+ - sgabios-bin
+ - libvirt
+ - libvirt-client
+ - libvirt-daemon
+ - libvirt-python
+ - python-lxml
+ - pkgconfig
+ - libvirt-devel
+ - libselinux-python
