@@ -1,4 +1,4 @@
 ---
 features:
-  - Bump to latest stable Ansible version (2.4)
+  - Now leverages stable Ansible version (2.4).
 

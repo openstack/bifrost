@@ -1,7 +1,7 @@
 ---
 features:
-  - Add support for tweaking the vCPU model for the VMs created
-    by bifrost-create-vm-nodes. The default vCPU model is 'host-model'
+  - Adds support for tweaking the vCPU model for the VMs created
+    by bifrost-create-vm-nodes. The default vCPU model is ``host-model``
     which should provide the best possible performance whilst using only
     the CPU features which are understood by libvirt. The model can be
-    changed using the `test_vm_cpu` Ansible variable.
+    changed using the ``test_vm_cpu`` Ansible variable.
