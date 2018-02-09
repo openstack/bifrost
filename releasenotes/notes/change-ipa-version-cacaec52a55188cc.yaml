@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    By adding extra variable ``-e ipa_upstream_release=stable-mitaka`` for instance,
+    the deployment can now use all ramdisk and kernel images available in
+    https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/
+    instead of the default ``master``.
+
+    Furthermore, as some of these files do not have any .sha256
+    checksum associated to them, the downloading of these file
+    is now just issuing a "warning" and is not reported as an
+    Ansible error in the final summary.
