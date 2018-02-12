@@ -7,7 +7,7 @@ staging_drivers_include: false
 file_url_port: "8080"
 ironicclient_source_install: false
 shade_source_install: true
-ironicinspector_source_install: false
+ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
 staging_drivers_source_install: false
 # Setting to utilize diskimage-builder to create a bootable image.
