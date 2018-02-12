@@ -310,16 +310,19 @@ def _process_baremetal_csv(data_source, groups, hostvars):
 
 def _identify_shade_auth():
     """Return shade credentials"""
-    # Note(TheJulia): A logical progression is to support a user defining
-    # an environment variable that triggers use of os-client-config to allow
-    # environment variables or clouds.yaml auth configuration.  This could
-    # potentially be passed in as variables which could then be passed
-    # to modules for authentication allowing the basic tooling to be
-    # utilized in the context of a larger cloud supporting ironic.
     options = dict(
         auth_type="None",
         auth=dict(endpoint="http://localhost:6385/",)
     )
+    if os.environ.get('OS_AUTH_URL'):
+        options['auth_type'] = "password"
+        options['auth'] = dict(
+            username=os.getenv('OS_USERNAME', ""),
+            password=os.getenv('OS_PASSWORD', ""),
+            auth_url=os.getenv('OS_AUTH_URL', ""),
+            project_name=os.getenv('OS_PROJECT_NAME', ""),
+            domain_id=os.getenv('OS_USER_DOMAIN_NAME', ""),
+        )
     return options
 
 
