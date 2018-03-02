@@ -52,14 +52,14 @@
      package=proliantutils
      state=present
      extra_args="-c {{ upper_constraints_file }}"
-  when: skip_install is not defined and testing | bool != true
+  when: skip_install is not defined
 
 - name: "UcsSdk - Install from pip"
   include: pip_install.yml
     package=UcsSdk
     version=0.8.1.9
     extra_args="-c {{ upper_constraints_file }}"
-  when: skip_install is not defined and testing | bool != true
+  when: skip_install is not defined
 
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"

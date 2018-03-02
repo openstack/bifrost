@@ -84,8 +84,11 @@ ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
 staging_drivers_git_url: http://git.openstack.org/cgit/openstack/ironic-staging-drivers
 
 # TODO(TheJulia): Add redfish to this list.
-enabled_hardware_types: "ipmi,ilo,ucs"
+enabled_hardware_types: "ipmi,ilo,cisco-ucs-managed"
 default_deploy_interface: "direct"
+enabled_boot_interfaces: "ilo-virtual-media,pxe"
+enabled_management_interfaces: "ilo,ipmitool,ucsm"
+enabled_power_interfaces: "ilo,ipmitool,ucsm"
 
 # DEPRECATED: Ironic is removing classic drivers in Rocky. Please see
 # enabled_hardware_types.

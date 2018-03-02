@@ -5,6 +5,7 @@
 
 
 [DEFAULT]
+debug = {{ testing | bool }}
 # NOTE(TheJulia): Until Bifrost supports neutron or some other network
 # configuration besides a flat network where bifrost orchustrates the
 # control instead of ironic, noop is the only available network driver.
@@ -14,16 +15,12 @@ default_deploy_interface = {{ default_deploy_interface }}
 enabled_inspect_interfaces = no-inspect,inspector
 default_inspect_interface = inspector
 {% endif %}
+enabled_boot_interfaces = {{ enabled_boot_interfaces }}
+enabled_management_interfaces = {{ enabled_management_interfaces }}
+enabled_power_interfaces = {{ enabled_power_interfaces }}
 
-{% if testing | bool == true %}
-debug = true
-# Default enable ipmi for CI testing
-enabled_hardware_types = ipmi
-{% else %}
 enabled_hardware_types = {{ enabled_hardware_types }}
 enabled_drivers = {{ enabled_drivers }}
-debug = false
-{% endif %}
 
 rabbit_userid = ironic
 rabbit_password = {{ ironic_db_password }}
