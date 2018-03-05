@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Updates the default branch of dependent software packages from ``master``
+    to ``stable/stein``. Also updates the TinyIPA ramdisk and kernel images to
+    use OpenStack Stein series images.
