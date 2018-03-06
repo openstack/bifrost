@@ -32,3 +32,5 @@ test_vm_emulator: "/usr/bin/qemu-system-x86_64"
 test_vm_machine: "pc-1.0"
 # NOTE(pas-ha) not really tested with non-local qemu connections
 test_vm_libvirt_uri: "{{ lookup('env', 'LIBVIRT_CONNECT_URI') | default('qemu:///system', true) }}"
+reqs_git_folder: /opt/stack/requirements
+upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
