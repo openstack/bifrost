@@ -134,3 +134,4 @@
 - name: install virtualbmc
   pip:
     name: virtualbmc
+    extra_args: "-c {{ upper_constraints_file }}"
