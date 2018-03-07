@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds support for installing the ``openstack`` client, even when the
+    Identity service is disabled. If the Identity service is disabled,
+    also adds a new cloud in ``clouds.yml`` called ``bifrost-inspector``
+    which references to the Bare Metal Introspection service.
