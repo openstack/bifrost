@@ -168,6 +168,14 @@ inspector_keep_ports: "present"
 # list of processing hooks for inspector.
 #inspector_processing_hooks:
 
+# Whether to store introspection data using the local Nginx web server as an
+# object storage service.
+inspector_store_data_in_nginx: true
+
+# When inspector_store_data_in_nginx is true, this is the URL of the Nginx
+# 'Swift' API endpoint.
+inspector_store_data_url: "http://localhost:{{ file_url_port }}"
+
 # Inspector defaults
 inspector:
   discovery:

@@ -1,0 +1,12 @@
+---
+# defaults file for bifrost-test-inspection
+
+file_url_port: "8080"
+
+# Whether to store introspection data using the local Nginx web server as an
+# object storage service.
+inspector_store_data_in_nginx: true
+
+# When inspector_store_data_in_nginx is true, this is the URL of the Nginx
+# 'Swift' API endpoint.
+inspector_store_data_url: "http://localhost:{{ file_url_port }}"
