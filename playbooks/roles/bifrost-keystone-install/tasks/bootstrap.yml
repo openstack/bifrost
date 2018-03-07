@@ -107,6 +107,24 @@
     group: "keystone"
     mode: 0755
 
+- name: "Retrieve Keystone major version"
+  command: keystone-manage --version
+  register: keystone_version_str
+
+- name: "Set Keystone major version"
+  set_fact:
+    keystone_version: "{{ keystone_version_str.stderr.split('.')[0] }}"
+
+- name: "Set Keystone provider to uuid"
+  set_fact:
+    keystone_provider: "uuid"
+  when: keystone_version | int < 13
+
+- name: "Set Keystone provider to fernet"
+  set_fact:
+    keystone_provider: "fernet"
+  when: keystone_version | int >= 13
+
 - name: "Write keystone configuration from template"
   template:
     src: keystone.conf.j2
@@ -128,10 +146,16 @@
   command: keystone-manage db_sync
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
+- name: "Setup Fernet key repositories"
+  command: >
+    keystone-manage fernet_setup
+    --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
+  when: keystone_version | int >= 13
+
 - name: "Setup Keystone Credentials"
   command: >
     keystone-manage credential_setup
-    --keystone-user=keystone --keystone-group=keystone
+    --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
 
 - name: "Bootstrap Keystone Database"
   command: >
