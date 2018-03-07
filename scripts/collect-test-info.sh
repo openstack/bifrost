@@ -36,9 +36,11 @@ fi
 if $(journalctl --version &>/dev/null); then
     sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
     sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
+    sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
 else
    sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
    sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
+   sudo cp /var/log/upstart/ironic-inspector.log ${LOG_LOCATION}/
 fi
 
 if [ -d "/var/log/ironic" ]; then
