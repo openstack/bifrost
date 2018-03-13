@@ -1,0 +1,64 @@
+---
+features:
+  - |
+    Custom partitioning YAML file can now be specified using partitioning_file
+    variable which contains a path to the YAML file describing the partitions
+    layout. For example:
+
+    .. code-block:: yaml
+
+        - local_loop:
+            name: image0
+        - partitioning:
+            base: image0
+            label: mbr
+            partitions:
+              - name: root
+                flags: [ boot,primary ]
+                size: 6G
+                mkfs:
+                  type: xfs
+                  label: "img-rootfs"
+                  mount:
+                    mount_point: /
+                    fstab:
+                      options: "rw,relatime"
+                      fck-passno: 1
+              - name: tmp
+                size: 1G
+                mkfs:
+                  type: xfs
+                  mount:
+                    mount_point: /tmp
+                    fstab:
+                        options: "rw,nosuid,nodev,noexec,relatime"
+              - name: var
+                size: 7G
+                mkfs:
+                  type: xfs
+                  mount:
+                    mount_point: /var
+                    fstab:
+                      options: "rw,relatime"
+              - name: log
+                size: 5G
+                mkfs:
+                  type: xfs
+                  mount:
+                    mount_point: /var/log
+                    fstab:
+                      options: "rw,relatime"
+              - name: home
+                size: 1G
+                mkfs:
+                  type: xfs
+                  mount:
+                    mount_point: /home
+                    fstab:
+                      options: "rw,nodev,relatime"
+
+
+    For more informations please refer to the following links:
+    `Disk Image Layout Section <https://docs.openstack.org/diskimage-builder/latest/user_guide/building_an_image.html#disk-image-layout>`_
+    `Standard Partitioning <http://teknoarticles.blogspot.fr/2017/07/build-and-use-security-hardened-images.html>`_
+    `LVM Partitioning <http://teknoarticles.blogspot.fr/2017/11/security-hardened-images-with-volumes.html>`_
