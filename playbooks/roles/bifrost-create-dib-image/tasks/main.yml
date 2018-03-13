@@ -119,12 +119,21 @@
   set_fact:
     dib_env_vars_final: "{{dib_env_vars_final | combine({'DIB_RELEASE':dib_os_release}) }}"
   when: dib_os_release is defined
+- name: "Set partitioning information if set"
+  slurp:
+    src: "{{ partitioning_file }}"
+  register: partition_info
+  when: partitioning_file is defined
+- name: "Set partitioning information string if set"
+  set_fact:
+    dib_partitioning: "{{ partition_info['content'] | b64decode }}"
+  when: partition_info is defined and 'content' in partition_info
 - name: "Build argument list"
   set_fact:
     dib_arglist: "{{dib_trace_arg|default('')}} {{dib_uncompressed_arg|default('')}} {{dib_clearenv_arg|default('')}} {{dib_notmpfs_arg|default('')}} {{dib_offline_arg|default('')}} {{dib_skipbase_arg|default('')}} {{dib_arch_arg|default('')}} {{dib_imagename_arg|default('')}} {{dib_imagetype_arg|default('')}} {{dib_imagesize_arg|default('')}} {{dib_imagecache_arg|default('')}} {{dib_maxresize_arg|default('')}} {{dib_mintmpfs_arg|default('')}} {{dib_mkfsopts_arg|default('')}} {{dib_qemuopts_arg|default('')}} {{dib_rootlabel_arg|default('')}} {{dib_rdelement_arg|default('')}} {{dib_installtype_arg|default('')}} {{dib_packages_arg|default('')}} {{dib_os_element}} {{dib_elements|default('')}}"
 - name: "Initiate image build"
   command: disk-image-create {{dib_arglist}}
-  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env if enable_venv|bool else {}) }}"
+  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env if enable_venv|bool else {}) | combine({'DIB_BLOCK_DEVICE_CONFIG': dib_partitioning} if dib_partitioning is defined and dib_partitioning|length > 0 else {}) }}"
   when: build_ramdisk | bool == false and test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false and test_image_initramfs_present.stat.exists == false
 - name: "Initiate ramdisk build"
   command: ramdisk-image-create {{dib_arglist}}
