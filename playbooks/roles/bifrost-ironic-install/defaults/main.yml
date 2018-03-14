@@ -72,6 +72,11 @@ ironicinspector_git_url: https://github.com/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://github.com/openstack/python-ironic-inspector-client
 mysql_username: "root"
 mysql_password: ""
+# NOTE(TheJulia): While we have indicated we're going to deprecate ironic_db_password,
+# we didn't properly notate it from what I can see at a glance, and we seem to have
+# an odd variable expansion issue on fedora blocking migration to fedora-27 that this
+# should fix....
+ironic_db_password: aSecretPassword473z
 disable_dnsmasq_dns: False
 ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
