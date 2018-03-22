@@ -19,8 +19,10 @@
             voting: false
         - bifrost-integration-tinyipa-centos-7:
             voting: false
+        - openstack-tox-lower-constraints
     gate:
       jobs:
         - bifrost-integration-tinyipa
         - bifrost-integration-tinyipa-fedora26
         - bifrost-integration-tinyipa-opensuse-423
+        - openstack-tox-lower-constraints
