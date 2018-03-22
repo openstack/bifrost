@@ -29,7 +29,7 @@ test_vm_network_dhcp_end: "192.168.122.254"
 test_vm_storage_pool: "{{ lookup('env', 'LIBVIRT_STORAGE_POOL') | default('default', true) }}"
 test_vm_storage_pool_path: "/var/lib/libvirt/images"
 test_vm_logdir: "/var/log/libvirt/baremetal_logs"
-# NOTE(pas-ha) next two are generic values for most OSes, overriden by distro-specifc vars
+# NOTE(pas-ha) next two are generic values for most OSes, overridden by distro-specifc vars
 test_vm_emulator: "/usr/bin/qemu-system-x86_64"
 test_vm_machine: "pc-1.0"
 # NOTE(pas-ha) not really tested with non-local qemu connections
