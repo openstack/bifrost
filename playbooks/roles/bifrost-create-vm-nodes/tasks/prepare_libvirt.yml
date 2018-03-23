@@ -135,3 +135,4 @@
   pip:
     name: virtualbmc
     extra_args: "-c {{ upper_constraints_file }}"
+    virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
