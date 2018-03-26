@@ -22,9 +22,9 @@ attention on your particular issue.
 Filing Bugs
 -----------
 
-Bugs should be filed on Launchpad, not GitHub:
+Bugs should be filed in StoryBoard, not GitHub:
 
-    https://bugs.launchpad.net/bifrost
+    https://storyboard.openstack.org/#!/project/941
 
 -----------------
 Contributing Code
