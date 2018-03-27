@@ -13,18 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Interface name fact"
+  set_fact:
+    provisioning_itf_name: "{{ ('ansible_' ~ network_interface) | regex_replace('-', '_') }}"
 - name: "Fail if the network interface does not exist"
   fail:
     msg: >
       The configured network interface {{ network_interface }} does
       not exist
-  when: ('ansible_' ~ network_interface) not in hostvars[inventory_hostname]
+  when: provisioning_itf_name not in hostvars[inventory_hostname]
 - name: "Fail if the network interface has no IP address assigned"
   fail:
     msg: >
       The configured network interface {{ network_interface }} does
       not have an IP address assigned
-  when: not hostvars[inventory_hostname]['ansible_' ~ network_interface].get('ipv4', {}).get('address')
+  when: not hostvars[inventory_hostname][provisioning_itf_name].get('ipv4', {}).get('address')
 # DEPRECATED: enabled_drivers, pxe_drivers, and enable_pxe_drivers has
 # been deprecated and will be removed in the Rocky release. Please consult
 # enabled_hardware_types.
