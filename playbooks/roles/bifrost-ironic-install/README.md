@@ -293,7 +293,11 @@ This role, by default, deploys an alternative boot.ipxe file to the one
 that ironic deploys, and configures ironic to use this alternative file.
 This is because not every boot case can be covered. If you encounter a
 case where you find that you need to modify the file, please notify us
-by filing a bug in Launchpad, https://bugs.launchpad.net/bifrost/.
+by filing a bug in Storyboard.
+
+Bifrost's storyboard project is located at:
+
+    https://storyboard.openstack.org/#!/project/941
 
 Dependencies
 ------------
