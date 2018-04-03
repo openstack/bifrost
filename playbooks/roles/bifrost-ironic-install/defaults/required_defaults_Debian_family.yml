@@ -37,10 +37,10 @@ required_packages:
   - debootstrap
   - uuid-runtime
   - curl
-  - dnsmasq
   - socat
   - python-pip
   - gcc
+  - dnsmasq
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
 # package list as the installation causes name resolution changes that can
 # temporarily block packages following it while the system is being
