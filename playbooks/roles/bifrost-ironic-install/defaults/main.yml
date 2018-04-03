@@ -141,7 +141,7 @@ inventory_dns: False
 enable_inspector: true
 inspector_auth: "noauth"
 # Deprecated: inspector_auth will be removed in Pike, and is
-# overriden when enable_keystone is set to true.
+# overridden when enable_keystone is set to true.
 #inspector_auth: "noauth"
 inspector_debug: true
 inspector_manage_firewall: false
