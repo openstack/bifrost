@@ -165,7 +165,7 @@
   - name: Wait 30 seconds
     pause:
       seconds: 30
-      when: inventory_dhcp | bool == true
+    when: inventory_dhcp | bool == true
 
 - hosts: localhost
   connection: local
