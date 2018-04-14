@@ -110,6 +110,7 @@
 - name: "Retrieve Keystone major version"
   command: keystone-manage --version
   register: keystone_version_str
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
 - name: "Set Keystone major version"
   set_fact:
@@ -150,12 +151,14 @@
   command: >
     keystone-manage fernet_setup
     --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: keystone_version | int >= 13
 
 - name: "Setup Keystone Credentials"
   command: >
     keystone-manage credential_setup
     --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
 - name: "Bootstrap Keystone Database"
   command: >
