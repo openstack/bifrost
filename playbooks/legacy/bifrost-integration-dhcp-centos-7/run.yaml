@@ -1,5 +1,8 @@
 - hosts: all
   name: Autoconverted job legacy-bifrost-integration-dhcp-centos-7 from old job gate-bifrost-integration-dhcp-centos-7-nv
+  roles:
+    - bindep
+
   tasks:
 
     - name: Ensure legacy workspace directory
@@ -39,11 +42,6 @@
               cp $REQS_DIR/upper-constraints.txt ./
           fi
         executable: /bin/bash
-        chdir: '{{ ansible_user_dir }}/workspace'
-      environment: '{{ zuul | zuul_legacy_vars }}'
-
-    - shell:
-        cmd: /usr/local/jenkins/slave_scripts/install-distro-packages.sh
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
 
