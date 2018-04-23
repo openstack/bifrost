@@ -1,0 +1,11 @@
+---
+features:
+  - Allow to populate the NTP servers setting of
+    dnsmasq. This is optional, but if
+    ``dnsmasq_ntp_servers``setting is set, it adds a
+    ``dhcp-option=42,dnsmasq_ntp_servers`` to the
+    generated dnsmasq configuration for bifrost.
+other:
+  - When configuring the ``dnsmasq_ntp_servers`` setting,
+    several NTP servers can be specified, separated by
+    commas.
