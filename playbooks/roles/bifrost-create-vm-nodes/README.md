@@ -11,8 +11,6 @@ The following packages are required and ensured to be present:
 - qemu-utils
 - qemu-kvm
 - sgabios
-- python-libvirt
-- python-lxml
 
 
 Warning

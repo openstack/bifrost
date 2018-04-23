@@ -9,7 +9,5 @@ required_packages:
  - libvirt
  - libvirt-client
  - libvirt-daemon
- - libvirt-python
- - python-lxml
  - pkg-config
  - libvirt-devel

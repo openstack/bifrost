@@ -21,8 +21,6 @@ required_packages:
  - libvirt-daemon-driver-secret
  - libvirt-daemon-driver-storage
  - libvirt-daemon-kvm
- - libvirt-python
- - python-lxml
  - pkgconfig
  - libvirt-devel
 test_vm_emulator: "/bin/qemu-system-x86_64"
