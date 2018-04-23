@@ -15,6 +15,15 @@
 # Setup libvirt - ensure network and storage pool are defined and active,
 # prepare dir for vm logs
 ---
+- name: install libvirt-python and lxml
+  pip:
+    name: "{{ item }}"
+    extra_args: "-c {{ upper_constraints_file }}"
+    virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
+  with_items:
+    - libvirt-python
+    - lxml
+
 - name: "Restart libvirt service"
   service: name="{{libvirt_service_name}}" state=restarted
 

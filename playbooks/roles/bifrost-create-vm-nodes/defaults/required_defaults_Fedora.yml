@@ -9,8 +9,6 @@ required_packages:
  - libvirt
  - libvirt-client
  - libvirt-daemon
- - libvirt-python
- - python-lxml
  - pkgconfig
  - libvirt-devel
  - libselinux-python

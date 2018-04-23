@@ -7,7 +7,5 @@ required_packages:
  - qemu-kvm
  - qemu-system-x86
  - sgabios
- - python-libvirt
- - python-lxml
  - pkg-config
  - libvirt-dev
