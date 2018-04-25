@@ -1,7 +1,8 @@
 - hosts: all
   name: Autoconverted job legacy-bifrost-integration-dhcp from old job gate-bifrost-integration-dhcp-ubuntu-xenial-nv
   roles:
-    - bindep
+    - role: bindep
+      bindep_dir: "{{ ansible_user_dir }}/{{ zuul.projects['git.openstack.org/openstack/bifrost'].src_dir }}"
 
   tasks:
 

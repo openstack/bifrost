@@ -2,7 +2,8 @@
   name: Autoconverted job legacy-bifrost-integration-tinyipa-opensuse-423 from old
     job gate-bifrost-integration-tinyipa-opensuse-423
   roles:
-    - bindep
+    - role: bindep
+      bindep_dir: "{{ ansible_user_dir }}/{{ zuul.projects['git.openstack.org/openstack/bifrost'].src_dir }}"
 
   tasks:
 
