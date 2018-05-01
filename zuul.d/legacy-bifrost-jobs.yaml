@@ -94,11 +94,3 @@
     post-run: playbooks/legacy/bifrost-integration-tinyipa-opensuse-423/post.yaml
     timeout: 3600
     nodeset: legacy-opensuse-423
-
-- job:
-    name: bifrost-integration-tinyipa-fedora26
-    parent: bifrost-base
-    run: playbooks/legacy/bifrost-integration-tinyipa/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-tinyipa/post.yaml
-    timeout: 3600
-    nodeset: legacy-fedora-26

@@ -2,9 +2,6 @@
     check:
       jobs:
         - bifrost-integration-tinyipa
-        # TODO Broken becasuse FC26 is no longer an option in
-        # OpenStack CI
-        # - bifrost-integration-tinyipa-fedora26
         - bifrost-integration-tinyipa-opensuse-423
         # Non-voting jobs
         - bifrost-integration-dhcp:
@@ -25,6 +22,5 @@
     gate:
       jobs:
         - bifrost-integration-tinyipa
-        # - bifrost-integration-tinyipa-fedora26
         - bifrost-integration-tinyipa-opensuse-423
         - openstack-tox-lower-constraints
