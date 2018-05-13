@@ -180,6 +180,10 @@ fi
 PIP=$(which pip)
 
 sudo -H -E ${PIP} install "pip>6.0"
+
+# upgrade setuptools, as latest version is needed to install some projects
+sudo -H -E ${PIP} install --upgrade --force setuptools
+
 sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 
 # Install the rest of required packages using bindep
@@ -187,6 +191,3 @@ sudo -H -E ${PIP} install bindep
 
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
-
-# upgrade setuptools, as latest version is needed to install some projects
-sudo -H -E ${PIP} install --upgrade setuptools
