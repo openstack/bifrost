@@ -105,9 +105,11 @@ if [ ${USE_VENV} = "true" ]; then
     set -u
     ANSIBLE=${VENV}/bin/ansible-playbook
     ENABLE_VENV="true"
+    ANSIBLE_PYTHON_INTERP=${VENV}/bin/python
 else
     $SCRIPT_HOME/env-setup.sh
     ANSIBLE=${HOME}/.local/bin/ansible-playbook
+    ANSIBLE_PYTHON_INTERP=$(which python)
 fi
 
 # Adjust options for DHCP, VM, or Keystone tests
@@ -157,6 +159,7 @@ done
 ${ANSIBLE} -vvvv \
        -i inventory/localhost \
        test-bifrost-create-vm.yaml \
+       -e ansible_python_interpreter="${ANSIBLE_PYTHON_INTERP}" \
        -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
        -e test_vm_memory_size=${VM_MEMORY_SIZE} \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
