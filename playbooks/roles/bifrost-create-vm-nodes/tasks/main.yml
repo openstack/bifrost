@@ -42,9 +42,15 @@
   when: (ansible_os_family | search("SUSE LINUX")) or
         (ansible_os_family | search("openSUSE Leap"))
 
+# NOTE(hwoarang) The 'apt' module needs python-apt installed in the virtualenv
+# but it's not possible to do that. See https://github.com/ansible/ansible/issues/14468
+# python-apt only works if it's installed on the local system so we need to switch the
+# Ansible python interpreter.
 - name: "Update apt cache if Ubuntu/Debian"
   apt:
     update_cache: yes
+  vars:
+    ansible_python_interpreter: '/usr/bin/python'
   when: ansible_os_family == "Debian"
 
 - name: "Load distribution defaults"
@@ -72,9 +78,15 @@
     ansible_pkg_mgr: "dnf"
   when: ansible_distribution == 'Fedora' and test_dnf.stat.exists|bool
 
+# NOTE(hwoarang) The 'apt' module needs python-apt installed in the virtualenv
+# but it's not possible to do that. See https://github.com/ansible/ansible/issues/14468
+# python-apt only works if it's installed on the local system so we need to switch the
+# Ansible python interpreter.
 - name: "Install required packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: "{{ required_packages }}"
+  vars:
+    ansible_python_interpreter: '/usr/bin/python'
 
 - include: prepare_libvirt.yml
 
