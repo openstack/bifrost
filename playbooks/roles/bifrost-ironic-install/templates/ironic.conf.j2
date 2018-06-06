@@ -50,7 +50,6 @@ http_url = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_inter
 http_root = {{ http_boot_folder }}
 
 [conductor]
-api_url = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385/
 clean_nodes = {{ cleaning | lower }}
 automated_clean = {{ cleaning | lower }}
 
@@ -59,11 +58,6 @@ connection = mysql+pymysql://{{ ironic.database.username }}:{{ ironic.database.p
 
 [dhcp]
 dhcp_provider = none
-
-{% if testing | bool == true %}
-[ssh]
-libvirt_uri = qemu:///system
-{% endif %}
 
 {% if enable_cors | bool == true %}
 [cors]
@@ -77,7 +71,6 @@ use_web_server_for_images = true
 {% if enable_inspector | bool == true %}
 [inspector]
 enabled = true
-{% endif %}
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_type = password
 auth_url = {{ ironic.service_catalog.auth_url }}
@@ -86,14 +79,14 @@ password = {{ ironic.service_catalog.password }}
 user_domain_id = default
 project_name = {{ ironic.service_catalog.project_name }}
 project_domain_id = default
+region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
 {% else %}
 auth_type=none
 endpoint_override=http://127.0.0.1:5050
 {% endif %}
+{% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}
-[keystone]
-region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
 [keystone_authtoken]
 auth_plugin = password
 auth_url = {{ ironic.service_catalog.auth_url }}
@@ -102,11 +95,19 @@ password = {{ ironic.service_catalog.password }}
 user_domain_id = default
 project_name = {{ ironic.service_catalog.project_name }}
 project_domain_id = default
+{% endif %}
 
 [service_catalog]
+{% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_url = {{ ironic.service_catalog.auth_url }}
 auth_type = password
-tenant_name = {{ ironic.service_catalog.project_name }}
+project_name = {{ ironic.service_catalog.project_name }}
 username = {{ ironic.service_catalog.username }}
 password = {{ ironic.service_catalog.password }}
+user_domain_id = default
+project_domain_id = default
+region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
+{% else %}
+auth_type = none
+endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385
 {% endif %}
