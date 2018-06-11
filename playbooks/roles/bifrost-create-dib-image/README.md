@@ -22,7 +22,7 @@ build_ramdisk: false
 The dib_env_vars are settings for the diskimage-builder environment variables
 which allow settings to be passed to elements that are being utilized to build
 a disk image.  More information on diskimage-builder can be found at:
-http://git.openstack.org/cgit/openstack/diskimage-builder/
+https://git.openstack.org/cgit/openstack/diskimage-builder/
 
 dib_env_vars:
   DIB_CLOUD_INIT_DATASOURCES: "ConfigDrive"
@@ -43,7 +43,7 @@ dib_elements: "vm enable-serial-console"
 
 dib_init_element is used to set the init tool that will be used to provision
 the installed OS. This is an argument that is passed to
-[diskimage-builder](http://docs.openstack.org/developer/diskimage-builder/)
+[diskimage-builder](https://docs.openstack.org/developer/diskimage-builder/)
 which generates a deployable image of the OS defined in 'dib_os_element'. By
 default we use 'simple-init'. You can modify this to use other init tools, for
 example: cloud-init (see below)
@@ -96,7 +96,7 @@ Using cloud-init
 By default, bifrost uses the 'simple-init' dib element, which will disable
 cloud-init. If you have cloud-init enabled in your image(Ubuntu/Fedora) and you
 wish to allow configdrive to work with it, you set 'dib_init_element' to
-['cloud-init-datasources'](http://docs.openstack.org/developer/diskimage-builder/elements/cloud-init-datasources/README.html).
+['cloud-init-datasources'](https://docs.openstack.org/developer/diskimage-builder/elements/cloud-init-datasources/README.html).
 
 Example Playbook
 ----------------

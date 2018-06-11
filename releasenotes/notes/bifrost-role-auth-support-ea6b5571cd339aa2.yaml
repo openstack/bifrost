@@ -6,7 +6,7 @@ features:
     via os-client-config. The role defaults ultimately remain
     unchanged and default to noauth mode.  More information on
     os-client-config can be found at
-    http://docs.openstack.org/developer/os-client-config/
+    https://docs.openstack.org/developer/os-client-config/
 issues:
   - Users wishing to utilize authentication without leveraging
     os-client-config, will need to manually update the playbooks

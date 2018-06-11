@@ -38,7 +38,7 @@ ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 # without TLS. This setting allows a user to override the setting in case
 # the local webserver has been updated to support HTTPS.
 # Note: Users wishing to leverage HTTPS should reference the iPXE
-# documentation at http://ipxe.org/crypto
+# documentation at https://ipxe.org/crypto
 ipa_file_protocol: "http"
 
 ipa_upstream_release: "master"
@@ -58,7 +58,7 @@ deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 use_cirros: false
 # Download IPA by default
 download_ipa: true
-cirros_deploy_image_upstream_url: http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+cirros_deploy_image_upstream_url: https://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server.  If you already have a DHCP server, you will need to disable
 # this setting, and perform manual configuration of your DHCP server.
@@ -87,7 +87,7 @@ upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(re
 staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
-staging_drivers_git_url: http://git.openstack.org/cgit/openstack/ironic-staging-drivers
+staging_drivers_git_url: https://git.openstack.org/cgit/openstack/ironic-staging-drivers
 
 # TODO(TheJulia): Add redfish to this list.
 enabled_hardware_types: "ipmi,ilo,cisco-ucs-managed"

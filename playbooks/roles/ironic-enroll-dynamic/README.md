@@ -31,7 +31,7 @@ ipa_file_protocol: The protocol to utilize to access IPA files. The default is
                    this setting allows a user to change that default if they
                    they have a modified local webserver configuration.
                    Do note, that a user wishing to utilize HTTPS may wish to
-                   review the iPXE documentation: http://ipxe.org/crypto
+                   review the iPXE documentation: https://ipxe.org/crypto
 
 noauth_mode: Controls if the module is called in noauth mode.
              By default, this is the standard mode of operation,
