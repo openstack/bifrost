@@ -26,3 +26,6 @@ Documentation
 Bifrost's documentation can be found at the
 `OpenStack documentation site <https://docs.openstack.org/bifrost/latest>`_.
 
+Release notes
+~~~~~~~~~~~~~
+https://docs.openstack.org/releasenotes/bifrost/
