@@ -45,4 +45,3 @@
     state: absent
     nics: "{{ nics }}"
     driver_info: "{}"
-  delegate_to: localhost
