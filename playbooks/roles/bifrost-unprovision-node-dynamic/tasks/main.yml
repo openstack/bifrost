@@ -43,4 +43,3 @@
     name: "{{ name | default() }}"
     state: absent
     instance_info: "{}"
-  delegate_to: localhost
