@@ -65,11 +65,11 @@
 
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."
-  stat: path=/tftpboot/master_images
+  stat: path="{{ ironic_tftp_master_path }}"
   register: test_master_images
 
 - name: "Create master_images folder"
-  file: name=/tftpboot/master_images state=directory owner=ironic group=ironic
+  file: name="{{ ironic_tftp_master_path }}" state=directory owner=ironic group=ironic
   when: test_master_images.stat.exists == false
 
 - name: "Inspector - Place default tftp boot file in {{ http_boot_folder}}/pxelinux.cfg/"

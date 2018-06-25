@@ -3,6 +3,7 @@
 # which causes the nodes to be wiped after deletion.
 cleaning: false
 http_boot_folder: /httpboot
+ironic_tftp_master_path: /var/lib/ironic/master_images
 staging_drivers_include: false
 file_url_port: "8080"
 ironicclient_source_install: false

@@ -5,6 +5,6 @@
   become: yes
   gather_facts: yes
   tasks:
-    - file: path=/tftpboot/master_images state=absent
+    - file: path="{{ironic_tftp_master_path}}" state=absent
     - file: path="{{ipa_kernel}}" state=absent
     - file: path="{{ipa_ramdisk}}" state=absent
