@@ -28,13 +28,6 @@
       The configured network interface {{ network_interface }} does
       not have an IP address assigned
   when: not hostvars[inventory_hostname][provisioning_itf_name].get('ipv4', {}).get('address')
-# DEPRECATED: enabled_drivers, pxe_drivers, and enable_pxe_drivers has
-# been deprecated and will be removed in the Rocky release. Please consult
-# enabled_hardware_types.
-- name: "Update driver list if PXE drivers are enabled"
-  set_fact:
-    enabled_drivers: "{{ enabled_drivers }},{{ pxe_drivers }}"
-  when: enable_pxe_drivers | bool == true
 - name: "Create ironic config"
   template:
     src="ironic.conf.j2"
@@ -42,9 +35,8 @@
     owner=ironic
     group=ironic
     mode=0640
-- name: "Set sudoers for PXE driver support if enabled"
+- name: "Set sudoers for rootwrap"
   lineinfile:
     dest: /etc/sudoers
     regexp: '^ironic(.*)/etc/ironic/rootwrap.conf(.*)'
     line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-rootwrap /etc/ironic/rootwrap.conf *"
-  when: enable_pxe_drivers | bool == true

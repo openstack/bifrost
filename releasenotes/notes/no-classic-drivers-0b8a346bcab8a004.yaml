@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The deprecated support for classic drivers has been removed.

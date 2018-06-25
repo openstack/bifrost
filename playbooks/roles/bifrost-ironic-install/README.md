@@ -90,13 +90,6 @@ which defaults to "ipmi, ilo, cisco-ucs-managed, cisco-ucs-standalone".
 Enabled interfaces can be set via the "enabled_boot_interfaces",
 "enabled_management_interfaces", and "enabled_power_interfaces" variables.
 
-By default, PXE driver baseline support, in terms of installation of the
-iSCSI client and configuration of sudoers and rootwrap configuration is
-enabled. If you wish to disable this functionality, set
-``enable_pxe_drivers`` to a value of ``false``.
-
-enable_pxe_drivers: false
-
 In the event of an external DHCP server being used, the user will need to
 configure their DHCP server such that PXE, and iPXE chain loading occurs.
 For additional information for setting up DHCP in this scenario refer to

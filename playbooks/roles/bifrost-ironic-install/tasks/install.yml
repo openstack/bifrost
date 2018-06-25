@@ -61,9 +61,10 @@
     extra_args="-c {{ upper_constraints_file }}"
   when: skip_install is not defined
 
+# TODO(dtantsur): only do this is the iscsi deploy interface is enabled
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
-  when: skip_install is not defined and enable_pxe_drivers | bool == true
+  when: skip_install is not defined
 
 # NOTE(pas-ha) even when install into virtualenv is requested,
 # we need to install shade into system for enroll-dynamic to succeed

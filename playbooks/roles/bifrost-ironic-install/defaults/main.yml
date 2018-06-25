@@ -97,13 +97,6 @@ enabled_boot_interfaces: "ilo-virtual-media,pxe"
 enabled_management_interfaces: "ilo,ipmitool,ucsm"
 enabled_power_interfaces: "ilo,ipmitool,ucsm"
 
-# DEPRECATED: Ironic is removing classic drivers in Rocky. Please see
-# enabled_hardware_types.
-# Comma-separated list, in the format of a string, of drivers that are enabled
-# by default. This is intended to be a list of agent based drivers.
-# PXE drivers can be found in the setting pxe_drivers that can be found below.
-enabled_drivers: "agent_ipmitool,agent_ilo,agent_ucs"
-
 # DHCP pool for requests -- ignored if inventory_dhcp is set to True
 # since IP allocation will be static.
 dhcp_pool_start: 192.168.1.200
@@ -192,19 +185,6 @@ inspector:
 # We may not have packaged iPXE files on some distros, or may want to
 # download them on their own.
 download_ipxe: false
-
-
-# DEPRECATED: Please see enabled_hardware_types
-# This enables installation of substrate for PXE driver support
-enable_pxe_drivers: true
-
-# DEPRECATED: Please see enabled_hardware_types
-# Comma-separated list of PXE drivers to enable when
-# enable_pxe_drivers is set to true
-pxe_drivers: "pxe_ipmitool,pxe_ilo"
-
-
-
 
 # Settings related to installing bifrost in a virtual environment
 enable_venv: false

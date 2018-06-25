@@ -65,7 +65,7 @@ driver required.
         "mac": "00:01:02:03:04:05"
       }.
    ],
-   "driver": "agent_ipmitool",
+   "driver": "ipmi",
    "ip_address": "192.168.122.2",
    "properties": {
       "cpu_arch": "x86_64",
