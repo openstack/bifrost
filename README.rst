@@ -26,6 +26,12 @@ Documentation
 Bifrost's documentation can be found at the
 `OpenStack documentation site <https://docs.openstack.org/bifrost/latest>`_.
 
+The project source code repository is located at:
+  https://git.openstack.org/cgit/openstack/bifrost/
+
+Bugs can be filed in storyboard:
+  https://storyboard.openstack.org/#!/project/941
+
 Release notes
 ~~~~~~~~~~~~~
 https://docs.openstack.org/releasenotes/bifrost/
