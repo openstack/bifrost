@@ -195,7 +195,14 @@ def _process_baremetal_data(data_source, groups, hostvars):
             LOG.debug("Failed to parse JSON or YAML: %s", e)
             raise Exception("Failed to parse JSON or YAML")
 
+    node_names = os.environ.get('BIFROST_NODE_NAMES', None)
+    if node_names:
+        node_names = node_names.split(',')
+
     for name in file_data:
+        if node_names and name not in node_names:
+            continue
+
         host = file_data[name]
         # Perform basic validation
         node_net_data = host.get('node_network_data')
@@ -224,6 +231,10 @@ def _process_baremetal_data(data_source, groups, hostvars):
 
 def _process_baremetal_csv(data_source, groups, hostvars):
     """Process legacy baremetal.csv format"""
+    node_names = os.environ.get('BIFROST_NODE_NAMES', None)
+    if node_names:
+        node_names = node_names.split(',')
+
     with open(data_source, 'r') as file_data:
         for row in csv.reader(file_data, delimiter=','):
             if not row:
@@ -253,6 +264,10 @@ def _process_baremetal_csv(data_source, groups, hostvars):
             properties['cpu_arch'] = "x86_64"
             host['uuid'] = _val_or_none(row, 9)
             host['name'] = _val_or_none(row, 10)
+
+            if node_names and host['name'] not in node_names:
+                continue
+
             host['host_groups'] = ["baremetal"]
             host['ipv4_address'] = _val_or_none(row, 11)
             if ('ipv4_address' not in host or
@@ -331,6 +346,11 @@ def _process_shade(groups, hostvars):
     options = _identify_shade_auth()
     cloud = shade.operator_cloud(**options)
     machines = cloud.list_machines()
+
+    node_names = os.environ.get('BIFROST_NODE_NAMES', None)
+    if node_names:
+        node_names = node_names.split(',')
+
     for machine in machines:
         if 'properties' not in machine:
             machine = cloud.get_machine(machine['uuid'])
@@ -338,6 +358,10 @@ def _process_shade(groups, hostvars):
             name = machine['uuid']
         else:
             name = machine['name']
+
+        if node_names and name not in node_names:
+            continue
+
         new_machine = {}
         for key, value in machine.items():
             # NOTE(TheJulia): We don't want to pass infomrational links

@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds ability to enroll or deploy specific nodes from the bifrost inventory
+    using the new environment variable BIFROST_NODE_NAMES for example:
+
+      export BIFROST_NODE_NAMES=node1,node2,node5
