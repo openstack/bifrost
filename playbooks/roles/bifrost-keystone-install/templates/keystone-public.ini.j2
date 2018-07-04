@@ -6,6 +6,9 @@ threads = 2
 plugin = python
 no-orphans = true
 chmod-socket = 660
+{% if uwsgi_venv is defined and uwsgi_venv | length > 0 %}
+virtualenv = {{ uwsgi_venv }}
+{% endif %}
 
 socket = /run/uwsgi/keystone-public.socket
 pidfile = /run/uwsgi/keystone-public.pid
