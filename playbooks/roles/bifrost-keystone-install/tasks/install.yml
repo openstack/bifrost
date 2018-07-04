@@ -48,6 +48,15 @@
     - skip_install is not defined
     - enable_venv | bool == true
 
+- name: "Install python-openstackclient in venv if using"
+  include: pip_install.yml
+    package=python-openstackclient
+    virtualenv=bifrost_venv_dir
+    extra_args="-c {{ upper_constraints_file }}"
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == true
+
 - name: "Install configparser if not using a venv"
   include: pip_install.yml
     package=configparser
