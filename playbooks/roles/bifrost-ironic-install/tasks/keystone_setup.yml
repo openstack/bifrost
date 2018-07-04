@@ -16,6 +16,11 @@
 # We should likely address that at some point, however I think a user
 # should be the driver of that work.
 
+- name: "If VENV is set in the environment, enable installation into venv"
+  set_fact:
+    enable_venv: true
+  when: lookup('env', 'VENV') | length > 0
+
 - name: "Error if credentials are undefined."
   fail:
     msg: |
@@ -119,6 +124,7 @@
   no_log: true
   register: test_ironic_admin_endpoint
   ignore_errors: true
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
 - name: "Check ironic public endpoint exists"
   command: |
@@ -133,6 +139,7 @@
   no_log: true
   register: test_ironic_public_endpoint
   ignore_errors: true
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
 - name: "Check ironic internal endpoint exists"
   command: |
@@ -147,6 +154,7 @@
   no_log: true
   register: test_ironic_internal_endpoint
   ignore_errors: true
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
 - name: "Create ironic admin endpoint"
   command: |
@@ -159,6 +167,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal admin "{{ ironic.keystone.admin_url | default('http://127.0.0.1:6385/') }}"
   no_log: true
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_admin_endpoint.rc != 0 or test_ironic_admin_endpoint.stdout == '[]'
 
 - name: "Create ironic public endpoint"
@@ -172,6 +181,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal public "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') }}"
   no_log: true
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_public_endpoint.rc != 0 or test_ironic_public_endpoint.stdout == '[]'
 
 - name: "Create ironic internal endpoint"
@@ -185,6 +195,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal internal "{{ ironic.keystone.internal_url | default('http://127.0.0.1:6385/') }}"
   no_log: true
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_internal_endpoint.rc != 0 or test_ironic_internal_endpoint.stdout == '[]'
 
 - name: "Create baremetal_admin role"
