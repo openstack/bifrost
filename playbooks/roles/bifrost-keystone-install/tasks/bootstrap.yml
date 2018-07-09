@@ -16,6 +16,7 @@
 - name: "If VENV is set in the environment, enable installation into venv"
   set_fact:
     enable_venv: true
+    uwsgi_venv: "{{ bifrost_venv_env.get('VIRTUAL_ENV', '') }}"
   when: lookup('env', 'VENV') | length > 0
 
 - name: "Get uwsgi install location"
