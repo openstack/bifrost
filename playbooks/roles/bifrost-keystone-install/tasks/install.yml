@@ -57,6 +57,18 @@
     - skip_install is not defined
     - enable_venv | bool == true
 
+- name: "Install keystone in venv if using"
+  include: pip_install.yml
+    package=keystone
+    virtualenv=bifrost_venv_dir
+    state=latest
+    sourcedir={{ keystone_git_folder }}
+    source_install={{ keystone_source_install | bool }}
+    extra_args="--no-cache-dir --upgrade --force-reinstall -c {{ upper_constraints_file }}"
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == true
+
 - name: "Install configparser if not using a venv"
   include: pip_install.yml
     package=configparser
@@ -81,11 +93,13 @@
     - skip_install is not defined
     - enable_venv | bool == false
 
-- name: "Install keystone using pip"
+- name: "Install keystone if not using a venv"
   include: pip_install.yml
     package=keystone
     state=latest
     sourcedir={{ keystone_git_folder }}
     source_install={{ keystone_source_install | bool }}
     extra_args="--no-cache-dir --upgrade --force-reinstall -c {{ upper_constraints_file }}"
-  when: skip_install is not defined
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == false
