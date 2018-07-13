@@ -15,8 +15,6 @@ required_packages:
   - ipxe
   - tftpd-hpa
   - tftp-hpa
-  - syslinux-common
-  - syslinux
   - xinetd
   - parted
   - ipmitool

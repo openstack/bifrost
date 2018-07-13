@@ -21,15 +21,6 @@
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: "{{ required_packages }}"
 
-# Step required for Ubuntu 14.10
-- name: "Install Ubuntu 14.10 (and later) packages"
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
-  with_items:
-    - pxelinux
-  when: >
-    ansible_distribution_version|version_compare('14.10', '>=') and
-    ansible_distribution == 'Ubuntu'
-
 - name: "If running in CI, set source install facts just to be sure"
   set_fact:
     shade_source_install: true
