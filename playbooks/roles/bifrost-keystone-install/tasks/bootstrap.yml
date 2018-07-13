@@ -240,6 +240,22 @@
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: 0755
 
+- name: "Ensure /etc/uwsgi/apps-available exists"
+  file:
+    name: "/etc/uwsgi/apps-available"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
+    mode: 0755
+
+- name: "Ensure /etc/uwsgi/apps-enabled exists"
+  file:
+    name: "/etc/uwsgi/apps-enabled"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
+    mode: 0755
+
 - name: "Place keystone public uwsgi config"
   template:
     src: keystone-public.ini.j2
