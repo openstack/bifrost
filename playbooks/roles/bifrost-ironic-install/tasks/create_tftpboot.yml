@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+# TODO(TheJulia): The pxelinux folder is statically coded in ironic.
+# For now, we need to use it, but we can patch that.
 - name: "Set up PXE and iPXE folders"
   file: name={{item}} owner=ironic group=ironic state=directory mode=0755
   with_items:
@@ -26,19 +28,6 @@
 
 - name: "Disable service {{ tftp_service_name }}"
   service: name="{{ tftp_service_name }}" state=stopped enabled=no
-
-- name: "Set pxelinux.0 source (for Ubuntu >=14.10)"
-  set_fact:
-     syslinux_tftp_dir: '/usr/lib/PXELINUX'
-  when: ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.10', '>=')
-
-- name: "Determine if pxelinux.0 is in place"
-  stat: path=/tftpboot/pxelinux.0
-  register: test_pxelinux
-
-- name: "Place pxelinux.0"
-  copy: src={{ syslinux_tftp_dir }}/pxelinux.0 dest=/tftpboot remote_src=true
-  when: test_pxelinux.stat.exists == false
 
 - name: "Place boot.ipxe helper script /etc/ironic"
   copy: src=boot.ipxe dest=/etc/ironic/boot.ipxe owner=ironic group=ironic mode=0744
@@ -72,6 +61,8 @@
   file: name="{{ ironic_tftp_master_path }}" state=directory owner=ironic group=ironic
   when: test_master_images.stat.exists == false
 
+# TODO(TheJulia): The pxelinux folder is statically coded in ironic.
+# For now, we need to use it, but we can patch that.
 - name: "Inspector - Place default tftp boot file in {{ http_boot_folder}}/pxelinux.cfg/"
   template:
     src=inspector-default-boot-ipxe.j2

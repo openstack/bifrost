@@ -2,7 +2,6 @@
 init_template: upstart_template.j2
 init_dest_dir: /etc/init/
 init_ext: .conf
-syslinux_tftp_dir: /usr/lib/syslinux/
 ipxe_dir: /usr/lib/ipxe/
 ipxe_full_binary: ipxe.pxe
 ironic_rootwrap_dir: /usr/local/bin/
@@ -22,8 +21,6 @@ required_packages:
   - ipxe
   - tftpd-hpa
   - tftp-hpa
-  - syslinux-common
-  - syslinux
   - xinetd
   - parted
   - ipmitool
