@@ -14,6 +14,7 @@
       - openstack/bifrost
       - openstack/ironic
       - openstack/ironic-inspector
+      - openstack/openstacksdk
       - openstack/python-ironic-inspector-client
       - openstack/python-ironicclient
       - openstack/requirements
