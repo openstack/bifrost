@@ -20,4 +20,6 @@ esac
 {% else %}
 export IRONIC_URL={{ ironic_api_url }}
 export OS_AUTH_TOKEN='fake-token'
+export OS_TOKEN='fake-token'
+export OS_URL={{ ironic_api_url }}
 {% endif %}
