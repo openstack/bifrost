@@ -45,8 +45,12 @@
   when: enable_venv | bool == true
   with_items:
     - "{{ bifrost_venv_dir }}/bin/ironic-rootwrap"
+    - "{{ bifrost_venv_dir }}/bin/ironic-inspector-rootwrap"
 - name: "Set sudoers for rootwrap"
   lineinfile:
     dest: /etc/sudoers
-    regexp: '^ironic(.*)/etc/ironic/rootwrap.conf(.*)'
-    line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-rootwrap /etc/ironic/rootwrap.conf *"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - { regexp: '^ironic(.*)/ironic-rootwrap /etc/ironic/rootwrap.conf(.*)', line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-rootwrap /etc/ironic/rootwrap.conf *" }
+    - { regexp: '^ironic(.*)/ironic-inspector-rootwrap /etc/ironic-inspector/rootwrap.conf(.*)', line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-inspector-rootwrap /etc/ironic-inspector/rootwrap.conf *" }
