@@ -35,6 +35,16 @@
     owner=ironic
     group=ironic
     mode=0640
+- name: "Symlinks from venv if using"
+  file:
+    state: link
+    path: "{{ ironic_rootwrap_dir }}/{{ item | basename }}"
+    src: "{{ item }}"
+    owner: root
+    group: root
+  when: enable_venv | bool == true
+  with_items:
+    - "{{ bifrost_venv_dir }}/bin/ironic-rootwrap"
 - name: "Set sudoers for rootwrap"
   lineinfile:
     dest: /etc/sudoers
