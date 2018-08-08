@@ -18,8 +18,12 @@ log_dir = {{ inspector_log_dir }}
 [database]
 connection=mysql+pymysql://{{ ironic_inspector.database.username }}:{{ ironic_inspector.database.password }}@{{ ironic_inspector.database.host }}/{{ ironic_inspector.database.name }}?charset=utf8
 
-[firewall]
-manage_firewall = {{ inspector_manage_firewall | bool | default('false') }}
+[pxe_filter]
+{% if inspector_manage_firewall | bool | default('false') == false %}
+driver = noop
+{% else %}
+driver = iptables
+{% endif %}
 
 [ironic]
 {% if enable_keystone is defined and enable_keystone | bool == true %}
