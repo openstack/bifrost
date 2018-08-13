@@ -11,14 +11,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- include: roles/common/venv_python_path.yml
+
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: "{{ required_packages }}"
-
-- name: "If VENV is set in the environment, enable installation into venv"
-  set_fact:
-    enable_venv: true
-  when: lookup('env', 'VENV') | length > 0
+  environment: "{{ venv }}"
 
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this

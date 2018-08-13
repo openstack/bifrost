@@ -13,12 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- include: roles/common/venv_python_path.yml
+
 - name: "Update Package Cache"
   apt: update_cache=yes
+  environment: "{{ venv }}"
   when: ansible_os_family == 'Debian'
 
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
+  environment: "{{ venv }}"
   with_items: "{{ required_packages }}"
 
 - name: "If running in CI, set source install facts just to be sure"
@@ -26,11 +30,6 @@
     shade_source_install: true
     ironicclient_source_install: true
   when: ci_testing | bool == true
-
-- name: "If VENV is set in the environment, enable installation into venv"
-  set_fact:
-    enable_venv: true
-  when: lookup('env', 'VENV') | length > 0
 
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
@@ -49,6 +48,7 @@
      package=proliantutils
      state=present
      extra_args="-c {{ upper_constraints_file }}"
+  environment: "{{ venv }}"
   when: skip_install is not defined
 
 - name: "UcsSdk - Install from pip"
@@ -56,11 +56,13 @@
     package=UcsSdk
     version=0.8.1.9
     extra_args="-c {{ upper_constraints_file }}"
+  environment: "{{ venv }}"
   when: skip_install is not defined
 
 # TODO(dtantsur): only do this is the iscsi deploy interface is enabled
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
+  environment: "{{ venv }}"
   when: skip_install is not defined
 
 - name: "Diskimage-builder - Install"
@@ -135,6 +137,8 @@
 # NOTE(pas-ha) even when install into virtualenv is requested,
 # we need to install shade into system for enroll-dynamic to succeed
 - block:
+  - name: install pyOpenSSL>18.0.0 from PyPI
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install pyOpenSSL>=18.0.0"
   - name: install shade from PyPI
     command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install shade"
     when: not (shade_source_install | default(false) | bool)
