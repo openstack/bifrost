@@ -35,20 +35,19 @@
     timeout: 7200
 
 - job:
+    name: bifrost-integration-dhcp-ubuntu-xenial
+    parent: bifrost-integration-dhcp
+    nodeset: ubuntu-xenial
+
+- job:
     name: bifrost-integration-dhcp-centos-7
-    parent: bifrost-integration
-    run: playbooks/legacy/bifrost-integration-dhcp-centos-7/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-dhcp-centos-7/post.yaml
-    timeout: 7200
-    nodeset: legacy-centos-7
+    parent: bifrost-integration-dhcp
+    nodeset: centos-7
 
 - job:
     name: bifrost-integration-dhcp-opensuse-423
-    parent: bifrost-integration
-    run: playbooks/legacy/bifrost-integration-dhcp-opensuse-423/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-dhcp-opensuse-423/post.yaml
-    timeout: 7200
-    nodeset: legacy-opensuse-423
+    parent: bifrost-integration-dhcp
+    nodeset: opensuse-423
 
 - job:
     name: bifrost-integration-dibipa-debian
