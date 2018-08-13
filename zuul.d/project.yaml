@@ -9,7 +9,7 @@
         - bifrost-integration-tinyipa
         - bifrost-integration-tinyipa-opensuse-423
         # Non-voting jobs
-        - bifrost-integration-dhcp:
+        - bifrost-integration-dhcp-ubuntu-xenial:
             voting: false
         - bifrost-integration-dhcp-opensuse-423:
             voting: false
