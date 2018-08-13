@@ -97,6 +97,11 @@ enabled_boot_interfaces: "ilo-virtual-media,pxe"
 enabled_management_interfaces: "ilo,ipmitool,ucsm"
 enabled_power_interfaces: "ilo,ipmitool,ucsm"
 
+# Extra pip packages to install with ironic
+# This should be a list of pip-installable references.
+# default: empty list
+ironic_extra_packages: []
+
 # DHCP pool for requests -- ignored if inventory_dhcp is set to True
 # since IP allocation will be static.
 dhcp_pool_start: 192.168.1.200
