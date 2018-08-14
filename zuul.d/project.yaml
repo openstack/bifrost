@@ -12,7 +12,7 @@
             voting: false
         - bifrost-integration-dibipa-debian-centos-7:
             voting: false
-        - bifrost-integration-dibipa-debian:
+        - bifrost-integration-dibipa-debian-ubuntu-xenial:
             voting: false
         - bifrost-integration-dibipa-debian-opensuse-423:
             voting: false
