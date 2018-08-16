@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Extra packages to install with ironic may be specified as a list in the
+    variable ironic_extra_packages. This is especially useful for out-of-tree
+    drivers.

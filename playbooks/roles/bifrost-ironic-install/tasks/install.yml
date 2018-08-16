@@ -114,6 +114,12 @@
       (ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.10', '==')) or
       (ansible_distribution == 'Fedora' and ansible_distribution_version|version_compare('25', '>='))
 
+- name: "Install extra packages for ironic"
+  include: pip_install.yml
+    package={{ item }}
+    extra_args="-c {{ upper_constraints_file }}"
+  with_items: "{{ ironic_extra_packages }}"
+
 - name: "Install Ironic using pip"
   include: pip_install.yml
     package=ironic
