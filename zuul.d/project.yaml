@@ -6,7 +6,7 @@
       - release-notes-jobs
     check:
       jobs:
-        - bifrost-integration-tinyipa
+        - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-opensuse-423
         # Non-voting jobs
         - bifrost-integration-dhcp-ubuntu-xenial:
@@ -25,5 +25,5 @@
             voting: false
     gate:
       jobs:
-        - bifrost-integration-tinyipa
+        - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-opensuse-423
