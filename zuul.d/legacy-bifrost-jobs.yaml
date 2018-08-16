@@ -79,17 +79,16 @@
     timeout: 3600
 
 - job:
+    name: bifrost-integration-tinyipa-ubuntu-xenial
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-xenial
+
+- job:
     name: bifrost-integration-tinyipa-centos-7
-    parent: bifrost-base
-    run: playbooks/legacy/bifrost-integration-tinyipa-centos-7/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-tinyipa-centos-7/post.yaml
-    timeout: 3600
-    nodeset: legacy-centos-7
+    parent: bifrost-integration-tinyipa
+    nodeset: centos-7
 
 - job:
     name: bifrost-integration-tinyipa-opensuse-423
-    parent: bifrost-base
-    run: playbooks/legacy/bifrost-integration-tinyipa-opensuse-423/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-tinyipa-opensuse-423/post.yaml
-    timeout: 3600
-    nodeset: legacy-opensuse-423
+    parent: bifrost-integration-tinyipa
+    nodeset: opensuse-423

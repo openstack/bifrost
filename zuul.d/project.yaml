@@ -1,7 +1,7 @@
 - project:
     check:
       jobs:
-        - bifrost-integration-tinyipa
+        - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-opensuse-423
         # Non-voting jobs
         - bifrost-integration-dhcp-ubuntu-xenial:
@@ -21,6 +21,6 @@
         - openstack-tox-lower-constraints
     gate:
       jobs:
-        - bifrost-integration-tinyipa
+        - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-opensuse-423
         - openstack-tox-lower-constraints
