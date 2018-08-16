@@ -88,7 +88,8 @@ Hardware types can be enabled using the "enabled_hardware_types" variable,
 which defaults to "ipmi, ilo, cisco-ucs-managed, cisco-ucs-standalone".
 
 Enabled interfaces can be set via the "enabled_boot_interfaces",
-"enabled_management_interfaces", and "enabled_power_interfaces" variables.
+"enabled_deploy_interfaces", "enabled_management_interfaces", and
+"enabled_power_interfaces" variables.
 
 In the event of an external DHCP server being used, the user will need to
 configure their DHCP server such that PXE, and iPXE chain loading occurs.

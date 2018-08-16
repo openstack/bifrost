@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds a new variable ``enabled_deploy_interfaces`` which allows the user
+    to set the ``enabled_deploy_interfaces`` configuration option in ironic.
