@@ -1,4 +1,9 @@
 - project:
+    templates:
+      - openstack-python-jobs
+      - check-requirements
+      - publish-openstack-sphinx-docs
+      - release-notes-jobs
     check:
       jobs:
         - bifrost-integration-tinyipa
