@@ -102,6 +102,19 @@
     - role: bifrost-test-inspection
       when: inspect_nodes | default('false') | bool == true
 
+- hosts: localhost
+  name: "Tests the use of openstack clients"
+  connection: local
+  tasks:
+    - name: "List bare metal nodes using openstack client"
+      command: openstack baremetal node list
+      environment:
+        OS_CLOUD: bifrost
+    - name: "List introspection rules using openstack client"
+      command: openstack baremetal introspection rule list
+      environment:
+        OS_CLOUD: "{% if enable_keystone | default(false) | bool %}bifrost{% else %}bifrost-inspector{% endif %}"
+      when: enable_inspector | bool
 
 - hosts: baremetal
   name: "Create configuration drive files and deploy machines"
