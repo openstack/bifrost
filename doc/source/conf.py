@@ -60,8 +60,8 @@ html_theme = 'openstackdocs'
 
 # openstackdocstheme options
 repository_name = 'openstack/bifrost'
-bug_project = 'bifrost'
-bug_tag = ''
+bug_project = '941'
+bug_tag = 'doc'
 
 # Must set this variable to include year, month, day, hours, and minutes.
 html_last_updated_fmt = '%Y-%m-%d %H:%M'
