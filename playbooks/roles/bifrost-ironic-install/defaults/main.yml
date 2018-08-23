@@ -7,6 +7,7 @@ ironic_tftp_master_path: /var/lib/ironic/master_images
 staging_drivers_include: false
 file_url_port: "8080"
 ironicclient_source_install: false
+openstacksdk_source_install: true
 shade_source_install: true
 ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
@@ -67,6 +68,7 @@ include_dhcp_server: true
 # *_git_url can be overridden by local clones for offline installs
 dib_git_url: https://git.openstack.org/openstack/diskimage-builder
 ironicclient_git_url: https://git.openstack.org/openstack/python-ironicclient
+openstacksdk_git_url: https://git.openstack.org/openstack/openstacksdk
 shade_git_url: https://git.openstack.org/openstack-infra/shade
 ironic_git_url: https://git.openstack.org/openstack/ironic
 ironicinspector_git_url: https://github.com/openstack/ironic-inspector
@@ -81,6 +83,7 @@ ironic_db_password: aSecretPassword473z
 disable_dnsmasq_dns: False
 ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
+openstacksdk_git_folder: /opt/stack/openstacksdk
 shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
 reqs_git_folder: /opt/stack/requirements

@@ -39,8 +39,8 @@ The ironic python client and shade libraries can be installed directly from
 Git. The default is to utilize pip to install the current versions in pypi,
 however testing may require master branch or custom patches.
 
-ironicclient_source_install: false
-shade_source_install: false
+openstacksdk_source_install: true
+shade_source_install: true
 
 Bifrost requires access to the network where nodes are located, in order to
 provision the nodes. By default, this setting is set to a value for local
