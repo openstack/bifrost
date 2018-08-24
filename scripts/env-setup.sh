@@ -5,7 +5,7 @@ set -eu
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
-ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${ANSIBLE_GIT_BRANCH:-stable-2.4}}
+ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${ANSIBLE_GIT_BRANCH:-stable-2.6}}
 
 ANSIBLE_PIP_STRING=$(${PYTHON} $(dirname $0)/ansible-pip-str.py ${ANSIBLE_PIP_VERSION})
 
