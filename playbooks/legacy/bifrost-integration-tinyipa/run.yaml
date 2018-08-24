@@ -59,6 +59,7 @@
             openstack/ironic \
             openstack/python-ironicclient \
             openstack-infra/shade \
+            openstack/openstacksdk \
             openstack/ironic-inspector \
             openstack/python-ironic-inspector-client \
             openstack/requirements

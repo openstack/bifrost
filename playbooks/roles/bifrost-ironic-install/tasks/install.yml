@@ -57,6 +57,17 @@
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
   when: skip_install is not defined
 
+# NOTE(TheJulia): Install openstacksdk since shade wraps to openstacksdk and the
+# logic is largely going into openstacksdk as time goes on.
+- block:
+  - name: install openstacksdk from PyPI
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install openstacksdk"
+    when: not (openstacksdk_source_install | default(false) | bool)
+  - name: install openstacksdk from source
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ openstacksdk_git_folder }}"
+    when: openstacksdk_source_install | default(false) | bool
+  when: skip_install is not defined
+
 # NOTE(pas-ha) even when install into virtualenv is requested,
 # we need to install shade into system for enroll-dynamic to succeed
 - block:
