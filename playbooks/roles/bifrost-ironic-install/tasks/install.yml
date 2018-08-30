@@ -38,6 +38,12 @@
 - name: "Ensure /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 
+- name: "OpenStack Client - Install"
+  include: pip_install.yml
+    package=python-openstackclient
+    extra_args="-c {{ upper_constraints_file }}"
+  when: skip_install is not defined
+
 - name: "proliantutils - Install from pip"
   include: pip_install.yml
      package=proliantutils
@@ -55,17 +61,6 @@
 # TODO(dtantsur): only do this is the iscsi deploy interface is enabled
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
-  when: skip_install is not defined
-
-# NOTE(TheJulia): Install openstacksdk since shade wraps to openstacksdk and the
-# logic is largely going into openstacksdk as time goes on.
-- block:
-  - name: install openstacksdk from PyPI
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install openstacksdk"
-    when: not (openstacksdk_source_install | default(false) | bool)
-  - name: install openstacksdk from source
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ openstacksdk_git_folder }}"
-    when: openstacksdk_source_install | default(false) | bool
   when: skip_install is not defined
 
 # NOTE(pas-ha) even when install into virtualenv is requested,
@@ -87,12 +82,6 @@
     # NOTE(TheJulia): DIB is in upper-constraints and can't be constrainted
     # as a result.
   when: skip_install is not defined and install_dib | bool == true
-
-- name: "OpenStack Client - Install"
-  include: pip_install.yml
-    package=python-openstackclient
-    extra_args="-c {{ upper_constraints_file }}"
-  when: skip_install is not defined
 
 - name: "Ironic Client - Install"
   include: pip_install.yml
@@ -153,4 +142,26 @@
 - name: "Install ironic-staging-drivers"
   include: staging_install.yml
   when: skip_install is not defined and staging_drivers_include | bool == true
+
+# NOTE(pas-ha) even when install into virtualenv is requested,
+# we need to install shade into system for enroll-dynamic to succeed
+- block:
+  - name: install shade from PyPI
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install shade"
+    when: not (shade_source_install | default(false) | bool)
+  - name: install shade from source
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ shade_git_folder }}"
+    when: shade_source_install | default(false) | bool
+  when: skip_install is not defined
+
+# NOTE(TheJulia): Install openstacksdk since shade wraps to openstacksdk and the
+# logic is largely going into openstacksdk as time goes on.
+- block:
+  - name: install openstacksdk from PyPI
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install openstacksdk"
+    when: not (openstacksdk_source_install | default(false) | bool)
+  - name: install openstacksdk from source
+    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ openstacksdk_git_folder }}"
+    when: openstacksdk_source_install | default(false) | bool
+  when: skip_install is not defined
 
