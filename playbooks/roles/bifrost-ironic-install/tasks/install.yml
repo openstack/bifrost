@@ -63,17 +63,6 @@
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
   when: skip_install is not defined
 
-# NOTE(pas-ha) even when install into virtualenv is requested,
-# we need to install shade into system for enroll-dynamic to succeed
-- block:
-  - name: install shade from PyPI
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install shade"
-    when: not (shade_source_install | default(false) | bool)
-  - name: install shade from source
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ shade_git_folder }}"
-    when: shade_source_install | default(false) | bool
-  when: skip_install is not defined
-
 - name: "Diskimage-builder - Install"
   include: pip_install.yml
     package=diskimage-builder
