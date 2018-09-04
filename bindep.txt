@@ -1,7 +1,7 @@
 epel-release        [platform:centos platform:rhel]
 gcc
 git
-libffi-devel        [platform:redhat]
+libffi-devel        [platform:redhat platform:suse !platform:opensuseproject-42]
 libffi-devel-gcc5   [platform:opensuseproject-42]
 libffi-dev          [platform:dpkg]
 libopenssl-devel    [platform:suse]
@@ -10,7 +10,7 @@ libssl-dev          [platform:dpkg]
 lsb-release         [platform:suse platform:dpkg]
 redhat-lsb          [platform:redhat]
 make
-mariadb             [platform:opensuseproject-42]
+mariadb             [platform:suse]
 mariadb-server      [platform:redhat]
 mysql-server        [platform:dpkg]
 net-tools

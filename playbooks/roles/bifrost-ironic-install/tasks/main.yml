@@ -41,14 +41,14 @@
 - name: Include OS distribution-specific defaults
   include_vars: "{{ item }}"
   with_first_found:
-    - "../defaults/required_defaults_{{ ansible_distribution }}.yml"
+    - "../defaults/required_defaults_{{ ansible_distribution | regex_replace(' ', '_') }}.yml"
     - "../defaults/dummy-defaults.yml"
 
 - name: Include OS version-specific defaults
   include_vars: "{{ item }}"
   with_first_found:
-    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
-    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
+    - "../defaults/required_defaults_{{ ansible_distribution | regex_replace(' ', '_') }}_{{ ansible_distribution_release }}.yml"
+    - "../defaults/required_defaults_{{ ansible_distribution | regex_replace(' ', '_') }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
 
 - name: "Install Ironic deps"
