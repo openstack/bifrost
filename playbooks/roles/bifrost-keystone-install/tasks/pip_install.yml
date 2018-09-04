@@ -11,18 +11,47 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Install {{ package }} package from pip"
+
+- name: set virtualenv_command
+  set_fact:
+    venv_command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m virtualenv"
+  when: enable_venv|bool
+
+- name: "Install {{ package }} package from pip using virtualenv"
   pip:
     name: "{{ package }}"
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
-    virtualenv: "{{ bifrost_venv_dir if enable_venv else omit }}"
+    virtualenv: "{{ bifrost_venv_dir }}"
+    virtualenv_command: "{{ venv_command | default(omit) }}"
     extra_args: "{{ extra_args | default(omit) }}"
-  when: source_install is not defined or source_install == false
+  register: pip_package_install_done
+  until: pip_package_install_done|succeeded
+  retries: 5
+  delay: 10
+  when: (source_install is not defined or source_install == false) and enable_venv|bool
+
+- name: "Install {{ package }} package from pip without virtualenv"
+  pip:
+    name: "{{ package }}"
+    state: "{{ state | default(omit) }}"
+    version: "{{ version | default(omit) }}"
+    extra_args: "{{ extra_args | default(omit) }}"
+    requirements: "{{ requirements_file | default(omit) }}"
+  register: pip_package_install_done
+  until: pip_package_install_done|succeeded
+  retries: 5
+  delay: 10
+  when: (source_install is not defined or source_install == false) and not enable_venv|bool
+
 # NOTE (cinerama): We should be able to use the pip module here and
 # possibly merge these two tasks when
 # https://github.com/ansible/ansible-modules-core/pull/2600 lands.
 - name: "Install from {{ sourcedir }} using pip"
   command: pip install --upgrade {{ sourcedir }} {{ extra_args | default('') }}
+  register: pip_package_install_done
+  until: pip_package_install_done|succeeded
+  retries: 5
+  delay: 10
   when: source_install is defined and (source_install | bool == true)
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"

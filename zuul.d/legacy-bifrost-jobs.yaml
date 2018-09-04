@@ -84,6 +84,13 @@
     nodeset: ubuntu-xenial
 
 - job:
+    name: bifrost-integration-tinyipa-keystone-ubuntu-xenial
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-xenial
+    vars:
+      use_keystone: true
+
+- job:
     name: bifrost-integration-tinyipa-centos-7
     parent: bifrost-integration-tinyipa
     nodeset: centos-7

@@ -6,6 +6,16 @@
 
   tasks:
 
+    - name: Set script name for testing without Keystone
+      set_fact:
+        script_name: scripts/test-bifrost.sh
+      when: not (use_keystone | default(false) | bool)
+
+    - name: Set script name for testing with Keystone
+      set_fact:
+        script_name: scripts/test-bifrost-keystone-auth.sh
+      when: use_keystone | default(false) | bool
+
     - name: Ensure legacy workspace directory
       file:
         path: '{{ ansible_user_dir }}/workspace'
@@ -66,7 +76,7 @@
           export GIT_BASE=$(pwd)
           export UPPER_CONSTRAINTS_FILE=$WORKSPACE/upper-constraints.txt
           cd openstack/bifrost
-          scripts/test-bifrost.sh
+          "{{ script_name }}"
         executable: /bin/bash
         chdir: '{{ ansible_user_dir }}/workspace'
       environment: '{{ zuul | zuul_legacy_vars }}'
