@@ -161,6 +161,11 @@
     --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
+- name: "Setting external Keystone public URL"
+  set_fact:
+    keystone_public_url: "{{ keystone.bootstrap.public_url | replace('127.0.0.1', hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address']) }}"
+  when: use_public_urls | default(false) | bool
+
 - name: "Bootstrap Keystone Database"
   command: >
     keystone-manage bootstrap
@@ -169,7 +174,7 @@
     --bootstrap-project-name="{{ keystone.bootstrap.project_name }}"
     --bootstrap-service-name="keystone"
     --bootstrap-admin-url="{{ keystone.bootstrap.admin_url }}"
-    --bootstrap-public-url="{{ keystone.bootstrap.public_url }}"
+    --bootstrap-public-url="{{ keystone_public_url | default(keystone.bootstrap.public_url) }}"
     --bootstrap-internal-url="{{ keystone.bootstrap.internal_url }}"
     --bootstrap-region-id="{{ keystone.bootstrap.region_name }}"
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"

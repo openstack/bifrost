@@ -170,6 +170,11 @@
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_admin_endpoint.rc != 0 or test_ironic_admin_endpoint.stdout == '[]'
 
+- name: "Setting external Ironic public URL"
+  set_fact:
+    ironic_public_url: "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') | replace('127.0.0.1', hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address']) }}"
+  when: use_public_urls | default(false) | bool
+
 - name: "Create ironic public endpoint"
   command: |
     openstack
@@ -179,7 +184,7 @@
     --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
     --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal public "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') }}"
+    baremetal public "{{ ironic_public_url | default(ironic.keystone.public_url) | default('http://127.0.0.1:6385/') }}"
   no_log: true
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_public_endpoint.rc != 0 or test_ironic_public_endpoint.stdout == '[]'

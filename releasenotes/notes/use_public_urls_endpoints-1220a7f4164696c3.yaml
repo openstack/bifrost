@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    By adding extra boolean variable ``-e use_public_urls=true``
+    Bifrost, if used with Keystone enabled, will configure
+    public services endpoints (for Keystone, Ironic and Ironic
+    Inspector) to contain the public IP address of the node
+    where Bifrost is running in replacement of the default
+    values which are set to point to localhost.
+
+    The default behaviour is kept unchanged, which means that
+    services public endpoints will contain references to
+    localhost aka 127.0.0.1.

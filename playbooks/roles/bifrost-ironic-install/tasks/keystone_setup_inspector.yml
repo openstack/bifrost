@@ -148,6 +148,11 @@
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_inspector_admin_endpoint.rc != 0 or test_ironic_inspector_admin_endpoint.stdout == '[]'
 
+- name: "Setting external ironic-inspector public URL"
+  set_fact:
+    ironic_inspector_public_url: "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') | replace('127.0.0.1', hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address']) }}"
+  when: use_public_urls | default(false) | bool
+
 # NOTE(TheJulia): This seems like something that should be
 # to admin or internal interfaces. Perhaps we should attempt
 # remove it after we have a working keystone integrated CI job.
@@ -160,7 +165,7 @@
     --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
     --os-project-name admin
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal-introspection public "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') }}"
+    baremetal-introspection public "{{ ironic_inspector_public_url | default(ironic_inspector.keystone.public_url) | default('http://127.0.0.1:5050/') }}"
   no_log: true
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_inspector_public_endpoint.rc != 0 or test_ironic_inspector_public_endpoint.stdout == '[]'
