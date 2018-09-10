@@ -13,3 +13,5 @@ required_packages:
  - libvirt-daemon
  - pkgconfig
  - libvirt-devel
+ - libxslt-devel
+ - libxml2-devel

@@ -9,5 +9,7 @@ required_packages:
  - libvirt
  - libvirt-client
  - libvirt-daemon
+ - libxslt-devel
+ - libxml2-devel
  - pkg-config
  - libvirt-devel
