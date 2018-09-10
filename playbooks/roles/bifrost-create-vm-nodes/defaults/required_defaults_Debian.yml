@@ -2,6 +2,7 @@
 sgabios_dir: /usr/share/qemu/
 libvirt_service_name: libvirt-bin
 required_packages:
+ - g++
  - libvirt-bin
  - libxslt1-dev
  - libxml2-dev
