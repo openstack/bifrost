@@ -158,7 +158,7 @@ if [[ $(readlink -f /etc/alternatives/pip) =~ "pip3" ]]; then
 fi
 
 if ! which pip; then
-    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/get-pip.py
+    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.2/get-pip.py
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
