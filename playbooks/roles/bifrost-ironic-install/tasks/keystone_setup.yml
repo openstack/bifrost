@@ -187,6 +187,11 @@
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_public_endpoint.rc != 0 or test_ironic_public_endpoint.stdout == '[]'
 
+- name: "Setting internal Ironic URL"
+  set_fact:
+    ironic_private_url: "{{ ironic.keystone.internal_url | default('http://127.0.0.1:6385/') | replace('127.0.0.1', private_ip) }}"
+  when: private_ip is defined and private_ip | length > 0
+
 - name: "Create ironic internal endpoint"
   command: |
     openstack
@@ -196,7 +201,7 @@
     --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
     --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal internal "{{ ironic.keystone.internal_url | default('http://127.0.0.1:6385/') }}"
+    baremetal internal "{{ ironic_private_url | default(ironic.keystone.internal_url) | default('http://127.0.0.1:6385/') }}"
   no_log: true
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: test_ironic_internal_endpoint.rc != 0 or test_ironic_internal_endpoint.stdout == '[]'

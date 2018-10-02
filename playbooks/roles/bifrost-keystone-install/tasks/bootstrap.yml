@@ -166,6 +166,11 @@
     keystone_public_url: "{{ keystone.bootstrap.public_url | replace('127.0.0.1', hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address']) }}"
   when: use_public_urls | default(false) | bool
 
+- name: "Setting internal Keystone URL"
+  set_fact:
+    keystone_private_url: "{{ keystone.bootstrap.internal_url | replace('127.0.0.1', private_ip) }}"
+  when: private_ip is defined and private_ip | length > 0
+
 - name: "Bootstrap Keystone Database"
   command: >
     keystone-manage bootstrap
@@ -175,7 +180,7 @@
     --bootstrap-service-name="keystone"
     --bootstrap-admin-url="{{ keystone.bootstrap.admin_url }}"
     --bootstrap-public-url="{{ keystone_public_url | default(keystone.bootstrap.public_url) }}"
-    --bootstrap-internal-url="{{ keystone.bootstrap.internal_url }}"
+    --bootstrap-internal-url="{{ keystone_private_url | default(keystone.bootstrap.internal_url) }}"
     --bootstrap-region-id="{{ keystone.bootstrap.region_name }}"
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   when: >
