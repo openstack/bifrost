@@ -17,7 +17,7 @@
   when: lookup('env', 'VENV') | length > 0
 
 - name: "Retrieve venv python path"
-  shell: "echo \"import sys\\nprint(':'.join(sys.path))\" | {{ ansible_python.get('executable', '/usr/bin/python').split('/')[-1] }}"
+  shell: "echo -e \"import sys\\nprint(':'.join(sys.path))\" | {{ ansible_python.get('executable', '/usr/bin/python').split('/')[-1] }}"
   environment: "{{ bifrost_venv_env | default({}) }}"
   register: venv_pythonpath_result
   when: enable_venv
