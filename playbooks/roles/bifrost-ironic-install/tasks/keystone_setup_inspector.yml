@@ -149,7 +149,7 @@
 
 - name: "Setting external ironic-inspector public URL"
   set_fact:
-    ironic_inspector_public_url: "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') | replace('127.0.0.1', hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address']) }}"
+    ironic_inspector_public_url: "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') | replace('127.0.0.1', public_ip | default(hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'])) }}"
   when: use_public_urls | default(false) | bool
 
 # NOTE(TheJulia): This seems like something that should be
