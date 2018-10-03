@@ -37,10 +37,12 @@ if $(journalctl --version &>/dev/null); then
     sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
     sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
     sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
+    sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
 else
    sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
    sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
    sudo cp /var/log/upstart/ironic-inspector.log ${LOG_LOCATION}/
+   sudo cp /var/log/upstart/libvirtd.log ${LOG_LOCATION}/
 fi
 
 # Copy PXE information
@@ -57,6 +59,10 @@ done
 if [ -d "/var/log/ironic" ]; then
    cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
 fi
+
+sudo vbmc list &> ${LOG_LOCATION}/vbmc.txt
+sudo virsh list --all &> ${LOG_LOCATION}/virsh-list.txt
+ps auxf &> ${LOG_LOCATION}/ps.txt
 
 sudo chown -R $USER ${LOG_LOCATION}
 # In CI scenarios, we want other users to be able to read the logs.

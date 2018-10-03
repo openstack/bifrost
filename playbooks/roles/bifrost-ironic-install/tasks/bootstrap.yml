@@ -104,7 +104,7 @@
 
 - name: Setting MySQL socket fact
   set_fact:
-    mysql_socket_path: "/var/run/{% if ansible_distribution | lower is search('suse') %}mysql/mysql.sock{% else %}mysqld/mysqld.sock{% endif %}"
+    mysql_socket_path: "/var/{% if ansible_os_family | lower == 'redhat' %}lib{% else %}run{% endif %}/{% if ansible_os_family | lower == 'debian' %}mysqld/mysqld.sock{% else %}mysql/mysql.sock{% endif %}"
   when: ansible_version.full is version_compare('2.6.5', '>=')
 
 - name: "MySQL - Creating DB"

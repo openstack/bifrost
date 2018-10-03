@@ -139,6 +139,12 @@
     recurse: yes
     mode: "0755"
 
+- name: ensure parent dir for bm logs has proper rights
+  file:
+    state: directory
+    path: "{{ test_vm_logdir | dirname }}"
+    mode: "0755"
+
 - name: install virtualbmc
   pip:
     name: virtualbmc

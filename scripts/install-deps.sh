@@ -184,6 +184,11 @@ sudo -H -E ${PIP} install "pip>6.0"
 # upgrade setuptools, as latest version is needed to install some projects
 sudo -H -E ${PIP} install --upgrade --force setuptools
 
+if [ "$OS_FAMILY" == "RedHat" ]; then
+    sudo -H -E ${PIP} freeze
+    sudo -H -E ${PIP} install --ignore-installed pyparsing ipaddress
+fi
+
 sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 
 # Install the rest of required packages using bindep
