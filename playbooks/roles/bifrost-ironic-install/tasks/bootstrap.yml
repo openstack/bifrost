@@ -44,13 +44,25 @@
 
 # NOTE(hwoarang): The erlang SUSE package forces epmd to listen on localhost
 # address which breaks rabbitmq-server when listening on a different address.
-# Make sure the systemd service and socket are stopped so rabbitmq-server will
-# start epmd on its own (https://bugzilla.suse.com/show_bug.cgi?id=1003085)
-- name: "Stop and disable the epmd service and socket on SUSE"
-  service: name={{ item }} state=stopped enabled=no
-  with_items:
-    - epmd.socket
-    - epmd
+# https://build.opensuse.org/package/view_file/devel:languages:erlang:Factory/erlang/README.SUSE?expand=1
+- name: "Make epmd listen to all addresses on SUSE"
+  block:
+    - blockinfile:
+        dest: "/etc/systemd/system/epmd.socket.d/port.conf"
+        content: |
+          [Socket]
+          ListenStream=
+          ListenStream=0.0.0.0:4369
+        create: yes
+        marker: "# {mark} ANSIBLE MANAGED BLOCK"
+
+    - systemd: daemon_reload=yes
+
+    - service: name={{ item }} state=stopped enabled=no
+      with_items:
+        - epmd.socket
+        - epmd
+
   when: ansible_os_family == 'Suse'
 - name: "Start rabbitmq-server"
   service: name=rabbitmq-server state=started enabled=yes
