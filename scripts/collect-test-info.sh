@@ -43,6 +43,11 @@ else
    sudo cp /var/log/upstart/ironic-inspector.log ${LOG_LOCATION}/
 fi
 
+# Copy PXE information
+mkdir -p ${LOG_LOCATION}/pxe/
+cp /httpboot/ipxe.pxe ${LOG_LOCATION}/pxe/
+cp -aL /httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
+
 if [ -d "/var/log/ironic" ]; then
    cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
 fi
