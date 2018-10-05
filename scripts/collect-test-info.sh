@@ -48,6 +48,12 @@ mkdir -p ${LOG_LOCATION}/pxe/
 cp /httpboot/ipxe.pxe ${LOG_LOCATION}/pxe/
 cp -aL /httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
 
+# Copy baremetal information
+source $HOME/openrc
+for vm in $(openstack baremetal node list -c Name -f value); do
+    openstack baremetal node show $vm >> ${LOG_LOCATION}/baremetal.txt
+done
+
 if [ -d "/var/log/ironic" ]; then
    cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
 fi
