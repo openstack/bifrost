@@ -102,8 +102,14 @@
   when: lookup('env', 'mysql_pass') | length > 0
   no_log: true
 
+- name: Setting MySQL socket fact
+  set_fact:
+    mysql_socket_path: "/var/run/{% if ansible_distribution | lower is search('suse') %}mysql/mysql.sock{% else %}mysqld/mysqld.sock{% endif %}"
+  when: ansible_version.full is version_compare('2.6.5', '>=')
+
 - name: "MySQL - Creating DB"
   mysql_db:
+    login_unix_socket: "{{ mysql_socket_path | default(omit) }}"
     name: "{{ ironic.database.name }}"
     state: present
     encoding: utf8
@@ -114,6 +120,7 @@
 
 - name: "MySQL - Creating user for Ironic"
   mysql_user:
+    login_unix_socket: "{{ mysql_socket_path | default(omit) }}"
     name: "{{ ironic.database.username }}"
     password: "{{ ironic.database.password }}"
     priv: "{{ ironic.database.name }}.*:ALL"
