@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    By adding extra string variable ``-e public_ip=8.8.8.8``
+    which is to be used in conjunction with ``use_public_urls=true``
+    Bifrost, if used with Keystone enabled, will configure
+    public services endpoints (for Keystone, Ironic and Ironic
+    Inspector) to contain this public IP address in replacement
+    of the default values which are set to point to localhost.
+
+    The default behaviour is kept unchanged, which means that
+    services public endpoints will contain references to
+    localhost aka 127.0.0.1.
