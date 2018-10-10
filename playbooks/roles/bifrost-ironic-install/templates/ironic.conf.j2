@@ -21,8 +21,7 @@ enabled_power_interfaces = {{ enabled_power_interfaces }}
 
 enabled_hardware_types = {{ enabled_hardware_types }}
 
-rabbit_userid = ironic
-rabbit_password = {{ ironic_db_password }}
+transport_url = rabbit://ironic:{{ironic_db_password }}@{{ message_queue_host | default('127.0.0.1') }}:{{ message_queue_port | default('5672') }}/{{ rabbit_virtual_host | default('') }}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_strategy = keystone
