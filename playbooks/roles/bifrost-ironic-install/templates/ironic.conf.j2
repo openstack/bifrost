@@ -35,7 +35,11 @@ log_dir = {{ ironic_log_dir }}
 {% endif %}
 
 [pxe]
+{% if testing | bool %}
+pxe_append_params = console=/dev/ttyS0
+{% else %}
 pxe_append_params = systemd.journald.forward_to_console=yes {{ extra_kernel_options | default('') }}
+{% endif %}
 pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
 tftp_server = {{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}
 tftp_root = /tftpboot
@@ -108,5 +112,5 @@ project_domain_id = default
 region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
 {% else %}
 auth_type = none
-endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385
 {% endif %}
+endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385
