@@ -11,7 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- include: roles/common/venv_python_path.yml
+- import_role:
+    name: venv_python_path
 
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
