@@ -14,7 +14,7 @@ echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
 
 if [ -z "${TEST_VM_NODE_NAMES+x}" ]; then
-    sudo sh -c "cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log" ${LOG_LOCATION}
+    sudo sh -c "cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}"
     sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
     sudo chmod o+r ${LOG_LOCATION}/testvm[[:digit:]]_console.log
 else
