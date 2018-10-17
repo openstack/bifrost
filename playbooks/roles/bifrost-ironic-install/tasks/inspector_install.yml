@@ -25,6 +25,6 @@
   include: pip_install.yml
     package=python-ironic-inspector-client
     state=latest
-    source_dir={{ ironicinspectorclient_git_folder }}
-    sourc_install={{ ironicinspectorclient_source_install }}
+    sourcedir={{ ironicinspectorclient_git_folder }}
+    source_install={{ ironicinspectorclient_source_install }}
     extra_args="--no-cache-dir --upgrade {% if enable_venv | bool %}--upgrade-strategy only-if-needed{% else %}--force-reinstall{% endif %} -c {{ upper_constraints_file }}"
