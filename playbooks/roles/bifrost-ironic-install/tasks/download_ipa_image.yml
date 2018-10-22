@@ -15,7 +15,8 @@
 ---
 # This is overly complex, however get_url will always re-retrieve the file
 # if it already exists, and this is to prevent that behavior.
-- include: roles/common/venv_python_path.yml
+- import_role:
+    name: venv_python_path
 
 - name: "Test if IPA kernel is present"
   stat: path={{ ipa_kernel }}
