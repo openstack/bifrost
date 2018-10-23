@@ -60,3 +60,7 @@ keystone:
     username: keystone
     password: ChangeThisPa55w0rd
     host: localhost
+
+# NOTE(hwoarang): openSUSE distros may come with recent pip versions so
+# upgrade only what's necessary
+pip_opts: "{{ ((ansible_os_family | lower == 'suse') or (enable_venv | bool)) | ternary('--upgrade-strategy only-if-needed', '--force-reinstall') }}"

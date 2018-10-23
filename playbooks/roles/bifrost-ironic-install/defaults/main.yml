@@ -277,3 +277,7 @@ ironic_inspector:
     host: "localhost"
     # DEPRECATED(TheJulia): Inheritance of ironic_db_password params
     # should be removed in Queens.
+
+# NOTE(hwoarang): openSUSE distros may come with recent pip versions so
+# upgrade only what's necessary
+pip_opts: "{{ ((ansible_os_family | lower == 'suse') or (enable_venv | bool)) | ternary('--upgrade-strategy only-if-needed', '--force-reinstall') }}"

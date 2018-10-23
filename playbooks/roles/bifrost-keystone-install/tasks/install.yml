@@ -63,7 +63,7 @@
     state=latest
     sourcedir={{ keystone_git_folder }}
     source_install={{ keystone_source_install | bool }}
-    extra_args="--no-cache-dir --upgrade {% if enable_venv | bool %}--upgrade-strategy only-if-needed{% else %}--force-reinstall{% endif %} -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir --upgrade {{ pip_opts }} -c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == true
@@ -98,7 +98,7 @@
     state=latest
     sourcedir={{ keystone_git_folder }}
     source_install={{ keystone_source_install | bool }}
-    extra_args="--no-cache-dir --upgrade {% if enable_venv | bool %}--upgrade-strategy only-if-needed{% else %}--force-reinstall{% endif %} -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir --upgrade {{ pip_opts }} -c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == false

@@ -124,7 +124,7 @@
     state=latest
     sourcedir={{ ironic_git_folder }}
     source_install=true
-    extra_args="--no-cache-dir --upgrade -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir --upgrade {{ pip_opts }} -c {{ upper_constraints_file }}"
   when: skip_install is not defined
 
 - name: "Install ironic-inspector to permit use of inspection interface"
