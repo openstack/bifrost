@@ -142,15 +142,6 @@
     group: "keystone"
     mode: 0755
 
-- name: "Copy keystone-paste.ini to /etc/keystone"
-  copy:
-    src: "{{ keystone_git_folder }}/etc/keystone-paste.ini"
-    dest: "/etc/keystone/"
-    remote_src: true
-    owner: "keystone"
-    group: "keystone"
-    mode: 0644
-
 - name: "Apply/Update keystone DB Schema"
   command: keystone-manage db_sync
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
