@@ -57,7 +57,8 @@ for vm in $(openstack baremetal node list -c Name -f value); do
 done
 
 if [ -d "/var/log/ironic" ]; then
-   cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
+   sudo cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
+   ls -la ${LOG_LOCATION}/ipa-logs 
 fi
 
 sudo vbmc list &> ${LOG_LOCATION}/vbmc.txt
