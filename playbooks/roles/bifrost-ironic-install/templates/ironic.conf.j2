@@ -51,6 +51,7 @@ tftp_master_path = {{ ironic_tftp_master_path }}
 [deploy]
 http_url = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/
 http_root = {{ http_boot_folder }}
+default_boot_option = local
 
 [conductor]
 clean_nodes = {{ cleaning | lower }}
