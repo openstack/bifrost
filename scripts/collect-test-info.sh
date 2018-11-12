@@ -34,6 +34,8 @@ if $(ip link &>/dev/null); then
     ip -s link &> ${LOG_LOCATION}/interface_counters.log
 fi
 if $(journalctl --version &>/dev/null); then
+    cp -a /var/log/* ${LOG_LOCATION}/.
+    sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
     sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
     sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
     sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log

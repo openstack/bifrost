@@ -21,7 +21,7 @@ CHECK_CMD_PKGS=(
 
 source /etc/os-release || source /usr/lib/os-release
 case ${ID,,} in
-    *suse)
+    *suse*)
     OS_FAMILY="Suse"
     INSTALLER_CMD="sudo -H -E zypper install -y --no-recommends"
     CHECK_CMD="zypper search --match-exact --installed"
@@ -38,6 +38,8 @@ case ${ID,,} in
         [wget]=wget
     )
     EXTRA_PKG_DEPS=( python-xml )
+    # netstat moved to net-tools-deprecated in Leap 15
+    [[ ${VERSION%%.*} -lt 42 ]] && EXTRA_PKG_DEPS+=( net-tools-deprecated )
     sudo zypper -n ref
     # NOTE (cinerama): we can't install python without removing this package
     # if it exists
@@ -125,7 +127,7 @@ for pkg in ${CHECK_CMD_PKGS[@]}; do
 done
 
 if [ -n "${EXTRA_PKG_DEPS-}" ]; then
-    for pkg in ${EXTRA_PKG_DEPS}; do
+    for pkg in ${EXTRA_PKG_DEPS[@]}; do
         if ! $(${CHECK_CMD} ${pkg} &>/dev/null); then
             ${INSTALLER_CMD} ${pkg}
         fi

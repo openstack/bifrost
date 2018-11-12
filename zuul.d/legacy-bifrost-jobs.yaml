@@ -50,6 +50,11 @@
     nodeset: opensuse-423
 
 - job:
+    name: bifrost-integration-dhcp-opensuse-150
+    parent: bifrost-integration-dhcp
+    nodeset: opensuse-150
+
+- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     run: playbooks/legacy/bifrost-integration-dibipa-debian/run.yaml
@@ -70,6 +75,11 @@
     name: bifrost-integration-dibipa-debian-opensuse-423
     parent: bifrost-integration-dibipa-debian
     nodeset: opensuse-423
+
+- job:
+    name: bifrost-integration-dibipa-debian-opensuse-150
+    parent: bifrost-integration-dibipa-debian
+    nodeset: opensuse-150
 
 - job:
     name: bifrost-integration-tinyipa
@@ -99,3 +109,8 @@
     name: bifrost-integration-tinyipa-opensuse-423
     parent: bifrost-integration-tinyipa
     nodeset: opensuse-423
+
+- job:
+    name: bifrost-integration-tinyipa-opensuse-150
+    parent: bifrost-integration-tinyipa
+    nodeset: opensuse-150
