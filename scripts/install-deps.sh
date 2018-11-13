@@ -87,7 +87,7 @@ case ${ID,,} in
         [wget]=wget
     )
     EXTRA_PKG_DEPS=()
-    sudo yum updateinfo
+    sudo -E yum updateinfo
     if $(grep -q Fedora /etc/redhat-release); then
         EXTRA_PKG_DEPS="python-dnf redhat-rpm-config"
     fi
