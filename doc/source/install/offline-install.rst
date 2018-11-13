@@ -38,7 +38,7 @@ those can be redirected to point to a local copy by creating a file named
 ``playbooks/host_vars/<hostname>.yml`` and redirecting the appropriate
 variables.
 
-As an example, the yaml file's contents may look like something like like
+As an example, the yaml file's contents may look like something like
 this.
 
 .. code-block:: yaml
