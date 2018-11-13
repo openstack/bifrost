@@ -49,7 +49,7 @@ These roles are ``baremetal_admin`` and ``baremetal_observer``
 and a user can learn more about the roles from the ironic `install
 guide`_.
 
-.. _`install guide`: http://docs.openstack.org/project-install-guide/baremetal/draft/configure-integration.html#configure-the-identity-service-for-the-bare-metal-service
+.. _`install guide`: https://docs.openstack.org/project-install-guide/baremetal/draft/configure-integration.html#configure-the-identity-service-for-the-bare-metal-service
 
 Individual playbook use with os-client-config
 =============================================

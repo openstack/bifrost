@@ -64,7 +64,7 @@ and Tiny Core based images are what are used by the OpenStack CI for
 ironic tests.
 
 CoreOS::
-  http://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/coreos/README.rst
+  https://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/coreos/README.rst
 TinyIPA::
   https://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/tinyipa/README.rst
 
