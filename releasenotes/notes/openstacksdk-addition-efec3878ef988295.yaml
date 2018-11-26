@@ -3,6 +3,6 @@ features:
   - |
     Adds the use of the ``openstacksdk`` library which is superceeding the
     ``shade`` library for communicating with OpenStack services using the
-    Ansible modules. By default this this will attempted to be installed
+    Ansible modules. By default this will attempted to be installed
     from source. Set the ``openstacksdk_source_install`` option to false
     in order to install from PyPI.
