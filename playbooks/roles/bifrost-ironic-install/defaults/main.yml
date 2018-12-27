@@ -30,6 +30,8 @@ skip_package_install: False
 skip_bootstrap: False
 # set to true to skip starting ironic services and dependencies
 skip_start: False
+# set to true to skip performing online data migrations
+skip_migrations: "{{ skip_bootstrap }}"
 
 # Default network interface that bifrost will be attached to.
 # This is used in ipa_* so it must be before

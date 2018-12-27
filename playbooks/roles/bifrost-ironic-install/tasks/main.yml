@@ -62,3 +62,7 @@
 - name: "Start Ironic services"
   include: start.yml
   when: skip_start | bool != True
+
+- name: "Perform online data migrations"
+  include: migrations.yml
+  when: skip_migrations | bool != True
