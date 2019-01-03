@@ -66,6 +66,7 @@
             openstack/requirements
           export GIT_BASE=$(pwd)
           export UPPER_CONSTRAINTS_FILE=$WORKSPACE/upper-constraints.txt
+          export USE_VENV={{ use_venv | default(false) | bool | lower }}
           cd openstack/bifrost
           scripts/test-bifrost-build-images.sh
         executable: /bin/bash

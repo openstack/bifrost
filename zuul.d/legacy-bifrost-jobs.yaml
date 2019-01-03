@@ -48,11 +48,15 @@
     name: bifrost-integration-dhcp-opensuse-423
     parent: bifrost-integration-dhcp
     nodeset: opensuse-423
+    vars:
+      use_venv: true
 
 - job:
     name: bifrost-integration-dhcp-opensuse-150
     parent: bifrost-integration-dhcp
     nodeset: opensuse-150
+    vars:
+      use_venv: true
 
 - job:
     name: bifrost-integration-dibipa-debian
@@ -75,11 +79,15 @@
     name: bifrost-integration-dibipa-debian-opensuse-423
     parent: bifrost-integration-dibipa-debian
     nodeset: opensuse-423
+    vars:
+      use_venv: true
 
 - job:
     name: bifrost-integration-dibipa-debian-opensuse-150
     parent: bifrost-integration-dibipa-debian
     nodeset: opensuse-150
+    vars:
+      use_venv: true
 
 - job:
     name: bifrost-integration-tinyipa
@@ -109,8 +117,12 @@
     name: bifrost-integration-tinyipa-opensuse-423
     parent: bifrost-integration-tinyipa
     nodeset: opensuse-423
+    vars:
+      use_venv: true
 
 - job:
     name: bifrost-integration-tinyipa-opensuse-150
     parent: bifrost-integration-tinyipa
     nodeset: opensuse-150
+    vars:
+      use_venv: true
