@@ -96,7 +96,7 @@ when contributing code.
    to command line overrides are typically interpreted as strings
    instead of booleans.  Example::
 
-      - name: "Something something something something"
+      - name: "Something something something"
         module:
           parameter: "value"
         when: boolean_value | bool == true
