@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Adds support for performing ironic online data migrations.
