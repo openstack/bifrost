@@ -150,7 +150,7 @@ test_vm_network_dhcp_start: Start of DHCP range for 'test_vm_network'.
                             from scratch and when
                             'test_vm_network_enable_dhcp' is enabled.
 
-test_vm_network_dhcp_end: End of of DHCP range for 'test_vm_network'.
+test_vm_network_dhcp_end: End of DHCP range for 'test_vm_network'.
                           Defaults to '192.168.122.254'.
                           This setting is applied only when
                           'test_vm_network' was absent and is created
