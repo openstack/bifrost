@@ -37,7 +37,7 @@ deploy_image_filename: This is the filename of the image to deploy, which is
 deploy_url_protocol: The protocol to utilize to access config_drive and
                      image_source files. The default is to utilize HTTP in
                      generated HTTP URLs for bifrost, however this setting
-                     allows a user to change that default if they they have
+                     allows a user to change that default if they have
                      a modified local webserver configuration.
 
 deploy_image: This is the full path to the image to be deployed to the system.
