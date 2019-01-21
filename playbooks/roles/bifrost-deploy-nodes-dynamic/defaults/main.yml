@@ -20,3 +20,6 @@ noauth_mode: true
 # Ironic to show the instance in Active state.
 wait_for_node_deploy: false
 wait_timeout: 1800
+
+# Timeout for gathering facts.
+fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"

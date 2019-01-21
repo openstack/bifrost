@@ -19,6 +19,7 @@
 # to be inspected.
 - name: "Obtain setup facts"
   setup:
+    gather_timeout: "{{ fact_gather_timeout }}"
 
 - name: "If in noauth mode, unset authentication parameters."
   set_fact:

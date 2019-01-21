@@ -5,3 +5,6 @@ inspection_wait_timeout: 1800
 inventory_dhcp: false
 inventory_dhcp_static_ip: true
 inventory_dns: false
+
+# Timeout for gathering facts.
+fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"

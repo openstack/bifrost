@@ -287,3 +287,6 @@ ironic_inspector:
 # NOTE(hwoarang): openSUSE distros may come with recent pip versions so
 # upgrade only what's necessary
 pip_opts: "{{ ((ansible_os_family | lower == 'suse') or (enable_venv | bool)) | ternary('--upgrade-strategy only-if-needed', '--force-reinstall') }}"
+
+# Timeout for gathering facts.
+fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"
