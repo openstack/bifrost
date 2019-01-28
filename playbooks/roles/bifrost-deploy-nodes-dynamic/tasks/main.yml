@@ -84,6 +84,7 @@
     get_checksum: yes
     checksum_algorithm: md5
   register: test_deploy_image
+  become: yes
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
 - name: "Error if deploy_image is not present, and instance_info is not defined"
   fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
