@@ -38,6 +38,7 @@ required_packages:
   - python3-openwsman
   - policycoreutils-python
   - debootstrap
+  - dpkg
   - iptables
   - tar
   - curl
