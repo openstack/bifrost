@@ -325,9 +325,13 @@ def _process_baremetal_csv(data_source, groups, hostvars):
 
 def _identify_shade_auth():
     """Return shade credentials"""
+    if os.environ.get('OS_CLOUD'):
+        return {}
+    endpoint = os.getenv('OS_URL',
+                         os.getenv('IRONIC_URL', "http://localhost:6385/"))
     options = dict(
         auth_type="None",
-        auth=dict(endpoint="http://localhost:6385/",)
+        auth=dict(endpoint=endpoint,)
     )
     if os.environ.get('OS_AUTH_URL'):
         options['auth_type'] = "password"
