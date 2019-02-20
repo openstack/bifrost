@@ -18,8 +18,6 @@ case "$1" in
     *) echo -e "\nERROR unsupported or unspecified profile: $1\nMust be one of {{ clouds | default({}) | dictsort | map(attribute='0') | join(',') }}";;
 esac
 {% else %}
-export IRONIC_URL={{ ironic_api_url }}
-export OS_AUTH_TOKEN='fake-token'
 export OS_TOKEN='fake-token'
 export OS_URL={{ ironic_api_url }}
 {% endif %}
