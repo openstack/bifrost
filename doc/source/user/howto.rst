@@ -2,27 +2,56 @@
 How-To
 ======
 
-Use the Ironic CLI
-==================
+Use the OpenStack CLI
+=====================
 
-If you wish to utilize ironic's CLI in no-auth mode, you must set two
-environment variables:
+If you wish to utilize the OpenStack CLI in no-auth mode, there are two options
+for configuring the authentication parameters.
 
-- ``IRONIC_URL`` - A URL to the ironic API, such as http://localhost:6385/
-- ``OS_AUTH_TOKEN`` - Any value except empty space, such as 'fake-token',
-  is required to cause the client library to send requests directly to the API.
+clouds.yaml
+-----------
 
-For your ease of use, ``env-vars`` can be sourced to allow the CLI to connect
-to a local ironic installation operating in noauth mode. Run e.g.::
+During installation, Bifrost creates a ``clouds.yaml`` file with credentials
+necessary to access Ironic. A cloud called ``bifrost`` is always available. For
+example::
 
-  . env-vars
-  ironic node-list
-  +------+------+---------------+-------------+--------------------+-------------+
-  | UUID | Name | Instance UUID | Power State | Provisioning State | Maintenance |
-  +------+------+---------------+-------------+--------------------+-------------+
-  +------+------+---------------+-------------+--------------------+-------------+
+    export OS_CLOUD=bifrost
+    openstack baremetal node list
 
-which should print an empty table if connection to Ironic works as expected.
+In noauth mode, a cloud called ``bifrost-inspector`` is also included that
+allows access to the Ironic Inspector API. For example::
+
+    export OS_CLOUD=bifrost-inspector
+    openstack baremetal introspection list
+
+Environment variables
+---------------------
+
+.. note::
+
+   Previous versions of Bifrost recommended to use the ``ironic`` CLI rather
+   than the ``openstack`` CLI. Doing this requires setting the
+   ``OS_AUTH_TOKEN`` environment variable, however this causes Ansible
+   ``enroll-dynamic.yaml`` and ``deploy-dynamic.yaml`` playbooks to fail, so
+   ``OS_AUTH_TOKEN`` should be unset before running either of these.
+
+The following two environment variables can be set:
+
+- ``OS_URL`` - A URL to the ironic API, such as http://localhost:6385/
+- ``OS_TOKEN`` - Any value except empty space, such as 'fake-token',
+  is required to cause the client library to send requests directly to the
+  API
+
+For convenience, an environment file called ``env-vars`` is provided that
+contains default values for these variables and can be sourced to allow the CLI
+to connect to a local Ironic installation operating in noauth mode. For
+example::
+
+    . env-vars
+    openstack baremetal node list
+
+This should display a table of nodes, or nothing if there are no nodes
+registered in Ironic.
 
 Enroll Hardware
 ===============
