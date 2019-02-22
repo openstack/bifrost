@@ -1,6 +1,7 @@
 - project:
     templates:
       - openstack-python-jobs
+      - openstack-python36-jobs
       - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
