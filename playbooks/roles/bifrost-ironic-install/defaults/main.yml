@@ -159,7 +159,7 @@ inspector_manage_firewall: false
 ironic_auth_strategy: "noauth"
 
 # Set ironic_log_dir to use a non-default log directory for ironic.
-#ironic_log_dir:
+ironic_log_dir: /var/log/ironic
 
 # Set inspector_log_dir to use a non-default log directory for inspector.
 #inspector_log_dir:
