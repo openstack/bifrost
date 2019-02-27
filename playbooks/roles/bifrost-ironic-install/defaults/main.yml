@@ -146,6 +146,11 @@ inventory_dhcp: False
 # hosts in your dynamic inventory.
 inventory_dns: False
 
+# Set this to true to configure dnsmasq to populate the NTP servers
+# setting of dnsmasq.
+# Several NTP servers can be specified, seperated by commas.
+# dnsmasq_ntp_servers:
+
 # Settings to enable the use of inspector
 enable_inspector: true
 inspector_auth: "noauth"
