@@ -21,4 +21,4 @@ required_packages:
   - libxml2-devel
   - nginx
   - uwsgi
-  - uwsgi-plugin-python
+  - uwsgi-plugin-python2
