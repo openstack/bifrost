@@ -18,12 +18,10 @@
 
 - name: "Update Package Cache"
   apt: update_cache=yes
-  environment: "{{ venv }}"
   when: ansible_os_family == 'Debian'
 
 - name: "Install packages"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
-  environment: "{{ venv }}"
   with_items: "{{ required_packages }}"
 
 - name: "If running in CI, set source install facts just to be sure"
