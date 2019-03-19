@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    UcsSdk support was removed due to being Python 2 only.

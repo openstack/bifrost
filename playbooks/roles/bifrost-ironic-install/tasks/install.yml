@@ -52,14 +52,6 @@
   environment: "{{ venv }}"
   when: skip_install is not defined
 
-- name: "UcsSdk - Install from pip"
-  include: pip_install.yml
-    package=UcsSdk
-    version=0.8.1.9
-    extra_args="-c {{ upper_constraints_file }}"
-  environment: "{{ venv }}"
-  when: skip_install is not defined
-
 # TODO(dtantsur): only do this is the iscsi deploy interface is enabled
 - name: "Install iSCSI client if PXE driver support is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ iscsi_client_package }} state=present"
