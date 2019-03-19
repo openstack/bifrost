@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes default non-testing configuration to remove UCS drivers as they
+    are Python2 only being based on UcsSdk which has ceased development and
+    is no longer maintained.
