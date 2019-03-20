@@ -173,6 +173,16 @@
 - name: "Generate ironic Configuration"
   include: ironic_config.yml
 
+- name: "Set permissions for {{ ironic_log_dir }} for the ironic user"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "ironic"
+    group: "ironic"
+  with_items:
+    - "{{ ironic_log_dir }}"
+
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
@@ -215,17 +225,7 @@
     - "/var/lib/ironic/master_images"
     - "/var/lib/ironic/images"
 
-- name: "Set permissions for /var/log/ironic for the ironic user"
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0755
-    owner: "ironic"
-    group: "ironic"
-  with_items:
-    - "/var/log/ironic"
-
-- name: "Place ironic services"
+- name: "Place ironic services on Debian family"
   template:
     src: "{{ init_template }}"
     dest: "{{ init_dest_dir }}{{ item.service_name }}{{ init_ext }}"
@@ -234,6 +234,21 @@
   with_items:
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
+  when:
+    - ansible_distribution not in ["CentOS","RedHat"]
+
+- name: "Place ironic services on RedHat family"
+  template:
+    src: "{{ init_template }}"
+    dest: "{{ init_dest_dir }}{{ item.service_name }}{{ init_ext }}"
+    owner: "root"
+    group: "root"
+  with_items:
+    - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf --log-file {{ ironic_log_dir }}/ironic-api.log'}
+    - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf --log-file {{ ironic_log_dir }}/ironic-conductor.log'}
+  when:
+    - ansible_distribution in ["CentOS","RedHat"]
+
 - name: "Create and populate /tftpboot"
   include: create_tftpboot.yml
 - name: "Setup Inventory Hosts Directory"
