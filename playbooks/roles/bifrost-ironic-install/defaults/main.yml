@@ -100,11 +100,11 @@ ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
 staging_drivers_git_url: https://git.openstack.org/cgit/openstack/ironic-staging-drivers
 
 # TODO(TheJulia): Add redfish to this list.
-enabled_hardware_types: "ipmi,ilo,cisco-ucs-managed"
+enabled_hardware_types: "ipmi,ilo"
 default_deploy_interface: "direct"
 enabled_boot_interfaces: "ilo-virtual-media,pxe"
-enabled_management_interfaces: "ilo,ipmitool,ucsm"
-enabled_power_interfaces: "ilo,ipmitool,ucsm"
+enabled_management_interfaces: "ilo,ipmitool"
+enabled_power_interfaces: "ilo,ipmitool"
 enabled_deploy_interfaces: "iscsi,direct"
 
 # Extra pip packages to install with ironic
