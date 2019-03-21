@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    RabbitMQ is no longer used by default, set ``use_rabbitmq=true`` to enable.
