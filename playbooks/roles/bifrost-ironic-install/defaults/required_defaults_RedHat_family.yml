@@ -11,7 +11,6 @@ tftp_service_name: tftp
 required_packages:
   - mariadb-server
   - dnsmasq
-  - rabbitmq-server
   - python-devel
   - MySQL-python
   - python-iniparse

@@ -3,7 +3,7 @@ bifrost-keystone-install
 
 This role installs keystone for a bifrost/stand-alone ironic deployment
 with all required substrate to allow for keystone configuration,
-including MySQL, RabbitMQ, dnsmasq, and nginx.
+including MySQL, dnsmasq, and nginx.
 
 Requirements
 ------------

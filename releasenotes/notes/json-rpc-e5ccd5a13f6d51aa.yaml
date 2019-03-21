@@ -1,0 +1,4 @@
+features:
+  - |
+    Adds support to disable RabbitMQ via the new ``use_rabbitmq`` variable
+    in favour of JSON RPC (in ironic) and fake transport (in ironic-inspector).

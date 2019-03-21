@@ -29,35 +29,10 @@
   register: keystone_install_prefix
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
-# NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
-# during bootstrapping. all other services are started in the Start phase.
+# NOTE(sean-k-mooney) only the MySQL db is started during bootstrapping.
+# all other services are started in the Start phase.
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started enabled=yes
-
-- name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started enabled=yes
-
-# NOTE(cinerama): on some systems, rabbit may not be ready when we want to
-# make changes to users if we don't wait first
-- name: "Wait for rabbitmq"
-  wait_for: port="{{ keystone.message_queue.port | default('5672') }}" delay=5
-
-- name: "Ensure guest user is removed from rabbitmq"
-  rabbitmq_user:
-    user: "guest"
-    state: absent
-    force: yes
-
-- name: "Create keystone user in RabbitMQ"
-  rabbitmq_user:
-    user: "{{ keystone.message_queue.username }}"
-    password: "{{ keystone.message_queue.password }}"
-    force: yes
-    state: present
-    configure_priv: ".*"
-    write_priv: ".*"
-    read_priv: ".*"
-  no_log: true
 
 - name: "Set mysql_username if environment variable mysql_user is set"
   set_fact:

@@ -42,43 +42,6 @@
   service: name={{ mysql_service_name }} state=started enabled=yes
   when: ironic.database.host == 'localhost'
 
-# NOTE(hwoarang): The erlang SUSE package forces epmd to listen on localhost
-# address which breaks rabbitmq-server when listening on a different address.
-# https://build.opensuse.org/package/view_file/devel:languages:erlang:Factory/erlang/README.SUSE?expand=1
-- name: "Make epmd listen to all addresses on SUSE"
-  block:
-    - blockinfile:
-        dest: "/etc/systemd/system/epmd.socket.d/port.conf"
-        content: |
-          [Socket]
-          ListenStream=
-          ListenStream=0.0.0.0:4369
-        create: yes
-        marker: "# {mark} ANSIBLE MANAGED BLOCK"
-
-    - systemd: daemon_reload=yes
-
-    - service: name={{ item }} state=stopped enabled=no
-      with_items:
-        - epmd.socket
-        - epmd
-
-  when: ansible_os_family == 'Suse'
-- name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started enabled=yes
-
-# NOTE(cinerama): on some systems, rabbit may not be ready when we want to
-# make changes to users if we don't wait first
-# TODO(TheJulia): This needs to be changed to a variable, however
-# should update this playbook all at once with new variable structures.
-- name: "Wait for rabbitmq"
-  wait_for: port=5672 delay=5
-
-- name: "Ensure guest user is removed from rabbitmq"
-  rabbitmq_user:
-    user: "guest"
-    state: absent
-    force: yes
 - name: "Create ironic user in RabbitMQ"
   rabbitmq_user:
     user: "ironic"
@@ -89,6 +52,7 @@
     write_priv: ".*"
     read_priv: ".*"
   no_log: true
+  when: use_rabbitmq
 
 - name: "Set mysql_username if environment variable mysql_user is set"
   set_fact:

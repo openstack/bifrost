@@ -1,0 +1,6 @@
+---
+skip_package_install: false
+# This seems to be the same for all supported distributions.
+rabbitmq_package: rabbitmq-server
+rabbitmq_port: 5672
+rabbitmq_service: rabbitmq-server

@@ -8,7 +8,6 @@ nginx_user: www-data
 mysql_service_name: mysql
 required_packages:
   - mysql-server
-  - rabbitmq-server
   - python-dev
   - python-mysqldb
   - python-configparser

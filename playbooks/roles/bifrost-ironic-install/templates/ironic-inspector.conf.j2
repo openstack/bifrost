@@ -15,7 +15,11 @@ debug = {{ inspector_debug | bool }}
 log_dir = {{ inspector_log_dir }}
 {% endif %}
 
+{% if use_rabbitmq is defined and use_rabbitmq | bool == true %}
 transport_url = rabbit://ironic:{{ironic_db_password }}@{{ message_queue_host | default('127.0.0.1') }}:{{ message_queue_port | default('5672') }}/{{ rabbit_virtual_host | default('') }}
+{% else %}
+transport_url = fake://
+{% endif %}
 
 [database]
 connection=mysql+pymysql://{{ ironic_inspector.database.username }}:{{ ironic_inspector.database.password }}@{{ ironic_inspector.database.host }}/{{ ironic_inspector.database.name }}?charset=utf8

@@ -10,7 +10,6 @@ mysql_service_name: mysql
 tftp_service_name: tftpd-hpa
 required_packages:
   - mysql-server
-  - rabbitmq-server
   - python-dev
   - python-mysqldb
   - python-configparser
