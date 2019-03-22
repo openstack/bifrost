@@ -1,0 +1,37 @@
+---
+init_template: systemd_template.j2
+init_dest_dir: /lib/systemd/system/
+init_ext: .service
+required_packages:
+  - mysql-server
+  - rabbitmq-server
+  - python-dev
+  - python-mysqldb
+  - python-configparser
+  - libffi-dev
+  - libxslt1-dev
+  - libssl-dev
+  - libxml2-dev
+  - ipxe
+  - tftpd-hpa
+  - tftp-hpa
+  - xinetd
+  - parted
+  - ipmitool
+  - psmisc
+  - nginx
+  - wget
+  - genisoimage
+  - kpartx
+  - qemu-utils
+  - python-openwsman
+  - debootstrap
+  - uuid-runtime
+  - curl
+  - python-pip
+  - python-pymysql
+  - dnsmasq
+# NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
+# package list as the installation causes name resolution changes that can
+# temporarily block packages following it while the system is being
+# reconfigured. See: https://review.openstack.org/#/c/223813
