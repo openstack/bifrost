@@ -44,7 +44,7 @@
 
 - name: "proliantutils - Install from pip"
   include: pip_install.yml
-     package=proliantutils
+     package=proliantutils<2.9.0
      state=present
      extra_args="-c {{ upper_constraints_file }}"
   environment: "{{ venv }}"
