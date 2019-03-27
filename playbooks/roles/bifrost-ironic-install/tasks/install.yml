@@ -51,6 +51,7 @@
   include: pip_install.yml
      package=proliantutils
      state=present
+     version={{ proliantutils_version }}
   when: skip_install is not defined and testing | bool != true
 
 - name: "UcsSdk - Install from pip"

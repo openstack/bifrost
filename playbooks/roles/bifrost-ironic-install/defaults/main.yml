@@ -258,3 +258,6 @@ ironic_inspector:
     host: "localhost"
     # DEPRECATED(TheJulia): Inheritance of ironic_db_password params
     # should be removed in Queens.
+
+# Version of proliantutils library to install. Used for ilo drivers.
+proliantutils_version: 2.7.0
