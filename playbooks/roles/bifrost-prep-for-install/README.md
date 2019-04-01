@@ -25,6 +25,9 @@ git_root: The base location for cloned git repositories.  This defaults to
 ironicclient_git_url: URL for ironicclient, defaults to:
                       https://git.openstack.org/openstack/python-ironicclient
 
+openstacksdk_git_url: URL for openstacksdk, defaults to:
+                      https://git.openstack.org/openstack/openstacksdk
+
 shade_git_url: URL for shade, defaults to:
                https://git.openstack.org/openstack-infra/shade
 
@@ -37,26 +40,38 @@ ironicclient_git_folder: The folder to clone ironicclient to if missing,
 ironic_git_folder: The folder to clone ironic to if missing, default to:
                    "{{ git_root}}/ironic.git"
 
+openstacksdk_git_folder: The folder to clone openstacksdk to if missing,
+                         defaults to: "{{ git_root}}/openstacksdk.git"
+
 shade_git_folder: The folder to clone shade to if missing, defaults to:
                   "{{ git_root}}/shade.git"
 
-ironicclient_git_branch: Branch to install, defaults to "master".
+git_branch: Default branch to install, defaults to "master".
 
-ironic_git_branch: Branch to install, defaults to "master".
+ironicclient_git_branch: Branch to install, defaults to the value of
+                         git_branch.
 
-shade_git_branch: Branch to install, defaults to "master".
+ironic_git_branch: Branch to install, defaults to the value of git_branch.
+
+openstacksdk_git_branch: Branch to install, defaults to the value of
+                         git_branch.
+
+shade_git_branch: Branch to install, defaults to the value of git_branch.
 
 dib_git_branch: Branch to install, defaults to "master".
 
-ironicinspector_git_branch: Branch to install, defaults to "master".
+ironicinspector_git_branch: Branch to install, defaults to the value of
+                            git_branch.
 
-ironicinspectorclient_git_branch: Branch to install, defaults to "master".
+ironicinspectorclient_git_branch: Branch to install, defaults to
+                                  the value of git_branch.
 
-reqs_git_branch: Branch to install, defaults to "master".
+reqs_git_branch: Branch to install, defaults to the value of git_branch.
 
-staging_drivers_git_branch: Branch to install, defaults to "master".
+staging_drivers_git_branch: Branch to install, defaults to the value of
+                            git_branch.
 
-keystone_git_branch: Branch to install, defaults to "master".
+keystone_git_branch: Branch to install, defaults to the value of git_branch.
 
 copy_from_local_path: Boolean value, defaults to false. If set to true,
                       the role will attempt to perform a filesystem copy of

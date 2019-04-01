@@ -24,17 +24,18 @@ reqs_git_folder: "{{ git_root }}/requirements"
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
 staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
-# *_git_branch can be overridden for stable branch testing
-ironicclient_git_branch: master
-ironic_git_branch: master
-openstacksdk_git_branch: master
-shade_git_branch: master
+# *git_branch can be overridden for stable branch testing
+git_branch: master
+ironicclient_git_branch: "{{ git_branch }}"
+ironic_git_branch: "{{ git_branch }}"
+openstacksdk_git_branch: "{{ git_branch }}"
+shade_git_branch: "{{ git_branch }}"
 dib_git_branch: master
-ironicinspector_git_branch: master
-ironicinspectorclient_git_branch: master
-reqs_git_branch: master
-staging_drivers_git_branch: master
-keystone_git_branch: master
+ironicinspector_git_branch: "{{ git_branch }}"
+ironicinspectorclient_git_branch: "{{ git_branch }}"
+reqs_git_branch: "{{ git_branch }}"
+staging_drivers_git_branch: "{{ git_branch }}"
+keystone_git_branch: "{{ git_branch }}"
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
