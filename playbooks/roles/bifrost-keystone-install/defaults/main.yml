@@ -6,7 +6,7 @@ keystone_git_folder: /opt/stack/keystone
 
 # set to true to skip installing ironic dependencies
 skip_package_install: False
-# set to true to skip generation of configs, ironic db and rabbitmq configuration
+# set to true to skip generation of configs and ironic db configuration
 skip_bootstrap: False
 # set to true to skip starting ironic services and dependencies
 skip_start: False

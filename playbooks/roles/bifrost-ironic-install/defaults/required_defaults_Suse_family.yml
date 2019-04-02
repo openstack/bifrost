@@ -17,7 +17,6 @@ required_packages:
   - python-selinux
   - mariadb-server
   - dnsmasq
-  - rabbitmq-server
   - python-devel
   - python-MySQL-python
   - python-iniparse

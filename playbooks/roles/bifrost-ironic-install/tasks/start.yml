@@ -24,8 +24,10 @@
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started enabled=yes
 
-- name: "Start rabbitmq-server"
-  service: name=rabbitmq-server state=started enabled=yes
+- import_role:
+    name: bifrost-rabbitmq
+    tasks_from: start
+  when: use_rabbitmq
 
 - name: "start ironic-inspector"
   include: inspector_start.yml

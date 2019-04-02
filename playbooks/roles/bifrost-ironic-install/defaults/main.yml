@@ -23,6 +23,8 @@ transform_boot_image: false
 # virtual machines for the hardware instead of real hardware.
 testing: false
 ci_testing: false
+# Use Rabbit MQ as a message bus.
+use_rabbitmq: true
 
 # set to true to skip installing ironic dependencies
 skip_package_install: False

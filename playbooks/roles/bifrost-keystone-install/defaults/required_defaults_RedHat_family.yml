@@ -11,7 +11,6 @@ mysql_service_name: mariadb
 tftp_service_name: tftp
 required_packages:
   - mariadb-server
-  - rabbitmq-server
   - python-devel
   - MySQL-python
   - python-iniparse

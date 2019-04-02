@@ -6,7 +6,6 @@ mysql_service_name: mysql
 required_packages:
   - python-selinux
   - mariadb
-  - rabbitmq-server
   - python-devel
   - python-MySQL-python
   - python-iniparse

@@ -22,7 +22,11 @@ enabled_deploy_interfaces = {{ enabled_deploy_interfaces }}
 
 enabled_hardware_types = {{ enabled_hardware_types }}
 
+{% if use_rabbitmq is defined and use_rabbitmq | bool == true %}
 transport_url = rabbit://ironic:{{ironic_db_password }}@{{ message_queue_host | default('127.0.0.1') }}:{{ message_queue_port | default('5672') }}/{{ rabbit_virtual_host | default('') }}
+{% else %}
+rpc_transport = json-rpc
+{% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_strategy = keystone
@@ -119,3 +123,16 @@ region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
 auth_type = none
 {% endif %}
 endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385
+
+[json_rpc]
+{% if enable_keystone is defined and enable_keystone | bool == true %}
+auth_url = {{ ironic.service_catalog.auth_url }}
+auth_type = password
+project_name = {{ ironic.service_catalog.project_name }}
+username = {{ ironic.service_catalog.username }}
+password = {{ ironic.service_catalog.password }}
+user_domain_id = default
+project_domain_id = default
+{% else %}
+auth_type = none
+{% endif %}
