@@ -54,7 +54,7 @@
 - name: "Install RabbitMQ if required"
   import_role:
     name: bifrost-rabbitmq
-  when: use_rabbitmq
+  when: use_rabbitmq | bool
 
 - name: "Install Ironic deps"
   include: install.yml

@@ -15,7 +15,7 @@
   package:
     name: "{{ rabbitmq_package }}"
     state: present
-  when: skip_package_install | bool != True
+  when: not skip_package_install | bool
 
 # NOTE(hwoarang): The erlang SUSE package forces epmd to listen on localhost
 # address which breaks rabbitmq-server when listening on a different address.
@@ -37,12 +37,16 @@
       with_items:
         - epmd.socket
         - epmd
-  when: ansible_os_family == 'Suse'
+  when:
+    - ansible_os_family == 'Suse'
+    - not skip_bootstrap | bool
 
 - import_tasks: start.yml
+  when: not skip_start | bool
 
 - name: "Ensure guest user is removed from rabbitmq"
   rabbitmq_user:
     user: "guest"
     state: absent
     force: yes
+  when: not skip_bootstrap | bool

@@ -4,7 +4,6 @@ init_dest_dir: /lib/systemd/system/
 init_ext: .service
 required_packages:
   - mysql-server
-  - rabbitmq-server
   - python-dev
   - python-mysqldb
   - python-configparser
