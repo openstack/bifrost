@@ -275,4 +275,3 @@ Advanced Topics
    keystone
    offline-install
    virtualenv
-   oneview
