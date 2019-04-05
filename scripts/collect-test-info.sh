@@ -65,6 +65,8 @@ fi
 
 sudo vbmc list &> ${LOG_LOCATION}/vbmc.txt
 sudo virsh list --all &> ${LOG_LOCATION}/virsh-list.txt
+TEST_VM=$(sudo virsh list --all --name | head -1)
+sudo virsh dumpxml ${TEST_VM} > ${LOG_LOCATION}/${TEST_VM}_dump.xml
 ps auxf &> ${LOG_LOCATION}/ps.txt
 
 sudo chown -R $USER ${LOG_LOCATION}
