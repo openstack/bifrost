@@ -24,7 +24,7 @@ transform_boot_image: false
 testing: false
 ci_testing: false
 # Use Rabbit MQ as a message bus.
-use_rabbitmq: true
+use_rabbitmq: false
 
 # set to true to skip installing ironic dependencies
 skip_package_install: False
