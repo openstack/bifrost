@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue where the proliantutils library version was unconstrained,
+    potentially resulting in installation of an incompatibile library. The
+    version has been pinned to 2.8.x.
