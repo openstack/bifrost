@@ -17,6 +17,16 @@
     state: present
   when: not skip_package_install | bool
 
+- name: "Ensure /etc/hosts has good defaults"
+  lineinfile:
+    dest: "/etc/hosts"
+    regexp: "{{ item.regexp }}.*({{ ansible_hostname }}|localhost).*"
+    line: "{{ item.contents }}"
+  with_items:
+    - { regexp: '^127\.0\.0\.1', contents: '127.0.0.1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost' }
+    - { regexp: '^::1', contents: '::1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost ipv6-localhost ipv6-loopback' }
+  when: not skip_bootstrap | bool
+
 # NOTE(hwoarang): The erlang SUSE package forces epmd to listen on localhost
 # address which breaks rabbitmq-server when listening on a different address.
 # https://build.opensuse.org/package/view_file/devel:languages:erlang:Factory/erlang/README.SUSE?expand=1

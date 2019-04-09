@@ -27,15 +27,6 @@
     enable_venv: true
   when: lookup('env', 'VENV') | length > 0
 
-- name: "Ensure /etc/hosts has good defaults"
-  lineinfile:
-    dest: "/etc/hosts"
-    regexp: "{{ item.regexp }}.*({{ ansible_hostname }}|localhost).*"
-    line: "{{ item.contents }}"
-  with_items:
-    - { regexp: '^127\.0\.0\.1', contents: '127.0.0.1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost' }
-    - { regexp: '^::1', contents: '::1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost ipv6-localhost ipv6-loopback' }
-
 # NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
 # during bootstrapping. all other services are started in the Start phase.
 - name: "Start database service"
