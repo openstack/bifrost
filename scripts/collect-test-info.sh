@@ -10,6 +10,8 @@ set -o pipefail
 SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 LOG_LOCATION="${WORKSPACE:-${SCRIPT_HOME}/..}/logs"
 
+VERBOSE_LOGS="${VERBOSE_LOGS:-False}"
+
 echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
 
@@ -27,8 +29,15 @@ fi
 dmesg &> ${LOG_LOCATION}/dmesg.log
 # NOTE(TheJulia): Netstat exits with error code 5 when --version is used.
 sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
-if $(iptables --version &>/dev/null); then
-    sudo iptables -L -n -v &> ${LOG_LOCATION}/iptables.log
+if $(sudo iptables --version &>/dev/null); then
+    iptables_dir="${LOG_LOCATION}/iptables"
+    mkdir ${iptables_dir}
+    sudo iptables -S &> ${iptables_dir}/iptables_all_saved_rules.txt
+    if [[ "$VERBOSE_LOGS" == "True" ]]; then
+        for table in filter raw security mangle nat; do
+            sudo iptables -L -v -n -t ${table} &> ${iptables_dir}/iptables_${table}.log
+        done
+    fi
 fi
 if $(ip link &>/dev/null); then
     ip -s link &> ${LOG_LOCATION}/interface_counters.log
