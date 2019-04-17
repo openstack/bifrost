@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The image building with ``diskimage-builder`` now uses Debian Stretch
+    by default, and all CI testing has been switched to it as well.
+fixes:
+  - |
+    Fixes building images with ``diskimage-builder`` by switching to Debian
+    Stretch (from Jessie).
