@@ -11,12 +11,12 @@ galaxy_info:
     - 7
   - name: Debian
     versions:
-    - wheezy
     - jessie
+    - stretch
   - name: Ubuntu
     versions:
-    - trusty
-    - utopic
+    - xenial
+    - bionic
   categories:
   - cloud
   - cloud:openstack
