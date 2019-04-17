@@ -59,9 +59,9 @@ dib_os_release can be utilized to set the DIB_RELEASE environment
 variable for semi-dynamic disk image creation by a user or the
 test script.  By default, it is not set, but an example if
 dib_os_element is set to ``debian``, then a user could choose
-the ``jessie`` release.
+the ``stretch`` release.
 
-dib_os_release: jessie
+dib_os_release: stretch
 
 All the other command-line options to disk-image-create or
 ramdisk-image-create can be used by the role. The following is a list
