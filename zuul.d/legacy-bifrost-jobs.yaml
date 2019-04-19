@@ -18,7 +18,7 @@
       - openstack/python-ironic-inspector-client
       - openstack/python-ironicclient
       - openstack/requirements
-      - openstack-infra/shade
+      - openstack/shade
 
 - job:
     name: bifrost-integration
