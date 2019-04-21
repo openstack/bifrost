@@ -40,7 +40,7 @@ been sufficiently reviewed it will be merged from there.
 
 Once that's done, the development workflow is, roughly::
 
-   $ git clone https://git.openstack.org/openstack/bifrost
+   $ git clone https://opendev.org/openstack/bifrost
    $ cd bifrost
    $ git checkout -b some-branch-name
    ... hack hack hack ...

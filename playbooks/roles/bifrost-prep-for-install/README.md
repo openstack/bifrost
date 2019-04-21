@@ -23,16 +23,16 @@ git_root: The base location for cloned git repositories.  This defaults to
           "/opt/stack".
 
 ironicclient_git_url: URL for ironicclient, defaults to:
-                      https://git.openstack.org/openstack/python-ironicclient
+                      https://opendev.org/openstack/python-ironicclient
 
 openstacksdk_git_url: URL for openstacksdk, defaults to:
-                      https://git.openstack.org/openstack/openstacksdk
+                      https://opendev.org/openstack/openstacksdk
 
 shade_git_url: URL for shade, defaults to:
-               https://git.openstack.org/openstack-infra/shade
+               https://opendev.org/openstack/shade
 
 ironic_git_url: URL for ironic, defaults to:
-                https://git.openstack.org/openstack/ironic
+                https://opendev.org/openstack/ironic
 
 ironicclient_git_folder: The folder to clone ironicclient to if missing,
                          defaults to: "{{ git_root}}/ironicclient.git"

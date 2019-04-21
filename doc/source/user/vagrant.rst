@@ -44,7 +44,7 @@ Configure Vagrant with the correct box::
 
 Clone bifrost repo::
 
-  git clone https://github.com/openstack/bifrost.git
+  git clone https://opendev.org/openstack/bifrost
 
 Change into the bifrost directory::
 
