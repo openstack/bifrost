@@ -2,16 +2,16 @@
 # git_root is the folder where to place downloaded git repos
 git_root: "/opt/stack"
 # *_git_url can be overridden by local clones for offline installs
-dib_git_url: https://git.openstack.org/openstack/diskimage-builder
-ironicclient_git_url: https://git.openstack.org/openstack/python-ironicclient
-openstacksdk_git_url: https://git.openstack.org/openstack/openstacksdk
-shade_git_url: https://git.openstack.org/openstack-infra/shade
-ironic_git_url: https://git.openstack.org/openstack/ironic
-ironicinspector_git_url: https://github.com/openstack/ironic-inspector
-ironicinspectorclient_git_url: https://github.com/openstack/python-ironic-inspector-client
-reqs_git_url: https://git.openstack.org/openstack/requirements
-staging_drivers_git_url: https://git.openstack.org/openstack/ironic-staging-drivers
-keystone_git_url: https://git.openstack.org/openstack/keystone
+dib_git_url: https://opendev.org/openstack/diskimage-builder
+ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
+openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
+shade_git_url: https://opendev.org/openstack/shade
+ironic_git_url: https://opendev.org/openstack/ironic
+ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
+ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
+reqs_git_url: https://opendev.org/openstack/requirements
+staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
+keystone_git_url: https://opendev.org/openstack/keystone
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
 ironic_git_folder: "{{ git_root}}/ironic"

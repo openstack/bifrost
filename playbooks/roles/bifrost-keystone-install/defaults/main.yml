@@ -1,7 +1,7 @@
 ---
 keystone_source_install: true
 # *_git_url can be overridden by local clones for offline installs
-keystone_git_url: https://git.openstack.org/openstack/keystone
+keystone_git_url: https://opendev.org/openstack/keystone
 keystone_git_folder: /opt/stack/keystone
 
 # set to true to skip installing ironic dependencies

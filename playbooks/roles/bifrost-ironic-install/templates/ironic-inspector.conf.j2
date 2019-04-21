@@ -1,8 +1,5 @@
-{#
-# Note(TheJulia): This file is based upon the file format provided by the git
-# committed example located at:
-# http://git.openstack.org/cgit/openstack/ironic-inspector/tree/example.conf
-#}
+# {{ ansible_managed }}
+
 [DEFAULT]
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_strategy = keystone
