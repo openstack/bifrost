@@ -109,7 +109,7 @@ Cloning
 
 Clone the Bifrost repository::
 
-  git clone https://git.openstack.org/openstack/bifrost.git
+  git clone https://opendev.org/openstack/bifrost
   cd bifrost
 
 Installation of Ansible
@@ -259,7 +259,7 @@ An additional collection of drivers are maintained outside of the ironic source
 code repository, as they do not have Continuous Integration (CI) testing.
 
 These drivers and information about them can be found in
-`ironic-staging-drivers docs <https://git.openstack.org/cgit/openstack/ironic-staging-drivers/>`_.
+`ironic-staging-drivers docs <https://opendev.org/x/ironic-staging-drivers/>`_.
 If you would like to install the ironic staging drivers, simply pass
 ``-e staging_drivers_include=true`` when executing the install playbook::
 
