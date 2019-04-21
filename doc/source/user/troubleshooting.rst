@@ -64,9 +64,9 @@ and Tiny Core based images are what are used by the OpenStack CI for
 ironic tests.
 
 CoreOS::
-  http://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/coreos/README.rst
+  https://opendev.org/openstack/ironic-python-agent/src/branch/master/imagebuild/coreos/README.rst
 TinyIPA::
-  https://git.openstack.org/cgit/openstack/ironic-python-agent/tree/imagebuild/tinyipa/README.rst
+  https://opendev.org/openstack/ironic-python-agent/src/branch/master/imagebuild/tinyipa/README.rst
 
 For documentation on diskimage-builder, See::
   https://docs.openstack.org/diskimage-builder/latest/.
@@ -77,7 +77,7 @@ https://docs.openstack.org/ironic/latest/install/deploy-ramdisk.html
 
 This essentially boils down to the following steps:
 
-#. ``git clone https://git.openstack.org/openstack/ironic-python-agent``
+#. ``git clone https://opendev.org/openstack/ironic-python-agent``
 #. ``cd ironic-python-agent``
 #. ``pip install -r ./requirements.txt``
    #. If you don't already have docker installed, execute:
@@ -152,7 +152,7 @@ Custom built images will require a user to be burned into the image.
 Typically a user would use the diskimage-builder devuser element
 to achieve this. More detail on this can be located at::
 
-  https://github.com/openstack/diskimage-builder/tree/master/elements/devuser
+  https://opendev.org/openstack/diskimage-builder/src/branch/master/diskimage_builder/elements/devuser
 
 Example::
 
