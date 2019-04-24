@@ -58,7 +58,7 @@ fi
 
 # Copy PXE information
 mkdir -p ${LOG_LOCATION}/pxe/
-cp /httpboot/ipxe.pxe ${LOG_LOCATION}/pxe/
+cp /httpboot/ipxe.* ${LOG_LOCATION}/pxe/
 cp -aL /httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
 
 # Copy baremetal information
