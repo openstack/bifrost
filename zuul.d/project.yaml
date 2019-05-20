@@ -7,11 +7,8 @@
     check:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
-        - bifrost-integration-tinyipa-opensuse-423
         # Non-voting jobs
         - bifrost-integration-dhcp-ubuntu-xenial:
-            voting: false
-        - bifrost-integration-dhcp-opensuse-423:
             voting: false
         - bifrost-integration-dhcp-centos-7:
             voting: false
@@ -19,11 +16,8 @@
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-xenial:
             voting: false
-        - bifrost-integration-dibipa-debian-opensuse-423:
-            voting: false
         - bifrost-integration-tinyipa-centos-7:
             voting: false
     gate:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
-        - bifrost-integration-tinyipa-opensuse-423
