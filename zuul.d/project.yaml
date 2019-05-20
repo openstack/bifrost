@@ -9,14 +9,11 @@
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-keystone-ubuntu-xenial
-        - bifrost-integration-tinyipa-opensuse-423
-        - bifrost-integration-tinyipa-opensuse-150
+        - bifrost-integration-tinyipa-opensuse-15
         # Non-voting jobs
         - bifrost-integration-dhcp-ubuntu-xenial:
             voting: false
-        - bifrost-integration-dhcp-opensuse-423:
-            voting: false
-        - bifrost-integration-dhcp-opensuse-150:
+        - bifrost-integration-dhcp-opensuse-15:
             voting: false
         - bifrost-integration-dhcp-centos-7:
             voting: false
@@ -24,9 +21,7 @@
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-xenial:
             voting: false
-        - bifrost-integration-dibipa-debian-opensuse-423:
-            voting: false
-        - bifrost-integration-dibipa-debian-opensuse-150:
+        - bifrost-integration-dibipa-debian-opensuse-15:
             voting: false
         - bifrost-integration-tinyipa-centos-7:
             voting: false
@@ -35,6 +30,5 @@
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-keystone-ubuntu-xenial
-        - bifrost-integration-tinyipa-opensuse-423
-        - bifrost-integration-tinyipa-opensuse-150
+        - bifrost-integration-tinyipa-opensuse-15
         - openstack-tox-lower-constraints
