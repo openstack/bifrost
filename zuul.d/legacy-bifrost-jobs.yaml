@@ -42,14 +42,6 @@
     nodeset: legacy-centos-7
 
 - job:
-    name: bifrost-integration-dhcp-opensuse-423
-    parent: bifrost-integration
-    run: playbooks/legacy/bifrost-integration-dhcp-opensuse-423/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-dhcp-opensuse-423/post.yaml
-    timeout: 7200
-    nodeset: legacy-opensuse-423
-
-- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     run: playbooks/legacy/bifrost-integration-dibipa-debian/run.yaml
@@ -63,14 +55,6 @@
     post-run: playbooks/legacy/bifrost-integration-dibipa-debian-centos-7/post.yaml
     timeout: 7200
     nodeset: legacy-centos-7
-
-- job:
-    name: bifrost-integration-dibipa-debian-opensuse-423
-    parent: bifrost-integration
-    run: playbooks/legacy/bifrost-integration-dibipa-debian-opensuse-423/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-dibipa-debian-opensuse-423/post.yaml
-    timeout: 7200
-    nodeset: legacy-opensuse-423
 
 - job:
     name: bifrost-integration-tinyipa

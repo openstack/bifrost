@@ -10,15 +10,11 @@
         # Non-voting jobs
         - bifrost-integration-dhcp:
             voting: false
-        - bifrost-integration-dhcp-opensuse-423:
-            voting: false
         - bifrost-integration-dhcp-centos-7:
             voting: false
         - bifrost-integration-dibipa-debian-centos-7:
             voting: false
         - bifrost-integration-dibipa-debian:
-            voting: false
-        - bifrost-integration-dibipa-debian-opensuse-423:
             voting: false
         - bifrost-integration-tinyipa-centos-7:
             voting: false
