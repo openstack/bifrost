@@ -49,9 +49,9 @@
     nodeset: centos-7
 
 - job:
-    name: bifrost-integration-dhcp-opensuse-150
+    name: bifrost-integration-dhcp-opensuse-15
     parent: bifrost-integration-dhcp
-    nodeset: opensuse-150
+    nodeset: opensuse-15
     vars:
       use_venv: true
 
@@ -73,9 +73,9 @@
     nodeset: centos-7
 
 - job:
-    name: bifrost-integration-dibipa-debian-opensuse-150
+    name: bifrost-integration-dibipa-debian-opensuse-15
     parent: bifrost-integration-dibipa-debian
-    nodeset: opensuse-150
+    nodeset: opensuse-15
     vars:
       use_venv: true
 
@@ -102,8 +102,8 @@
     nodeset: centos-7
 
 - job:
-    name: bifrost-integration-tinyipa-opensuse-150
+    name: bifrost-integration-tinyipa-opensuse-15
     parent: bifrost-integration-tinyipa
-    nodeset: opensuse-150
+    nodeset: opensuse-15
     vars:
       use_venv: true

@@ -19,7 +19,6 @@ required_packages:
   - dnsmasq
   - rabbitmq-server
   - python-devel
-  - python-MySQL-python
   - python-iniparse
   - libffi-devel
   - libxslt-devel
@@ -33,12 +32,10 @@ required_packages:
   - psmisc
   - nginx
   - wget
-  - genisoimage
+  - mkisofs
   - kpartx
   - qemu-tools
-  - openwsman-python
-  - policycoreutils-python
-  - debootstrap
+  - python3-openwsman
   - dpkg
   - iptables
   - tar
