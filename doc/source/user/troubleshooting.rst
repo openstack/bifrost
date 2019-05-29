@@ -127,23 +127,28 @@ Obtaining IPA logs via the console
    You will want to view the system console occurring. If possible, you
    may wish to use ``ipmitool`` and write the output to a log file.
 
-Gaining access via SSH to the node running IPA on CoreOS based images
-=====================================================================
+Gaining access via SSH to a node running IPA on a CoreOS-based image
+====================================================================
 
-If you wish to SSH into the node in order to perform any sort of post-mortem,
-you will need to do the following:
+If you wish to SSH into a node running IPA on a CoreOS-based image,
+you need to do the following:
 
-1) Set an ``sshkey="ssh-rsa AAAA....."`` value on the
-   ``agent_pxe_append_params`` setting in ``/etc/ironic/ironic.conf``
+#. Add ``sshkey="ssh-rsa AAAA..."`` to ``pxe_append_params`` setting in
+   ``[pxe]`` section of ``/etc/ironic/ironic.conf`` config file.
 
-2) You will need to short circuit the ironic conductor process. An ideal
-   place to do so is in ``ironic/drivers/modules/agent.py`` in the
-   reboot_to_instance method.  Temporarily short circuiting this step
-   will force you to edit the MySQL database if you wish to re-deploy
-   the node, but the node should stay online after IPA has completed
-   deployment.
+#. Restart the ironic-conductor service.
 
-3) ``ssh -l core <ip-address-of-node>``
+#. If the node is deployed or awaiting deployment, put it in maintenance mode::
+
+     openstack baremetal node maintenance set <node>
+
+#. Restart the node and wait for it to boot up.
+
+#. ``ssh core@<ip-address-of-node>``
+
+#. Remember to unset maintenance on the node afterwards (if set previously)::
+
+     openstack baremetal node maintenance unset <node>
 
 Gaining access via SSH to the node running IPA for custom images
 ================================================================
