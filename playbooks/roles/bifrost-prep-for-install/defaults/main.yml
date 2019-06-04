@@ -12,6 +12,7 @@ ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspe
 reqs_git_url: https://opendev.org/openstack/requirements
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 keystone_git_url: https://opendev.org/openstack/keystone
+sushy_git_url: https://opendev.org/openstack/sushy
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
 ironic_git_folder: "{{ git_root}}/ironic"
@@ -24,6 +25,7 @@ reqs_git_folder: "{{ git_root }}/requirements"
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
 staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
+sushy_git_folder: "{{ git_root}}/sushy"
 # *git_branch can be overridden for stable branch testing
 git_branch: master
 ironicclient_git_branch: "{{ git_branch }}"
@@ -36,6 +38,7 @@ ironicinspectorclient_git_branch: "{{ git_branch }}"
 reqs_git_branch: "{{ git_branch }}"
 staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
+sushy_git_branch: "{{ git_branch }}"
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
@@ -82,3 +85,7 @@ bifrost_install_sources:
     git_url: "{{ keystone_git_url }}"
     git_branch: "{{ keystone_git_branch }}"
     name: keystone
+  - git_folder: "{{ sushy_git_folder }}"
+    git_url: "{{ sushy_git_url }}"
+    git_branch: "{{ sushy_git_branch }}"
+    name: sushy

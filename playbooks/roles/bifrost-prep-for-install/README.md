@@ -34,6 +34,9 @@ shade_git_url: URL for shade, defaults to:
 ironic_git_url: URL for ironic, defaults to:
                 https://opendev.org/openstack/ironic
 
+sushy_git_url: URL for sushy, defaults to:
+               https://opendev.org/openstack/sushy
+
 ironicclient_git_folder: The folder to clone ironicclient to if missing,
                          defaults to: "{{ git_root}}/ironicclient.git"
 
@@ -45,6 +48,9 @@ openstacksdk_git_folder: The folder to clone openstacksdk to if missing,
 
 shade_git_folder: The folder to clone shade to if missing, defaults to:
                   "{{ git_root}}/shade.git"
+
+sushy_git_folder: The folder to clone sushy to if missing, default to:
+                  "{{ git_root}}/sushy.git"
 
 git_branch: Default branch to install, defaults to "master".
 
@@ -72,6 +78,8 @@ staging_drivers_git_branch: Branch to install, defaults to the value of
                             git_branch.
 
 keystone_git_branch: Branch to install, defaults to the value of git_branch.
+
+sushy_git_branch: Branch to install, defaults to the value of git_branch.
 
 copy_from_local_path: Boolean value, defaults to false. If set to true,
                       the role will attempt to perform a filesystem copy of

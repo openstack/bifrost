@@ -65,6 +65,15 @@
     # as a result.
   when: skip_install is not defined and install_dib | bool == true
 
+- name: "sushy - Install"
+  include: pip_install.yml
+    package=sushy
+    sourcedir={{ sushy_git_folder }}
+    source_install={{ sushy_source_install }}
+    # NOTE(TheJulia): We do not explicitly define an upper constraints file
+    # to be utilized in order to allow newer versions to be installed.
+  when: skip_install is not defined
+
 - name: "Ironic Client - Install"
   include: pip_install.yml
     package=python-ironicclient

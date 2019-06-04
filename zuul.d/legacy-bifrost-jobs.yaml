@@ -19,6 +19,7 @@
       - openstack/python-ironicclient
       - openstack/requirements
       - openstack/shade
+      - openstack/sushy
 
 - job:
     name: bifrost-integration

@@ -11,6 +11,7 @@ openstacksdk_source_install: true
 shade_source_install: true
 ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
+sushy_source_install: false
 staging_drivers_source_install: false
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
@@ -99,15 +100,17 @@ upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(re
 staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
+sushy_git_folder: /opt/stack/sushy
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 
-# TODO(TheJulia): Add redfish to this list.
-enabled_hardware_types: "ipmi,ilo"
+enabled_hardware_types: "ipmi,redfish,ilo"
 default_deploy_interface: "direct"
+
+enabled_bios_interfaces: "redfish,ilo,no-bios"
 enabled_boot_interfaces: "ilo-virtual-media,ipxe,pxe"
-enabled_management_interfaces: "ilo,ipmitool"
-enabled_power_interfaces: "ilo,ipmitool"
 enabled_deploy_interfaces: "iscsi,direct"
+enabled_management_interfaces: "redfish,ilo,ipmitool"
+enabled_power_interfaces: "redfish,ilo,ipmitool"
 
 # Extra pip packages to install with ironic
 # This should be a list of pip-installable references.
