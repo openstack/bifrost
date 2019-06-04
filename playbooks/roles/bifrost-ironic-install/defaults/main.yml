@@ -104,7 +104,7 @@ staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 # TODO(TheJulia): Add redfish to this list.
 enabled_hardware_types: "ipmi,ilo"
 default_deploy_interface: "direct"
-enabled_boot_interfaces: "ilo-virtual-media,pxe"
+enabled_boot_interfaces: "ilo-virtual-media,ipxe,pxe"
 enabled_management_interfaces: "ilo,ipmitool"
 enabled_power_interfaces: "ilo,ipmitool"
 enabled_deploy_interfaces: "iscsi,direct"
