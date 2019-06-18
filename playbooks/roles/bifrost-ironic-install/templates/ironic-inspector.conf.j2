@@ -84,5 +84,5 @@ enroll_node_driver = {{ inspector.discovery.default_node_driver }}
 [swift]
 # Use the local nginx web server as a Swift-list object storage service.
 auth_type = none
-endpoint = {{ inspector_store_data_url }}
+endpoint_override = {{ inspector_store_data_url }}
 {% endif %}
