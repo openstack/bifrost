@@ -5,7 +5,7 @@ init_ext: .conf
 nginx_user: www-data
 mysql_service_name: mysql
 required_packages:
-  - mysql-server
+  - mariadb-server
   - python-dev
   - python-mysqldb
   - python-configparser

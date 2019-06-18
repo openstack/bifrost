@@ -11,8 +11,7 @@ lsb-release         [platform:suse platform:dpkg]
 redhat-lsb          [platform:redhat]
 make
 mariadb             [platform:suse]
-mariadb-server      [platform:redhat]
-mysql-server        [platform:dpkg]
+mariadb-server      [platform:redhat platform:dpkg]
 net-tools
 python              [platform:rpm]
 python-minimal      [platform:dpkg]

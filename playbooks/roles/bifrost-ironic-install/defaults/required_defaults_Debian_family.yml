@@ -9,7 +9,7 @@ nginx_user: www-data
 mysql_service_name: mysql
 tftp_service_name: tftpd-hpa
 required_packages:
-  - mysql-server
+  - mariadb-server
   - python-dev
   - python-mysqldb
   - python-configparser
