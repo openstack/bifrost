@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    When inspection support is enabled, introspection data is now stored in
+    the database by default. You can use the ``ironic-inspector-migrate-data``
+    command to move the data from nginx to the database, for example::
+
+        ironic-inspector-migrate-data --from swift --to database --config-file /etc/ironic-inspector/inspector.conf
+deprecations:
+  - |
+    The ``inspector_store_data_in_nginx`` configuration option is deprecated
+    and will be removed in a future release. Introspection data can now be
+    stored in the database.

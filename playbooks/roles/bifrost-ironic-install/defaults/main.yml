@@ -194,8 +194,8 @@ inspector_keep_ports: "present"
 #inspector_processing_hooks:
 
 # Whether to store introspection data using the local Nginx web server as an
-# object storage service.
-inspector_store_data_in_nginx: true
+# object storage service. DEPRECATED, the data can be stored in the database.
+inspector_store_data_in_nginx: false
 
 # When inspector_store_data_in_nginx is true, this is the URL of the Nginx
 # 'Swift' API endpoint.

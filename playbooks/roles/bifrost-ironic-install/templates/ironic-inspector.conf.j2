@@ -72,6 +72,8 @@ processing_hooks = {{ inspector_processing_hooks }}
 {% endif %}
 {% if inspector_store_data_in_nginx | bool %}
 store_data = swift
+{% else %}
+store_data = database
 {% endif %}
 {% if inspector.discovery.enabled == true %}
 node_not_found_hook = enroll

@@ -12,24 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- block:
-    - name: Check node hardware inspection data
-      command: "openstack baremetal introspection data save {{ uuid }}"
-      register: inspection_data
-      environment:
-        OS_CLOUD: "{% if enable_keystone | default(false) | bool %}bifrost{% else %}bifrost-inspector{% endif %}"
+- name: Check node hardware inspection data
+  command: "openstack baremetal introspection data save {{ uuid }}"
+  register: inspection_data
+  environment:
+    OS_CLOUD: "{% if enable_keystone | default(false) | bool %}bifrost{% else %}bifrost-inspector{% endif %}"
 
-    # TODO(mgoddard): More validation of data format and contents.
-    - name: Validate the inspection data format
-      assert:
-        that:
-          - "'inventory' in data"
-          - "'memory' in inventory"
-          - "'cpu' in inventory"
-          - "'bmc_address' in inventory"
-          - "'interfaces' in inventory"
-          - "'disks' in inventory"
-      vars:
-        data: "{{ inspection_data.stdout | from_json }}"
-        inventory: "{{ data.inventory }}"
-  when: inspector_store_data_in_nginx | bool
+# TODO(mgoddard): More validation of data format and contents.
+- name: Validate the inspection data format
+  assert:
+    that:
+      - "'inventory' in data"
+      - "'memory' in inventory"
+      - "'cpu' in inventory"
+      - "'bmc_address' in inventory"
+      - "'interfaces' in inventory"
+      - "'disks' in inventory"
+  vars:
+    data: "{{ inspection_data.stdout | from_json }}"
+    inventory: "{{ data.inventory }}"
