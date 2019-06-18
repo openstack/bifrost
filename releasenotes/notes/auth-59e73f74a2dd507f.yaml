@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated parameters ``inspector_auth`` and ``ironic_auth_strategy``
+    have been removed. Their values are now detected from ``enable_keystone``.

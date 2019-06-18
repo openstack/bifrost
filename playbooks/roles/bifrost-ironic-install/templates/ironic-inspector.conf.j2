@@ -4,7 +4,7 @@
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_strategy = keystone
 {% else %}
-auth_strategy = {{ inspector_auth | default('noauth') }}
+auth_strategy = noauth
 {% endif %}
 debug = {{ inspector_debug | bool }}
 
@@ -36,12 +36,11 @@ username = {{ ironic_inspector.keystone.default_username }}
 password = {{ ironic_inspector.keystone.default_password }}
 auth_url = {{ ironic_inspector.service_catalog.auth_url }}
 auth_type = password
-auth_strategy = keystone
 user_domain_id = default
 project_domain_id = default
 
 {% else %}
-auth_strategy = {{ ironic_auth_strategy | default('noauth') }}
+auth_type = none
 {% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}

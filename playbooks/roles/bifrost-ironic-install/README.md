@@ -169,11 +169,6 @@ properties via a workflow.
 enable_inspector: Boolean value, default true.  Set this value to false to
                   prevent installing ironic-inspector.
 
-inspector_auth: Sets ironic-inspector's authentication method. Possible values
-                are `keystone` and `noauth`. `noauth` is recommended since
-                bifrost by default installs ironic as standalone without
-                keystone. The default value is `noauth`.
-
 inspector_debug: Boolean value, default true. Enables debug level logging
                  for inspector. Note that this default may change in
                  future.
@@ -183,10 +178,6 @@ inspector_manage_firewall: Boolean value, default false. Controls whether
                            rules of the host. Bifrost's installation playbook
                            adds the rule to permit the callback traffic,
                            so you shouldn't need to enable this.
-
-ironic_auth_strategy: Sets the `auth_strategy` ironic-inspector should use
-                      with ironic.  Possible values are `noauth` and
-                      `keystone`. The default value is `noauth`.
 
 inspector_data_dir: Base path for ironic-inspector's temporary data and log
                     files. The default location is
