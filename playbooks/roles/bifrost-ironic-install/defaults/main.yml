@@ -223,6 +223,10 @@ noauth_mode: true
 # Default parameter if keystone is enabled, or disabled.
 enable_keystone: false
 
+# Service URLs used for communication with them.
+ironic_api_url: "http://localhost:6385"
+ironic_inspector_api_url: "http://localhost:5050"
+
 # NOTE: The keystone support in this role
 # expects the keystone.bootstrap variables to
 # either be loaded OR present from keystone

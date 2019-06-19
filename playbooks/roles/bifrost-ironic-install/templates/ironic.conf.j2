@@ -91,7 +91,7 @@ project_domain_id = default
 region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
 {% else %}
 auth_type=none
-endpoint_override=http://127.0.0.1:5050
+endpoint_override={{ ironic_inspector_api_url }}
 {% endif %}
 {% endif %}
 

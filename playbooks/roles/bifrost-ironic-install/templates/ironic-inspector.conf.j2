@@ -41,6 +41,7 @@ project_domain_id = default
 
 {% else %}
 auth_type = none
+endpoint_override = {{ ironic_api_url }}
 {% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}
@@ -54,12 +55,6 @@ project_name = service
 project_domain_id = default
 
 {% endif %}
-{#
-# Note(TheJulia) preserving ironic_url in the configuration
-# in case future changes allow breaking of the deployment across
-# multiple nodes.
-#ironic_url = http://localhost:6385/
-#}
 
 [processing]
 add_ports = {{ inspector_port_addition | default('pxe') }}
