@@ -158,15 +158,8 @@ inventory_dns: False
 
 # Settings to enable the use of inspector
 enable_inspector: true
-inspector_auth: "noauth"
-# Deprecated: inspector_auth will be removed in Pike, and is
-# overridden when enable_keystone is set to true.
-#inspector_auth: "noauth"
 inspector_debug: true
 inspector_manage_firewall: false
-
-# Deprecated: ironic_auth_strategy will be removed in Pike.
-ironic_auth_strategy: "noauth"
 
 # Set ironic_log_dir to use a non-default log directory for ironic.
 ironic_log_dir: /var/log/ironic
