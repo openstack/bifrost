@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes an issue where the deployment logs would not be saved if using a
+    non-default value of ironic_log_dir. See `Story 2006150 <https://storyboard.openstack.org/#!/story/2006150>`_.

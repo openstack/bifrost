@@ -35,6 +35,11 @@ auth_strategy = noauth
 log_dir = {{ ironic_log_dir }}
 {% endif %}
 
+{% if ironic_agent_deploy_logs_local_path | default("") != "/var/log/ironic/deploy" %}
+[agent]
+deploy_logs_local_path = {{ ironic_agent_deploy_logs_local_path }}
+{% endif %}
+
 [pxe]
 {% if testing | bool %}
 pxe_append_params = console=/dev/ttyS0
