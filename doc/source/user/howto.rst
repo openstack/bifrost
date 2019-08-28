@@ -37,10 +37,8 @@ Environment variables
 
 The following two environment variables can be set:
 
-- ``OS_URL`` - A URL to the ironic API, such as http://localhost:6385/
-- ``OS_TOKEN`` - Any value except empty space, such as 'fake-token',
-  is required to cause the client library to send requests directly to the
-  API
+- ``OS_AUTH_TYPE`` - set to ``none`` to bypass authentication.
+- ``OS_ENDPOINT`` - A URL to the ironic API, such as http://localhost:6385/
 
 For convenience, an environment file called ``env-vars`` is provided that
 contains default values for these variables and can be sourced to allow the CLI

@@ -327,8 +327,10 @@ def _identify_shade_auth():
     """Return shade credentials"""
     if os.environ.get('OS_CLOUD'):
         return {}
-    endpoint = os.getenv('OS_URL',
-                         os.getenv('IRONIC_URL', "http://localhost:6385/"))
+    endpoint = os.getenv(
+        'OS_ENDPOINT',
+        os.getenv(
+            'OS_URL', os.getenv('IRONIC_URL', "http://localhost:6385/")))
     options = dict(
         auth_type="None",
         auth=dict(endpoint=endpoint,)
