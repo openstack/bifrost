@@ -18,7 +18,6 @@ required_packages:
   - mariadb-server
   - dnsmasq
   - python-devel
-  - python-MySQL-python
   - python-iniparse
   - libffi-devel
   - libxslt-devel
@@ -32,10 +31,10 @@ required_packages:
   - psmisc
   - nginx
   - wget
-  - genisoimage
+  - mkisofs
   - kpartx
   - qemu-tools
-  - openwsman-python
+  - python3-openwsman
   - policycoreutils-python
   - debootstrap
   - dpkg
