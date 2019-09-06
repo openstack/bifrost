@@ -65,6 +65,7 @@ six==1.11.0
 snowballstemmer==1.2.1
 Sphinx==1.6.5
 sphinxcontrib-websupport==1.0.1
+sphinxcontrib-svg2pdfconverter==0.1.0
 stevedore==1.28.0
 testrepository==0.0.18
 testscenarios==0.4
