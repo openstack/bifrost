@@ -9,9 +9,7 @@
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-keystone-ubuntu-xenial
-        # FIXME(dtantsur): made non-voting because of repo problems
-        - bifrost-integration-tinyipa-opensuse-15:
-            voting: false
+        - bifrost-integration-tinyipa-opensuse-15
         # Non-voting jobs
         - bifrost-integration-dhcp-ubuntu-xenial:
             voting: false
@@ -32,5 +30,5 @@
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
         - bifrost-integration-tinyipa-keystone-ubuntu-xenial
-        # - bifrost-integration-tinyipa-opensuse-15
+        - bifrost-integration-tinyipa-opensuse-15
         - openstack-tox-lower-constraints
