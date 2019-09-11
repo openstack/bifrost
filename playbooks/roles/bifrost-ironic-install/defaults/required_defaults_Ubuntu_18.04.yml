@@ -17,6 +17,8 @@ required_packages:
   - xinetd
   - parted
   - ipmitool
+  - iptables
+  - bsdmainutils
   - psmisc
   - nginx
   - wget
