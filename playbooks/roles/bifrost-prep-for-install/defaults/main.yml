@@ -27,7 +27,7 @@ staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
 sushy_git_folder: "{{ git_root}}/sushy"
 # *git_branch can be overridden for stable branch testing
-git_branch: master
+git_branch: stable/train
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
