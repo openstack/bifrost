@@ -38,4 +38,7 @@ required_packages:
   - debootstrap
   - gcc
   - socat
-iscsi_client_package: "iscsi-initiator-utils"
+iscsi_required_packages:
+  - iscsi-initiator-utils
+  - gdisk
+  - dosfstools

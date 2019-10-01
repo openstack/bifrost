@@ -45,4 +45,7 @@ required_packages:
   - python-pip
   - gcc
   - python-PyMySQL
-iscsi_client_package: "open-iscsi"
+iscsi_required_packages:
+  - open-iscsi
+  - gptfdisk
+  - dosfstools
