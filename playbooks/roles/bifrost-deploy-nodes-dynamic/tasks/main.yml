@@ -60,10 +60,10 @@
     mode: 0644
   when: inventory_dns | bool == true
   become: yes
-- name: "Sending dnsmasq HUP"
-  # Note(TheJulia): We need to actually to send a hup signal directly as
-  # Ansible's reloaded state does not pass through to the init script.
-  command: killall -HUP dnsmasq
+- name: "Restarting dnsmasq"
+  service:
+    name: dnsmasq
+    state: restarted
   become: yes
   when: (inventory_dhcp | bool == true) or (inventory_dns | bool == true)
 - name: "Deploy to hardware - Using custom instance_info."
