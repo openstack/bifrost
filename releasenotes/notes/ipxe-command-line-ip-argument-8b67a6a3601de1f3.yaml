@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    The inspector iPXE template kernel command line argument ``ip`` has been
+    removed as it is incompatible with the ``BOOTIF`` and missing ``autoconf``
+    parameters with dracut. Without this change CoreOS IPA images cannot be
+    booted. Further details can be found in `story 2006700
+    <https://storyboard.openstack.org/#!/story/2006700>`_.
