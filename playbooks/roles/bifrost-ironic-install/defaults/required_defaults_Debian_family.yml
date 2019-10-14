@@ -41,4 +41,7 @@ required_packages:
 # package list as the installation causes name resolution changes that can
 # temporarily block packages following it while the system is being
 # reconfigured. See: https://review.opendev.org/#/c/223813
-iscsi_client_package: "open-iscsi"
+iscsi_required_packages:
+  - open-iscsi
+  - gdisk
+  - dosfstools
