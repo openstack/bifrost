@@ -57,7 +57,7 @@ of the logic to properly handle an OpenStack CI environment node.
          ci_testing_zuul: true
          ironic_git_url: /opt/git/openstack/ironic
          ironicclient_git_url: /opt/git/openstack/python-ironicclient
-         shade_git_url: /opt/git/openstack-infra/shade
+         shade_git_url: /opt/git/openstack/shade
       when: lookup('env', 'ZUUL_BRANCH') != ""
     - name: "Set ci_testing_zuul_changes if ZUUL_CHANGES is set"
       set_fact:

@@ -58,12 +58,12 @@ cirros_deploy_image_upstream_url: http://download.cirros-cloud.net/0.3.4/cirros-
 # this setting, and perform manual configuration of your DHCP server.
 include_dhcp_server: true
 # *_git_url can be overridden by local clones for offline installs
-dib_git_url: https://git.openstack.org/openstack/diskimage-builder
-ironicclient_git_url: https://git.openstack.org/openstack/python-ironicclient
-shade_git_url: https://git.openstack.org/openstack-infra/shade
-ironic_git_url: https://git.openstack.org/openstack/ironic
-ironicinspector_git_url: https://github.com/openstack/ironic-inspector
-ironicinspectorclient_git_url: https://github.com/openstack/python-ironic-inspector-client
+dib_git_url: https://opendev.org/openstack/diskimage-builder
+ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
+shade_git_url: https://opendev.org/openstack/shade
+ironic_git_url: https://opendev.org/openstack/ironic
+ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
+ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
 mysql_username: "root"
 mysql_password: ""
 disable_dnsmasq_dns: False
@@ -76,7 +76,7 @@ upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(re
 staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
-staging_drivers_git_url: http://git.openstack.org/cgit/openstack/ironic-staging-drivers
+staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 
 # Comma-separated list, in the format of a string, of drivers that are enabled
 # by default. This is intended to be a list of agent based drivers.
