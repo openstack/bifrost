@@ -30,8 +30,8 @@ Enroll Hardware
 The following requirements are installed during the install process
 as documented in the install documentation.
 
-- openstack-infra/shade library
-- openstack-infra/os-client-config
+- openstack/shade library
+- openstack/os-client-config
 
 In order to enroll hardware, you will naturally need an inventory of
 your hardware. When utilizing the dynamic inventory module and
@@ -287,7 +287,7 @@ Deployment and configuration of operating systems
 By default, Bifrost deploys a configuration drive which includes the user SSH
 public key, hostname, and the network configuration in the form of
 network_data.json that can be read/parsed by the
-`glean <https://github.com/openstack-infra/glean>`_ utility. This allows for
+`glean <https://opendev.org/opendev/glean>`_ utility. This allows for
 the deployment of Ubuntu, CentOS, or Fedora "tenants" on baremetal.  This file
 format is not yet supported by Cloud-Init, however it is on track for
 inclusion in cloud-init 2.0.
