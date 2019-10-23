@@ -43,8 +43,8 @@ this.
 
 .. code-block:: yaml
 
-    ipa_kernel_upstream_url: file:///vagrant/coreos_production_pxe.vmlinuz
-    ipa_ramdisk_upstream_url: file:///vagrant/coreos_production_pxe_image-oem.cpio.gz
+    ipa_kernel_upstream_url: file:///vagrant/ipa-centos7-master.kernel
+    ipa_ramdisk_upstream_url: file:///vagrant/ipa-centos7-master.initramfs
     cirros_deploy_image_upstream_url: file:///vagrant/cirros-0.3.4-x86_64-disk.img
     dib_git_url: file:///vagrant/git/diskimage-builder
     ironicclient_git_url: file:///vagrant/git/python-ironicclient

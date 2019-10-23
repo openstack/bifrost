@@ -53,9 +53,9 @@ ipa_upstream_release: "master"
 enable_uefi_ipxe: true
 ipxe_efi_binary: ipxe.efi
 
-ipa_kernel: "{{http_boot_folder}}/ipa.vmlinuz"
+ipa_kernel: "{{http_boot_folder}}/ipa.kernel"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
-ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.vmlinuz"
+ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.kernel"
 ipa_kernel_upstream_url: "https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz"
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
@@ -80,8 +80,10 @@ ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
 openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
 shade_git_url: https://opendev.org/openstack/shade
 ironic_git_url: https://opendev.org/openstack/ironic
+staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
+ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 mysql_username: "root"
 mysql_password: ""
 # NOTE(TheJulia): While we have indicated we're going to deprecate ironic_db_password,
@@ -101,7 +103,7 @@ staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
 sushy_git_folder: /opt/stack/sushy
-staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
+ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
 
 enabled_hardware_types: "ipmi,redfish,ilo"
 default_deploy_interface: "direct"

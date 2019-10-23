@@ -24,10 +24,10 @@ testing_user: root
 # IPA Image parameters.  If these are changed, they must be changed in
 # Both localhost and baremetal groups.  Presently the defaults
 # in each role should be sufficient for proper operation.
-# ipa_kernel: "{{http_boot_folder}}/coreos_production_pxe.vmlinuz"
-# ipa_ramdisk: "{{http_boot_folder}}/coreos_production_pxe_image-oem.cpio.gz"
-# ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/coreos_production_pxe.vmlinuz"
-# ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/coreos_production_pxe_image-oem.cpio.gz"
+# ipa_kernel: "{{http_boot_folder}}/ipa.kernel"
+# ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
+# ipa_kernel_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.kernel"
+# ipa_ramdisk_url: "http://{{ hostvars[inventory_hostname]['ansible_' + network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
 
 # The http_boot_folder defines the root folder for the webserver.
 # If this setting is changed, it must be applied to both the baremetal

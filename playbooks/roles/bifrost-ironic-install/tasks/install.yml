@@ -65,6 +65,13 @@
     # as a result.
   when: skip_install is not defined and install_dib | bool == true
 
+- name: "IPA-builder - Install"
+  include: pip_install.yml
+    package=ironic-python-agent-builder
+    sourcedir={{ ipa_builder_git_folder }}
+    source_install=true
+  when: skip_install is not defined and install_dib | bool == true
+
 - name: "sushy - Install"
   include: pip_install.yml
     package=sushy

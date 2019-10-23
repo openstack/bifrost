@@ -11,7 +11,7 @@ network_interface: "virbr0"
 # documentation at http://ipxe.org/crypto
 ipa_file_protocol: "http"
 
-ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + network_interface | replace('-', '_')]['ipv4']['address'] }}:{{file_url_port}}/ipa.vmlinuz"
+ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + network_interface | replace('-', '_')]['ipv4']['address'] }}:{{file_url_port}}/ipa.kernel"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + network_interface | replace('-', '_')]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
 
 noauth_mode: true

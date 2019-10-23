@@ -16,6 +16,7 @@ dib_notmpfs: false
 dib_offline: false
 dib_skipbase: false
 dib_packages: ""
+ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
 # Settings related to installing bifrost in a virtual environment
 enable_venv: false
 bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
