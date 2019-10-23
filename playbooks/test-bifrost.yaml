@@ -40,6 +40,7 @@
          sushy_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/sushy"
          reqs_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/requirements"
          staging_drivers_git_url: "{{ lookup('env', 'WORKSPACE') }}/x/ironic-staging-drivers"
+         ipa_builder_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent-builder"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
     - name: "Override the ipv4_gateway setting"
       set_fact:
@@ -71,7 +72,7 @@
     # NOTE(TheJulia): While the next step creates a ramdisk, some elements
     # do not support ramdisk-image-create as they invoke steps to cleanup
     # the ramdisk which causes ramdisk-image-create to believe it failed.
-    - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "stretch", dib_elements: "ironic-agent {{ ipa_extra_dib_elements | default('') }}", dib_packages: "bsdmainutils", when: create_ipa_image | bool == true }
+    - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "stretch", dib_elements: "ironic-python-agent-ramdisk {{ ipa_extra_dib_elements | default('') }}", dib_packages: "bsdmainutils", when: create_ipa_image | bool == true }
     # NOTE(TheJulia): This creates the guest image.
     - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "stretch", dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
     - role: bifrost-keystone-client-config

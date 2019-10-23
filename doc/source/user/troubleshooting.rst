@@ -59,14 +59,12 @@ to enable debugging via the kernel command line at present.
 
 Custom IPA images can be built a number of ways, the most generally useful
 mechanism is with diskimage-builder as the distributions typically have
-better hardware support than CoreOS and Tiny Core Linux. However, CoreOS
-and Tiny Core based images are what are used by the OpenStack CI for
-ironic tests.
+better hardware support than Tiny Core Linux.
 
-CoreOS::
-  https://opendev.org/openstack/ironic-python-agent/src/branch/master/imagebuild/coreos/README.rst
-TinyIPA::
-  https://opendev.org/openstack/ironic-python-agent/src/branch/master/imagebuild/tinyipa/README.rst
+DIB images:
+  https://docs.openstack.org/ironic-python-agent-builder/latest/admin/dib.html
+TinyIPA:
+  https://docs.openstack.org/ironic-python-agent-builder/latest/admin/tinyipa.html
 
 For documentation on diskimage-builder, See::
   https://docs.openstack.org/diskimage-builder/latest/.
@@ -75,25 +73,12 @@ It should be noted that the steps for diskimage-builder installation and
 use to create an IPA image for Bifrost are the same as for ironic. See:
 https://docs.openstack.org/ironic/latest/install/deploy-ramdisk.html
 
-This essentially boils down to the following steps:
-
-#. ``git clone https://opendev.org/openstack/ironic-python-agent``
-#. ``cd ironic-python-agent``
-#. ``pip install -r ./requirements.txt``
-   #. If you don't already have docker installed, execute:
-   ``sudo apt-get install docker docker.io``
-#. ``cd imagebuild/coreos``
-#. Edit ``oem/cloudconfig.yml`` and add ``--debug`` to the end of the ExecStart
-   setting for the ironic-python-agent.service unit.
-#. Execute ``make`` to complete the build process.
-
-Once your build is completed, you will need to copy the images files written
-to the UPLOAD folder, into the /httpboot folder.  If your utilizing the
-default file names, executing `cp UPLOAD/* /httpboot/` should achieve this.
+Once your build is completed, you will need to copy the images files into
+the ``/httpboot`` folder.
 
 Since you have updated the image to be deployed, you will need to purge the
-contents of /tftpboot/master_images for the new image to be utilized for the
-deployment process.
+contents of ``/tftpboot/master_images`` for the new image to be utilized for
+the deployment process.
 
 *********************************************
 Unexpected/Unknown failure with the IPA Agent
@@ -115,8 +100,7 @@ Obtaining IPA logs via the console
 
    Parameters will vary by your hardware type and configuration,
    however the ``systemd.journald.forward_to_console=yes`` setting is
-   a default, and will only work for systemd based IPA images such as
-   the CoreOS image.
+   a default, and will only work for systemd based IPA images.
 
    The example above, effectively disables all attempts by the kernel to set
    the video mode, defines the console as ttyS0 or the first serial port, and
@@ -127,44 +111,20 @@ Obtaining IPA logs via the console
    You will want to view the system console occurring. If possible, you
    may wish to use ``ipmitool`` and write the output to a log file.
 
-Gaining access via SSH to a node running IPA on a CoreOS-based image
-====================================================================
-
-If you wish to SSH into a node running IPA on a CoreOS-based image,
-you need to do the following:
-
-#. Add ``sshkey="ssh-rsa AAAA..."`` to ``pxe_append_params`` setting in
-   ``[pxe]`` section of ``/etc/ironic/ironic.conf`` config file.
-
-#. Restart the ironic-conductor service.
-
-#. If the node is deployed or awaiting deployment, put it in maintenance mode::
-
-     openstack baremetal node maintenance set <node>
-
-#. Restart the node and wait for it to boot up.
-
-#. ``ssh core@<ip-address-of-node>``
-
-#. Remember to unset maintenance on the node afterwards (if set previously)::
-
-     openstack baremetal node maintenance unset <node>
-
 Gaining access via SSH to the node running IPA for custom images
 ================================================================
 
 Custom built images will require a user to be burned into the image.
-Typically a user would use the diskimage-builder devuser element
-to achieve this. More detail on this can be located at::
-
-  https://opendev.org/openstack/diskimage-builder/src/branch/master/diskimage_builder/elements/devuser
+Typically a user would use the diskimage-builder ``devuser`` element
+to achieve this. More detail on this can be located at
+https://docs.openstack.org/diskimage-builder/latest/elements/devuser/README.html.
 
 Example::
 
   export DIB_DEV_USER_USERNAME=customuser
   export DIB_DEV_USER_PWDLESS_SUDO=yes
   export DIB_DEV_USER_AUTHORIZED_KEYS=$HOME/.ssh/id_rsa.pub
-  disk-image-create -o /path/to/custom-ipa debian ironic-agent devuser
+  ironic-python-agent-builder -o /path/to/custom-ipa -e devuser debian
 
 ************************************
 ``ssh_public_key_path is not valid``
@@ -195,24 +155,24 @@ Example::
 NOTE: The matching private key will need to be utilized to login to the
 machine deployed.
 
-***********************************************************
-Changing from TinyIPA to CoreOS IPA, or any other IPA Image
-***********************************************************
+******************************************
+Changing from TinyIPA to another IPA Image
+******************************************
 
 With-in the Newton cycle, the default IPA image for Bifrost was changed
 to TinyIPA, which is based on Tiny Core Linux. This has a greatly reduced
 boot time for testing, however should be expected to have less hardware
-support. If on a fresh install, or a re-install, you wish to change to CoreOS
-or any other IPA image, you will need to take the following steps:
+support. If on a fresh install, or a re-install, you wish to change to
+DIB-based or any other IPA image, you will need to take the following steps:
 
-#. Remove the existing IPA image ipa.vmlinuz and ipa.initramfs.
+#. Remove the existing IPA image ipa.kernel and ipa.initramfs.
 #. Edit the ``playbooks/roles/bifrost-ironic-install/defaults/main.yml``
    file and update the ``ipa_kernel_upstream_url`` and
    ``ipa_kernel_upstream_url`` settings to a new URL.
-   For CoreOS, these urls would be,
-   ``https://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe.vmlinuz``
+   For DIB-based images, these urls would be,
+   ``https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos7-master.kernel``
    and
-   ``https://tarballs.openstack.org/ironic-python-agent/coreos/files/coreos_production_pxe_image-oem.cpio.gz``
+   ``https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos7-master.initramfs``
    respectively.
 #. Execute the installation playbook, and the set files will be automatically
    downloaded again. If the files are not removed prior to (re)installation,

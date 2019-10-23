@@ -27,8 +27,8 @@
         "name": "basicipmiexample0"
       },
       "advancedipmiexample0": {
-        "ipa_kernel_url": "http://192.168.1.1:8080/custom_ipa.vmlinuz",
-        "ipa_ramdisk_url": "http://192.168.1.1:8080/custom_ipa_image.cpio.gz",
+        "ipa_kernel_url": "http://192.168.1.1:8080/custom_ipa.kernel",
+        "ipa_ramdisk_url": "http://192.168.1.1:8080/custom_ipa.initramfs",
         "uuid": "00000000-0000-0000-0000-000000000003",
         "driver_info": {
           "power": {
