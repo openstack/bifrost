@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Uses the appropriate ironic-python-agent branch when building a deploy
+    ramdisk instead of unconditionally using master. Set ``ipa_git_branch``
+    to override.
