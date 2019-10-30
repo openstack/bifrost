@@ -26,7 +26,7 @@ keystone_git_folder: "{{ git_root}}/keystone"
 ironicclient_git_branch: stable/queens
 ironic_git_branch: stable/queens
 shade_git_branch: stable/queens
-dib_git_branch: master
+dib_git_branch: 2.38.0
 ironicinspector_git_branch: stable/queens
 ironicinspectorclient_git_branch: stable/queens
 reqs_git_branch: stable/queens

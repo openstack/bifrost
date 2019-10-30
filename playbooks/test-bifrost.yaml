@@ -32,20 +32,13 @@
          ironic_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic"
          ironicclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironicclient"
          shade_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/shade"
-         dib_git_url: "/opt/git/openstack/diskimage-builder"
+         dib_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/diskimage-builder"
          ironicinspector_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-inspector"
          ironicinspectorclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironic-inspector-client"
-         keystone_git_url: "/opt/git/openstack/keystone"
+         keystone_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/keystone"
          reqs_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/requirements"
-         staging_drivers_git_url: "/opt/git/x/ironic-staging-drivers"
-      # TODO(TheJulia) Fix the above paths to be consistent, because the NV job gets the dib
-      # folder cloned, while the gate job does not.  Likely need to work out a semi-hybrid
-      # solution.
+         staging_drivers_git_url: "{{ lookup('env', 'WORKSPACE') }}/x/ironic-staging-drivers"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
-    - name: "Set ci_testing_zuul_changes if ZUUL_CHANGES is set"
-      set_fact:
-         ci_testing_zuul_changes: true
-      when: lookup('env', 'ZUUL_CHANGES') | length > 0
     - name: "Override the ipv4_gateway setting"
       set_fact:
          ipv4_gateway: "192.168.122.1"
