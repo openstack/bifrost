@@ -6,11 +6,12 @@ export PYTHONUNBUFFERED=1
 SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 BIFROST_HOME=$SCRIPT_HOME/..
 ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
-ENABLE_VENV="false"
-USE_DHCP="false"
+USE_DHCP="${USE_DHCP:-false}"
 USE_VENV="${USE_VENV:-false}"
-BUILD_IMAGE="false"
+BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
+ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
+ZUUL_BRANCH=${ZUUL_BRANCH:-}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -39,10 +40,9 @@ CREATE_IPA_IMAGE=false
 WRITE_INTERFACES_FILE=true
 PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 NOAUTH_MODE=true
-ENABLE_KEYSTONE=false
 CLOUD_CONFIG=""
 WAIT_FOR_DEPLOY=true
-ZUUL_BRANCH=${ZUUL_BRANCH:-}
+ENABLE_VENV=false
 
 # This sets up the MySQL database like it's done for all OpenStack
 # projects for CI testing.
@@ -80,19 +80,6 @@ mysql_setup() {
 # Setup openstack_citest database if run in OpenStack CI.
 if [ "$ZUUL_BRANCH" != "" ] ; then
     mysql_setup
-fi
-
-# NOTE(cinerama): We could remove this if we change the CI job to use
-# USE_DHCP, BUILD_IMAGE, etc.
-SOURCE=$(basename ${BASH_SOURCE[0]})
-if [ $SOURCE = "test-bifrost-inventory-dhcp.sh" ]; then
-     USE_DHCP="true"
-elif [ $SOURCE = "test-bifrost-venv.sh" ]; then
-     USE_VENV="true"
-elif [ $SOURCE = "test-bifrost-build-images.sh" ]; then
-     BUILD_IMAGE="true"
-elif [ $SOURCE = "test-bifrost-keystone-auth.sh" ]; then
-     ENABLE_KEYSTONE="true"
 fi
 
 if [ ${USE_VENV} = "true" ]; then
