@@ -79,6 +79,8 @@ shade_git_url: https://opendev.org/openstack/shade
 ironic_git_url: https://opendev.org/openstack/ironic
 ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
+staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
+ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 mysql_username: "root"
 mysql_password: ""
 # NOTE(TheJulia): While we have indicated we're going to deprecate ironic_db_password,
@@ -97,7 +99,7 @@ upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(re
 staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
-staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
+ipa_git_folder: /opt/stack/ironic-python-agent
 
 # TODO(TheJulia): Add redfish to this list.
 enabled_hardware_types: "ipmi,ilo"
