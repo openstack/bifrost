@@ -26,10 +26,6 @@ ironicclient_git_folder: The folder where the python-ironicclient code base
 
 shade_git_folder: The folder where the shade code base has been cloned to.
 
-ansible_env.ZUUL_CHANGES: The list of changes from Zuul that need to be
-                          applied to the cloned repositories before testing
-                          can proceed.
-
 Dependencies
 ------------
 
@@ -59,10 +55,6 @@ of the logic to properly handle an OpenStack CI environment node.
          ironicclient_git_url: /opt/git/openstack/python-ironicclient
          shade_git_url: /opt/git/openstack/shade
       when: lookup('env', 'ZUUL_BRANCH') != ""
-    - name: "Set ci_testing_zuul_changes if ZUUL_CHANGES is set"
-      set_fact:
-         ci_testing_zuul_changes: true
-      when: lookup('env', 'ZUUL_CHANGES') != ""
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
     - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined }

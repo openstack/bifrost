@@ -8,7 +8,7 @@ set -o pipefail
 # Note(TheJulia): If there is a workspace variable, we want to utilize that as
 # the preference of where to put logs
 SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
-LOG_LOCATION="${WORKSPACE:-${SCRIPT_HOME}/..}/logs"
+LOG_LOCATION="${LOG_LOCATION:-${SCRIPT_HOME}/../logs}"
 
 echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
@@ -33,13 +33,17 @@ fi
 if $(ip link &>/dev/null); then
     ip -s link &> ${LOG_LOCATION}/interface_counters.log
 fi
+
+mkdir -p ${LOG_LOCATION}/all
+sudo cp -a /var/log/* ${LOG_LOCATION}/all/.
+sudo chown -R $USER ${LOG_LOCATION}/all
+
 if $(journalctl --version &>/dev/null); then
-    cp -a /var/log/* ${LOG_LOCATION}/.
     sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
     sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
     sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
     sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
-    sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
+    sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
 else
    sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
    sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
@@ -53,14 +57,14 @@ cp /httpboot/ipxe.pxe ${LOG_LOCATION}/pxe/
 cp -aL /httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
 
 # Copy baremetal information
-source $HOME/openrc
+source $HOME/openrc bifrost
 for vm in $(openstack baremetal node list -c Name -f value); do
     openstack baremetal node show $vm >> ${LOG_LOCATION}/baremetal.txt
 done
 
 if [ -d "/var/log/ironic" ]; then
    sudo cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
-   ls -la ${LOG_LOCATION}/ipa-logs 
+   ls -la ${LOG_LOCATION}/ipa-logs
 fi
 
 sudo vbmc list &> ${LOG_LOCATION}/vbmc.txt

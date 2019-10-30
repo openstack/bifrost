@@ -20,7 +20,7 @@
     mysql_username: "openstack_citest"
     mysql_password: "openstack_citest"
     disable_dnsmasq_dns: True
-  when: ci_testing_zuul_changes is defined
+  when: ci_testing_zuul is defined
 
 - name: "Determine if OpenStack CI is missing an SSH key"
   stat: path={{ssh_public_key_path}}
