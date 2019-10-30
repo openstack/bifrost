@@ -1,6 +1,6 @@
 - job:
     name: bifrost-base
-    parent: legacy-base
+    parent: base
     irrelevant-files:
       - ^.*\.rst$
       - ^bifrost/tests/.*$
@@ -10,29 +10,32 @@
       - ^test-requirements.txt$
       - ^tools/.*$
       - ^tox.ini$
+    pre-run: playbooks/ci/pre.yaml
+    run: playbooks/ci/run.yaml
+    post-run: playbooks/ci/post.yaml
     required-projects:
       - openstack/bifrost
+      - openstack/diskimage-builder
       - openstack/ironic
       - openstack/ironic-inspector
+      - openstack/keystone
       - openstack/openstacksdk
       - openstack/python-ironic-inspector-client
       - openstack/python-ironicclient
       - openstack/requirements
       - openstack/shade
+      - x/ironic-staging-drivers
 
 - job:
     name: bifrost-integration
     parent: bifrost-base
-    required-projects:
-      # this is in addition to bifrost-base's required-projects
-      - openstack/diskimage-builder
 
 - job:
     name: bifrost-integration-dhcp
     parent: bifrost-integration
-    run: playbooks/legacy/bifrost-integration-dhcp/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-dhcp/post.yaml
     timeout: 7200
+    vars:
+      use_dhcp: true
 
 - job:
     name: bifrost-integration-dhcp-ubuntu-xenial
@@ -47,9 +50,9 @@
 - job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
-    run: playbooks/legacy/bifrost-integration-dibipa-debian/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-dibipa-debian/post.yaml
     timeout: 7200
+    vars:
+      build_image: true
 
 - job:
     name: bifrost-integration-dibipa-debian-ubuntu-xenial
@@ -64,14 +67,19 @@
 - job:
     name: bifrost-integration-tinyipa
     parent: bifrost-base
-    run: playbooks/legacy/bifrost-integration-tinyipa/run.yaml
-    post-run: playbooks/legacy/bifrost-integration-tinyipa/post.yaml
     timeout: 3600
 
 - job:
     name: bifrost-integration-tinyipa-ubuntu-xenial
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-xenial
+
+- job:
+    name: bifrost-integration-tinyipa-keystone-ubuntu-xenial
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-xenial
+    vars:
+      enable_keystone: true
 
 - job:
     name: bifrost-integration-tinyipa-centos-7

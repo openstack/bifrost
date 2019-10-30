@@ -8,6 +8,8 @@
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial
         # Non-voting jobs
+        - bifrost-integration-tinyipa-keystone-ubuntu-xenial:
+            voting: false
         - bifrost-integration-dhcp-ubuntu-xenial:
             voting: false
         - bifrost-integration-dhcp-centos-7:

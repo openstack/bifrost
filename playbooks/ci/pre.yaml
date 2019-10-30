@@ -1,0 +1,5 @@
+- hosts: all
+  roles:
+    - role: bindep
+      bindep_dir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
+
