@@ -27,6 +27,7 @@ upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(re
 staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
 sushy_git_folder: "{{ git_root}}/sushy"
+ipa_git_folder: "{{ git_root}}/ironic-python-agent"
 ipa_builder_git_folder: "{{ git_root}}/ironic-python-agent-builder"
 # *git_branch can be overridden for stable branch testing
 git_branch: master
@@ -41,6 +42,7 @@ reqs_git_branch: "{{ git_branch }}"
 staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
+ipa_git_branch: "{{ git_branch }}"
 ipa_builder_git_branch: "{{ git_branch }}"
 
 # Conditional variables utilized based on CI or manual testing options.
@@ -92,6 +94,10 @@ bifrost_install_sources:
     git_url: "{{ sushy_git_url }}"
     git_branch: "{{ sushy_git_branch }}"
     name: sushy
+  - git_folder: "{{ ipa_git_folder }}"
+    git_url: "{{ ipa_git_url }}"
+    git_branch: "{{ ipa_git_branch }}"
+    name: ironic-python-agent
   - git_folder: "{{ ipa_builder_git_folder }}"
     git_url: "{{ ipa_builder_git_url }}"
     git_branch: "{{ ipa_builder_git_branch }}"

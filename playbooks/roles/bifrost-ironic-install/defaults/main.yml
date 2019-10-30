@@ -83,6 +83,7 @@ ironic_git_url: https://opendev.org/openstack/ironic
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
+ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 mysql_username: "root"
 mysql_password: ""
@@ -103,6 +104,7 @@ staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 ironicinspector_git_folder: /opt/stack/ironic-inspector
 ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
 sushy_git_folder: /opt/stack/sushy
+ipa_git_folder: /opt/stack/ironic-python-agent
 ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
 
 enabled_hardware_types: "ipmi,redfish,ilo"
