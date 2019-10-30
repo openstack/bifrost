@@ -18,6 +18,7 @@
       - openstack/diskimage-builder
       - openstack/ironic
       - openstack/ironic-inspector
+      - openstack/ironic-python-agent
       - openstack/ironic-python-agent-builder
       - openstack/keystone
       - openstack/openstacksdk

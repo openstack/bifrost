@@ -40,6 +40,7 @@
          sushy_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/sushy"
          reqs_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/requirements"
          staging_drivers_git_url: "{{ lookup('env', 'WORKSPACE') }}/x/ironic-staging-drivers"
+         ipa_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent"
          ipa_builder_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent-builder"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
     - name: "Override the ipv4_gateway setting"
