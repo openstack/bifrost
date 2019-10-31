@@ -63,6 +63,10 @@
     - name: "Collect list of listening network sockets if running in a CI system"
       shell: netstat -apn|grep LISTEN
       when: ci_testing is defined
+    - name: "Use a cached cirros image"
+      set_fact:
+        cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.3.4-x86_64-disk.img
+      when: ci_testing is defined
   roles:
     - role: bifrost-keystone-install
     - role: bifrost-ironic-install
