@@ -67,7 +67,7 @@
       when: ci_testing is defined
     - name: "Use a cached cirros image"
       set_fact:
-        cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.3.4-x86_64-disk.img
+        cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.4.0-x86_64-disk.img
       when: ci_testing is defined
   roles:
     - role: bifrost-keystone-install
