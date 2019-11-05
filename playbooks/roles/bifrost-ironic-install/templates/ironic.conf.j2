@@ -84,7 +84,7 @@ use_web_server_for_images = true
 
 {% if enable_inspector | bool == true %}
 [inspector]
-enabled = true
+extra_kernel_params = {{ inspector_extra_kernel_options | default('') }}
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_type = password
 auth_url = {{ ironic.service_catalog.auth_url }}
@@ -94,6 +94,7 @@ user_domain_id = default
 project_name = {{ ironic.service_catalog.project_name }}
 project_domain_id = default
 region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
+callback_endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:5050
 {% else %}
 auth_type=none
 endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:5050

@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Due to the limitations of managed in-band inspection, the
+    ``inspector_extra_kernel_options`` parameter must only contain
+    ``key=value`` pairs. Use ``extra_kernel_options`` to provide generic
+    kernel options.
