@@ -43,7 +43,7 @@ staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
-ipa_builder_git_branch: "{{ git_branch }}"
+ipa_builder_git_branch: master
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
