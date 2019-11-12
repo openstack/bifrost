@@ -16,3 +16,4 @@ dib_host_required_packages:
   - dosfstools
   - e2fsprogs
   - gdisk
+  - xfsprogs
