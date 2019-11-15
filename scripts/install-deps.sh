@@ -181,7 +181,7 @@ fi
 
 PIP=$(which pip)
 
-sudo -H -E ${PIP} install "pip>6.0"
+sudo -H -E ${PIP} install --upgrade "pip>6.0"
 
 # upgrade setuptools, as latest version is needed to install some projects
 sudo -H -E ${PIP} install --upgrade --force setuptools
