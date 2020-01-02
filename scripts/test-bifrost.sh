@@ -92,11 +92,11 @@ if [ ${USE_VENV} = "true" ]; then
     set -u
     ANSIBLE=${VENV}/bin/ansible-playbook
     ENABLE_VENV="true"
-    ANSIBLE_PYTHON_INTERP=${VENV}/bin/python
+    ANSIBLE_PYTHON_INTERP=${VENV}/bin/python3
 else
     $SCRIPT_HOME/env-setup.sh
     ANSIBLE=${HOME}/.local/bin/ansible-playbook
-    ANSIBLE_PYTHON_INTERP=$(which python)
+    ANSIBLE_PYTHON_INTERP=$(which python3)
 fi
 
 # Adjust options for DHCP, VM, or Keystone tests

@@ -49,9 +49,9 @@
 - name: "Update apt cache if Ubuntu/Debian"
   apt:
     update_cache: yes
-  vars:
-    ansible_python_interpreter: '/usr/bin/python'
   when: ansible_os_family == "Debian"
+  vars:
+    ansible_python_interpreter: '/usr/bin/python3'
 
 - name: "Load distribution defaults"
   include_vars: "{{ item }}"
@@ -86,7 +86,7 @@
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
   with_items: "{{ required_packages }}"
   vars:
-    ansible_python_interpreter: '/usr/bin/python'
+    ansible_python_interpreter: '/usr/bin/python3'
 
 - include: prepare_libvirt.yml
 
