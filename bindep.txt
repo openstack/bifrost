@@ -14,9 +14,10 @@ make
 mariadb             [platform:suse]
 mariadb-server      [platform:redhat platform:dpkg]
 net-tools
-python              [platform:rpm]
-python-minimal      [platform:dpkg]
-python-devel        [platform:rpm]
-python-dev          [platform:dpkg]
-python-virtualenv
+python3              [platform:rpm]
+python3-minimal      [platform:dpkg]
+python3-devel        [platform:rpm]
+python3-dev          [platform:dpkg]
+python3-virtualenv
 wget
+sudo
