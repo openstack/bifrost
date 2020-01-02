@@ -8,6 +8,12 @@
     ############################################################################
     # Install some reqired bits into the vm
     ############################################################################
+    - name: Remove private default route
+      command: ip route del default dev eth0
+      ignore_errors: true
+    #- name: trigger DHCP eth2
+    #  command: dhclient eth2
+
     # Make sure our VM's software is ~@Latest
     - name: Apt Update
       apt: update_cache=yes
@@ -15,34 +21,31 @@
            cache_valid_time=86400
       when: ansible_distribution == 'Ubuntu'
 
-    - name: Make sure distro setuptools is not there
-      apt: name=python-setuptools state=absent
-      when: ansible_distribution == 'Ubuntu'
-
-    - name: Download get-pip
-      get_url: url=https://bootstrap.pypa.io/get-pip.py
-               dest=/tmp/get-pip.py
+    # - name: Make sure distro setuptools is not there
+    # apt: name=python-setuptools state=absent
+    # when: ansible_distribution == 'Ubuntu'
 
     - name: Install pip
-      shell: python /tmp/get-pip.py
+      apt: name=python3-pip state=present
+      when: ansible_distribution == 'Ubuntu'
 
     - name: Install python-dev
-      apt: name=python-dev state=present
+      apt: name=python3-dev state=present
       when: ansible_distribution == 'Ubuntu'
 
     # these would also be installed by 'Prepare VM for Bifrost'
     # below As they are larger packages I think its worth installing
     # them on their own.
-    - name: Install erlang-base
-      apt: name=erlang-base state=present
-      when: ansible_distribution == 'Ubuntu'
+    #- name: Install erlang-base
+    #  apt: name=erlang-base state=present
+    #  when: ansible_distribution == 'Ubuntu'
 
     - name: Install Rabbit-Server
       apt: name=rabbitmq-server state=present
       when: ansible_distribution == 'Ubuntu'
 
     - name: Install MySql-Server
-      apt: name=mysql-server state=present
+      apt: name=mariadb-server state=present
       when: ansible_distribution == 'Ubuntu'
 
     # get ip for public_network
@@ -51,10 +54,13 @@
       register: guest_ip
 
     # Reboot if required.
-    - name: Reboot system if required
-      command: shutdown -r now 'Rebooting to complete system upgrade'
-               removes=/var/run/reboot-required
-      register: rebooted
+    # - name: Reboot system if required
+    #  command: shutdown -r now 'Rebooting to complete system upgrade'
+    #           removes=/var/run/reboot-required
+    #  register: rebooted
+    #
+    #  Systemd likes to do frustrating things with networking, so we need to
+    #  wait a little bit.
     - name: Wait for VM Reboot.
       become: no
       local_action: wait_for
@@ -63,7 +69,15 @@
                     search_regex=OpenSSH
                     delay=10
                     timeout=900
-      when: rebooted.changed
+    #  when: rebooted.changed
+
+    - name: make /root/.ssh folder
+      file:
+        path: /root/.ssh
+        state: directory
+        owner: root
+        group: root
+        mode: 0700
 
     - name: Copy SSH public key into VM
       copy: src=~/.ssh/{{public_key}} dest=~/.ssh/id_rsa.pub
@@ -78,11 +92,13 @@
       command: scripts/env-setup.sh
       environment:
           ANSIBLE_INSTALL_ROOT: "{{ansible_install_root}}"
+          LANG: c
       args:
           chdir: /home/vagrant/bifrost
+      become: yes
 
     - name: Install Bifrost
-      command: ansible-playbook -vvvv -i inventory/localhost install.yaml -e network_interface={{network_interface}}
+      command: ansible-playbook -vvvv -i inventory/target install.yaml -e network_interface={{network_interface}}
       environment:
           PATH: "{{ansible_env.HOME}}/.local/bin:{{ansible_env.PATH}}"
       args:
