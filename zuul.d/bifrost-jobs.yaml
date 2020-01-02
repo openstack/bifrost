@@ -92,6 +92,11 @@
     nodeset: ubuntu-xenial
 
 - job:
+    name: bifrost-integration-tinyipa-ubuntu-bionic
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-bionic
+
+- job:
     name: bifrost-integration-tinyipa-keystone-ubuntu-xenial
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-xenial
