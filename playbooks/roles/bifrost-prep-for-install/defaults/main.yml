@@ -13,6 +13,7 @@ reqs_git_url: https://opendev.org/openstack/requirements
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 keystone_git_url: https://opendev.org/openstack/keystone
 sushy_git_url: https://opendev.org/openstack/sushy
+ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
