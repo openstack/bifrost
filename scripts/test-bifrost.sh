@@ -12,6 +12,7 @@ BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
+ZUUL_REF=${ZUUL_REF:-}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -78,7 +79,7 @@ mysql_setup() {
 }
 
 # Setup openstack_citest database if run in OpenStack CI.
-if [ "$ZUUL_BRANCH" != "" ] ; then
+if [ [ "$ZUUL_BRANCH" != "" ] && [ -n "$ZUUL_REF" ] ]; then
     mysql_setup
 fi
 
