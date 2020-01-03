@@ -20,7 +20,7 @@ Installation and use of bifrost is split into roughly three steps:
 
 Supported operating systems:
 
-* Ubuntu 14.04, 14.10, 15.04, 16.04
+* Ubuntu 16.04, 18.04
 * Red Hat Enterprise Linux (RHEL) 7
 * CentOS 7
 * Fedora 22

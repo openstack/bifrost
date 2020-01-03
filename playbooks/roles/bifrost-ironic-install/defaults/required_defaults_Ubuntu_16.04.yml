@@ -4,9 +4,10 @@ init_dest_dir: /lib/systemd/system/
 init_ext: .service
 required_packages:
   - mariadb-server
-  - python-dev
-  - python-mysqldb
-  - python-configparser
+  - python3-dev
+  - python3-mysqldb
+  - python3-pymysql
+  - python3-setuptools
   - libffi-dev
   - libxslt1-dev
   - libssl-dev
@@ -25,12 +26,9 @@ required_packages:
   - genisoimage
   - kpartx
   - qemu-utils
-  - python-openwsman
   - debootstrap
   - uuid-runtime
   - curl
-  - python-pip
-  - python-pymysql
   - dnsmasq
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
 # package list as the installation causes name resolution changes that can

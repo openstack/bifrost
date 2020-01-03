@@ -4,9 +4,10 @@ init_dest_dir: /lib/systemd/system/
 init_ext: .service
 required_packages:
   - mariadb-server
-  - python-dev
-  - python-mysqldb
-  - python-configparser
+  - python3-dev
+  - python3-mysqldb
+  - python3-pymysql
+  - python3-setuputils
   - libffi-dev
   - libxslt1-dev
   - libssl-dev
@@ -15,6 +16,4 @@ required_packages:
   - uwsgi
   - uwsgi-core
   # - python-django-uwsgi - This may not be needed
-  - uwsgi-plugin-python
-  - python-pip
-  - python-pymysql
+  - uwsgi-plugin-python3
