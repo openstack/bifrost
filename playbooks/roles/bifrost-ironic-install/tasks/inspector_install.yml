@@ -19,7 +19,7 @@
     state=latest
     sourcedir={{ ironicinspector_git_folder }}
     source_install={{ ironicinspector_source_install }}
-    extra_args="--no-cache-dir --upgrade --force-reinstall -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir --upgrade --upgrade-strategy only-if-needed -c {{ upper_constraints_file }}"
 
 - name: "Inspector - PIP client install"
   include: pip_install.yml
@@ -27,4 +27,4 @@
     state=latest
     source_dir={{ ironicinspectorclient_git_folder }}
     sourc_install={{ ironicinspectorclient_source_install }}
-    extra_args="--no-cache-dir --upgrade --force-reinstall -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir --upgrade --upgrade-strategy only-if-needed -c {{ upper_constraints_file }}"
