@@ -11,6 +11,7 @@ ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspe
 reqs_git_url: https://opendev.org/openstack/requirements
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 keystone_git_url: https://opendev.org/openstack/keystone
+ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
 ironic_git_folder: "{{ git_root}}/ironic"
@@ -22,6 +23,7 @@ reqs_git_folder: "{{ git_root }}/requirements"
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
 staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root}}/keystone"
+ipa_git_folder: "{{ git_root }}/ironic-python-agent"
 # *_git_branch can be overridden for stable branch testing
 ironicclient_git_branch: stable/rocky
 ironic_git_branch: stable/rocky
@@ -32,6 +34,7 @@ ironicinspectorclient_git_branch: stable/rocky
 reqs_git_branch: stable/rocky
 staging_drivers_git_branch: stable/rocky
 keystone_git_branch: stable/rocky
+ipa_git_branch: stable/rocky
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
@@ -74,3 +77,7 @@ bifrost_install_sources:
     git_url: "{{ keystone_git_url }}"
     git_branch: "{{ keystone_git_branch }}"
     name: keystone
+  - git_folder: "{{ ipa_git_folder }}"
+    git_url: "{{ ipa_git_url }}"
+    git_branch: "{{ ipa_git_branch }}"
+    name: ironic-python-agent
