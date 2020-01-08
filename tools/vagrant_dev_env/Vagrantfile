@@ -5,9 +5,11 @@ VAGRANTFILE_API_VERSION = '2'
 
 ansible_install_root=(ENV['ANSIBLE_INSTALL_ROOT'] || "/opt/stack")
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = 'generic/ubuntu1804'
 
-  config.vm.box = 'ubuntu/trusty64'
-
+  config.vm.provider "libvirt" do |lv|
+    lv.cpu_mode = 'host-passthrough'
+  end
   config.vm.define 'bifrost' do |bifrost|
     bifrost.vm.provider :virtualbox do |vb|
       vb.customize ['modifyvm', :id, '--memory', '8196', '--cpus', '4']
@@ -19,21 +21,34 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       vb.customize ["modifyvm", :id, "--nictype3", "Am79C973"]
     end
 
+    bifrost.vm.provider "libvirt" do |lv|
+      lv.memory = 8196
+      lv.cpus = 2
+      lv.nested = true
+      lv.volume_cache = 'none'
+    end
+
     # If ANSIBLE_INSTALL_ROOT is available, set that value inside the VM
     if ENV['ANSIBLE_INSTALL_ROOT']
       bifrost.vm.provision "shell", inline: <<-SHELL
         echo "export ANSIBLE_INSTALL_ROOT=#{ENV['ANSIBLE_INSTALL_ROOT']}" >> /etc/profile.d/ansible-root.sh
+        echo "if [ \"$IFACE\" = \"eth0\" ]; then route del default dev eth0 ; fi" >> /etc/network/if-up.d
+	echo "[Match]\nName=eth0\n[Network]\nDHCP=yes\n[DHCP]\nUseRoutes=false" >>/etc/systemd/network/no-default-route.network
       SHELL
     end
 
     # Set up private NAT'd network
-    bifrost.vm.network 'private_network', ip: '192.168.99.10' # it goes to 11
+    bifrost.vm.network 'private_network', ip: '192.168.99.10', use_dhcp_assigned_default_route: false
+
     # This assumes you have DHCP on your bridged network. if not you will need
     # to statically configure to allow  Bifrost to manage hardware attached to
     # the bridged interface.
     # NOTE(TheJulia): Is there a way to abstract the bridged networking...
     # NOTE(NobodyCam): until the above is  done this needs to be set to a valid interface
-    bifrost.vm.network 'public_network', bridge: ''
+    # NOTE(TheJulia): Virtualbox will ask you. libvirt won't and you need to use the dev
+    # field instead of bridge.
+    bifrost.vm.network "public_network", bridge: 'enp3s0', dev: 'enp3s0'
+
 
     # besure we get the entire bifrost directory tree
     bifrost.vm.synced_folder "../../.", "/home/vagrant/bifrost", type: "rsync"
@@ -49,7 +64,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           #  eth0 - connected to a Nat network
           #  eth1 - connected to Host-only network named: 'vboxnet1'
           #  eth2 - bridged - Interface must also be set above
-          network_interface: 'eth2'
+          network_interface: 'eth0'
       }
     end
   end
