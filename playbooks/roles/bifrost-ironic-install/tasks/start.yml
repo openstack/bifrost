@@ -45,19 +45,24 @@
 - name: "Start ironic-api"
   service: name=ironic-api state=restarted
 
-# NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
-# not the one supplied by libvirt. And the libvirt started dnsmasq processes
-# are not controlled by upstart, so we need to manually kill those.
-- name: "Stop existing libvirt dnsmasq processes"
-  command: killall -w dnsmasq
-  when: testing | bool == true and include_dhcp_server | bool == true
-  ignore_errors: yes
-
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted enabled=yes
   with_items:
     - xinetd
     - nginx
+
+# Multiple dnsmasqs are likely running, so lets tell the service manager
+# to at least try stopping dnsmasq for us.
+- name: "Stop dnsmasq explicitly."
+  service: name=dnsmasq state=stopped
+
+# NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
+# not the one supplied by libvirt. And the libvirt started dnsmasq processes
+# are not controlled by upstart, so we need to manually kill those.
+- name: "Stop existing libvirt dnsmasq processes"
+  command: killall -9 -w dnsmasq
+  when: testing | bool == true and include_dhcp_server | bool == true
+  ignore_errors: yes
 
 - name: "Ensure dnsmasq is running with current config"
   service: name={{ item }} state=restarted enabled=yes
