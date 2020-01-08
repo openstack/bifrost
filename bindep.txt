@@ -1,3 +1,4 @@
+dnsmasq
 epel-release        [platform:centos platform:rhel]
 gcc
 git
