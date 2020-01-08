@@ -41,7 +41,7 @@
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install == false) and enable_venv|bool
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool
 
 - name: "Install {{ package }} package from pip without virtualenv"
   pip:
@@ -50,14 +50,14 @@
     version: "{{ version | default(omit) }}"
     extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
+    executable: /usr/bin/pip3
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install == false) and not enable_venv|bool
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool == false
 
 # NOTE (cinerama): We should be able to use the pip module here
-
 - name: "Install requirements from {{ sourcedir }} using pip"
   command: |
       pip3 install -r {{ sourcedir }}/requirements.txt
@@ -67,7 +67,7 @@
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: source_install is defined and (source_install | bool == true)
+  when: source_install is defined and source_install | default(true) | bool
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 
 # NOTE(dtantsur): do not use constraints here, it does not work when the

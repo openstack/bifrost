@@ -25,11 +25,12 @@
     virtualenv: "{{ bifrost_venv_dir }}"
     virtualenv_command: "{{ venv_command | default(omit) }}"
     extra_args: "{{ extra_args | default(omit) }}"
+    requirements: "{{ requirements_file | default(omit) }}"
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install == false) and enable_venv|bool
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool
 
 - name: "Install {{ package }} package from pip without virtualenv"
   pip:
@@ -38,20 +39,21 @@
     version: "{{ version | default(omit) }}"
     extra_args: "{{ extra_args | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
+    executable: /usr/bin/pip3
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install == false) and not enable_venv|bool
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool == false
 
 # NOTE (cinerama): We should be able to use the pip module here and
 # possibly merge these two tasks when
 # https://github.com/ansible/ansible-modules-core/pull/2600 lands.
-- name: "Install from {{ sourcedir }} using pip"
-  command: pip3 install --upgrade {{ sourcedir }} {{ extra_args | default('') }}
+- name: "Install from {{ sourcedir | default(package)  }} using pip"
+  command: pip3 install {{ sourcedir | default(package) }} {{ extra_args | default('') }}
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: source_install is defined and (source_install | bool == true)
+  when: source_install is defined and source_install | default(true) | bool
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"

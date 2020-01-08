@@ -42,7 +42,7 @@
          staging_drivers_git_url: "{{ lookup('env', 'WORKSPACE') }}/x/ironic-staging-drivers"
          ipa_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent"
          ipa_builder_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent-builder"
-      when: lookup('env', 'ZUUL_BRANCH') | length > 0 and lookup('env', 'ZUUL_REF') | length > 0
+      when: lookup('env', 'ZUUL_BRANCH') | length > 0
     - name: "Override the ipv4_gateway setting"
       set_fact:
          ipv4_gateway: "192.168.122.1"
@@ -68,7 +68,7 @@
     - name: "Use a cached cirros image"
       set_fact:
         cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.4.0-x86_64-disk.img
-      when: ci_testing is defined and ci_testing_zuul is defined and ci_testing_zuul
+      when: ci_testing is defined and ci_testing_zuul is defined and ci_testing_zuul | bool
   roles:
     - role: bifrost-keystone-install
     - role: bifrost-ironic-install
@@ -77,9 +77,9 @@
     # NOTE(TheJulia): While the next step creates a ramdisk, some elements
     # do not support ramdisk-image-create as they invoke steps to cleanup
     # the ramdisk which causes ramdisk-image-create to believe it failed.
-    - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "stretch", dib_elements: "ironic-python-agent-ramdisk {{ ipa_extra_dib_elements | default('') }}", dib_packages: "bsdmainutils", when: create_ipa_image | bool == true }
+    - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "stretch", dib_elements: "ironic-python-agent-ramdisk {{ ipa_extra_dib_elements | default('') }}", dib_packages: "bsdmainutils", when: create_ipa_image | bool }
     # NOTE(TheJulia): This creates the guest image.
-    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "stretch", dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool == true and transform_boot_image | bool == false }
+    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "stretch", dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool and not transform_boot_image | bool }
     - role: bifrost-keystone-client-config
       user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
       clouds:
@@ -99,9 +99,9 @@
   connection: local
   roles:
     - role: ironic-enroll-dynamic
-    - { role: ironic-inspect-node, when: inspect_nodes | default('false') | bool == true }
+    - { role: ironic-inspect-node, when: not inspect_nodes | default('false') | bool }
     - role: bifrost-test-inspection
-      when: inspect_nodes | default('false') | bool == true
+      when: not inspect_nodes | default('false') | bool
 
 - hosts: localhost
   name: "Tests the use of openstack clients"
@@ -111,16 +111,18 @@
       command: openstack baremetal node list
       environment:
         OS_CLOUD: bifrost
+        PATH: /usr/local/bin:{{ ansible.env.PATH }}
     - name: "List introspection rules using openstack client"
       command: openstack baremetal introspection rule list
       environment:
         OS_CLOUD: "{% if enable_keystone | default(false) | bool == true %}bifrost{% else %}bifrost-inspector{% endif %}"
-      when: enable_inspector | bool
+        PATH: /usr/local/bin:{{ ansible.env.PATH }}
+      when: enable_inspector is defined and enable_inspector | bool
 
 - hosts: baremetal
   name: "Create configuration drive files and deploy machines"
   vars:
-    multinode_testing: "{{ inventory_dhcp | bool == true }}"
+    multinode_testing: "{{ inventory_dhcp | bool }}"
   become: no
   connection: local
   roles:
@@ -175,11 +177,11 @@
       state: running
     with_dict: "{{ lookup('file', not_enrolled_data_file) | from_json }}"
     ignore_errors: yes
-    when: inventory_dhcp | bool == true
+    when: inventory_dhcp | bool
   - name: Wait 30 seconds
     pause:
       seconds: 30
-    when: inventory_dhcp | bool == true
+    when: inventory_dhcp | bool
 
 - hosts: localhost
   connection: local
@@ -190,7 +192,7 @@
     inventory_dhcp: "{{ inventory_dhcp | bool == true }}"
     inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
   roles:
-    - { role: bifrost-test-dhcp, when: inventory_dhcp | bool == true }
+    - { role: bifrost-test-dhcp, when: inventory_dhcp | bool }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
