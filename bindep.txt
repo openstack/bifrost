@@ -21,3 +21,4 @@ python3-dev          [platform:dpkg]
 python3-virtualenv
 wget
 sudo
+ebtables
