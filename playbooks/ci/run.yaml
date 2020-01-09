@@ -1,7 +1,7 @@
 - hosts: all
   tasks:
     - shell:
-        cmd: scripts/test-bifrost.sh
+        cmd: bash scripts/test-bifrost.sh
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
       environment:
         BUILD_IMAGE: "{{ build_image | default(false) | bool | lower }}"
@@ -10,5 +10,6 @@
         UPPER_CONSTRAINTS_FILE: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/requirements'].src_dir }}/upper-constraints.txt"
         WORKSPACE: "{{ ansible_user_dir }}/src/opendev.org"
         USE_DHCP: "{{ use_dhcp | default(false) | bool | lower }}"
-        USE_VENV: "{{ use_venv | default(false) | bool | lower }}"
+        USE_VENV: "{{ use_venv | default(true) | bool | lower }}"
         ZUUL_BRANCH: "{{ zuul.branch }}"
+        VENV: "/opt/stack/bifrost"

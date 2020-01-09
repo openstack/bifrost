@@ -15,7 +15,6 @@ CHECK_CMD_PKGS=(
     net-tools
     python3-devel
     python3
-    venv
     wget
 )
 
@@ -34,7 +33,6 @@ case ${ID,,} in
         [net-tools]=net-tools
         [python]=python
         [python-devel]=python-devel
-        [venv]=python-virtualenv
         [wget]=wget
     )
     EXTRA_PKG_DEPS=( python-xml )
@@ -62,10 +60,9 @@ case ${ID,,} in
         [net-tools]=net-tools
         [python3]=python3-minimal
         [python3-devel]=libpython3-dev
-        [venv]=python3-virtualenv
         [wget]=wget
     )
-    EXTRA_PKG_DEPS=()
+    EXTRA_PKG_DEPS=( python3-apt )
     sudo apt-get update
     ;;
 
@@ -83,7 +80,6 @@ case ${ID,,} in
         [net-tools]=net-tools
         [python]=python3
         [python-devel]=python3-devel
-        [venv]=python3-virtualenv
         [wget]=wget
     )
     EXTRA_PKG_DEPS=()
@@ -115,7 +111,7 @@ if ! $(wget --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[wget]}
 fi
 if [ -n "${VENV-}" ]; then
-    if ! $(python3 -m virtualenv --version &>/dev/null); then
+    if ! $(python3 -m venv --version &>/dev/null); then
         ${INSTALLER_CMD} ${PKG_MAP[venv]}
     fi
 fi
@@ -138,7 +134,7 @@ if [ -n "${VENV-}" ]; then
     echo "NOTICE: Using virtualenv for this installation."
     if [ ! -f ${VENV}/bin/activate ]; then
         # only create venv if one doesn't exist
-        sudo -H -E python3 -m virtualenv --no-site-packages ${VENV}
+        sudo -H -E python3 -m venv --system-site-packages ${VENV}
     fi
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
@@ -160,19 +156,21 @@ PYTHON=$(which python3)
 # older versions of pip are incompatible with
 # requests, one of our indirect dependencies (bug 1459947).
 #
-
-if [ ! $($PYTHON -m pip install -U pip) ]; then
+ls $PYTHON
+sudo -H -E $PYTHON -m pip install -U pip --ignore-installed
+if [ "$?" != "0" ]; then
     wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.4/get-pip.py
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-PIP=$(which pip3)
+ls -la /opt/stack/bifrost/bin
+
+PIP=$(echo $PYTHON | sed 's/python/pip/')
 
 if [ "$OS_FAMILY" == "RedHat" ]; then
     sudo -H -E ${PIP} freeze
     sudo -H -E ${PIP} install --ignore-installed pyparsing ipaddress
 fi
-
 sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 
 # Install the rest of required packages using bindep

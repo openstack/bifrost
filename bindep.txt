@@ -18,7 +18,7 @@ python3              [platform:rpm]
 python3-minimal      [platform:dpkg]
 python3-devel        [platform:rpm]
 python3-dev          [platform:dpkg]
-python3-virtualenv
+python3-venv         [platform:dpkg]
 wget
 sudo
 ebtables

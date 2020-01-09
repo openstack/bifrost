@@ -7,7 +7,7 @@ SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 BIFROST_HOME=$SCRIPT_HOME/..
 ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
 USE_DHCP="${USE_DHCP:-false}"
-USE_VENV="${USE_VENV:-false}"
+USE_VENV="${USE_VENV:-true}"
 BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
@@ -43,7 +43,7 @@ PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 NOAUTH_MODE=true
 CLOUD_CONFIG=""
 WAIT_FOR_DEPLOY=true
-ENABLE_VENV=false
+ENABLE_VENV=true
 
 # This sets up the MySQL database like it's done for all OpenStack
 # projects for CI testing.
@@ -159,7 +159,10 @@ ${ANSIBLE} -vvvv \
        -e test_vm_memory_size=${VM_MEMORY_SIZE} \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
        -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
-       -e enable_venv=${ENABLE_VENV}
+       -e enable_venv=${ENABLE_VENV} \
+       -e bifrost_venv_dir=${VENV}
+
+
 
 if [ ${USE_DHCP} = "true" ]; then
     # reduce the number of nodes in JSON file
