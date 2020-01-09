@@ -55,7 +55,7 @@
     force: yes
   register: ipa_kernel_download_done
   until: ipa_kernel_download_done|succeeded or
-         (ipa_kernel_download_done|failed and ipa_kernel_download_done.status_code == 404)
+         (ipa_kernel_download_done|failed)
   retries: 5
   delay: 10
   environment: "{{ venv }}"
