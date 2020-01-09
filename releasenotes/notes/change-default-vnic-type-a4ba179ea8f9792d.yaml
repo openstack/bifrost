@@ -1,0 +1,8 @@
+---
+other:
+  - |
+    The default libvirt network interface card type has been changed from
+    ``virtio`` to ``e1000`` in order to support testing on Bionic. Users should
+    not experience any issues as a result of this, however the
+    ``bifrost-create-vm-nodes`` setting ``test_vm_nic`` can be used to explicitly
+    choose ``virtio`` network interface cards.
