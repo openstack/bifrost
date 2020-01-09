@@ -51,7 +51,7 @@
 # possibly merge these two tasks when
 # https://github.com/ansible/ansible-modules-core/pull/2600 lands.
 - name: "Install from {{ sourcedir }} using pip"
-  command: pip install {{ sourcedir }} {{ extra_args | default('') }}
+  command: pip3 install {{ sourcedir }} {{ extra_args | default('') }}
   register: pip_package_install_done
   until: pip_package_install_done|succeeded
   retries: 5
