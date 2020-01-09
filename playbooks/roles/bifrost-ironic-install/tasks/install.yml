@@ -43,14 +43,13 @@
 
 - name: "proliantutils - Install from pip"
   include: pip_install.yml
-     package=proliantutils<2.9.0
+     package=proliantutils
      state=present
   environment: "{{ venv }}"
   when: skip_install is not defined
 
 - name: "Install iSCSI client and dependencies if iscsi deploy interface is enabled"
   action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
-  environment: "{{ venv }}"
   with_items: "{{ iscsi_required_packages }}"
   when: skip_install is not defined and 'iscsi' in enabled_deploy_interfaces
 
