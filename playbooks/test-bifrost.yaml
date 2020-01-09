@@ -42,13 +42,13 @@
          staging_drivers_git_url: "{{ lookup('env', 'WORKSPACE') }}/x/ironic-staging-drivers"
          ipa_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent"
          ipa_builder_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent-builder"
-      when: lookup('env', 'ZUUL_BRANCH') | length > 0
+      when: lookup('env', 'ZUUL_BRANCH') | length > 0 and lookup('env', 'ZUUL_REF') | length > 0
     - name: "Override the ipv4_gateway setting"
       set_fact:
          ipv4_gateway: "192.168.122.1"
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
-    - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined }
+    - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined and ci_testing_zuul }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
