@@ -126,6 +126,13 @@ logs_on_exit() {
 }
 trap logs_on_exit EXIT
 
+# Clone the requirements repo if we don't already have
+# a copy. This is provided by OpenStack CI jobs, but
+# is not automatically present when doing local testing.
+if [ ! -d "$ANSIBLE_INSTALL_ROOT/requirements" ]; then
+    cd $ANSIBLE_INSTALL_ROOT
+    git clone http://opendev.org/openstack/requirements
+fi
 # Change working directory
 cd $BIFROST_HOME/playbooks
 
