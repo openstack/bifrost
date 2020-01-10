@@ -42,3 +42,10 @@
   when: >
     ci_testing_zuul is defined and
     test_ssh_public_key_path.stat.exists | bool == false
+
+- name: "Stop unbound, the caching dns server"
+  service:
+    name: unbound
+    state: stopped
+    enabled: no
+  ignore_errors: yes

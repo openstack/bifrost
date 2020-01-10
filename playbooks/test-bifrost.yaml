@@ -48,7 +48,7 @@
          ipv4_gateway: "192.168.122.1"
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
-    - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined and ci_testing_zuul }
+    - { role: bifrost-openstack-ci-prep, when: ci_testing_zuul is defined and ci_testing_zuul | bool == true }
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
