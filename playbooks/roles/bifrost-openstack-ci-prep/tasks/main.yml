@@ -17,8 +17,6 @@
 # in OpenStack CI.
 - name: "Set facts for OpenStack CI"
   set_fact:
-    mysql_username: "openstack_citest"
-    mysql_password: "openstack_citest"
     disable_dnsmasq_dns: True
 
 - name: "Determine if OpenStack CI is missing an SSH key"
