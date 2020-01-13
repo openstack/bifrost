@@ -114,7 +114,7 @@
     - name: "List introspection rules using openstack client"
       command: openstack baremetal introspection rule list
       environment:
-        OS_CLOUD: "{% if enable_keystone | default(false) | bool %}bifrost{% else %}bifrost-inspector{% endif %}"
+        OS_CLOUD: "{% if enable_keystone | default(false) | bool == true %}bifrost{% else %}bifrost-inspector{% endif %}"
       when: enable_inspector | bool
 
 - hosts: baremetal
