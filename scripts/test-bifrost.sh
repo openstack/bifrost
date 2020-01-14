@@ -78,8 +78,8 @@ mysql_setup() {
         CREATE DATABASE openstack_citest CHARACTER SET utf8;"
 }
 
-# Setup openstack_citest database if run in OpenStack CI.
-if [ [ "$ZUUL_BRANCH" != "" ] && [ -n "$ZUUL_REF" ] ]; then
+# Setup openstack_ci test database if run in OpenStack CI.
+if [ "$ZUUL_BRANCH" != "" -a "$ZUUL_REF" ]; then
     mysql_setup
 fi
 
