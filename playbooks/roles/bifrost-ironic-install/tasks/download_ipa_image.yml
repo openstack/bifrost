@@ -54,7 +54,7 @@
     # Keep downloading it until we get a good copy
     force: yes
   register: ipa_kernel_download_done
-  until: ipa_kernel_download_done|succeeded or
+  until: ipa_kernel_download_done is succeeded or
          (ipa_kernel_download_done|failed)
   retries: 5
   delay: 10
@@ -97,7 +97,7 @@
     # Keep downloading it until we get a good copy
     force: yes
   register: ipa_ramdisk_download_done
-  until: ipa_ramdisk_download_done|succeeded or
+  until: ipa_ramdisk_download_done is succeeded or
          (ipa_ramdisk_download_done|failed and ipa_ramdisk_download_done.status_code == 404)
   retries: 5
   delay: 10

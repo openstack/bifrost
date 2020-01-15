@@ -30,7 +30,7 @@
     dest: "{{ ipxe_dir }}/{{ item }}"
     force: yes
   register: ipxe_files_download_done
-  until: ipxe_files_download_done|succeeded
+  until: ipxe_files_download_done is succeeded
   retries: 5
   delay: 10
   with_items:
@@ -44,7 +44,7 @@
     dest: "{{ ipxe_dir }}/{{ item }}"
     force: yes
   register: ipxe_efi_binary_download_done
-  until: ipxe_efi_binary_download_done|succeeded
+  until: ipxe_efi_binary_download_done is succeeded
   retries: 5
   delay: 10
   with_items:

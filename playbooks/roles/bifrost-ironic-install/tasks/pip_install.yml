@@ -29,7 +29,7 @@
     extra_args: "{{ extra_args | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
   register: pip_package_install_done
-  until: pip_package_install_done|succeeded
+  until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
   when: (source_install is not defined or source_install == false) and enable_venv|bool
@@ -42,7 +42,7 @@
     extra_args: "{{ extra_args | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
   register: pip_package_install_done
-  until: pip_package_install_done|succeeded
+  until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
   when: (source_install is not defined or source_install == false) and not enable_venv|bool
@@ -53,7 +53,7 @@
 - name: "Install from {{ sourcedir }} using pip"
   command: pip3 install {{ sourcedir }} {{ extra_args | default('') }}
   register: pip_package_install_done
-  until: pip_package_install_done|succeeded
+  until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
   when: source_install is defined and (source_install | bool == true)
