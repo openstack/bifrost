@@ -42,9 +42,6 @@ if [ ! -d ${ANSIBLE_INSTALL_ROOT} ]; then
     mkdir -p ${ANSIBLE_INSTALL_ROOT} || (sudo mkdir -p ${ANSIBLE_INSTALL_ROOT})
 fi
 sudo -H chown -R $u:$g ${ANSIBLE_INSTALL_ROOT}
-mkdir -p ${ANSIBLE_INSTALL_ROOT}/ansible/hacking
-echo "echo Sourcing this file is no longer needed! Ansible is always installed from PyPI" > ${ANSIBLE_INSTALL_ROOT}/ansible/hacking/env-setup
-
 echo
 echo "To use bifrost, do"
 
