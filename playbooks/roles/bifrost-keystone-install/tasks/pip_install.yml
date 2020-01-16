@@ -14,8 +14,8 @@
 
 - name: set virtualenv_command
   set_fact:
-    venv_command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m virtualenv"
-  when: enable_venv|bool
+    venv_command: "python3 -m venv"
+  when: enable_venv
 
 - name: "Install {{ package }} package from pip using virtualenv"
   pip:

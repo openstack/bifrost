@@ -10,7 +10,7 @@ ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${ANSIBLE_GIT_BRANCH:-stable-2.6}}
 ANSIBLE_PIP_STRING=$(${PYTHON} $(dirname $0)/ansible-pip-str.py ${ANSIBLE_PIP_VERSION})
 
 if [ -n "${VENV-}" ]; then
-    sudo -H -E ${PIP} install --upgrade "${ANSIBLE_PIP_STRING}"
+    sudo ${PIP} install --ignore-installed "${ANSIBLE_PIP_STRING}"
     ANSIBLE=${VENV}/bin/ansible
 else
     ${PIP} install --user --upgrade "${ANSIBLE_PIP_STRING}"

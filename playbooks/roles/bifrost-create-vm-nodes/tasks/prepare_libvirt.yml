@@ -15,14 +15,30 @@
 # Setup libvirt - ensure network and storage pool are defined and active,
 # prepare dir for vm logs
 ---
-- name: install libvirt-python and lxml
+- name: set virtualenv_command
+  set_fact:
+    venv_command: "python3 -m venv"
+  when: enable_venv
+
+- name: install libvirt-python and lxml without virtualenv
   pip:
     name: "{{ item }}"
     extra_args: "-c {{ upper_constraints_file }}"
-    virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
   with_items:
     - libvirt-python
     - lxml
+  when: enable_venv | bool == false
+
+- name: install libvirt-python and lxml with virtualenv
+  pip:
+    name: "{{ item }}"
+    state: present
+    virtualenv: "{{ bifrost_venv_dir }}"
+    virtualenv_command: "{{ venv_command | default(omit) }}"
+  with_items:
+    - libvirt-python
+    - lxml
+  when: enable_venv | default(false) | bool
 
 - name: "Restart libvirt service"
   service: name="{{libvirt_service_name}}" state=restarted
