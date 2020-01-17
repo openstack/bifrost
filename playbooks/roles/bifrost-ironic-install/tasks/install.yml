@@ -39,14 +39,12 @@
 - name: "OpenStack Client - Install"
   include: pip_install.yml
     package=python-openstackclient
-    extra_args="-c {{ upper_constraints_file }}"
   when: skip_install is not defined
 
 - name: "proliantutils - Install from pip"
   include: pip_install.yml
      package=proliantutils<2.9.0
      state=present
-     extra_args="-c {{ upper_constraints_file }}"
   environment: "{{ venv }}"
   when: skip_install is not defined
 
@@ -61,8 +59,6 @@
     package=diskimage-builder
     sourcedir={{ dib_git_folder }}
     source_install=true
-    # NOTE(TheJulia): DIB is in upper-constraints and can't be constrainted
-    # as a result.
   when: skip_install is not defined and install_dib | bool == true
 
 - name: "IPA-builder - Install"
@@ -77,8 +73,6 @@
     package=sushy
     sourcedir={{ sushy_git_folder }}
     source_install={{ sushy_source_install }}
-    # NOTE(TheJulia): We do not explicitly define an upper constraints file
-    # to be utilized in order to allow newer versions to be installed.
   when: skip_install is not defined
 
 - name: "Ironic Client - Install"
@@ -87,22 +81,18 @@
     state=latest
     sourcedir={{ ironicclient_git_folder }}
     source_install={{ ironicclient_source_install }}
-    # NOTE(TheJulia): We do not explicitly define an upper constraints file
-    # to be utilized in order to allow newer versions to be installed.
   when: skip_install is not defined
 
 - name: "Install configparser in venv if using"
   include: pip_install.yml
     package=configparser
     virtualenv={{ bifrost_venv_dir }}
-    extra_args="-c {{ upper_constraints_file }}"
   when: skip_install is not defined and (enable_venv | bool == true)
 
 - name: "Install pymysql in venv if using"
   include: pip_install.yml
     package=pymysql
     virtualenv={{ bifrost_venv_dir }}
-    extra_args="-c {{ upper_constraints_file }}"
   when: skip_install is not defined and (enable_venv | bool == true)
 
 # NOTE(hwoarang): The python-pymysql package is not available on the CentOS7
@@ -110,7 +100,6 @@
 - name: "Install pymysql on CentOS/Ubuntu if necessary"
   include: pip_install.yml
     package=pymysql
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == false
@@ -120,7 +109,6 @@
 - name: "Install extra packages for ironic"
   include: pip_install.yml
     package={{ item }}
-    extra_args="-c {{ upper_constraints_file }}"
   with_items: "{{ ironic_extra_packages }}"
 
 - name: "Install Ironic using pip"
@@ -129,7 +117,7 @@
     state=latest
     sourcedir={{ ironic_git_folder }}
     source_install=true
-    extra_args="--no-cache-dir --upgrade {{ pip_opts }} -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir --upgrade {{ pip_opts }}"
   when: skip_install is not defined
 
 - name: "Install ironic-inspector to permit use of inspection interface"
