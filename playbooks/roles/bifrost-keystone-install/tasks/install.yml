@@ -33,7 +33,6 @@
   include: pip_install.yml
     package=configparser
     virtualenv=bifrost_venv_dir
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == true
@@ -42,7 +41,6 @@
   include: pip_install.yml
     package=pymysql
     virtualenv=bifrost_venv_dir
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == true
@@ -51,7 +49,6 @@
   include: pip_install.yml
     package=python-openstackclient
     virtualenv=bifrost_venv_dir
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == true
@@ -63,7 +60,7 @@
     state=latest
     sourcedir={{ keystone_git_folder }}
     source_install={{ keystone_source_install | bool }}
-    extra_args="--no-cache-dir {{ pip_opts }} -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir {{ pip_opts }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == true
@@ -71,7 +68,6 @@
 - name: "Install configparser if not using a venv"
   include: pip_install.yml
     package=configparser
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == false
@@ -79,7 +75,6 @@
 - name: "Install pymysql if not using a venv"
   include: pip_install.yml
     package=pymysql
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == false
@@ -87,7 +82,6 @@
 - name: "Install python-openstackclient if not using a venv"
   include: pip_install.yml
     package=python-openstackclient
-    extra_args="-c {{ upper_constraints_file }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == false
@@ -98,7 +92,7 @@
     state=latest
     sourcedir={{ keystone_git_folder }}
     source_install={{ keystone_source_install | bool }}
-    extra_args="--no-cache-dir {{ pip_opts }} -c {{ upper_constraints_file }}"
+    extra_args="--no-cache-dir {{ pip_opts }}"
   when:
     - skip_install is not defined
     - enable_venv | bool == false
