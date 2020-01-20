@@ -2,6 +2,11 @@
 # Cleaning turns on ironic conductor clean_nodes flag
 # which causes the nodes to be wiped after deletion.
 cleaning: false
+
+# Enable fast_track mode for ironic which allows skipping a power
+# cycle
+fast_track: true
+
 http_boot_folder: /httpboot
 ironic_tftp_master_path: /var/lib/ironic/master_images
 staging_drivers_include: false

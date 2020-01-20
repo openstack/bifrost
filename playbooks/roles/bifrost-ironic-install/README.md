@@ -160,6 +160,10 @@ inspector_log_dir: String value, default undefined. If set, it specifies a
 nginx_log_dir: String value, default /var/log/nginx. It specifies a log
                directory for nginx.
 
+fast_track: Boolean setting to enable ironic to leverage an already running
+            agent on the host being deployed such that deployment can begin
+            immediately as opposed to waiting for a complete system reboot.
+
 ### Hardware Inspection Support
 
 Bifrost also supports the installation of ironic-inspector in standalone
