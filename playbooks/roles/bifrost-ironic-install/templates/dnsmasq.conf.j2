@@ -13,11 +13,7 @@ port=0
 port=53
 {% endif %}
 
-# If you want dnsmasq to listen for DHCP and DNS requests only on
-# specified interfaces (and the loopback) give the name of the
-# interface (eg eth0) here.
-# Repeat the line for more than one interface.
-interface={{ network_interface }}
+listen-address={{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}
 
 # On systems which support it, dnsmasq binds the wildcard address,
 # even when it is listening on only some interfaces. It then discards
