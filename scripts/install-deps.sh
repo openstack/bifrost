@@ -61,6 +61,7 @@ case ${ID,,} in
         [python3]=python3-minimal
         [python3-devel]=libpython3-dev
         [wget]=wget
+        [venv]=python3-venv
     )
     EXTRA_PKG_DEPS=( python3-apt )
     sudo apt-get update
