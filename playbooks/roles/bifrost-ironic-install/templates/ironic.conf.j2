@@ -42,7 +42,7 @@ deploy_logs_local_path = {{ ironic_agent_deploy_logs_local_path }}
 
 [pxe]
 {% if testing | bool %}
-pxe_append_params = console=/dev/ttyS0
+pxe_append_params = console=ttyS0
 {% else %}
 pxe_append_params = systemd.journald.forward_to_console=yes {{ extra_kernel_options | default('') }}
 {% endif %}
