@@ -8,8 +8,7 @@
       jobs:
         - bifrost-integration-tinyipa-ubuntu-xenial:
             voting: false
-        - bifrost-integration-tinyipa-ubuntu-bionic:
-            voting: false
+        - bifrost-integration-tinyipa-ubuntu-bionic
         # - bifrost-integration-tinyipa-keystone-ubuntu-xenial
         # - bifrost-integration-tinyipa-opensuse-15
         # Non-voting jobs
@@ -30,6 +29,7 @@
         - openstack-tox-lower-constraints
     gate:
       jobs:
+        - bifrost-integration-tinyipa-ubuntu-bionic
         # - bifrost-integration-tinyipa-ubuntu-xenial
         # - bifrost-integration-tinyipa-keystone-ubuntu-xenial
         # - bifrost-integration-tinyipa-opensuse-15
