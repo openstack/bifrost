@@ -90,6 +90,14 @@
     group: "keystone"
     mode: 0755
 
+- name: "Ensure /etc/keystone/fernet-keys exists"
+  file:
+    name: /etc/keystone/fernet-keys
+    state: directory
+    owner: keystone
+    group: keystone
+    mode: 0750
+
 - name: "Retrieve Keystone major version"
   command: keystone-manage --version
   register: keystone_version_str
