@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The default for bifrost is to enable ironic's fast_track mode using
+    ironic.conf's ``[deploy]fast_track`` option which enables ironic
+    to skip a power cycle sequence for deployments if the node power
+    is already on and the agent is running, which is how stand-alone
+    deployments tend to operate.

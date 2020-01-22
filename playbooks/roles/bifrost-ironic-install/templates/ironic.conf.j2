@@ -62,6 +62,7 @@ uefi_pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
 http_url = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/
 http_root = {{ http_boot_folder }}
 default_boot_option = local
+fast_track = {{ fast_track }}
 
 [conductor]
 clean_nodes = {{ cleaning | lower }}
