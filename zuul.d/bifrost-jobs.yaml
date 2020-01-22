@@ -41,9 +41,9 @@
       use_dhcp: true
 
 - job:
-    name: bifrost-integration-dhcp-ubuntu-xenial
+    name: bifrost-integration-dhcp-ubuntu-bionic
     parent: bifrost-integration-dhcp
-    nodeset: ubuntu-xenial
+    nodeset: ubuntu-bionic
 
 - job:
     name: bifrost-integration-dhcp-centos-7
@@ -65,9 +65,9 @@
       build_image: true
 
 - job:
-    name: bifrost-integration-dibipa-debian-ubuntu-xenial
+    name: bifrost-integration-dibipa-debian-ubuntu-bionic
     parent: bifrost-integration-dibipa-debian
-    nodeset: ubuntu-xenial
+    nodeset: ubuntu-bionic
 
 - job:
     name: bifrost-integration-dibipa-debian-centos-7
@@ -87,19 +87,14 @@
     timeout: 3600
 
 - job:
-    name: bifrost-integration-tinyipa-ubuntu-xenial
-    parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-xenial
-
-- job:
     name: bifrost-integration-tinyipa-ubuntu-bionic
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-bionic
 
 - job:
-    name: bifrost-integration-tinyipa-keystone-ubuntu-xenial
+    name: bifrost-integration-tinyipa-keystone-ubuntu-bionic
     parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-xenial
+    nodeset: ubuntu-bionic
     vars:
       enable_keystone: true
 
