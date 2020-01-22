@@ -1,13 +1,13 @@
 - project:
     templates:
       - openstack-python3-ussuri-jobs
+      - openstack-lower-constraints-jobs
       - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
     check:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-bionic
-        - openstack-tox-lower-constraints
         # - bifrost-integration-tinyipa-opensuse-15
         # Non-voting jobs
         - bifrost-integration-tinyipa-keystone-ubuntu-bionic:
@@ -16,18 +16,17 @@
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-bionic:
             voting: false
+        - bifrost-integration-dhcp-centos-8:
+            voting: false
+        - bifrost-integration-dibipa-debian-centos-8:
+            voting: false
+        - bifrost-integration-tinyipa-centos-8:
+            voting: false
         # - bifrost-integration-dhcp-opensuse-15:
         #    voting: false
-        # - bifrost-integration-dhcp-centos-7:
-        #    voting: false
-        # - bifrost-integration-dibipa-debian-centos-7:
-        #    voting: false
         # - bifrost-integration-dibipa-debian-opensuse-15:
-        #    voting: false
-        # - bifrost-integration-tinyipa-centos-7:
         #    voting: false
     gate:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-bionic
-        - openstack-tox-lower-constraints
         # - bifrost-integration-tinyipa-opensuse-15

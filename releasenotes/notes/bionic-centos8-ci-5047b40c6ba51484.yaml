@@ -1,0 +1,6 @@
+---
+other:
+  - |
+    We have removed the CI jobs with Ubuntu Xenial and CentOS 7 in favor of
+    CI jobs with Ubuntu Bionic and CentOS 8.
+

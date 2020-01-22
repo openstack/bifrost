@@ -46,9 +46,9 @@
     nodeset: ubuntu-bionic
 
 - job:
-    name: bifrost-integration-dhcp-centos-7
+    name: bifrost-integration-dhcp-centos-8
     parent: bifrost-integration-dhcp
-    nodeset: centos-7
+    nodeset: centos-8
 
 - job:
     name: bifrost-integration-dhcp-opensuse-15
@@ -70,9 +70,9 @@
     nodeset: ubuntu-bionic
 
 - job:
-    name: bifrost-integration-dibipa-debian-centos-7
+    name: bifrost-integration-dibipa-debian-centos-8
     parent: bifrost-integration-dibipa-debian
-    nodeset: centos-7
+    nodeset: centos-8
 
 - job:
     name: bifrost-integration-dibipa-debian-opensuse-15
@@ -99,9 +99,9 @@
       enable_keystone: true
 
 - job:
-    name: bifrost-integration-tinyipa-centos-7
+    name: bifrost-integration-tinyipa-centos-8
     parent: bifrost-integration-tinyipa
-    nodeset: centos-7
+    nodeset: centos-8
 
 - job:
     name: bifrost-integration-tinyipa-opensuse-15
