@@ -111,10 +111,8 @@ fi
 if ! $(wget --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[wget]}
 fi
-if [ -n "${VENV-}" ]; then
-    if ! $(python3 -m venv --version &>/dev/null); then
+if [ -n "${VENV-}" -a "${OS_FAMILY}" == "Debian" ]; then
         ${INSTALLER_CMD} ${PKG_MAP[venv]}
-    fi
 fi
 
 for pkg in ${CHECK_CMD_PKGS[@]}; do
