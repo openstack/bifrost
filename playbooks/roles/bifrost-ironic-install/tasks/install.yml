@@ -118,7 +118,7 @@
     state=latest
     sourcedir={{ ironic_git_folder }}
     source_install=true
-    extra_args="--no-cache-dir --upgrade {{ pip_opts }}"
+    extra_args="--no-cache-dir {{ pip_opts }}"
   when: skip_install is not defined
 
 - name: "Install ironic-inspector to permit use of inspection interface"
@@ -132,24 +132,16 @@
 # NOTE(pas-ha) even when install into virtualenv is requested,
 # we need to install shade into system for enroll-dynamic to succeed
 - block:
-  - name: install pyOpenSSL>18.0.0 from PyPI
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install pyOpenSSL>=18.0.0"
-  - name: install shade from PyPI
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install shade"
-    when: not (shade_source_install | default(false) | bool)
-  - name: install shade from source
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ shade_git_folder }}"
-    when: shade_source_install | default(false) | bool
+  - name: install shade
+    include: pip_install.yml
+      package=shade
+      sourcedir={{ shade_git_folder }}
+      source_install={{ shade_source_install }}
+  # NOTE(TheJulia): Install openstacksdk since shade wraps to openstacksdk and
+  # the logic is largely going into openstacksdk as time goes on.
+  - name: install openstacksdk
+    include: pip_install.yml
+      package=openstacksdk
+      sourcedir={{ openstacksdk_git_folder }}
+      source_install={{ openstacksdk_source_install }}
   when: skip_install is not defined
-
-# NOTE(TheJulia): Install openstacksdk since shade wraps to openstacksdk and the
-# logic is largely going into openstacksdk as time goes on.
-- block:
-  - name: install openstacksdk from PyPI
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install openstacksdk"
-    when: not (openstacksdk_source_install | default(false) | bool)
-  - name: install openstacksdk from source
-    command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m pip install {{ openstacksdk_git_folder }}"
-    when: openstacksdk_source_install | default(false) | bool
-  when: skip_install is not defined
-
