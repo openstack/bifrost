@@ -4,6 +4,7 @@ init_dest_dir: /usr/lib/systemd/system/
 init_ext: .service
 ipxe_dir: /usr/share/ipxe/
 ipxe_full_binary: ipxe.lkrn
+ipxe_efi_binary: ipxe-x86_64.efi
 ironic_rootwrap_dir: /usr/bin/
 nginx_user: nginx
 mysql_service_name: mariadb
@@ -11,9 +12,9 @@ tftp_service_name: tftp
 required_packages:
   - mariadb-server
   - dnsmasq
-  - python-devel
-  - MySQL-python
-  - python-iniparse
+  - python3-devel
+  - python3-PyMySQL
+  - python3-iniparse
   - libffi-devel
   - libxslt-devel
   - openssl-devel
@@ -28,14 +29,14 @@ required_packages:
   - wget
   - genisoimage
   - kpartx
-  - qemu-kvm-tools
+  - kernel-tools
   - qemu-img
-  - openwsman-python
-  - libselinux-python
-  - policycoreutils-python
+  - openwsman-python3
+  - python3-libselinux
+  - python3-policycoreutils
   - debootstrap
   - gcc
-  - python2-pip
+  - python3-pip
   - socat
 iscsi_required_packages:
   - iscsi-initiator-utils
