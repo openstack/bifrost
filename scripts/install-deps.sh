@@ -126,7 +126,7 @@ for pkg in ${CHECK_CMD_PKGS[@]}; do
     fi
 done
 
-if [ -n "${EXTRA_PKG_DEPS-}" ]; then
+if [ "${#EXTRA_PKG_DEPS[@]}" -ne 0 ]; then
     for pkg in ${EXTRA_PKG_DEPS[@]}; do
         if ! $(${CHECK_CMD} ${pkg} &>/dev/null); then
             ${INSTALLER_CMD} ${pkg}
@@ -180,6 +180,10 @@ if ! which pip; then
 fi
 
 PIP=$(which pip)
+
+if [ -n "${VENV-}" ]; then
+  ls -la ${VENV}/bin
+fi
 
 sudo -H -E ${PIP} install --upgrade "pip>6.0"
 
