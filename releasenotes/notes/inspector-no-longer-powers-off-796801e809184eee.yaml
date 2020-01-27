@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    The default operating mode of bifrost now no longer powers off nodes
+    once they have been inspected. This leaves the ironic-python-agent
+    running and ultimately allows moving into deployment skipping a full
+    boot sequence when following the typical use path.
+
+    This setting may be disabled and the previous behavior reverted by
+    changing the ``power_off_after_inspection`` setting to ``true``.
+    This setting maps to ironic-inspector.conf's ``[processing]power_off``
+    and ironic.conf's ``[inspector]power_off`` settings. 

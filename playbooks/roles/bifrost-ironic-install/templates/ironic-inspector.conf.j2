@@ -71,6 +71,7 @@ store_data = database
 {% endif %}
 {% if inspector.discovery.enabled == true %}
 node_not_found_hook = enroll
+power_off = {{ power_off_after_inspection }}
 
 [discovery]
 enroll_node_driver = {{ inspector.discovery.default_node_driver }}

@@ -213,6 +213,11 @@ inspector:
     enabled: "{{ enable_inspector_discovery | default(true) }}"
     default_node_driver: "{{ inspector_default_node_driver | default('ipmi')}}"
 
+# If baremetal nodes should be turned off after inspection.
+# The inspector default is to turn off the baremetal node
+# power, this setting to false enables use of fast track mode.
+power_off_after_inspection: false
+
 # We may not have packaged iPXE files on some distros, or may want to
 # download them on their own.
 download_ipxe: false

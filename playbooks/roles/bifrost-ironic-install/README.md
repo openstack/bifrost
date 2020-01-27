@@ -164,6 +164,13 @@ fast_track: Boolean setting to enable ironic to leverage an already running
             agent on the host being deployed such that deployment can begin
             immediately as opposed to waiting for a complete system reboot.
 
+power_off_after_inspection: Boolean setting governing the behavior
+                            of ironic-inspector's processing.
+                            The default is to not power-off machines
+                            effectively enabling the Inspection to
+                            Deployment without the need to reboot
+                            the physical machine.
+
 ### Hardware Inspection Support
 
 Bifrost also supports the installation of ironic-inspector in standalone
