@@ -1,0 +1,7 @@
+---
+upgrade:
+  The default version of Ansible becomes 2.8, replacing version 2.6
+  that is EOL.
+  This version guarantees full bug fix and security patches and has
+  a better support for Python 3.x.
+
