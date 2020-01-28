@@ -88,6 +88,35 @@
   vars:
     ansible_python_interpreter: '/usr/bin/python'
 
+- name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
+  set_fact:
+     ci_testing: true
+     ci_testing_zuul: true
+     reqs_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/requirements"
+  when: lookup('env', 'ZUUL_BRANCH') | length > 0
+
+- name: ensure installation root folder exists
+  become: yes
+  file:
+    state: directory
+    dest: "{{ git_root }}"
+    owner: "{{ ansible_user_id }}"
+    group: "{{ ansible_user_gid }}"
+
+- name: download requirements via git
+  git:
+    dest: "{{ reqs_git_folder }}"
+    force: yes
+    repo: "{{ reqs_git_url }}"
+    version: "{{ reqs_git_branch }}"
+    update: yes
+    clone: yes
+  when: ci_testing_zuul | bool == false and copy_from_local_path | bool == false
+
+- name: copy requirements from local path
+  command: cp -a {{ reqs_git_url }} {{ reqs_git_folder }} creates={{ reqs_git_folder }}
+  when: ci_testing_zuul | bool == true or copy_from_local_path | bool == true
+
 - include: prepare_libvirt.yml
 
 - name: truncate explicit list of vm names
