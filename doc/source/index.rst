@@ -9,8 +9,8 @@ Contents
 --------
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
 
    install/index
    user/index
-   contributing
+   contributor/index
