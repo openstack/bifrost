@@ -40,5 +40,14 @@ bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
 bifrost_venv_env:
   VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
   PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
-reqs_git_folder: /opt/stack/requirements
+
+git_branch: master
+git_root: "/opt/stack"
+reqs_git_url: https://opendev.org/openstack/requirements
+reqs_git_folder: "{{ git_root }}/requirements"
+reqs_git_branch: "{{ git_branch }}"
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
+
+# Conditional variables utilized based on CI or manual testing options.
+copy_from_local_path: false
+ci_testing_zuul: false
