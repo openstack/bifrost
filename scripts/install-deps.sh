@@ -121,7 +121,7 @@ for pkg in ${CHECK_CMD_PKGS[@]}; do
     fi
 done
 
-if [ -n "${EXTRA_PKG_DEPS-}" ]; then
+if [ "${#EXTRA_PKG_DEPS[@]}" -ne 0 ]; then
     for pkg in ${EXTRA_PKG_DEPS[@]}; do
         if ! $(${CHECK_CMD} ${pkg} &>/dev/null); then
             ${INSTALLER_CMD} ${pkg}
@@ -129,7 +129,7 @@ if [ -n "${EXTRA_PKG_DEPS-}" ]; then
     done
 fi
 
-if [ -n "${VENV-}" ]; then
+if [ -n "${VENV}" ]; then
     echo "NOTICE: Using virtualenv for this installation."
     if [ ! -f ${VENV}/bin/activate ]; then
         # only create venv if one doesn't exist
@@ -162,7 +162,9 @@ if [ "$?" != "0" ]; then
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-ls -la /opt/stack/bifrost/bin
+if [ -n "${VENV}" ]; then
+  ls -la ${VENV}/bin
+fi
 
 PIP=$(echo $PYTHON | sed 's/python/pip/')
 
