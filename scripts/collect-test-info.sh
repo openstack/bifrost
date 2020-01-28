@@ -13,6 +13,15 @@ LOG_LOCATION="${LOG_LOCATION:-${SCRIPT_HOME}/../logs}"
 echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
 
+mkdir -p "$LOG_LOCATION/pip"
+pip freeze > "$LOG_LOCATION/pip/freeze-default.log"
+if which pip3 2> /dev/null; then
+    pip3 freeze > "$LOG_LOCATION/pip/freeze-pip3.log"
+fi
+if [ -n "$VENV" ]; then
+    $VENV/bin/pip freeze > "$LOG_LOCATION/pip/freeze-venv.log"
+fi
+
 if [ -z "${TEST_VM_NODE_NAMES+x}" ]; then
     sudo sh -c "cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}"
     sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
