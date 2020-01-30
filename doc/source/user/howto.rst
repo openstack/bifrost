@@ -107,11 +107,9 @@ Example::
         "uuid": "00000000-0000-0000-0000-000000000001",
         "driver_info": {
           "power": {
-            "ssh_port": 22,
-            "ssh_username": "ironic",
-            "ssh_virt_type": "virsh",
-            "ssh_address": "192.168.122.1",
-            "ssh_key_filename": "/home/ironic/.ssh/id_rsa"
+            "ipmi_address": "192.168.122.1",
+            "ipmi_username": "admin",
+            "ipmi_password": "pa$$w0rd"
           }
         },
         "nics": [
@@ -119,7 +117,7 @@ Example::
             "mac": "52:54:00:f9:32:f6"
           }
         ],
-        "driver": "agent_ssh",
+        "driver": "ipmi",
         "ansible_ssh_host": "192.168.122.2",
         "ipv4_address": "192.168.122.2",
         "provisioning_ipv4_address": "10.0.0.9",
@@ -176,6 +174,8 @@ list, as well as reference the specific field items.
 
 An example file can be found at: ``playbooks/inventory/baremetal.csv.example``
 
+.. _enroll:
+
 How this works?
 ---------------
 
@@ -204,6 +204,8 @@ manually at the moment.
 
 Additionally, it is important to note that the playbooks for enrollment are
 split into three separate playbooks based on the ``ipmi_bridging`` setting.
+
+.. _deploy:
 
 Deploy Hardware
 ===============
@@ -286,13 +288,8 @@ Manually test with Virtual Machines
 
 Bifrost supports using virtual machines to emulate the hardware.
 
-It is assumed you have an SSH server running on the host machine. The
-``agent_ssh`` driver, used by ironic with VM testing, will need to use
-SSH to control the virtual machines.
-
-An SSH key is generated for the ``ironic`` user when testing. The
-ironic conductor will use this key to connect to the host machine and
-run virsh commands.
+The VirtualBMC_ project is used as an IPMI proxy, so that the same ``ipmi``
+hardware type can be used as for real hardware.
 
 #. Set ``testing`` to *true* in the
    ``playbooks/inventory/group_vars/target`` file.
@@ -304,10 +301,13 @@ run virsh commands.
    machine.
 #. Set the environment variable of ``BIFROST_INVENTORY_SOURCE`` to the
    path to the JSON file, which by default has been written to
-   /tmp/baremetal.json.
-#. Run the enrollment step, as documented above, using the CSV file
-   you created in the previous step.
-#. Run the deployment step, as documented above.
+   ``/tmp/baremetal.json``.
+#. Run the :ref:`enrollment step <enroll>`, using the JSON file you created
+   in the previous step.
+#. Run the deployment step, as documented in :ref:`deploy`.
+
+
+.. _VirtualBMC: https://docs.openstack.org/virtualbmc/
 
 Deployment and configuration of operating systems
 =================================================
@@ -355,5 +355,3 @@ as a space-separated list of elements. This defaults to an empty string.
 Use Bifrost with Keystone
 =========================
 .. include:: keystone.rst
-
-
