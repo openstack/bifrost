@@ -39,13 +39,8 @@ Manually test with Virtual Machines
 
 Bifrost supports using virtual machines to emulate the hardware.
 
-It is assumed you have an SSH server running on the host machine. The
-``agent_ssh`` driver, used by ironic with VM testing, will need to use
-SSH to control the virtual machines.
-
-An SSH key is generated for the ``ironic`` user when testing. The
-ironic conductor will use this key to connect to the host machine and
-run virsh commands.
+The VirtualBMC_ project is used as an IPMI proxy, so that the same ``ipmi``
+hardware type can be used as for real hardware.
 
 #. Set ``testing`` to *true* in the
    ``playbooks/inventory/group_vars/target`` file.
@@ -57,7 +52,10 @@ run virsh commands.
    adding ``-e testing=true`` to the Ansible command line.
 #. Set the environment variable of ``BIFROST_INVENTORY_SOURCE`` to the
    path to the JSON file, which by default has been written to
-   /tmp/baremetal.json.
-#. Run the enrollment step, as documented above, using the CSV file
-   you created in the previous step.
-#. Run the deployment step, as documented above.
+   ``/tmp/baremetal.json``.
+#. Run the :ref:`enrollment step <enroll>`, using the JSON file you created
+   in the previous step.
+#. Run the deployment step, as documented in :ref:`deploy`.
+
+
+.. _VirtualBMC: https://docs.openstack.org/virtualbmc/
