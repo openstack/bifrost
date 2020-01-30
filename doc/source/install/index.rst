@@ -26,6 +26,9 @@ Supported operating systems:
 * Fedora 22
 * openSUSE Leap 42.1, 42.2
 
+If you want to try Bifrost on a virtual environment, see
+:doc:`/contributor/testenv`.
+
 ============
 Installation
 ============
@@ -266,6 +269,7 @@ If you would like to install the ironic staging drivers, simply pass
 
   ansible-playbook -K -vvvv -i inventory/target install.yaml -e staging_drivers_include=true
 
+===============
 Advanced Topics
 ===============
 
