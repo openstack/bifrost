@@ -85,6 +85,7 @@ use_web_server_for_images = true
 
 {% if enable_inspector | bool == true %}
 [inspector]
+power_off = {{ power_off_after_inspection }}
 extra_kernel_params = {{ inspector_extra_kernel_options | default('') }}
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 auth_type = password
