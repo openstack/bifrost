@@ -107,11 +107,9 @@ Example::
         "uuid": "00000000-0000-0000-0000-000000000001",
         "driver_info": {
           "power": {
-            "ssh_port": 22,
-            "ssh_username": "ironic",
-            "ssh_virt_type": "virsh",
-            "ssh_address": "192.168.122.1",
-            "ssh_key_filename": "/home/ironic/.ssh/id_rsa"
+            "ipmi_address": "192.168.122.1",
+            "ipmi_username": "admin",
+            "ipmi_password": "pa$$w0rd"
           }
         },
         "nics": [
@@ -119,7 +117,7 @@ Example::
             "mac": "52:54:00:f9:32:f6"
           }
         ],
-        "driver": "agent_ssh",
+        "driver": "ipmi",
         "ansible_ssh_host": "192.168.122.2",
         "ipv4_address": "192.168.122.2",
         "provisioning_ipv4_address": "10.0.0.9",
@@ -176,6 +174,8 @@ list, as well as reference the specific field items.
 
 An example file can be found at: ``playbooks/inventory/baremetal.csv.example``
 
+.. _enroll:
+
 How this works?
 ---------------
 
@@ -204,6 +204,8 @@ manually at the moment.
 
 Additionally, it is important to note that the playbooks for enrollment are
 split into three separate playbooks based on the ``ipmi_bridging`` setting.
+
+.. _deploy:
 
 Deploy Hardware
 ===============
