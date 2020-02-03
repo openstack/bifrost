@@ -32,7 +32,7 @@
     when: ipa_kernel_checksum_result is defined and ipa_kernel_checksum_result.status_code is defined and ipa_kernel_checksum_result.status_code == 404
   - fail: msg="FATAL {{ ipa_kernel_upstream_checksum_algo }} file not found at {{ ipa_kernel_upstream_checksum_url }} GOT {{ ipa_kernel_checksum_result }}"
     when: ipa_kernel_checksum_result is not defined or ipa_kernel_checksum_result.changed is not defined or
-          (ipa_kernel_checksum_result.changed and ipa_kernel_checksum_result.status_code != 404 and ipa_kernel_checksum_result.status_code != 200)
+          (ipa_kernel_checksum_result.changed and ipa_kernel_checksum_result.status_code is defined and ipa_kernel_checksum_result.status_code != 404 and ipa_kernel_checksum_result.status_code != 200)
   - name: "Extract IPA kernel checksum"
     shell: awk '/{{ ipa_kernel_upstream_url | basename }}/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
     register: parsed_ipa_kernel_checksum
@@ -75,7 +75,7 @@
     when: ipa_ramdisk_checksum_result is defined and ipa_ramdisk_checksum_result.status_code is defined and ipa_ramdisk_checksum_result.status_code == 404
   - fail: msg="FATAL {{ ipa_ramdisk_upstream_checksum_algo }} file not found at {{ ipa_ramdisk_upstream_checksum_url }}"
     when: ipa_ramdisk_checksum_result is not defined or ipa_ramdisk_checksum_result.changed is not defined or
-          (ipa_ramdisk_checksum_result.changed and ipa_ramdisk_checksum_result.status_code != 404 and ipa_ramdisk_checksum_result.status_code != 200)
+          (ipa_ramdisk_checksum_result.changed and ipa_ramdisk_checksum_result.status_code is defined and ipa_ramdisk_checksum_result.status_code != 404 and ipa_ramdisk_checksum_result.status_code != 200)
   - name: "Extract IPA ramdisk checksum"
     shell: awk '/{{ ipa_ramdisk_upstream_url | basename }}/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
     register: parsed_ipa_ramdisk_checksum
@@ -98,7 +98,7 @@
     force: yes
   register: ipa_ramdisk_download_done
   until: ipa_ramdisk_download_done is succeeded or
-         (ipa_ramdisk_download_done|failed and ipa_ramdisk_download_done.status_code == 404)
+         (ipa_ramdisk_download_done|failed and ipa_ramdisk_download_done.status_code is defined and ipa_ramdisk_download_done.status_code == 404)
   retries: 5
   delay: 10
   environment: "{{ venv }}"
