@@ -129,7 +129,7 @@ if [ "${#EXTRA_PKG_DEPS[@]}" -ne 0 ]; then
     done
 fi
 
-if [ -n "${VENV}" ]; then
+if [ -n "${VENV-}" ]; then
     echo "NOTICE: Using virtualenv for this installation."
     if [ ! -f ${VENV}/bin/activate ]; then
         # only create venv if one doesn't exist
@@ -162,7 +162,7 @@ if [ "$?" != "0" ]; then
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-if [ -n "${VENV}" ]; then
+if [ -n "${VENV-}" ]; then
   ls -la ${VENV}/bin
 fi
 
