@@ -40,6 +40,13 @@
     - lxml
   when: enable_venv | default(false) | bool
 
+- name: configure libvirt log filters for qemu
+  blockinfile:
+    path: /etc/libvirt/libvirtd.conf
+    block: |
+      log_filters="1:qemu 1:libvirt 4:object 4:json 4:event 1:util"
+      log_outputs="1:file:/var/log/libvirt/libvirtd.log"
+
 - name: "Restart libvirt service"
   service: name="{{libvirt_service_name}}" state=restarted
 
