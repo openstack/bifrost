@@ -61,4 +61,4 @@ keystone:
     password: ChangeThisPa55w0rd
     host: localhost
 
-pip_opts: "--upgrade-strategy only-if-needed"
+pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"

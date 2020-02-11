@@ -156,7 +156,17 @@ PYTHON=$(which python3)
 # requests, one of our indirect dependencies (bug 1459947).
 #
 ls $PYTHON
-sudo -H -E $PYTHON -m pip install -U pip --ignore-installed
+
+# workaround for PEP517 issue
+PYTHON_VER=$($PYTHON -V)
+if [[ $PYTHON_VER == "Python 3.6.8" ]]; then
+    sudo -H -E $PYTHON -m pip install pip==19.0 --ignore-installed
+    export PIP_OPTS=""
+else
+    sudo -H -E $PYTHON -m pip install -U pip --ignore-installed
+    export PIP_OPTS="--upgrade-strategy only-if-needed"
+fi
+
 if [ "$?" != "0" ]; then
     wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.4/get-pip.py
     sudo -H -E ${PYTHON} /tmp/get-pip.py

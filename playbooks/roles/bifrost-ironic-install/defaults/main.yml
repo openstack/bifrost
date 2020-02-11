@@ -309,7 +309,7 @@ ironic_inspector:
     # DEPRECATED(TheJulia): Inheritance of ironic_db_password params
     # should be removed in Queens.
 
-pip_opts: "--upgrade-strategy only-if-needed"
+pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"
 
 # Timeout for gathering facts.
 fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"
