@@ -4,7 +4,7 @@ libvirt_service_name: libvirtd
 required_packages:
  - gcc-c++
  - qemu-img
- - qemu-kvm-tools
+ - kernel-tools
  - qemu-kvm
  - qemu-kvm-common
  - qemu-system-x86

@@ -3,10 +3,8 @@ sgabios_dir: /usr/share/sgabios/
 libvirt_service_name: libvirtd
 required_packages:
  - qemu-img
- - qemu-kvm-tools
+ - kernel-tools
  - qemu-kvm
- - qemu-kvm-common
- - qemu-system-x86
  - sgabios
  - sgabios-bin
  - libvirt
@@ -23,4 +21,6 @@ required_packages:
  - libvirt-daemon-kvm
  - pkgconfig
  - libvirt-devel
-test_vm_emulator: "/bin/qemu-system-x86_64"
+ - trousers
+test_vm_emulator: "/usr/libexec/qemu-kvm"
+test_vm_machine: "pc"

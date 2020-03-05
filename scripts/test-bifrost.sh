@@ -26,6 +26,7 @@ ZUUL_REF=${ZUUL_REF:-}
 # use cirros.
 
 VM_MEMORY_SIZE="3072"
+# NOTE(rpittau) we can't use kvm in CI
 VM_DOMAIN_TYPE=qemu
 export VM_DISK_CACHE="unsafe"
 TEST_VM_NUM_NODES=1

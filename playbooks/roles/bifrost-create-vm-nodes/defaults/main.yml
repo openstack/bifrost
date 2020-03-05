@@ -5,7 +5,6 @@ test_vm_memory_size: "3072"
 test_vm_num_nodes: 1
 test_vm_domain_type: "qemu"
 test_vm_arch: "x86_64"
-test_vm_cpu: "host-model"
 test_vm_nic: "e1000"
 test_vm_groups: {}
 test_vm_default_groups: "{{ lookup('env', 'DEFAULT_HOST_GROUPS').split() | default(['baremetal'], true) }}"
