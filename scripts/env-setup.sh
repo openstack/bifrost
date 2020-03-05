@@ -5,15 +5,16 @@ set -eu
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
-ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${ANSIBLE_GIT_BRANCH:-stable-2.8}}
+DEFAULT_PIP_ANSIBLE='!=2.8.9,<2.9'
 
-ANSIBLE_PIP_STRING=$(${PYTHON} $(dirname $0)/ansible-pip-str.py ${ANSIBLE_PIP_VERSION})
+ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
+ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
 
 if [ -n "${VENV-}" ]; then
-    sudo ${PIP} install --ignore-installed "${ANSIBLE_PIP_STRING}"
+    sudo ${PIP} install --ignore-installed "${ANSIBLE_SOURCE_PATH}"
     ANSIBLE=${VENV}/bin/ansible
 else
-    ${PIP} install --user --upgrade "${ANSIBLE_PIP_STRING}"
+    ${PIP} install --user --upgrade "${ANSIBLE_SOURCE_PATH}"
     ANSIBLE=${HOME}/.local/bin/ansible
 fi
 

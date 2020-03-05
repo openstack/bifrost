@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Define a default ansible version to install using DEFAULT_PIP_ANSIBLE
+    variable, but allow override it either using a schema understood by pip
+    using ANSIBLE_PIP_VERSION, or setting a local path or a remote url using
+    ANSIBLE_SOURCE_PATH.
