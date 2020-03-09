@@ -20,17 +20,6 @@ fi
 
 PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
 
-
-# NOTE(TheJulia): This should no longer be needed, and was for used to
-# collect modules from Github where necessary for older ansible versions,
-# but we should have everything we need with stable-2.6 or later.
-function check_get_module () {
-    local module=${1}
-    local module_url_base=${2}
-    ${ANSIBLE} localhost -m ${module} | grep "changed" || \
-        wget "${module_url_base}/${module}.py" -O "${PLAYBOOKS_LIBRARY_PATH}/${module}.py"
-}
-
 # NOTE(pas-ha) the following is a temporary workaround for third-party CI
 # scripts that try to source Ansible's hacking/env-setup
 # after running this very script
