@@ -79,8 +79,8 @@ case ${ID,,} in
         [lsb-release]=redhat-lsb
         [make]=make
         [net-tools]=net-tools
-        [python]=python3
-        [python-devel]=python3-devel
+        [python3]=python3
+        [python3-devel]=python3-devel
         [wget]=wget
     )
     EXTRA_PKG_DEPS=()
@@ -96,9 +96,9 @@ esac
 # if running in OpenStack CI, then make sure epel is enabled
 # since it may already be present (but disabled) on the host
 if env | grep -q ^ZUUL; then
-    if [[ -x '/usr/bin/yum' ]]; then
-        ${INSTALLER_CMD} yum-utils
-        sudo yum-config-manager --enable epel || true
+    if [ "${OS_FAMILY}" == "RedHat" ]; then
+        ${INSTALLER_CMD} dnf-utils
+        sudo dnf config-manager --set-enabled epel || true
     fi
 fi
 
