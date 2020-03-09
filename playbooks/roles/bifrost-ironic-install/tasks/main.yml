@@ -21,13 +21,13 @@
 - name: Ensure openSUSE Tumbleweed has the correct family
   set_fact:
     ansible_os_family: "Suse"
-  when: ansible_os_family | search("openSUSE Tumbleweed")
+  when: ansible_os_family is search("openSUSE Tumbleweed")
 
 - name: Ensure openSUSE Leap has the correct family
   set_fact:
     ansible_os_family: "Suse"
-  when: (ansible_os_family | search("SUSE LINUX")) or
-        (ansible_os_family | search("openSUSE Leap"))
+  when: (ansible_os_family is search("SUSE LINUX")) or
+        (ansible_os_family is search("openSUSE Leap"))
 
 # NOTE(cinerama) dummy-defaults.yml is an empty defaults file. We use it
 # here to ensure that with_first_found won't fail should we not have
