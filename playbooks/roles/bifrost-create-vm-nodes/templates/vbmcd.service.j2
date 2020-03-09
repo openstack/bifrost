@@ -1,0 +1,12 @@
+{% if enable_venv | bool %}
+{% set vbmcd = bifrost_venv_dir ~ '/bin/vbmcd' %}
+{% else %}
+{% set vbmcd = '/usr/local/bin/vbmcd' %}
+{% endif %}
+[Unit]
+Description=Virtual BMC daemon
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart={{ vbmcd }} --foreground

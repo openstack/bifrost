@@ -166,3 +166,22 @@
     name: virtualbmc
     extra_args: "-c {{ upper_constraints_file }}"
     virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
+  become: true
+
+- name: ensure Virtual BMC systemd service is configured
+  template:
+    src: vbmcd.service.j2
+    dest: /etc/systemd/system/vbmcd.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  register: vbmcd_service_file
+
+- name: ensure Virtual BMC systemd service is started and enabled
+  systemd:
+    name: vbmcd
+    enabled: yes
+    state: started
+    daemon_reload: "{{ vbmcd_service_file.changed }}"
+  become: true
