@@ -7,7 +7,7 @@ required_packages:
   - python3-dev
   - python3-mysqldb
   - python3-pymysql
-  - python3-setuputils
+  - python3-setuptools
   - libffi-dev
   - libxslt1-dev
   - libssl-dev
