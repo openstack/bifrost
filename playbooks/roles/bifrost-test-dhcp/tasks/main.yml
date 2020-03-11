@@ -15,3 +15,5 @@
 - name: Execute python dhcp check file
   become: true
   script: test-dhcp.py "{{inventory_dhcp}}" "{{inventory_dhcp_static_ip}}"
+  args:
+    executable: "{{ansible_python.executable}}"

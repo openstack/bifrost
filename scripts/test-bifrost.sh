@@ -106,10 +106,11 @@ if [ ${USE_DHCP} = "true" ]; then
     VM_MEMORY_SIZE="1024"
     ENABLE_INSPECTOR=false
     INSPECT_NODES=false
-    TEST_VM_NUM_NODES=5
+    TEST_VM_NUM_NODES=3
     INVENTORY_DHCP=true
     INVENTORY_DHCP_STATIC_IP=true
     WRITE_INTERFACES_FILE=false
+    VM_DISK=12
 elif [ ${BUILD_IMAGE} = "true" ]; then
     USE_CIRROS=false
     TESTING_USER=root
@@ -152,16 +153,15 @@ ${ANSIBLE} -vvvv \
        -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
        -e test_vm_memory_size=${VM_MEMORY_SIZE} \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
+       -e test_vm_disk_gib=${VM_DISK:-10} \
        -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
        -e enable_venv=${ENABLE_VENV} \
        -e bifrost_venv_dir=${VENV}
 
-
-
 if [ ${USE_DHCP} = "true" ]; then
     # reduce the number of nodes in JSON file
     # to limit number of nodes to enroll for testing purposes
-    python $BIFROST_HOME/scripts/split_json.py 3 \
+    python $BIFROST_HOME/scripts/split_json.py 2 \
         ${BAREMETAL_DATA_FILE} \
         ${BAREMETAL_DATA_FILE}.new \
         ${BAREMETAL_DATA_FILE}.rest \

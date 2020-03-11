@@ -51,6 +51,7 @@
     mode: 0644
   when: inventory_dhcp | bool == true
   become: yes
+
 - name: "Setup DNS address for nodes."
   template:
     src: dns-address.j2
@@ -60,12 +61,14 @@
     mode: 0644
   when: inventory_dns | bool == true
   become: yes
+
 - name: "Restarting dnsmasq"
   service:
     name: dnsmasq
     state: restarted
   become: yes
   when: (inventory_dhcp | bool == true) or (inventory_dns | bool == true)
+
 - name: "Deploy to hardware - Using custom instance_info."
   os_ironic_node:
     auth_type: "{{ auth_type | default(omit) }}"
@@ -78,6 +81,7 @@
     wait: "{{ wait_for_node_deploy }}"
     timeout: " {{ wait_timeout | default(1800) }}"
   when: instance_info is defined and instance_info | to_json != '{}'
+
 - name: "Collect the checksum of the deployment image."
   stat:
     path: "{{ deploy_image }}"
@@ -86,9 +90,11 @@
   register: test_deploy_image
   become: yes
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
+
 - name: "Error if deploy_image is not present, and instance_info is not defined"
   fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
   when: instance_info is not defined and test_deploy_image.stat.exists | bool == false
+
 - name: "Deploy to hardware - bifrost default"
   os_ironic_node:
     cloud: "{{ cloud_name | default(omit) }}"
@@ -102,7 +108,6 @@
       image_source: "{{ deploy_url_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/{{deploy_image_filename}}"
       image_checksum: "{{ test_deploy_image.stat.checksum }}"
       image_disk_format: "qcow2"
-      root_gb: 10
     wait: "{{ wait_for_node_deploy }}"
     timeout: " {{ wait_timeout | default(1800) }}"
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )

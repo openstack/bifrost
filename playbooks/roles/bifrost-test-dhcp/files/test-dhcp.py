@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-#
 # Copyright (c) 2016 Hewlett-Packard Enterprise Development Company LP
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -120,6 +118,7 @@ def main(argv):
             sys.exit(1)
 
     sys.exit(0)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
