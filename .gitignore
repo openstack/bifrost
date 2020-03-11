@@ -26,6 +26,7 @@ pip-log.txt
 nosetests.xml
 .testrepository
 .venv
+.stestr
 
 # Translations
 *.mo
