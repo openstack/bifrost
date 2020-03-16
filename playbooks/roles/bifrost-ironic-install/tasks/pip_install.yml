@@ -16,8 +16,8 @@
 
 - name: set virtualenv_command
   set_fact:
-    venv_command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m virtualenv"
-  when: enable_venv|bool
+    venv_command: "{{ ansible_python.executable }} -m virtualenv"
+  when: enable_venv
 
 - name: Set extra_args if upper_constraints_file is defined
   set_fact:
@@ -50,6 +50,7 @@
     version: "{{ version | default(omit) }}"
     extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
+    executable: "pip{{ ansible_python.version.major }}"
   register: pip_package_install_done
   until: pip_package_install_done|succeeded
   retries: 5
@@ -60,7 +61,7 @@
 
 - name: "Install requirements from {{ sourcedir }} using pip"
   command: |
-      pip install -r {{ sourcedir }}/requirements.txt
+      pip{{ ansible_python.version.major}} install -r {{ sourcedir }}/requirements.txt
       {{ extra_args | default('') }}
       {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}
   register: pip_package_install_done
@@ -73,6 +74,6 @@
 # NOTE(dtantsur): do not use constraints here, it does not work when the
 # package itself is constrained.
 - name: "Install from {{ sourcedir }} using pip"
-  command: pip install {{ sourcedir }} {{ extra_args | default('') }}
+  command: pip{{ ansible_python.version.major }} install {{ sourcedir }} {{ extra_args | default('') }}
   when: source_install is defined and (source_install | bool == true)
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"

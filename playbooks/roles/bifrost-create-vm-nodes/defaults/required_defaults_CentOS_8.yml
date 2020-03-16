@@ -1,0 +1,24 @@
+---
+required_packages:
+ - qemu-img
+ - kernel-tools
+ - qemu-kvm
+ - sgabios
+ - sgabios-bin
+ - libvirt
+ - libvirt-client
+ - libvirt-daemon
+ - libvirt-daemon-config-network
+ - libvirt-daemon-config-nwfilter
+ - libvirt-daemon-driver-network
+ - libvirt-daemon-driver-nodedev
+ - libvirt-daemon-driver-nwfilter
+ - libvirt-daemon-driver-qemu
+ - libvirt-daemon-driver-secret
+ - libvirt-daemon-driver-storage
+ - libvirt-daemon-kvm
+ - pkgconfig
+ - libvirt-devel
+ - trousers
+test_vm_emulator: "/usr/libexec/qemu-kvm"
+test_vm_machine: "pc"

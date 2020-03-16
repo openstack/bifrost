@@ -14,8 +14,17 @@
 
 - name: set virtualenv_command
   set_fact:
-    venv_command: "{{ hostvars[inventory_hostname].ansible_python.executable }} -m virtualenv"
-  when: enable_venv|bool
+    venv_command: "{{ ansible_python.executable }} -m venv"
+  when: enable_venv
+
+- name: Set extra_args if upper_constraints_file is defined
+  set_fact:
+    constraints_extra_args: "{{ extra_args | default('') }} -c {{ upper_constraints_file }}"
+  when:
+    - (upper_constraints_file | default('')) != ''
+    # NOTE(dtantsur): constraining does not work correctly correctly with
+    # source installation if the package itself is in constraints.
+    - source_install is not defined or source_install == false
 
 - name: "Install {{ package }} package from pip using virtualenv"
   pip:
@@ -24,7 +33,8 @@
     version: "{{ version | default(omit) }}"
     virtualenv: "{{ bifrost_venv_dir }}"
     virtualenv_command: "{{ venv_command | default(omit) }}"
-    extra_args: "{{ extra_args | default(omit) }}"
+    extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
+    requirements: "{{ requirements_file | default(omit) }}"
   register: pip_package_install_done
   until: pip_package_install_done|succeeded
   retries: 5
@@ -36,22 +46,31 @@
     name: "{{ package }}"
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
-    extra_args: "{{ extra_args | default(omit) }}"
+    extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
+    executable: "pip{{ ansible_python.version.major }}"
   register: pip_package_install_done
   until: pip_package_install_done|succeeded
   retries: 5
   delay: 10
   when: (source_install is not defined or source_install == false) and not enable_venv|bool
 
-# NOTE (cinerama): We should be able to use the pip module here and
-# possibly merge these two tasks when
-# https://github.com/ansible/ansible-modules-core/pull/2600 lands.
-- name: "Install from {{ sourcedir }} using pip"
-  command: pip install --upgrade {{ sourcedir }} {{ extra_args | default('') }}
+# NOTE (cinerama): We should be able to use the pip module here
+- name: "Install requirements from {{ sourcedir }} using pip"
+  command: |
+      pip{{ ansible_python.version.major }} install -r {{ sourcedir }}/requirements.txt
+      {{ extra_args | default('') }}
+      {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}
   register: pip_package_install_done
   until: pip_package_install_done|succeeded
   retries: 5
   delay: 10
+  when: source_install is defined and source_install | default(true) | bool
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+
+# NOTE(dtantsur): do not use constraints here, it does not work when the
+# package itself is constrained.
+- name: "Install from {{ sourcedir }} using pip"
+  command: pip{{ ansible_python.version.major }} install {{ sourcedir }} {{ extra_args | default('') }}
   when: source_install is defined and (source_install | bool == true)
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
