@@ -53,17 +53,19 @@
   with_items: "{{ iscsi_required_packages }}"
   when: skip_install is not defined and 'iscsi' in enabled_deploy_interfaces
 
-- name: "Diskimage-builder - Install"
-  include: pip_install.yml
-    package=diskimage-builder
-    sourcedir={{ dib_git_folder }}
-    source_install=true
-  when: skip_install is not defined and install_dib | bool == true
-
 - name: "IPA-builder - Install"
   include: pip_install.yml
     package=ironic-python-agent-builder
     sourcedir={{ ipa_builder_git_folder }}
+    source_install=true
+  when: skip_install is not defined and install_dib | bool == true
+
+# NOTE(mgoddard): IPA-builder has a dependency on diskimage-builder. Install
+# DIB last to ensure it is installed from source rather than PyPI.
+- name: "Diskimage-builder - Install"
+  include: pip_install.yml
+    package=diskimage-builder
+    sourcedir={{ dib_git_folder }}
     source_install=true
   when: skip_install is not defined and install_dib | bool == true
 
