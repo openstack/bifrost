@@ -160,7 +160,7 @@ ls $PYTHON
 # workaround for PEP517 issue
 PYTHON_VER=$($PYTHON -V)
 if [[ $PYTHON_VER == "Python 3.6.8" ]]; then
-    sudo -H -E $PYTHON -m pip install pip==19.0 --ignore-installed
+    sudo -H -E $PYTHON -m pip install pip==19.0
     export PIP_OPTS=""
 else
     sudo -H -E $PYTHON -m pip install -U pip --ignore-installed
