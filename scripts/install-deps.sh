@@ -74,22 +74,37 @@ case ${ID,,} in
     PKG_MANAGER=$(which dnf || which yum)
     INSTALLER_CMD="sudo -H -E ${PKG_MANAGER} -y install"
     CHECK_CMD="rpm -q"
-    PKG_MAP=(
-        [gcc]=gcc
-        [libffi]=libffi-devel
-        [libopenssl]=openssl-devel
-        [lsb-release]=redhat-lsb
-        [make]=make
-        [net-tools]=net-tools
-        [python]=python
-        [python-devel]=python-devel
-        [venv]=python-virtualenv
-        [wget]=wget
-    )
+    if [ $(basename $PKG_MANAGER) = yum ]; then
+        PKG_MAP=(
+            [gcc]=gcc
+            [libffi]=libffi-devel
+            [libopenssl]=openssl-devel
+            [lsb-release]=redhat-lsb
+            [make]=make
+            [net-tools]=net-tools
+            [python]=python
+            [python-devel]=python-devel
+            [venv]=python-virtualenv
+            [wget]=wget
+        )
+    else
+        PKG_MAP=(
+            [gcc]=gcc
+            [libffi]=libffi-devel
+            [libopenssl]=openssl-devel
+            [lsb-release]=redhat-lsb
+            [make]=make
+            [net-tools]=net-tools
+            [python]=python3
+            [python-devel]=python3-devel
+            [venv]=python3-virtualenv
+            [wget]=wget
+        )
+    fi
     EXTRA_PKG_DEPS=()
     sudo -E ${PKG_MANAGER} updateinfo
-    if $(grep -q Fedora /etc/redhat-release); then
-        EXTRA_PKG_DEPS="python-dnf redhat-rpm-config"
+    if [ $(basename $PKG_MANAGER) = dnf ]; then
+        EXTRA_PKG_DEPS="python3-dnf redhat-rpm-config"
     fi
     ;;
 
@@ -99,13 +114,18 @@ esac
 # if running in OpenStack CI, then make sure epel is enabled
 # since it may already be present (but disabled) on the host
 if env | grep -q ^ZUUL; then
-    if [[ -x '/usr/bin/yum' ]]; then
-        ${INSTALLER_CMD} yum-utils
-        sudo yum-config-manager --enable epel || true
+    if [ "${OS_FAMILY}" == "RedHat" ]; then
+        if [ $(basename $PKG_MANAGER) = yum ]; then
+            ${INSTALLER_CMD} yum-utils
+            sudo yum-config-manager --enable epel || true
+        else
+            ${INSTALLER_CMD} dnf-utils
+            sudo dnf config-manager --set-enabled epel || true
+        fi
     fi
 fi
 
-if ! $(python --version &>/dev/null); then
+if ! $(python --version &>/dev/null) && ! $(python3 --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[python]}
 fi
 if ! $(gcc -v &>/dev/null); then
@@ -115,9 +135,7 @@ if ! $(wget --version &>/dev/null); then
     ${INSTALLER_CMD} ${PKG_MAP[wget]}
 fi
 if [ -n "${VENV-}" ]; then
-    if ! $(python -m virtualenv --version &>/dev/null); then
         ${INSTALLER_CMD} ${PKG_MAP[venv]}
-    fi
 fi
 
 for pkg in ${CHECK_CMD_PKGS[@]}; do
@@ -138,7 +156,11 @@ if [ -n "${VENV-}" ]; then
     echo "NOTICE: Using virtualenv for this installation."
     if [ ! -f ${VENV}/bin/activate ]; then
         # only create venv if one doesn't exist
-        sudo -H -E python -m virtualenv --no-site-packages ${VENV}
+        if which python 2>/dev/null; then
+            sudo -H -E python -m virtualenv --no-site-packages ${VENV}
+        else
+            sudo -H -E python3 -m venv --system-site-packages ${VENV}
+        fi
     fi
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
@@ -152,7 +174,7 @@ fi
 
 # If we're using a venv, we need to work around sudo not
 # keeping the path even with -E.
-PYTHON=$(which python)
+PYTHON=$(which python || which python3)
 
 # To install python packages, we need pip.
 #
@@ -174,12 +196,12 @@ if [[ $(readlink -f /etc/alternatives/pip) =~ "pip3" ]]; then
     sudo -H update-alternatives --remove pip $(readlink -f /etc/alternatives/pip)
 fi
 
-if ! which pip; then
-    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.2/get-pip.py
+if ! which pip && ! which pip3; then
+    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.4/get-pip.py
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-PIP=$(which pip)
+PIP=$(which pip || which pip3)
 
 if [ -n "${VENV-}" ]; then
   ls -la ${VENV}/bin
@@ -200,5 +222,7 @@ sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
 # Install the rest of required packages using bindep
 sudo -H -E ${PIP} install bindep
 
+echo "Using Bindep to install binary dependencies..."
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
+echo "Completed installation of basic dependencies."

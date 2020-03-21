@@ -12,6 +12,7 @@ BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
+ZUUL_REF=${ZUUL_REF:-}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -96,7 +97,7 @@ if [ ${USE_VENV} = "true" ]; then
 else
     $SCRIPT_HOME/env-setup.sh
     ANSIBLE=${HOME}/.local/bin/ansible-playbook
-    ANSIBLE_PYTHON_INTERP=$(which python)
+    ANSIBLE_PYTHON_INTERP=$(which python 2>/dev/null || which python3)
 fi
 
 # Adjust options for DHCP, VM, or Keystone tests
@@ -151,12 +152,15 @@ ${ANSIBLE} -vvvv \
        -e test_vm_memory_size=${VM_MEMORY_SIZE} \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
        -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
-       -e enable_venv=${ENABLE_VENV}
+       -e enable_venv=${ENABLE_VENV} \
+       -e bifrost_venv_dir=${VENV-}
+
+
 
 if [ ${USE_DHCP} = "true" ]; then
     # reduce the number of nodes in JSON file
     # to limit number of nodes to enroll for testing purposes
-    python $BIFROST_HOME/scripts/split_json.py 3 \
+    $ANSIBLE_PYTHON_INTERP $BIFROST_HOME/scripts/split_json.py 3 \
         ${BAREMETAL_DATA_FILE} \
         ${BAREMETAL_DATA_FILE}.new \
         ${BAREMETAL_DATA_FILE}.rest \

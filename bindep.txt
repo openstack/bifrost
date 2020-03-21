@@ -13,9 +13,12 @@ make
 mariadb             [platform:suse]
 mariadb-server      [platform:redhat platform:dpkg]
 net-tools
-python              [platform:rpm]
+python              [platform:rpm !platform:rhel-8 !platform:centos-8 !platform:fedora]
+python3             [platform:rpm !platform:rhel-7 !platform:centos-7]
 python-minimal      [platform:dpkg]
-python-devel        [platform:rpm]
+python-devel        [platform:rpm !platform:rhel-8 !platform:centos-8 !platform:fedora]
+python3-devel       [platform:rpm !platform:rhel-7 !platform:centos-7]
 python-dev          [platform:dpkg]
-python-virtualenv
+python-virtualenv   [platform:rpm !platform:rhel-8 !platform:centos-8 !platform:fedora]
+python-virtualenv   [platform:dpkg]
 wget

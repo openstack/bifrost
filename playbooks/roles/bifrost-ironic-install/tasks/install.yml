@@ -105,7 +105,7 @@
   when:
     - skip_install is not defined
     - enable_venv | bool == false
-    - (ansible_distribution == 'CentOS' and ansible_distribution_major_version|version_compare('7', '<=')) or
+    - ansible_distribution == 'CentOS' or
       (ansible_distribution == 'Ubuntu' and ansible_distribution_version|version_compare('14.10', '==')) or
       (ansible_distribution == 'Fedora' and ansible_distribution_version|version_compare('25', '>='))
 

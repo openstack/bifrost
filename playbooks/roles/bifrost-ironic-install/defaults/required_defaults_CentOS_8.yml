@@ -1,0 +1,32 @@
+---
+ipxe_efi_binary: ipxe-x86_64.efi
+required_packages:
+  - mariadb-server
+  - dnsmasq
+  - python3-devel
+  - python3-PyMySQL
+  - python3-iniparse
+  - libffi-devel
+  - libxslt-devel
+  - openssl-devel
+  - libxml2-devel
+  - ipxe-bootimgs
+  - tftp-server
+  - xinetd
+  - parted
+  - ipmitool
+  - psmisc
+  - nginx
+  - wget
+  - genisoimage
+  - kpartx
+  - kernel-tools
+  - qemu-img
+  - openwsman-python3
+  - python3-libselinux
+  - python3-policycoreutils
+  - debootstrap
+  - gcc
+  - python3-pip
+  - socat
+  - iptables
