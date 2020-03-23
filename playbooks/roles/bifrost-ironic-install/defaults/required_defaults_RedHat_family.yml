@@ -31,7 +31,6 @@ required_packages:
   - kpartx
   - kernel-tools
   - qemu-img
-  - openwsman-python3
   - python3-libselinux
   - python3-policycoreutils
   - debootstrap

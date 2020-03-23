@@ -29,7 +29,6 @@ required_packages:
   - genisoimage
   - kpartx
   - qemu-utils
-  - python-openwsman
   - debootstrap
   - uuid-runtime
   - curl

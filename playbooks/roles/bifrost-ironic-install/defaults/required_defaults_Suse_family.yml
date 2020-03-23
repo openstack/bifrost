@@ -34,7 +34,6 @@ required_packages:
   - mkisofs
   - kpartx
   - qemu-tools
-  - python3-openwsman
   - policycoreutils-python
   - debootstrap
   - dpkg

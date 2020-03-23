@@ -31,7 +31,6 @@ required_packages:
   - kpartx
   - qemu-kvm
   - qemu-img
-  - openwsman-python
   - libselinux-python
   - policycoreutils-python
   - policycoreutils-python-utils
