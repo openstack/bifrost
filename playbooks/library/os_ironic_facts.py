@@ -74,7 +74,7 @@ def _choose_id_value(module):
 
 
 def main():
-    argument_spec = openstack_full_argument_spec(
+    argument_spec = openstack_full_argument_spec(  # noqa: F405
         auth_type=dict(required=False),
         uuid=dict(required=False),
         name=dict(required=False),
@@ -82,8 +82,8 @@ def main():
         ironic_url=dict(required=False),
         skip_items=dict(required=False, type='list'),
     )
-    module_kwargs = openstack_module_kwargs()
-    module = AnsibleModule(argument_spec, **module_kwargs)
+    module_kwargs = openstack_module_kwargs()  # noqa: F405
+    module = AnsibleModule(argument_spec, **module_kwargs)  # noqa: F405
 
     if not HAS_SHADE:
         module.fail_json(msg='shade is required for this module')
@@ -142,6 +142,6 @@ def main():
 
 
 # this is magic, see lib/ansible/module_common.py
-from ansible.module_utils.basic import *
-from ansible.module_utils.openstack import *
+from ansible.module_utils.basic import *  # noqa: E402
+from ansible.module_utils.openstack import *  # noqa: E402
 main()

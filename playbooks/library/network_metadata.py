@@ -37,7 +37,7 @@ def main():
         node_network_data=dict(required=False, type='dict')
     )
 
-    module = AnsibleModule(argument_spec)
+    module = AnsibleModule(argument_spec)  # noqa: F405
 
     network_metadata = module.params['node_network_data']
     if not network_metadata:
@@ -141,7 +141,7 @@ def main():
 
 
 # this is magic, see lib/ansible/module_common.py
-from ansible.module_utils.basic import *
+from ansible.module_utils.basic import *  # noqa: E402
 
 if __name__ == '__main__':
     main()

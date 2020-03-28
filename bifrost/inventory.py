@@ -15,6 +15,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import csv
+import json
+import os
+import sys
+import yaml
+
+from oslo_config import cfg
+from oslo_log import log
+
+try:
+    import shade
+    SHADE_LOADED = True
+except ImportError:
+    SHADE_LOADED = False
+
 DOCUMENTATION = '''
 Bifrost Inventory Module
 ========================
@@ -130,21 +145,6 @@ At present, this module only supports inventory list mode and is not
 intended to support specific host queries.
 '''
 
-import csv
-import json
-import os
-import sys
-import yaml
-
-from oslo_config import cfg
-from oslo_log import log
-
-try:
-    import shade
-    SHADE_LOADED = True
-except ImportError:
-    SHADE_LOADED = False
-
 LOG = log.getLogger(__name__)
 
 opts = [
@@ -239,7 +239,7 @@ def _process_baremetal_csv(data_source, groups, hostvars):
         for row in csv.reader(file_data, delimiter=','):
             if not row:
                 break
-            if len(row) is 1:
+            if len(row) == 1:
                 LOG.debug("Single entry line found when attempting "
                           "to parse CSV file contents. Breaking "
                           "out of processing loop.")
@@ -463,6 +463,7 @@ def main():
         print(json.dumps(inventory, indent=2))
     else:
         print(json.dumps(hostvars, indent=2))
+
 
 if __name__ == '__main__':
     main()
