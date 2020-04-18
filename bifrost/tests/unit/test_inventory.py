@@ -19,7 +19,7 @@ test_inventory
 Tests for `inventory` module.
 """
 
-import mock
+from unittest import mock
 
 from bifrost import inventory
 
