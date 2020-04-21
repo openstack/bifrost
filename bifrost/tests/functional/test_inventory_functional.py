@@ -16,6 +16,7 @@
 # limitations under the License.
 
 import json
+
 import yaml
 
 from bifrost.tests import base

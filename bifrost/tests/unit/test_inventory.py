@@ -22,7 +22,6 @@ Tests for `inventory` module.
 from unittest import mock
 
 from bifrost import inventory
-
 from bifrost.tests import base
 
 
