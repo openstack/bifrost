@@ -23,8 +23,6 @@ where first has at most N entries, and the second has the rest of them.
 Uses OrderedDict to preserve ordering of dict elements in input JSON file.
 """
 
-from __future__ import print_function
-
 import collections
 import json
 import os
