@@ -13,3 +13,5 @@ testscenarios>=0.4 # Apache-2.0/BSD
 testtools>=2.2.0 # MIT
 PyYAML>=3.12 # MIT
 Pygments>=2.2.0 # BSD license
+flake8-import-order>=0.17.1 # LGPLv3
+

@@ -19,10 +19,10 @@ import csv
 import json
 import os
 import sys
-import yaml
 
 from oslo_config import cfg
 from oslo_log import log
+import yaml
 
 try:
     import shade
