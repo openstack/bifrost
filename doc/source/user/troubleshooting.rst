@@ -170,9 +170,9 @@ DIB-based or any other IPA image, you will need to take the following steps:
    file and update the ``ipa_kernel_upstream_url`` and
    ``ipa_kernel_upstream_url`` settings to a new URL.
    For DIB-based images, these urls would be,
-   ``https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos7-master.kernel``
+   ``https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos8-master.kernel``
    and
-   ``https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos7-master.initramfs``
+   ``https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos8-master.initramfs``
    respectively.
 #. Execute the installation playbook, and the set files will be automatically
    downloaded again. If the files are not removed prior to (re)installation,
