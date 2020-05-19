@@ -59,8 +59,9 @@ pygments_style = 'sphinx'
 html_theme = 'openstackdocs'
 
 # openstackdocstheme options
-repository_name = 'openstack/bifrost'
-use_storyboard = True
+openstackdocs_repo_name = 'openstack/bifrost'
+openstackdocs_pdf_link = True
+openstackdocs_use_storyboard = True
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'bifrostdoc'

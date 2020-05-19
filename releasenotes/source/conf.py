@@ -38,7 +38,6 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'bifrost'
 copyright = u'2015, Ironic Developers'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
@@ -63,12 +62,9 @@ html_theme = 'openstackdocs'
 htmlhelp_basename = 'BifrostReleaseNotesdoc'
 
 # openstackdocstheme options
-repository_name = 'openstack/bifrost'
-bug_project = 'bifrost'
-bug_tag = ''
-
-# Must set this variable to include year, month, day, hours, and minutes.
-html_last_updated_fmt = '%Y-%m-%d %H:%M'
+openstackdocs_repo_name = 'openstack/bifrost'
+openstackdocs_bug_project = 'bifrost'
+openstackdocs_bug_tag = ''
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass
