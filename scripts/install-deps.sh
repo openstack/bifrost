@@ -63,7 +63,7 @@ case ${ID,,} in
         [wget]=wget
         [venv]=python3-venv
     )
-    EXTRA_PKG_DEPS=( python3-apt )
+    EXTRA_PKG_DEPS=( python3-apt python3-pip )
     sudo apt-get update
     ;;
 
