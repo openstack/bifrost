@@ -31,7 +31,7 @@ sushy_git_folder: "{{ git_root}}/sushy"
 ipa_git_folder: "{{ git_root}}/ironic-python-agent"
 ipa_builder_git_folder: "{{ git_root}}/ironic-python-agent-builder"
 # *git_branch can be overridden for stable branch testing
-git_branch: master
+git_branch: stable/ussuri
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
