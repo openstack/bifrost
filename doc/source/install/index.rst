@@ -21,8 +21,8 @@ Installation and use of bifrost is split into roughly three steps:
 Supported operating systems:
 
 * Ubuntu 16.04, 18.04
-* Red Hat Enterprise Linux (RHEL) 7
-* CentOS 7
+* Red Hat Enterprise Linux (RHEL) 8
+* CentOS 8
 * Fedora 22
 * openSUSE Leap 42.1, 42.2
 
@@ -51,48 +51,37 @@ RHEL
 Enable additional repositories (RHEL only)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``extras`` and ``optional`` yum repositories must be enabled to satisfy
+The ``extras`` and ``optional`` dnf repositories must be enabled to satisfy
 bifrost's dependencies. To check::
 
-   sudo yum repolist | grep 'optional\|extras'
+   sudo dnf repolist | grep 'optional\|extras'
 
 To view the status of repositories::
 
-   sudo yum repolist all | grep 'optional\|extras'
+   sudo dnf repolist all | grep 'optional\|extras'
 
 The output will look like this::
 
-  !rhui-REGION-rhel-server-debug-extras/7Server/x86_64        Red H disabled
-  rhui-REGION-rhel-server-debug-optional/7Server/x86_64       Red H disabled
-  rhui-REGION-rhel-server-extras/7Server/x86_64               Red H disabled
-  rhui-REGION-rhel-server-optional/7Server/x86_64             Red H disabled
-  rhui-REGION-rhel-server-source-extras/7Server/x86_64        Red H disabled
-  rhui-REGION-rhel-server-source-optional/7Server/x86_64      Red H disabled
+  !rhui-REGION-rhel-server-debug-extras/8Server/x86_64        Red H disabled
+  rhui-REGION-rhel-server-debug-optional/8Server/x86_64       Red H disabled
+  rhui-REGION-rhel-server-extras/8Server/x86_64               Red H disabled
+  rhui-REGION-rhel-server-optional/8Server/x86_64             Red H disabled
+  rhui-REGION-rhel-server-source-extras/8Server/x86_64        Red H disabled
+  rhui-REGION-rhel-server-source-optional/8Server/x86_64      Red H disabled
 
 Use the names of the repositories (minus the version and architecture)
 to enable them::
 
-  sudo yum-config-manager --enable rhui-REGION-rhel-server-optional
-  sudo yum-config-manager --enable rhui-REGION-rhel-server-extras
+  sudo dnf config-manager --enable rhui-REGION-rhel-server-optional
+  sudo dnf config-manager --enable rhui-REGION-rhel-server-extras
 
 Enable the EPEL repository
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The Extra Packages for Enterprise Linux (EPEL) repository contains
-some of bifrost's dependencies. To enable it, install the
-``epel-release`` package as follows::
-
-  sudo yum install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-
-CentOS
-------
-
-Enable the EPEL repository (CentOS)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-To enable EPEL on CentOS, run::
-
-  sudo yum install epel-release
+The Extra Packages for Enterprise Linux (EPEL) are required to install some
+dependencies. Please refer to the
+`official wiki page <https://fedoraproject.org/wiki/EPEL>`_ to install and
+configure them.
 
 Performing the installation
 ===========================
