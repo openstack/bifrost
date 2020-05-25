@@ -1,0 +1,15 @@
+---
+upgrade:
+  - |
+    OpenStackClient is no longer installed when keystone is not enabled. Use
+    the ironic native ``baremetal`` command instead. For example, instead of
+
+    ::
+
+      openstack baremetal node list
+
+    use just
+
+    ::
+
+      baremetal node list

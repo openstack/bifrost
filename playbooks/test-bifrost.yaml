@@ -108,12 +108,12 @@
   connection: local
   tasks:
     - name: "List bare metal nodes using openstack client"
-      command: openstack baremetal node list
+      command: baremetal --debug node list
       environment:
         OS_CLOUD: bifrost
         PATH: /usr/local/bin:{{ ansible_env.PATH }}
     - name: "List introspection rules using openstack client"
-      command: openstack baremetal introspection rule list
+      command: baremetal --debug introspection rule list
       environment:
         OS_CLOUD: "{% if enable_keystone | default(false) | bool == true %}bifrost{% else %}bifrost-inspector{% endif %}"
         PATH: /usr/local/bin:{{ ansible_env.PATH }}
