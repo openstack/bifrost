@@ -7,15 +7,9 @@ declare -A PKG_MAP
 export LANG=c
 
 CHECK_CMD_PKGS=(
-    gcc
-    libffi
-    libopenssl
-    lsb-release
-    make
-    net-tools
     python3-devel
     python3
-    wget
+    python3-pip
 )
 
 source /etc/os-release || source /usr/lib/os-release
@@ -25,17 +19,11 @@ case ${ID,,} in
     INSTALLER_CMD="sudo -H -E zypper install -y --no-recommends"
     CHECK_CMD="zypper search --match-exact --installed"
     PKG_MAP=(
-        [gcc]=gcc
-        [libffi]=libffi-devel
-        [libopenssl]=libopenssl-devel
-        [lsb-release]=lsb-release
-        [make]=make
-        [net-tools]=net-tools
-        [python]=python
-        [python-devel]=python-devel
-        [wget]=wget
+        [python3]=python3
+        [python3-devel]=python3-devel
+        [python3-pip]=python3-pip
     )
-    EXTRA_PKG_DEPS=( python-xml )
+    EXTRA_PKG_DEPS=()
     # netstat moved to net-tools-deprecated in Leap 15
     [[ ${VERSION%%.*} -lt 42 ]] && EXTRA_PKG_DEPS+=( net-tools-deprecated )
     sudo zypper -n ref
@@ -52,19 +40,17 @@ case ${ID,,} in
     INSTALLER_CMD="sudo -H -E apt-get -y install"
     CHECK_CMD="dpkg -l"
     PKG_MAP=(
-        [gcc]=gcc
-        [libffi]=libffi-dev
-        [libopenssl]=libssl-dev
-        [lsb-release]=lsb-release
-        [make]=make
-        [net-tools]=net-tools
         [python3]=python3-minimal
         [python3-devel]=libpython3-dev
-        [wget]=wget
-        [venv]=python3-venv
+        [python3-pip]=python3-pip
     )
-    EXTRA_PKG_DEPS=( python3-apt python3-pip )
+    EXTRA_PKG_DEPS=( python3-venv )
     sudo apt-get update
+    # NOTE(dtantsur): workaround for segfault when installing cryptography:
+    # https://github.com/pyca/cryptography/issues/3815
+    if $(${CHECK_CMD} python3-cryptography &> /dev/null); then
+        sudo -E apt-get remove -y python3-cryptography
+    fi
     ;;
 
     rhel|fedora|centos)
@@ -73,21 +59,12 @@ case ${ID,,} in
     INSTALLER_CMD="sudo -H -E ${PKG_MANAGER} -y install"
     CHECK_CMD="rpm -q"
     PKG_MAP=(
-        [gcc]=gcc
-        [libffi]=libffi-devel
-        [libopenssl]=openssl-devel
-        [lsb-release]=redhat-lsb
-        [make]=make
-        [net-tools]=net-tools
         [python3]=python3
         [python3-devel]=python3-devel
-        [wget]=wget
+        [python3-pip]=python3-pip
     )
     EXTRA_PKG_DEPS=()
     sudo -E ${PKG_MANAGER} updateinfo
-    if $(grep -q Fedora /etc/redhat-release); then
-        EXTRA_PKG_DEPS="python3-dnf redhat-rpm-config"
-    fi
     ;;
 
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
@@ -100,19 +77,6 @@ if env | grep -q ^ZUUL; then
         ${INSTALLER_CMD} dnf-utils
         sudo dnf config-manager --set-enabled epel || true
     fi
-fi
-
-if ! $(python3 --version &>/dev/null); then
-    ${INSTALLER_CMD} ${PKG_MAP[python3]}
-fi
-if ! $(gcc -v &>/dev/null); then
-    ${INSTALLER_CMD} ${PKG_MAP[gcc]}
-fi
-if ! $(wget --version &>/dev/null); then
-    ${INSTALLER_CMD} ${PKG_MAP[wget]}
-fi
-if [ -n "${VENV-}" -a "${OS_FAMILY}" == "Debian" ]; then
-        ${INSTALLER_CMD} ${PKG_MAP[venv]}
 fi
 
 for pkg in ${CHECK_CMD_PKGS[@]}; do
@@ -149,28 +113,14 @@ fi
 # keeping the path even with -E.
 PYTHON=$(which python3)
 
-# To install python packages, we need pip.
-#
-# We can't use the apt packaged version of pip since
-# older versions of pip are incompatible with
-# requests, one of our indirect dependencies (bug 1459947).
-#
 ls $PYTHON
+$PYTHON << EOF
+import pip
+version = tuple(map(int, pip.__version__.split('.')))
+assert version >= (7, 1)
+EOF
 
-# workaround for PEP517 issue
-PYTHON_VER=$($PYTHON -V)
-if [[ $PYTHON_VER == "Python 3.6.8" ]]; then
-    sudo -H -E $PYTHON -m pip install pip==19.0
-    export PIP_OPTS=""
-else
-    sudo -H -E $PYTHON -m pip install -U pip --ignore-installed
-    export PIP_OPTS="--upgrade-strategy only-if-needed"
-fi
-
-if [ "$?" != "0" ]; then
-    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.4/get-pip.py
-    sudo -H -E ${PYTHON} /tmp/get-pip.py
-fi
+export PIP_OPTS="--upgrade-strategy only-if-needed"
 
 if [ -n "${VENV-}" ]; then
   ls -la ${VENV}/bin
@@ -178,16 +128,14 @@ fi
 
 PIP=$(echo $PYTHON | sed 's/python/pip/')
 
-if [ "$OS_FAMILY" == "RedHat" ]; then
-    sudo -H -E ${PIP} freeze
-    sudo -H -E ${PIP} install --ignore-installed pyparsing ipaddress
-fi
-sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
-
 # Install the rest of required packages using bindep
 sudo -H -E ${PIP} install bindep
 
 echo "Using Bindep to install binary dependencies..."
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
+
+echo "Installing Python requirements"
+sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
+
 echo "Completed installation of basic dependencies."
