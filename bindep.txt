@@ -15,10 +15,14 @@ mariadb             [platform:suse]
 mariadb-server      [platform:redhat platform:dpkg]
 net-tools
 python3              [platform:rpm]
+python3-apt          [platform:dpkg]
 python3-minimal      [platform:dpkg]
 python3-devel        [platform:rpm]
 python3-dev          [platform:dpkg]
+python3-dnf          [platform:fedora]
 python3-venv         [platform:dpkg]
+python3-xml          [platform:suse]
+redhat-rpm-config    [platform:fedora]
 wget
 sudo
 ebtables
