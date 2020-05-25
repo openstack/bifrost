@@ -16,7 +16,7 @@
   command: "baremetal introspection data save {{ uuid }}"
   register: inspection_data
   environment:
-    OS_CLOUD: "{% if enable_keystone | default(false) | bool %}bifrost{% else %}bifrost-inspector{% endif %}"
+    OS_CLOUD: bifrost
 
 # TODO(mgoddard): More validation of data format and contents.
 - name: Validate the inspection data format
