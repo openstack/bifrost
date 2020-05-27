@@ -15,6 +15,8 @@
             voting: false
         - bifrost-integration-tinyipa-fedora-latest:
             voting: false
+        - bifrost-integration-tinyipa-debian-buster:
+            voting: false
         - bifrost-integration-dhcp-ubuntu-bionic:
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-bionic:
@@ -26,6 +28,8 @@
         - bifrost-integration-dhcp-opensuse-15:
            voting: false
         - bifrost-integration-dibipa-debian-opensuse-15:
+           voting: false
+        - bifrost-integration-dhcp-debian-buster:
            voting: false
     gate:
       jobs:

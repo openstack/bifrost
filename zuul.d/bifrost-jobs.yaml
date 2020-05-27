@@ -58,6 +58,11 @@
       use_venv: true
 
 - job:
+    name: bifrost-integration-dhcp-debian-buster
+    parent: bifrost-integration-dhcp
+    nodeset: debian-buster
+
+- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     timeout: 7200
@@ -102,6 +107,11 @@
     name: bifrost-integration-tinyipa-centos-8
     parent: bifrost-integration-tinyipa
     nodeset: centos-8
+
+- job:
+    name: bifrost-integration-tinyipa-debian-buster
+    parent: bifrost-integration-tinyipa
+    nodeset: debian-buster
 
 - job:
     name: bifrost-integration-tinyipa-opensuse-15
