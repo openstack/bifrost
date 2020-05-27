@@ -23,8 +23,7 @@ Supported operating systems:
 * Ubuntu 16.04, 18.04
 * Red Hat Enterprise Linux (RHEL) 8
 * CentOS 8
-* Fedora 22
-* openSUSE Leap 42.1, 42.2
+* openSUSE Leap 15.1
 
 If you want to try Bifrost on a virtual environment, see
 :doc:`/contributor/testenv`.
