@@ -16,6 +16,7 @@ galaxy_info:
   - name: Debian
     versions:
     - stretch
+    - buster
   categories:
   - cloud
   - cloud:openstack

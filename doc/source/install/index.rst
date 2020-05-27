@@ -25,6 +25,7 @@ Supported operating systems:
 * CentOS 8
 * openSUSE Leap 15.1
 * Fedora 30
+* Debian Buster
 
 If you want to try Bifrost on a virtual environment, see
 :doc:`/contributor/testenv`.
