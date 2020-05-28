@@ -82,23 +82,23 @@
   when: write_interfaces_file | bool == true
 
 - name: "Check if mkisofs is available"
-  shell: mkisofs --help &> /dev/null
+  command: mkisofs --help
   ignore_errors: yes
   register: test_mkisofs
 
-- name: "If mkisofs is not available, fallback to genisoimage"
-  set_fact:
-    iso_gen_utility: "genisoimage"
-  when: ('genisoimage' in test_mkisofs.stderr) or test_mkisofs.rc != 0
-
 - name: "Check if genisoimage is available"
-  shell: genisoimage --help &> /dev/null
+  command: genisoimage --help
   ignore_errors: yes
   register: test_genisoimage
 
 - name: "fail if genisoimage is not available."
   fail: msg="Neither mkisofs or genisoimage is available. Cannot make config drive files."
   when: test_genisoimage.rc != 0 and test_mkisofs.rc != 0
+
+- name: "If mkisofs is not available, fallback to genisoimage"
+  set_fact:
+    iso_gen_utility: "genisoimage"
+  when: test_mkisofs.rc != 0
 
 - name: "Make config drive files"
   become: yes
