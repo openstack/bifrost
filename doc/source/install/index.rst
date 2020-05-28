@@ -24,6 +24,7 @@ Supported operating systems:
 * Red Hat Enterprise Linux (RHEL) 8
 * CentOS 8
 * openSUSE Leap 15.1
+* Fedora 30
 
 If you want to try Bifrost on a virtual environment, see
 :doc:`/contributor/testenv`.

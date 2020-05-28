@@ -1,0 +1,43 @@
+---
+init_template: systemd_template.j2
+init_dest_dir: /usr/lib/systemd/system/
+init_ext: .service
+ipxe_dir: /usr/share/ipxe/
+ipxe_full_binary: ipxe.lkrn
+ironic_rootwrap_dir: /usr/bin/
+nginx_user: nginx
+mysql_service_name: mariadb
+tftp_service_name: tftp
+required_packages:
+  - debootstrap
+  - dnsmasq
+  - gcc
+  - genisoimage
+  - ipmitool
+  - ipxe-bootimgs
+  - kpartx
+  - libffi-devel
+  - libselinux-python
+  - libxml2-devel
+  - libxslt-devel
+  - mariadb-server
+  - nginx
+  - openssl-devel
+  - parted
+  - policycoreutils-python-utils
+  - psmisc
+  - python3-devel
+  - python3-iniparse
+  - python3-libselinux
+  - python3-policycoreutils
+  - python3-PyMySQL
+  - qemu-img
+  - qemu-kvm
+  - socat
+  - tftp-server
+  - wget
+  - xinetd
+iscsi_required_packages:
+  - iscsi-initiator-utils
+  - gdisk
+  - dosfstools
