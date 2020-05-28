@@ -14,11 +14,6 @@
 # limitations under the License.
 ---
 
-- name: set virtualenv_command
-  set_fact:
-    venv_command: "python3 -m venv"
-  when: enable_venv
-
 - name: workaround for PEP517 issue
   set_fact:
     extra_args: ""
@@ -39,14 +34,14 @@
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
     virtualenv: "{{ bifrost_venv_dir }}"
-    virtualenv_command: "{{ venv_command | default(omit) }}"
+    virtualenv_command: "python3 -m venv"
     extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | bool
 
 - name: "Install {{ package }} package from pip without virtualenv"
   pip:
@@ -60,7 +55,7 @@
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool == false
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | bool == false
 
 - name: "Install requirements from {{ sourcedir }} using pip"
   pip:
@@ -71,11 +66,11 @@
   retries: 5
   delay: 10
   when: source_install is defined and source_install | default(true) | bool
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
 
 # NOTE(dtantsur): do not use constraints here, it does not work when the
 # package itself is constrained.
 - name: "Install from {{ sourcedir }} using pip"
   command: pip3 install {{ sourcedir }} {{ extra_args | default('') }}
   when: source_install is defined and (source_install | bool == true)
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"

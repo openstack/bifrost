@@ -14,10 +14,10 @@
 # limitations under the License.
 ---
 
-- name: set virtualenv_command
+- name: workaround for PEP517 issue
   set_fact:
-    venv_command: "python3 -m venv"
-  when: enable_venv
+    extra_args: ""
+  when: ansible_python_version == "3.6.8"
 
 - name: Set extra_args if upper_constraints_file is defined
   set_fact:
@@ -34,14 +34,14 @@
     state: "{{ state | default(omit) }}"
     version: "{{ version | default(omit) }}"
     virtualenv: "{{ bifrost_venv_dir }}"
-    virtualenv_command: "{{ venv_command | default(omit) }}"
+    virtualenv_command: "python3 -m venv"
     extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
     requirements: "{{ requirements_file | default(omit) }}"
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | bool
 
 - name: "Install {{ package }} package from pip without virtualenv"
   pip:
@@ -55,24 +55,22 @@
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
-  when: (source_install is not defined or source_install | bool == false ) and enable_venv | default(false) | bool == false
+  when: (source_install is not defined or source_install | bool == false ) and enable_venv | bool == false
 
-# NOTE (cinerama): We should be able to use the pip module here
 - name: "Install requirements from {{ sourcedir }} using pip"
-  command: |
-      pip3 install -r {{ sourcedir }}/requirements.txt
-      {{ extra_args | default('') }}
-      {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}
+  pip:
+    extra_args: "{{ extra_args | default('') }} {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}"
+    requirements: "{{ sourcedir }}/requirements.txt"
   register: pip_package_install_done
   until: pip_package_install_done is succeeded
   retries: 5
   delay: 10
   when: source_install is defined and source_install | default(true) | bool
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
 
 # NOTE(dtantsur): do not use constraints here, it does not work when the
 # package itself is constrained.
 - name: "Install from {{ sourcedir }} using pip"
   command: pip3 install {{ sourcedir }} {{ extra_args | default('') }}
   when: source_install is defined and (source_install | bool == true)
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
