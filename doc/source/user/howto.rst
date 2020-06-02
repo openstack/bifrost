@@ -21,7 +21,7 @@ example::
 
 .. note::
    Previously, a separate cloud ``bifrost-inspector`` was provided for
-   introspection commands. It is not deprecated, the main ``bifrost`` cloud
+   introspection commands. It is now deprecated, the main ``bifrost`` cloud
    should always be used.
 
 Environment variables
