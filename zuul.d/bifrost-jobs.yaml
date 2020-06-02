@@ -4,6 +4,7 @@
     irrelevant-files:
       - ^.*\.rst$
       - ^bifrost/tests/.*$
+      - ^api-ref/.*$
       - ^doc/.*$
       - ^releasenotes/.*$
       - ^setup.cfg$
