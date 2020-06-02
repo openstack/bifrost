@@ -36,11 +36,6 @@
 - name: "Ensure /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 
-- name: "OpenStack Client - Install"
-  include: pip_install.yml
-    package=python-openstackclient
-  when: skip_install is not defined
-
 - name: "proliantutils - Install from pip"
   include: pip_install.yml
      package=proliantutils

@@ -16,24 +16,16 @@ necessary to access Ironic. A cloud called ``bifrost`` is always available. For
 example::
 
     export OS_CLOUD=bifrost
-    openstack baremetal node list
+    baremetal node list
 
 In noauth mode, a cloud called ``bifrost-inspector`` is also included that
 allows access to the Ironic Inspector API. For example::
 
     export OS_CLOUD=bifrost-inspector
-    openstack baremetal introspection list
+    baremetal introspection list
 
 Environment variables
 ---------------------
-
-.. note::
-
-   Previous versions of Bifrost recommended to use the ``ironic`` CLI rather
-   than the ``openstack`` CLI. Doing this requires setting the
-   ``OS_AUTH_TOKEN`` environment variable, however this causes Ansible
-   ``enroll-dynamic.yaml`` and ``deploy-dynamic.yaml`` playbooks to fail, so
-   ``OS_AUTH_TOKEN`` should be unset before running either of these.
 
 The following two environment variables can be set:
 
@@ -46,7 +38,7 @@ to connect to a local Ironic installation operating in noauth mode. For
 example::
 
     . env-vars
-    openstack baremetal node list
+    baremetal node list
 
 This should display a table of nodes, or nothing if there are no nodes
 registered in Ironic.

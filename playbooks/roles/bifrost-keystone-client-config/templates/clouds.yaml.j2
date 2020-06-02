@@ -3,6 +3,7 @@ clouds:
 {% if (enable_keystone | default(false) | bool) %}
 {% for cloud in clouds | default({}) | dictsort %}
   {{ cloud.0 }}:
+    auth_type: "password"
     region_name: {{ cloud.1.config_region_name }}
     auth:
       username: {{ cloud.1.config_username }}
