@@ -17,12 +17,12 @@ example::
 
     export OS_CLOUD=bifrost
     baremetal node list
-
-In noauth mode, a cloud called ``bifrost-inspector`` is also included that
-allows access to the Ironic Inspector API. For example::
-
-    export OS_CLOUD=bifrost-inspector
     baremetal introspection list
+
+.. note::
+   Previously, a separate cloud ``bifrost-inspector`` was provided for
+   introspection commands. It is not deprecated, the main ``bifrost`` cloud
+   should always be used.
 
 Environment variables
 ---------------------

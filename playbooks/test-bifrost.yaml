@@ -115,7 +115,7 @@
     - name: "List introspection rules using openstack client"
       command: baremetal --debug introspection rule list
       environment:
-        OS_CLOUD: "{% if enable_keystone | default(false) | bool == true %}bifrost{% else %}bifrost-inspector{% endif %}"
+        OS_CLOUD: bifrost
         PATH: /usr/local/bin:{{ ansible_env.PATH }}
       when: enable_inspector is defined and enable_inspector | bool
 
