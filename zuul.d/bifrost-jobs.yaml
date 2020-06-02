@@ -112,7 +112,7 @@
 
 - job:
     name: bifrost-integration-tinyipa-fedora-latest
-    parent: bifrost-integration
+    parent: bifrost-integration-tinyipa
     nodeset: fedora-latest
     vars:
       use_venv: true

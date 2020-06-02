@@ -13,6 +13,8 @@
         # Non-voting jobs
         - bifrost-integration-tinyipa-opensuse-15:
             voting: false
+        - bifrost-integration-tinyipa-fedora-latest:
+            voting: false
         - bifrost-integration-dhcp-ubuntu-bionic:
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-bionic:
@@ -25,8 +27,6 @@
            voting: false
         - bifrost-integration-dibipa-debian-opensuse-15:
            voting: false
-        - bifrost-integration-tinyipa-fedora-latest:
-            voting: false
     gate:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-bionic
