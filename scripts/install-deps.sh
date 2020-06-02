@@ -38,7 +38,7 @@ case ${ID,,} in
     OS_FAMILY="Debian"
     export DEBIAN_FRONTEND=noninteractive
     INSTALLER_CMD="sudo -H -E apt-get -y install"
-    CHECK_CMD="dpkg -l"
+    CHECK_CMD="dpkg -s"
     PKG_MAP=(
         [python3]=python3-minimal
         [python3-devel]=libpython3-dev
