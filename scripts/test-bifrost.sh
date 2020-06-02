@@ -12,7 +12,6 @@ BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
-ZUUL_REF=${ZUUL_REF:-}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -81,6 +80,8 @@ mysql_setup() {
 # Setup openstack_citest database if run in OpenStack CI.
 if [ "$ZUUL_BRANCH" != "" ] ; then
     mysql_setup
+    sudo mkdir -p /opt/libvirt/images
+    VM_SETUP_EXTRA="-e test_vm_storage_pool_path=/opt/libvirt/images"
 fi
 
 if [ ${USE_VENV} = "true" ]; then
@@ -153,9 +154,8 @@ ${ANSIBLE} -vvvv \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
        -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
        -e enable_venv=${ENABLE_VENV} \
-       -e bifrost_venv_dir=${VENV-}
-
-
+       -e bifrost_venv_dir=${VENV-} \
+       ${VM_SETUP_EXTRA:-}
 
 if [ ${USE_DHCP} = "true" ]; then
     # reduce the number of nodes in JSON file
