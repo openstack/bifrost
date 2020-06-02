@@ -11,7 +11,7 @@ ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
 ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
 
 if [ -n "${VENV-}" ]; then
-    sudo -H -E ${PIP} install "${ANSIBLE_SOURCE_PATH}"
+    ${PIP} install "${ANSIBLE_SOURCE_PATH}"
     ANSIBLE=${VENV}/bin/ansible
 else
     ${PIP} install --user --upgrade "${ANSIBLE_SOURCE_PATH}"

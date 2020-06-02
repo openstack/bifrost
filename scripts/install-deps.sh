@@ -98,6 +98,7 @@ if [ -n "${VENV-}" ]; then
     if [ ! -f ${VENV}/bin/activate ]; then
         # only create venv if one doesn't exist
         sudo -H -E python3 -m venv --system-site-packages ${VENV}
+        sudo -H -E chown -R ${USER} ${VENV}
     fi
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
@@ -111,9 +112,9 @@ fi
 
 # If we're using a venv, we need to work around sudo not
 # keeping the path even with -E.
-PYTHON=$(which python3)
+PYTHON="python3"
+PIP="${PYTHON} -m pip"
 
-ls $PYTHON
 $PYTHON << EOF
 import pip
 version = tuple(map(int, pip.__version__.split('.')))
@@ -125,8 +126,6 @@ export PIP_OPTS="--upgrade-strategy only-if-needed"
 if [ -n "${VENV-}" ]; then
   ls -la ${VENV}/bin
 fi
-
-PIP=$(echo $PYTHON | sed 's/python/pip/')
 
 # Install the rest of required packages using bindep
 sudo -H -E ${PIP} install bindep
