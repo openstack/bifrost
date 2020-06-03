@@ -79,6 +79,14 @@
     source_install={{ ironicclient_source_install }}
   when: skip_install is not defined
 
+# NOTE(dtantsur): no much value in installing metalsmith from source - it does
+# not change often, and nothing in bifrost depends on it.
+- name: "metalsmith - Install"
+  include: pip_install.yml
+    package=metalsmith
+    state=latest
+  when: skip_install is not defined
+
 - name: "Install configparser in venv if using"
   include: pip_install.yml
     package=configparser

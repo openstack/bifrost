@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    `MetalSmith <https://docs.openstack.org/metalsmith/>`_ is now installed
+    by default.
