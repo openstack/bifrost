@@ -109,3 +109,10 @@
     nodeset: opensuse-15
     vars:
       use_venv: true
+
+- job:
+    name: bifrost-integration-tinyipa-fedora-latest
+    parent: bifrost-integration-tinyipa
+    nodeset: fedora-latest
+    vars:
+      use_venv: true
