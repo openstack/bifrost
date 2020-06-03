@@ -11,6 +11,8 @@
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-bionic
         # Non-voting jobs
+        - bifrost-integration-tinyipa-ubuntu-focal:
+            voting: false
         - bifrost-integration-tinyipa-opensuse-15:
             voting: false
         - bifrost-integration-tinyipa-fedora-latest:
