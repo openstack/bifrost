@@ -6,6 +6,11 @@ declare -A PKG_MAP
 # workaround: for latest bindep to work, it needs to use en_US local
 export LANG=c
 
+ENABLE_VENV=${ENABLE_VENV:-true}
+if [[ "$ENABLE_VENV" != false ]]; then
+    export VENV=${VENV:-/opt/stack/bifrost}
+fi
+
 CHECK_CMD_PKGS=(
     python3-devel
     python3

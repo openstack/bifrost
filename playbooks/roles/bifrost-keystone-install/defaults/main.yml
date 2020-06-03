@@ -31,7 +31,7 @@ file_url_port: 8080
 http_boot_folder: /httpboot
 
 # Settings related to installing bifrost in a virtual environment
-enable_venv: false
+enable_venv: true
 bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
 bifrost_venv_env:
   VIRTUAL_ENV: "{{ bifrost_venv_dir }}"

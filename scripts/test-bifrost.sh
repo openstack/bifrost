@@ -7,11 +7,11 @@ SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 BIFROST_HOME=$SCRIPT_HOME/..
 ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
 USE_DHCP="${USE_DHCP:-false}"
-USE_VENV="${USE_VENV:-true}"
 BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
+ENABLE_VENV=${ENABLE_VENV:-true}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -42,7 +42,6 @@ PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 NOAUTH_MODE=true
 CLOUD_CONFIG=""
 WAIT_FOR_DEPLOY=true
-ENABLE_VENV=true
 
 # Setup openstack_ci test database if run in OpenStack CI.
 if [ "$ZUUL_BRANCH" != "" ]; then
@@ -50,19 +49,16 @@ if [ "$ZUUL_BRANCH" != "" ]; then
     VM_SETUP_EXTRA="-e test_vm_storage_pool_path=/opt/libvirt/images"
 fi
 
-if [ ${USE_VENV} = "true" ]; then
-    export VENV=/opt/stack/bifrost
-    $SCRIPT_HOME/env-setup.sh
+source $SCRIPT_HOME/env-setup.sh
+if [ ${ENABLE_VENV} = "true" ]; then
     # Note(cinerama): activate is not compatible with "set -u";
     # disable it just for this line.
     set +u
     source ${VENV}/bin/activate
     set -u
     ANSIBLE=${VENV}/bin/ansible-playbook
-    ENABLE_VENV="true"
     ANSIBLE_PYTHON_INTERP=${VENV}/bin/python3
 else
-    $SCRIPT_HOME/env-setup.sh
     ANSIBLE=${HOME}/.local/bin/ansible-playbook
     ANSIBLE_PYTHON_INTERP=$(which python3)
 fi

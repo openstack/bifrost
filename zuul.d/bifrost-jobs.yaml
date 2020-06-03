@@ -54,8 +54,6 @@
     name: bifrost-integration-dhcp-opensuse-15
     parent: bifrost-integration-dhcp
     nodeset: opensuse-15
-    vars:
-      use_venv: true
 
 - job:
     name: bifrost-integration-dhcp-debian-buster
@@ -83,8 +81,6 @@
     name: bifrost-integration-dibipa-debian-opensuse-15
     parent: bifrost-integration-dibipa-debian
     nodeset: opensuse-15
-    vars:
-      use_venv: true
 
 - job:
     name: bifrost-integration-tinyipa
@@ -117,12 +113,8 @@
     name: bifrost-integration-tinyipa-opensuse-15
     parent: bifrost-integration-tinyipa
     nodeset: opensuse-15
-    vars:
-      use_venv: true
 
 - job:
     name: bifrost-integration-tinyipa-fedora-latest
     parent: bifrost-integration-tinyipa
     nodeset: fedora-latest
-    vars:
-      use_venv: true
