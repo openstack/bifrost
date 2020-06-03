@@ -15,7 +15,8 @@
     post-run: playbooks/ci/post.yaml
     required-projects:
       - openstack/bifrost
-      - openstack/diskimage-builder
+      - name: openstack/diskimage-builder
+        override-checkout: 2.38.0
       - openstack/ironic
       - openstack/ironic-inspector
       - openstack/ironic-python-agent
