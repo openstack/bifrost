@@ -1,7 +1,7 @@
 ---
-init_template: upstart_template.j2
-init_dest_dir: /etc/init/
-init_ext: .conf
+init_template: systemd_template.j2
+init_dest_dir: /lib/systemd/system/
+init_ext: .service
 ipxe_dir: /usr/lib/ipxe/
 ipxe_full_binary: ipxe.pxe
 ironic_rootwrap_dir: /usr/local/bin/

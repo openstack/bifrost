@@ -1,7 +1,7 @@
 ---
-init_template: upstart_template.j2
-init_dest_dir: /etc/init/
-init_ext: .conf
+init_template: systemd_template.j2
+init_dest_dir: /lib/systemd/system/
+init_ext: .service
 nginx_user: www-data
 mysql_service_name: mysql
 required_packages:
