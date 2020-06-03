@@ -13,7 +13,3 @@ required_packages:
   - libssl-dev
   - libxml2-dev
   - nginx
-  - uwsgi
-  - uwsgi-core
-  # - python-django-uwsgi - This may not be needed
-  - uwsgi-plugin-python3

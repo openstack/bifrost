@@ -45,6 +45,14 @@
     - skip_install is not defined
     - enable_venv | bool == true
 
+- name: "Install uWSGI in venv if using"
+  include: pip_install.yml
+    package=uWSGI
+    virtualenv=bifrost_venv_dir
+  when:
+    - skip_install is not defined
+    - enable_venv | bool == true
+
 - name: "Install python-openstackclient in venv if using"
   include: pip_install.yml
     package=python-openstackclient

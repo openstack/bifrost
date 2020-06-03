@@ -284,3 +284,30 @@
 - name: "Remove uwsgi sysvinit init script"
   command: update-rc.d -f uwsgi remove
   ignore_errors: yes
+
+- block:
+    - name: "Explicitly allow keystone port (TCP) on selinux"
+      seport:
+        ports: "5000"
+        proto: tcp
+        setype: http_port_t
+        state: present
+
+    - name: Copy keystone policy file to temporary directory
+      copy:
+        src: keystone_policy.te
+        dest: /tmp/keystone_policy.te
+
+    - name: Check keystone policy module
+      command: checkmodule -M -m -o /tmp/keystone_policy.mod /tmp/keystone_policy.te
+
+    - name: Package keystone policy module
+      command: semodule_package -m /tmp/keystone_policy.mod -o /tmp/keystone_policy.pp
+
+    - name: Include keystone policy module
+      command: semodule -i /tmp/keystone_policy.pp
+
+    - name: Enable keystone policy module
+      command: semodule -e keystone_policy
+  when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
+         ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
