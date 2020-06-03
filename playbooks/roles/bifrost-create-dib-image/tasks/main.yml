@@ -111,9 +111,9 @@
   set_fact:
     dib_packages_arg: "-p {{dib_packages}}"
   when: dib_packages is defined and dib_packages != ""
-- name: "Set default of Debian Stretch if building debian and not explicitly set, overwride with dib_os_release setting"
+- name: "Set default of Debian Buster if building debian and not explicitly set, overwride with dib_os_release setting"
   set_fact:
-    dib_os_release: "stretch"
+    dib_os_release: "buster"
   when: dib_os_element == "debian" and dib_os_release is undefined
 - name: "Initialize DIB source-repository variables"
   set_fact:
