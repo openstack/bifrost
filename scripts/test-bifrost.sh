@@ -44,6 +44,10 @@ CLOUD_CONFIG=""
 WAIT_FOR_DEPLOY=true
 ENABLE_VENV=true
 
+# Get OS information
+source /etc/os-release || source /usr/lib/os-release
+OS_DISTRO="$ID"
+
 # Setup openstack_ci test database if run in OpenStack CI.
 if [ "$ZUUL_BRANCH" != "" ]; then
     sudo mkdir -p /opt/libvirt/images
@@ -83,6 +87,17 @@ elif [ ${BUILD_IMAGE} = "true" ]; then
     INSPECT_NODES=false
     DOWNLOAD_IPA=false
     CREATE_IPA_IMAGE=true
+
+    # if running in OpenStack CI, then make sure epel is enabled
+    # since it may already be present (but disabled) on the host
+    # we need epel for debootstrap
+    if env | grep -q ^ZUUL; then
+        if [[ "$OS_DISTRO" == "rhel" ]] || [[ "$OS_DISTRO" == "centos" ]]; then
+            sudo dnf install -y dnf-utils
+            sudo dnf install -y epel-release || true
+            sudo dnf config-manager --set-enabled epel || true
+        fi
+    fi
 elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     NOAUTH_MODE=false
     CLOUD_CONFIG="-e cloud_name=bifrost"
