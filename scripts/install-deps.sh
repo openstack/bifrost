@@ -70,15 +70,6 @@ case ${ID,,} in
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
 esac
 
-# if running in OpenStack CI, then make sure epel is enabled
-# since it may already be present (but disabled) on the host
-if env | grep -q ^ZUUL; then
-    if [ "${OS_FAMILY}" == "RedHat" ]; then
-        ${INSTALLER_CMD} dnf-utils
-        sudo dnf config-manager --set-enabled epel || true
-    fi
-fi
-
 for pkg in ${CHECK_CMD_PKGS[@]}; do
     if ! $(${CHECK_CMD} ${PKG_MAP[$pkg]} &>/dev/null); then
         ${INSTALLER_CMD} ${PKG_MAP[$pkg]}
