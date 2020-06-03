@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    The diskimage-builder dropped the support for py2, the stable branches that
+    still have py2 support will use the tag 2.38.0 for diskimage-builder.
