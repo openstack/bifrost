@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes installing Keystone under CentOS 8.
