@@ -40,7 +40,7 @@ Setup vagrant by:
 
 Configure Vagrant with the correct box::
 
-  vagrant box add ubuntu/xenial64
+  vagrant box add ubuntu/bionic64
 
 Clone bifrost repo::
 

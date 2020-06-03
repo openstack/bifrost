@@ -1,0 +1,6 @@
+---
+other:
+  - |
+    Support for Ubuntu Xenial and Debian Stretch has been officially removed
+    (Bifrost has been broken on them since Ussuri because of the transition
+    to Python 3.6).

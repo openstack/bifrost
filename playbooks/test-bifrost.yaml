@@ -77,9 +77,9 @@
     # NOTE(TheJulia): While the next step creates a ramdisk, some elements
     # do not support ramdisk-image-create as they invoke steps to cleanup
     # the ramdisk which causes ramdisk-image-create to believe it failed.
-    - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "stretch", dib_elements: "ironic-python-agent-ramdisk {{ ipa_extra_dib_elements | default('') }}", dib_packages: "bsdmainutils", when: create_ipa_image | bool }
+    - { role: bifrost-create-dib-image, dib_imagename: "{{ http_boot_folder }}/ipa", build_ramdisk: false, dib_os_element: "{{ ipa_dib_os_element|default('debian') }}", dib_os_release: "buster", dib_elements: "ironic-python-agent-ramdisk {{ ipa_extra_dib_elements | default('') }}", dib_packages: "bsdmainutils", when: create_ipa_image | bool }
     # NOTE(TheJulia): This creates the guest image.
-    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "stretch", dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool and not transform_boot_image | bool }
+    - { role: bifrost-create-dib-image, dib_imagetype: "qcow2", dib_imagename: "{{deploy_image}}", dib_os_element: "debian", dib_os_release: "buster", dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}", when: create_image_via_dib | bool and not transform_boot_image | bool }
     - role: bifrost-keystone-client-config
       user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
       clouds:
