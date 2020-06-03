@@ -13,7 +13,6 @@
 ---
 - name: "Reload systemd configuration"
   command: systemctl daemon-reload
-  when: init_template == 'systemd_template.j2'
 
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted enabled=yes

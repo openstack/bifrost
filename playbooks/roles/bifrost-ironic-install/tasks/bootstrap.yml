@@ -153,12 +153,11 @@
       ironic.database.host != 'localhost' or
       test_created_db.changed | bool == false
 
-- name: "Create service folder if systemd template is defined"
+- name: "Create service folder"
   file:
     path: "{{ init_dest_dir }}"
     state: directory
     mode: 0755
-  when: init_template == 'systemd_template.j2'
 
 - name: "Install ironic-inspector to permit use of inspection interface"
   include: inspector_bootstrap.yml
@@ -183,8 +182,8 @@
 
 - name: "Place ironic services on Debian family"
   template:
-    src: "{{ init_template }}"
-    dest: "{{ init_dest_dir }}{{ item.service_name }}{{ init_ext }}"
+    src: systemd_template.j2
+    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: "root"
     group: "root"
   with_items:
@@ -195,8 +194,8 @@
 
 - name: "Place ironic services on RedHat family"
   template:
-    src: "{{ init_template }}"
-    dest: "{{ init_dest_dir }}{{ item.service_name }}{{ init_ext }}"
+    src: systemd_template.j2
+    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: "root"
     group: "root"
   with_items:

@@ -15,7 +15,6 @@
 ---
 - name: "Reload systemd configuration"
   command: systemctl daemon-reload
-  when: init_template == 'systemd_template.j2'
 
 - name: "Ensure rsyslog is running with current config"
   service: name=rsyslog state=restarted

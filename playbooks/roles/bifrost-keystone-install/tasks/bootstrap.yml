@@ -269,8 +269,8 @@
 
 - name: "Place uwsgi services"
   template:
-    src: "{{ init_template }}"
-    dest: "{{ init_dest_dir }}{{ item.service_name }}{{ init_ext }}"
+    src: systemd_template.j2
+    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: "root"
     group: "root"
   with_items:
