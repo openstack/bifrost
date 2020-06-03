@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The ``manual-management`` hardware type is now enabled by default. It can
+    be used with hardware that does not feature a supported BMC.
+  - |
+    The ``noop`` management interface can now be used out-of-box with ``ipmi``
+    and ``redfish`` nodes to prevent ironic from changing the boot device and
+    order.
