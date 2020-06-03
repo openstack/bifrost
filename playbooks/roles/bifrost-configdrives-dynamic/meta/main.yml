@@ -11,11 +11,9 @@ galaxy_info:
     - 8
   - name: Ubuntu
     versions:
-    - xenial
     - bionic
   - name: Debian
     versions:
-    - stretch
     - buster
   categories:
   - cloud
