@@ -24,6 +24,7 @@ mox3==0.25.0
 msgpack==0.5.6
 netaddr==0.7.19
 netifaces==0.10.6
+openstacksdk==0.37.0
 os-client-config==1.29.0
 oslo.config==5.2.0
 oslo.context==2.20.0

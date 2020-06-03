@@ -21,6 +21,8 @@ Tests for `inventory` module.
 
 from unittest import mock
 
+import openstack
+
 from bifrost import inventory
 from bifrost.tests import base
 
@@ -42,11 +44,10 @@ class TestBifrostInventoryUnit(base.TestCase):
         self.assertEqual('yes', inventory._val_or_none(array, 2))
         self.assertIsNone(inventory._val_or_none(array, 4))
 
-    def test__process_shade(self):
-        inventory.shade = mock_shade = mock.Mock()
-        inventory.SHADE_LOADED = True
+    @mock.patch.object(openstack, 'connect', autospec=True)
+    def test__process_sdk(self, mock_sdk):
         (groups, hostvars) = inventory._prepare_inventory()
-        mock_cloud = mock_shade.operator_cloud.return_value
+        mock_cloud = mock_sdk.return_value
         mock_cloud.list_machines.return_value = [
             {
                 'driver_info': {
@@ -67,9 +68,7 @@ class TestBifrostInventoryUnit(base.TestCase):
                 'uuid': 'e2be93b5-a8f6-46a2-bec7-571b8ecf2938',
             },
         ]
-        (groups, hostvars) = inventory._process_shade(groups, hostvars)
-        mock_shade.operator_cloud.assert_called_once_with(
-            auth_type='None', auth={'endpoint': 'http://localhost:6385/'})
+        (groups, hostvars) = inventory._process_sdk(groups, hostvars)
         mock_cloud.list_machines.assert_called_once_with()
         mock_cloud.list_nics_for_machine.assert_called_once_with(
             'f3fbf7c6-b4e9-4dd2-8ca0-c74a50f8be45')
@@ -95,11 +94,10 @@ class TestBifrostInventoryUnit(base.TestCase):
         }
         self.assertEqual(hostvars['node1'], expected_machine)
 
-    def test__process_shade_multiple_nics(self):
-        inventory.shade = mock_shade = mock.Mock()
-        inventory.SHADE_LOADED = True
+    @mock.patch.object(openstack, 'connect', autospec=True)
+    def test__process_sdk_multiple_nics(self, mock_sdk):
         (groups, hostvars) = inventory._prepare_inventory()
-        mock_cloud = mock_shade.operator_cloud.return_value
+        mock_cloud = mock_sdk.return_value
         mock_cloud.list_machines.return_value = [
             {
                 'driver_info': {
@@ -124,9 +122,7 @@ class TestBifrostInventoryUnit(base.TestCase):
                 'uuid': '59e8cd37-4f71-4ca1-a264-93c2ca7de0f7',
             },
         ]
-        (groups, hostvars) = inventory._process_shade(groups, hostvars)
-        mock_shade.operator_cloud.assert_called_once_with(
-            auth_type='None', auth={'endpoint': 'http://localhost:6385/'})
+        (groups, hostvars) = inventory._process_sdk(groups, hostvars)
         mock_cloud.list_machines.assert_called_once_with()
         mock_cloud.list_nics_for_machine.assert_called_once_with(
             'f3fbf7c6-b4e9-4dd2-8ca0-c74a50f8be45')

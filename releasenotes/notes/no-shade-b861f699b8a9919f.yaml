@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The shade library is no longer used, nor installed by default.
+deprecations:
+  - |
+    The ``os_ironic_facts`` module is deprecated. Please use
+    ``os_ironic_node_info`` that returns information in the "node" parameter.

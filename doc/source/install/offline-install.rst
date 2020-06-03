@@ -48,7 +48,6 @@ this.
     cirros_deploy_image_upstream_url: file:///vagrant/cirros-0.4.0-x86_64-disk.img
     dib_git_url: file:///vagrant/git/diskimage-builder
     ironicclient_git_url: file:///vagrant/git/python-ironicclient
-    shade_git_url: file:///vagrant/git/shade
     ironic_git_url: file:///vagrant/git/ironic
 
 If this list becomes out of date, it's simple enough to find the things that

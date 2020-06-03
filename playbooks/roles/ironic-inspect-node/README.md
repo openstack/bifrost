@@ -29,8 +29,8 @@ cloud_name: Optional: String value defining a clouds.yaml entry for
             the ansible module to leverage.
 inspection_wait_timeout: Integer value in seconds, defaults to 1800.
                          This value may need to be adjusted if the underlying
-                         shade library's default timeout is insufficient for
-                         a node to perform an inspection sequence with.
+                         openstacksdk library's default timeout is insufficient
+                         for a node to perform an inspection sequence with.
                          The timeout assumption in the library was
                          based upon there being three phases to complete
                          an inspection sequence, BIOS POST, (i)PXE,

@@ -24,8 +24,6 @@ ironic_git_folder: The folder where the ironic codebase has been cloned to.
 ironicclient_git_folder: The folder where the python-ironicclient code base
                          has been cloned to.
 
-shade_git_folder: The folder where the shade code base has been cloned to.
-
 Dependencies
 ------------
 
@@ -53,7 +51,6 @@ of the logic to properly handle an OpenStack CI environment node.
          ci_testing_zuul: true
          ironic_git_url: /opt/git/openstack/ironic
          ironicclient_git_url: /opt/git/openstack/python-ironicclient
-         shade_git_url: /opt/git/openstack/shade
       when: lookup('env', 'ZUUL_BRANCH') != ""
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }

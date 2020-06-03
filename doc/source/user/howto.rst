@@ -46,11 +46,8 @@ registered in Ironic.
 Enroll Hardware
 ===============
 
-The following requirements are installed during the install process
+The openstacksdk library is installed during the install process
 as documented in the install documentation.
-
-- openstack/shade library
-- openstack/os-client-config
 
 In order to enroll hardware, you will naturally need an inventory of
 your hardware. When utilizing the dynamic inventory module and

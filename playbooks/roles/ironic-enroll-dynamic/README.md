@@ -8,9 +8,7 @@ Requirements
 ------------
 
 This role is dependent upon the os-ironic ansible module, which is dependent
-upon shade (https://opendev.org/openstack/shade/), which in
-this case is presently dependent upon the Ironic Python Client Library
-(https://opendev.org/openstack/python-ironicclient/).
+upon openstacksdk (https://opendev.org/openstack/openstacksdk/).
 
 Role Variables
 --------------

@@ -5,7 +5,6 @@ git_root: "/opt/stack"
 dib_git_url: https://opendev.org/openstack/diskimage-builder
 ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
 openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
-shade_git_url: https://opendev.org/openstack/shade
 ironic_git_url: https://opendev.org/openstack/ironic
 ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
@@ -21,7 +20,6 @@ ironic_git_folder: "{{ git_root}}/ironic"
 ironicinspector_git_folder: "{{ git_root}}/ironic-inspector"
 ironicinspectorclient_git_folder: "{{ git_root}}/python-ironic-inspector-client"
 openstacksdk_git_folder: "{{ git_root}}/openstacksdk"
-shade_git_folder: "{{ git_root}}/shade"
 dib_git_folder: "{{ git_root }}/diskimage-builder"
 reqs_git_folder: "{{ git_root }}/requirements"
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
@@ -35,7 +33,6 @@ git_branch: master
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
-shade_git_branch: "{{ git_branch }}"
 dib_git_branch: master
 ironicinspector_git_branch: "{{ git_branch }}"
 ironicinspectorclient_git_branch: "{{ git_branch }}"
@@ -63,10 +60,6 @@ bifrost_install_sources:
     git_url: "{{ openstacksdk_git_url }}"
     git_branch: "{{ openstacksdk_git_branch }}"
     name: openstacksdk
-  - git_folder: "{{ shade_git_folder }}"
-    git_url: "{{ shade_git_url }}"
-    git_branch: "{{ shade_git_branch }}"
-    name: shade
   - git_folder: "{{ dib_git_folder }}"
     git_url: "{{ dib_git_url }}"
     git_branch: "{{ dib_git_branch }}"

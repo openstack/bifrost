@@ -25,10 +25,10 @@ from oslo_log import log
 import yaml
 
 try:
-    import shade
-    SHADE_LOADED = True
+    import openstack
+    SDK_LOADED = True
 except ImportError:
-    SHADE_LOADED = False
+    SDK_LOADED = False
 
 DOCUMENTATION = '''
 Bifrost Inventory Module
@@ -323,34 +323,16 @@ def _process_baremetal_csv(data_source, groups, hostvars):
     return (groups, hostvars)
 
 
-def _identify_shade_auth():
-    """Return shade credentials"""
-    if os.environ.get('OS_CLOUD'):
-        return {}
-    endpoint = os.getenv(
-        'OS_ENDPOINT',
-        os.getenv(
-            'OS_URL', os.getenv('IRONIC_URL', "http://localhost:6385/")))
-    options = dict(
-        auth_type="None",
-        auth=dict(endpoint=endpoint,)
-    )
-    if os.environ.get('OS_AUTH_URL'):
-        options['auth_type'] = "password"
-        options['auth'] = dict(
-            username=os.getenv('OS_USERNAME', ""),
-            password=os.getenv('OS_PASSWORD', ""),
-            auth_url=os.getenv('OS_AUTH_URL', ""),
-            project_name=os.getenv('OS_PROJECT_NAME', ""),
-            domain_id=os.getenv('OS_USER_DOMAIN_NAME', ""),
-        )
-    return options
+def _process_sdk(groups, hostvars):
+    """Retrieve inventory utilizing OpenStackSDK."""
+    # NOTE(dtantsur): backward compatibility
+    if os.environ.get('IRONIC_URL'):
+        print("WARNING: IRONIC_URL is deprecated, use OS_ENDPOINT")
+        os.environ['OS_ENDPOINT'] = os.environ['IRONIC_URL']
+    if os.environ.get('OS_ENDPOINT') and not os.environ.get('OS_AUTH_URL'):
+        os.environ['OS_AUTH_TYPE'] = None
 
-
-def _process_shade(groups, hostvars):
-    """Retrieve inventory utilizing Shade"""
-    options = _identify_shade_auth()
-    cloud = shade.operator_cloud(**options)
+    cloud = openstack.connect()
     machines = cloud.list_machines()
 
     node_names = os.environ.get('BIFROST_NODE_NAMES', None)
@@ -432,12 +414,12 @@ def main():
                               "Tried JSON, YAML, and CSV formats")
                     sys.exit(1)
         elif "ironic" in data_source:
-            if SHADE_LOADED:
-                (groups, hostvars) = _process_shade(groups, hostvars)
+            if SDK_LOADED:
+                (groups, hostvars) = _process_sdk(groups, hostvars)
             else:
                 LOG.error("BIFROST_INVENTORY_SOURCE is set to ironic "
-                          "however the shade library failed to load, and may "
-                          "not be present.")
+                          "however the openstacksdk library failed to load, "
+                          "and may not be present.")
                 sys.exit(1)
         else:
             LOG.error('BIFROST_INVENTORY_SOURCE does not define a file')
