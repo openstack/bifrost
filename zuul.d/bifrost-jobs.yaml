@@ -105,6 +105,11 @@
       enable_keystone: true
 
 - job:
+    name: bifrost-integration-tinyipa-ubuntu-focal
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-focal
+
+- job:
     name: bifrost-integration-tinyipa-centos-8
     parent: bifrost-integration-tinyipa
     nodeset: centos-8
