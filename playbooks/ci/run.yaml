@@ -5,6 +5,7 @@
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
       environment:
         BUILD_IMAGE: "{{ build_image | default(false) | bool | lower }}"
+        CLI_TEST: "{{ cli_test | default(false) | bool | lower }}"
         ENABLE_KEYSTONE: "{{ enable_keystone | default(false) | bool | lower }}"
         LOG_LOCATION: "{{ ansible_user_dir }}/logs"
         UPPER_CONSTRAINTS_FILE: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/requirements'].src_dir }}/upper-constraints.txt"
