@@ -24,7 +24,6 @@ ZUUL_BRANCH=${ZUUL_BRANCH:-}
 # placed in the configuration drive. The "build image" test does not
 # use cirros.
 
-VM_MEMORY_SIZE="3072"
 VM_DOMAIN_TYPE=qemu
 export VM_DISK_CACHE="unsafe"
 TEST_VM_NUM_NODES=1
@@ -103,7 +102,6 @@ fi
 
 # Adjust options for DHCP, VM, or Keystone tests
 if [ ${USE_DHCP} = "true" ]; then
-    VM_MEMORY_SIZE="1024"
     ENABLE_INSPECTOR=false
     INSPECT_NODES=false
     TEST_VM_NUM_NODES=5
@@ -150,8 +148,9 @@ ${ANSIBLE} -vvvv \
        test-bifrost-create-vm.yaml \
        -e ansible_python_interpreter="${ANSIBLE_PYTHON_INTERP}" \
        -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
-       -e test_vm_memory_size=${VM_MEMORY_SIZE} \
+       -e test_vm_memory_size=${VM_MEMORY_SIZE:-512} \
        -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
+       -e test_vm_disk_gib=${VM_DISK:-5} \
        -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
        -e enable_venv=${ENABLE_VENV} \
        -e bifrost_venv_dir=${VENV-} \
