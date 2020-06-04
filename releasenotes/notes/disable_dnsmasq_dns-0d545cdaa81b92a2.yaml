@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes failure to install on systems with a local resolved by setting
+    ``disable_dnsmasq_dns`` to ``True`` by default.

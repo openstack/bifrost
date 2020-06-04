@@ -97,7 +97,7 @@ mysql_password: ""
 # an odd variable expansion issue on fedora blocking migration to fedora-27 that this
 # should fix....
 ironic_db_password: aSecretPassword473z
-disable_dnsmasq_dns: False
+disable_dnsmasq_dns: True
 ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
 openstacksdk_git_folder: /opt/stack/openstacksdk
