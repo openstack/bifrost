@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Changes the default version of Ansible to version 2.9.
+upgrade:
+  - |
+    The default version of Ansible used for this release of bifrost is version
+    2.9. Operators may wish to upgrade if they are directly invoking playbooks
+    or roles.
