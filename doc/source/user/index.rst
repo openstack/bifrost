@@ -8,8 +8,6 @@ this documentation serves as a blend of both Admin and User documentation.
 .. toctree::
    :maxdepth: 1
 
-   vagrant
-   virsh
    howto
    troubleshooting
 
