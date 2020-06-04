@@ -13,7 +13,7 @@ are being booted can connect to the following ports::
 
     67/UDP for DHCP requests to be serviced
     69/UDP for TFTP file transfers (Initial iPXE binary)
-    6301/TCP for the ironic API
+    6385/TCP for the ironic API
     8080/TCP for HTTP File Downloads (iPXE, Ironic-Python-Agent)
 
 If you encounter any additional issues, use of ``tcpdump`` is highly
