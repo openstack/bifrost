@@ -272,7 +272,7 @@
     dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: "root"
     group: "root"
-  with_items:
+  loop:
     - { service_path: "{{ uwsgi_install_prefix.stdout | default('') }}",
         service_name: 'uwsgi',
         username: "{{ nginx_user }}",

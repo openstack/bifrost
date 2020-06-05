@@ -140,7 +140,7 @@
     testvm_nodes_json: []
 
 - include: create_vm.yml
-  with_items: "{{ test_vm_node_names }}"
+  loop: "{{ test_vm_node_names }}"
 
 - name: write to baremetal json file
   copy:

@@ -134,7 +134,7 @@
     mode: 0755
     owner: "ironic"
     group: "ironic"
-  with_items:
+  loop:
     - "{{ ironic_log_dir }}"
     - "{{ ironic_agent_deploy_logs_local_path }}"
 
@@ -174,7 +174,7 @@
     mode: 0750
     owner: "ironic"
     group: "ironic"
-  with_items:
+  loop:
     - "/var/lib/ironic"
     - "/var/lib/ironic/master_images"
     - "/var/lib/ironic/images"
@@ -185,7 +185,7 @@
     dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: "root"
     group: "root"
-  with_items:
+  loop:
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf'}
   when:
@@ -197,7 +197,7 @@
     dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: "root"
     group: "root"
-  with_items:
+  loop:
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-api', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf --log-file {{ ironic_log_dir }}/ironic-api.log'}
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-conductor', username: 'ironic', args: '--config-file /etc/ironic/ironic.conf --log-file {{ ironic_log_dir }}/ironic-conductor.log'}
   when:
@@ -310,7 +310,7 @@
     destination_port: "{{ item }}"
     in_interface: "{{ network_interface }}"
     jump: ACCEPT
-  with_items:
+  loop:
     - "{{ file_url_port }}"
     - 6385
 - block:
