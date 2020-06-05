@@ -15,6 +15,11 @@
 ---
 - import_role:
     name: venv_python_path
+- name: Ensure required packages are installed
+  package:
+    name: "{{ dib_host_required_packages }}"
+    state: present
+  environment: "{{ venv }}"
 # If attempting to utilize a base Ubuntu image, diskimage-builder
 # is the recommended, and default path.
 - name: "Test if image is present"
