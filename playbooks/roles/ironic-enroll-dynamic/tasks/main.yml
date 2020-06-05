@@ -51,6 +51,3 @@
     properties: "{{ properties | default({}) }}"
     driver_info:
       power: "{{ driver_info.power }}"
-      deploy:
-        deploy_kernel: "{{ ipa_kernel_url }}"
-        deploy_ramdisk: "{{ ipa_ramdisk_url }}"
