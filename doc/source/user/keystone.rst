@@ -1,10 +1,5 @@
 .. _keystone:
 
-.. NOTE:: Use of keystone with bifrost is a very new feature and should
-   be considered an advanced topic. Please feel free to reach out to the
-   bifrost contributors and the ironic community as a whole in the project's
-   `IRC`_ channel.
-
 .. _`IRC`: https://wiki.openstack.org/wiki/Ironic#IRC
 
 Bifrost execution with Keystone
