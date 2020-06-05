@@ -33,7 +33,6 @@ required_packages:
   - qemu-img
   - python3-libselinux
   - python3-policycoreutils
-  - debootstrap
   - gcc
   - python3-pip
   - socat
