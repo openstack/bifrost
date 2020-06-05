@@ -9,7 +9,6 @@ nginx_user: nginx
 mysql_service_name: mariadb
 tftp_service_name: tftp
 required_packages:
-  - debootstrap
   - dnsmasq
   - gcc
   - genisoimage

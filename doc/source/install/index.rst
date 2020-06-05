@@ -37,20 +37,8 @@ Installation
 Pre-install steps
 =================
 
-Installing bifrost on RHEL or CentOS requires a few extra pre-install steps,
-in order to have access to the additional packages contained in the EPEL
-repository. Some of the software bifrost leverages, can only be obtained from
-EPEL on RHEL and CentOS systems.
-
-.. note:: Use of EPEL repositories may result in incompatible packages
-          being installed by the package manager. Care should be taken
-          when using a system with EPEL enabled.
-
-RHEL
-----
-
 Enable additional repositories (RHEL only)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+------------------------------------------
 
 The ``extras`` and ``optional`` dnf repositories must be enabled to satisfy
 bifrost's dependencies. To check::
@@ -76,13 +64,19 @@ to enable them::
   sudo dnf config-manager --enable rhui-REGION-rhel-server-optional
   sudo dnf config-manager --enable rhui-REGION-rhel-server-extras
 
-Enable the EPEL repository
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+Enable the EPEL repository (RHEL and CentOS)
+--------------------------------------------
 
-The Extra Packages for Enterprise Linux (EPEL) are required to install some
-dependencies. Please refer to the
-`official wiki page <https://fedoraproject.org/wiki/EPEL>`_ to install and
-configure them.
+Building Debian or Ubuntu based images on RHEL or CentOS requires a few extra
+pre-install steps, in order to have access to the additional packages contained
+in the EPEL repository.
+
+Please refer to the `official wiki page <https://fedoraproject.org/wiki/EPEL>`_
+to install and configure them.
+
+.. note:: Use of EPEL repositories may result in incompatible packages
+          being installed by the package manager. Care should be taken
+          when using a system with EPEL enabled.
 
 Performing the installation
 ===========================

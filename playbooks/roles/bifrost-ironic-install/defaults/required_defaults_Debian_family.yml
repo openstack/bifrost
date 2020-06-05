@@ -29,7 +29,6 @@ required_packages:
   - genisoimage
   - kpartx
   - qemu-utils
-  - debootstrap
   - uuid-runtime
   - curl
   - socat
