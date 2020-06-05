@@ -2,10 +2,10 @@
 How-To
 ======
 
-Use the OpenStack CLI
+Use the baremetal CLI
 =====================
 
-If you wish to utilize the OpenStack CLI in no-auth mode, there are two options
+If you wish to utilize the baremetal CLI in no-auth mode, there are two options
 for configuring the authentication parameters.
 
 clouds.yaml
@@ -42,6 +42,13 @@ example::
 
 This should display a table of nodes, or nothing if there are no nodes
 registered in Ironic.
+
+Installing OpenStack CLI
+------------------------
+
+Starting with the Victoria release, the ``openstack`` command is only installed
+when Keystone is enabled. Install the ``python-openstackclient`` Python package
+to get this command.
 
 Enroll Hardware
 ===============
@@ -250,9 +257,7 @@ By default, Bifrost deploys a configuration drive which includes the user SSH
 public key, hostname, and the network configuration in the form of
 network_data.json that can be read/parsed by the
 `glean <https://opendev.org/opendev/glean>`_ utility. This allows for
-the deployment of Ubuntu, CentOS, or Fedora "tenants" on baremetal.  This file
-format is not yet supported by Cloud-Init, however it is on track for
-inclusion in cloud-init 2.0.
+the deployment of Ubuntu, CentOS, or Fedora "tenants" on baremetal.
 
 By default, Bifrost utilizes a utility called simple-init which leverages
 the previously noted glean utility to apply network configuration.  This
