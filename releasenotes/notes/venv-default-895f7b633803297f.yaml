@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    All packages are now installed in a virtual environment in
+    ``/opt/stack/bifrost`` by default instead of system-wide.
+deprecations:
+  - |
+    Support for system-wide installation of packages is deprecated, untested
+    and may be removed in a future release.

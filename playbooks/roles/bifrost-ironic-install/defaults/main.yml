@@ -223,7 +223,7 @@ power_off_after_inspection: false
 download_ipxe: false
 
 # Settings related to installing bifrost in a virtual environment
-enable_venv: false
+enable_venv: true
 bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
 bifrost_venv_env:
   VIRTUAL_ENV: "{{ bifrost_venv_dir }}"

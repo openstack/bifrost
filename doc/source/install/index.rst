@@ -106,20 +106,43 @@ Installation of Ansible
 Installation of Ansible can take place using the provided environment setup
 script located at ``scripts/env-setup.sh`` which is present in the bifrost
 repository. This may also be used if you already have ansible, as it will
-install ansible and various dependencies to ``~/.local`` in order to avoid
-overwriting or conflicting with a system-wide Ansible installation.
+install ansible and various dependencies to a virtual environment in order
+to avoid overwriting or conflicting with a system-wide Ansible installation.
 
-If you use ``env-setup.sh``, ansible will be installed along
-with its missing Python dependencies into user's ``~/.local`` directory.
-
-Alternatively, if you have a working Ansible installation,
-under normal circumstances the installation playbook can be executed.
+Alternatively, if you have a working Ansible installation, under normal
+circumstances the installation playbook can be executed, but you will need
+to configure the `Virtual environment`_.
 
 .. note:: All testing takes place utilizing the ``scripts/env-setup.sh``
           script. Please feel free to submit
           `bug reports <https://bugs.launchpad.net/bifrost/>`_ or patches
           to OpenStack Gerrit for any issues encountered if you choose to
           directly invoke the playbooks without using ``env-setup.sh``.
+
+Virtual environment
+-------------------
+
+To avoid conflicts between Python packages installed from source and system
+packages, Bifrost defaults to installing everything to a virtual environment.
+``scripts/env-setup.sh`` will automatically create a virtual environment in
+``/opt/stack/bifrost`` if it does not exist.
+
+If you want to enable system-wide installing, set ``ENABLE_VENV`` to ``false``
+before calling ``env-setup.sh``::
+
+    export ENABLE_VENV=false
+
+.. warning::
+    This is not recommended and not tested. Future versions of Bifrost may
+    remove support of running outside of a virtual environment.
+
+If you want to relocate the virtual environment, export the ``VENV`` variable
+before calling ``env-setup.sh``::
+
+    export VENV=/path/to/my/venv
+
+If you're using the ansible playbooks directly (without the helper scripts),
+set the ``enable_venv`` and ``bifrost_venv_dir`` variables accordingly.
 
 Pre-installation settings
 -------------------------
@@ -175,15 +198,11 @@ Dependencies
 
 In order to really get started, you must install dependencies.
 
-If you used the ``env-setup.sh`` environment setup script::
+The ``env-setup.sh`` script automatically invokes ``install-deps.sh`` and
+creates a virtual environment for you::
 
   bash ./scripts/env-setup.sh
-  export PATH=${HOME}/.local/bin:${PATH}
-  cd playbooks
-
-Otherwise::
-
-  pip install -r requirements.txt
+  source /opt/stack/bifrost/bin/activate
   cd playbooks
 
 Once the dependencies are in-place, you can execute the ansible playbook to
@@ -262,4 +281,8 @@ Advanced Topics
 
    keystone
    offline-install
+
+.. toctree::
+   :hidden:
+
    virtualenv
