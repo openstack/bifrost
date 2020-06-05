@@ -138,19 +138,20 @@
 - name: create placeholder var for vm entries in JSON format
   set_fact:
     testvm_json_data: {}
+    testvm_nodes_json: []
 
 - include: create_vm.yml
   with_items: "{{ test_vm_node_names }}"
-
-- name: remove previous baremetal data file
-  file:
-    state: absent
-    path: "{{ baremetal_json_file }}"
 
 - name: write to baremetal json file
   copy:
     dest: "{{ baremetal_json_file }}"
     content: "{{ testvm_json_data | to_nice_json }}"
+
+- name: write to nodes json
+  copy:
+    dest: "{{ baremetal_nodes_json }}"
+    content: "{{ {'nodes': testvm_nodes_json} | to_nice_json }}"
 
 - name: >
     "Set file permissions such that the baremetal data file
@@ -161,3 +162,13 @@
   when: >
     ansible_env.SUDO_USER is defined and
     baremetal_json_file != ""
+
+- name: >
+    "Set file permissions such that the nodes json file
+    can be read by the user executing Ansible"
+  file:
+    path: "{{ baremetal_nodes_json }}"
+    owner: "{{ ansible_env.SUDO_USER }}"
+  when: >
+    ansible_env.SUDO_USER is defined and
+    baremetal_nodes_json != ""
