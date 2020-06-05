@@ -5,7 +5,7 @@ set -eu
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
-DEFAULT_PIP_ANSIBLE='!=2.8.9,<2.9'
+DEFAULT_PIP_ANSIBLE='>=2.9,<2.10'
 
 ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
 ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
