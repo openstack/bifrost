@@ -6,6 +6,7 @@ mysql_service_name: mysql
 required_packages:
   - python-selinux
   - mariadb
+  - policycoreutils-python
   - python-devel
   - python-MySQL-python
   - python-iniparse
@@ -14,5 +15,3 @@ required_packages:
   - libopenssl-devel
   - libxml2-devel
   - nginx
-  - uwsgi
-  - uwsgi-python

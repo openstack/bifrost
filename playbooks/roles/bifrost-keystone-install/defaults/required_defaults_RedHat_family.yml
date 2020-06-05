@@ -15,10 +15,10 @@ required_packages:
   - python3-devel
   - python3-PyMySQL
   - python3-iniparse
+  - python3-libselinux
+  - python3-policycoreutils
   - libffi-devel
   - libxslt-devel
   - openssl-devel
   - libxml2-devel
   - nginx
-  - uwsgi
-  - uwsgi-plugin-python3

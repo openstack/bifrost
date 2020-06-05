@@ -110,6 +110,13 @@
     nodeset: centos-8
 
 - job:
+    name: bifrost-integration-tinyipa-keystone-centos-8
+    parent: bifrost-integration-tinyipa
+    nodeset: centos-8
+    vars:
+      enable_keystone: true
+
+- job:
     name: bifrost-integration-tinyipa-debian-buster
     parent: bifrost-integration-tinyipa
     nodeset: debian-buster
