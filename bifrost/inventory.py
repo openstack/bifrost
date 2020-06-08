@@ -450,7 +450,7 @@ def main():
     # Drop empty groups. This is usually necessary when
     # the default ["baremetal"] group has been overridden
     # by the user.
-    for group in groups.keys():
+    for group in list(groups):
         # Empty groups
         if len(groups[group]['hosts']) == 0:
             del groups[group]
