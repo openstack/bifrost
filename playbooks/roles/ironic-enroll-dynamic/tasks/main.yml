@@ -38,7 +38,7 @@
   no_log: yes
 
 - name: "Dynamic enrollment"
-  os_ironic:
+  openstack.cloud.baremetal_node:
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
