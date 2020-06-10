@@ -84,8 +84,7 @@
 # python-apt only works if it's installed on the local system so we need to switch the
 # Ansible python interpreter.
 - name: "Install required packages"
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state=present"
-  with_items: "{{ required_packages }}"
+  action: "{{ ansible_pkg_mgr }} name={{ required_packages }} state=present"
   vars:
     ansible_python_interpreter: '/usr/bin/python3'
 
