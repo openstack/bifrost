@@ -67,6 +67,10 @@ fast_track = {{ fast_track }}
 [conductor]
 clean_nodes = {{ cleaning | lower }}
 automated_clean = {{ cleaning | lower }}
+deploy_kernel = {{ ipa_kernel_url }}
+deploy_ramdisk = {{ ipa_ramdisk_url }}
+rescue_kernel = {{ ipa_kernel_url }}
+rescue_ramdisk = {{ ipa_ramdisk_url }}
 
 [database]
 connection = mysql+pymysql://{{ ironic.database.username }}:{{ ironic.database.password }}@{{ ironic.database.host }}/{{ ironic.database.name }}?charset=utf8

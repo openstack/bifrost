@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Configures the default deploy and rescue kernel/ramdisk, setting them
+    in ``driver_info`` is now optional.
