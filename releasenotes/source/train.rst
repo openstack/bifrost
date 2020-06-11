@@ -1,5 +1,5 @@
 ==========================================
-Train Series (6.1.0 - 7.0.x) Release Notes
+Train Series (6.1.0 - 7.2.x) Release Notes
 ==========================================
 
 .. release-notes::
