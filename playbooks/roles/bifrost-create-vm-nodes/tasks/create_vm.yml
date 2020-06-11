@@ -152,7 +152,22 @@
         ram: "{{ test_vm_memory_size }}"
         cpus: "{{ test_vm_cpu_count }}"
         disk_size: "{{ test_vm_disk_gib }}"
+    node_entry:
+      name: "{{ vm_name }}"
+      uuid: "{{ vm_name | to_uuid }}"
+      driver: "{{ test_vm_node_driver|default('ipmi') }}"
+      driver_info:
+        ipmi_address: "192.168.122.1"
+        ipmi_port: "{{ virtual_ipmi_port }}"
+        ipmi_username: "admin"
+        ipmi_password: "password"
+      ports:
+        - address: "{{ vm_mac }}"
+      properties:
+        cpu_arch: "{{ test_vm_arch }}"
+        disk_gb: "{{ test_vm_disk_gib }}"
 
 - name: add created vm info
   set_fact:
     testvm_json_data: "{{ testvm_json_data | combine({vm_name: testvm_data}) }}"
+    testvm_nodes_json: "{{ testvm_nodes_json + [node_entry] }}"

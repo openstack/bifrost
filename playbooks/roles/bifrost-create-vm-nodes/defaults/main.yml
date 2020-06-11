@@ -1,6 +1,7 @@
 ---
 # defaults file for bifrost-create-vm-nodes
 baremetal_json_file: '/tmp/baremetal.json'
+baremetal_nodes_json: '/tmp/nodes.json'
 test_vm_memory_size: "3072"
 test_vm_num_nodes: 1
 test_vm_domain_type: "qemu"

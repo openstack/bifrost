@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    A normal ironic ``nodes.json`` (suitable for the ``baremetal create``
+    command) is now generated when creating testing VMs. The default location
+    is ``/tmp/nodes.json``.
