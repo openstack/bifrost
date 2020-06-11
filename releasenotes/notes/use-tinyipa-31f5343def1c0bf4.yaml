@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new variable ``use_tinyipa`` (defaulting to ``true``) defines whether
+    to use the pre-built tinyIPA images or production-ready CentOS images
+    built with DIB.
