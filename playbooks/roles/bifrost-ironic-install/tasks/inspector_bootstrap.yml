@@ -95,7 +95,11 @@
   register: ironic_install_prefix
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 - name: "Inspector - Place service"
-  template: src={{ init_template }} dest={{ init_dest_dir }}{{item.service_name}}{{ init_ext }} owner=root group=root
+  template:
+    src: systemd_template.j2
+    dest: "{{ init_dest_dir }}{{item.service_name}}.service"
+    owner: root
+    group: root
   with_items:
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-inspector', username: 'ironic', args: '--config-file /etc/ironic-inspector/inspector.conf'}
 - name: "Inspector - Explicitly permit TCP/5050 for ironic-inspector callback"

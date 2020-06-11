@@ -1,7 +1,5 @@
 ---
-init_template: systemd_template.j2
 init_dest_dir: /usr/lib/systemd/system/
-init_ext: .service
 mysql_service_name: mysql
 required_packages:
   - python-selinux
