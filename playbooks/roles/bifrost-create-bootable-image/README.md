@@ -9,7 +9,7 @@ Requirements
 
 This role requires:
 
-- Ansible 1.9
+- Ansible 2.9
 - qemu-img
 - kpartx
 - The partition image must have the grub bootloader installed.

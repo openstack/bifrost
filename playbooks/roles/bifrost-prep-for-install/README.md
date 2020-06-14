@@ -10,7 +10,7 @@ Requirements
 
 This role requires:
 
-- Ansible 1.9
+- Ansible 2.9
 
 Internet access was originally a requirement for installation, however access
 is no longer required.  See doc/source/offline-install.rst for details on
