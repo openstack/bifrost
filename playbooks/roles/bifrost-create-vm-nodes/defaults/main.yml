@@ -47,6 +47,8 @@ reqs_git_url: https://opendev.org/openstack/requirements
 reqs_git_folder: "{{ git_root }}/requirements"
 reqs_git_branch: "{{ git_branch }}"
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
+update_repos: true
+force_update_repos: true
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false

@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    Adds two new parameters for controlling how existing git checkouts are
+    handled:
+
+    * ``update_repos`` can be set to ``false`` to prevent the repositories
+      from being updated.
+    * ``force_update_repos`` can be set to ``false`` to prevent Bifrost from
+      overwriting local changes.

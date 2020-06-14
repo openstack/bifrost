@@ -24,10 +24,10 @@
 - name: "Download via GIT"
   git:
     dest: "{{ item.git_folder }}"
-    force: yes
+    force: "{{ force_update_repos | bool }}"
     repo: "{{ item.git_url }}"
     version: "{{ item.git_branch }}"
-    update: yes
+    update: "{{ update_repos | bool }}"
     clone: yes
   with_items: "{{ bifrost_install_sources }}"
   when: ci_testing_zuul | bool == false and copy_from_local_path | bool == false
