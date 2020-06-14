@@ -14,11 +14,6 @@
 # limitations under the License.
 ---
 
-- name: workaround for PEP517 issue
-  set_fact:
-    extra_args: ""
-  when: ansible_python_version == "3.6.8"
-
 - name: Set extra_args if upper_constraints_file is defined
   set_fact:
     constraints_extra_args: "{{ extra_args | default('') }} -c {{ upper_constraints_file }}"
