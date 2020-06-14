@@ -65,26 +65,15 @@
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
-# NOTE(cinerama): On Fedora 22, ansible 1.9, ansible_pkg_mgr
-# defaults to yum, which may not be installed. This can be safely
-# removed when we start using an ansible release which prefers dnf.
-
-- name: "Check for dnf"
-  stat:
-    path: "/usr/bin/dnf"
-  register: test_dnf
-
-- name: "Adjust ansible_pkg_mgr if dnf exists"
-  set_fact:
-    ansible_pkg_mgr: "dnf"
-  when: ansible_distribution == 'Fedora' and test_dnf.stat.exists|bool
 
 # NOTE(hwoarang) The 'apt' module needs python-apt installed in the virtualenv
 # but it's not possible to do that. See https://github.com/ansible/ansible/issues/14468
 # python-apt only works if it's installed on the local system so we need to switch the
 # Ansible python interpreter.
 - name: "Install required packages"
-  action: "{{ ansible_pkg_mgr }} name={{ required_packages }} state=present"
+  package:
+    name: "{{ required_packages }}"
+    state: present
   vars:
     ansible_python_interpreter: '/usr/bin/python3'
 
