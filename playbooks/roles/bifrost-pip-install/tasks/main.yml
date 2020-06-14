@@ -1,0 +1,78 @@
+# Copyright (c) 2015 Hewlett Packard Enterprise Development LP.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+- block:
+
+  - name: "Check that sourcedir is provided with source_install"
+    fail:
+      msg: Source installation of requires sourcedir to be provided
+    when: source_install | bool and sourcedir | default('') == ''
+
+  - name: "Set extra_args if upper_constraints_file is defined"
+    set_fact:
+      constraints_extra_args: "{{ extra_args | default('') }} -c {{ upper_constraints_file }}"
+    when:
+      - upper_constraints_file != ''
+      # NOTE(dtantsur): constraining does not work correctly correctly with
+      # source installation if the package itself is in constraints.
+      - source_install | bool == false
+
+  - name: "Install {{ package }} package from pip using virtualenv"
+    pip:
+      name: "{{ package }}"
+      state: "{{ state | default(omit) }}"
+      version: "{{ version | default(omit) }}"
+      virtualenv: "{{ bifrost_venv_dir }}"
+      virtualenv_command: "python3 -m venv"
+      extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
+    register: pip_package_install_done
+    until: pip_package_install_done is succeeded
+    retries: "{{ pip_install_retries }}"
+    delay: "{{ pip_install_delay }}"
+    when: source_install | bool == false and enable_venv | bool
+
+  - name: "Install {{ package }} package from pip without virtualenv"
+    pip:
+      name: "{{ package }}"
+      state: "{{ state | default(omit) }}"
+      version: "{{ version | default(omit) }}"
+      extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
+      executable: /usr/bin/pip3
+    register: pip_package_install_done
+    until: pip_package_install_done is succeeded
+    retries: "{{ pip_install_retries }}"
+    delay: "{{ pip_install_delay }}"
+    when: source_install | bool == false and enable_venv | bool == false
+
+  - name: "Install requirements from {{ sourcedir }} using pip"
+    pip:
+      extra_args: "{{ extra_args | default('') }} {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}"
+      requirements: "{{ sourcedir }}/requirements.txt"
+    register: pip_package_install_done
+    until: pip_package_install_done is succeeded
+    retries: 5
+    delay: 10
+    when: source_install | bool
+    environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
+
+  # NOTE(dtantsur): do not use constraints here, it does not work when the
+  # package itself is constrained.
+  - name: "Install from {{ sourcedir }} using pip"
+    command: pip3 install {{ sourcedir }} {{ extra_args | default('') }}
+    when: source_install | bool
+    environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
+
+  when: skip_install | default(false) | bool == false

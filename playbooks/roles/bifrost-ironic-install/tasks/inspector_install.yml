@@ -13,18 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Inspector - PIP Install"
-  include: pip_install.yml
-    package=ironic-inspector
-    state=latest
-    sourcedir={{ ironicinspector_git_folder }}
-    source_install={{ ironicinspector_source_install }}
-    extra_args="--no-cache-dir {{ pip_opts }}"
+- name: "Inspector - install"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: ironic-inspector
+    sourcedir: "{{ ironicinspector_git_folder }}"
+    source_install: "{{ ironicinspector_source_install }}"
+    extra_args: "--no-cache-dir {{ pip_opts }}"
 
-- name: "Inspector - PIP client install"
-  include: pip_install.yml
-    package=python-ironic-inspector-client
-    state=latest
-    sourcedir={{ ironicinspectorclient_git_folder }}
-    source_install={{ ironicinspectorclient_source_install }}
-    extra_args="--no-cache-dir {{ pip_opts }}"
+- name: "Inspector - client install"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: python-ironic-inspector-client
+    sourcedir: "{{ ironicinspectorclient_git_folder }}"
+    source_install: "{{ ironicinspectorclient_source_install }}"
+    extra_args: "--no-cache-dir {{ pip_opts }}"

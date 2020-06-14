@@ -20,25 +20,14 @@
     venv_command: "python3 -m venv"
   when: enable_venv
 
-- name: install libvirt-python and lxml without virtualenv
-  pip:
-    name: "{{ item }}"
-    extra_args: "-c {{ upper_constraints_file }}"
+- name: install libvirt-python and lxml
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: "{{ item }}"
   loop:
     - libvirt-python
     - lxml
-  when: enable_venv | bool == false
-
-- name: install libvirt-python and lxml with virtualenv
-  pip:
-    name: "{{ item }}"
-    state: present
-    virtualenv: "{{ bifrost_venv_dir }}"
-    virtualenv_command: "{{ venv_command | default(omit) }}"
-  loop:
-    - libvirt-python
-    - lxml
-  when: enable_venv | default(false) | bool
 
 - name: configure libvirt log filters for qemu
   blockinfile:
@@ -169,11 +158,10 @@
     mode: "0755"
 
 - name: install virtualbmc
-  pip:
-    name: virtualbmc
-    extra_args: "-c {{ upper_constraints_file }}"
-    virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
-  become: true
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: virtualbmc
 
 - name: ensure Virtual BMC systemd service is configured
   template:

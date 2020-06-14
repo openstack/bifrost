@@ -38,11 +38,10 @@
   file: name=/opt/stack state=directory owner=root group=root
 
 - name: "proliantutils - Install from pip"
-  include: pip_install.yml
-     package=proliantutils
-     state=present
-  environment: "{{ venv }}"
-  when: skip_install is not defined
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: proliantutils
 
 - name: "Install iSCSI client and dependencies if iscsi deploy interface is enabled"
   package:
@@ -51,91 +50,84 @@
   when: skip_install is not defined and 'iscsi' in enabled_deploy_interfaces
 
 - name: "IPA-builder - Install"
-  include: pip_install.yml
-    package=ironic-python-agent-builder
-    sourcedir={{ ipa_builder_git_folder }}
-    source_install=true
-  when: skip_install is not defined and install_dib | bool == true
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: ironic-python-agent-builder
+    sourcedir: "{{ ipa_builder_git_folder }}"
+    source_install: true
+  when: install_dib | bool == true
 
 # NOTE(mgoddard): IPA-builder has a dependency on diskimage-builder. Install
 # DIB last to ensure it is installed from source rather than PyPI.
 - name: "Diskimage-builder - Install"
-  include: pip_install.yml
-    package=diskimage-builder
-    sourcedir={{ dib_git_folder }}
-    source_install=true
-  when: skip_install is not defined and install_dib | bool == true
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: diskimage-builder
+    sourcedir: "{{ dib_git_folder }}"
+    source_install: true
+  when: install_dib | bool == true
 
 - name: "sushy - Install"
-  include: pip_install.yml
-    package=sushy
-    sourcedir={{ sushy_git_folder }}
-    source_install={{ sushy_source_install }}
-  when: skip_install is not defined
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: sushy
+    sourcedir: "{{ sushy_git_folder }}"
+    source_install: "{{ sushy_source_install }}"
 
 - name: "Ironic Client - Install"
-  include: pip_install.yml
-    package=python-ironicclient
-    state=latest
-    sourcedir={{ ironicclient_git_folder }}
-    source_install={{ ironicclient_source_install }}
-  when: skip_install is not defined
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: python-ironicclient
+    sourcedir: "{{ ironicclient_git_folder }}"
+    source_install: "{{ ironicclient_source_install }}"
 
 # NOTE(dtantsur): no much value in installing metalsmith from source - it does
 # not change often, and nothing in bifrost depends on it.
 - name: "metalsmith - Install"
-  include: pip_install.yml
-    package=metalsmith
-    state=latest
-  when: skip_install is not defined
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: metalsmith
+    source_install: false
 
-- name: "Install configparser in venv if using"
-  include: pip_install.yml
-    package=configparser
-    virtualenv={{ bifrost_venv_dir }}
-  when: skip_install is not defined and (enable_venv | bool == true)
-
-- name: "Install pymysql in venv if using"
-  include: pip_install.yml
-    package=pymysql
-    state=latest
-    virtualenv={{ bifrost_venv_dir }}
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == true
-
-- name: "Install pymysql for non-venv environments to support Ansible"
-  include: pip_install.yml
-    package=pymysql
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == false
+- name: "Install pymysql"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: pymysql
 
 - name: "Install extra packages for ironic"
-  include: pip_install.yml
-    package={{ item }}
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: "{{ item }}"
   loop: "{{ ironic_extra_packages }}"
 
 - name: "Install Ironic using pip"
-  include: pip_install.yml
-    package=ironic
-    state=latest
-    sourcedir={{ ironic_git_folder }}
-    source_install=true
-    extra_args="--no-cache-dir {{ pip_opts }}"
-  when: skip_install is not defined
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: ironic
+    sourcedir: "{{ ironic_git_folder }}"
+    source_install: true
+    extra_args: "--no-cache-dir {{ pip_opts }}"
 
 - name: "Install ironic-inspector to permit use of inspection interface"
-  include: inspector_install.yml
-  when: skip_install is not defined and enable_inspector | bool == true
+  include_tasks: inspector_install.yml
+  when: enable_inspector | bool == true
 
 - name: "Install ironic-staging-drivers"
-  include: staging_install.yml
-  when: skip_install is not defined and staging_drivers_include | bool == true
+  include_tasks: staging_install.yml
+  when: staging_drivers_include | bool == true
 
-- name: install openstacksdk
-  include: pip_install.yml
-    package=openstacksdk
-    sourcedir={{ openstacksdk_git_folder }}
-    source_install={{ openstacksdk_source_install }}
-  when: skip_install is not defined
+- name: "Install openstacksdk"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: openstacksdk
+    sourcedir: "{{ openstacksdk_git_folder }}"
+    source_install: "{{ openstacksdk_source_install }}"

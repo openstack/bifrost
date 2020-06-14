@@ -27,81 +27,29 @@
   file: name=/opt/stack state=directory owner=root group=root
   when: skip_install is not defined
 
-# NOTE(TheJulia): Part of Bifrost's install does this as well, but
-# duplicating here as we are installing a separate service with this.
-# We may wish to refactor this at a later point in time.
-- name: "Install configparser in venv if using"
-  include: pip_install.yml
-    package=configparser
-    virtualenv=bifrost_venv_dir
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == true
-
-- name: "Install pymysql in venv if using"
-  include: pip_install.yml
-    package=pymysql
-    virtualenv=bifrost_venv_dir
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == true
+- name: "Install pymysql"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: pymysql
 
 - name: "Install uWSGI in venv if using"
-  include: pip_install.yml
-    package=uWSGI
-    virtualenv=bifrost_venv_dir
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == true
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: uWSGI
 
-- name: "Install python-openstackclient in venv if using"
-  include: pip_install.yml
-    package=python-openstackclient
-    virtualenv=bifrost_venv_dir
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == true
+- name: "Install python-openstackclient"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: python-openstackclient
 
-- name: "Install keystone in venv if using"
-  include: pip_install.yml
-    package=keystone
-    virtualenv=bifrost_venv_dir
-    state=latest
-    sourcedir={{ keystone_git_folder }}
-    source_install={{ keystone_source_install | bool }}
-    extra_args="--no-cache-dir {{ pip_opts }}"
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == true
-
-- name: "Install configparser if not using a venv"
-  include: pip_install.yml
-    package=configparser
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == false
-
-- name: "Install pymysql if not using a venv"
-  include: pip_install.yml
-    package=pymysql
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == false
-
-- name: "Install python-openstackclient if not using a venv"
-  include: pip_install.yml
-    package=python-openstackclient
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == false
-
-- name: "Install keystone if not using a venv"
-  include: pip_install.yml
-    package=keystone
-    state=latest
-    sourcedir={{ keystone_git_folder }}
-    source_install={{ keystone_source_install | bool }}
-    extra_args="--no-cache-dir {{ pip_opts }}"
-  when:
-    - skip_install is not defined
-    - enable_venv | bool == false
+- name: "Install keystone"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: keystone
+    sourcedir: "{{ keystone_git_folder }}"
+    source_install: "{{ keystone_source_install }}"
+    extra_args: "--no-cache-dir {{ pip_opts }}"
