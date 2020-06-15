@@ -10,7 +10,7 @@ Requirements
 
 This role requires:
 
-- Ansible 1.9
+- Ansible 2.9
 
 
 Role Variables
