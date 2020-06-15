@@ -30,26 +30,27 @@
   connection: local
   pre_tasks:
     - name: "Pull initial ironic facts"
-      os_ironic_facts:
+      os_ironic_node_info:
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
         name: "{{ inventory_hostname }}"
         ironic_url: "{{ ironic_url }}"
         skip_items: []
+      register: node_info
   roles:
     - { role: bifrost-unprovision-node-dynamic, when: (provision_state == "active"
               or provision_state == "deploy failed"
               or provision_state == "error") and maintenance | bool != true }
   post_tasks:
     - name: "Pull ironic facts until provision state available"
-      os_ironic_facts:
+      os_ironic_node_info:
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
         name: "{{ inventory_hostname }}"
         ironic_url: "{{ ironic_url }}"
         skip_items: []
-      register: result
-      until: provision_state == "available"
+      register: node_info
+      until: node_info.node.provision_state == "available"
       retries: "{{ available_state_wait_retries | default(15) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"
 - hosts: baremetal
@@ -61,14 +62,14 @@
     - { role: bifrost-deploy-nodes-dynamic, when: provision_state == "available" and maintenance | bool != true }
   post_tasks:
     - name: "Pull ironic facts until provision state active"
-      os_ironic_facts:
+      os_ironic_node_info:
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
         name: "{{ inventory_hostname }}"
         ironic_url: "{{ ironic_url }}"
         skip_items: []
-      register: result
-      until: provision_state == "active"
+      register: node_info
+      until: node_info.node.provision_state == "active"
       retries: "{{ active_state_wait_retries | default(30) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"
 

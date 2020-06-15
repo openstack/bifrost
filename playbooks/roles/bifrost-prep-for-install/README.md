@@ -28,9 +28,6 @@ ironicclient_git_url: URL for ironicclient, defaults to:
 openstacksdk_git_url: URL for openstacksdk, defaults to:
                       https://opendev.org/openstack/openstacksdk
 
-shade_git_url: URL for shade, defaults to:
-               https://opendev.org/openstack/shade
-
 ironic_git_url: URL for ironic, defaults to:
                 https://opendev.org/openstack/ironic
 
@@ -46,9 +43,6 @@ ironic_git_folder: The folder to clone ironic to if missing, default to:
 openstacksdk_git_folder: The folder to clone openstacksdk to if missing,
                          defaults to: "{{ git_root}}/openstacksdk.git"
 
-shade_git_folder: The folder to clone shade to if missing, defaults to:
-                  "{{ git_root}}/shade.git"
-
 sushy_git_folder: The folder to clone sushy to if missing, default to:
                   "{{ git_root}}/sushy.git"
 
@@ -61,8 +55,6 @@ ironic_git_branch: Branch to install, defaults to the value of git_branch.
 
 openstacksdk_git_branch: Branch to install, defaults to the value of
                          git_branch.
-
-shade_git_branch: Branch to install, defaults to the value of git_branch.
 
 dib_git_branch: Branch to install, defaults to "master".
 

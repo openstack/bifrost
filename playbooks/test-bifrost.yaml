@@ -32,7 +32,6 @@
          ironic_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic"
          ironicclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironicclient"
          openstacksdk_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/openstacksdk"
-         shade_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/shade"
          dib_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/diskimage-builder"
          ironicinspector_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-inspector"
          ironicinspectorclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironic-inspector-client"

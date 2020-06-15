@@ -26,7 +26,6 @@
       - openstack/python-ironic-inspector-client
       - openstack/python-ironicclient
       - openstack/requirements
-      - openstack/shade
       - openstack/sushy
       - x/ironic-staging-drivers
 

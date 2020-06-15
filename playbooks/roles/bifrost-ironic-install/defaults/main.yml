@@ -13,7 +13,6 @@ staging_drivers_include: false
 file_url_port: "8080"
 ironicclient_source_install: false
 openstacksdk_source_install: true
-shade_source_install: true
 ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
 sushy_source_install: false
@@ -98,7 +97,6 @@ include_dhcp_server: true
 dib_git_url: https://opendev.org/openstack/diskimage-builder
 ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
 openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
-shade_git_url: https://opendev.org/openstack/shade
 ironic_git_url: https://opendev.org/openstack/ironic
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
@@ -116,7 +114,6 @@ disable_dnsmasq_dns: True
 ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
 openstacksdk_git_folder: /opt/stack/openstacksdk
-shade_git_folder: /opt/stack/shade
 dib_git_folder: /opt/stack/diskimage-builder
 reqs_git_folder: /opt/stack/requirements
 upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
