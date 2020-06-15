@@ -22,7 +22,7 @@
     dest: "/etc/hosts"
     regexp: "{{ item.regexp }}.*({{ ansible_hostname }}|localhost).*"
     line: "{{ item.contents }}"
-  with_items:
+  loop:
     - { regexp: '^127\.0\.0\.1', contents: '127.0.0.1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost' }
     - { regexp: '^::1', contents: '::1 {{ ansible_hostname }} {{ ansible_fqdn }} localhost ipv6-localhost ipv6-loopback' }
   when: not skip_bootstrap | bool
@@ -44,7 +44,7 @@
     - systemd: daemon_reload=yes
 
     - service: name={{ item }} state=stopped enabled=no
-      with_items:
+      loop:
         - epmd.socket
         - epmd
   when:

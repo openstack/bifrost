@@ -114,7 +114,7 @@
 - name: "Install extra packages for ironic"
   include: pip_install.yml
     package={{ item }}
-  with_items: "{{ ironic_extra_packages }}"
+  loop: "{{ ironic_extra_packages }}"
 
 - name: "Install Ironic using pip"
   include: pip_install.yml

@@ -29,10 +29,10 @@
     version: "{{ item.git_branch }}"
     update: "{{ update_repos | bool }}"
     clone: yes
-  with_items: "{{ bifrost_install_sources }}"
+  loop: "{{ bifrost_install_sources }}"
   when: ci_testing_zuul | bool == false and copy_from_local_path | bool == false
 
 - name: "Copy from local path"
   command: cp -a {{ item.git_url }} {{ item.git_folder }} creates={{ item.git_folder }}
-  with_items: "{{ bifrost_install_sources }}"
+  loop: "{{ bifrost_install_sources }}"
   when: ci_testing_zuul | bool == true or copy_from_local_path | bool == true

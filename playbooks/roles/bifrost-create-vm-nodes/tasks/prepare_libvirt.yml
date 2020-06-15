@@ -24,7 +24,7 @@
   pip:
     name: "{{ item }}"
     extra_args: "-c {{ upper_constraints_file }}"
-  with_items:
+  loop:
     - libvirt-python
     - lxml
   when: enable_venv | bool == false
@@ -35,7 +35,7 @@
     state: present
     virtualenv: "{{ bifrost_venv_dir }}"
     virtualenv_command: "{{ venv_command | default(omit) }}"
-  with_items:
+  loop:
     - libvirt-python
     - lxml
   when: enable_venv | default(false) | bool

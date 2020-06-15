@@ -16,6 +16,6 @@
 
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted enabled=yes
-  with_items:
+  loop:
     - nginx
     - uwsgi

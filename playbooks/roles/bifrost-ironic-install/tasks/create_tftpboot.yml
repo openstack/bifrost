@@ -17,7 +17,7 @@
 # For now, we need to use it, but we can patch that.
 - name: "Set up PXE and iPXE folders"
   file: name={{item}} owner=ironic group=ironic state=directory mode=0755
-  with_items:
+  loop:
     - /tftpboot
     - /tftpboot/pxelinux.cfg
     - "{{ http_boot_folder }}"

@@ -29,13 +29,13 @@
   file:
     state: directory
     name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/"
-  with_items: "{{ metadata_versions }}"
+  loop: "{{ metadata_versions }}"
 
 - name: "Place template in each openstack/<version> folder"
   template:
     src: openstack_meta_data.json.j2
     dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/meta_data.json"
-  with_items: "{{ metadata_versions }}"
+  loop: "{{ metadata_versions }}"
 
 - name: "Generate network_data"
   network_metadata:
@@ -54,7 +54,7 @@
   template:
     src: network_data.json.j2
     dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/network_data.json"
-  with_items: "{{ metadata_versions }}"
+  loop: "{{ metadata_versions }}"
   when:
     - item in metadata_versions_supporting_network_data
     - addressing_mode is undefined or "dhcp" not in addressing_mode
@@ -67,7 +67,7 @@
   template:
     src: network_data.json.j2
     dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/network_info.json"
-  with_items: "{{ metadata_versions }}"
+  loop: "{{ metadata_versions }}"
   when:
     - item in metadata_versions_supporting_network_data
     - addressing_mode is undefined or "dhcp" not in addressing_mode

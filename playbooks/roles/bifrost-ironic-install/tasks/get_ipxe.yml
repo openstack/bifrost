@@ -33,7 +33,7 @@
   until: ipxe_files_download_done is succeeded
   retries: 5
   delay: 10
-  with_items:
+  loop:
     - undionly.kpxe
     - ipxe.pxe
   environment: "{{ venv }}"
@@ -47,7 +47,7 @@
   until: ipxe_efi_binary_download_done is succeeded
   retries: 5
   delay: 10
-  with_items:
+  loop:
     - "{{ ipxe_efi_binary }}"
   environment: "{{ venv }}"
   when: enable_uefi_ipxe | bool == true

@@ -46,7 +46,7 @@
 
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted enabled=yes
-  with_items:
+  loop:
     - xinetd
     - nginx
 
@@ -65,13 +65,13 @@
 
 - name: "Ensure dnsmasq is running with current config"
   service: name={{ item }} state=restarted enabled=yes
-  with_items:
+  loop:
     - dnsmasq
   when: include_dhcp_server | bool == true
 
 - name: "Send services a reload signal"
   service: name={{ item }} state=reloaded
-  with_items:
+  loop:
     - xinetd
     - nginx
 
