@@ -15,7 +15,9 @@
     name: venv_python_path
 
 - name: "Install packages"
-  action: "{{ ansible_pkg_mgr }} name={{ required_packages }} state=present"
+  package:
+    name: "{{ required_packages }}"
+    state: present
   environment: "{{ venv }}"
 
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
