@@ -22,18 +22,12 @@
             voting: false
         - bifrost-integration-dhcp-ubuntu-bionic:
             voting: false
-        - bifrost-integration-dibipa-debian-ubuntu-bionic:
-            voting: false
         - bifrost-integration-dhcp-centos-8:
+            voting: false
+        - bifrost-integration-dibipa-debian-ubuntu-bionic:
             voting: false
         - bifrost-integration-dibipa-debian-centos-8:
             voting: false
-        - bifrost-integration-dhcp-opensuse-15:
-           voting: false
-        - bifrost-integration-dibipa-debian-opensuse-15:
-           voting: false
-        - bifrost-integration-dhcp-debian-buster:
-           voting: false
         - bifrost-cli-ubuntu-bionic:
            voting: false
     gate:

@@ -51,16 +51,6 @@
     nodeset: centos-8
 
 - job:
-    name: bifrost-integration-dhcp-opensuse-15
-    parent: bifrost-integration-dhcp
-    nodeset: opensuse-15
-
-- job:
-    name: bifrost-integration-dhcp-debian-buster
-    parent: bifrost-integration-dhcp
-    nodeset: debian-buster
-
-- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     timeout: 7200
@@ -76,11 +66,6 @@
     name: bifrost-integration-dibipa-debian-centos-8
     parent: bifrost-integration-dibipa-debian
     nodeset: centos-8
-
-- job:
-    name: bifrost-integration-dibipa-debian-opensuse-15
-    parent: bifrost-integration-dibipa-debian
-    nodeset: opensuse-15
 
 - job:
     name: bifrost-integration-tinyipa
