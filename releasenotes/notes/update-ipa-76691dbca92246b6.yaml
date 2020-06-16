@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    An ironic-python-agent image is now updated every time the installation
+    playbooks are run. This is done to avoid discrepancy between ironic and
+    the ramdisk on updates. Set ``update_ipa`` to ``false`` to prevent the
+    ramdisk update (not recommended) or ``update_repos`` to ``false`` to
+    disable any updates.
