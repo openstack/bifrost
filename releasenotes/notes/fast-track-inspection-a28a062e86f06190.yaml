@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes fast-track deployment after inspection/discovery by providing the
+    correct ironic API URL to the ramdisk.
