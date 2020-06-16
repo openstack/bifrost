@@ -19,6 +19,8 @@ enabled_deploy_interfaces = {{ enabled_deploy_interfaces }}
 
 enabled_hardware_types = {{ enabled_hardware_types }}
 
+default_resource_class = {{ default_resource_class }}
+
 {% if use_rabbitmq is defined and use_rabbitmq | bool == true %}
 transport_url = rabbit://ironic:{{ironic_db_password }}@{{ message_queue_host | default('127.0.0.1') }}:{{ message_queue_port | default('5672') }}/{{ rabbit_virtual_host | default('') }}
 {% else %}
