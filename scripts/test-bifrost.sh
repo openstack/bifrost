@@ -11,7 +11,8 @@ BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
-ENABLE_VENV=${ENABLE_VENV:-true}
+ENABLE_VENV=true
+CLI_TEST=${CLI_TEST:-false}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -50,22 +51,18 @@ OS_DISTRO="$ID"
 # Setup openstack_ci test database if run in OpenStack CI.
 if [ "$ZUUL_BRANCH" != "" ]; then
     sudo mkdir -p /opt/libvirt/images
-    VM_SETUP_EXTRA="-e test_vm_storage_pool_path=/opt/libvirt/images"
+    VM_SETUP_EXTRA="--storage-pool-path /opt/libvirt/images"
 fi
 
 source $SCRIPT_HOME/env-setup.sh
-if [ ${ENABLE_VENV} = "true" ]; then
-    # Note(cinerama): activate is not compatible with "set -u";
-    # disable it just for this line.
-    set +u
-    source ${VENV}/bin/activate
-    set -u
-    ANSIBLE=${VENV}/bin/ansible-playbook
-    ANSIBLE_PYTHON_INTERP=${VENV}/bin/python3
-else
-    ANSIBLE=${HOME}/.local/bin/ansible-playbook
-    ANSIBLE_PYTHON_INTERP=$(which python3)
-fi
+
+# Note(cinerama): activate is not compatible with "set -u";
+# disable it just for this line.
+set +u
+source ${VENV}/bin/activate
+set -u
+ANSIBLE=${VENV}/bin/ansible-playbook
+ANSIBLE_PYTHON_INTERP=${VENV}/bin/python3
 
 # Adjust options for DHCP, VM, or Keystone tests
 if [ ${USE_DHCP} = "true" ]; then
@@ -120,19 +117,13 @@ for task in syntax-check list-tasks; do
            -e testing_user=${TESTING_USER}
 done
 
-# Create the test VM
-${ANSIBLE} -vvvv \
-       -i inventory/localhost \
-       test-bifrost-create-vm.yaml \
-       -e ansible_python_interpreter="${ANSIBLE_PYTHON_INTERP}" \
-       -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
-       -e test_vm_memory_size=${VM_MEMORY_SIZE:-512} \
-       -e test_vm_domain_type=${VM_DOMAIN_TYPE} \
-       -e test_vm_disk_gib=${VM_DISK:-5} \
-       -e baremetal_json_file=${BAREMETAL_DATA_FILE} \
-       -e enable_venv=${ENABLE_VENV} \
-       -e bifrost_venv_dir=${VENV} \
-       ${VM_SETUP_EXTRA:-}
+# Create the test VMs
+../bifrost-cli --debug testenv \
+    --count ${TEST_VM_NUM_NODES} \
+    --memory ${VM_MEMORY_SIZE:-512} \
+    --disk ${VM_DISK:-5} \
+    --inventory "${BAREMETAL_DATA_FILE}" \
+    ${VM_SETUP_EXTRA:-}
 
 if [ ${USE_DHCP} = "true" ]; then
     # reduce the number of nodes in JSON file
@@ -142,6 +133,16 @@ if [ ${USE_DHCP} = "true" ]; then
         ${BAREMETAL_DATA_FILE}.new \
         ${BAREMETAL_DATA_FILE}.rest \
         && mv ${BAREMETAL_DATA_FILE}.new ${BAREMETAL_DATA_FILE}
+fi
+
+if [ ${CLI_TEST} = "true" ]; then
+    # FIXME(dtantsur): bifrost-cli does not use opendev-provided repos.
+    ../bifrost-cli --debug install --release ${ZUUL_BRANCH:-master} --testenv
+    CLOUD_CONFIG+=" -e skip_install=true"
+    CLOUD_CONFIG+=" -e skip_package_install=true"
+    CLOUD_CONFIG+=" -e skip_bootstrap=true"
+    CLOUD_CONFIG+=" -e skip_start=true"
+    CLOUD_CONFIG+=" -e skip_migrations=true"
 fi
 
 set +e

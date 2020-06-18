@@ -100,6 +100,12 @@
       enable_keystone: true
 
 - job:
+    name: bifrost-cli-ubuntu-bionic
+    parent: bifrost-integration-tinyipa-ubuntu-bionic
+    vars:
+      cli_test: true
+
+- job:
     name: bifrost-integration-tinyipa-ubuntu-focal
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-focal

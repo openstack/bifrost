@@ -12,11 +12,13 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import pbr.version
+try:
+    import pbr.version
 
-
-__version__ = pbr.version.VersionInfo(
-    'bifrost').version_string()
+    __version__ = pbr.version.VersionInfo(
+        'bifrost').version_string()
+except ImportError:
+    pass  # Allow the CLI to work without pbr installed
 
 __all__ = [
     'inventory'

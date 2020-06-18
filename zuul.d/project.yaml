@@ -34,6 +34,8 @@
            voting: false
         - bifrost-integration-dhcp-debian-buster:
            voting: false
+        - bifrost-cli-ubuntu-bionic:
+           voting: false
     gate:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-bionic

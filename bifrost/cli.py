@@ -1,0 +1,234 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+import argparse
+import configparser
+import ipaddress
+import itertools
+import os
+import subprocess
+import sys
+
+
+VENV = "/opt/stack/bifrost"
+ANSIBLE = os.path.join(VENV, 'bin', 'ansible-playbook')
+COMMON_ENV = {
+    'VENV': VENV,
+    'USE_VENV': 'true',
+    'ENABLE_VENV': 'true',
+}
+COMMON_PARAMS = [
+    '-e', 'ansible_python_interpreter=%s/bin/python3' % VENV,
+    '-e', 'enable_venv=true',
+    '-e', 'bifrost_venv_dir=%s' % VENV,
+]
+BASE = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
+PLAYBOOKS = os.path.join(BASE, 'playbooks')
+
+
+def get_env(extra=None):
+    # NOTE(dtantsur): the order here matters!
+    result = os.environ.copy()
+    result.update(COMMON_ENV)
+    if extra:
+        result.update(extra)
+    return result
+
+
+def log(*message, only_if=True):
+    if only_if:
+        print(*message, file=sys.stderr)
+
+
+def ansible(playbook, inventory, verbose=False, env=None, **params):
+    extra = COMMON_PARAMS + list(itertools.chain.from_iterable(
+        ('-e', '%s=%s' % pair) for pair in params.items()
+        if pair[1] is not None))
+    if verbose:
+        extra.append('-vvvv')
+    args = [ANSIBLE, playbook, '-i', inventory] + extra
+    log('Calling ansible with', args, 'and environment', env, only_if=verbose)
+    subprocess.check_call(args, env=get_env(env), cwd=PLAYBOOKS)
+
+
+def env_setup(args):
+    if os.path.exists(VENV):
+        log(VENV, 'exists, skipping environment preparation',
+            only_if=args.debug)
+        return
+
+    log('Installing dependencies and preparing an environment in', VENV)
+    subprocess.check_call(["bash", "scripts/env-setup.sh"],
+                          env=get_env(), cwd=BASE)
+
+
+def get_release(release):
+    if release:
+        if release != 'master' and not release.startswith('stable/'):
+            release = 'stable/%s' % release
+        return release
+    else:
+        try:
+            gr = configparser.ConfigParser()
+            gr.read(os.path.join(BASE, '.gitreview'))
+            release = gr.get('gerrit', 'defaultbranch', fallback='master')
+            log('Using release', release, 'detected from the checkout')
+            return release
+        except (FileNotFoundError, configparser.Error):
+            log('Cannot read .gitreview, falling back to release "master"')
+            return 'master'
+
+
+def cmd_testenv(args):
+    release = get_release(args.release)
+
+    env_setup(args)
+    log('Creating', args.count, 'test node(s) with', args.memory,
+        'MiB RAM and', args.disk, 'GiB of disk')
+
+    kwargs = {}
+    if args.storage_pool_path:
+        kwargs['test_vm_storage_pool_path'] = os.path.abspath(
+            args.storage_pool_path)
+
+    ansible('test-bifrost-create-vm.yaml',
+            inventory='inventory/localhost',
+            verbose=args.debug,
+            git_branch=release,
+            test_vm_num_nodes=args.count,
+            test_vm_memory_size=args.memory,
+            test_vm_disk_gib=args.disk,
+            test_vm_domain_type=args.domain_type,
+            baremetal_json_file=os.path.abspath(args.inventory),
+            baremetal_nodes_json=os.path.abspath(args.output),
+            **kwargs)
+    log('Inventory generated in', args.output)
+
+
+def cmd_install(args):
+    release = get_release(args.release)
+
+    kwargs = {}
+    if args.dhcp_pool:
+        try:
+            start, end = args.dhcp_pool.split('-')
+            ipaddress.ip_address(start)
+            ipaddress.ip_address(end)
+        except ValueError as e:
+            sys.exit("Malformed --dhcp-pool, expected two IP addresses. "
+                     "Error: %s" % e)
+        else:
+            kwargs['dhcp_pool_start'] = start
+            kwargs['dhcp_pool_end'] = end
+
+    env_setup(args)
+    ansible('install.yaml',
+            inventory='inventory/target',
+            verbose=args.debug,
+            git_branch=release,
+            ipa_upstream_release=release.replace('/', '-'),
+            create_ipa_image='false',
+            create_image_via_dib='false',
+            install_dib='true',
+            network_interface=args.network_interface,
+            enable_keystone=args.enable_keystone,
+            use_public_urls=args.enable_keystone,
+            noauth_mode=not args.enable_keystone,
+            testing=args.testenv,
+            use_cirros=args.testenv,
+            use_tinyipa=args.testenv,
+            **kwargs)
+    log("Ironic is installed and running, try it yourself:\n",
+        " $ source %s/bin/activate\n" % VENV,
+        " $ export OS_CLOUD=bifrost\n",
+        " $ baremetal driver list\n"
+        "See documentation for next steps")
+
+
+def parse_args():
+    parser = argparse.ArgumentParser("Bifrost CLI")
+    parser.add_argument('--debug', action='store_true',
+                        help='output extensive logging')
+
+    subparsers = parser.add_subparsers()
+
+    testenv = subparsers.add_parser(
+        'testenv', help='Prepare a virtual testing environment')
+    testenv.set_defaults(func=cmd_testenv)
+    testenv.add_argument('--release', default='master',
+                         help='release branch to use (master, ussuri, etc)')
+    testenv.add_argument('--count', type=int, default=2,
+                         help='number of nodes to create')
+    testenv.add_argument('--memory', type=int, default=3072,
+                         help='memory (in MiB) for test nodes')
+    testenv.add_argument('--disk', type=int, default=10,
+                         help='disk size (in GiB) for test nodes')
+    testenv.add_argument('--domain-type', default='qemu',
+                         help='domain type: qemu or kvm')
+    testenv.add_argument('--storage-pool-path',
+                         help='path to libvirt storage pool to setup')
+    testenv.add_argument('--inventory', default='baremetal-inventory.json',
+                         help='output file with the inventory for using '
+                              'with dynamic playbooks')
+    testenv.add_argument('-o', '--output', default='baremetal-nodes.json',
+                         help='output file with the nodes information for '
+                              'importing into ironic')
+
+    install = subparsers.add_parser('install', help='Install ironic')
+    install.set_defaults(func=cmd_install)
+    install.add_argument('--testenv', action='store_true',
+                         help='running in a virtual environment')
+    install.add_argument('--dhcp-pool', metavar='START-END',
+                         help='DHCP pool to use')
+    install.add_argument('--release',
+                         help='release branch to use (master, ussuri, etc), '
+                              'the default value is determined from the '
+                              '.gitreview file in the source tree')
+    install.add_argument('--network-interface',
+                         help='the network interface to use')
+    install.add_argument('--enable-keystone', action='store_true',
+                         help='enable keystone and use authentication')
+
+    args = parser.parse_args()
+    if getattr(args, 'func', None) is None:
+        parser.print_usage(file=sys.stderr)
+        sys.exit("Bifrost CLI: error: a command is required")
+    return args
+
+
+def check_for_root():
+    try:
+        subprocess.check_call(
+            '[ $(whoami) == root ] || sudo --non-interactive true',
+            shell=True, stderr=subprocess.DEVNULL)
+    except subprocess.CalledProcessError:
+        # TODO(dtantsur): tell ansible to ask for password
+        sys.exit('Sudo without password is required for Bifrost')
+
+
+def main():
+    args = parse_args()
+    try:
+        check_for_root()
+        args.func(args)
+    except Exception as exc:
+        if args.debug:
+            raise
+        else:
+            sys.exit(str(exc))
+    except KeyboardInterrupt:
+        sys.exit('Aborting by user request')
+
+
+if __name__ == '__main__':
+    sys.exit(main())
