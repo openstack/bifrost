@@ -59,7 +59,7 @@
   retries: 5
   delay: 10
   environment: "{{ venv }}"
-  when: test_ipa_kernel_present.stat.exists == false
+  when: update_ipa | bool or test_ipa_kernel_present.stat.exists == false
 
 - name: "Test if IPA image is present"
   stat: path={{ ipa_ramdisk }}
@@ -102,4 +102,4 @@
   retries: 5
   delay: 10
   environment: "{{ venv }}"
-  when: test_ipa_image_present.stat.exists == false
+  when: update_ipa | bool or test_ipa_image_present.stat.exists == false
