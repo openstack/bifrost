@@ -37,11 +37,8 @@
 - name: "Ensure /opt/stack is present"
   file: name=/opt/stack state=directory owner=root group=root
 
-- name: "proliantutils - Install from pip"
-  include_role:
-    name: bifrost-pip-install
-  vars:
-    package: proliantutils
+- name: "Install vendor dependencies"
+  import_tasks: vendor_deps.yml
 
 - name: "Install iSCSI client and dependencies if iscsi deploy interface is enabled"
   package:
