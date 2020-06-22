@@ -198,12 +198,28 @@ Dependencies
 
 In order to really get started, you must install dependencies.
 
-The ``env-setup.sh`` script automatically invokes ``install-deps.sh`` and
-creates a virtual environment for you::
+With the addition of ansible collections, the ``env-setup.sh`` will install
+the collections in the default ansible ``collections_paths`` (according to your
+ansible.cfg) or you can specify the location setting
+``ANSIBLE_COLLECTIONS_PATHS``:
 
-  bash ./scripts/env-setup.sh
-  source /opt/stack/bifrost/bin/activate
-  cd playbooks
+.. code-block:: bash
+
+    $ export ANSIBLE_COLLECTIONS_PATHS=/mydir/collections
+
+.. note::
+
+   If you are using a virtual environment ANSIBLE_COLLECTIONS_PATHS is
+   automatically set.
+
+The ``env-setup.sh`` script automatically invokes ``install-deps.sh`` and
+creates a virtual environment for you:
+
+.. code-block:: bash
+
+    $ bash ./scripts/env-setup.sh
+    $ source /opt/stack/bifrost/bin/activate
+    $ cd playbooks
 
 Once the dependencies are in-place, you can execute the ansible playbook to
 perform the actual installation. The playbook will install and configure
