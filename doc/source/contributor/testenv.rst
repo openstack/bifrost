@@ -57,5 +57,12 @@ hardware type can be used as for real hardware.
    in the previous step.
 #. Run the deployment step, as documented in :ref:`deploy`.
 
+Configuring libvirt
+-------------------
+
+.. toctree::
+
+   virsh
+
 
 .. _VirtualBMC: https://docs.openstack.org/virtualbmc/
