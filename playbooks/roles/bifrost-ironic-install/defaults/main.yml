@@ -134,6 +134,8 @@ enabled_deploy_interfaces: "iscsi,direct"
 enabled_management_interfaces: "redfish,ilo,ipmitool,noop"
 enabled_power_interfaces: "redfish,ilo,ipmitool,fake"
 
+default_resource_class: baremetal
+
 # Extra pip packages to install with ironic
 # This should be a list of pip-installable references.
 # default: empty list

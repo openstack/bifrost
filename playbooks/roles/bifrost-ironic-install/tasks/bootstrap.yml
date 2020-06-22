@@ -300,6 +300,11 @@
     url: "{{ cirros_deploy_image_upstream_url }}"
     dest: "{{ deploy_image }}"
   when: use_cirros | bool == true
+- name: "Create a checksum file for cirros"
+  shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
+  args:
+    chdir: "{{ http_boot_folder }}"
+  when: use_cirros | bool
 - name: >
     "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned
      and TCP/6385 for IPA callback"

@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Sets the default resource class for newly enrolled nodes without an
+    explicit resource class. Defaults to ``baremetal``, can be changed via
+    the ``default_resource_class`` parameter.
