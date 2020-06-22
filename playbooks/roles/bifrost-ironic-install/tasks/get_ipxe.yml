@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- import_role:
-    name: venv_python_path
-
 - name: Create {{ ipxe_dir }}
   file:
     name={{ ipxe_dir }}
@@ -36,7 +33,6 @@
   loop:
     - undionly.kpxe
     - ipxe.pxe
-  environment: "{{ venv }}"
 
 - name: Get iPXE EFI binary
   get_url:
@@ -49,5 +45,4 @@
   delay: 10
   loop:
     - "{{ ipxe_efi_binary }}"
-  environment: "{{ venv }}"
   when: enable_uefi_ipxe | bool == true

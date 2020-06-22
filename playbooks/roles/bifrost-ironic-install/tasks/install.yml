@@ -13,9 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- import_role:
-    name: venv_python_path
-
 - name: "Update Package Cache"
   apt: update_cache=yes
   when: ansible_os_family == 'Debian'
