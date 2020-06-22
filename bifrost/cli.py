@@ -144,6 +144,7 @@ def cmd_install(args):
             enable_keystone=args.enable_keystone,
             use_public_urls=args.enable_keystone,
             noauth_mode=not args.enable_keystone,
+            enabled_hardware_types=args.hardware_types,
             testing=args.testenv,
             use_cirros=args.testenv,
             use_tinyipa=args.testenv,
@@ -198,6 +199,11 @@ def parse_args():
                          help='the network interface to use')
     install.add_argument('--enable-keystone', action='store_true',
                          help='enable keystone and use authentication')
+    install.add_argument('--hardware-types',
+                         # only generic types are enabled in the simple CI
+                         default='ipmi,redfish,manual-management',
+                         help='a comma separated list of enabled bare metal '
+                              'hardware types')
 
     args = parser.parse_args()
     if getattr(args, 'func', None) is None:

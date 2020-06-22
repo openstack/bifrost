@@ -28,6 +28,8 @@
       The configured network interface {{ network_interface }} does
       not have an IP address assigned
   when: not hostvars[inventory_hostname][provisioning_itf_name].get('ipv4', {}).get('address')
+- name: "Configure hardware interfaces"
+  import_tasks: hw_types.yml
 - name: "Create ironic config"
   template:
     src="ironic.conf.j2"

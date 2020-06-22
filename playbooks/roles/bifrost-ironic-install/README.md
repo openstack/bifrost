@@ -86,9 +86,10 @@ extra_kernel_options: Default undefined.
 Hardware types can be enabled using the "enabled_hardware_types" variable,
 which defaults to "ipmi, ilo".
 
-Enabled interfaces can be set via the "enabled_boot_interfaces",
-"enabled_deploy_interfaces", "enabled_management_interfaces", and
-"enabled_power_interfaces" variables.
+Enabled interfaces can be set via the "enabled_bios_interfaces",
+"enabled_boot_interfaces", "enabled_deploy_interfaces",
+"enabled_management_interfaces", and "enabled_power_interfaces" variables.
+By default they are derived from "enabled_hardware_types".
 
 In the event of an external DHCP server being used, the user will need to
 configure their DHCP server such that PXE, and iPXE chain loading occurs.

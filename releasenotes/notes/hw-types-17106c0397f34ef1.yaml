@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The values of ``enabled_bios_interfaces``, ``enabled_boot_interfaces``,
+    ``enabled_management_interfaces`` and ``enabled_power_interfaces`` are now
+    derived from the ``enabled_hardware_types`` if left empty (the default).

@@ -127,12 +127,12 @@ ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
 
 enabled_hardware_types: "ipmi,redfish,manual-management,ilo"
 default_deploy_interface: "direct"
-
-enabled_bios_interfaces: "redfish,ilo,no-bios"
-enabled_boot_interfaces: "ilo-virtual-media,ipxe,pxe"
 enabled_deploy_interfaces: "iscsi,direct"
-enabled_management_interfaces: "redfish,ilo,ipmitool,noop"
-enabled_power_interfaces: "redfish,ilo,ipmitool,fake"
+# These are calculated based on enabled_hardware_types if empty
+enabled_bios_interfaces: ""
+enabled_boot_interfaces: ""
+enabled_management_interfaces: ""
+enabled_power_interfaces: ""
 
 default_resource_class: baremetal
 

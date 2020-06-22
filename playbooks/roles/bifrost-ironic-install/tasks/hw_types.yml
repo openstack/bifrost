@@ -1,0 +1,45 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Configure BIOS interfaces if required"
+  set_fact:
+    enabled_bios_interfaces: >-
+      no-bios
+      {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
+      {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+  when: enabled_bios_interfaces == ""
+
+- name: "Configure boot interfaces if required"
+  set_fact:
+    enabled_boot_interfaces: >-
+      ipxe,pxe
+      {%- if "ilo" in enabled_hardware_types -%},ilo-virtual-media{%- endif -%}
+  when: enabled_boot_interfaces == ""
+
+- name: "Configure management interfaces if required"
+  set_fact:
+    enabled_management_interfaces: >-
+      noop
+      {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
+      {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
+      {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+  when: enabled_management_interfaces == ""
+
+- name: "Configure power interfaces if required"
+  set_fact:
+    enabled_power_interfaces: >-
+      fake
+      {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
+      {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
+      {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+  when: enabled_power_interfaces == ""
