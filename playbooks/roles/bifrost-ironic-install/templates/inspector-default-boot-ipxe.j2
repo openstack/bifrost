@@ -5,6 +5,6 @@ dhcp || reboot
 goto introspect
 
 :introspect
-kernel {{ ipa_kernel_url }} ipa-inspection-callback-url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface ]['ipv4']['address'] }}:5050/v1/continue {% if fast_track | bool %}ipa-api-url=http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface ]['ipv4']['address'] }}:6385{% endif %} systemd.journald.forward_to_console=yes BOOTIF=${mac} nofb nomodeset vga=normal console=ttyS0 {{ inspector_extra_kernel_options | default('') }} initrd={{ ipa_ramdisk_url | basename }}
+kernel {{ ipa_kernel_url }} ipa-inspection-callback-url=http://{{ internal_ip }}:5050/v1/continue {% if fast_track | bool %}ipa-api-url=http://{{ internal_ip }}:6385{% endif %} systemd.journald.forward_to_console=yes BOOTIF=${mac} nofb nomodeset vga=normal console=ttyS0 {{ inspector_extra_kernel_options | default('') }} initrd={{ ipa_ramdisk_url | basename }}
 initrd {{ ipa_ramdisk_url }}
 boot

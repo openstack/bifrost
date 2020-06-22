@@ -52,6 +52,13 @@ network_interface: "virbr0"
 By default this role installs dnsmasq to act as a DHCP server for provisioning
 hosts.  In the event this is not required, set the following configuration:
 
+internal_ip: "<IPv4 address of network_interface>"
+internal_interface: {"address": .. "network": .. "netmask": .. "broadcast": ..}
+
+The IP address and network interface information which will be used by bare
+metal machines to connect to the conductor and the internal HTTP server,
+and for cross-service interactions.
+
 include_dhcp_server: false
 
 If you chose to utilize the dhcp server, You may wish to set default ranges:

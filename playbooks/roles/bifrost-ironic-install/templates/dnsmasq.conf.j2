@@ -13,7 +13,7 @@ port=0
 port=53
 {% endif %}
 
-listen-address={{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}
+listen-address={{ internal_ip }}
 
 # On systems which support it, dnsmasq binds the wildcard address,
 # even when it is listening on only some interfaces. It then discards
@@ -101,7 +101,7 @@ dhcp-boot=tag:efi,tag:!ipxe,/{{ ipxe_efi_binary }}
 {% if testing | bool == true %}
 dhcp-boot=tag:ipxe,http://192.168.122.1:{{ file_url_port }}/boot.ipxe
 {% else %}
-dhcp-boot=tag:ipxe,http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/boot.ipxe
+dhcp-boot=tag:ipxe,http://{{ internal_ip }}:{{ file_url_port }}/boot.ipxe
 {% endif %}
 
 # Catch-all boot options used when no other boot options are matched.
