@@ -49,7 +49,7 @@ case ${ID,,} in
         [python3-devel]=libpython3-dev
         [python3-pip]=python3-pip
     )
-    EXTRA_PKG_DEPS=( python3-venv )
+    EXTRA_PKG_DEPS=( python3-venv python3-setuptools )
     sudo apt-get update
     # NOTE(dtantsur): workaround for segfault when installing cryptography:
     # https://github.com/pyca/cryptography/issues/3815
