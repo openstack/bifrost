@@ -100,4 +100,20 @@
   with_items:
     - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-inspector', username: 'ironic', args: '--config-file /etc/ironic-inspector/inspector.conf'}
 - name: "Inspector - Explicitly permit TCP/5050 for ironic-inspector callback"
-  command: iptables -I INPUT -p tcp --dport 5050 -i {{network_interface}} -j ACCEPT
+  iptables:
+    chain: INPUT
+    action: insert
+    protocol: tcp
+    destination_port: 5050
+    in_interface: "{{ network_interface }}"
+    jump: ACCEPT
+  when: ansible_distribution not in ["CentOS", "RedHat"]
+
+- name: "Inspector - Enable port in firewalld"
+  firewalld:
+    port: "5050/tcp"
+    zone: "{{ 'libvirt' if testing else 'public' }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  when: ansible_distribution in ["CentOS", "RedHat"]
