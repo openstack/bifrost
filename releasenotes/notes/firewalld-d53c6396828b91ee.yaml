@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes deployment in a testing environment on CentOS 8 by using firewalld
+    instead of iptables to enable access from nodes to ironic.
