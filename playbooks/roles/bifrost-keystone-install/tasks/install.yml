@@ -11,14 +11,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- import_role:
-    name: venv_python_path
-
 - name: "Install packages"
   package:
     name: "{{ required_packages }}"
     state: present
-  environment: "{{ venv }}"
 
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this

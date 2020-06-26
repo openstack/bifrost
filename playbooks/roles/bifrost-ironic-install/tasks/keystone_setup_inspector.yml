@@ -16,11 +16,6 @@
 # We should likely address that at some point, however I think a user
 # should be the driver of that work.
 
-- name: "Initialize default venv"
-  set_fact:
-    venv:
-      OS_IDENTITY_API_VERSION: "3"
-
 - name: "Error if credentials are undefined."
   fail:
     msg: |
@@ -38,9 +33,6 @@
       ironic_inspector.keystone.default_username is undefined or
       ironic_inspector.keystone.default_password is undefined
 
-- import_role:
-    name: venv_python_path
-
 - name: "Create service user for ironic-inspector"
   os_user:
     name: "{{ ironic_inspector.service_catalog.username }}"
@@ -56,7 +48,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ venv }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   no_log: true
 
 - name: "Associate ironic_inspector user to admin role"
@@ -72,7 +64,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ venv }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   no_log: true
 
 - name: "Create keystone service record for ironic-inspector"
@@ -89,7 +81,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ venv }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   no_log: true
 
 - name: "Check ironic-inspector admin endpoint exists"
@@ -203,7 +195,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ venv }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   no_log: true
 
 - name: "Associate inspector_user with baremetal_admin"
@@ -219,5 +211,5 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ venv }}"
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   no_log: true
