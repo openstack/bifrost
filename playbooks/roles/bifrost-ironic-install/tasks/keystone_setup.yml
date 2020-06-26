@@ -171,7 +171,7 @@
 
 - name: "Setting external Ironic public URL"
   set_fact:
-    ironic_public_url: "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') | replace('127.0.0.1', public_ip | default(hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'])) }}"
+    ironic_public_url: "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') | replace('127.0.0.1', public_ip | default(internal_ip)) }}"
   when: use_public_urls | default(false) | bool
 
 - name: "Create ironic public endpoint"

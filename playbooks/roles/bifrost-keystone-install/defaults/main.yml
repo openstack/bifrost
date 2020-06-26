@@ -25,6 +25,10 @@ cors_allowed_origin: "http://localhost:8000"
 # not need to be modified by the user.
 enable_cors_credential_support: false
 
+network_interface: "virbr0"
+ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
+
 # Defaults required by this role that are normally inherited via
 # other roles.
 file_url_port: 8080

@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    Adds a new parameter ``internal_ip`` specifying which IP address
+    to use for nodes to reach ironic and the HTTP server, and for cross-service
+    interactions when keystone is disabled. By default the IPv4 address of
+    the ``network_interface`` is used.

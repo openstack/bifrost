@@ -49,7 +49,7 @@ pxe_append_params = console=ttyS0
 pxe_append_params = systemd.journald.forward_to_console=yes {{ extra_kernel_options | default('') }}
 {% endif %}
 pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
-tftp_server = {{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}
+tftp_server = {{ internal_ip }}
 tftp_root = /tftpboot
 pxe_bootfile_name = undionly.kpxe
 ipxe_enabled = true
@@ -61,7 +61,7 @@ uefi_pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
 {% endif %}
 
 [deploy]
-http_url = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{ file_url_port }}/
+http_url = http://{{ internal_ip }}:{{ file_url_port }}/
 http_root = {{ http_boot_folder }}
 default_boot_option = local
 fast_track = {{ fast_track }}
@@ -102,10 +102,10 @@ user_domain_id = default
 project_name = {{ ironic.service_catalog.project_name }}
 project_domain_id = default
 region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
-callback_endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:5050
+callback_endpoint_override = http://{{ internal_ip }}:5050
 {% else %}
 auth_type=none
-endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:5050
+endpoint_override = http://{{ internal_ip }}:5050
 {% endif %}
 {% endif %}
 
@@ -133,7 +133,7 @@ region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
 {% else %}
 auth_type = none
 {% endif %}
-endpoint_override = http://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:6385
+endpoint_override = http://{{ internal_ip }}:6385
 
 [json_rpc]
 {% if enable_keystone is defined and enable_keystone | bool == true %}

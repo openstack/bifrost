@@ -115,7 +115,7 @@
 
 - name: "Setting external Keystone public URL"
   set_fact:
-    keystone_public_url: "{{ keystone.bootstrap.public_url | replace('127.0.0.1', public_ip | default(hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'])) }}"
+    keystone_public_url: "{{ keystone.bootstrap.public_url | replace('127.0.0.1', public_ip | default(internal_ip)) }}"
   when: use_public_urls | default(false) | bool
 
 - name: "Setting internal Keystone URL"

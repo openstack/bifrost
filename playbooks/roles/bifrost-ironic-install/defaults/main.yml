@@ -44,6 +44,8 @@ skip_migrations: "{{ skip_bootstrap }}"
 # This is used in ipa_* so it must be before
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+internal_interface: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4'] }}"
+internal_ip: "{{ internal_interface['address'] }}"
 
 # Normally this would setting would be http in a bifrost installation
 # without TLS. This setting allows a user to override the setting in case
@@ -60,7 +62,7 @@ ipxe_efi_binary: ipxe.efi
 
 ipa_kernel: "{{http_boot_folder}}/ipa.kernel"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
-ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.kernel"
+ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
 ipa_kernel_upstream_url: >-
   {%- if use_tinyipa | bool -%}
   https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
@@ -71,7 +73,7 @@ ipa_kernel_upstream_url: >-
   {%- endif -%}
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
-ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
+ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.initramfs"
 ipa_ramdisk_upstream_url: >-
   {%- if use_tinyipa | bool -%}
   https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.gz

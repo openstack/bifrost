@@ -223,7 +223,7 @@
   when: inventory_dhcp | bool == true
 - name: "Retrieve interface IP informations"
   set_fact:
-    itf_infos: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4'] }}"
+    itf_infos: "{{ internal_interface }}"
     dhcp_netaddr: "{{ dhcp_pool_start }}/{{ dhcp_static_mask }}"
   when: include_dhcp_server | bool == true
 - name: "Compute interface and DHCP network informations"
