@@ -35,7 +35,7 @@ test_vm_machine: "pc-1.0"
 test_vm_libvirt_uri: "{{ lookup('env', 'LIBVIRT_CONNECT_URI') | default('qemu:///system', true) }}"
 # Settings related to installing bifrost in a virtual environment
 enable_venv: true
-bifrost_venv_dir: "{{ lookup('env', 'VENV') | default('/opt/stack/bifrost') }}"
+bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 bifrost_venv_env:
   VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
   PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
