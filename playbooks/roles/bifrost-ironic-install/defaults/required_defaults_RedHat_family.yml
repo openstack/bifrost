@@ -34,6 +34,8 @@ required_packages:
   - gcc
   - python3-pip
   - socat
+  - firewalld
+  - python3-firewall
 iscsi_required_packages:
   - iscsi-initiator-utils
   - gdisk
