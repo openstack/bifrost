@@ -1,6 +1,6 @@
 ---
 upgrade:
   - |
-    Explicit support for Fedora versions < 30 has been removed.
+    Explicit support for Fedora versions precedent to 30 has been removed.
   - |
     Explicit support for Debian Jessie has been removed.

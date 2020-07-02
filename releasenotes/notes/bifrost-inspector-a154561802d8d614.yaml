@@ -3,7 +3,7 @@ deprecations:
   - |
     The ``bifrost-inspector`` cloud in ``clouds.yaml`` is now deprecated, use
     the main ``bifrost`` cloud for all commands.
-fixes:
+features:
   - |
     It is now possible to use the ``bifrost`` cloud with introspection commands
     even in no-auth mode.
