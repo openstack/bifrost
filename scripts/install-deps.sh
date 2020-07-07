@@ -124,13 +124,21 @@ if [ -n "${VENV-}" ]; then
 fi
 
 # Install the rest of required packages using bindep
-sudo -H -E ${PIP} install bindep
+if [ -n "${VENV-}" ]; then
+    ${PIP} install bindep
+else
+    sudo -H -E ${PIP} install bindep
+fi
 
 echo "Using Bindep to install binary dependencies..."
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
 
 echo "Installing Python requirements"
-sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
+if [ -n "${VENV-}" ]; then
+    ${PIP} install -r "$(dirname $0)/../requirements.txt"
+else
+    sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
+fi
 
 echo "Completed installation of basic dependencies."
