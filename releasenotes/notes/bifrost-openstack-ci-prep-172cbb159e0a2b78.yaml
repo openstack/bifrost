@@ -1,0 +1,5 @@
+---
+other:
+  - |
+    The role ``bifrost-openstack-ci-prep`` has been removed. It was only used
+    in the upstream CI context and is no longer required.
