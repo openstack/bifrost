@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    No longer clones repositories with corresponding ``*_source_install``
+    variables set to ``false``.
+  - |
+    Ironic Staging Drivers are now installed from source by default since they
+    are released very infrequently (usually once per cycle).

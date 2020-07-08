@@ -41,6 +41,14 @@ keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
 ipa_builder_git_branch: master
+# disable source install to prevent cloning
+ironicclient_source_install: false
+openstacksdk_source_install: true
+ironicinspector_source_install: true
+ironicinspectorclient_source_install: false
+sushy_source_install: false
+staging_drivers_source_install: true
+enable_keystone: false
 
 update_repos: true
 force_update_repos: true
@@ -58,10 +66,12 @@ bifrost_install_sources:
     git_url: "{{ ironicclient_git_url }}"
     git_branch: "{{ ironicclient_git_branch }}"
     name: ironicclient
+    source_install: "{{ ironicclient_source_install }}"
   - git_folder: "{{ openstacksdk_git_folder }}"
     git_url: "{{ openstacksdk_git_url }}"
     git_branch: "{{ openstacksdk_git_branch }}"
     name: openstacksdk
+    source_install: "{{ openstacksdk_source_install }}"
   - git_folder: "{{ dib_git_folder }}"
     git_url: "{{ dib_git_url }}"
     git_branch: "{{ dib_git_branch }}"
@@ -70,10 +80,12 @@ bifrost_install_sources:
     git_url: "{{ ironicinspector_git_url }}"
     git_branch: "{{ ironicinspector_git_branch }}"
     name: ironicinspector
+    source_install: "{{ ironicinspector_source_install }}"
   - git_folder: "{{ ironicinspectorclient_git_folder }}"
     git_url: "{{ ironicinspectorclient_git_url }}"
     git_branch: "{{ ironicinspectorclient_git_branch }}"
     name: ironicinspectorclient
+    source_install: "{{ ironicinspectorclient_source_install }}"
   - git_folder: "{{ reqs_git_folder }}"
     git_url: "{{ reqs_git_url }}"
     git_branch: "{{ reqs_git_branch }}"
@@ -82,14 +94,18 @@ bifrost_install_sources:
     git_url: "{{ staging_drivers_git_url }}"
     git_branch: "{{ staging_drivers_git_branch }}"
     name: ironic-staging-drivers
+    source_install: "{{ staging_drivers_source_install }}"
   - git_folder: "{{ keystone_git_folder }}"
     git_url: "{{ keystone_git_url }}"
     git_branch: "{{ keystone_git_branch }}"
     name: keystone
+    # NOTE(dtantsur): skip cloning if keystone is disabled
+    source_install: "{{ enable_keystone }}"
   - git_folder: "{{ sushy_git_folder }}"
     git_url: "{{ sushy_git_url }}"
     git_branch: "{{ sushy_git_branch }}"
     name: sushy
+    source_install: "{{ sushy_source_install }}"
   - git_folder: "{{ ipa_git_folder }}"
     git_url: "{{ ipa_git_url }}"
     git_branch: "{{ ipa_git_branch }}"

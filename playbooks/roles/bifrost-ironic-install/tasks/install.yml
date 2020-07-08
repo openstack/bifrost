@@ -22,12 +22,6 @@
     name: "{{ required_packages }}"
     state: present
 
-- name: "If running in CI, set source install facts just to be sure"
-  set_fact:
-    openstacksdk_source_install: true
-    ironicclient_source_install: true
-  when: ci_testing | bool == true
-
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
