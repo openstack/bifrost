@@ -54,6 +54,10 @@ if [ "$ZUUL_BRANCH" != "" ]; then
     VM_SETUP_EXTRA="--storage-pool-path /opt/libvirt/images"
 fi
 
+if [ -d "${WORKSPACE:-}" ]; then
+    BIFROST_CLI_EXTRA="${BIFROST_CLI_EXTRA:-} --extra-vars copy_from_local_path=true"
+fi
+
 source $SCRIPT_HOME/env-setup.sh
 
 # Note(cinerama): activate is not compatible with "set -u";
@@ -123,7 +127,9 @@ done
     --memory ${VM_MEMORY_SIZE:-512} \
     --disk ${VM_DISK:-5} \
     --inventory "${BAREMETAL_DATA_FILE}" \
-    ${VM_SETUP_EXTRA:-}
+    --extra-vars git_url_root="${WORKSPACE:-https://opendev.org}" \
+    ${VM_SETUP_EXTRA:-} \
+    ${BIFROST_CLI_EXTRA:-}
 
 if [ ${USE_DHCP} = "true" ]; then
     # reduce the number of nodes in JSON file
@@ -136,8 +142,9 @@ if [ ${USE_DHCP} = "true" ]; then
 fi
 
 if [ ${CLI_TEST} = "true" ]; then
-    # FIXME(dtantsur): bifrost-cli does not use opendev-provided repos.
-    ../bifrost-cli --debug install --testenv
+    ../bifrost-cli --debug install --testenv \
+        --extra-vars git_url_root="${WORKSPACE:-https://opendev.org}" \
+        ${BIFROST_CLI_EXTRA:-}
 fi
 
 set +e
