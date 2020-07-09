@@ -137,7 +137,7 @@ fi
 
 if [ ${CLI_TEST} = "true" ]; then
     # FIXME(dtantsur): bifrost-cli does not use opendev-provided repos.
-    ../bifrost-cli --debug install --release ${ZUUL_BRANCH:-master} --testenv
+    ../bifrost-cli --debug install --testenv
     CLOUD_CONFIG+=" -e skip_install=true"
     CLOUD_CONFIG+=" -e skip_package_install=true"
     CLOUD_CONFIG+=" -e skip_bootstrap=true"
