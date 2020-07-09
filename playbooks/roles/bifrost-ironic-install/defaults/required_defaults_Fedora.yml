@@ -14,7 +14,6 @@ required_packages:
   - ipxe-bootimgs
   - kpartx
   - libffi-devel
-  - libselinux-python
   - libxml2-devel
   - libxslt-devel
   - mariadb-server
