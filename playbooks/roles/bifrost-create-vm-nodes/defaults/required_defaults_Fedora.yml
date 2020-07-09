@@ -11,4 +11,4 @@ required_packages:
  - libvirt-daemon
  - pkgconfig
  - libvirt-devel
- - libselinux-python
+ - python3-libselinux
