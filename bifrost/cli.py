@@ -34,6 +34,7 @@ COMMON_PARAMS = [
 ]
 BASE = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))
 PLAYBOOKS = os.path.join(BASE, 'playbooks')
+DEFAULT_BRANCH = 'master'
 
 
 def get_env(extra=None):
@@ -74,19 +75,26 @@ def env_setup(args):
 
 def get_release(release):
     if release:
-        if release != 'master' and not release.startswith('stable/'):
+        if release != DEFAULT_BRANCH and not release.startswith('stable/'):
             release = 'stable/%s' % release
         return release
     else:
         try:
             gr = configparser.ConfigParser()
             gr.read(os.path.join(BASE, '.gitreview'))
-            release = gr.get('gerrit', 'defaultbranch', fallback='master')
+            release = gr.get('gerrit', 'defaultbranch',
+                             fallback=DEFAULT_BRANCH)
+        except (FileNotFoundError, configparser.Error):
+            log('Cannot read .gitreview, falling back to release',
+                DEFAULT_BRANCH)
+            return DEFAULT_BRANCH
+        else:
+            if release.startswith('bugfix/'):
+                log('Bugfix branch', release, 'cannot be used as a release, '
+                    'falling back to', DEFAULT_BRANCH)
+                return DEFAULT_BRANCH
             log('Using release', release, 'detected from the checkout')
             return release
-        except (FileNotFoundError, configparser.Error):
-            log('Cannot read .gitreview, falling back to release "master"')
-            return 'master'
 
 
 def cmd_testenv(args):
