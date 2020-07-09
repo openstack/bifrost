@@ -2,18 +2,19 @@
 # git_root is the folder where to place downloaded git repos
 git_root: "/opt/stack"
 # *_git_url can be overridden by local clones for offline installs
-dib_git_url: https://opendev.org/openstack/diskimage-builder
-ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
-openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
-ironic_git_url: https://opendev.org/openstack/ironic
-ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
-ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
-reqs_git_url: https://opendev.org/openstack/requirements
-staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
-keystone_git_url: https://opendev.org/openstack/keystone
-sushy_git_url: https://opendev.org/openstack/sushy
-ipa_git_url: https://opendev.org/openstack/ironic-python-agent
-ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
+git_url_root: https://opendev.org
+dib_git_url: "{{ git_url_root }}/openstack/diskimage-builder"
+ironicclient_git_url: "{{ git_url_root }}/openstack/python-ironicclient"
+openstacksdk_git_url: "{{ git_url_root }}/openstack/openstacksdk"
+ironic_git_url: "{{ git_url_root }}/openstack/ironic"
+ironicinspector_git_url: "{{ git_url_root }}/openstack/ironic-inspector"
+ironicinspectorclient_git_url: "{{ git_url_root }}/openstack/python-ironic-inspector-client"
+reqs_git_url: "{{ git_url_root }}/openstack/requirements"
+staging_drivers_git_url: "{{ git_url_root }}/x/ironic-staging-drivers"
+keystone_git_url: "{{ git_url_root }}/openstack/keystone"
+sushy_git_url: "{{ git_url_root }}/openstack/sushy"
+ipa_git_url: "{{ git_url_root }}/openstack/ironic-python-agent"
+ipa_builder_git_url: "{{ git_url_root }}/openstack/ironic-python-agent-builder"
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
 ironic_git_folder: "{{ git_root}}/ironic"

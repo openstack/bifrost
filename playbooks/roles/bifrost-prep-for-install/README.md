@@ -22,17 +22,20 @@ Role Variables
 git_root: The base location for cloned git repositories.  This defaults to
           "/opt/stack".
 
+git_url_root: The base URL for remote git repositories. Defaults to
+              https://opendev.org
+
 ironicclient_git_url: URL for ironicclient, defaults to:
-                      https://opendev.org/openstack/python-ironicclient
+                      {{ git_url_root }}/openstack/python-ironicclient
 
 openstacksdk_git_url: URL for openstacksdk, defaults to:
-                      https://opendev.org/openstack/openstacksdk
+                      {{ git_url_root }}/openstack/openstacksdk
 
 ironic_git_url: URL for ironic, defaults to:
-                https://opendev.org/openstack/ironic
+                {{ git_url_root }}/openstack/ironic
 
 sushy_git_url: URL for sushy, defaults to:
-               https://opendev.org/openstack/sushy
+               {{ git_url_root }}/openstack/sushy
 
 ironicclient_git_folder: The folder to clone ironicclient to if missing,
                          defaults to: "{{ git_root}}/ironicclient.git"

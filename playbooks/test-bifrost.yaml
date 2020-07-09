@@ -16,18 +16,7 @@
       set_fact:
          ci_testing: true
          copy_from_local_path: true
-         ironic_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic"
-         ironicclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironicclient"
-         openstacksdk_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/openstacksdk"
-         dib_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/diskimage-builder"
-         ironicinspector_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-inspector"
-         ironicinspectorclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironic-inspector-client"
-         keystone_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/keystone"
-         sushy_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/sushy"
-         reqs_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/requirements"
-         staging_drivers_git_url: "{{ lookup('env', 'WORKSPACE') }}/x/ironic-staging-drivers"
-         ipa_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent"
-         ipa_builder_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic-python-agent-builder"
+         git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
     - name: "Override the ipv4_gateway setting"
       set_fact:

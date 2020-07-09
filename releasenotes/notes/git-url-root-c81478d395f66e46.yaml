@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The new variable ``git_url_root`` allows overriding the root URL for all
+    repositories (e.g. changing the default ``https://opendev.org`` to
+    a local path).
