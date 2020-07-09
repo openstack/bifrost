@@ -12,10 +12,10 @@
   become: no
   gather_facts: yes
   pre_tasks:
-    - name: "Set ci_testing_zuul if it appears we are running in upstream OpenStack CI"
+    - name: "Set ci_testing and other variables if it appears we are running in upstream OpenStack CI"
       set_fact:
          ci_testing: true
-         ci_testing_zuul: true
+         copy_from_local_path: true
          ironic_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/ironic"
          ironicclient_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/python-ironicclient"
          openstacksdk_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/openstacksdk"
@@ -46,14 +46,14 @@
   pre_tasks:
     - name: "Collect process list if running in a CI System"
       command: ps aux
-      when: ci_testing is defined
+      when: ci_testing | default(false)| bool
     - name: "Collect list of listening network sockets if running in a CI system"
       shell: netstat -apn|grep LISTEN
-      when: ci_testing is defined
+      when: ci_testing | default(false)| bool
     - name: "Use a cached cirros image"
       set_fact:
         cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.4.0-x86_64-disk.img
-      when: ci_testing is defined and ci_testing_zuul is defined and ci_testing_zuul | bool
+      when: ci_testing | default(false)| bool
   roles:
     - role: bifrost-keystone-install
     - role: bifrost-ironic-install

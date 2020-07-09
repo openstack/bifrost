@@ -52,4 +52,3 @@ force_update_repos: true
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
-ci_testing_zuul: false
