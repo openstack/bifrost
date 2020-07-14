@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Removing dependency on libselinux-python for Fedora OS family.
+    This package is no longer present in Fedora 32 and was causing 
+    installation failures. It is safe to remove as it is used with 
+    python2 only.
