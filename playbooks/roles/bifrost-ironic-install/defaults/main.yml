@@ -16,7 +16,7 @@ openstacksdk_source_install: true
 ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
 sushy_source_install: false
-staging_drivers_source_install: false
+staging_drivers_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
 dib_image_type: vm
