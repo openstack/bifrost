@@ -7,13 +7,15 @@ require {
         class file open;
         class file read;
         class file getattr;
+        class lnk_file read;
 }
 
 
 #============= httpd_t ==============
 
-#!!!! This avc can be allowed using the boolean 'daemons_dump_core'
 allow httpd_t root_t:file open;
 allow httpd_t default_t:file open;
 allow httpd_t root_t:file { read getattr };
 allow httpd_t default_t:file { read getattr };
+allow httpd_t root_t:lnk_file read;
+allow httpd_t default_t:lnk_file read;
