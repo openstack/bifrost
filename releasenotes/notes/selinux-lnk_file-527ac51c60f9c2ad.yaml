@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    On systems with SELinux enforcing, enables nginx to read symbolic links.
+    Fixes network boot of instances.
