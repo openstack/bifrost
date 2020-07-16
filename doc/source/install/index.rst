@@ -6,7 +6,25 @@ Bifrost Installation
 Introduction
 ============
 
-Installation and use of bifrost is split into roughly three steps:
+This document will guide you through installing the Bare Metal Service (ironic)
+using Bifrost.
+
+Requirements
+============
+
+Supported operating systems:
+
+* Ubuntu 18.04, 20.04
+* Red Hat Enterprise Linux (RHEL) 8
+* CentOS 8
+* openSUSE Leap 15.1
+* Fedora 30
+* Debian Buster
+
+Bifrost structure
+=================
+
+Installation and use of Bifrost is split into roughly three steps:
 
 - **install**:
   prepare the local environment by downloading and/or building machine images,
@@ -18,27 +36,75 @@ Installation and use of bifrost is split into roughly three steps:
 - **deploy-dynamic**:
   instruct ironic to deploy the operating system onto each machine.
 
-Supported operating systems:
+Installation of Bifrost can be done in three ways:
 
-* Ubuntu 18.04, 20.04
-* Red Hat Enterprise Linux (RHEL) 8
-* CentOS 8
-* openSUSE Leap 15.1
-* Fedora 30
-* Debian Buster
+* Via the ``bifrost-cli`` command line tool.
 
-If you want to try Bifrost on a virtual environment, see
-:doc:`/contributor/testenv`.
+  This is the path recommended for those who want something that just works.
+  It provides minimum configuration and uses the recommended defaults.
 
-============
-Installation
-============
+* By directly invoking ``ansible-playbook`` on one of provided playbooks.
 
+* By writing your own playbooks using Ansible roles provided with Bifrost.
+
+=================
 Pre-install steps
 =================
 
+Know your environment
+=====================
+
+Before you start, you need to gather certain facts about your bare metal
+environment (this step can be skipped if you're testing Bifrost on virtual
+machines).
+
+For the machine that hosts Bifrost you'll need to figure out:
+
+* The network interface you're going to use for communication between the bare
+  metal machines and the Bifrost services.
+* Pool of IP addresses for DHCP (must be within the network configured on the
+  chosen network interface).
+* Whether you want the services to use authentication via Keystone_.
+
+For each machine that is going to be enrolled in the Bare Metal service you'll
+need:
+
+* The management technology you are going to use to control the machine (IPMI,
+  Redfish, etc). See `bare metal drivers`_ for guidance.
+* An IP address or a host name of its management controller (BMC).
+* Credentials for the management controller.
+* MAC address of the NIC the machine uses for PXE booting (optional for IPMI).
+
+.. _Keystone: https://docs.openstack.org/keystone/latest/
+.. _bare metal drivers: https://docs.openstack.org/ironic/latest/admin/drivers.html
+
+Required packages
+=================
+
+To start with Bifrost you will need Python 3.6 or newer and the ``git`` source
+code management tool.
+
+On CentOS/RHEL/Fedora:
+
+.. code-block:: bash
+
+   sudo dnf install -y git python3
+
+On Ubuntu/Debian:
+
+.. code-block:: bash
+
+   sudo apt-get update
+   sudo apt-get install -y python3 git
+
+On openSUSE:
+
+.. code-block:: bash
+
+   sudo zipper install -y python3 git
+
 Enable additional repositories (RHEL only)
-------------------------------------------
+==========================================
 
 The ``extras`` and ``optional`` dnf repositories must be enabled to satisfy
 bifrost's dependencies. To check::
@@ -65,7 +131,7 @@ to enable them::
   sudo dnf config-manager --enable rhui-REGION-rhel-server-extras
 
 Enable the EPEL repository (RHEL and CentOS)
---------------------------------------------
+============================================
 
 Building Debian or Ubuntu based images on RHEL or CentOS requires a few extra
 pre-install steps, in order to have access to the additional packages contained
@@ -78,30 +144,96 @@ to install and configure them.
           being installed by the package manager. Care should be taken
           when using a system with EPEL enabled.
 
-Performing the installation
+Clone Bifrost
+=============
+
+Bifrost is typically installed from git:
+
+.. code-block:: bash
+
+   git clone https://opendev.org/openstack/bifrost
+   cd bifrost
+
+To install Bare Metal services from a specific release series (rather than the
+latest versions), check out the corresponding stable branch. For example, for
+Ussuri:
+
+.. code-block:: bash
+
+   git checkout stable/ussuri
+
+Testing on virtual machines
 ===========================
+
+If you want to try Bifrost on virtual machines instead of real hardware, you
+need to prepare a testing environment. The easiest way is via ``bifrost-cli``:
+
+.. code-block:: bash
+
+   ./bifrost-cli testenv
+
+Then do not forget to pass ``--testenv`` flag to ``bifrost-cli install``.
+
+See :doc:`/contributor/testenv` for more details and for advanced ways of
+creating a virtual environment.
+
+============================
+Quick start with bifrost-cli
+============================
+
+The ``bifrost-cli`` script, available since the Victoria release series,
+installs the Bare Metal service with the recommended defaults.
+
+Using it is as simple as:
+
+.. code-block:: bash
+
+    ./bifrost-cli install \
+        --network-interface <the network interface to use> \
+        --dhcp-pool <DHCP start IP>-<DHCP end IP>
+
+For example:
+
+.. code-block:: bash
+
+    ./bifrost-cli install --network-interface eno1 \
+        --dhcp-pool 10.0.0.20-10.0.0.100
+
+.. note::
+   See `Know your environment`_ for the guidance on the two required
+   parameters.
+
+If installing on a virtual environment, skip these two parameters:
+
+.. code-block:: bash
+
+    ./bifrost-cli install --testenv
+
+Additionally, the following parameters can be useful:
+
+``--hardware-types``
+    A comma separated list of hardware types to enable.
+``--enable-keystone``
+    Whether to enable authentication with Keystone_.
+
+See the built-in documentation for more details:
+
+.. code-block:: bash
+
+    ./bifrost-cli install --help
+
+==========================
+Installation via playbooks
+==========================
 
 Installation is split into four parts:
 
-* Cloning the bifrost repository
 * Installation of Ansible
 * Configuring settings for the installation
 * Execution of the installation playbook
 
-.. note:: The documentation expects that you have a copy of the repository
-          on your local machine, and that your working directory is inside
-          of the copy of the bifrost repository.
-
-Cloning
--------
-
-Clone the Bifrost repository::
-
-  git clone https://opendev.org/openstack/bifrost
-  cd bifrost
-
 Installation of Ansible
------------------------
+=======================
 
 Installation of Ansible can take place using the provided environment setup
 script located at ``scripts/env-setup.sh`` which is present in the bifrost
@@ -120,7 +252,7 @@ to configure the `Virtual environment`_.
           directly invoke the playbooks without using ``env-setup.sh``.
 
 Virtual environment
--------------------
+===================
 
 To avoid conflicts between Python packages installed from source and system
 packages, Bifrost defaults to installing everything to a virtual environment.
@@ -145,7 +277,7 @@ If you're using the ansible playbooks directly (without the helper scripts),
 set the ``enable_venv`` and ``bifrost_venv_dir`` variables accordingly.
 
 Pre-installation settings
--------------------------
+=========================
 
 Before performing the installation, it is highly recommended that you edit
 ``./playbooks/inventory/group_vars/*`` to match your environment. Several
@@ -179,22 +311,12 @@ disk images for the deployment of nodes, and be deployed to the nodes.
 If you wish to build an image, based upon the settings, you will need
 to set ``create_image_via_dib`` to ``true``.
 
-.. note:: Bifrost does not overwrite pre-existing IPA ramdisk and
-          deployment image files. As such, you will need to remove
-          the files if you wish to rebuild them.
-          These files typically consist the default files:
-          ``/httpboot/deployment_image.qcow2``, ``/httpboot/ipa.kernel``,
-          ``/etc/httpboot/ipa.initramfs``.
-
 If you are running the installation behind a proxy, export the
 environment variables ``http_proxy``, ``https_proxy`` and ``no_proxy``
 so that ansible will use these proxy settings.
 
-Installing
-----------
-
 Dependencies
-^^^^^^^^^^^^
+============
 
 In order to really get started, you must install dependencies.
 
@@ -251,7 +373,7 @@ it has changed. RabbitMQ user passwords will be reset, and services will be
 restarted.
 
 Playbook Execution
-^^^^^^^^^^^^^^^^^^
+==================
 
 If you have passwordless sudo enabled, run::
 
