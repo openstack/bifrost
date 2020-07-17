@@ -4,6 +4,7 @@ keystone_source_install: true
 keystone_git_url: https://opendev.org/openstack/keystone
 keystone_git_folder: /opt/stack/keystone
 
+skip_install: False
 # set to true to skip installing ironic dependencies
 skip_package_install: False
 # set to true to skip generation of configs and ironic db configuration

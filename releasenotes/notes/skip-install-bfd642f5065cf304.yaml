@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Previously installation used to be skipped completely if the
+    ``skip_install`` variable is defined, independent of its value. This has
+    been fixed, and now installation is only skipped if ``skip_install`` is
+    defined and equals ``true``.

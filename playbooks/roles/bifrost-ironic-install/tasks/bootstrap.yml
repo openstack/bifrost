@@ -127,12 +127,12 @@
     mode: 0644
     owner: root
     group: root
-  when: skip_install is not defined
+  when: not skip_install | bool
 # Note(ashestakov): "copy" module in ansible doesn't support recursive
 # copying on remote host. "cp" command used instead.
 - name: "Copy rootwrap.d contents from ironic source folder"
   command: cp -r "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/" "/etc/ironic/rootwrap.d"
-  when: skip_install is not defined
+  when: not skip_install | bool
 
 - name: "Populate keystone for Bifrost"
   include: keystone_setup.yml

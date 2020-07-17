@@ -99,7 +99,8 @@ Example Playbook
   become: yes
   gather_facts: yes
   roles:
-    - { role: bifrost-prep-for-install, when: skip_install is not defined }
+    - role: bifrost-prep-for-install
+      when: not (skip_install | default(false) | bool)
     - role: bifrost-ironic-install
       cleaning: false
       testing: true

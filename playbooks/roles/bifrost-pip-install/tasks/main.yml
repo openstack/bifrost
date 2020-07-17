@@ -75,4 +75,4 @@
     when: source_install | bool
     environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
 
-  when: skip_install | default(false) | bool == false
+  when: not skip_install | bool

@@ -138,11 +138,6 @@ fi
 if [ ${CLI_TEST} = "true" ]; then
     # FIXME(dtantsur): bifrost-cli does not use opendev-provided repos.
     ../bifrost-cli --debug install --testenv
-    CLOUD_CONFIG+=" -e skip_install=true"
-    CLOUD_CONFIG+=" -e skip_package_install=true"
-    CLOUD_CONFIG+=" -e skip_bootstrap=true"
-    CLOUD_CONFIG+=" -e skip_start=true"
-    CLOUD_CONFIG+=" -e skip_migrations=true"
 fi
 
 set +e
@@ -173,6 +168,11 @@ ${ANSIBLE} -vvvv \
     -e use_public_urls=${ENABLE_KEYSTONE} \
     -e wait_for_node_deploy=${WAIT_FOR_DEPLOY} \
     -e not_enrolled_data_file=${BAREMETAL_DATA_FILE}.rest \
+    -e skip_install=${CLI_TEST} \
+    -e skip_package_install=${CLI_TEST} \
+    -e skip_bootstrap=${CLI_TEST} \
+    -e skip_start=${CLI_TEST} \
+    -e skip_migrations=${CLI_TEST} \
     ${CLOUD_CONFIG}
 EXITCODE=$?
 
