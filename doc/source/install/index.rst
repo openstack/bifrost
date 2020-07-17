@@ -384,14 +384,16 @@ to prompt for the sudo password::
 
   ansible-playbook -K -vvvv -i inventory/target install.yaml
 
-With regard to testing, ironic's node cleaning capability is disabled by
-default as it can be an unexpected surprise for a new user that their test
-node is unusable for however long it takes for the disks to be wiped.
+With regard to testing, ironic's node cleaning capability is enabled by
+default, but only metadata cleaning is turned on, as it can be an unexpected
+surprise for a new user that their test node is unusable for however long it
+takes for the disks to be wiped.
 
-If you wish to enable cleaning, you can achieve this by passing the option
-``-e cleaning=true`` to the command line or executing the command below::
+If you wish to enable full cleaning, you can achieve this by passing the option
+``-e cleaning_disk_erase=true`` to the command line or executing the command
+below::
 
-  ansible-playbook -K -vvvv -i inventory/target install.yaml -e cleaning=true
+  ansible-playbook -K -vvvv -i inventory/target install.yaml -e cleaning_disk_erase=true
 
 After you have performed an installation, you can edit
 ``/etc/ironic/ironic.conf`` to enable or disable cleaning as desired.

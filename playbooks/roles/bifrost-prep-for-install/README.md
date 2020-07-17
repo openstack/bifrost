@@ -101,7 +101,6 @@ Example Playbook
   roles:
     - { role: bifrost-prep-for-install, when: skip_install is not defined }
     - role: bifrost-ironic-install
-      cleaning: false
       testing: true
 
 License

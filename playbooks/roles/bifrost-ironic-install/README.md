@@ -30,10 +30,11 @@ removes the previous contents of a node once it has been moved from an
 active to available state, such as setting the provision state to deleted.
 Bifrost disables this by default in order to allow initial users to not be
 impacted by node cleaning operations upfront when they are testing and
-evaluating bifrost. In the event of a production deployment, cleaning
-should be enabled.
+evaluating bifrost. Only metadata cleaning is enabled by default, but any
+production environment should have full cleaning enabled.
 
-cleaning: false
+cleaning: true
+cleaning_disk_erase: false
 
 The ironic python client and openstacksdk libraries can be installed directly
 from Git. The default is to utilize pip to install the current versions in pypi,
@@ -319,7 +320,6 @@ Example Playbook
   gather_facts: yes
   roles:
     - role: bifrost-ironic-install
-      cleaning: false
       testing: true
       network_interface: "virbr0"
 

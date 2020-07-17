@@ -25,10 +25,6 @@ Command::
 
 Note:
 
-- Cleaning mode is explicitly disabled in the ``test-bifrost.yaml``
-  playbook due to the fact that is an IO-intensive operation that can
-  take a great deal of time.
-
 - In order to cap requirements for installation, an ``upper_constraints_file``
   setting is defined. This is consuming the ``UPPER_CONSTRAINTS_FILE`` env
   var by default, to properly integrate with CI systems, and will default

@@ -1,7 +1,9 @@
 ---
 # Cleaning turns on ironic conductor clean_nodes flag
 # which causes the nodes to be wiped after deletion.
-cleaning: false
+cleaning: true
+# Wipe all data from the disks rather than only the metadata.
+cleaning_disk_erase: false
 
 # Enable fast_track mode for ironic which allows skipping a power
 # cycle

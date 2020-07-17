@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    Metadata cleaning is now enabled by default, set ``cleaning`` to ``false``
+    to disable completely.
+  - |
+    To enable full disk cleaning, set ``cleaning_disk_erase`` to ``true``.
+upgrade:
+  - |
+    If you use ``cleaning=true`` to enable full disk cleaning, you need to
+    also set ``cleaning_disk_erase=true`` now. Omitting it will result in
+    only metadata cleaning enabled.
