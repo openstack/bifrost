@@ -47,7 +47,6 @@
   roles:
     - role: bifrost-keystone-install
     - role: bifrost-ironic-install
-      cleaning: false
       testing: true
     # NOTE(TheJulia): While the next step creates a ramdisk, some elements
     # do not support ramdisk-image-create as they invoke steps to cleanup
@@ -132,6 +131,7 @@
   gather_facts: no
   roles:
     - role: bifrost-unprovision-node-dynamic
+      wait_for_node_undeploy: true
     - role: ironic-delete-dynamic
 
 # The following tasks are intended to test DHCP functionality

@@ -153,6 +153,7 @@ def cmd_install(args):
             use_public_urls=args.enable_keystone,
             noauth_mode=not args.enable_keystone,
             enabled_hardware_types=args.hardware_types,
+            cleaning_disk_erase=args.cleaning_disk_erase,
             testing=args.testenv,
             use_cirros=args.testenv,
             use_tinyipa=args.testenv,
@@ -212,6 +213,10 @@ def parse_args():
                          default='ipmi,redfish,manual-management',
                          help='a comma separated list of enabled bare metal '
                               'hardware types')
+    install.add_argument('--cleaning-disk-erase',
+                         action='store_true', default=False,
+                         help='enable full disk cleaning between '
+                              'deployments (can take a lot of time)')
 
     args = parser.parse_args()
     if getattr(args, 'func', None) is None:

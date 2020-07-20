@@ -43,3 +43,4 @@
     name: "{{ name | default() }}"
     state: absent
     instance_info: "{}"
+    wait: "{{ wait_for_node_undeploy }}"

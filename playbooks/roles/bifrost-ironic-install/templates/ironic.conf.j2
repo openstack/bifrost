@@ -65,9 +65,15 @@ http_url = http://{{ internal_ip }}:{{ file_url_port }}/
 http_root = {{ http_boot_folder }}
 default_boot_option = local
 fast_track = {{ fast_track }}
+{% if cleaning_disk_erase | bool %}
+erase_devices_priority = 10
+erase_devices_metadata_priority = 0
+{% else %}
+erase_devices_priority = 0
+erase_devices_metadata_priority = 10
+{% endif %}
 
 [conductor]
-clean_nodes = {{ cleaning | lower }}
 automated_clean = {{ cleaning | lower }}
 deploy_kernel = {{ ipa_kernel_url }}
 deploy_ramdisk = {{ ipa_ramdisk_url }}

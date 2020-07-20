@@ -100,7 +100,6 @@ Example Playbook
     - role: bifrost-prep-for-install
       when: not (skip_install | default(false) | bool)
     - role: bifrost-ironic-install
-      cleaning: false
       testing: true
 
 License
