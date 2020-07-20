@@ -11,6 +11,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Fail if credential-less deploy is misconfigured"
+  fail:
+    msg: enable_credential_less_deploy requires fast_track and the "manual-management" hardware type
+  when:
+    - enable_credential_less_deploy | bool
+    - (not fast_track | bool or 'manual-management' not in enabled_hardware_types)
+
 - name: "Configure BIOS interfaces if required"
   set_fact:
     enabled_bios_interfaces: >-
@@ -42,4 +49,5 @@
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+      {%- if enable_credential_less_deploy|bool -%},agent{%- endif -%}
   when: enabled_power_interfaces == ""

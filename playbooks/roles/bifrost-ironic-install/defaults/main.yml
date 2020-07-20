@@ -141,6 +141,8 @@ enabled_power_interfaces: ""
 
 default_resource_class: baremetal
 
+enable_credential_less_deploy: false
+
 # Extra pip packages to install with ironic
 # This should be a list of pip-installable references.
 # default: empty list
@@ -227,16 +229,20 @@ inspector_store_data_in_nginx: false
 # 'Swift' API endpoint.
 inspector_store_data_url: "http://localhost:{{ file_url_port }}"
 
-# Inspector defaults
+enable_inspector_discovery: true
+
+inspector_default_node_driver: "{{ 'manual-management' if enable_credential_less_deploy|bool else 'ipmi' }}"
+
+# Inspector defaults (deprecated in Victoria)
 inspector:
   discovery:
-    enabled: "{{ enable_inspector_discovery | default(true) }}"
-    default_node_driver: "{{ inspector_default_node_driver | default('ipmi')}}"
+    enabled: "{{ enable_inspector_discovery }}"
+    default_node_driver: "{{ inspector_default_node_driver }}"
 
 # If baremetal nodes should be turned off after inspection.
 # The inspector default is to turn off the baremetal node
 # power, this setting to false enables use of fast track mode.
-power_off_after_inspection: false
+power_off_after_inspection: "{{ not fast_track|bool }}"
 
 # We may not have packaged iPXE files on some distros, or may want to
 # download them on their own.
