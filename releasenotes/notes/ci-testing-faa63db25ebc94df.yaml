@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The variable ``ci_testing`` is no longer taken into account by the roles.
+    Use the existing ``copy_from_local_path`` if you need Bifrost to copy
+    repositories from their pre-cached locations.
+other:
+  - |
+    The variable ``ci_testing_zuul`` is no longer used or set.

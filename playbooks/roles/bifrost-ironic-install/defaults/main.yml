@@ -27,7 +27,6 @@ transform_boot_image: false
 # If testing is true, then the environment is setup for using libvirt
 # virtual machines for the hardware instead of real hardware.
 testing: false
-ci_testing: false
 # Use Rabbit MQ as a message bus.
 use_rabbitmq: false
 

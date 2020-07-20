@@ -80,11 +80,6 @@ copy_from_local_path: Boolean value, defaults to false. If set to true,
                       pre-existing repository state.  This is largely
                       something that is needed in CI testing if dependent
                       changes are pre-staged in the local repositories.
-
-ci_testing_zuul: Boolean value, default false. This value is utilized
-                 to tell the preparatory playbook when the prep role
-                 is running in a CI system with Zuul, which in such
-                 cases the repositories must be copied, not overwritten.
 Dependencies
 ------------
 
