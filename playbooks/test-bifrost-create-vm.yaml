@@ -25,7 +25,7 @@
       set_fact:
          ci_testing: true
          copy_from_local_path: true
-         reqs_git_url: "{{ lookup('env', 'WORKSPACE') }}/openstack/requirements"
+         git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
     - name: "Collect process list if running in OpenStack CI"
       command: ps aux
