@@ -30,6 +30,8 @@ testing: false
 # Use Rabbit MQ as a message bus.
 use_rabbitmq: false
 
+# set to true to skip installation completely
+skip_install: False
 # set to true to skip installing ironic dependencies
 skip_package_install: False
 # set to true to skip generation of configs, ironic db and rabbitmq configuration

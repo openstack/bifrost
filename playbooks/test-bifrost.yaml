@@ -22,7 +22,8 @@
       set_fact:
          ipv4_gateway: "192.168.122.1"
   roles:
-    - { role: bifrost-prep-for-install, when: skip_install is not defined }
+    - role: bifrost-prep-for-install
+      when: not (skip_install | default(false) | bool)
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"
