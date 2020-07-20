@@ -25,6 +25,14 @@ bifrost-ironic-install role.
 
 testing: false
 
+Enables no-authentication mode where no authentication is used for accessing
+API services. Setting it to ``false`` will make ironic and ironic-inspector
+either use keystone (if ``enable_keystone`` is true) or HTTP basic auth
+(use ``admin_username``/``admin_password`` and
+``default_username``/``default_password`` to configure).
+
+noauth_mode: true
+
 Node cleaning, which was a feature added to ironic during the Kilo cycle,
 removes the previous contents of a node once it has been moved from an
 active to available state, such as setting the provision state to deleted.

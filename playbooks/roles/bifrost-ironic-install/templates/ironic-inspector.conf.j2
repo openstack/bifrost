@@ -1,10 +1,13 @@
 # {{ ansible_managed }}
 
 [DEFAULT]
-{% if enable_keystone is defined and enable_keystone | bool == true %}
+{% if enable_keystone | bool %}
 auth_strategy = keystone
-{% else %}
+{% elif noauth_mode | bool %}
 auth_strategy = noauth
+{% else %}
+auth_strategy = http_basic
+http_basic_auth_user_file = /etc/ironic-inspector/htpasswd
 {% endif %}
 debug = {{ inspector_debug | bool }}
 
@@ -29,7 +32,7 @@ driver = iptables
 {% endif %}
 
 [ironic]
-{% if enable_keystone is defined and enable_keystone | bool == true %}
+{% if enable_keystone | bool %}
 os_region = {{ keystone.bootstrap.region_name | default('RegionOne') }}
 project_name = baremetal
 username = {{ ironic_inspector.keystone.default_username }}
@@ -38,10 +41,14 @@ auth_url = {{ ironic_inspector.service_catalog.auth_url }}
 auth_type = password
 user_domain_id = default
 project_domain_id = default
-
-{% else %}
+{% elif noauth_mode | bool %}
 auth_type = none
 endpoint_override = {{ ironic_api_url }}
+{% else %}
+auth_type = http_basic
+endpoint_override = {{ ironic_api_url }}
+username = {{ admin_username }}
+password = {{ admin_password }}
 {% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}

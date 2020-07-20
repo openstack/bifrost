@@ -14,7 +14,7 @@ clouds:
       user_domain_id: "{{ cloud.1.config_user_domain_id | default('default') }}"
     identity_api_version: "3"
 {% endfor %}
-{% else %}
+{% elif noauth_mode | default(true) | bool %}
   bifrost:
     auth_type: "none"
     baremetal_endpoint_override: {{ ironic_api_url }}
@@ -23,4 +23,19 @@ clouds:
   bifrost-inspector:
     auth_type: "none"
     endpoint: {{ ironic_inspector_api_url }}
+{% else %}
+  bifrost:
+    auth_type: "http_basic"
+    auth:
+      username: "{{ default_username }}"
+      password: "{{ default_password }}"
+      endpoint: {{ ironic_api_url }}
+    baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
+  bifrost-admin:
+    auth_type: "http_basic"
+    auth:
+      username: "{{ admin_username }}"
+      password: "{{ admin_password }}"
+      endpoint: {{ ironic_api_url }}
+    baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
 {% endif %}

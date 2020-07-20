@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    HTTP basic authentication for API services is now supported in addition
+    to no authentication and Keystone. It is triggered by setting
+    ``noauth_mode=false`` with ``enable_keystone=false``.
+  - |
+    Installations with ``bifrost-cli`` now use HTTP basic authentication if
+    Keystone is disabled.
+deprecations:
+  - |
+    Bifrost will switch to HTTP basic authentication by default in the future.
+    If you want to avoid it, please set ``noauth_mode`` to ``false``
+    explicitly.

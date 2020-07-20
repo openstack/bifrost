@@ -10,6 +10,7 @@ required_packages:
   - dnsmasq
   - gcc
   - genisoimage
+  - httpd-tools
   - ipmitool
   - ipxe-bootimgs
   - kpartx

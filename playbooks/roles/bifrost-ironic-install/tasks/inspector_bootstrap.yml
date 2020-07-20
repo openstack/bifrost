@@ -61,6 +61,26 @@
 - name: "Copy rootwrap.d contents from ironic-inspector source folder"
   command: cp -r "{{ ironicinspector_git_folder }}/rootwrap.d/" "/etc/ironic-inspector/rootwrap.d"
 
+- name: "Generate admin htpasswd for ironic-inspector"
+  htpasswd:
+    path: /etc/ironic-inspector/htpasswd
+    crypt_scheme: bcrypt
+    name: "{{ admin_username }}"
+    password: "{{ admin_password }}"
+  when:
+    - not noauth_mode | bool
+    - not enable_keystone | bool
+
+- name: "Generate user htpasswd for ironic-inspector"
+  htpasswd:
+    path: /etc/ironic-inspector/htpasswd
+    crypt_scheme: bcrypt
+    name: "{{ default_username }}"
+    password: "{{ default_password }}"
+  when:
+    - not noauth_mode | bool
+    - not enable_keystone | bool
+
 - name: "Populate keystone for ironic-inspector "
   include: keystone_setup_inspector.yml
   when: enable_keystone is defined and enable_keystone | bool == true

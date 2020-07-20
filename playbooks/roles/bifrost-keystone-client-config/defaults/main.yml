@@ -6,3 +6,16 @@ ironic_inspector_api_url: "http://localhost:5050"
 enable_venv: true
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' if enable_venv | bool else '/usr/bin/python3' }}"
+
+enable_keystone: false
+noauth_mode:  true
+
+# Directory (on the controller) to keep the passwords
+password_dir: "{{ lookup('env', 'HOME') }}/.config/bifrost"
+
+# Various credentials
+default_username: bifrost_user
+default_password: "{{ lookup('password', password_dir + '/default_password') }}"
+
+admin_username: admin
+admin_password: "{{ lookup('password', password_dir + '/admin_password') }}"

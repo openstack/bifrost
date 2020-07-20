@@ -34,6 +34,7 @@
     timeout: 7200
     vars:
       use_dhcp: true
+      noauth_mode: true
 
 - job:
     name: bifrost-integration-dhcp-ubuntu-bionic
@@ -66,6 +67,8 @@
     name: bifrost-integration-tinyipa
     parent: bifrost-base
     timeout: 3600
+    vars:
+      noauth_mode: false
 
 - job:
     name: bifrost-integration-tinyipa-ubuntu-bionic

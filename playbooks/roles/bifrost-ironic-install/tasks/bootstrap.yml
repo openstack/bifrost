@@ -134,6 +134,26 @@
   command: cp -r "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/" "/etc/ironic/rootwrap.d"
   when: not skip_install | bool
 
+- name: "Generate admin htpasswd for ironic"
+  htpasswd:
+    path: /etc/ironic/htpasswd
+    crypt_scheme: bcrypt
+    name: "{{ admin_username }}"
+    password: "{{ admin_password }}"
+  when:
+    - not noauth_mode | bool
+    - not enable_keystone | bool
+
+- name: "Generate user htpasswd for ironic"
+  htpasswd:
+    path: /etc/ironic/htpasswd
+    crypt_scheme: bcrypt
+    name: "{{ default_username }}"
+    password: "{{ default_password }}"
+  when:
+    - not noauth_mode | bool
+    - not enable_keystone | bool
+
 - name: "Populate keystone for Bifrost"
   include: keystone_setup.yml
   when: enable_keystone is defined and enable_keystone | bool == true

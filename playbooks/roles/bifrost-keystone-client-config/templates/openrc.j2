@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # WARNING: This file is managed by bifrost.
-{% if (enable_keystone | default(false) | bool) %}
+{% if enable_keystone | bool %}
 case "$1" in
 {% for cloud in clouds | default({}) | dictsort %}
 # Section for {{ cloud.0 }}
@@ -17,7 +17,22 @@ case "$1" in
 {% endfor %}
     *) echo -e "\nERROR unsupported or unspecified profile: $1\nMust be one of {{ clouds | default({}) | dictsort | map(attribute='0') | join(',') }}";;
 esac
-{% else %}
+{% elif noauth_mode | bool %}
 export OS_AUTH_TYPE=none
 export OS_ENDPOINT={{ ironic_api_url }}
+{% else %}
+export OS_AUTH_TYPE=http_basic
+export OS_ENDPOINT={{ ironic_api_url }}
+unset OS_AUTH_URL
+case "${1:-bifrost}" in
+    "bifrost")
+        export OS_USERNAME="{{ default_username }}"
+        export OS_PASSWORD="{{ default_password }}"
+        ;;
+    "bifrost-admin")
+        export OS_USERNAME="{{ admin_username }}"
+        export OS_PASSWORD="{{ admin_password }}"
+        ;;
+    *) echo -e "\nERROR unsupported or unspecified profile: $1\nMust be one of bifrost, bifrost-admin";;
+esac
 {% endif %}

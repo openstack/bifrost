@@ -41,6 +41,7 @@ required_packages:
   - python-pip
   - gcc
   - python-PyMySQL
+  - apache2-utils
 iscsi_required_packages:
   - open-iscsi
   - gptfdisk

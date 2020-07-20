@@ -5,6 +5,7 @@ pbr!=2.1.0,>=2.0.0 # Apache-2.0
 oslo.config>=5.2.0 # Apache-2.0
 oslo.log>=3.36.0 # Apache-2.0
 PyYAML>=3.12 # MIT
+passlib>=1.7.2 # BSD
 # TODO(dtantsur): remove pyOpenSSL when we no longer support Bionic and
 # openSUSE updates its version to at least 18.0.0.
 pyOpenSSL>=18.0.0 # Apache-2.0

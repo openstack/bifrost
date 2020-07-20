@@ -31,6 +31,7 @@ oslo.i18n==3.20.0
 oslo.log==3.36.0
 oslo.serialization==2.25.0
 oslo.utils==3.36.0
+passlib==1.7.2
 pbr==2.0.0
 prettytable==0.7.2
 pyasn1==0.4.2
