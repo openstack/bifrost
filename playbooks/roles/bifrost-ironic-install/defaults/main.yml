@@ -95,7 +95,7 @@ use_cirros: false
 download_ipa: true
 update_repos: true
 update_ipa: "{{ update_repos }}"
-cirros_deploy_image_upstream_url: https://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img
+cirros_deploy_image_upstream_url: https://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server.  If you already have a DHCP server, you will need to disable
 # this setting, and perform manual configuration of your DHCP server.

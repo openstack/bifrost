@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    The version of cirros used by default is now 0.5.1 (instead of 0.4.0).

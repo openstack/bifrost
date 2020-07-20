@@ -42,7 +42,7 @@
       when: ci_testing | default(false)| bool
     - name: "Use a cached cirros image"
       set_fact:
-        cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.4.0-x86_64-disk.img
+        cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.1-x86_64-disk.img
       when: ci_testing | default(false)| bool
   roles:
     - role: bifrost-keystone-install
