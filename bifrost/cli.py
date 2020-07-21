@@ -231,8 +231,7 @@ def check_for_root():
             '[ $(whoami) == root ] || sudo --non-interactive true',
             shell=True, stderr=subprocess.DEVNULL)
     except subprocess.CalledProcessError:
-        # TODO(dtantsur): tell ansible to ask for password
-        sys.exit('Sudo without password is required for Bifrost')
+        COMMON_PARAMS.append('--ask-become-pass')
 
 
 def main():
