@@ -51,10 +51,15 @@ def log(*message, only_if=True):
         print(*message, file=sys.stderr)
 
 
-def ansible(playbook, inventory, verbose=False, env=None, **params):
-    extra = COMMON_PARAMS + list(itertools.chain.from_iterable(
+def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
+            **params):
+    extra = COMMON_PARAMS[:]
+    extra.extend(itertools.chain.from_iterable(
         ('-e', '%s=%s' % pair) for pair in params.items()
         if pair[1] is not None))
+    if extra_vars:
+        extra.extend(itertools.chain.from_iterable(
+            ('-e', item) for item in extra_vars))
     if verbose:
         extra.append('-vvvv')
     args = [ANSIBLE, playbook, '-i', inventory] + extra
@@ -119,6 +124,7 @@ def cmd_testenv(args):
             test_vm_domain_type=args.domain_type,
             baremetal_json_file=os.path.abspath(args.inventory),
             baremetal_nodes_json=os.path.abspath(args.output),
+            extra_vars=args.extra_vars,
             **kwargs)
     log('Inventory generated in', args.output)
 
@@ -157,6 +163,7 @@ def cmd_install(args):
             testing=args.testenv,
             use_cirros=args.testenv,
             use_tinyipa=args.testenv,
+            extra_vars=args.extra_vars,
             **kwargs)
     log("Ironic is installed and running, try it yourself:\n",
         " $ source %s/bin/activate\n" % VENV,
@@ -190,6 +197,8 @@ def parse_args():
     testenv.add_argument('--inventory', default='baremetal-inventory.json',
                          help='output file with the inventory for using '
                               'with dynamic playbooks')
+    testenv.add_argument('-e', '--extra-vars', action='append',
+                         help='additional vars to pass to ansible')
     testenv.add_argument('-o', '--output', default='baremetal-nodes.json',
                          help='output file with the nodes information for '
                               'importing into ironic')
@@ -217,6 +226,8 @@ def parse_args():
                          action='store_true', default=False,
                          help='enable full disk cleaning between '
                               'deployments (can take a lot of time)')
+    install.add_argument('-e', '--extra-vars', action='append',
+                         help='additional vars to pass to ansible')
 
     args = parser.parse_args()
     if getattr(args, 'func', None) is None:

@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Extra parameters for ansible can now be passed to ``bifrost-cli`` via
+    the ``-e``/``--extra-vars`` flag. The format is the same as for
+    ansible-playbook.
