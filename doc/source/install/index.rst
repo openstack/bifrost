@@ -332,7 +332,9 @@ ansible.cfg) or you can specify the location setting
 .. note::
 
    If you are using a virtual environment ANSIBLE_COLLECTIONS_PATHS is
-   automatically set.
+   automatically set. After Ansible Collections are installed,
+   a symbolic link to to the installation is created in the bifrost playbook
+   directory.
 
 The ``env-setup.sh`` script automatically invokes ``install-deps.sh`` and
 creates a virtual environment for you:

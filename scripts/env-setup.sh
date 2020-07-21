@@ -53,6 +53,12 @@ else
     ${ANSIBLE_GALAXY} collection install -r ${ANSIBLE_COLLECTION_REQ} -p ${BIFROST_COLLECTIONS_PATHS}
 fi
 
+# Symlink Collections to the playbook directory. This removes the need of setting
+# ANSIBLE_COLLECTIONS_PATHS environment variable
+if [ ! -e "$(dirname $0)/../playbooks/collections" ]; then
+    echo "Creating a symbolic link to ansible collections in bifrost playbook directory"
+    ln -s ${ANSIBLE_COLLECTIONS_PATHS} "$(dirname $0)/../playbooks/collections"
+fi
 
 echo
 echo "To use bifrost, do"

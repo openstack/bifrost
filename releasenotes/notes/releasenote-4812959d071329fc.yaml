@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Added creation of a symbolic link from $VENV/collections directory which
+    contains ansible collections to the playbooks subdirectory of bifrost.
+    This is done in the env-setup.sh script.
+fixes:
+  - |
+    The addition of the symbolic link makes bifrost playbooks independent of
+    the ANSIBLE_COLLECTIONS_PATHS environment variable which wasn't reliably
+    set in some environments.
