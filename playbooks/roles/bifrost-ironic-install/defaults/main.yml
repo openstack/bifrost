@@ -112,11 +112,6 @@ ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 mysql_username: "root"
 mysql_password: ""
-# NOTE(TheJulia): While we have indicated we're going to deprecate ironic_db_password,
-# we didn't properly notate it from what I can see at a glance, and we seem to have
-# an odd variable expansion issue on fedora blocking migration to fedora-27 that this
-# should fix....
-ironic_db_password: aSecretPassword473z
 disable_dnsmasq_dns: True
 ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
@@ -266,47 +261,32 @@ enable_keystone: false
 ironic_api_url: "http://localhost:6385"
 ironic_inspector_api_url: "http://localhost:5050"
 
-# NOTE: The keystone support in this role
-# expects the keystone.bootstrap variables to
-# either be loaded OR present from keystone
-# installation. The keystone settings below
-# should only be used if the role is utilized
-# independently of the keystone installation
-# role, such as leveraging a pre-existing
-# keystone installation.
-# WARNING: Using a pre-existing keystone has
-# not been tested.
-#
-#keystone:
-#  debug: true
-#  bootstrap:
-#    enabled: true
-#    username: admin
-#    password: ChangeThisPa55w0rd
-#    project_name: admin
-#    admin_url: "http://127.0.0.1:35357/v3/"
-#    public_url: "http://127.0.0.1:5000/v3/"
-#    internal_url: "http://127.0.0.1:5000/v3/"
-#    region_name: "RegionOne"
-#  message_queue:
-#    username: keystone
-#    password: ChangeThisPa55w0rd
-#    host: 127.0.0.1
-#  database:
-#    name: keystone
-#    username: keystone
-#    password: ChangeThisPa55w0rd
-#    host: 127.0.0.1
+# Directory (on the controller) to keep the passwords
+password_dir: "{{ lookup('env', 'HOME') }}/.config/bifrost"
+
+# Various credentials
+default_username: bifrost_user
+default_password: "{{ lookup('password', password_dir + '/default_password') }}"
+
+admin_username: admin
+admin_password: "{{ lookup('password', password_dir + '/admin_password') }}"
+
+# NOTE(dtantsur): various URLs in configuration files don't like special
+# symbols in passwords.
+service_password: "{{ lookup('password', password_dir + '/service_password chars=ascii_letters,digits') }}"
+
+# TODO(dtantsur): deprecate in favor of service_password
+ironic_db_password: "{{ service_password }}"
 
 ironic:
   service_catalog:
     username: "ironic"
-    password: "ChangeThisPa55w0rd"
+    password: "{{ service_password }}"
     auth_url: "http://127.0.0.1:5000/v3"
     project_name: "service"
   keystone:
-    default_username: "bifrost_user"
-    default_password: "ChangeThisPa55w0rd"
+    default_username: "{{ default_username }}"
+    default_password: "{{ default_password }}"
   database:
     name: "ironic"
     username: "ironic"
@@ -316,19 +296,40 @@ ironic:
 ironic_inspector:
   service_catalog:
     username: "ironic_inspector"
-    password: "ChangeThisPa55w0rd"
+    password: "{{ service_password }}"
     auth_url: "http://127.0.0.1:5000/v3"
     project_name: "service"
   keystone:
-    default_username: "inspector_user"
-    default_password: "ChangeThisPa55w0rd"
+    default_username: "{{ default_username }}"
+    default_password: "{{ default_password }}"
   database:
     name: "inspector"
     username: "inspector"
     password: "{{ ironic_db_password }}"
     host: "localhost"
-    # DEPRECATED(TheJulia): Inheritance of ironic_db_password params
-    # should be removed in Queens.
+
+# NOTE(dtantsur): keep in sync with bifrost-keystone-install
+keystone:
+  debug: true
+  bootstrap:
+    enabled: true
+    username: "{{ admin_username }}"
+    password: "{{ admin_password }}"
+    project_name: admin
+    admin_url: "http://127.0.0.1:35357/v3/"
+    public_url: "http://127.0.0.1:5000/v3/"
+    internal_url: "http://127.0.0.1:5000/v3/"
+    region_name: "RegionOne"
+  message_queue:
+    username: keystone
+    password: "{{ service_password }}"
+    host: localhost
+    port: 5672
+  database:
+    name: keystone
+    username: keystone
+    password: "{{ service_password }}"
+    host: localhost
 
 pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"
 

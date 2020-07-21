@@ -18,7 +18,21 @@ oneanother. Example::
     ansible-playbook -vvvv -i inventory/target install.yaml -e enable_keystone=true -e noauth_mode=false
 
 However, prior to installation, overriding credentials should be set
-in order to customize the deployment to meet your needs.
+in order to customize the deployment to meet your needs. At the very least,
+the following parameters should be changed for a production environment:
+
+``admin_password``
+    Password for the bootstrap user (called ``admin`` by default).
+``default_password``
+    Password for the regular user (called ``bifrost_user`` by default).
+``service_password``
+    Password for communication between services (never exposed to end users).
+
+If any of these values is not set, a random password is generated during the
+initial installation and stored on the controller in an accordingly named file
+in the ``~/.config/bifrost`` directory (override using ``password_dir``).
+
+See the following files for more settings that can be overridden:
 
 * ``playbooks/roles/bifrost-ironic-install/defaults/main.yml``
 * ``playbooks/roles/bifrost-keystone-install/defaults/main.yml``
