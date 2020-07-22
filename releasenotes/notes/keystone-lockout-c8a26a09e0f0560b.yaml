@@ -1,0 +1,12 @@
+---
+security:
+  - |
+    When using Keystone, no longer locks users out of their accounts on 3
+    unsuccessful attempts to log in. This creates a very trivially exploitable
+    denial-of-service issue. Use ``keystone_lockout_security_attempts``
+    to re-enable (not recommended).
+features:
+  - |
+    If ``keystone_lockout_security_attempts`` is enabled, the amount of time
+    the account stays locked is now regulated by the new parameter
+    ``keystone_lockout_duration`` (defaulting to 1800 seconds).
