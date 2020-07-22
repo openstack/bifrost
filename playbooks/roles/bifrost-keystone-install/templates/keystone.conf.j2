@@ -20,7 +20,10 @@ connection = mysql+pymysql://{{ keystone.database.username }}:{{ keystone.databa
 use_db_reconnect = true
 
 [security_compliance]
-lockout_failure_attempts = 3
+{% if keystone_lockout_security_attempts > 0 %}
+lockout_failure_attempts = {{ keystone_lockout_security_attempts }}
+lockout_duration = {{ keystone_lockout_duration }}
+{% endif %}
 
 [token]
 provider = fernet

@@ -4,6 +4,9 @@ keystone_source_install: true
 keystone_git_url: https://opendev.org/openstack/keystone
 keystone_git_folder: /opt/stack/keystone
 
+keystone_lockout_security_attempts: -1
+keystone_lockout_duration: 1800
+
 skip_install: False
 # set to true to skip installing ironic dependencies
 skip_package_install: False
