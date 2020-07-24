@@ -56,19 +56,13 @@ mkdir -p ${LOG_LOCATION}/all
 sudo cp -a /var/log/* ${LOG_LOCATION}/all/.
 sudo chown -R $USER ${LOG_LOCATION}/all
 
-if $(journalctl --version &>/dev/null); then
-    sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
-    sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
-    sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
-    sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
-    sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
-    sudo journalctl -u vbmcd &> ${LOG_LOCATION}/vbmcd.log
-else
-   sudo cp /var/log/upstart/ironic-api.log ${LOG_LOCATION}/
-   sudo cp /var/log/upstart/ironic-conductor.log ${LOG_LOCATION}/
-   sudo cp /var/log/upstart/ironic-inspector.log ${LOG_LOCATION}/
-   sudo cp /var/log/upstart/libvirtd.log ${LOG_LOCATION}/
-fi
+sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
+sudo journalctl -u ironic-api &> ${LOG_LOCATION}/ironic-api.log
+sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
+sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
+sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
+sudo journalctl -u vbmcd &> ${LOG_LOCATION}/vbmcd.log
+sudo journalctl -u uwsgi &> ${LOG_LOCATION}/uwsgi.log
 
 # Copy PXE information
 mkdir -p ${LOG_LOCATION}/pxe/

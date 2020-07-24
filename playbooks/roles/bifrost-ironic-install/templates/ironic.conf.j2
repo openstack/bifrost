@@ -33,12 +33,15 @@ auth_strategy = keystone
 auth_strategy = noauth
 {% endif %}
 
-{% if ironic_log_dir is defined %}
+{% if ironic_log_dir | default("") != "" %}
 log_dir = {{ ironic_log_dir }}
 {% endif %}
 
-{% if ironic_agent_deploy_logs_local_path | default("") != "/var/log/ironic/deploy" %}
 [agent]
+{% if ironic_store_ramdisk_logs | bool %}
+deploy_logs_collect = always
+{% endif %}
+{% if ironic_agent_deploy_logs_local_path | default("") != "" %}
 deploy_logs_local_path = {{ ironic_agent_deploy_logs_local_path }}
 {% endif %}
 

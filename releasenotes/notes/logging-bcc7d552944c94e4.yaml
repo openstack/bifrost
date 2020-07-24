@@ -1,0 +1,17 @@
+---
+upgrade:
+  - |
+    All services now use *journald* logging by default, ``ironic-api.log`` and
+    ``ironic-conductor.log`` are no longer populated. Use ``ironic_log_dir``
+    and ``inspector_log_dir`` to override.
+  - |
+    The ramdisk logs for deploy/cleaning are now by default stored in
+    ``/var/log/ironic/deploy``.
+security:
+  - |
+    Uses mode 0700 for the ironic log directories to prevent them from being
+    world readable.
+features:
+  - |
+    Deploy/cleaning ramdisk logs are now always stored by default, use
+    ``ironic_store_ramdisk_logs`` to override.
