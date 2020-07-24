@@ -173,6 +173,24 @@
   become: true
   register: vbmcd_service_file
 
+- name: create Virtual BMC configuration directory
+  file:
+    path: /etc/virtualbmc
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  become: true
+
+- name: write Virtual BMC configuration file
+  template:
+    src: virtualbmc.conf
+    dest: /etc/virtualbmc/virtualbmc.conf
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+
 - name: ensure Virtual BMC systemd service is started and enabled
   systemd:
     name: vbmcd
