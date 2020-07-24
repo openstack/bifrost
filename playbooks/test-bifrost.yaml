@@ -73,9 +73,10 @@
   connection: local
   roles:
     - role: ironic-enroll-dynamic
-    - { role: ironic-inspect-node, when: not inspect_nodes | default('false') | bool }
+    - role: ironic-inspect-node
+      when: inspect_nodes | default(false) | bool
     - role: bifrost-test-inspection
-      when: not inspect_nodes | default('false') | bool
+      when: inspect_nodes | default(false) | bool
 
 - hosts: localhost
   name: "Tests the use of openstack clients"
