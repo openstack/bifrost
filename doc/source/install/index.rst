@@ -377,14 +377,37 @@ restarted.
 Playbook Execution
 ==================
 
+Playbook based install provides a greater degree of visibility and control
+over the process and is suitable for advanced installation scenarios.
+
+Examples:
+
+First, make sure that the virtual environment is active (the example below
+assumes that bifrost venv is installed into the default path
+/opt/stack/bifrost).
+
+    $ . /opt/stack/bifrost/bin/activate
+    (bifrost) $
+
+Verify if the ansible-playbook executable points to the one installed in
+the virtual environment:
+
+    (bifrost) $ which ansible-playbook
+    /opt/stack/bifrost/bin/ansible-playbook
+    (bifrost) $
+
+change to the ``playbooks`` subdirectory of the cloned bifrost repository:
+
+    $ cd playbooks
+
 If you have passwordless sudo enabled, run::
 
-  ansible-playbook -vvvv -i inventory/target install.yaml
+    $ ansible-playbook -vvvv -i inventory/target install.yaml
 
 Otherwise, add the ``-K`` to the ansible command line, to trigger ansible
 to prompt for the sudo password::
 
-  ansible-playbook -K -vvvv -i inventory/target install.yaml
+    $ ansible-playbook -K -vvvv -i inventory/target install.yaml
 
 With regard to testing, ironic's node cleaning capability is enabled by
 default, but only metadata cleaning is turned on, as it can be an unexpected
@@ -395,7 +418,7 @@ If you wish to enable full cleaning, you can achieve this by passing the option
 ``-e cleaning_disk_erase=true`` to the command line or executing the command
 below::
 
-  ansible-playbook -K -vvvv -i inventory/target install.yaml -e cleaning_disk_erase=true
+    $ ansible-playbook -K -vvvv -i inventory/target install.yaml -e cleaning_disk_erase=true
 
 After you have performed an installation, you can edit
 ``/etc/ironic/ironic.conf`` to enable or disable cleaning as desired.
@@ -412,7 +435,7 @@ These drivers and information about them can be found in
 If you would like to install the ironic staging drivers, simply pass
 ``-e staging_drivers_include=true`` when executing the install playbook::
 
-  ansible-playbook -K -vvvv -i inventory/target install.yaml -e staging_drivers_include=true
+    $ ansible-playbook -K -vvvv -i inventory/target install.yaml -e staging_drivers_include=true
 
 ===============
 Advanced Topics
