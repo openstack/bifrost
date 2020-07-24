@@ -1,0 +1,14 @@
+---
+other:
+  - |
+    Bifrost now uses the equivalent modules from the openstack.cloud collection.
+    The change on modules is listed below.
+
+    * `os_client_config` is `config`
+    * `os_ironic` is `baremetal_node`
+    * `os_ironic_inspect` is `baremetal_inspect`
+    * `os_ironic_node` is `baremetal_node_action`
+    * `os_keystone_role` is `identity_role`
+    * `os_keystone_service` is `catalog_service`
+    * `os_user` is `identity_user`
+    * `os_user_role` is `role_assignment`

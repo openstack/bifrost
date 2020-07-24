@@ -23,7 +23,7 @@ ironic_url: This is the URL to the ironic server.  By default, this is set to
 
 network_interface: This is the network interface that the nodes receive
                    DHCP/PXE/iPXE.  This is utilized to generate the url that
-                   Ironic is configured with for image retrieval. This 
+                   Ironic is configured with for image retrieval. This
                    variable does not have a default in this role and expects to
                    receive this information from the calling playbook.
 

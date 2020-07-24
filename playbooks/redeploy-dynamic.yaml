@@ -72,4 +72,3 @@
       until: node_info.node.provision_state == "active"
       retries: "{{ active_state_wait_retries | default(30) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"
-

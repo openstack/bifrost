@@ -18,14 +18,14 @@
     auth: {}
   when: noauth_mode is defined and noauth_mode | bool == true
 
-- name: "Execute os_client_config to collect facts"
-  os_client_config:
+- name: "Execute openstack.cloud.config to collect facts"
+  openstack.cloud.config:
   no_log: yes
 
-# NOTE(TheJulia): The first record returned by os_client_config
+# NOTE(TheJulia): The first record returned by openstack.cloud.config
 # is utilized as the default. A user can still define the parameters
 # if so desired.
-- name: "Set os_client_config's auth parameters if not already set."
+- name: "Set openstack.cloud.config auth parameters if not already set."
   set_fact:
     auth: "{{ openstack.clouds[0].auth }}"
     auth_type: "{{ openstack.clouds[0].auth_type }}"
@@ -34,7 +34,7 @@
   when: noauth_mode is defined and noauth_mode | bool == false
 
 - name: "Unprovision node"
-  os_ironic_node:
+  openstack.cloud.baremetal_node_action:
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"

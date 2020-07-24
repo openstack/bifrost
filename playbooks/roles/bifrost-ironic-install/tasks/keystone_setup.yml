@@ -52,7 +52,7 @@
   no_log: true
 
 - name: "Create service user for ironic"
-  os_user:
+  openstack.cloud.identity_user:
     name: "{{ ironic.service_catalog.username }}"
     password: "{{ ironic.service_catalog.password }}"
     state: present
@@ -70,7 +70,7 @@
   no_log: true
 
 - name: "Associate ironic user to admin role"
-  os_user_role:
+  openstack.cloud.role_assignment:
     user: "{{ ironic.service_catalog.username }}"
     role: "admin"
     project: "{{ ironic.service_catalog.project_name }}"
@@ -86,7 +86,7 @@
   no_log: true
 
 - name: "Create keystone service record for ironic"
-  os_keystone_service:
+  openstack.cloud.catalog_service:
     state: present
     name: "ironic"
     service_type: "baremetal"
@@ -200,7 +200,7 @@
   when: test_ironic_internal_endpoint.rc != 0 or test_ironic_internal_endpoint.stdout == '[]'
 
 - name: "Create baremetal_admin role"
-  os_keystone_role:
+  openstack.cloud.identity_role:
     name: "baremetal_admin"
     state: present
     auth:
@@ -214,7 +214,7 @@
   no_log: true
 
 - name: "Create baremetal_observer role"
-  os_keystone_role:
+  openstack.cloud.identity_role:
     name: "baremetal_observer"
     state: present
     auth:
@@ -245,7 +245,7 @@
   no_log: true
 
 - name: "Create bifrost user"
-  os_user:
+  openstack.cloud.identity_user:
     name: "{{ ironic.keystone.default_username }}"
     password: "{{ ironic.keystone.default_password }}"
     default_project: "baremetal"
@@ -262,7 +262,7 @@
   no_log: true
 
 - name: "Associate bifrost user with baremetal_admin"
-  os_user_role:
+  openstack.cloud.role_assignment:
     user: "{{ ironic.keystone.default_username }}"
     role: "baremetal_admin"
     project: "baremetal"

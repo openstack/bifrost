@@ -34,7 +34,7 @@
       ironic_inspector.keystone.default_password is undefined
 
 - name: "Create service user for ironic-inspector"
-  os_user:
+  openstack.cloud.identity_user:
     name: "{{ ironic_inspector.service_catalog.username }}"
     password: "{{ ironic_inspector.service_catalog.password }}"
     state: present
@@ -52,7 +52,7 @@
   no_log: true
 
 - name: "Associate ironic_inspector user to admin role"
-  os_user_role:
+  openstack.cloud.role_assignment:
     user: "{{ ironic_inspector.service_catalog.username }}"
     role: admin
     project: "{{ ironic_inspector.service_catalog.project_name | default('service') }}"
@@ -68,7 +68,7 @@
   no_log: true
 
 - name: "Create keystone service record for ironic-inspector"
-  os_keystone_service:
+  openstack.cloud.catalog_service:
     state: present
     name: ironic-inspector
     service_type: baremetal-introspection
@@ -182,7 +182,7 @@
   when: test_ironic_inspector_internal_endpoint.rc != 0 or test_ironic_inspector_internal_endpoint.stdout == '[]'
 
 - name: "Create inspector_user user"
-  os_user:
+  openstack.cloud.identity_user:
     name: "{{ ironic_inspector.keystone.default_username }}"
     password: "{{ ironic_inspector.keystone.default_password }}"
     default_project: "baremetal"
@@ -199,7 +199,7 @@
   no_log: true
 
 - name: "Associate inspector_user with baremetal_admin"
-  os_user_role:
+  openstack.cloud.role_assignment:
     user: "{{ ironic_inspector.keystone.default_username }}"
     role: "baremetal_admin"
     project: baremetal
