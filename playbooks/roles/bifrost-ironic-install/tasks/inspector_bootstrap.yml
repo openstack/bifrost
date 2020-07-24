@@ -72,20 +72,17 @@
     owner=ironic
     group=ironic
     mode=0740
-- name: "Inspector - create data folder"
+- name: "Inspector - Create the log directories (if requested)"
   file:
-    name="{{ inspector_data_dir }}"
-    state=directory
-    owner=ironic
-    group=ironic
-    mode=0755
-- name: "Inspector - create log folder"
-  file:
-    name="{{ inspector_data_dir }}/log"
-    state=directory
-    owner=ironic
-    group=ironic
-    mode=0755
+    name: "{{ item }}"
+    state: directory
+    owner: ironic
+    group: ironic
+    mode: 0700
+  loop:
+    - "{{ inspector_log_dir | default('') }}"
+    - "{{ inspector_ramdisk_logs_local_path | default('') }}"
+  when: item != ""
 - name: "Upgrade inspector DB Schema"
   shell: ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
   become: true

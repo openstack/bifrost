@@ -81,10 +81,8 @@ for vm in $(baremetal node list -c Name -f value); do
     baremetal node show $vm >> ${LOG_LOCATION}/baremetal.txt
 done
 
-if [ -d "/var/log/ironic" ]; then
-   sudo cp -a "/var/log/ironic" ${LOG_LOCATION}/ipa-logs
-   ls -la ${LOG_LOCATION}/ipa-logs
-fi
+sudo cp -a "/var/log/ironic/deploy" ${LOG_LOCATION}/deploy-ramdisk
+sudo cp -a "/var/log/ironic-inspector/ramdisk" ${LOG_LOCATION}/inspection-ramdisk
 
 # general info
 sudo ps auxf &> ${LOG_LOCATION}/ps.txt
