@@ -162,6 +162,7 @@ def _parse_config():
     log.register_options(config)
     config.register_cli_opts(opts)
     config(prog='bifrost_inventory.py')
+    config.set_override('use_stderr', True)
     log.set_defaults()
     log.setup(config, "bifrost_inventory.py")
     return config
