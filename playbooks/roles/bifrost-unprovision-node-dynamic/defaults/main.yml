@@ -1,5 +1,4 @@
 ---
-ironic_url: "http://localhost:6385/"
 noauth_mode: true
 wait_for_node_undeploy: false
 

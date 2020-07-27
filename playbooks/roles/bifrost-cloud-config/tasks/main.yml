@@ -1,0 +1,62 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+- name: "If in noauth mode, unset authentication parameters."
+  set_fact:
+    auth_type: None
+    auth: {}
+  when: noauth_mode | bool
+
+- name: "Execute openstack.cloud.config to collect facts"
+  openstack.cloud.config:
+  no_log: yes
+  # NOTE(dtantsur): Allow missing clouds.yaml only in no-auth mode
+  ignore_errors: "{{ noauth_mode | bool }}"
+
+- name: "Set openstack_cloud if possible"
+  set_fact:
+    # TODO(dtantsur): support looking up by cloud_name
+    openstack_cloud: "{{ openstack.clouds[0] }}"
+  when:
+    - openstack is defined
+    - openstack.clouds | length > 0
+  no_log: yes
+
+# NOTE(TheJulia): The first record returned by openstack.cloud.config
+# is utilized as the default. A user can still define the parameters
+# if so desired.
+- name: "Set openstack.cloud.config auth parameters if not already set."
+  set_fact:
+    auth: "{{ openstack_cloud.auth }}"
+    auth_type: "{{ openstack_cloud.auth_type }}"
+  when:
+    - auth is undefined
+    - openstack_cloud is defined
+  no_log: yes
+
+# FIXME(dtantsur): this should work by simply passing the cloud to ansible
+# modules, but it does not because of some issues there.
+- name: "Provide ironic_url if there is an endpoint override"
+  set_fact:
+    ironic_url: "{{ openstack_cloud.baremetal_endpoint_override }}"
+  when:
+    - ironic_url | default("") == ""
+    - openstack_cloud is defined
+    - openstack_cloud.baremetal_endpoint_override is defined
+
+- name: "Provide ironic_url for no-auth mode if there is no override"
+  set_fact:
+    ironic_url: "http://localhost:6385/"
+  when:
+    - ironic_url | default("") == ""
+    - noauth_mode | bool
