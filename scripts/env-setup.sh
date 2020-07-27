@@ -9,6 +9,10 @@ DEFAULT_PIP_ANSIBLE='>=2.9,<2.10'
 
 ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
 ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
+ANSIBLE_COLLECTION_SOURCE_PATH=
+if [[ -d "${WORKSPACE:-}/openstack/ansible-collections-openstack" ]]; then
+    ANSIBLE_COLLECTION_SOURCE_PATH="${WORKSPACE}/openstack/ansible-collections-openstack"
+fi
 ANSIBLE_COLLECTION_REQ=${ANSIBLE_COLLECTION_REQ:-$(dirname $0)/../ansible-collection-requirements.yml}
 BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
 
@@ -20,6 +24,10 @@ if [ -n "${VENV-}" ]; then
         echo  "Setting ANSIBLE_COLLECTIONS_PATHS to virtualenv"
         export ANSIBLE_COLLECTIONS_PATHS=${VENV}/collections
         BIFROST_COLLECTIONS_PATHS=$ANSIBLE_COLLECTIONS_PATHS
+    fi
+    if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
+        mkdir -p "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack"
+        ln -s "$ANSIBLE_COLLECTION_SOURCE_PATH" "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack/cloud"
     fi
 else
     ${PIP} install --user --upgrade "${ANSIBLE_SOURCE_PATH}"
@@ -44,8 +52,9 @@ sudo -H chown -R $u:$g ${ANSIBLE_INSTALL_ROOT}
 
 
 # Install Collections
-if [[ -z $BIFROST_COLLECTIONS_PATHS ]];
-then
+if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
+    echo "Using openstack ansible collection from $ANSIBLE_COLLECTION_SOURCE_PATH"
+elif [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
     echo "Installing ansible collections on default collections path"
     ${ANSIBLE_GALAXY} collection install -r ${ANSIBLE_COLLECTION_REQ}
 else
