@@ -42,6 +42,8 @@ skip_bootstrap: False
 skip_start: False
 # set to true to skip performing online data migrations
 skip_migrations: "{{ skip_bootstrap }}"
+# set to true to skip validating the services
+skip_validation: "{{ skip_start }}"
 
 # Default network interface that bifrost will be attached to.
 # This is used in ipa_* so it must be before
