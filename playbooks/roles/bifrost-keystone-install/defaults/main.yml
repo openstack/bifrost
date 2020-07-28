@@ -1,4 +1,6 @@
 ---
+enable_keystone: false
+
 keystone_source_install: true
 # *_git_url can be overridden by local clones for offline installs
 keystone_git_url: https://opendev.org/openstack/keystone
@@ -47,12 +49,23 @@ bifrost_venv_env:
   pydoc: "python -m pydoc"
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' if enable_venv | bool else '/usr/bin/python3' }}"
 
+# Directory (on the controller) to keep the passwords
+password_dir: "{{ lookup('env', 'HOME') }}/.config/bifrost"
+
+admin_username: admin
+admin_password: "{{ lookup('password', password_dir + '/admin_password') }}"
+
+
+# NOTE(dtantsur): various URLs in configuration files don't like special
+# symbols in passwords.
+service_password: "{{ lookup('password', password_dir + '/service_password chars=ascii_letters,digits') }}"
+
 keystone:
   debug: true
   bootstrap:
     enabled: true
-    username: admin
-    password: ChangeThisPa55w0rd
+    username: "{{ admin_username }}"
+    password: "{{ admin_password }}"
     project_name: admin
     admin_url: "http://127.0.0.1:35357/v3/"
     public_url: "http://127.0.0.1:5000/v3/"
@@ -60,13 +73,13 @@ keystone:
     region_name: "RegionOne"
   message_queue:
     username: keystone
-    password: ChangeThisPa55w0rd
+    password: "{{ service_password }}"
     host: localhost
     port: 5672
   database:
     name: keystone
     username: keystone
-    password: ChangeThisPa55w0rd
+    password: "{{ service_password }}"
     host: localhost
 
 pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"

@@ -302,8 +302,9 @@ upon.
   your local installation.
 - Change ``network_interface`` to match the interface that will need
   to service DHCP requests.
-- Change the ``ironic_db_password`` which is set by ansible in MySQL
-  and in ironic's configuration file.
+- Set ``service_password`` which is used for communication between services.
+  If unset, a random password is generated during the initial installation and
+  stored on the controller in ``~/.config/bifrost/service_password``.
 
 The install process, when executed will either download, or build
 disk images for the deployment of nodes, and be deployed to the nodes.

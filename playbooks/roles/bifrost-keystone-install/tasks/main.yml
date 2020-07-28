@@ -44,3 +44,29 @@
 - name: "Start Keystone services"
   include: start.yml
   when: enable_keystone is defined and enable_keystone |bool == True and skip_start | bool != True
+
+- name: "Change the bootstrap password from the static value on upgrade"
+  os_user:
+    name: "{{ keystone.bootstrap.username }}"
+    password: "{{ keystone.bootstrap.password }}"
+    update_password: always
+    state: present
+    domain: "default"
+    default_project: "{{ keystone.bootstrap.project_name }}"
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "ChangeThisPa55w0rd"
+      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  no_log: true
+  ignore_errors: true
+  when:
+    - enable_keystone | bool
+    - not skip_bootstrap | bool
+    - test_created_keystone_db is undefined or not test_created_keystone_db.changed | bool
+    - keystone.bootstrap.enabled | bool
+    - keystone.database.host == 'localhost'

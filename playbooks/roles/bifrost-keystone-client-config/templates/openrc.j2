@@ -8,9 +8,9 @@ case "$1" in
     "{{ cloud.0 }}")
     export OS_PROJECT_DOMAIN_NAME="{{ cloud.1.config_project_domain_id | default('default') }}"
     export OS_USER_DOMAIN_NAME="{{ cloud.1.config_user_domain_id | default('default') }}"
-    export OS_PROJECT_NAME={{ cloud.1.config_project_name }}
-    export OS_USERNAME={{ cloud.1.config_username }}
-    export OS_PASSWORD={{ cloud.1.config_password }}
+    export OS_PROJECT_NAME="{{ cloud.1.config_project_name }}"
+    export OS_USERNAME="{{ cloud.1.config_username }}"
+    export OS_PASSWORD="{{ cloud.1.config_password }}"
     export OS_AUTH_URL={{ cloud.1.config_auth_url }}
     export OS_IDENTITY_API_VERSION=3
     ;;

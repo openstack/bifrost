@@ -7,8 +7,8 @@
 # network_interface: "virbr0"
 
 
-# ironic_db_password ironic user password for rabbit
-ironic_db_password: aSecretPassword473z
+# password to use between services
+#service_password: aSecretPassword473z
 # mysql_username: Default mysql admin username
 mysql_username: root
 # mysql_password: Default mysql admin user password

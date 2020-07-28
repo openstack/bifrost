@@ -65,6 +65,7 @@
       project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
       project_domain_id: "default"
       user_domain_id: "default"
+    update_password: always
     wait: yes
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
   no_log: true
