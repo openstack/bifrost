@@ -30,6 +30,10 @@
             voting: false
         - bifrost-cli-ubuntu-bionic:
            voting: false
+        - bifrost-collections-src:
+           voting: false
+        - bifrost-keystone-collections-src:
+           voting: false
     gate:
       jobs:
         - bifrost-integration-tinyipa-ubuntu-bionic
