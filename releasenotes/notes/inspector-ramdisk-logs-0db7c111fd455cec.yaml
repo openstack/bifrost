@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The ramdisk logs for inspection are now stored by default in
+    ``/var/log/ironic-inspector/ramdisk``.
+security:
+  - |
+    Uses mode 0700 for the inspector log directories to prevent them from being
+    world readable.

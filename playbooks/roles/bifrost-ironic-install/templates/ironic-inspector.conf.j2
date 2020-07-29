@@ -8,7 +8,7 @@ auth_strategy = noauth
 {% endif %}
 debug = {{ inspector_debug | bool }}
 
-{% if inspector_log_dir is defined %}
+{% if inspector_log_dir | default("") != "" %}
 log_dir = {{ inspector_log_dir }}
 {% endif %}
 
@@ -59,7 +59,9 @@ project_domain_id = default
 [processing]
 add_ports = {{ inspector_port_addition | default('pxe') }}
 keep_ports = {{ inspector_keep_ports | default('present') }}
-ramdisk_logs_dir = {{ inspector_data_dir }}/log
+{% if inspector_ramdisk_logs_local_path | default("") != "" %}
+ramdisk_logs_dir = {{ inspector_ramdisk_logs_local_path }}
+{% endif %}
 always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | bool }}
 {% if inspector_processing_hooks is defined %}
 processing_hooks = {{ inspector_processing_hooks }}

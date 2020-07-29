@@ -198,10 +198,6 @@ inspector_manage_firewall: Boolean value, default false. Controls whether
                            adds the rule to permit the callback traffic,
                            so you shouldn't need to enable this.
 
-inspector_data_dir: Base path for ironic-inspector's temporary data and log
-                    files. The default location is
-                    `/opt/stack/ironic-inspector/var`.
-
 inspector_port_addition: Defines which MAC addresses to add as ports during
                          introspection. Possible values are `all`, `active`,
                          and `pxe`. The default value is `pxe`.
