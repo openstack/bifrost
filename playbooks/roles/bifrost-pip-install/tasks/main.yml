@@ -71,7 +71,10 @@
   # NOTE(dtantsur): do not use constraints here, it does not work when the
   # package itself is constrained.
   - name: "Install from {{ sourcedir }} using pip"
-    command: pip3 install {{ sourcedir }} {{ extra_args | default('') }}
+    pip:
+      name: "{{ sourcedir }}"
+      editable: "{{ developer_mode | bool }}"
+      extra_args: "{{ extra_args | default('') }}"
     when: source_install | bool
     environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
 

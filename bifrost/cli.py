@@ -163,6 +163,7 @@ def cmd_install(args):
             testing=args.testenv,
             use_cirros=args.testenv,
             use_tinyipa=args.testenv,
+            developer_mode=args.develop,
             extra_vars=args.extra_vars,
             **kwargs)
     log("Ironic is installed and running, try it yourself:\n",
@@ -207,6 +208,8 @@ def parse_args():
     install.set_defaults(func=cmd_install)
     install.add_argument('--testenv', action='store_true',
                          help='running in a virtual environment')
+    install.add_argument('--develop', action='store_true', default=False,
+                         help='install packages in development mode')
     install.add_argument('--dhcp-pool', metavar='START-END',
                          help='DHCP pool to use')
     install.add_argument('--release',
