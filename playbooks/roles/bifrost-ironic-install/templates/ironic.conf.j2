@@ -59,6 +59,7 @@ tftp_master_path = {{ ironic_tftp_master_path }}
 uefi_pxe_bootfile_name = {{ ipxe_efi_binary }}
 uefi_pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
 {% endif %}
+enable_netboot_fallback = true
 
 [deploy]
 http_url = http://{{ internal_ip }}:{{ file_url_port }}/

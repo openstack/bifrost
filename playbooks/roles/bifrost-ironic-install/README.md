@@ -179,6 +179,13 @@ power_off_after_inspection: Boolean setting governing the behavior
                             Deployment without the need to reboot
                             the physical machine.
 
+enable_credential_less_deploy: Boolean setting that enables the experimental
+                               feature of deploying nodes without BMC
+                               credentials. Discovery (if enabled) will be
+                               configured to use the default hardware type
+                               "manual-management" and the "agent" power
+                               interface will be enabled.
+
 ### Hardware Inspection Support
 
 Bifrost also supports the installation of ironic-inspector in standalone

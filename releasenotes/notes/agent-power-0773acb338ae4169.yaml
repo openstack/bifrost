@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Adds support for configuring credential-less deploy via the new ``agent``
+    power interface and the ``manual-management`` hardware type.
+deprecations:
+  - |
+    Deprecates providing inspector discovery parameters via
+    ``inspector[discovery]``, use explicit variables instead.
