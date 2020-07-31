@@ -169,9 +169,10 @@ cors_allowed_origin: "http://localhost:8000"
 # not need to be modified by the user.
 enable_cors_credential_support: false
 
+ironic_store_ramdisk_logs: true
 # The path to the directory where the deployment logs should be stored when using
 # local storage.
-ironic_agent_deploy_logs_local_path: "{{ '/'.join([ironic_log_dir, 'deploy']) }}"
+ironic_agent_deploy_logs_local_path: /var/log/ironic/deploy
 
 # Set this to true to configure dnsmasq to respond to requests from the
 # hosts in your dynamic inventory.
@@ -192,7 +193,7 @@ inspector_debug: true
 inspector_manage_firewall: false
 
 # Set ironic_log_dir to use a non-default log directory for ironic.
-ironic_log_dir: /var/log/ironic
+#ironic_log_dir: /var/log/ironic
 
 # Set inspector_log_dir to use a non-default log directory for inspector.
 #inspector_log_dir:
