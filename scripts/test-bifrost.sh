@@ -104,6 +104,7 @@ fi
 
 if [[ -n "$BOOT_MODE" ]]; then
     CLOUD_CONFIG+=" -e default_boot_mode=$BOOT_MODE"
+    VM_SETUP_EXTRA+=" -e default_boot_mode=$BOOT_MODE"
 fi
 
 logs_on_exit() {
@@ -130,7 +131,7 @@ done
 # Create the test VMs
 ../bifrost-cli --debug testenv \
     --count ${TEST_VM_NUM_NODES} \
-    --memory ${VM_MEMORY_SIZE:-512} \
+    --memory ${VM_MEMORY_SIZE:-1024} \
     --disk ${VM_DISK:-5} \
     --inventory "${BAREMETAL_DATA_FILE}" \
     --driver ${TEST_VM_NODE_DRIVER:-ipmi} \

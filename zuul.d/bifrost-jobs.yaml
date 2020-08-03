@@ -145,6 +145,13 @@
     nodeset: fedora-latest
 
 - job:
+    name: bifrost-integration-redfish-uefi-fedora-latest
+    parent: bifrost-integration-tinyipa-fedora-latest
+    vars:
+      boot_mode: uefi
+      test_driver: redfish
+
+- job:
     name: bifrost-tox-linters
     parent: openstack-tox-linters
     required-projects:

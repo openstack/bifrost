@@ -2,11 +2,12 @@
 # defaults file for bifrost-create-vm-nodes
 baremetal_json_file: '/tmp/baremetal.json'
 baremetal_nodes_json: '/tmp/nodes.json'
+default_boot_mode: ''
 test_vm_memory_size: "3072"
 test_vm_num_nodes: 1
 test_vm_domain_type: "qemu"
 test_vm_arch: "x86_64"
-test_vm_nic: "e1000"
+test_vm_nic: "{{ 'virtio' if default_boot_mode == 'uefi' else 'e1000' }}"
 test_vm_groups: {}
 test_vm_default_groups: "{{ lookup('env', 'DEFAULT_HOST_GROUPS').split() | default(['baremetal'], true) }}"
 test_vm_disk_gib: "{{ lookup('env', 'VM_DISK') | default(10, true) }}"
@@ -33,7 +34,7 @@ test_vm_storage_pool_path: "/var/lib/libvirt/images"
 test_vm_logdir: "/var/log/libvirt/baremetal_logs"
 # NOTE(pas-ha) next two are generic values for most OSes, overridden by distro-specifc vars
 test_vm_emulator: "/usr/bin/qemu-system-x86_64"
-test_vm_machine: "pc-1.0"
+test_vm_machine: "pc"
 # NOTE(pas-ha) not really tested with non-local qemu connections
 test_vm_libvirt_uri: "{{ lookup('env', 'LIBVIRT_CONNECT_URI') | default('qemu:///system', true) }}"
 # Settings related to installing bifrost in a virtual environment

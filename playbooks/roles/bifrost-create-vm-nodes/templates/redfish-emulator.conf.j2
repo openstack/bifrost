@@ -1,7 +1,9 @@
 SUSHY_EMULATOR_BOOT_LOADER_MAP = {
+{% if efi_loader_path is defined %}
     'UEFI': {
         'x86_64': '{{ efi_loader_path }}'
     },
+{% endif %}
     'Legacy': {
         'x86_64': None
     }
