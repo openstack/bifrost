@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The ``bifrost-create-vm-nodes`` role now supports redfish emulation, set
+    ``test_vm_node_driver=redfish`` (or ``--driver=redfish`` for
+    ``bifrost-cli testenv``) to use.
+  - |
+    The new parameter ``default_boot_mode`` allows specifying the default boot
+    mode: ``uefi`` or ``bios``.

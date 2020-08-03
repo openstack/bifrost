@@ -132,6 +132,7 @@ done
     --memory ${VM_MEMORY_SIZE:-512} \
     --disk ${VM_DISK:-5} \
     --inventory "${BAREMETAL_DATA_FILE}" \
+    --driver ${TEST_VM_NODE_DRIVER:-ipmi} \
     --extra-vars git_url_root="${WORKSPACE:-https://opendev.org}" \
     ${VM_SETUP_EXTRA:-} \
     ${BIFROST_CLI_EXTRA:-}

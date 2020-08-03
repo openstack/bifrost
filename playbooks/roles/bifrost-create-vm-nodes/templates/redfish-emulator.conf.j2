@@ -1,0 +1,11 @@
+SUSHY_EMULATOR_BOOT_LOADER_MAP = {
+    'UEFI': {
+        'x86_64': '{{ efi_loader_path }}'
+    },
+    'Legacy': {
+        'x86_64': None
+    }
+}
+
+SUSHY_EMULATOR_LISTEN_IP = '{{ redfish_emulator_host }}'
+SUSHY_EMULATOR_LISTEN_PORT = {{ redfish_emulator_port }}

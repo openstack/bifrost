@@ -12,5 +12,6 @@ required_packages:
  - sgabios
  - pkg-config
  - libvirt-dev
+ - ovmf
  - ebtables
  - dnsmasq

@@ -15,6 +15,11 @@ test_vm_disk_cache: "{{ lookup('env', 'VM_DISK_CACHE') | default('writeback', tr
 test_vm_node_name_base: "{{ lookup('env', 'NODEBASE') | default('testvm', true) }}"
 test_vm_node_names: "{{ lookup('env', 'TEST_VM_NODE_NAMES').split() }}"
 
+test_vm_node_driver: ipmi
+
+redfish_emulator_host: localhost
+redfish_emulator_port: 9132
+
 # NOTE(pas-ha) name and default are chosen to be the same
 # as in 'bifrost-ironic-install' role
 network_interface: "virbr0"

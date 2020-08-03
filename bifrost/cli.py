@@ -122,6 +122,7 @@ def cmd_testenv(args):
             test_vm_memory_size=args.memory,
             test_vm_disk_gib=args.disk,
             test_vm_domain_type=args.domain_type,
+            test_vm_node_driver=args.driver,
             baremetal_json_file=os.path.abspath(args.inventory),
             baremetal_nodes_json=os.path.abspath(args.output),
             extra_vars=args.extra_vars,
@@ -198,6 +199,9 @@ def parse_args():
     testenv.add_argument('--inventory', default='baremetal-inventory.json',
                          help='output file with the inventory for using '
                               'with dynamic playbooks')
+    testenv.add_argument('--driver', default='ipmi',
+                         choices=['ipmi', 'redfish'],
+                         help='driver for testing nodes')
     testenv.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
     testenv.add_argument('-o', '--output', default='baremetal-nodes.json',

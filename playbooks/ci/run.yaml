@@ -14,3 +14,4 @@
         ENABLE_VENV: "{{ use_venv | default(true) | bool | lower }}"
         ZUUL_BRANCH: "{{ zuul.branch }}"
         BOOT_MODE: "{{ boot_mode | default('') }}"
+        TEST_VM_NODE_DRIVER: "{{ test_driver | default('ipmi') }}"

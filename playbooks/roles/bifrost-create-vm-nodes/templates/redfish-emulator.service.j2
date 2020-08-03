@@ -1,0 +1,15 @@
+{% if enable_venv | bool %}
+{% set gunicorn = bifrost_venv_dir ~ '/bin/gunicorn' %}
+{% else %}
+{% set gunicorn = '/usr/local/bin/gunicorn' %}
+{% endif %}
+[Unit]
+Description=Sushy Redfish Emulator
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart={{ gunicorn }} sushy_tools.emulator.main:app \
+    --bind {{ redfish_emulator_host }}:{{ redfish_emulator_port }} \
+    --env SUSHY_EMULATOR_CONFIG=/etc/redfish-emulator.conf \
+    --env FLASK_DEBUG=1 --workers 2 --threads 2 --timeout 90

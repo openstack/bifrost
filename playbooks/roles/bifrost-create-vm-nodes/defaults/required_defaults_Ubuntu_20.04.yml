@@ -12,5 +12,6 @@ required_packages:
  - qemu-system-data
  - pkg-config
  - libvirt-dev
+ - ovmf
  - ebtables
  - dnsmasq

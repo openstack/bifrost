@@ -80,6 +80,7 @@
       - openstack/keystone
     vars:
       enable_keystone: true
+      test_driver: redfish
 
 - job:
     name: bifrost-cli-ubuntu-bionic
@@ -105,6 +106,7 @@
       - openstack/keystone
     vars:
       enable_keystone: true
+      test_driver: redfish
 
 - job:
     name: bifrost-integration-tinyipa-debian-buster

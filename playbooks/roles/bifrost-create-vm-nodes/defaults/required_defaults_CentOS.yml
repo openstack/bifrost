@@ -22,5 +22,6 @@ required_packages:
  - pkgconfig
  - libvirt-devel
  - trousers
+ - edk2-ovmf
 test_vm_emulator: "/usr/libexec/qemu-kvm"
 test_vm_machine: "pc"

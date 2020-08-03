@@ -14,5 +14,6 @@ required_packages:
  - libxml2-devel
  - pkg-config
  - libvirt-devel
+ - qemu-ovmf-x86_64
  - ebtables
  - dnsmasq

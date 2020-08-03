@@ -15,18 +15,14 @@
 # Setup libvirt - ensure network and storage pool are defined and active,
 # prepare dir for vm logs
 ---
-- name: set virtualenv_command
-  set_fact:
-    venv_command: "python3 -m venv"
-  when: enable_venv
-
-- name: install libvirt-python and lxml
+- name: install libvirt-python, gunicorn and lxml
   include_role:
     name: bifrost-pip-install
   vars:
     package: "{{ item }}"
   loop:
     - libvirt-python
+    - gunicorn
     - lxml
 
 - name: configure libvirt log filters for qemu
@@ -197,4 +193,46 @@
     enabled: yes
     state: started
     daemon_reload: "{{ vbmcd_service_file.changed }}"
+  become: true
+
+- name: install sushy-tools
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: sushy-tools
+
+- name: ensure Redfish Emulator systemd service is configured
+  template:
+    src: redfish-emulator.service.j2
+    dest: /etc/systemd/system/redfish-emulator.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  register: redfish_emulator_service_file
+
+- name: find OVMF firmware
+  set_fact:
+    efi_loader_path: "{{ item }}"
+  with_first_found:
+    - /usr/share/OVMF/OVMF_CODE.secboot.fd
+    - /usr/share/OVMF/OVMF_CODE.fd
+    - /usr/share/qemu/ovmf-x86_64-code.bin
+
+- name: write Redfish Emulator configuration file
+  template:
+    src: redfish-emulator.conf.j2
+    dest: /etc/redfish-emulator.conf
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+  register: redfish_emulator_config_file
+
+- name: ensure Redfish Emulator systemd service is started and enabled
+  systemd:
+    name: redfish-emulator
+    enabled: yes
+    state: "{{ 'restarted' if redfish_emulator_config_file.changed else 'started' }}"
+    daemon_reload: "{{ redfish_emulator_service_file.changed }}"
   become: true

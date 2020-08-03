@@ -62,6 +62,7 @@ sudo journalctl -u ironic-conductor &> ${LOG_LOCATION}/ironic-conductor.log
 sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
 sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
 sudo journalctl -u vbmcd &> ${LOG_LOCATION}/vbmcd.log
+sudo journalctl -u redfish-emulator &> ${LOG_LOCATION}/redfish-emulator.log
 sudo journalctl -u uwsgi &> ${LOG_LOCATION}/uwsgi.log
 
 # Copy PXE information

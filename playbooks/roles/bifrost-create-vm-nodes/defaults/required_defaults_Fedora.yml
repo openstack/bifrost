@@ -12,3 +12,4 @@ required_packages:
  - pkgconfig
  - libvirt-devel
  - python3-libselinux
+ - edk2-ovmf

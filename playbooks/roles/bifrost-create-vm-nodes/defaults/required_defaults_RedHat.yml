@@ -16,3 +16,4 @@ required_packages:
  - libvirt-devel
  - libxslt-devel
  - libxml2-devel
+ - edk2-ovmf
