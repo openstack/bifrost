@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new parameter ``default_boot_mode`` allows specifying the default boot
+    mode: ``uefi`` or ``bios``.

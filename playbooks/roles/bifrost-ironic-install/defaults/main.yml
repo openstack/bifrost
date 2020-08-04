@@ -136,6 +136,8 @@ enabled_power_interfaces: ""
 
 default_resource_class: baremetal
 
+default_boot_mode: ""
+
 enable_credential_less_deploy: false
 
 # Extra pip packages to install with ironic
