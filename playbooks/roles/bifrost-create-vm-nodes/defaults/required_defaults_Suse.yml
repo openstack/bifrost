@@ -14,3 +14,5 @@ required_packages:
  - libxml2-devel
  - pkg-config
  - libvirt-devel
+ - ebtables
+ - dnsmasq

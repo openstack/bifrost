@@ -1,9 +1,7 @@
-dnsmasq
 epel-release        [platform:centos platform:rhel]
 gcc
 git
-libffi-devel        [platform:redhat platform:suse !platform:opensuseproject-42]
-libffi-devel-gcc5   [platform:opensuseproject-42]
+libffi-devel        [platform:redhat platform:suse]
 libffi-dev          [platform:dpkg]
 libopenssl-devel    [platform:suse]
 openssl-devel       [platform:redhat]
@@ -11,18 +9,11 @@ libssl-dev          [platform:dpkg]
 lsb-release         [platform:suse platform:dpkg]
 redhat-lsb          [platform:redhat]
 make
-mariadb             [platform:suse]
-mariadb-server      [platform:redhat platform:dpkg]
-net-tools
 python3              [platform:rpm]
 python3-apt          [platform:dpkg]
 python3-minimal      [platform:dpkg]
 python3-devel        [platform:rpm]
 python3-dev          [platform:dpkg]
 python3-dnf          [platform:fedora]
-python3-venv         [platform:dpkg]
-python3-xml          [platform:suse]
-redhat-rpm-config    [platform:fedora]
-wget
+python3-wheel        [platform:dpkg]
 sudo
-ebtables
