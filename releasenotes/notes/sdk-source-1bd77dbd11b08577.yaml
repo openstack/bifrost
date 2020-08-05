@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    OpenStackSDK is now installed from PyPI by default, set
+    ``openstacksdk_source_install=true`` to override.

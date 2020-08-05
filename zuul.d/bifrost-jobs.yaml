@@ -21,7 +21,6 @@
       - openstack/ironic-inspector
       - openstack/ironic-python-agent
       - openstack/ironic-python-agent-builder
-      - openstack/openstacksdk
       - openstack/requirements
       - x/ironic-staging-drivers
 

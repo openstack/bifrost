@@ -44,7 +44,7 @@ ipa_git_branch: "{{ git_branch }}"
 ipa_builder_git_branch: master
 # disable source install to prevent cloning
 ironicclient_source_install: false
-openstacksdk_source_install: true
+openstacksdk_source_install: false
 ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
 sushy_source_install: false
