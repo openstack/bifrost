@@ -7,16 +7,20 @@ set -eu
 
 DEFAULT_PIP_ANSIBLE='>=2.9,<2.10'
 
-ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
-ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
+ANSIBLE_COLLECTION_REQ=${ANSIBLE_COLLECTION_REQ:-$(dirname $0)/../ansible-collection-requirements.yml}
 ANSIBLE_COLLECTION_SOURCE_PATH=
 if [[ -d "${WORKSPACE:-}/openstack/ansible-collections-openstack" ]]; then
     ANSIBLE_COLLECTION_SOURCE_PATH="${WORKSPACE}/openstack/ansible-collections-openstack"
 fi
-ANSIBLE_COLLECTION_REQ=${ANSIBLE_COLLECTION_REQ:-$(dirname $0)/../ansible-collection-requirements.yml}
-BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
+ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
+ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
+ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
 
-if [ -n "${VENV-}" ]; then
+BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
+PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
+
+
+if [[ -n "${VENV-}" ]]; then
     ${PIP} install "${ANSIBLE_SOURCE_PATH}"
     ANSIBLE=${VENV}/bin/ansible
     ANSIBLE_GALAXY=${VENV}/bin/ansible-galaxy
@@ -35,21 +39,17 @@ else
     ANSIBLE_GALAXY=${HOME}/.local/bin/ansible-galaxy
 fi
 
-PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
-
 # NOTE(pas-ha) the following is a temporary workaround for third-party CI
 # scripts that try to source Ansible's hacking/env-setup
 # after running this very script
 # TODO(pas-ha) remove after deprecation (in Pike?) and when third-party CIs
 # (in particular OPNFV) are fixed
-ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
-u=$(whoami)
-g=$(groups | awk '{print $1}')
-if [ ! -d ${ANSIBLE_INSTALL_ROOT} ]; then
+ANSIBLE_USER=$(id -nu)
+ANSIBLE_GROUP=$(id -ng)
+if [[ ! -d ${ANSIBLE_INSTALL_ROOT} ]]; then
     mkdir -p ${ANSIBLE_INSTALL_ROOT} || (sudo mkdir -p ${ANSIBLE_INSTALL_ROOT})
 fi
-sudo -H chown -R $u:$g ${ANSIBLE_INSTALL_ROOT}
-
+sudo -H chown -R ${ANSIBLE_USER}:${ANSIBLE_GROUP} ${ANSIBLE_INSTALL_ROOT}
 
 # Install Collections
 if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
@@ -72,7 +72,7 @@ fi
 echo
 echo "To use bifrost, do"
 
-if [ -n "${VENV-}" ]; then
+if [[ -n "${VENV-}" ]]; then
     echo "source ${VENV}/bin/activate"
 else
     echo "Prepend ~/.local/bin to your PATH if it is not that way already.."
