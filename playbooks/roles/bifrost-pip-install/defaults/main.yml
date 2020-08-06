@@ -10,6 +10,7 @@ source_install: false
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' if enable_venv | bool else '/usr/bin/python3' }}"
 
 # Pip options
+developer_mode: false
 extra_args:
 pip_install_retries: 5
 pip_install_delay: 10

@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Set the new parameter ``developer_mode`` to ``true`` to make all packages
+    installed from source to be installed with the ``--editable`` flag.
+    The corresponding ``bifrost-cli`` argument is ``--develop``.
