@@ -1,5 +1,4 @@
 ---
-ironic_url: "http://localhost:6385/"
 file_url_port: "8080"
 # Default network interface that bifrost will be attached to.
 network_interface: "virbr0"
@@ -13,8 +12,6 @@ ipa_file_protocol: "http"
 
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + network_interface | replace('-', '_')]['ipv4']['address'] }}:{{file_url_port}}/ipa.kernel"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ hostvars[inventory_hostname]['ansible_' + network_interface | replace('-', '_')]['ipv4']['address'] }}:{{file_url_port}}/ipa.initramfs"
-
-noauth_mode: true
 
 # Timeout for gathering facts.
 fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"

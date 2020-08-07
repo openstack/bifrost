@@ -1,6 +1,5 @@
 ---
 # defaults file for bifrost-deploy-nodes-dynamic
-ironic_url: "http://localhost:6385/"
 file_url_port: "8080"
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
@@ -12,7 +11,6 @@ inventory_dhcp: false
 inventory_dhcp_static_ip: true
 inventory_dns: false
 deploy_url_protocol: "http"
-noauth_mode: true
 
 # Under normal circumstances, the os_ironic_node module does not wait for
 # the node to reach active state before continuing with the deployment
