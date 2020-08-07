@@ -13,6 +13,7 @@ ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
 ENABLE_VENV=true
 CLI_TEST=${CLI_TEST:-false}
+BOOT_MODE=${BOOT_MODE:-}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -97,7 +98,11 @@ elif [ ${BUILD_IMAGE} = "true" ]; then
     fi
 elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     NOAUTH_MODE=false
-    CLOUD_CONFIG="-e cloud_name=bifrost"
+    CLOUD_CONFIG+=" -e cloud_name=bifrost"
+fi
+
+if [[ -n "$BOOT_MODE" ]]; then
+    CLOUD_CONFIG+=" -e default_boot_mode=$BOOT_MODE"
 fi
 
 logs_on_exit() {

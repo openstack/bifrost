@@ -13,3 +13,4 @@
         USE_DHCP: "{{ use_dhcp | default(false) | bool | lower }}"
         ENABLE_VENV: "{{ use_venv | default(true) | bool | lower }}"
         ZUUL_BRANCH: "{{ zuul.branch }}"
+        BOOT_MODE: "{{ boot_mode | default('') }}"
