@@ -7,7 +7,7 @@ set -eu
 
 DEFAULT_PIP_ANSIBLE='>=2.9,<2.10'
 
-ANSIBLE_COLLECTION_REQ=${ANSIBLE_COLLECTION_REQ:-$(dirname $0)/../ansible-collection-requirements.yml}
+ANSIBLE_COLLECTIONS_REQ=${ANSIBLE_COLLECTIONS_REQ:-$(dirname $0)/../ansible-collections-requirements.yml}
 ANSIBLE_COLLECTION_SOURCE_PATH=
 if [[ -d "${WORKSPACE:-}/openstack/ansible-collections-openstack" ]]; then
     ANSIBLE_COLLECTION_SOURCE_PATH="${WORKSPACE}/openstack/ansible-collections-openstack"
@@ -56,10 +56,10 @@ if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
     echo "Using openstack ansible collection from $ANSIBLE_COLLECTION_SOURCE_PATH"
 elif [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
     echo "Installing ansible collections on default collections path"
-    ${ANSIBLE_GALAXY} collection install -r ${ANSIBLE_COLLECTION_REQ}
+    ${ANSIBLE_GALAXY} collection install -r ${ANSIBLE_COLLECTIONS_REQ}
 else
     echo "Installing ansible collections on $BIFROST_COLLECTIONS_PATHS"
-    ${ANSIBLE_GALAXY} collection install -r ${ANSIBLE_COLLECTION_REQ} -p ${BIFROST_COLLECTIONS_PATHS}
+    ${ANSIBLE_GALAXY} collection install -r ${ANSIBLE_COLLECTIONS_REQ} -p ${BIFROST_COLLECTIONS_PATHS}
 fi
 
 # Symlink Collections to the playbook directory. This removes the need of setting
