@@ -11,12 +11,6 @@
 # limitations under the License.
 ---
 
-- name: "If in noauth mode, unset authentication parameters."
-  set_fact:
-    auth_type: None
-    auth: {}
-  when: noauth_mode | bool
-
 - name: "Execute openstack.cloud.config to collect facts"
   openstack.cloud.config:
   no_log: yes
@@ -43,6 +37,21 @@
     - auth is undefined
     - openstack_cloud is defined
   no_log: yes
+
+- name: "If in noauth mode and no clouds.yaml, unset authentication parameters."
+  set_fact:
+    auth_type: None
+    auth: {}
+  when:
+    - auth is undefined
+    - noauth_mode | bool
+
+# FIXME(dtantsur): the ironic modules hardcode None and "None" as valid values,
+# while "none" does not trigger handling of ironic_url.
+- name: "Work around a bug in the ansible modules."
+  set_fact:
+    auth_type: None
+  when: auth_type == 'none'
 
 # FIXME(dtantsur): this should work by simply passing the cloud to ansible
 # modules, but it does not because of some issues there.
