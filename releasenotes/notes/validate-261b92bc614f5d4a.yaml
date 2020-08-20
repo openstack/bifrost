@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``bifrost-ironic-install`` role now validates that the services have
+    been started successfully, use ``skip_validation`` to disable.

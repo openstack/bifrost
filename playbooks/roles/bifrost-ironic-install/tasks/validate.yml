@@ -1,0 +1,85 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+
+- name: "Authentication environment - keystone version"
+  set_fact:
+    testing_env:
+      OS_AUTH_TYPE: password
+      OS_AUTH_URL: "{{ ironic.service_catalog.auth_url }}"
+      OS_USERNAME: "{{ ironic.service_catalog.username }}"
+      OS_PASSWORD: "{{ ironic.service_catalog.password }}"
+      OS_PROJECT_NAME: "{{ ironic.service_catalog.project_name }}"
+      OS_USER_DOMAIN_NAME: default
+      OS_PROJECT_DOMAIN_NAME: default
+  when: enable_keystone | bool
+  no_log: yes
+
+- name: "Authentication environment - no-auth version"
+  set_fact:
+    testing_env:
+      OS_AUTH_TYPE: none
+      OS_ENDPOINT: "{{ ironic_api_url }}"
+  when: noauth_mode | bool
+
+- name: "Authentication environment - HTTP basic version"
+  set_fact:
+    testing_env:
+      OS_AUTH_TYPE: http_basic
+      OS_ENDPOINT: "{{ ironic_api_url }}"
+      OS_USERNAME: "{{ admin_username }}"
+      OS_PASSWORD: "{{ admin_password }}"
+  when:
+    - not noauth_mode | bool
+    - not enable_keystone | bool
+  no_log: yes
+
+- name: "Validate API access and at least one conductor"
+  command: baremetal conductor list -f value -c Hostname
+  environment: "{{ testing_env | combine(bifrost_venv_env if enable_venv else {}) }}"
+  register: conductor_list
+  failed_when: conductor_list.rc != 0 or conductor_list.stdout | trim == ""
+  retries: 6
+  delay: 5
+  until: conductor_list is not failed
+
+- name: "Authentication environment - no-auth inspector version"
+  set_fact:
+    testing_env:
+      OS_AUTH_TYPE: none
+      OS_ENDPOINT: "{{ ironic_inspector_api_url }}"
+  when:
+    - noauth_mode | bool
+    - enable_inspector | bool
+
+- name: "Authentication environment - HTTP basic inspector version"
+  set_fact:
+    testing_env:
+      OS_AUTH_TYPE: http_basic
+      OS_ENDPOINT: "{{ ironic_inspector_api_url }}"
+      OS_USERNAME: "{{ admin_username }}"
+      OS_PASSWORD: "{{ admin_password }}"
+  when:
+    - not noauth_mode | bool
+    - not enable_keystone | bool
+    - enable_inspector | bool
+  no_log: yes
+
+- name: "Validate introspection API access"
+  command: baremetal introspection list
+  environment: "{{ testing_env | combine(bifrost_venv_env if enable_venv else {}) }}"
+  register: introspection_list
+  retries: 6
+  delay: 5
+  until: introspection_list is not failed
+  when: enable_inspector | bool
