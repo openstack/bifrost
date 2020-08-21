@@ -49,6 +49,16 @@
 - name: "Copy full iPXE image into /tftpboot"
   copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/ remote_src=true
 
+- name: Make boot files owned by ironic and world-readable
+  file:
+    path: "{{ item }}"
+    mode: 0644
+    owner: ironic
+    group: ironic
+  loop:
+    - /tftpboot/undionly.kpxe
+    - "/tftpboot/{{ ipxe_full_binary }}"
+
 - name: "Set up iPXE for EFI booting"
   block:
     - name: "Check if the iPXE EFI image is present"
@@ -72,6 +82,16 @@
 
     - name: "Copy iPXE EFI image into /tftpboot"
       copy: src={{ ipxe_dir }}/{{ ipxe_efi_binary }} dest=/tftpboot/ remote_src=true
+
+    - name: Make UEFI boot files owned by ironic and world-readable
+      file:
+        path: "{{ item }}"
+        mode: 0644
+        owner: ironic
+        group: ironic
+      loop:
+        - "/tftpboot/{{ ipxe_efi_binary }}"
+        - "{{ http_boot_folder }}/{{ ipxe_efi_binary }}"
   when: enable_uefi_ipxe | bool == true
 
 # Similar logic to below can be utilized to retrieve files
