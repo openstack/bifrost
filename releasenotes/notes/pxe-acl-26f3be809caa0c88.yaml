@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes ACL of PXE and iPXE boot files to make sure they are world-readable.
