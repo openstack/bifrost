@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Automatically enables DHCP and TFTP services in firewalld on CentOS/RHEL.
