@@ -24,12 +24,9 @@ VENV = "/opt/stack/bifrost"
 ANSIBLE = os.path.join(VENV, 'bin', 'ansible-playbook')
 COMMON_ENV = {
     'VENV': VENV,
-    'USE_VENV': 'true',
-    'ENABLE_VENV': 'true',
 }
 COMMON_PARAMS = [
     '-e', 'ansible_python_interpreter=%s/bin/python3' % VENV,
-    '-e', 'enable_venv=true',
     '-e', 'bifrost_venv_dir=%s' % VENV,
 ]
 BASE = os.path.abspath(os.path.join(os.path.dirname(sys.argv[0]), '..'))

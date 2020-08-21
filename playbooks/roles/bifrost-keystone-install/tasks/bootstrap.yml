@@ -13,21 +13,15 @@
 ---
 # NOTE(TheJulia): There is significant commonality between this playbook
 # and the bifrost bootstrap process.
-- name: "If VENV is set in the environment, enable installation into venv"
-  set_fact:
-    enable_venv: true
-    uwsgi_venv: "{{ bifrost_venv_env.get('VIRTUAL_ENV', '') }}"
-  when: lookup('env', 'VENV') | length > 0
-
 - name: "Get uwsgi install location"
   shell: echo $(dirname $(which uwsgi))
   register: uwsgi_install_prefix
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Get keystone-wsgi-admin location"
   shell: echo $(dirname $(which keystone-wsgi-admin))
   register: keystone_install_prefix
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 # NOTE(sean-k-mooney) only the MySQL db is started during bootstrapping.
 # all other services are started in the Start phase.
@@ -110,19 +104,19 @@
 
 - name: "Apply/Update keystone DB Schema"
   command: keystone-manage db_sync
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Setup Fernet key repositories"
   command: >
     keystone-manage fernet_setup
     --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Setup Keystone Credentials"
   command: >
     keystone-manage credential_setup
     --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Setting external Keystone public URL"
   set_fact:
@@ -145,7 +139,7 @@
     --bootstrap-public-url="{{ keystone_public_url | default(keystone.bootstrap.public_url) }}"
     --bootstrap-internal-url="{{ keystone_private_url | default(keystone.bootstrap.internal_url) }}"
     --bootstrap-region-id="{{ keystone.bootstrap.region_name }}"
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: >
     test_created_keystone_db.changed | bool == true and
     keystone.bootstrap.enabled | bool == true and

@@ -259,22 +259,13 @@ packages, Bifrost defaults to installing everything to a virtual environment.
 ``scripts/env-setup.sh`` will automatically create a virtual environment in
 ``/opt/stack/bifrost`` if it does not exist.
 
-If you want to enable system-wide installing, set ``ENABLE_VENV`` to ``false``
-before calling ``env-setup.sh``::
-
-    export ENABLE_VENV=false
-
-.. warning::
-    This is not recommended and not tested. Future versions of Bifrost may
-    remove support of running outside of a virtual environment.
-
 If you want to relocate the virtual environment, export the ``VENV`` variable
 before calling ``env-setup.sh``::
 
     export VENV=/path/to/my/venv
 
 If you're using the ansible playbooks directly (without the helper scripts),
-set the ``enable_venv`` and ``bifrost_venv_dir`` variables accordingly.
+set the ``bifrost_venv_dir`` variables accordingly.
 
 Pre-installation settings
 =========================

@@ -4,6 +4,5 @@ wait_timeout: 900
 multinode_testing: false
 
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
-enable_venv: true
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
-ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' if enable_venv | bool else '/usr/bin/python3' }}"
+ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"

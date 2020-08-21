@@ -11,7 +11,6 @@ BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}
 ENABLE_KEYSTONE="${ENABLE_KEYSTONE:-false}"
 ZUUL_BRANCH=${ZUUL_BRANCH:-}
-ENABLE_VENV=true
 CLI_TEST=${CLI_TEST:-false}
 BOOT_MODE=${BOOT_MODE:-}
 
@@ -169,7 +168,6 @@ ${ANSIBLE} -vvvv \
     -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
     -e inventory_dhcp=${INVENTORY_DHCP} \
     -e inventory_dhcp_static_ip=${INVENTORY_DHCP_STATIC_IP} \
-    -e enable_venv=${ENABLE_VENV} \
     -e enable_inspector=${USE_INSPECTOR} \
     -e inspect_nodes=${INSPECT_NODES} \
     -e download_ipa=${DOWNLOAD_IPA} \

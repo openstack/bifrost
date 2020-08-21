@@ -42,20 +42,7 @@
     until: pip_package_install_done is succeeded
     retries: "{{ pip_install_retries }}"
     delay: "{{ pip_install_delay }}"
-    when: source_install | bool == false and enable_venv | bool
-
-  - name: "Install {{ package }} package from pip without virtualenv"
-    pip:
-      name: "{{ package }}"
-      state: "{{ state | default(omit) }}"
-      version: "{{ version | default(omit) }}"
-      extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
-      executable: /usr/bin/pip3
-    register: pip_package_install_done
-    until: pip_package_install_done is succeeded
-    retries: "{{ pip_install_retries }}"
-    delay: "{{ pip_install_delay }}"
-    when: source_install | bool == false and enable_venv | bool == false
+    when: not source_install | bool
 
   - name: "Install requirements from {{ sourcedir }} using pip"
     pip:
@@ -66,7 +53,7 @@
     retries: 5
     delay: 10
     when: source_install | bool
-    environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
+    environment: "{{ bifrost_venv_env }}"
 
   # NOTE(dtantsur): do not use constraints here, it does not work when the
   # package itself is constrained.
@@ -76,6 +63,6 @@
       editable: "{{ developer_mode | bool }}"
       extra_args: "{{ extra_args | default('') }}"
     when: source_install | bool
-    environment: "{{ bifrost_venv_env if (enable_venv | bool) else {} }}"
+    environment: "{{ bifrost_venv_env }}"
 
   when: not skip_install | bool

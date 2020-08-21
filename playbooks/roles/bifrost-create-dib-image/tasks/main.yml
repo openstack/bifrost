@@ -185,7 +185,7 @@
     and ("debian" in dib_os_element or "ubuntu" in dib_os_element)
 - name: "Initiate image build"
   command: disk-image-create {{dib_arglist}}
-  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env if enable_venv|bool else {}) }}"
+  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env) }}"
   when:
     - not build_ramdisk | bool
     - not test_image_present.stat.exists
@@ -193,7 +193,7 @@
     - not test_image_initramfs_present.stat.exists
 - name: "Initiate ramdisk build"
   command: ramdisk-image-create {{dib_arglist}}
-  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env if enable_venv|bool else {}) }}"
+  environment: "{{ dib_env_vars_final | combine(bifrost_venv_env) }}"
   when:
     - build_ramdisk | bool
     - not test_image_present.stat.exists

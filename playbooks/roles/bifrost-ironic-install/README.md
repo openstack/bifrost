@@ -257,12 +257,8 @@ inspector_store_data_in_nginx: Boolean value, default false. If true, this
 
 ### Virtual Environment Install
 
-Bifrost can install ironic into a python virtual environment using the
-following configuration options:
-
-enable_venv: Enables virtual environment support. Boolean value; the default
-             is false. enable_venv is automatically defined as true if VENV
-             is set in the user's environment.
+Bifrost installs ironic and other services into a python virtual environment
+using the following configuration options:
 
 bifrost_venv_dir: The full path of the virtual environment directory. The
                   default value is /opt/stack/bifrost. When VENV is set in

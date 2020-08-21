@@ -37,14 +37,13 @@
     owner=ironic
     group=ironic
     mode=0640
-- name: "Symlinks from venv if using"
+- name: "Symlinks from venv"
   file:
     state: link
     path: "{{ ironic_rootwrap_dir }}/{{ item | basename }}"
     src: "{{ item }}"
     owner: root
     group: root
-  when: enable_venv | bool == true
   loop:
     - "{{ bifrost_venv_dir }}/bin/ironic-rootwrap"
     - "{{ bifrost_venv_dir }}/bin/ironic-inspector-rootwrap"

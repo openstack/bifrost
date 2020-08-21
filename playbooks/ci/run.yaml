@@ -11,7 +11,6 @@
         UPPER_CONSTRAINTS_FILE: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/requirements'].src_dir }}/upper-constraints.txt"
         WORKSPACE: "{{ ansible_user_dir }}/src/opendev.org"
         USE_DHCP: "{{ use_dhcp | default(false) | bool | lower }}"
-        ENABLE_VENV: "{{ use_venv | default(true) | bool | lower }}"
         ZUUL_BRANCH: "{{ zuul.branch }}"
         BOOT_MODE: "{{ boot_mode | default('') }}"
         TEST_VM_NODE_DRIVER: "{{ test_driver | default('ipmi') }}"

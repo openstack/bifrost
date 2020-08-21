@@ -48,7 +48,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   no_log: true
 
 - name: "Associate ironic_inspector user to admin role"
@@ -64,7 +64,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   no_log: true
 
 - name: "Create keystone service record for ironic-inspector"
@@ -81,7 +81,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   no_log: true
 
 - name: "Check ironic-inspector admin endpoint exists"
@@ -96,7 +96,7 @@
     --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
   no_log: true
   register: test_ironic_inspector_admin_endpoint
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Check ironic-inspector public endpoint exists"
   command: |
@@ -110,7 +110,7 @@
     --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
   no_log: true
   register: test_ironic_inspector_public_endpoint
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Check ironic-inspector internal endpoint exists"
   command: |
@@ -124,7 +124,7 @@
     --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
   no_log: true
   register: test_ironic_inspector_internal_endpoint
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Create ironic-inspector admin endpoint"
   command: |
@@ -137,7 +137,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal-introspection admin "{{ ironic_inspector.keystone.admin_url | default('http://127.0.0.1:5050/') }}"
   no_log: true
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: test_ironic_inspector_admin_endpoint.rc != 0 or test_ironic_inspector_admin_endpoint.stdout == '[]'
 
 - name: "Setting external ironic-inspector public URL"
@@ -160,7 +160,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal-introspection public "{{ ironic_inspector_public_url | default(ironic_inspector.keystone.public_url) | default('http://127.0.0.1:5050/') }}"
   no_log: true
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: test_ironic_inspector_public_endpoint.rc != 0 or test_ironic_inspector_public_endpoint.stdout == '[]'
 
 - name: "Setting internal ironic-inspector URL"
@@ -179,7 +179,7 @@
     endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     baremetal-introspection internal "{{ ironic_inspector_private_url | default(ironic_inspector.keystone.internal_url) | default('http://127.0.0.1:5050/') }}"
   no_log: true
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: test_ironic_inspector_internal_endpoint.rc != 0 or test_ironic_inspector_internal_endpoint.stdout == '[]'
 
 - name: "Create inspector_user user"
@@ -197,7 +197,7 @@
       user_domain_id: "default"
     update_password: always
     wait: yes
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   no_log: true
 
 - name: "Associate inspector_user with baremetal_admin"
@@ -213,5 +213,5 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   no_log: true
