@@ -18,7 +18,7 @@
 - name: "Copy image however with 32k of empty space at the beginning of the file."
   command: dd if="{{deploy_image}}.raw" of="{{deploy_image}}.bootimg" seek=64
 - name: "Create partition table lining up with the copied file's contents."
-  shell: echo '32;' | sfdisk "{{deploy_image}}.bootimg" -uB -f
+  shell: echo '32;' | sfdisk "{{deploy_image}}.bootimg" -uB -f  # noqa 306
 - name: "Allocate one of two loopbacks"
   command: losetup -f
   register: stored_value_loopback_alpha
@@ -31,18 +31,23 @@
   command: losetup -f
   register: stored_value_loopback_beta
 - name: "Bind second loopback to the first partition"
-  shell: losetup "{{stored_value_loopback_beta.stdout}}" /dev/mapper/$(echo "{{stored_value_loopback_alpha.stdout}}"|cut -f3 -d '/')p1
+  shell: |
+    set -o pipefail
+    losetup "{{stored_value_loopback_beta.stdout}}" /dev/mapper/$(echo "{{stored_value_loopback_alpha.stdout}}" | cut -f3 -d '/')p1
+  executable: /bin/bash
   # TODO parameterize folder name/location
 - name: "Ensure we have a location to mount the disk to"
   file: path=/mnt/bootimg state=directory
+# NOTE(dtantsur): skipping ansible-lint 303 because the mount module does not
+# support temporary mounts: https://github.com/ansible-collections/ansible.posix/issues/84
 - name: "Mount volume on /mnt/bootimg"
-  command: mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg
+  command: mount "{{stored_value_loopback_beta.stdout}}" /mnt/bootimg  # noqa 303
 - name: "Bind /sys into /mnt/bootimg/sys"
-  command: mount -t sysfs sysfs /mnt/bootimg/sys
+  command: mount -t sysfs sysfs /mnt/bootimg/sys  # noqa 303
 - name: "Bind /proc into /mnt/bootimg/proc"
-  command: mount -t proc proc /mnt/bootimg/proc
+  command: mount -t proc proc /mnt/bootimg/proc  # noqa 303
 - name: "Bind /dev into /mnt/bootimg/dev"
-  command: mount --bind /dev /mnt/bootimg/dev
+  command: mount --bind /dev /mnt/bootimg/dev  # noqa 303
 - name: "Disable Grub Prober"
   shell: echo "GRUB_DISABLE_OS_PROBER=true" >>/etc/default/grub
 - name: "Disable Grub Prober"

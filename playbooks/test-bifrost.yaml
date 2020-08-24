@@ -38,7 +38,7 @@
       command: ps aux
       when: ci_testing | default(false)| bool
     - name: "Collect list of listening network sockets if running in a CI system"
-      shell: netstat -apn|grep LISTEN
+      shell: netstat -apn|grep LISTEN  # noqa 306
       when: ci_testing | default(false)| bool
     - name: "Use a cached cirros image"
       set_fact:

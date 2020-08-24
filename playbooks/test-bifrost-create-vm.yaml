@@ -31,7 +31,7 @@
       command: ps aux
       when: ci_testing | default(false)| bool
     - name: "Collect list of listening network sockets if running in OpenStack CI"
-      shell: netstat -apn|grep LISTEN
+      shell: netstat -apn|grep LISTEN  # noqa 306
       when: ci_testing | default(false)| bool
   roles:
     - role: bifrost-create-vm-nodes

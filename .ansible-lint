@@ -3,9 +3,6 @@ skip_list:
   - '206'  # Variables should have spaces before and after: {{ var_name }}
   - '208'  # File permissions not mentioned
   - '301'  # Commands should not change things if nothing needs doing
-  - '303'  # Using command rather than module
-  - '305'  # Use shell only when shell functionality is required
-  - '306'  # Shells that use pipes should set the pipefail option
   - '502'  # All tasks should be named
   - '504'  # Do not use 'local_action', use 'delegate_to: localhost'
   - '601'  # Don't compare to literal True/False

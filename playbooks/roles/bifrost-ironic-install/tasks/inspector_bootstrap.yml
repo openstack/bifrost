@@ -115,7 +115,7 @@
     - "{{ inspector_ramdisk_logs_local_path | default('') }}"
   when: item != ""
 - name: "Upgrade inspector DB Schema"
-  shell: ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
+  command: ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
   become: true
   environment: "{{ bifrost_venv_env if enable_venv else {} }}"
 - name: "Inspector - Get ironic-inspector install location"

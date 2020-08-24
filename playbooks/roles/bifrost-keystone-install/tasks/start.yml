@@ -12,7 +12,8 @@
 # limitations under the License.
 ---
 - name: "Reload systemd configuration"
-  command: systemctl daemon-reload
+  systemd:
+    daemon_reload: yes
 
 - name: "Ensure services are running with current config"
   service: name={{ item }} state=restarted enabled=yes

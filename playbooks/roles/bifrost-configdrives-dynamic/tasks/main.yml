@@ -22,19 +22,20 @@
   when: ssh_public_key is undefined
 
 - name: "Make temporary folder to build configdrive"
-  command: mktemp -d
+  tempfile:
+    state: directory
   register: variable_configdrive_location
 
 - name: "Make metadata folders - /openstack/<version>"
   file:
     state: directory
-    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/"
+    name: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/"
   loop: "{{ metadata_versions }}"
 
 - name: "Place template in each openstack/<version> folder"
   template:
     src: openstack_meta_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/meta_data.json"
+    dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/meta_data.json"
   loop: "{{ metadata_versions }}"
 
 - name: "Generate network_data"
@@ -53,7 +54,7 @@
 - name: "Place network data template in each openstack/<version> folder"
   template:
     src: network_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/network_data.json"
+    dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/network_data.json"
   loop: "{{ metadata_versions }}"
   when:
     - item in metadata_versions_supporting_network_data
@@ -66,7 +67,7 @@
 - name: "Place deprecated network info file location in each openstack/<version> folder"
   template:
     src: network_data.json.j2
-    dest: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/{{ item }}/network_info.json"
+    dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/network_info.json"
   loop: "{{ metadata_versions }}"
   when:
     - item in metadata_versions_supporting_network_data
@@ -75,10 +76,10 @@
 - name: "Make metadata folder - /openstack/content"
   file:
     state: directory
-    name: "{{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/"
+    name: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/content/"
 
 - name: "Write network Debian style interface template"
-  template: src=interfaces.j2 dest={{ variable_configdrive_location.stdout }}/{{ uuid }}/openstack/content/0000
+  template: src=interfaces.j2 dest={{ variable_configdrive_location.path }}/{{ uuid }}/openstack/content/0000
   when: write_interfaces_file | bool == true
 
 - name: "Check if mkisofs is available"
@@ -102,11 +103,15 @@
 
 - name: "Make config drive files"
   become: yes
-  command: "{{iso_gen_utility}} -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.stdout }}/{{ uuid }}"
+  command: "{{iso_gen_utility}} -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.path }}/{{ uuid }}"
 
 - name: "Make config drive files base64 encoded and gzip compressed"
   become:  yes
-  shell: gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
+  shell: |
+    set -o pipefail
+    gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
+  args:
+    executable: /bin/bash
 
 - name: "Cleanup configdrive .iso files"
   become: yes
@@ -119,4 +124,4 @@
   file:
     state: absent
     force: yes
-    name: "{{ variable_configdrive_location.stdout }}"
+    name: "{{ variable_configdrive_location.path }}"
