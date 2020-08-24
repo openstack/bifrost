@@ -352,10 +352,23 @@
     - 6385
   when: ansible_distribution not in ["CentOS", "RedHat"]
 
+- name: "Enable services in firewalld"
+  firewalld:
+    service: "{{ item }}"
+    zone: "{{ 'libvirt' if testing | bool else 'public' }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  loop:
+    - dhcp
+    - dhcpv6
+    - tftp
+  when: ansible_distribution in ["CentOS", "RedHat"]
+
 - name: "Enable ports in firewalld"
   firewalld:
     port: "{{ item }}/tcp"
-    zone: "{{ 'libvirt' if testing else 'public' }}"
+    zone: "{{ 'libvirt' if testing | bool else 'public' }}"
     state: enabled
     permanent: yes
     immediate: yes
