@@ -1,2 +1,0 @@
-export OS_ENDPOINT=http://localhost:6385/
-export OS_AUTH_TYPE=none

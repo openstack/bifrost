@@ -32,12 +32,12 @@ The following two environment variables can be set:
 - ``OS_AUTH_TYPE`` - set to ``none`` to bypass authentication.
 - ``OS_ENDPOINT`` - A URL to the ironic API, such as http://localhost:6385/
 
-For convenience, an environment file called ``env-vars`` is provided that
-contains default values for these variables and can be sourced to allow the CLI
-to connect to a local Ironic installation operating in noauth mode. For
-example::
+For convenience, an environment file called ``openrc`` is created in the home
+directory of the current user that contains default values for these variables
+and can be sourced to allow the CLI to connect to a local Ironic installation.
+For example::
 
-    . env-vars
+    . ~/openrc bifrost
     baremetal node list
 
 This should display a table of nodes, or nothing if there are no nodes
