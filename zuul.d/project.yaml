@@ -7,6 +7,7 @@
       - release-notes-jobs-python3
     check:
       jobs:
+        - bifrost-tox-linters
         - bifrost-integration-tinyipa-ubuntu-bionic
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-bionic
@@ -36,6 +37,7 @@
            voting: false
     gate:
       jobs:
+        - bifrost-tox-linters
         - bifrost-integration-tinyipa-ubuntu-bionic
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-bionic
