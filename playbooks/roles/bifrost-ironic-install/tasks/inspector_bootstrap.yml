@@ -13,9 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: Setting MySQL socket fact
+- name: "Set MySQL socket fact for Red Hat family"
   set_fact:
-    mysql_socket_path: "/var/{% if ansible_os_family | lower == 'redhat' %}lib{% else %}run{% endif %}/{% if ansible_os_family | lower == 'debian' %}mysqld/mysqld.sock{% else %}mysql/mysql.sock{% endif %}"
+    mysql_socket_path: "/var/lib/mysql/mysql.sock"
+  when: ansible_os_family | lower == 'redhat'
+
+- name: "Set MySQL socket fact for Debian family"
+  set_fact:
+    mysql_socket_path: "/var/run/mysqld/mysqld.sock"
+  when: ansible_os_family | lower == 'debian'
+
+- name: "Set MySQL socket fact for other systems"
+  set_fact:
+    mysql_socket_path: "/var/run/mysql/mysql.sock"
+  when: ansible_os_family | lower not in ['redhat', 'debian']
 
 - name: "MySQL - Create database"
   mysql_db:
@@ -117,8 +128,12 @@
     dest: "{{ init_dest_dir }}{{item.service_name}}.service"
     owner: root
     group: root
+  # FIXME(dtantsur): this is an awkward way to use loop...
   loop:
-    - { service_path: "{{ ironic_install_prefix.stdout | default('') }}", service_name: 'ironic-inspector', username: 'ironic', args: '--config-file /etc/ironic-inspector/inspector.conf'}
+    - service_path: "{{ ironic_install_prefix.stdout | default('') }}"
+      service_name: 'ironic-inspector'
+      username: 'ironic'
+      args: '--config-file /etc/ironic-inspector/inspector.conf'
 - name: "Inspector - Explicitly permit TCP/5050 for ironic-inspector callback"
   iptables:
     chain: INPUT

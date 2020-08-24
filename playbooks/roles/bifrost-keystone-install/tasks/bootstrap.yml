@@ -46,9 +46,20 @@
   when: lookup('env', 'mysql_pass') | length > 0
   no_log: true
 
-- name: Setting MySQL socket fact
+- name: "Set MySQL socket fact for Red Hat family"
   set_fact:
-    mysql_socket_path: "/var/{% if ansible_os_family | lower == 'redhat' %}lib{% else %}run{% endif %}/{% if ansible_os_family | lower == 'debian' %}mysqld/mysqld.sock{% else %}mysql/mysql.sock{% endif %}"
+    mysql_socket_path: "/var/lib/mysql/mysql.sock"
+  when: ansible_os_family | lower == 'redhat'
+
+- name: "Set MySQL socket fact for Debian family"
+  set_fact:
+    mysql_socket_path: "/var/run/mysqld/mysqld.sock"
+  when: ansible_os_family | lower == 'debian'
+
+- name: "Set MySQL socket fact for other systems"
+  set_fact:
+    mysql_socket_path: "/var/run/mysql/mysql.sock"
+  when: (ansible_os_family | lower) not in ['redhat', 'debian']
 
 - name: "MySQL - Creating DB"
   mysql_db:

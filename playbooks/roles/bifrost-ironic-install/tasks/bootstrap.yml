@@ -76,9 +76,20 @@
   when: lookup('env', 'mysql_pass') | length > 0
   no_log: true
 
-- name: Setting MySQL socket fact
+- name: "Set MySQL socket fact for Red Hat family"
   set_fact:
-    mysql_socket_path: "/var/{% if ansible_os_family | lower == 'redhat' %}lib{% else %}run{% endif %}/{% if ansible_os_family | lower == 'debian' %}mysqld/mysqld.sock{% else %}mysql/mysql.sock{% endif %}"
+    mysql_socket_path: "/var/lib/mysql/mysql.sock"
+  when: ansible_os_family | lower == 'redhat'
+
+- name: "Set MySQL socket fact for Debian family"
+  set_fact:
+    mysql_socket_path: "/var/run/mysqld/mysqld.sock"
+  when: ansible_os_family | lower == 'debian'
+
+- name: "Set MySQL socket fact for other systems"
+  set_fact:
+    mysql_socket_path: "/var/run/mysql/mysql.sock"
+  when: (ansible_os_family | lower) not in ['redhat', 'debian']
 
 - name: "MySQL - Creating DB"
   mysql_db:
@@ -266,19 +277,32 @@
     dhcp_netaddr: "{{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_static_mask }}"
   when: include_dhcp_server | bool == true
 - name: "Validate interface network addresses"
-  fail: msg="Interface {{ ans_network_interface }} network incoherence {{ itf_netaddr1 | ipaddr('network') }}/{{ itf_netaddr1 | ipaddr('prefix') }} vs {{ itf_netaddr2 }}/{{ itf_netaddr2 | ipaddr('prefix') }}"
+  fail:
+    msg: >
+      Interface {{ ans_network_interface }} network incoherence
+      {{ itf_netaddr1 | ipaddr('network') }}/{{ itf_netaddr1 | ipaddr('prefix') }}
+      vs {{ itf_netaddr2 }}/{{ itf_netaddr2 | ipaddr('prefix') }}
   when:
-    - include_dhcp_server | bool == true
+    - include_dhcp_server | bool
     - itf_netaddr1 | ipaddr('network') != itf_netaddr2 | ipaddr('network')
 - name: "Validate interface broadcast addresses"
-  fail: msg="Interface {{ ans_network_interface }} broadcast incoherence {{ itf_netaddr1 | ipaddr('broadcast') }}/{{ itf_netaddr1 | ipaddr('prefix') }} vs {{ itf_broadcast | ipaddr('broadcast') }}/{{ itf_broadcast | ipaddr('prefix') }}"
+  fail:
+    msg: >
+      Interface {{ ans_network_interface }} broadcast incoherence
+      {{ itf_netaddr1 | ipaddr('broadcast') }}/{{ itf_netaddr1 | ipaddr('prefix') }}
+      vs {{ itf_broadcast | ipaddr('broadcast') }}/{{ itf_broadcast | ipaddr('prefix') }}
   when:
-    - include_dhcp_server | bool == true
+    - include_dhcp_server | bool
     - itf_netaddr1 | ipaddr('broadcast') != itf_broadcast | ipaddr('broadcast')
 - name: "Validate DHCP and interface addresses"
-  debug: msg="Interface {{ ans_network_interface }} and DHCP networks are incoherent {{ itf_netaddr2 | ipaddr('network') }}/{{ itf_netaddr2 | ipaddr('prefix') }} {{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_netaddr | ipaddr('prefix') }} overriding DHCP with interface settings"
+  debug:
+    msg: >
+      Interface {{ ans_network_interface }} and DHCP networks are incoherent
+      {{ itf_netaddr2 | ipaddr('network') }}/{{ itf_netaddr2 | ipaddr('prefix') }}
+      {{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_netaddr | ipaddr('prefix') }}
+      overriding DHCP with interface settings"
   when:
-    - include_dhcp_server | bool == true
+    - include_dhcp_server | bool
     - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
 - name: "Computing new DHCP informations"
   set_fact:

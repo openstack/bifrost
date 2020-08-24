@@ -142,7 +142,8 @@
 
 - name: "Setting external ironic-inspector public URL"
   set_fact:
-    ironic_inspector_public_url: "{{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') | replace('127.0.0.1', public_ip | default(internal_ip)) }}"
+    ironic_inspector_public_url: >-
+      {{ ironic_inspector.keystone.public_url | default('http://127.0.0.1:5050/') | replace('127.0.0.1', public_ip | default(internal_ip)) }}
   when: use_public_urls | default(false) | bool
 
 # NOTE(TheJulia): This seems like something that should be

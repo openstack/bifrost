@@ -51,8 +51,8 @@
 - name: "Set sudoers for rootwrap"
   lineinfile:
     dest: /etc/sudoers
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^ironic(.*)/{{ item }}-rootwrap /etc/{{ item }}/rootwrap.conf(.*)"
+    line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/{{ item }}-rootwrap /etc/{{ item }}/rootwrap.conf *"
   loop:
-    - { regexp: '^ironic(.*)/ironic-rootwrap /etc/ironic/rootwrap.conf(.*)', line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-rootwrap /etc/ironic/rootwrap.conf *" }
-    - { regexp: '^ironic(.*)/ironic-inspector-rootwrap /etc/ironic-inspector/rootwrap.conf(.*)', line: "ironic ALL = (root) NOPASSWD: {{ ironic_rootwrap_dir }}/ironic-inspector-rootwrap /etc/ironic-inspector/rootwrap.conf *" }
+    - ironic
+    - ironic-inspector
