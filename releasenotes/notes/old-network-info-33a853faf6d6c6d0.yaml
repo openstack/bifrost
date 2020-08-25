@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    Support for the OpenStack MetaData version 2012-08-10 has been removed from
+    the ``bifrost-configdrives-dynamic`` role. The newest supported metadata
+    version is now 2015-10-15.
+  - The deprecated parameter ``node_network_info`` has been removed, use
+    ``node_network_data`` instead.

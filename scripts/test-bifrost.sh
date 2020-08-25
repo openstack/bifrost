@@ -22,7 +22,7 @@ BOOT_MODE=${BOOT_MODE:-}
 # for the default and DHCP tests are to drive the use of Cirros as the
 # deployed operating system, and as such sets the test user to cirros,
 # and writes a debian style interfaces file out to the configuration
-# drive as cirros does not support the network_info.json format file
+# drive as cirros does not support the network_data.json format file
 # placed in the configuration drive. The "build image" test does not
 # use cirros.
 

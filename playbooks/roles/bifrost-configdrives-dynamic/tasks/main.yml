@@ -48,7 +48,7 @@
     vlan_id: "{{ vlan_id | default('') }}"
     network_mtu: "{{ network_mtu | default('1500') }}"
     nics: "{{ node_info.node.nics | default(omit) }}"
-    node_network_data: "{{ node_network_data | default(node_network_info) }}"
+    node_network_data: "{{ node_network_data | default(omit) }}"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode
 
 - name: "Place network data template in each openstack/<version> folder"
@@ -57,20 +57,6 @@
     dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/network_data.json"
   loop: "{{ metadata_versions }}"
   when:
-    - item in metadata_versions_supporting_network_data
-    - addressing_mode is undefined or "dhcp" not in addressing_mode
-
-# TODO(TheJulia): Deprecation removal of the old network_info file name
-# should likely take place after an elongated deprecation cycle.
-# Begin deprecated in the Ocata release suggests Queens as the point
-# in which we should remove it.
-- name: "Place deprecated network info file location in each openstack/<version> folder"
-  template:
-    src: network_data.json.j2
-    dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/network_info.json"
-  loop: "{{ metadata_versions }}"
-  when:
-    - item in metadata_versions_supporting_network_data
     - addressing_mode is undefined or "dhcp" not in addressing_mode
 
 - name: "Make metadata folder - /openstack/content"
