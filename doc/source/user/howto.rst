@@ -61,30 +61,13 @@ your hardware. When utilizing the dynamic inventory module and
 accompanying roles the inventory can be supplied in one of three ways,
 all of which ultimately translate to JSON data that Ansible parses.
 
-The original method is to utilize a CSV file. This format is covered below in
-the `Legacy CSV File Format`_ section. This has a number of limitations, but
-does allow a user to bulk load hardware from an inventory list with minimal
-data transformations.
-
-The newer method is to utilize a JSON or YAML document which the inventory
+The current method is to utilize a JSON or YAML document which the inventory
 parser will convert and provide to Ansible.
 
 In order to use, you will need to define the environment variable
 ``BIFROST_INVENTORY_SOURCE`` to equal a file, which then allows you to
 execute Ansible utilizing the ``bifrost_inventory.py`` file as the data
 source.
-
-Conversion from CSV to JSON formats
------------------------------------
-
-The ``inventory/bifrost_inventory.py`` program additionally features a
-mode that allows a user to convert a CSV file to the JSON data format
-utilizing a ``--convertcsv`` command line setting when directly invoked.
-
-Example::
-
-  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.csv
-  inventory/bifrost_inventory.py --convertcsv >/tmp/baremetal.json
 
 JSON file format
 ----------------
@@ -134,41 +117,6 @@ in an ``instance_info`` variable.
 
 Examples utilizing JSON and YAML formatting, along host specific variable
 injection can be found in the ``playbooks/inventory/`` folder.
-
-Legacy CSV file format
-----------------------
-
-The CSV file has the following columns:
-
-0. MAC Address
-1. Management username
-2. Management password
-3. Management Address
-4. CPU Count
-5. Memory size in MB
-6. Disk Storage in GB
-7. Flavor (Not Used)
-8. Type (Not Used)
-9. Host UUID
-10. Host or Node name
-11. Host IP Address to be set
-12. ``ipmi_target_channel`` - Requires: ``ipmi_bridging`` set to single
-13. ``ipmi_target_address`` - Requires: ``ipmi_bridging`` set to single
-14. ``ipmi_transit_channel`` - Requires: ``ipmi_bridging`` set to dual
-15. ``ipmi_transit_address`` - Requires: ``ipmi_bridging`` set to dual
-16. ironic driver
-17. Host provisioning IP Address
-
-Example definition::
-
-  00:11:22:33:44:55,root,undefined,192.168.122.1,1,8192,512,NA,NA,aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee,hostname_100,192.168.2.100,,,,ipmi,10.0.0.9
-
-This file format is fairly flexible and can be easily modified
-although the enrollment and deployment playbooks utilize the model
-of a host per line model in order to process through the entire
-list, as well as reference the specific field items.
-
-An example file can be found at: ``playbooks/inventory/baremetal.csv.example``
 
 .. _enroll:
 

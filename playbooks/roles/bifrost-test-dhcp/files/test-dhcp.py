@@ -19,23 +19,6 @@ import os
 import sys
 
 
-def _load_data_from_csv(path):
-    with open(path) as csvfile:
-        csvdata = [row for row in csv.reader(csvfile)]
-    inventory = {}
-    # NOTE(pas-ha) convert to structure similar to JSON inventory
-    for entry in csvdata:
-        mac = entry[0]
-        hostname = entry[10]
-        ip = entry[11]
-        inventory[hostname] = {
-            'nics': [{'mac': mac}],
-            'name': hostname,
-            'ipv4_address': ip
-        }
-    return inventory
-
-
 def _load_data_from_json(path):
     with open(path) as jsonfile:
         inventory = json.load(jsonfile)
@@ -55,13 +38,6 @@ def main(argv):
     # load data from json file
     if os.path.exists('/tmp/baremetal.json'):
         inventory = _load_data_from_json('/tmp/baremetal.json')
-    # load data from csv file
-    elif os.path.exists('/tmp/baremetal.csv'):
-        try:
-            inventory = _load_data_from_csv('/tmp/baremetal.csv')
-        except Exception:
-            # try load *.csv as json for backward compatibility
-            inventory = _load_data_from_json('/tmp/baremetal.csv')
     else:
         print('ERROR: Inventory file has not been generated')
         sys.exit(1)

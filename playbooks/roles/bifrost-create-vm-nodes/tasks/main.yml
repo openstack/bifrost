@@ -12,20 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: produce warning when csv file is defined
-  debug:
-    msg: >
-      "WARNING - Variable 'baremetal_csv_file' is deprecated.
-      For backward compatibility, its value will be used as path for
-      file to write data for created 'virtual' baremetal nodes,
-      but the file will be JSON formatted."
-  when: baremetal_csv_file is defined
-
-- name: override baremetal_json_file with csv file path
-  set_fact:
-    baremetal_json_file: "{{ baremetal_csv_file }}"
-  when: baremetal_csv_file is defined
-
 # NOTE(cinerama) openSUSE Tumbleweed & Leap have different distribution
 # IDs which are not currently accounted for in Ansible, so adjust facts
 # so we can have shared defaults for the whole SuSE family.

@@ -37,13 +37,6 @@ class TestBifrostInventoryUnit(base.TestCase):
         localhost_value = dict(hosts=["127.0.0.1"])
         self.assertDictEqual(localhost_value, groups['localhost'])
 
-    def test__val_or_none(self):
-        array = ['no', '', 'yes']
-        self.assertEqual('no', inventory._val_or_none(array, 0))
-        self.assertIsNone(inventory._val_or_none(array, 1))
-        self.assertEqual('yes', inventory._val_or_none(array, 2))
-        self.assertIsNone(inventory._val_or_none(array, 4))
-
     @mock.patch.object(openstack, 'connect', autospec=True)
     def test__process_sdk(self, mock_sdk):
         (groups, hostvars) = inventory._prepare_inventory()

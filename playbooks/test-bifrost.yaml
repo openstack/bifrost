@@ -126,7 +126,7 @@
     - role: bifrost-prepare-for-test-dynamic
 
 # The testvm Host group is added by bifrost-prepare-for-test based
-# on the contents of the CSV file.
+# on the contents of the JSON file.
 - hosts: test
   name: "Tests connectivity to the VM"
   become: no
