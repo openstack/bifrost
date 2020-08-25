@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Packaged iPXE ROMs are now used by default on openSUSE, set
+    ``download_ipxe=true`` to override.

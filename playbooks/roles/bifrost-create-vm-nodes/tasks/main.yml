@@ -12,22 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-# NOTE(cinerama) openSUSE Tumbleweed & Leap have different distribution
-# IDs which are not currently accounted for in Ansible, so adjust facts
-# so we can have shared defaults for the whole SuSE family.
-# This change can be removed when the pull request at
-# https://github.com/ansible/ansible/pull/17575 lands in a new version.
-- name: Ensure openSUSE Tumbleweed has the correct family
-  set_fact:
-    ansible_os_family: "Suse"
-  when: ansible_os_family is search("openSUSE Tumbleweed")
-
-- name: Ensure openSUSE Leap has the correct family
-  set_fact:
-    ansible_os_family: "Suse"
-  when: (ansible_os_family is search("SUSE LINUX")) or
-        (ansible_os_family is search("openSUSE Leap"))
-
 # NOTE(hwoarang) The 'apt' module needs python-apt installed in the virtualenv
 # but it's not possible to do that. See https://github.com/ansible/ansible/issues/14468
 # python-apt only works if it's installed on the local system so we need to switch the
