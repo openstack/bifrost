@@ -78,6 +78,5 @@ else
     echo "Prepend ~/.local/bin to your PATH if it is not that way already.."
     echo ".. or use full path to local Ansible at ~/.local/bin/ansible-playbook"
 fi
-echo "source env-vars"
 echo "Then run playbooks as normal."
 echo

@@ -1,0 +1,6 @@
+---
+other:
+  - |
+    The file ``env-vars`` has been removed. It contains variables that only
+    work for no-auth mode and only for ironic itself (not inspector). Use
+    the generated ``clouds.yaml`` or ``openrc`` in the home directory.
