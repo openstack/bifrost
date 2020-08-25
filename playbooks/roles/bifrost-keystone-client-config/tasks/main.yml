@@ -19,7 +19,7 @@
         config_password: "{{ config_password }}"
         config_project_name: "{{ config_project_name }}"
         config_region_name: "{{ config_region_name }}"
-        config_auth_url: "{{ config_auth_url}}"
+        config_auth_url: "{{ config_auth_url }}"
         config_project_domain_id: "{{ config_project_domain_id|default('default') }}"
         config_user_domain_id: "{{ config_user_domain_id|default('default') }}"
   when:

@@ -29,7 +29,7 @@
     uuid: "{{ uuid | default() }}"
     name: "{{ name | default() }}"
     state: present
-    nics: "{{nics}}"
+    nics: "{{ nics }}"
     properties: "{{ properties | default({}) }}"
     driver_info:
       power: "{{ driver_info.power }}"

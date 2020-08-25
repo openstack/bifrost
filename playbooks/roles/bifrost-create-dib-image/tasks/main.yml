@@ -58,55 +58,55 @@
   when: dib_skipbase == true
 - name: "Build architecture (-a) option for disk-image-create"
   set_fact:
-    dib_arch_arg: "-a {{dib_arch}}"
+    dib_arch_arg: "-a {{ dib_arch }}"
   when: dib_arch is defined
 - name: "Build image name (-o) option for disk-image-create"
   set_fact:
-    dib_imagename_arg: "-o {{dib_imagename}}"
+    dib_imagename_arg: "-o {{ dib_imagename }}"
   when: dib_imagename is defined
 - name: "Build image type (-t) option for disk-image-create"
   set_fact:
-    dib_imagetype_arg: "-t {{dib_imagetype}}"
+    dib_imagetype_arg: "-t {{ dib_imagetype }}"
   when: dib_imagetype is defined
 - name: "Build image size (--image-size) option for disk-image-create"
   set_fact:
-    dib_imagesize_arg: "--image-size {{dib_imagesize}}"
+    dib_imagesize_arg: "--image-size {{ dib_imagesize }}"
   when: dib_imagesize is defined
 - name: "Build image cache (--image-cache) option for disk-image-create"
   set_fact:
-    dib_imagecache_arg: "--image-cache {{dib_imagecache}}"
+    dib_imagecache_arg: "--image-cache {{ dib_imagecache }}"
   when: dib_imagecache is defined
 - name: "Build max online resize (--max-online-resize) option for disk-image-create"
   set_fact:
-    dib_maxresize_arg: "--max-online-resize {{dib_maxresize}}"
+    dib_maxresize_arg: "--max-online-resize {{ dib_maxresize }}"
   when: dib_maxresize is defined
 - name: "Build minimum tmpfs size (--min-tmpfs) option for disk-image-create"
   set_fact:
-    dib_mintmpfs_arg: "--min-tmpfs {{dib_mintmpfs}}"
+    dib_mintmpfs_arg: "--min-tmpfs {{ dib_mintmpfs }}"
   when: dib_mintmpfs is defined
 - name: "Build mkfs options (--mkfs-options) option for disk-image-create"
   set_fact:
-    dib_mkfsfopts_arg: "-mkfs-options {{dib_mkfsopts}}"
+    dib_mkfsfopts_arg: "-mkfs-options {{ dib_mkfsopts }}"
   when: dib_mkfsopts is defined
 - name: "Build qemu image options (--qemu-img-options) option for disk-image-create"
   set_fact:
-    dib_qemuopts_arg: "--qemu-img-options {{dib_qemuopts}}"
+    dib_qemuopts_arg: "--qemu-img-options {{ dib_qemuopts }}"
   when: dib_qemuopts is defined
 - name: "Build root label (--root-label) option for disk-image-create"
   set_fact:
-    dib_rootlabel_arg: "--root-label {{dib_rootlabel}}"
+    dib_rootlabel_arg: "--root-label {{ dib_rootlabel }}"
   when: dib_rootlabel is defined
 - name: "Build ramdisk element (--ramdisk-element) option for disk-image-create"
   set_fact:
-    dib_rdelement_arg: "--ramdisk-element {{dib_rdelement}}"
+    dib_rdelement_arg: "--ramdisk-element {{ dib_rdelement }}"
   when: dib_rdelement is defined
 - name: "Build install type (--install-type) option for disk-image-create"
   set_fact:
-    dib_installtype_arg: "-t {{dib_installtype}}"
+    dib_installtype_arg: "-t {{ dib_installtype }}"
   when: dib_installtype is defined
 - name: "Build packages (-p) option for disk-image-create"
   set_fact:
-    dib_packages_arg: "-p {{dib_packages}}"
+    dib_packages_arg: "-p {{ dib_packages }}"
   when: dib_packages is defined and dib_packages != ""
 - name: "Set default of Debian Buster if building debian and not explicitly set, overwride with dib_os_release setting"
   set_fact:
@@ -127,10 +127,10 @@
       DIB_REPOREF_requirements: HEAD
 - name: "Initialize the DIB environment variables fact"
   set_fact:
-    dib_env_vars_final: "{{dib_env_vars | combine(dib_source_repositories)}}"
+    dib_env_vars_final: "{{ dib_env_vars | combine(dib_source_repositories) }}"
 - name: "Set the DIB_RELEASE environment variable if set"
   set_fact:
-    dib_env_vars_final: "{{dib_env_vars_final | combine({'DIB_RELEASE':dib_os_release}) }}"
+    dib_env_vars_final: "{{ dib_env_vars_final | combine({'DIB_RELEASE':dib_os_release}) }}"
   when: dib_os_release is defined
 - name: "Build ELEMENTS_PATH variable from IPA builder element folder"
   set_fact:
@@ -160,27 +160,27 @@
 - name: "Build argument list"
   set_fact:
     dib_arglist: >
-      {{dib_trace_arg|default('')}}
-      {{dib_uncompressed_arg|default('')}}
-      {{dib_clearenv_arg|default('')}}
-      {{dib_notmpfs_arg|default('')}}
-      {{dib_offline_arg|default('')}}
-      {{dib_skipbase_arg|default('')}}
-      {{dib_arch_arg|default('')}}
-      {{dib_imagename_arg|default('')}}
-      {{dib_imagetype_arg|default('')}}
-      {{dib_imagesize_arg|default('')}}
-      {{dib_imagecache_arg|default('')}}
-      {{dib_maxresize_arg|default('')}}
-      {{dib_mintmpfs_arg|default('')}}
-      {{dib_mkfsopts_arg|default('')}}
-      {{dib_qemuopts_arg|default('')}}
-      {{dib_rootlabel_arg|default('')}}
-      {{dib_rdelement_arg|default('')}}
-      {{dib_installtype_arg|default('')}}
-      {{dib_packages_arg|default('')}}
-      {{dib_os_element}}
-      {{dib_elements|default('')}}
+      {{ dib_trace_arg|default('') }}
+      {{ dib_uncompressed_arg|default('') }}
+      {{ dib_clearenv_arg|default('') }}
+      {{ dib_notmpfs_arg|default('') }}
+      {{ dib_offline_arg|default('') }}
+      {{ dib_skipbase_arg|default('') }}
+      {{ dib_arch_arg|default('') }}
+      {{ dib_imagename_arg|default('') }}
+      {{ dib_imagetype_arg|default('') }}
+      {{ dib_imagesize_arg|default('') }}
+      {{ dib_imagecache_arg|default('') }}
+      {{ dib_maxresize_arg|default('') }}
+      {{ dib_mintmpfs_arg|default('') }}
+      {{ dib_mkfsopts_arg|default('') }}
+      {{ dib_qemuopts_arg|default('') }}
+      {{ dib_rootlabel_arg|default('') }}
+      {{ dib_rdelement_arg|default('') }}
+      {{ dib_installtype_arg|default('') }}
+      {{ dib_packages_arg|default('') }}
+      {{ dib_os_element }}
+      {{ dib_elements|default('') }}
 - name: Install debootstrap if building a Debian image
   package:
     name: debootstrap
@@ -191,7 +191,7 @@
     and test_image_initramfs_present.stat.exists == false
     and ("debian" in dib_os_element or "ubuntu" in dib_os_element)
 - name: "Initiate image build"
-  command: disk-image-create {{dib_arglist}}
+  command: disk-image-create {{ dib_arglist }}
   environment: "{{ dib_env_vars_final | combine(bifrost_venv_env) }}"
   when:
     - not build_ramdisk | bool
@@ -199,7 +199,7 @@
     - not test_image_dib_present.stat.exists
     - not test_image_initramfs_present.stat.exists
 - name: "Initiate ramdisk build"
-  command: ramdisk-image-create {{dib_arglist}}
+  command: ramdisk-image-create {{ dib_arglist }}
   environment: "{{ dib_env_vars_final | combine(bifrost_venv_env) }}"
   when:
     - build_ramdisk | bool

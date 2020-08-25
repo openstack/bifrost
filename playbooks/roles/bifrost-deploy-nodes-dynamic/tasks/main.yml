@@ -88,7 +88,7 @@
     state: present
     config_drive: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
     instance_info:
-      image_source: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/{{deploy_image_filename}}"
+      image_source: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/{{ deploy_image_filename }}"
       image_checksum: "{{ test_deploy_image.stat.checksum }}"
       image_disk_format: "qcow2"
     wait: "{{ wait_for_node_deploy }}"

@@ -165,7 +165,7 @@
   user:
     name: "keystone"
     append: yes
-    groups: "{{nginx_user}}" # TODO(TheJulia): Split webserver user/group.
+    groups: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
 
 - name: "Make folder for keystone logs"
   file:
@@ -184,7 +184,7 @@
   file:
     path: /var/www/keystone/public
     owner: "keystone"
-    group: "{{nginx_user}}"
+    group: "{{ nginx_user }}"
     mode: 0754
 
 # Note(ashestakov): "copy" module in ansible doesn't support recursive
@@ -196,7 +196,7 @@
   file:
     path: /var/www/keystone/admin
     owner: "keystone"
-    group: "{{nginx_user}}"
+    group: "{{ nginx_user }}"
     mode: 0754
 
 - name: "Ensure /etc/uwsgi exists"

@@ -16,7 +16,7 @@
 # TODO(TheJulia): The pxelinux folder is statically coded in ironic.
 # For now, we need to use it, but we can patch that.
 - name: "Set up PXE and iPXE folders"
-  file: name={{item}} owner=ironic group=ironic state=directory mode=0755
+  file: name={{ item }} owner=ironic group=ironic state=directory mode=0755
   loop:
     - /tftpboot
     - /tftpboot/pxelinux.cfg
@@ -121,7 +121,7 @@
 
 # TODO(TheJulia): The pxelinux folder is statically coded in ironic.
 # For now, we need to use it, but we can patch that.
-- name: "Inspector - Place default tftp boot file in {{ http_boot_folder}}/pxelinux.cfg/"
+- name: "Inspector - Place default tftp boot file in {{ http_boot_folder }}/pxelinux.cfg/"
   template:
     src: inspector-default-boot-ipxe.j2
     dest: "{{ http_boot_folder }}/pxelinux.cfg/default"

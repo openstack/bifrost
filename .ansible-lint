@@ -1,6 +1,5 @@
 skip_list:
   # FIXME: gradually fix and remove these exclusions:
-  - '206'  # Variables should have spaces before and after: {{ var_name }}
   - '208'  # File permissions not mentioned
   - '301'  # Commands should not change things if nothing needs doing
   - '502'  # All tasks should be named
