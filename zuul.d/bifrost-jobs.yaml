@@ -83,6 +83,7 @@
       - openstack/keystone
     vars:
       enable_keystone: true
+      enable_tls: true
       test_driver: redfish
 
 - job:
@@ -109,6 +110,7 @@
       - openstack/keystone
     vars:
       enable_keystone: true
+      enable_tls: true
       test_driver: redfish
 
 - job:

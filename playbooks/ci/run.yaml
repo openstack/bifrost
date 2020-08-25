@@ -15,3 +15,4 @@
         BOOT_MODE: "{{ boot_mode | default('') }}"
         TEST_VM_NODE_DRIVER: "{{ test_driver | default('ipmi') }}"
         NOAUTH_MODE: "{{ noauth_mode | default(false) | bool | lower }}"
+        ENABLE_TLS: "{{ enable_tls | default(false) | bool | lower }}"

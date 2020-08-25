@@ -21,6 +21,14 @@ transport_url = rabbit://ironic:{{ironic_db_password }}@{{ message_queue_host | 
 transport_url = fake://
 {% endif %}
 
+{% if enable_tls | bool %}
+use_ssl = True
+
+[ssl]
+cert_file = {{ tls_certificate_path }}
+key_file = {{ ironic_inspector_private_key_path }}
+{% endif %}
+
 [database]
 connection=mysql+pymysql://{{ ironic_inspector.database.username }}:{{ ironic_inspector.database.password }}@{{ ironic_inspector.database.host }}/{{ ironic_inspector.database.name }}?charset=utf8
 
@@ -50,6 +58,9 @@ endpoint_override = {{ ironic_api_url }}
 username = {{ admin_username }}
 password = {{ admin_password }}
 {% endif %}
+{% if enable_tls | bool %}
+cafile = {{ tls_certificate_path }}
+{% endif %}
 
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 [keystone_authtoken]
@@ -60,7 +71,9 @@ password = {{ ironic_inspector.service_catalog.password }}
 user_domain_id = default
 project_name = service
 project_domain_id = default
-
+{% if enable_tls | bool %}
+cafile = {{ tls_certificate_path }}
+{% endif %}
 {% endif %}
 
 [processing]

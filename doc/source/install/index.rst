@@ -215,6 +215,11 @@ Additionally, the following parameters can be useful:
     A comma separated list of hardware types to enable.
 ``--enable-keystone``
     Whether to enable authentication with Keystone_.
+``--enable-tls``
+    Enable self-signed TLS on API endpoints.
+
+    .. warning::
+       If using Keystone_, see :ref:`keystone-tls` for important notes.
 
 See the built-in documentation for more details:
 
@@ -306,6 +311,30 @@ to set ``create_image_via_dib`` to ``true``.
 If you are running the installation behind a proxy, export the
 environment variables ``http_proxy``, ``https_proxy`` and ``no_proxy``
 so that ansible will use these proxy settings.
+
+TLS support
+-----------
+
+Bifrost supports TLS for API services with two options:
+
+* A self-signed certificate can be generated automatically. Set
+  ``enable_tls=true`` and ``generate_tls=true``.
+
+  .. note:: This is equivalent to the ``--enable-tls`` flag of ``bifrost-cli``.
+
+* Certificate paths can be provided via:
+
+  ``tls_certificate_path``
+    Path to the TLS certificate (must be world-readable).
+  ``tls_private_key_path``
+    Path to the private key (must not be password protected).
+  ``tls_csr_path``
+    Path to the certificate signing request file.
+
+  Set ``enable_tls=true`` and do not set ``generate_tls`` to use this option.
+
+.. warning::
+   If using Keystone, see :ref:`keystone-tls` for important notes.
 
 Dependencies
 ============

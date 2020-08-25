@@ -1,0 +1,54 @@
+---
+- name: "Ensure the certificate root directory"
+  file:
+    path: "{{ tls_root }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  when: generate_tls | bool
+
+- name: "Generate private key"
+  openssl_privatekey:
+    path: "{{ tls_private_key_path }}"
+    force: "{{ tls_force_regenerate | bool }}"
+    owner: root
+    group: root
+    mode: 0600
+  when: generate_tls | bool
+
+- name: "Generate certificate signing request"
+  openssl_csr:
+    path: "{{ tls_csr_path }}"
+    privatekey_path: "{{ tls_private_key_path }}"
+    force: "{{ tls_force_regenerate | bool }}"
+    owner: root
+    group: root
+    mode: 0600
+    common_name: "{{ tls_common_name }}"
+    subject_alt_name: >-
+      {{ (tls_hosts | map('regex_replace', '^', 'IP:') | list)
+         + (tls_host_names | map('regex_replace', '^', 'DNS:') | list) }}
+  when: generate_tls | bool
+
+- name: "Generate self-signed TLS certificates"
+  openssl_certificate:
+    provider: selfsigned
+    path: "{{ tls_certificate_path }}"
+    privatekey_path: "{{ tls_private_key_path }}"
+    csr_path: "{{ tls_csr_path }}"
+    force: "{{ tls_force_regenerate | bool }}"
+    owner: root
+    group: root
+    mode: 0644
+  when: generate_tls | bool
+
+- name: "Copy the key to the destination"
+  copy:
+    src: "{{ tls_private_key_path }}"
+    dest: "{{ dest_private_key_path }}"
+    remote_src: yes
+    owner: "{{ dest_private_key_owner }}"
+    group: "{{ dest_private_key_group }}"
+    mode: "{{ dest_private_key_mode }}"
+  when: dest_private_key_path is defined

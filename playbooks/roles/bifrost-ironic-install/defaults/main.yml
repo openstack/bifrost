@@ -260,7 +260,7 @@ noauth_mode: true
 enable_keystone: false
 
 # Service URLs used for communication with them.
-api_protocol: http
+api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
 ironic_api_url: "{{ api_protocol }}://{{ internal_ip }}:6385"
 ironic_inspector_api_url: "{{ api_protocol }}://{{ internal_ip }}:5050"
 keystone_api_url: "{{ api_protocol }}://{{ internal_ip }}:5000/v3"
@@ -339,3 +339,10 @@ pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"
 
 # Timeout for gathering facts.
 fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"
+
+# Enable TLS support.
+enable_tls: false
+tls_root: /etc/bifrost
+tls_certificate_path: "{{ tls_root }}/bifrost.crt"
+ironic_private_key_path: /etc/ironic/ironic.pem
+ironic_inspector_private_key_path: /etc/ironic-inspector/inspector.pem

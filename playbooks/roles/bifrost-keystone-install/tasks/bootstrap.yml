@@ -77,6 +77,15 @@
     login_password: "{{ mysql_password | default(None) }}"
   when: keystone.database.host == 'localhost'
 
+- name: "Generate TLS parameters"
+  include_role:
+    name: bifrost-tls
+  vars:
+    dest_private_key_path: "{{ nginx_private_key_path }}"
+    dest_private_key_owner: "{{ nginx_user }}"
+    dest_private_key_group: "{{ nginx_user }}"
+  when: enable_tls | bool
+
 - name: "Create an keystone service group"
   group:
     name: "keystone"

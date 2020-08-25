@@ -45,6 +45,10 @@ overridden in no-auth mode.
 
 Ironic endpoint to use. If the fact is already defined, it is not overridden.
 
+`tls_certificate_path`
+
+Path to the TLS certificate. Only set if TLS is used.
+
 Notes
 -----
 

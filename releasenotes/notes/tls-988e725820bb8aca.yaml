@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    Supports TLS configuration by setting ``enable_tls=true`` and, optionally,
+    ``generate_tls=true``. The corresponding ``bifrost-cli`` argument is
+    ``--enable-tls`` (auto-generated certificates only).
+issues:
+  - |
+    When using Keystone for authentication, it may not be possible to disable
+    TLS after enabling it if the certificate is in a non-standard location.
+  - |
+    Due to upgrade limitations, it may not be possible to enable TLS on
+    upgrading from a previous version. Do an upgrade first, then enable TLS
+    in a separate installation step.

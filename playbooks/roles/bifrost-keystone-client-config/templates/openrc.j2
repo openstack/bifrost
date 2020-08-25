@@ -36,3 +36,7 @@ case "${1:-bifrost}" in
     *) echo -e "\nERROR unsupported or unspecified profile: $1\nMust be one of bifrost, bifrost-admin";;
 esac
 {% endif %}
+
+{% if enable_tls | bool %}
+export OS_CACERT="{{ tls_certificate_path }}"
+{% endif %}

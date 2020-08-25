@@ -30,6 +30,25 @@ See the following files for more settings that can be overridden:
 * ``playbooks/roles/bifrost-ironic-install/defaults/main.yml``
 * ``playbooks/roles/bifrost-keystone-install/defaults/main.yml``
 
+.. _keystone-tls:
+
+TLS notes
+---------
+
+There are two important limitations to keep in mind when using Keystone with
+TLS:
+
+* It's not possible to enable TLS on upgrade from Bifrost < 9.0 (Ussuri
+  and early Victoria). First do an upgrade to Bifrost >= 9.0, then enable TLS
+  in a separate step.
+
+* Automatically updating from a TLS environment to a non-TLS one may not be
+  possible if using custom TLS certificates in a non-standard location
+  (``/etc/bifrost/bifrost.crt``). You need to manually change identity
+  endpoints in the catalog from ``https`` to ``http`` directly before
+  an update. The ``public`` endpoint **must** be updated **last** or you may
+  lock yourself out of keystone.
+
 Using an existing Keystone
 --------------------------
 

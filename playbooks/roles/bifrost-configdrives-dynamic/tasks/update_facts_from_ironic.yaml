@@ -23,6 +23,7 @@
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
     ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid | default() }}"
     name: "{{ name | default() }}"
