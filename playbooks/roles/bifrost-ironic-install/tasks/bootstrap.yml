@@ -320,6 +320,9 @@
   get_url:
     url: "{{ cirros_deploy_image_upstream_url }}"
     dest: "{{ deploy_image }}"
+    owner: ironic
+    group: ironic
+    mode: 0644
   when: use_cirros | bool == true
 - name: >
     "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned

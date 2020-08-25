@@ -24,7 +24,13 @@
 
 - block:
   - name: "Download IPA kernel checksum file"
-    get_url: url="{{ ipa_kernel_upstream_checksum_url }}" dest="{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}" timeout=300
+    get_url:
+      url: "{{ ipa_kernel_upstream_checksum_url }}"
+      dest: "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
+      timeout: 300
+      owner: ironic
+      group: ironic
+      mode: 0644
     register: ipa_kernel_checksum_result
     ignore_errors: yes
     environment: "{{ venv }}"
@@ -49,6 +55,9 @@
   get_url:
     url: "{{ ipa_kernel_upstream_url }}"
     dest: "{{ ipa_kernel }}"
+    owner: ironic
+    group: ironic
+    mode: 0644
     checksum: "{{ ipa_kernel_checksum | default(omit) }}"
     timeout: 300
     # Keep downloading it until we get a good copy
@@ -67,7 +76,13 @@
 
 - block:
   - name: "Download IPA image checksum"
-    get_url: url="{{ ipa_ramdisk_upstream_checksum_url }}" dest="{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}" timeout=300
+    get_url:
+      url: "{{ ipa_ramdisk_upstream_checksum_url }}"
+      dest: "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
+      timeout: 300
+      owner: ironic
+      group: ironic
+      mode: 0644
     register: ipa_ramdisk_checksum_result
     ignore_errors: yes
     environment: "{{ venv }}"
@@ -92,6 +107,9 @@
   get_url:
     url: "{{ ipa_ramdisk_upstream_url }}"
     dest: "{{ ipa_ramdisk }}"
+    owner: ironic
+    group: ironic
+    mode: 0644
     checksum: "{{ ipa_ramdisk_checksum | default(omit) }}"
     timeout: 300
     # Keep downloading it until we get a good copy

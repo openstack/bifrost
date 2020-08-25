@@ -29,6 +29,9 @@
     url: "https://boot.ipxe.org/{{ item }}"
     dest: "{{ ipxe_dir }}/{{ item }}"
     force: yes
+    owner: ironic
+    group: ironic
+    mode: 0644
   register: ipxe_files_download_done
   until: ipxe_files_download_done is succeeded
   retries: 5
@@ -43,6 +46,9 @@
     url: "https://boot.ipxe.org/{{ item }}"
     dest: "{{ ipxe_dir }}/{{ item }}"
     force: yes
+    owner: ironic
+    group: ironic
+    mode: 0644
   register: ipxe_efi_binary_download_done
   until: ipxe_efi_binary_download_done is succeeded
   retries: 5
