@@ -170,16 +170,10 @@ username = {{ ironic.service_catalog.username }}
 password = {{ ironic.service_catalog.password }}
 user_domain_id = default
 project_domain_id = default
-{% elif noauth_mode | bool %}
-auth_strategy = noauth
-auth_type = none
 {% else %}
 auth_strategy = http_basic
 auth_type = http_basic
 http_basic_auth_user_file = /etc/ironic/htpasswd
 username = {{ admin_username }}
 password = {{ admin_password }}
-# Deprecated - compatibility
-http_basic_username = {{ admin_username }}
-http_basic_password = {{ admin_password }}
 {% endif %}

@@ -152,7 +152,6 @@
     name: "{{ admin_username }}"
     password: "{{ admin_password }}"
   when:
-    - not noauth_mode | bool
     - not enable_keystone | bool
 
 - name: "Generate user htpasswd for ironic"
