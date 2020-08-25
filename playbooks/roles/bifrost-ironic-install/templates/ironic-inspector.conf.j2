@@ -73,22 +73,11 @@ always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | 
 {% if inspector_processing_hooks is defined %}
 processing_hooks = {{ inspector_processing_hooks }}
 {% endif %}
-{% if inspector_store_data_in_nginx | bool %}
-store_data = swift
-{% else %}
 store_data = database
-{% endif %}
 {% if inspector.discovery.enabled == true %}
 node_not_found_hook = enroll
 power_off = {{ power_off_after_inspection }}
 
 [discovery]
 enroll_node_driver = {{ inspector.discovery.default_node_driver }}
-{% endif %}
-
-{% if inspector_store_data_in_nginx | bool %}
-[swift]
-# Use the local nginx web server as a Swift-list object storage service.
-auth_type = none
-endpoint_override = {{ inspector_store_data_url }}
 {% endif %}
