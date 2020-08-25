@@ -1,0 +1,13 @@
+---
+upgrade:
+  - |
+    Adds the explicit setting of file access permissions to get_url calls in
+    bifrost ansible playbooks to ensure that the contents of "/httpboot" are
+    world-readable independently of which Ansible version is in use.
+fixes:
+  - |
+    Resolves the issue with ansible versions 2.9.12 and 2.8.14 where implicit
+    setting of file permissions on files downloaded with get_url calls results
+    in overly restrictive permissions. This leads to access denied while
+    attempting to read the contents of "/httpboot" and results in failed
+    deployments.

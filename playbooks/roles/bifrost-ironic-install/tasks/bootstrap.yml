@@ -355,6 +355,9 @@
   get_url:
     url: "{{ cirros_deploy_image_upstream_url }}"
     dest: "{{ deploy_image }}"
+    owner: ironic
+    group: ironic
+    mode: 0644
   when: use_cirros | bool == true
 - name: "Create a checksum file for cirros"
   shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS

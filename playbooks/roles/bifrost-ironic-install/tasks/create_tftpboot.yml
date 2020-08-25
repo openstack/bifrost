@@ -40,24 +40,32 @@
   when: download_ipxe | bool == true
 
 - name: "Copy iPXE image into place"
-  copy: src={{ ipxe_dir }}/undionly.kpxe dest=/tftpboot/ remote_src=true
+  copy:
+    src: "{{ ipxe_dir }}/undionly.kpxe"
+    dest: /tftpboot/
+    owner: ironic
+    group: ironic
+    mode: 0644
+    remote_src: true
 
 # NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
 - name: "Copy full iPXE image into {{ http_boot_folder }}/"
-  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest={{ http_boot_folder }}/ remote_src=true
-
-- name: "Copy full iPXE image into /tftpboot"
-  copy: src={{ ipxe_dir }}/{{ ipxe_full_binary }} dest=/tftpboot/ remote_src=true
-
-- name: Make boot files owned by ironic and world-readable
-  file:
-    path: "{{ item }}"
-    mode: 0644
+  copy:
+    src: "{{ ipxe_dir }}/{{ ipxe_full_binary }}"
+    dest: "{{ http_boot_folder }}/"
     owner: ironic
     group: ironic
-  loop:
-    - /tftpboot/undionly.kpxe
-    - "/tftpboot/{{ ipxe_full_binary }}"
+    mode: 0644
+    remote_src: true
+
+- name: "Copy full iPXE image into /tftpboot"
+  copy:
+    src: "{{ ipxe_dir }}/{{ ipxe_full_binary }}"
+    dest: /tftpboot/
+    owner: ironic
+    group: ironic
+    mode: 0644
+    remote_src: true
 
 - name: "Set up iPXE for EFI booting"
   block:
@@ -78,20 +86,23 @@
         - test_ipxe_efi_binary_path.stat.exists | bool == false
 
     - name: "Copy iPXE EFI image into {{ http_boot_folder }}/"
-      copy: src={{ ipxe_dir }}/{{ ipxe_efi_binary }} dest={{ http_boot_folder }}/ remote_src=true
-
-    - name: "Copy iPXE EFI image into /tftpboot"
-      copy: src={{ ipxe_dir }}/{{ ipxe_efi_binary }} dest=/tftpboot/ remote_src=true
-
-    - name: Make UEFI boot files owned by ironic and world-readable
-      file:
-        path: "{{ item }}"
-        mode: 0644
+      copy:
+        src: "{{ ipxe_dir }}/{{ ipxe_efi_binary }}"
+        dest: "{{ http_boot_folder }}/"
         owner: ironic
         group: ironic
-      loop:
-        - "/tftpboot/{{ ipxe_efi_binary }}"
-        - "{{ http_boot_folder }}/{{ ipxe_efi_binary }}"
+        mode: 0644
+        remote_src: true
+
+    - name: "Copy iPXE EFI image into /tftpboot"
+      copy:
+        src: "{{ ipxe_dir }}/{{ ipxe_efi_binary }}"
+        dest: /tftpboot/
+        owner: ironic
+        group: ironic
+        mode: 0644
+        remote_src: true
+
   when: enable_uefi_ipxe | bool == true
 
 # Similar logic to below can be utilized to retrieve files
@@ -107,8 +118,9 @@
 # For now, we need to use it, but we can patch that.
 - name: "Inspector - Place default tftp boot file in {{ http_boot_folder}}/pxelinux.cfg/"
   template:
-    src=inspector-default-boot-ipxe.j2
-    dest="{{ http_boot_folder }}/pxelinux.cfg/default"
-    owner=ironic
-    group=ironic
+    src: inspector-default-boot-ipxe.j2
+    dest: "{{ http_boot_folder }}/pxelinux.cfg/default"
+    owner: ironic
+    group: ironic
+    mode: 0644
   when: enable_inspector | bool == true
