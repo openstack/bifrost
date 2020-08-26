@@ -1,0 +1,11 @@
+---
+fixes:
+  - |
+    Removes the ``test_vm_network_enable_dhcp`` option and disables DHCP on
+    the libvirt network instead of unconditionally killing all dnsmasq
+    processes on the machine.
+upgrade:
+  - |
+    Bifrost will no longer kill all running dnsmasq processes for you. If you
+    have dnsmasq processes that are not managed by systemd, you have to stop
+    them yourself.
