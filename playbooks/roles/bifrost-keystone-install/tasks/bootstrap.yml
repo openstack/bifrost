@@ -290,11 +290,6 @@
         exec_start_pre: "/usr/bin/install -m 755 -o {{ nginx_user }} -g {{ nginx_user }} -d /run/uwsgi",
         args: '--master --emperor /etc/uwsgi/apps-enabled'} # TODO(TheJulia): Split webserver user/group.
 
-# NOTE(ashestakov) https://github.com/ansible/ansible-modules-core/issues/3764
-- name: "Remove uwsgi sysvinit init script"
-  command: update-rc.d -f uwsgi remove
-  ignore_errors: yes
-
 - block:
     - name: "Explicitly allow keystone port (TCP) on selinux"
       seport:
