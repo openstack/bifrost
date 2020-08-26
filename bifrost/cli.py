@@ -154,7 +154,6 @@ def cmd_install(args):
             install_dib='true',
             network_interface=args.network_interface,
             enable_keystone=args.enable_keystone,
-            use_public_urls=args.enable_keystone,
             noauth_mode='false',
             enabled_hardware_types=args.hardware_types,
             cleaning_disk_erase=args.cleaning_disk_erase,

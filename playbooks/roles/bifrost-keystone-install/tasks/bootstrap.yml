@@ -120,12 +120,12 @@
 
 - name: "Setting external Keystone public URL"
   set_fact:
-    keystone_public_url: "{{ keystone.bootstrap.public_url | replace('127.0.0.1', public_ip | default(internal_ip)) }}"
-  when: use_public_urls | default(false) | bool
+    keystone_public_url: "{{ api_protocol }}://{{ public_ip }}:5000/v3"
+  when: public_ip is defined
 
 - name: "Setting internal Keystone URL"
   set_fact:
-    keystone_private_url: "{{ keystone.bootstrap.internal_url | replace('127.0.0.1', private_ip) }}"
+    keystone_private_url: "{{ api_protocol }}://{{ private_ip }}:5000/v3"
   when: private_ip is defined and private_ip | length > 0
 
 - name: "Bootstrap Keystone Database"
@@ -135,9 +135,9 @@
     --bootstrap-password="{{ keystone.bootstrap.password }}"
     --bootstrap-project-name="{{ keystone.bootstrap.project_name }}"
     --bootstrap-service-name="keystone"
-    --bootstrap-admin-url="{{ keystone.bootstrap.admin_url }}"
-    --bootstrap-public-url="{{ keystone_public_url | default(keystone.bootstrap.public_url) }}"
-    --bootstrap-internal-url="{{ keystone_private_url | default(keystone.bootstrap.internal_url) }}"
+    --bootstrap-admin-url="{{ keystone.bootstrap.admin_url | default(keystone_api_url) }}"
+    --bootstrap-public-url="{{ keystone.bootstrap.public_url | default(keystone_public_url) | default(keystone_api_url) }}"
+    --bootstrap-internal-url="{{ keystone.bootstrap.internal_url | default(keystone_private_url) | default(keystone_api_url) }}"
     --bootstrap-region-id="{{ keystone.bootstrap.region_name }}"
   environment: "{{ bifrost_venv_env }}"
   when: >

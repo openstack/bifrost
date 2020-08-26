@@ -65,7 +65,7 @@
 
 - name: "Provide ironic_url for no-auth mode if there is no override"
   set_fact:
-    ironic_url: "http://localhost:6385/"
+    ironic_url: "{{ ironic_api_url }}"
   when:
     - ironic_url | default("") == ""
     - noauth_mode | bool

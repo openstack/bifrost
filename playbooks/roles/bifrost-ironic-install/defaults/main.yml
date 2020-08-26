@@ -260,8 +260,10 @@ noauth_mode: true
 enable_keystone: false
 
 # Service URLs used for communication with them.
-ironic_api_url: "http://localhost:6385"
-ironic_inspector_api_url: "http://localhost:5050"
+api_protocol: http
+ironic_api_url: "{{ api_protocol }}://{{ internal_ip }}:6385"
+ironic_inspector_api_url: "{{ api_protocol }}://{{ internal_ip }}:5050"
+keystone_api_url: "{{ api_protocol }}://{{ internal_ip }}:5000/v3"
 
 # Directory (on the controller) to keep the passwords
 password_dir: "{{ lookup('env', 'HOME') }}/.config/bifrost"
@@ -284,7 +286,7 @@ ironic:
   service_catalog:
     username: "ironic"
     password: "{{ service_password }}"
-    auth_url: "http://127.0.0.1:5000/v3"
+    auth_url: "{{ keystone_api_url }}"
     project_name: "service"
   keystone:
     default_username: "{{ default_username }}"
@@ -299,7 +301,7 @@ ironic_inspector:
   service_catalog:
     username: "ironic_inspector"
     password: "{{ service_password }}"
-    auth_url: "http://127.0.0.1:5000/v3"
+    auth_url: "{{ keystone_api_url }}"
     project_name: "service"
   keystone:
     default_username: "{{ default_username }}"
@@ -318,9 +320,9 @@ keystone:
     username: "{{ admin_username }}"
     password: "{{ admin_password }}"
     project_name: admin
-    admin_url: "http://127.0.0.1:35357/v3/"
-    public_url: "http://127.0.0.1:5000/v3/"
-    internal_url: "http://127.0.0.1:5000/v3/"
+    admin_url: "{{ api_protocol }}://{{ internal_ip }}:35357/v3/"
+    public_url: "{{ keystone_api_url }}"
+    internal_url: "{{ api_protocol }}://127.0.0.1:5000/v3/"
     region_name: "RegionOne"
   message_queue:
     username: keystone
