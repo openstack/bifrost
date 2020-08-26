@@ -40,10 +40,6 @@
     #  apt: name=erlang-base state=present
     #  when: ansible_distribution == 'Ubuntu'
 
-    - name: Install Rabbit-Server
-      apt: name=rabbitmq-server state=present
-      when: ansible_distribution == 'Ubuntu'
-
     - name: Install MySql-Server
       apt: name=mariadb-server state=present
       when: ansible_distribution == 'Ubuntu'
