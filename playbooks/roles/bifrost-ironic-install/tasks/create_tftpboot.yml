@@ -24,7 +24,12 @@
     - "{{ http_boot_folder }}/pxelinux.cfg"
 
 - name: "Place tftpd map-file"
-  copy: src=tftpboot-map-file dest=/tftpboot/map-file owner=ironic group=ironic
+  copy:
+    src: tftpboot-map-file
+    dest: /tftpboot/map-file
+    owner: ironic
+    group: ironic
+    mode: 0644
 
 - name: "Disable service {{ tftp_service_name }}"
   service: name="{{ tftp_service_name }}" state=stopped enabled=no

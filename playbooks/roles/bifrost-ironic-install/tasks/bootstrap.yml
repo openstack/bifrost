@@ -359,6 +359,15 @@
         setype: http_port_t
         state: present
 
+    - name: "Add proper context on created data for tftpboot"
+      sefcontext:
+        target: "{{ item }}"
+        setype: tftpdir_t
+        state: present
+      loop:
+        - /tftpboot
+        - /tftpboot/pxelinux.cfg
+
     - name: "Add proper context on created data for http_boot"
       sefcontext:
         target: "{{ http_boot_folder }}(/.*)?"
