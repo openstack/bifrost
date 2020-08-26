@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Adds correct SELinux context for ``/tftpboot``.
