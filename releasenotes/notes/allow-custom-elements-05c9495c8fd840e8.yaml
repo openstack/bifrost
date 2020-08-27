@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes an issue where the bifrost-create-dib-image role
+    overrides any existing ELEMENTS_PATH environment variable
+    value. This fix appends any existing ELEMENTS_PATH
+    value to the path set in the role.

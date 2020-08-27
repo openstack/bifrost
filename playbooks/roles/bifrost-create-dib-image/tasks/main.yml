@@ -132,9 +132,16 @@
   set_fact:
     dib_env_vars_final: "{{dib_env_vars_final | combine({'DIB_RELEASE':dib_os_release}) }}"
   when: dib_os_release is defined
+- name: "Build ELEMENTS_PATH variable from IPA builder element folder"
+  set_fact:
+    dib_elements_path: "{{ [ ipa_builder_git_folder + '/dib' ] }}"
+- name: "Add existing ELEMENTS_PATH value if present"
+  set_fact:
+    dib_elements_path: "{{ dib_elements_path + [dib_env_vars_final['ELEMENTS_PATH']] }}"
+  when: "'ELEMENTS_PATH' in dib_env_vars_final"
 - name: "Set the ELEMENTS_PATH environment variable"
   set_fact:
-    dib_env_vars_final: "{{dib_env_vars_final | combine({'ELEMENTS_PATH': ipa_builder_git_folder + '/dib'}) }}"
+    dib_env_vars_final: "{{ dib_env_vars_final | combine({'ELEMENTS_PATH': dib_elements_path | join(':') }) }}"
 - name: "Set the DIB_BLOCK_DEVICE_CONFIG variable if set"
   set_fact:
     dib_env_vars_final: "{{ dib_env_vars_final | combine({'DIB_BLOCK_DEVICE_CONFIG': dib_partitioning}) }}"
