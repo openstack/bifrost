@@ -224,7 +224,7 @@
     state: directory
     mode: 0750
     owner: "ironic"
-    group: "ironic"
+    group: "{{ nginx_user }}"
   loop:
     - "/var/lib/ironic"
     - "/var/lib/ironic/master_images"
