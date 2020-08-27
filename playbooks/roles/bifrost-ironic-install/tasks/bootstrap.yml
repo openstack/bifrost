@@ -194,7 +194,7 @@
     state: directory
     mode: 0750
     owner: "ironic"
-    group: "ironic"
+    group: "{{ nginx_user }}"
   with_items:
     - "/var/lib/ironic"
     - "/var/lib/ironic/master_images"
