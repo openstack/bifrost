@@ -59,7 +59,7 @@
   set_fact:
     ironic_url: "{{ openstack_cloud.baremetal_endpoint_override }}"
   when:
-    - ironic_url | default("") == ""
+    - not ironic_url | default("")
     - openstack_cloud is defined
     - openstack_cloud.baremetal_endpoint_override is defined
 
@@ -67,5 +67,5 @@
   set_fact:
     ironic_url: "http://localhost:6385/"
   when:
-    - ironic_url | default("") == ""
+    - not ironic_url | default("")
     - noauth_mode | bool

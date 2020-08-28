@@ -134,22 +134,18 @@
     dest: "{{ baremetal_nodes_json }}"
     content: "{{ {'nodes': testvm_nodes_json} | to_nice_json }}"
 
-- name: >
-    "Set file permissions such that the baremetal data file
-    can be read by the user executing Ansible"
+- name: Ensure the baremetal data file can be read by the user executing Ansible
   file:
     path: "{{ baremetal_json_file }}"
     owner: "{{ ansible_env.SUDO_USER }}"
-  when: >
-    ansible_env.SUDO_USER is defined and
-    baremetal_json_file != ""
+  when:
+    - ansible_env.SUDO_USER is defined
+    - baremetal_json_file | length > 0
 
-- name: >
-    "Set file permissions such that the nodes json file
-    can be read by the user executing Ansible"
+- name: Ensure the nodes json file can be read by the user executing Ansible
   file:
     path: "{{ baremetal_nodes_json }}"
     owner: "{{ ansible_env.SUDO_USER }}"
-  when: >
-    ansible_env.SUDO_USER is defined and
-    baremetal_nodes_json != ""
+  when:
+    - ansible_env.SUDO_USER is defined
+    - baremetal_nodes_json | length > 0

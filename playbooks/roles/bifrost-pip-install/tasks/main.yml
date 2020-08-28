@@ -19,13 +19,15 @@
   - name: "Check that sourcedir is provided with source_install"
     fail:
       msg: Source installation of requires sourcedir to be provided
-    when: source_install | bool and sourcedir | default('') == ''
+    when:
+      - source_install | bool
+      - not sourcedir
 
   - name: "Set extra_args if upper_constraints_file is defined"
     set_fact:
       constraints_extra_args: "{{ extra_args | default('') }} -c {{ upper_constraints_file }}"
     when:
-      - upper_constraints_file != ''
+      - upper_constraints_file | length > 0
       # NOTE(dtantsur): constraining does not work correctly correctly with
       # source installation if the package itself is in constraints.
       - source_install | bool == false

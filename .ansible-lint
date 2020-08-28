@@ -4,7 +4,6 @@ skip_list:
   - '301'  # Commands should not change things if nothing needs doing
   - '502'  # All tasks should be named
   - '601'  # Don't compare to literal True/False
-  - '602'  # Don't compare to empty string
   - '701'  # meta/main.yml should contain relevant info
   - '702'  # Tags must contain lowercase letters and digits only
   # NOTE(dtantsur): the following rules should likely stay excluded:

@@ -24,14 +24,14 @@
       no-bios
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
-  when: enabled_bios_interfaces == ""
+  when: not enabled_bios_interfaces
 
 - name: "Configure boot interfaces if required"
   set_fact:
     enabled_boot_interfaces: >-
       ipxe,pxe
       {%- if "ilo" in enabled_hardware_types -%},ilo-virtual-media{%- endif -%}
-  when: enabled_boot_interfaces == ""
+  when: not enabled_boot_interfaces
 
 - name: "Configure management interfaces if required"
   set_fact:
@@ -40,7 +40,7 @@
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
-  when: enabled_management_interfaces == ""
+  when: not enabled_management_interfaces
 
 - name: "Configure power interfaces if required"
   set_fact:
@@ -50,4 +50,4 @@
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
       {%- if enable_credential_less_deploy|bool -%},agent{%- endif -%}
-  when: enabled_power_interfaces == ""
+  when: not enabled_power_interfaces

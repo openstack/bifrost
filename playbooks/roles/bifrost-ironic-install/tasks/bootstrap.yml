@@ -181,7 +181,7 @@
   loop:
     - "{{ ironic_log_dir | default('') }}"
     - "{{ ironic_agent_deploy_logs_local_path | default('') }}"
-  when: item != ""
+  when: item | length > 0
 
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
@@ -432,4 +432,6 @@
          ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
 - name: "Configure remote logging"
   template: src=10-rsyslog-remote.conf.j2 dest=/etc/rsyslog.d/10-rsyslog-remote.conf
-  when: remote_syslog_server is defined and remote_syslog_server != ""
+  when:
+    - remote_syslog_server is defined
+    - remote_syslog_server | length > 0

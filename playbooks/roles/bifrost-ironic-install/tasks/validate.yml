@@ -48,7 +48,9 @@
   command: baremetal conductor list -f value -c Hostname
   environment: "{{ testing_env | combine(bifrost_venv_env) }}"
   register: conductor_list
-  failed_when: conductor_list.rc != 0 or conductor_list.stdout | trim == ""
+  failed_when:
+    - conductor_list.rc != 0 or
+      not conductor_list.stdout
   retries: 6
   delay: 5
   until: conductor_list is not failed
