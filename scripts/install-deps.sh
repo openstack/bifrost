@@ -4,7 +4,7 @@ set -xeu
 declare -A PKG_MAP
 
 # workaround: for latest bindep to work, it needs to use en_US local
-export LANG=c
+export LANG=en_US.UTF-8
 
 ENABLE_VENV=${ENABLE_VENV:-true}
 if [[ "$ENABLE_VENV" != false ]]; then
