@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Forces using pyghmi==1.5.13 when creating a testing environment to fix
+    every operation in ipmitool taking minutes.

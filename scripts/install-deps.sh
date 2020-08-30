@@ -4,7 +4,7 @@ set -eu
 declare -A PKG_MAP
 
 # workaround: for latest bindep to work, it needs to use en_US local
-export LANG=c
+export LANG=en_US.UTF-8
 
 CHECK_CMD_PKGS=(
     gcc
@@ -196,18 +196,19 @@ if [[ $(readlink -f /etc/alternatives/pip) =~ "pip3" ]]; then
     sudo -H update-alternatives --remove pip $(readlink -f /etc/alternatives/pip)
 fi
 
-if ! which pip && ! which pip3; then
+if ! "${PYTHON}" -m pip > /dev/null; then
     wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.4/get-pip.py
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-PIP=$(which pip || which pip3)
+PIP="${PYTHON} -m pip"
 
 if [ -n "${VENV-}" ]; then
   ls -la ${VENV}/bin
 fi
 
-sudo -H -E ${PIP} install --upgrade "pip>6.0"
+# NOTE(dtantsur): 9.0.0 introduces --upgrade-strategy.
+sudo -H -E ${PIP} install --upgrade "pip>9.0"
 
 # upgrade setuptools, as latest version is needed to install some projects
 sudo -H -E ${PIP} install --upgrade --force setuptools

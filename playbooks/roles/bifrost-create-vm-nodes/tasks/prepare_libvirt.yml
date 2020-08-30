@@ -176,6 +176,14 @@
     virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
   become: true
 
+- name: "(Train and older) update pyghmi to a version supporting cypher suites"
+  pip:
+    name: pyghmi
+    # NOTE(dtantsur): 1.5.13 is the version used in Ussuri.
+    version: 1.5.13
+    virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
+  become: true
+
 - name: ensure Virtual BMC systemd service is configured
   template:
     src: vbmcd.service.j2

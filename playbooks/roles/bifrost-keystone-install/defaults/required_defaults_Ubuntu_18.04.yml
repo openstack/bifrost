@@ -16,5 +16,4 @@ required_packages:
   - uwsgi-core
   # - python-django-uwsgi - This may not be needed
   - uwsgi-plugin-python
-  - python-pip
   - python-pymysql
