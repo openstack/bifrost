@@ -41,7 +41,6 @@ required_packages:
   - tar
   - curl
   - socat
-  - python-pip
   - gcc
   - python-PyMySQL
 iscsi_client_package: "open-iscsi"

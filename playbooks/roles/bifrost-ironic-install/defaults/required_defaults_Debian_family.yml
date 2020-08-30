@@ -35,7 +35,6 @@ required_packages:
   - uuid-runtime
   - curl
   - socat
-  - python-pip
   - gcc
   - dnsmasq
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the

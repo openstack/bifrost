@@ -28,7 +28,6 @@ required_packages:
   - debootstrap
   - uuid-runtime
   - curl
-  - python-pip
   - python-pymysql
   - dnsmasq
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the

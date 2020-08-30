@@ -150,3 +150,10 @@
     name: virtualbmc
     extra_args: "-c {{ upper_constraints_file }}"
     virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"
+
+- name: "(Train and older) update pyghmi to a version supporting cypher suites"
+  pip:
+    name: pyghmi
+    # NOTE(dtantsur): 1.5.13 is the version used in Ussuri.
+    version: 1.5.13
+    virtualenv: "{{ enable_venv | bool | ternary(bifrost_venv_dir, omit) }}"

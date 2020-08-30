@@ -4,7 +4,7 @@ set -eu
 declare -A PKG_MAP
 
 # workaround: for latest bindep to work, it needs to use en_US local
-export LANG=c
+export LANG=en_US.UTF-8
 
 CHECK_CMD_PKGS=(
     gcc
@@ -174,14 +174,15 @@ if [[ $(readlink -f /etc/alternatives/pip) =~ "pip3" ]]; then
     sudo -H update-alternatives --remove pip $(readlink -f /etc/alternatives/pip)
 fi
 
-if ! which pip; then
-    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.2/get-pip.py
+if ! "${PYTHON}" -m pip > /dev/null; then
+    wget -O /tmp/get-pip.py https://bootstrap.pypa.io/3.4/get-pip.py
     sudo -H -E ${PYTHON} /tmp/get-pip.py
 fi
 
-PIP=$(which pip)
+PIP="${PYTHON} -m pip"
 
-sudo -H -E ${PIP} install "pip>6.0"
+# NOTE(dtantsur): 9.0.0 introduces --upgrade-strategy.
+sudo -H -E ${PIP} install --upgrade "pip>9.0"
 
 # upgrade setuptools, as latest version is needed to install some projects
 sudo -H -E ${PIP} install --upgrade --force setuptools
@@ -191,7 +192,7 @@ if [ "$OS_FAMILY" == "RedHat" ]; then
     sudo -H -E ${PIP} install --ignore-installed pyparsing ipaddress
 fi
 
-sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
+sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt" -c ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/stein}
 
 # Install the rest of required packages using bindep
 sudo -H -E ${PIP} install bindep

@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Drops support for Ubuntu and openSUSE OS distributions, which are no longer
+    able to successfully start the Ironic Inspector service. CentOS is still
+    supported. Note that this affect the Stein release series only.

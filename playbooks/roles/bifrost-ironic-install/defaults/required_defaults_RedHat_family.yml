@@ -36,6 +36,5 @@ required_packages:
   - policycoreutils-python
   - debootstrap
   - gcc
-  - python2-pip
   - socat
 iscsi_client_package: "iscsi-initiator-utils"

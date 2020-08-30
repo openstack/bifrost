@@ -18,7 +18,7 @@ pip freeze > "$LOG_LOCATION/pip/freeze-default.log"
 if which pip3 2> /dev/null; then
     pip3 freeze > "$LOG_LOCATION/pip/freeze-pip3.log"
 fi
-if [ -n "$VENV" ]; then
+if [ -n "${VENV:-}" ]; then
     $VENV/bin/pip freeze > "$LOG_LOCATION/pip/freeze-venv.log"
 fi
 
