@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    Ironic JSON RPC is now always authenticated, even in no-auth mode.
