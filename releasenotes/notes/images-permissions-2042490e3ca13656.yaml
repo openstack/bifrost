@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Makes ``/var/lib/ironic`` and its images subdirectories readable by nginx.
+    This is required for using the images cache.
