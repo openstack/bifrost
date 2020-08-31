@@ -56,14 +56,6 @@
 - name: "Stop dnsmasq explicitly."
   service: name=dnsmasq state=stopped
 
-# NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
-# not the one supplied by libvirt. And the libvirt started dnsmasq processes
-# are not controlled by upstart, so we need to manually kill those.
-- name: "Stop existing libvirt dnsmasq processes"
-  command: killall -9 -w dnsmasq
-  when: testing | bool == true and include_dhcp_server | bool == true
-  ignore_errors: yes
-
 - name: "Ensure dnsmasq is running with current config"
   service: name={{ item }} state=restarted enabled=yes
   loop:

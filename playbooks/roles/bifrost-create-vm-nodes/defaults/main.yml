@@ -27,9 +27,6 @@ network_interface: "virbr0"
 test_vm_network: "{{ lookup('env', 'VM_NET_BRIDGE') | default('default', true) }}"
 test_vm_network_ip: "192.168.122.1"
 test_vm_network_netmask: "255.255.255.0"
-test_vm_network_enable_dhcp: true
-test_vm_network_dhcp_start: "192.168.122.2"
-test_vm_network_dhcp_end: "192.168.122.254"
 
 test_vm_storage_pool: "{{ lookup('env', 'LIBVIRT_STORAGE_POOL') | default('default', true) }}"
 test_vm_storage_pool_path: "/var/lib/libvirt/images"
