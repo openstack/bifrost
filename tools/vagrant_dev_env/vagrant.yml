@@ -99,7 +99,7 @@
       become: yes
 
     - name: Install Bifrost
-      command: ${VENV}/bin/ansible-playbook -vvvv -i inventory/target install.yaml -e network_interface={{network_interface}} -e ansible_python_interpreter="/usr/bin/python3" -e download_ipa=true -e use_cirros=true -e enable_venv=true
+      command: ${VENV}/bin/ansible-playbook -vvvv -i inventory/target install.yaml -e network_interface={{network_interface}} -e ansible_python_interpreter="/usr/bin/python3" -e download_ipa=true -e use_cirros=true
       environment:
           PATH: "{{ansible_env.HOME}}/.local/bin:{{ansible_env.PATH}}"
           VENV: "/opt/stack/bifrost"

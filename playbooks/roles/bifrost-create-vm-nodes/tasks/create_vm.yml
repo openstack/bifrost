@@ -98,12 +98,12 @@
 - name: get list of nodes from virtualbmc
   command: vbmc list
   register: vbmc_list
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 # NOTE(NobodyCam): Space at the end of the find clause is required for proper matching.
 - name: delete vm from virtualbmc if it is there
   command: vbmc delete {{ vm_name }}
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: vbmc_list.stdout.find(vm_name) != -1
 
 - set_fact:
@@ -111,11 +111,11 @@
 
 - name: plug vm into vbmc
   command: vbmc add {{ vm_name }} --libvirt-uri {{ test_vm_libvirt_uri }} --port {{ virtual_ipmi_port }}
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: start virtualbmc
   command: vbmc start {{ vm_name }}
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: get XML of the vm
   virt:

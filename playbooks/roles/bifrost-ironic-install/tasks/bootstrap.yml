@@ -22,11 +22,6 @@
     noauth_mode | bool == true and enable_keystone is defined and
     enable_keystone | bool == true
 
-- name: "If VENV is set in the environment, enable installation into venv"
-  set_fact:
-    enable_venv: true
-  when: lookup('env', 'VENV') | length > 0
-
 - block:
     - name: "Ask systemd to reload configuration"
       systemd:
@@ -191,14 +186,14 @@
 
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: >
       ironic.database.host == 'localhost' and
       test_created_db.changed | bool == true
 
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: >
       ironic.database.host != 'localhost' or
       test_created_db.changed | bool == false
@@ -216,7 +211,7 @@
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
   register: ironic_install_prefix
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 
 - name: "Set permissions for /var/lib/ironic for the ironic user"
   file:

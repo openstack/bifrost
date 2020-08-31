@@ -6,10 +6,7 @@ declare -A PKG_MAP
 # workaround: for latest bindep to work, it needs to use en_US local
 export LANG=c
 
-ENABLE_VENV=${ENABLE_VENV:-true}
-if [[ "$ENABLE_VENV" != false ]]; then
-    export VENV=${VENV:-/opt/stack/bifrost}
-fi
+export VENV=${VENV:-/opt/stack/bifrost}
 
 CHECK_CMD_PKGS=(
     python3-devel
@@ -89,22 +86,18 @@ if [ "${#EXTRA_PKG_DEPS[@]}" -ne 0 ]; then
     done
 fi
 
-if [ -n "${VENV-}" ]; then
-    echo "NOTICE: Using virtualenv for this installation."
-    if [ ! -f ${VENV}/bin/activate ]; then
-        # only create venv if one doesn't exist
-        sudo -H -E python3 -m venv --system-site-packages ${VENV}
-        sudo -H -E chown -R ${USER} ${VENV}
-    fi
-    # Note(cinerama): activate is not compatible with "set -u";
-    # disable it just for this line.
-    set +u
-    . ${VENV}/bin/activate
-    set -u
-    VIRTUAL_ENV=${VENV}
-else
-    echo "NOTICE: Not using virtualenv for this installation."
+echo "NOTICE: Using virtualenv for this installation."
+if [ ! -f ${VENV}/bin/activate ]; then
+    # only create venv if one doesn't exist
+    sudo -H -E python3 -m venv --system-site-packages ${VENV}
+    sudo -H -E chown -R ${USER} ${VENV}
 fi
+# Note(cinerama): activate is not compatible with "set -u";
+# disable it just for this line.
+set +u
+. ${VENV}/bin/activate
+set -u
+VIRTUAL_ENV=${VENV}
 
 # If we're using a venv, we need to work around sudo not
 # keeping the path even with -E.
@@ -119,26 +112,14 @@ EOF
 
 export PIP_OPTS="--upgrade-strategy only-if-needed"
 
-if [ -n "${VENV-}" ]; then
-  ls -la ${VENV}/bin
-fi
-
 # Install the rest of required packages using bindep
-if [ -n "${VENV-}" ]; then
-    ${PIP} install bindep
-else
-    sudo -H -E ${PIP} install bindep
-fi
+${PIP} install bindep
 
 echo "Using Bindep to install binary dependencies..."
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
 
 echo "Installing Python requirements"
-if [ -n "${VENV-}" ]; then
-    ${PIP} install -r "$(dirname $0)/../requirements.txt"
-else
-    sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
-fi
+${PIP} install -r "$(dirname $0)/../requirements.txt"
 
 echo "Completed installation of basic dependencies."

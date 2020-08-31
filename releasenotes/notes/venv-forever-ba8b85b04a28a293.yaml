@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    No longer supports installation outside of a virtual environment. The
+    parameter ``enable_venv`` has been removed.

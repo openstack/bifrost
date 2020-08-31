@@ -61,7 +61,7 @@
       project_domain_id: "default"
       user_domain_id: "default"
     wait: yes
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   no_log: true
   ignore_errors: true
   when:

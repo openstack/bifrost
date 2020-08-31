@@ -46,7 +46,7 @@
 
 - name: "Validate API access and at least one conductor"
   command: baremetal conductor list -f value -c Hostname
-  environment: "{{ testing_env | combine(bifrost_venv_env if enable_venv else {}) }}"
+  environment: "{{ testing_env | combine(bifrost_venv_env) }}"
   register: conductor_list
   failed_when: conductor_list.rc != 0 or conductor_list.stdout | trim == ""
   retries: 6
@@ -77,7 +77,7 @@
 
 - name: "Validate introspection API access"
   command: baremetal introspection list
-  environment: "{{ testing_env | combine(bifrost_venv_env if enable_venv else {}) }}"
+  environment: "{{ testing_env | combine(bifrost_venv_env) }}"
   register: introspection_list
   retries: 6
   delay: 5

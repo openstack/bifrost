@@ -117,11 +117,11 @@
 - name: "Upgrade inspector DB Schema"
   command: ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
   become: true
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 - name: "Inspector - Get ironic-inspector install location"
   shell: echo $(dirname $(which ironic-inspector))
   register: ironic_install_prefix
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
 - name: "Inspector - Place service"
   template:
     src: systemd_template.j2

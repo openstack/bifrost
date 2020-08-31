@@ -11,12 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "If VENV is set in the environment, enable installation into venv"
-  set_fact:
-    enable_venv: true
-  when: lookup('env', 'VENV') | length > 0
-
 - name: "Perform ironic online data migrations"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf online_data_migrations
-  environment: "{{ bifrost_venv_env if enable_venv else {} }}"
+  environment: "{{ bifrost_venv_env }}"
   when: ironic.database.host != 'localhost'

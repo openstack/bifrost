@@ -19,24 +19,17 @@ ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
 BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
 PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
 
-
-if [[ -n "${VENV-}" ]]; then
-    ${PIP} install "${ANSIBLE_SOURCE_PATH}"
-    ANSIBLE=${VENV}/bin/ansible
-    ANSIBLE_GALAXY=${VENV}/bin/ansible-galaxy
-    if [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
-        echo  "Setting ANSIBLE_COLLECTIONS_PATHS to virtualenv"
-        export ANSIBLE_COLLECTIONS_PATHS=${VENV}/collections
-        BIFROST_COLLECTIONS_PATHS=$ANSIBLE_COLLECTIONS_PATHS
-    fi
-    if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
-        mkdir -p "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack"
-        ln -s "$ANSIBLE_COLLECTION_SOURCE_PATH" "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack/cloud"
-    fi
-else
-    ${PIP} install --user --upgrade "${ANSIBLE_SOURCE_PATH}"
-    ANSIBLE=${HOME}/.local/bin/ansible
-    ANSIBLE_GALAXY=${HOME}/.local/bin/ansible-galaxy
+${PIP} install "${ANSIBLE_SOURCE_PATH}"
+ANSIBLE=${VENV}/bin/ansible
+ANSIBLE_GALAXY=${VENV}/bin/ansible-galaxy
+if [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
+    echo  "Setting ANSIBLE_COLLECTIONS_PATHS to virtualenv"
+    export ANSIBLE_COLLECTIONS_PATHS=${VENV}/collections
+    BIFROST_COLLECTIONS_PATHS=$ANSIBLE_COLLECTIONS_PATHS
+fi
+if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
+    mkdir -p "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack"
+    ln -s "$ANSIBLE_COLLECTION_SOURCE_PATH" "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack/cloud"
 fi
 
 # NOTE(pas-ha) the following is a temporary workaround for third-party CI
@@ -71,12 +64,6 @@ fi
 
 echo
 echo "To use bifrost, do"
-
-if [[ -n "${VENV-}" ]]; then
-    echo "source ${VENV}/bin/activate"
-else
-    echo "Prepend ~/.local/bin to your PATH if it is not that way already.."
-    echo ".. or use full path to local Ansible at ~/.local/bin/ansible-playbook"
-fi
+echo "source ${VENV}/bin/activate"
 echo "Then run playbooks as normal."
 echo
