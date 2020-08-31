@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    Support for storing introspection data in nginx has been removed. It was
+    useful before ironic-inspector started supporting storing data in the
+    database, which is the default nowadays.

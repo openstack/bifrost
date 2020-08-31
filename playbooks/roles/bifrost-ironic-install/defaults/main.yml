@@ -221,14 +221,6 @@ inspector_extra_kernel_options: "ipa-inspection-collectors=default,logs"
 # list of processing hooks for inspector.
 #inspector_processing_hooks:
 
-# Whether to store introspection data using the local Nginx web server as an
-# object storage service. DEPRECATED, the data can be stored in the database.
-inspector_store_data_in_nginx: false
-
-# When inspector_store_data_in_nginx is true, this is the URL of the Nginx
-# 'Swift' API endpoint.
-inspector_store_data_url: "http://localhost:{{ file_url_port }}"
-
 enable_inspector_discovery: true
 
 inspector_default_node_driver: "{{ 'manual-management' if enable_credential_less_deploy|bool else 'ipmi' }}"
