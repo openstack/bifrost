@@ -112,7 +112,7 @@
 - name: "Inspector - Enable port in firewalld"
   firewalld:
     port: "5050/tcp"
-    zone: "{{ 'libvirt' if testing else 'public' }}"
+    zone: "{{ 'libvirt' if testing | bool else firewalld_internal_zone }}"
     state: enabled
     permanent: yes
     immediate: yes

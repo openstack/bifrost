@@ -1,0 +1,50 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Enable firewalld"
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+
+- name: "Disable iptables (if enabled)"
+  service:
+    name: iptables
+    state: stopped
+    enabled: no
+  ignore_errors: true
+
+- name: "Create a firewalld zone"
+  firewalld:
+    zone: "{{ firewalld_internal_zone }}"
+    state: present
+    permanent: yes
+  register: new_zone_result
+  when: not testing | bool
+
+- name: "Reload firewalld if needed"
+  service:
+    name: firewalld
+    state: reloaded
+  when:
+    - new_zone_result is defined
+    - new_zone_result.changed
+
+- name: "Add the network interface to the new zone"
+  firewalld:
+    zone: "{{ firewalld_internal_zone }}"
+    interface: "{{ network_interface }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  when: not testing | bool

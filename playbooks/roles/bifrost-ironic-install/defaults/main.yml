@@ -45,6 +45,8 @@ skip_migrations: "{{ skip_bootstrap }}"
 # This is used in ipa_* so it must be before
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+# Our own firewalld zone, only applies when testing is false.
+firewalld_internal_zone: bifrost
 
 # Normally this would setting would be http in a bifrost installation
 # without TLS. This setting allows a user to override the setting in case
