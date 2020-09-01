@@ -22,9 +22,6 @@ network_mtu: 1500
 # Default ISO generation utility
 iso_gen_utility: "mkisofs"
 
-# Deprecated, remove in Queens release
-node_network_info: {}
-
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
