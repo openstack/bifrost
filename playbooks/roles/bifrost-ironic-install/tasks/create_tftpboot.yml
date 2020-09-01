@@ -42,7 +42,7 @@
 
 - name: "Download ipxe files if asked"
   include: get_ipxe.yml
-  when: download_ipxe | bool == true
+  when: download_ipxe | bool
 
 - name: "Copy iPXE image into place"
   copy:
@@ -88,7 +88,7 @@
           at the {{ ipxe_dir }} location.  Please place this file or consider
           re-running with download_ipxe set to a value of true.
       when:
-        - test_ipxe_efi_binary_path.stat.exists | bool == false
+        - not test_ipxe_efi_binary_path.stat.exists
 
     - name: "Copy iPXE EFI image into {{ http_boot_folder }}/"
       copy:
@@ -108,7 +108,7 @@
         mode: 0644
         remote_src: true
 
-  when: enable_uefi_ipxe | bool == true
+  when: enable_uefi_ipxe | bool
 
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."
@@ -117,7 +117,7 @@
 
 - name: "Create master_images folder"
   file: name="{{ ironic_tftp_master_path }}" state=directory owner=ironic group=ironic
-  when: test_master_images.stat.exists == false
+  when: not test_master_images.stat.exists
 
 # TODO(TheJulia): The pxelinux folder is statically coded in ironic.
 # For now, we need to use it, but we can patch that.
@@ -128,4 +128,4 @@
     owner: ironic
     group: ironic
     mode: 0644
-  when: enable_inspector | bool == true
+  when: enable_inspector | bool

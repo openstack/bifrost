@@ -26,5 +26,7 @@
   become: no
   connection: local
   roles:
-    - { role: bifrost-configdrives-dynamic, when: provision_state == "available" and maintenance | bool != true }
-    - { role: bifrost-deploy-nodes-dynamic, when: provision_state == "available" and maintenance | bool != true }
+    - { role: bifrost-configdrives-dynamic,
+        when: provision_state == "available" and maintenance | bool }
+    - { role: bifrost-deploy-nodes-dynamic,
+        when: provision_state == "available" and maintenance | bool }

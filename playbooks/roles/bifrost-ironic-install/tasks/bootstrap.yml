@@ -18,9 +18,9 @@
     msg: >
       noauth_mode and enable_keystone are mutually exclusive options.
       Please set one to "false".
-  when: >
-    noauth_mode | bool == true and enable_keystone is defined and
-    enable_keystone | bool == true
+  when:
+    - noauth_mode | bool
+    - enable_keystone | bool
 
 - block:
     - name: "Ask systemd to reload configuration"
@@ -161,7 +161,8 @@
 
 - name: "Populate keystone for Bifrost"
   include: keystone_setup.yml
-  when: enable_keystone is defined and enable_keystone | bool == true
+  when:
+    - enable_keystone | bool
 
 # NOTE(pas-ha) needed to e.g. pick up new interfaces after libvirt install
 - name: "Refresh facts"
@@ -186,16 +187,16 @@
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   environment: "{{ bifrost_venv_env }}"
-  when: >
-      ironic.database.host == 'localhost' and
-      test_created_db.changed | bool == true
+  when:
+    - ironic.database.host == 'localhost'
+    - test_created_db.changed | bool
 
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
   environment: "{{ bifrost_venv_env }}"
   when: >
       ironic.database.host != 'localhost' or
-      test_created_db.changed | bool == false
+      not test_created_db.changed | bool
 
 - name: "Create service folder"
   file:
@@ -205,7 +206,7 @@
 
 - name: "Install ironic-inspector to permit use of inspection interface"
   include: inspector_bootstrap.yml
-  when: enable_inspector | bool == true
+  when: enable_inspector | bool
 
 - name: "Get ironic-api & ironic-conductor install location"
   shell: echo $(dirname $(which ironic-api))
@@ -249,7 +250,7 @@
     owner: "root"
     group: "root"
     mode: 0755
-  when: inventory_dhcp | bool == true
+  when: inventory_dhcp | bool
 - name: "Setup Inventory DHCP Hosts Directory"
   file:
     path: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
@@ -257,19 +258,19 @@
     owner: "root"
     group: "root"
     mode: 0755
-  when: inventory_dhcp | bool == true
+  when: inventory_dhcp | bool
 - name: "Retrieve interface IP informations"
   set_fact:
     itf_infos: "{{ internal_interface }}"
     dhcp_netaddr: "{{ dhcp_pool_start }}/{{ dhcp_static_mask }}"
-  when: include_dhcp_server | bool == true
+  when: include_dhcp_server | bool
 - name: "Compute interface and DHCP network informations"
   set_fact:
     itf_netaddr1: "{{ itf_infos['address'] }}/{{ itf_infos['netmask'] }}"
     itf_netaddr2: "{{ itf_infos['network'] }}/{{ itf_infos['netmask'] }}"
     itf_broadcast: "{{ itf_infos['broadcast'] }}/{{ itf_infos['netmask'] }}"
     dhcp_netaddr: "{{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_static_mask }}"
-  when: include_dhcp_server | bool == true
+  when: include_dhcp_server | bool
 - name: "Validate interface network addresses"
   fail:
     msg: >
@@ -304,7 +305,7 @@
     dhcp_end_ip: "{{ dhcp_pool_end.split('.')[-1] }}"
     dhcp_netaddr: "{{ itf_netaddr1 | ipaddr('network') }}"
   when:
-    - include_dhcp_server | bool == true
+    - include_dhcp_server | bool
     - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
 # Note(olivierbourdon38): we could do much more complex network
 # computation to derive exact (or way closer to exact) range for
@@ -314,28 +315,30 @@
      dhcp_pool_start: "{{ '.'.join(dhcp_netaddr.split('.')[0:-1]) }}.{{ dhcp_start_ip }}"
      dhcp_pool_end: "{{ '.'.join(dhcp_netaddr.split('.')[0:-1]) }}.{{ dhcp_end_ip }}"
   when:
-    - include_dhcp_server | bool == true
+    - include_dhcp_server | bool
     - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
-  when: include_dhcp_server | bool == true
+  when: include_dhcp_server | bool
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt.
 - name: "Look for libvirt dnsmasq config"
   stat: path=/etc/dnsmasq.d/libvirt-bin
   register: test_libvirt_dnsmasq
-  when: include_dhcp_server | bool == true
+  when: include_dhcp_server | bool
 - name: "Disable libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
-  when: >
-     include_dhcp_server | bool == true and
-     test_libvirt_dnsmasq.stat.exists | bool == true and
-     testing | bool == true
+  when:
+    - include_dhcp_server | bool
+    - test_libvirt_dnsmasq.stat.exists
+    - testing | bool
 - name: "Deploy nginx configuration file for serving HTTP requests"
   template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 - name: "Download Ironic Python Agent kernel & image"
   include: download_ipa_image.yml
-  when: create_ipa_image | bool == false and download_ipa | bool == true
+  when:
+    - not create_ipa_image | bool
+    - download_ipa | bool
 - name: "Download cirros to use for deployment if requested"
   get_url:
     url: "{{ cirros_deploy_image_upstream_url }}"
@@ -343,7 +346,7 @@
     owner: ironic
     group: ironic
     mode: 0644
-  when: use_cirros | bool == true
+  when: use_cirros | bool
 - name: "Create a checksum file for cirros"
   shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
   args:

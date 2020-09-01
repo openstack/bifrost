@@ -7,5 +7,5 @@
     - role: ironic-enroll-dynamic
       delegate_to: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"
     - role: ironic-inspect-node
-      when: inspect_nodes | default('false') | bool == true
+      when: inspect_nodes | default('false') | bool
       delegate_to: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"

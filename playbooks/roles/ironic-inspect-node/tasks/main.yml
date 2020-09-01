@@ -26,7 +26,7 @@
     owner: root
     group: root
     mode: 0644
-  when: inventory_dhcp | bool == true
+  when: inventory_dhcp | bool
   become: yes
 - name: "Setup DNS address for nodes."
   template:
@@ -35,14 +35,14 @@
     owner: root
     group: root
     mode: 0644
-  when: inventory_dns | bool == true
+  when: inventory_dns | bool
   become: yes
 - name: "Sending dnsmasq HUP"
   # Note(TheJulia): We need to actually to send a hup signal directly as
   # Ansible's reloaded state does not pass through to the init script.
   command: killall -HUP dnsmasq
   become: yes
-  when: (inventory_dhcp | bool == true) or (inventory_dns | bool == true)
+  when: inventory_dhcp | bool or inventory_dns | bool
 
 - name: "Execute node introspection"
   openstack.cloud.baremetal_inspect:

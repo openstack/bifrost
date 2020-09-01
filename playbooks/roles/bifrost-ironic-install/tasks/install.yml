@@ -44,7 +44,7 @@
     package: ironic-python-agent-builder
     sourcedir: "{{ ipa_builder_git_folder }}"
     source_install: true
-  when: install_dib | bool == true
+  when: install_dib | bool
 
 # NOTE(mgoddard): IPA-builder has a dependency on diskimage-builder. Install
 # DIB last to ensure it is installed from source rather than PyPI.
@@ -55,7 +55,7 @@
     package: diskimage-builder
     sourcedir: "{{ dib_git_folder }}"
     source_install: true
-  when: install_dib | bool == true
+  when: install_dib | bool
 
 - name: "sushy - Install"
   include_role:
@@ -106,11 +106,11 @@
 
 - name: "Install ironic-inspector to permit use of inspection interface"
   include_tasks: inspector_install.yml
-  when: enable_inspector | bool == true
+  when: enable_inspector | bool
 
 - name: "Install ironic-staging-drivers"
   include_tasks: staging_install.yml
-  when: staging_drivers_include | bool == true
+  when: staging_drivers_include | bool
 
 - name: "Install openstacksdk"
   include_role:

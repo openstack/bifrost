@@ -35,15 +35,21 @@
 
 - name: "Install Keystone"
   include: install.yml
-  when: enable_keystone is defined and enable_keystone |bool == True and skip_package_install | bool != True
+  when:
+    - enable_keystone | bool
+    - not skip_package_install | bool
 
 - name: "Bootstrap Keystone"
   include: bootstrap.yml
-  when: enable_keystone is defined and enable_keystone |bool == True and skip_bootstrap | bool != True
+  when:
+    - enable_keystone | bool
+    - not skip_bootstrap | bool
 
 - name: "Start Keystone services"
   include: start.yml
-  when: enable_keystone is defined and enable_keystone |bool == True and skip_start | bool != True
+  when:
+    - enable_keystone | bool
+    - not skip_start | bool
 
 - name: "Change the bootstrap password from the static value on upgrade"
   os_user:

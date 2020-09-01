@@ -25,37 +25,39 @@
 - name: "Test if image is present - {{ dib_imagename }}.{{ dib_imagetype | default('qcow2') }}"
   stat: path={{ dib_imagename }}.{{ dib_imagetype | default('qcow2') }}
   register: test_image_dib_present
-  when: test_image_present.stat.exists == false
+  when: not test_image_present.stat.exists
   # Note(TheJulia): We need to explicitly test for initramfs in the case
   # that the ironic-python-agent-ramdisk element is used to build the image.
 - name: "Test if image is present - {{ dib_imagename }}.initramfs"
   stat: path={{ dib_imagename }}.initramfs
   register: test_image_initramfs_present
-  when: test_image_present.stat.exists == false and test_image_dib_present.stat.exists == false
+  when:
+    - not test_image_present.stat.exists
+    - not test_image_dib_present.stat.exists
 - name: "Build tracing (-x) option for disk-image-create"
   set_fact:
     dib_trace_arg: "-x"
-  when: dib_trace == true
+  when: dib_trace | bool
 - name: "Build uncompressed (-u) option for disk-image-create"
   set_fact:
     dib_uncompressed_arg: "-u"
-  when: dib_uncompressed == true
+  when: dib_uncompressed | bool
 - name: "Build clear environment (-c) option for disk-image-create"
   set_fact:
     dib_clearenv_arg: "-c"
-  when: dib_clearenv == true
+  when: dib_clearenv | bool
 - name: "Build no tmpfs (--no-tmpfs) option for disk-image-create"
   set_fact:
     dib_notmpfs_arg: "--no-tmpfs"
-  when: dib_notmpfs == true
+  when: dib_notmpfs | bool
 - name: "Build offline (--offline) option for disk-image-create"
   set_fact:
     dib_offline_arg: "--offline"
-  when: dib_offline == true
+  when: dib_offline | bool
 - name: "Build skip default base element (-n) option for disk-image-create"
   set_fact:
     dib_skipbase_arg: "-n"
-  when: dib_skipbase == true
+  when: dib_skipbase | bool
 - name: "Build architecture (-a) option for disk-image-create"
   set_fact:
     dib_arch_arg: "-a {{ dib_arch }}"
@@ -187,11 +189,11 @@
   package:
     name: debootstrap
     state: present
-  when: >
-    test_image_present.stat.exists == false
-    and test_image_dib_present.stat.exists == false
-    and test_image_initramfs_present.stat.exists == false
-    and ("debian" in dib_os_element or "ubuntu" in dib_os_element)
+  when:
+    - not test_image_present.stat.exists
+    - not test_image_dib_present.stat.exists
+    - not test_image_initramfs_present.stat.exists
+    - ("debian" in dib_os_element or "ubuntu" in dib_os_element)
 - name: "Initiate image build"
   command: disk-image-create {{ dib_arglist }}
   environment: "{{ dib_env_vars_final | combine(bifrost_venv_env) }}"

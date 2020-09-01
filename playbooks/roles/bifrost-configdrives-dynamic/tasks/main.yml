@@ -66,7 +66,7 @@
 
 - name: "Write network Debian style interface template"
   template: src=interfaces.j2 dest={{ variable_configdrive_location.path }}/{{ uuid }}/openstack/content/0000
-  when: write_interfaces_file | bool == true
+  when: write_interfaces_file | bool
 
 - name: "Check if mkisofs is available"
   command: mkisofs --help

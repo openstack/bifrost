@@ -30,7 +30,7 @@
       - upper_constraints_file | length > 0
       # NOTE(dtantsur): constraining does not work correctly correctly with
       # source installation if the package itself is in constraints.
-      - source_install | bool == false
+      - not source_install | bool
 
   - name: "Install {{ package }} package from pip using virtualenv"
     pip:

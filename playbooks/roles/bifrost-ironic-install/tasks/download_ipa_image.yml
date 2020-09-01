@@ -77,7 +77,7 @@
   delay: 10
   when:
     - update_ipa | bool or
-      test_ipa_kernel_present.stat.exists == false
+      not test_ipa_kernel_present.stat.exists
 
 - name: "Test if IPA image is present"
   stat: path={{ ipa_ramdisk }}
@@ -141,4 +141,4 @@
   delay: 10
   when:
     - update_ipa | bool or
-      test_ipa_image_present.stat.exists == false
+      not test_ipa_image_present.stat.exists

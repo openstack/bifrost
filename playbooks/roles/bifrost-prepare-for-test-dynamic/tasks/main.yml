@@ -36,19 +36,21 @@
   when: ipv4_address is defined
 - name: "Pause before asking for keyscan, to avoid races"
   pause: minutes=3
-  when: multinode_testing | bool == true
+  when: multinode_testing | bool
 - name: >
     Re-check SSH connectivity prior to proceeding with multi-node testing
   wait_for:
     state: started
     port: 22
     host: "{{ ipv4_address }}"
-  when: ipv4_address is defined and multinode_testing | bool == true
+  when:
+    - ipv4_address is defined
+    - multinode_testing | bool
 - name: >
     Additional SSH startup pause when performing multi-node testing
   pause:
     seconds: "{{ node_ssh_pause }}"
-  when: multinode_testing | bool == true
+  when: multinode_testing | bool
 - name: "Add testvm hosts from SSH known_hosts file."
   shell: ssh-keyscan "{{ ipv4_address }}" >> "{{ ansible_env.HOME }}/.ssh/known_hosts"
   when: ipv4_address is defined

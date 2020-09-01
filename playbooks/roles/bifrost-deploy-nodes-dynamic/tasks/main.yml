@@ -31,7 +31,7 @@
     owner: root
     group: root
     mode: 0644
-  when: inventory_dhcp | bool == true
+  when: inventory_dhcp | bool
   become: yes
 
 - name: "Setup DNS address for nodes."
@@ -41,7 +41,7 @@
     owner: root
     group: root
     mode: 0644
-  when: inventory_dns | bool == true
+  when: inventory_dns | bool
   become: yes
 
 - name: "Restarting dnsmasq"
@@ -49,7 +49,7 @@
     name: dnsmasq
     state: restarted
   become: yes
-  when: (inventory_dhcp | bool == true) or (inventory_dns | bool == true)
+  when: inventory_dhcp | bool or inventory_dns | bool
 
 - name: "Deploy to hardware - Using custom instance_info."
   openstack.cloud.baremetal_node_action:
@@ -76,7 +76,9 @@
 
 - name: "Error if deploy_image is not present, and instance_info is not defined"
   fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
-  when: instance_info is not defined and test_deploy_image.stat.exists | bool == false
+  when:
+    - instance_info is not defined
+    - not test_deploy_image.stat.exists
 
 - name: "Deploy to hardware - bifrost default"
   openstack.cloud.baremetal_node_action:

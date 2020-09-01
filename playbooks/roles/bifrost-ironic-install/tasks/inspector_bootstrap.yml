@@ -94,7 +94,7 @@
 
 - name: "Populate keystone for ironic-inspector "
   include: keystone_setup_inspector.yml
-  when: enable_keystone is defined and enable_keystone | bool == true
+  when: enable_keystone | bool
 
 - name: "Inspector - Place Configuration"
   template:

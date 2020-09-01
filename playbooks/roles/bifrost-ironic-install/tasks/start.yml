@@ -33,7 +33,7 @@
 
 - name: "start ironic-inspector"
   include: inspector_start.yml
-  when: enable_inspector | bool == true
+  when: enable_inspector | bool
 
 - name: "Start ironic-conductor"
   service: name=ironic-conductor state=started enabled=yes
@@ -62,7 +62,7 @@
   service: name={{ item }} state=restarted enabled=yes
   loop:
     - dnsmasq
-  when: include_dhcp_server | bool == true
+  when: include_dhcp_server | bool
 
 - name: "Send services a reload signal"
   service: name={{ item }} state=reloaded
@@ -72,4 +72,4 @@
 
 - name: "Send services a force-reload signal"
   service: name=dnsmasq state=restarted
-  when: include_dhcp_server | bool == true
+  when: include_dhcp_server | bool

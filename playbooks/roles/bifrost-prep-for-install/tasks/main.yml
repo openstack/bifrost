@@ -30,9 +30,13 @@
     update: "{{ update_repos | bool }}"
     clone: yes
   loop: "{{ bifrost_install_sources }}"
-  when: copy_from_local_path | bool == false and item.source_install | default(true) | bool
+  when:
+    - not copy_from_local_path | bool
+    - item.source_install | default(true) | bool
 
 - name: "Copy from local path"
   command: cp -a {{ item.git_url }} {{ item.git_folder }} creates={{ item.git_folder }}
   loop: "{{ bifrost_install_sources }}"
-  when: copy_from_local_path | bool == true and item.source_install | default(true) | bool
+  when:
+    - copy_from_local_path | bool
+    - item.source_install | default(true) | bool

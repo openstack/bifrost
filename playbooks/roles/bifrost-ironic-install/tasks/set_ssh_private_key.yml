@@ -8,7 +8,7 @@
 - name: "Defined ssh_private_key_path - Error if ssh_private_key_path is not valid"
   fail:
     msg: "ssh_private_key_path is not valid."
-  when: test_ssh_private_key_path.stat.exists == false
+  when: not test_ssh_private_key_path.stat.exists
   delegate_to: localhost
 
 - name: "Defined ssh_private_key_path - Read SSH private key in"

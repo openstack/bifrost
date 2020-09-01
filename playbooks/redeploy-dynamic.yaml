@@ -38,9 +38,11 @@
         skip_items: []
       register: node_info
   roles:
-    - { role: bifrost-unprovision-node-dynamic, when: (provision_state == "active"
-              or provision_state == "deploy failed"
-              or provision_state == "error") and maintenance | bool != true }
+    - { role: bifrost-unprovision-node-dynamic,
+        when: (provision_state == "active"
+          or provision_state == "deploy failed"
+          or provision_state == "error")
+          and (not maintenance | bool) }
   post_tasks:
     - name: "Pull ironic facts until provision state available"
       os_ironic_node_info:
@@ -58,8 +60,10 @@
   become: no
   connection: local
   roles:
-    - { role: bifrost-configdrives-dynamic, when: provision_state == "available" and maintenance | bool != true }
-    - { role: bifrost-deploy-nodes-dynamic, when: provision_state == "available" and maintenance | bool != true }
+    - { role: bifrost-configdrives-dynamic,
+        when: (provision_state == "available") and (not maintenance | bool) }
+    - { role: bifrost-deploy-nodes-dynamic,
+        when: (provision_state == "available") and (not maintenance | bool) }
   post_tasks:
     - name: "Pull ironic facts until provision state active"
       os_ironic_node_info:

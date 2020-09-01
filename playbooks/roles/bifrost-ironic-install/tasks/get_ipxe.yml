@@ -51,4 +51,4 @@
   delay: 10
   loop:
     - "{{ ipxe_efi_binary }}"
-  when: enable_uefi_ipxe | bool == true
+  when: enable_uefi_ipxe | bool

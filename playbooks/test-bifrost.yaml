@@ -178,8 +178,8 @@
   become: yes
   gather_facts: yes
   vars:
-    inventory_dhcp: "{{ inventory_dhcp | bool == true }}"
-    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool == true }}"
+    inventory_dhcp: "{{ inventory_dhcp | bool }}"
+    inventory_dhcp_static_ip: "{{ inventory_dhcp_static_ip | bool }}"
   roles:
     - { role: bifrost-test-dhcp, when: inventory_dhcp | bool }
   environment:

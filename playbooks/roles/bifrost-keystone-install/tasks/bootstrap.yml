@@ -140,10 +140,10 @@
     --bootstrap-internal-url="{{ keystone.bootstrap.internal_url | default(keystone_private_url) | default(keystone_api_url) }}"
     --bootstrap-region-id="{{ keystone.bootstrap.region_name }}"
   environment: "{{ bifrost_venv_env }}"
-  when: >
-    test_created_keystone_db.changed | bool == true and
-    keystone.bootstrap.enabled | bool == true and
-    keystone.database.host == 'localhost'
+  when:
+    - test_created_keystone_db.changed
+    - keystone.bootstrap.enabled | bool
+    - keystone.database.host == 'localhost'
 
 - name: "Reserve keystone admin port"
   sysctl:

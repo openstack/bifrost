@@ -58,19 +58,19 @@
 
 - name: "Install Ironic deps"
   include: install.yml
-  when: skip_package_install | bool != True
+  when: not skip_package_install | bool
 
 - name: "Bootstrap Ironic"
   include: bootstrap.yml
-  when: skip_bootstrap | bool != True
+  when: not skip_bootstrap | bool
 
 - name: "Start Ironic services"
   include: start.yml
-  when: skip_start | bool != True
+  when: not skip_start | bool
 
 - name: "Perform online data migrations"
   include: migrations.yml
-  when: skip_migrations | bool != True
+  when: not skip_migrations | bool
 
 - name: "Validate deployment"
   include: validate.yml
