@@ -45,6 +45,9 @@
     retries: "{{ pip_install_retries }}"
     delay: "{{ pip_install_delay }}"
     when: not source_install | bool
+    environment:
+      # NOTE(dtantsur): https://github.com/pypa/setuptools/issues/2353
+      SETUPTOOLS_USE_DISTUTILS: stdlib
 
   - name: "Install requirements from {{ sourcedir }} using pip"
     pip:
@@ -55,7 +58,7 @@
     retries: 5
     delay: 10
     when: source_install | bool
-    environment: "{{ bifrost_venv_env }}"
+    environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
 
   # NOTE(dtantsur): do not use constraints here, it does not work when the
   # package itself is constrained.
@@ -65,6 +68,6 @@
       editable: "{{ developer_mode | bool }}"
       extra_args: "{{ extra_args | default('') }}"
     when: source_install | bool
-    environment: "{{ bifrost_venv_env }}"
+    environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
 
   when: not skip_install | bool
