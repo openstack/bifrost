@@ -1,0 +1,5 @@
+---
+issues:
+  - |
+    Because of Ansible dependencies Bifrost only works on virtual environments
+    created with ``--system-site-packages``.

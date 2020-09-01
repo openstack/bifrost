@@ -12,16 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-# NOTE(hwoarang) The 'apt' module needs python-apt installed in the virtualenv
-# but it's not possible to do that. See https://github.com/ansible/ansible/issues/14468
-# python-apt only works if it's installed on the local system so we need to switch the
-# Ansible python interpreter.
 - name: "Update apt cache if Ubuntu/Debian"
   apt:
     update_cache: yes
   when: ansible_os_family == "Debian"
-  vars:
-    ansible_python_interpreter: '/usr/bin/python3'
 
 - name: "Load distribution defaults"
   include_vars: "{{ item }}"
@@ -36,16 +30,10 @@
     - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
 
-# NOTE(hwoarang) The 'apt' module needs python-apt installed in the virtualenv
-# but it's not possible to do that. See https://github.com/ansible/ansible/issues/14468
-# python-apt only works if it's installed on the local system so we need to switch the
-# Ansible python interpreter.
 - name: "Install required packages"
   package:
     name: "{{ required_packages }}"
     state: present
-  vars:
-    ansible_python_interpreter: '/usr/bin/python3'
 
 - name: ensure installation root folder exists
   become: yes

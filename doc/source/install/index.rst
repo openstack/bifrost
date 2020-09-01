@@ -279,6 +279,10 @@ before calling ``env-setup.sh``::
 If you're using the ansible playbooks directly (without the helper scripts),
 set the ``bifrost_venv_dir`` variables accordingly.
 
+.. note::
+   Because of Ansible dependencies Bifrost only supports virtual environments
+   created with ``--system-site-packages``.
+
 Pre-installation settings
 =========================
 
