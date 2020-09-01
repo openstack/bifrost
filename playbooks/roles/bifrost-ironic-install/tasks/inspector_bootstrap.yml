@@ -113,7 +113,7 @@
   loop:
     - "{{ inspector_log_dir | default('') }}"
     - "{{ inspector_ramdisk_logs_local_path | default('') }}"
-  when: item != ""
+  when: item | length > 0
 - name: "Upgrade inspector DB Schema"
   command: ironic-inspector-dbsync --config-file /etc/ironic-inspector/inspector.conf upgrade
   become: true

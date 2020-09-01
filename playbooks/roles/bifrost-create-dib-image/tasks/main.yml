@@ -107,7 +107,9 @@
 - name: "Build packages (-p) option for disk-image-create"
   set_fact:
     dib_packages_arg: "-p {{ dib_packages }}"
-  when: dib_packages is defined and dib_packages != ""
+  when:
+    - dib_packages is defined
+    - dib_packages | length > 0
 - name: "Set default of Debian Buster if building debian and not explicitly set, overwride with dib_os_release setting"
   set_fact:
     dib_os_release: "buster"
@@ -147,7 +149,7 @@
     dib_env_vars_final: "{{ dib_env_vars_final | combine({'DIB_BLOCK_DEVICE_CONFIG': dib_partitioning}) }}"
   when:
     - dib_partitioning is defined
-    - dib_partitioning|length > 0
+    - dib_partitioning | length > 0
 - name: "Set partitioning information if set"
   slurp:
     src: "{{ partitioning_file }}"
@@ -212,7 +214,9 @@
     mode: u=rwX,g=rX,o=rX
     recurse: yes
     state: directory
-  when: http_boot_folder is defined and http_boot_folder != ''
+  when:
+    - http_boot_folder is defined
+    - http_boot_folder | length > 0
 - name: "Restore proper context on created data for http_boot"
   command: restorecon -R {{ http_boot_folder }}
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
