@@ -22,6 +22,10 @@
     name: "{{ required_packages }}"
     state: present
 
+- name: "Ask systemd to reload configuration"
+  systemd:
+    daemon_reload: yes
+
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.

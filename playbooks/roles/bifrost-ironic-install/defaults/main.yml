@@ -49,6 +49,8 @@ network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 internal_interface: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4'] }}"
 internal_ip: "{{ internal_interface['address'] }}"
+# Our own firewalld zone, only applies when testing is false.
+firewalld_internal_zone: bifrost
 
 # Normally this would setting would be http in a bifrost installation
 # without TLS. This setting allows a user to override the setting in case
