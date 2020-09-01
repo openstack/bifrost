@@ -1,13 +1,6 @@
 Installation with Keystone
 ==========================
 
-.. NOTE:: Use of keystone with bifrost is a very new feature and should
-   be considered an advanced topic. Please feel free to reach out to the
-   bifrost contributors and the ironic community as a whole in the project's
-   `IRC`_ channel.
-
-.. _`IRC`: https://wiki.openstack.org/wiki/Ironic#IRC
-
 Bifrost can now install and make use of keystone. In order to enable
 this as part of the installation, the ``enable_keystone`` variable
 must be set to ``true``, either in ``playbooks/inventory/group_vars/target``
@@ -51,11 +44,11 @@ Ideally, when setting new defaults, they should be set in the
 Creation of clouds.yaml
 -----------------------
 
-By default, during bifrost installation, when keystone is enabled,
-a file will be written to the user's home directory that is executing
-the installation.  That file can be located at
-``~/.config/openstack/clouds.yaml``. The cloud that is written
-to that file is named ``bifrost``.
+By default, during bifrost installation, a file will be written to the user's
+home directory that is executing the installation. That file can be located at
+``~/.config/openstack/clouds.yaml``. The clouds that are written
+to that file are named ``bifrost`` (for regular users) and ``bifrost-admin``
+(for administrators).
 
 Creation of openrc
 ------------------
@@ -63,6 +56,7 @@ Creation of openrc
 Also by default, after bifrost installation and again, when keystone
 is enabled, a file will be written to the user's home directory that
 you can use to set the appropriate environment variables in your
-current shell to be able to use OpenStack utilities:
+current shell to be able to use OpenStack utilities::
 
-    . ~/openrc bifrost && openstack baremetal driver list
+    . ~/openrc bifrost
+    openstack baremetal driver list

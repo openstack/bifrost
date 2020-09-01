@@ -290,6 +290,5 @@ as a space-separated list of elements. This defaults to an empty string.
 
 Use Bifrost with Keystone
 =========================
-.. include:: keystone.rst
 
-
+Content moved, see :doc:`keystone`.
