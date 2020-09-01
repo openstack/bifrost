@@ -62,7 +62,7 @@
     # NOTE(TheJulia): This creates the guest image.
     - role: bifrost-create-dib-image
       dib_imagetype: "qcow2"
-      dib_imagename: "{{deploy_image}}"
+      dib_imagename: "{{ deploy_image }}"
       dib_os_element: "debian"
       dib_os_release: "buster"
       dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}"
@@ -162,7 +162,7 @@
     # serving these requests.
   - name: Power on remaining test VMs
     virt:
-      name: "{{item.key}}"
+      name: "{{ item.key }}"
       state: running
     with_dict: "{{ lookup('file', not_enrolled_data_file) | from_json }}"
     ignore_errors: yes

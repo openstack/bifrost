@@ -103,13 +103,13 @@
 
 - name: "Make config drive files"
   become: yes
-  command: "{{iso_gen_utility}} -R -V config-2 -o {{http_boot_folder}}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.path }}/{{ uuid }}"
+  command: "{{ iso_gen_utility }} -R -V config-2 -o {{ http_boot_folder }}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.path }}/{{ uuid }}"
 
 - name: "Make config drive files base64 encoded and gzip compressed"
   become:  yes
   shell: |
     set -o pipefail
-    gzip -c {{http_boot_folder}}/configdrive-{{ uuid }}.iso | base64 > {{http_boot_folder}}/configdrive-{{ uuid }}.iso.gz
+    gzip -c {{ http_boot_folder }}/configdrive-{{ uuid }}.iso | base64 > {{ http_boot_folder }}/configdrive-{{ uuid }}.iso.gz
   args:
     executable: /bin/bash
 
@@ -117,7 +117,7 @@
   become: yes
   file:
     state: absent
-    name: "{{http_boot_folder}}/configdrive-{{ uuid }}.iso"
+    name: "{{ http_boot_folder }}/configdrive-{{ uuid }}.iso"
 
 - name: "Cleanup configdrive temp folder"
   become: yes

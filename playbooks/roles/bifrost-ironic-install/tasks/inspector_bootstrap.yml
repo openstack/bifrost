@@ -125,7 +125,7 @@
 - name: "Inspector - Place service"
   template:
     src: systemd_template.j2
-    dest: "{{ init_dest_dir }}{{item.service_name}}.service"
+    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
     owner: root
     group: root
   # FIXME(dtantsur): this is an awkward way to use loop...
