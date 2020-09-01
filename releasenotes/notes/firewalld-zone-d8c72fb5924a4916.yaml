@@ -1,0 +1,11 @@
+---
+fixes:
+  - |
+    Instead of modifying the ``public`` firewalld zone, creates a new zone
+    ``bifrost`` and puts the ``network_interface`` in it. Set
+    ``firewalld_internal_zone=public`` to revert to the previous behavior.
+upgrade:
+  - |
+    Bifrost no longer adds ironic and ironic-inspector endpoints to the public
+    firewalld zone, the operator has to do it explicitly if external access
+    is expected.
