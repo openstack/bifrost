@@ -34,20 +34,25 @@
       ironic.keystone.default_username is undefined or
       ironic.keystone.default_password is undefined
 
-- name: "Ensure service project is present"
-  os_project:
-    name: "{{ ironic.service_catalog.project_name }}"
-    state: present
-    description: "Service Project"
-    domain_id: "default"
-    enabled: yes
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}/"
+- name: "Configure keystone auth"
+  set_fact:
+    keystone_auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default(keystone_api_url) }}"
       username: "{{ keystone.bootstrap.username }}"
       password: "{{ keystone.bootstrap.password }}"
       project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
       project_domain_id: "default"
       user_domain_id: "default"
+  no_log: true
+
+- name: "Ensure service project is present"
+  openstack.cloud.project:
+    name: "{{ ironic.service_catalog.project_name }}"
+    state: present
+    description: "Service Project"
+    domain_id: "default"
+    enabled: yes
+    auth: "{{ keystone_auth }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -58,13 +63,7 @@
     state: present
     domain: "default"
     default_project: "{{ ironic.service_catalog.project_name }}"
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
     update_password: always
     wait: yes
   environment: "{{ bifrost_venv_env }}"
@@ -75,13 +74,7 @@
     user: "{{ ironic.service_catalog.username }}"
     role: "admin"
     project: "{{ ironic.service_catalog.project_name }}"
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
     wait: yes
   environment: "{{ bifrost_venv_env }}"
   no_log: true
@@ -92,125 +85,60 @@
     name: "ironic"
     service_type: "baremetal"
     description: OpenStack Baremetal Service
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
     wait: yes
   environment: "{{ bifrost_venv_env }}"
+  register: baremetal_catalog_service
   no_log: true
-
-- name: "Check ironic admin endpoint exists"
-  command: |
-    openstack
-    --os-identity-api-version 3
-    --os-username "{{ keystone.bootstrap.username }}"
-    --os-password "{{ keystone.bootstrap.password }}"
-    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-    --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
-    endpoint list -f json --noindent --service baremetal --interface admin
-    --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-  no_log: true
-  register: test_ironic_admin_endpoint
-  ignore_errors: true
-  environment: "{{ bifrost_venv_env }}"
-
-- name: "Check ironic public endpoint exists"
-  command: |
-    openstack
-    --os-identity-api-version 3
-    --os-username "{{ keystone.bootstrap.username }}"
-    --os-password "{{ keystone.bootstrap.password }}"
-    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-    --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
-    endpoint list -f json --noindent --service baremetal --interface public
-    --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-  no_log: true
-  register: test_ironic_public_endpoint
-  ignore_errors: true
-  environment: "{{ bifrost_venv_env }}"
-
-- name: "Check ironic internal endpoint exists"
-  command: |
-    openstack
-    --os-identity-api-version 3
-    --os-username "{{ keystone.bootstrap.username }}"
-    --os-password "{{ keystone.bootstrap.password }}"
-    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-    --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
-    endpoint list -f json --noindent --service baremetal --interface internal
-    --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-  no_log: true
-  register: test_ironic_internal_endpoint
-  ignore_errors: true
-  environment: "{{ bifrost_venv_env }}"
 
 - name: "Create ironic admin endpoint"
-  command: |
-    openstack
-    --os-identity-api-version 3
-    --os-username "{{ keystone.bootstrap.username }}"
-    --os-password "{{ keystone.bootstrap.password }}"
-    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-    --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
-    endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal admin "{{ ironic.keystone.admin_url | default('http://127.0.0.1:6385/') }}"
+  openstack.cloud.endpoint:
+    state: present
+    service: "{{ baremetal_catalog_service.id }}"
+    endpoint_interface: admin
+    url: "{{ ironic.keystone.admin_url | default(ironic_api_url) }}"
+    region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    auth: "{{ keystone_auth }}"
   no_log: true
   environment: "{{ bifrost_venv_env }}"
-  when: test_ironic_admin_endpoint.rc != 0 or test_ironic_admin_endpoint.stdout == '[]'
 
 - name: "Setting external Ironic public URL"
   set_fact:
-    ironic_public_url: "{{ ironic.keystone.public_url | default('http://127.0.0.1:6385/') | replace('127.0.0.1', public_ip | default(internal_ip)) }}"
-  when: use_public_urls | default(false) | bool
+    ironic_public_url: "{{ api_protocol }}://{{ public_ip }}:6385/"
+  when: public_ip is defined
 
 - name: "Create ironic public endpoint"
-  command: |
-    openstack
-    --os-identity-api-version 3
-    --os-username "{{ keystone.bootstrap.username }}"
-    --os-password "{{ keystone.bootstrap.password }}"
-    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-    --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
-    endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal public "{{ ironic_public_url | default(ironic.keystone.public_url) | default('http://127.0.0.1:6385/') }}"
+  openstack.cloud.endpoint:
+    state: present
+    service: "{{ baremetal_catalog_service.id }}"
+    endpoint_interface: public
+    url: "{{ ironic.keystone.public_url | default(ironic_public_url) | default(ironic_api_url) }}"
+    region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    auth: "{{ keystone_auth }}"
   no_log: true
   environment: "{{ bifrost_venv_env }}"
-  when: test_ironic_public_endpoint.rc != 0 or test_ironic_public_endpoint.stdout == '[]'
 
 - name: "Setting internal Ironic URL"
   set_fact:
-    ironic_private_url: "{{ ironic.keystone.internal_url | default('http://127.0.0.1:6385/') | replace('127.0.0.1', private_ip) }}"
+    ironic_private_url: "{{ api_protocol }}://{{ private_ip }}:6385/"
   when: private_ip is defined and private_ip | length > 0
 
 - name: "Create ironic internal endpoint"
-  command: |
-    openstack
-    --os-identity-api-version 3
-    --os-username "{{ keystone.bootstrap.username }}"
-    --os-password "{{ keystone.bootstrap.password }}"
-    --os-auth-url "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-    --os-project-name "{{ keystone.bootstrap.project_name | default('admin') }}"
-    endpoint create --region "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
-    baremetal internal "{{ ironic_private_url | default(ironic.keystone.internal_url) | default('http://127.0.0.1:6385/') }}"
+  openstack.cloud.endpoint:
+    state: present
+    service: "{{ baremetal_catalog_service.id }}"
+    endpoint_interface: internal
+    url: "{{ ironic.keystone.internal_url | default(ironic_private_url) | default(ironic_api_url) }}"
+    region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    auth: "{{ keystone_auth }}"
   no_log: true
   environment: "{{ bifrost_venv_env }}"
-  when: test_ironic_internal_endpoint.rc != 0 or test_ironic_internal_endpoint.stdout == '[]'
 
 - name: "Create baremetal_admin role"
   openstack.cloud.identity_role:
     name: "baremetal_admin"
     state: present
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -218,13 +146,7 @@
   openstack.cloud.identity_role:
     name: "baremetal_observer"
     state: present
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -235,13 +157,7 @@
     description: "Baremetal Project"
     domain_id: "default"
     enabled: yes
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -251,13 +167,7 @@
     password: "{{ ironic.keystone.default_password }}"
     default_project: "baremetal"
     domain: "default"
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
     wait: yes
   environment: "{{ bifrost_venv_env }}"
   no_log: true
@@ -267,13 +177,7 @@
     user: "{{ ironic.keystone.default_username }}"
     role: "baremetal_admin"
     project: "baremetal"
-    auth:
-      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
-      username: "{{ keystone.bootstrap.username }}"
-      password: "{{ keystone.bootstrap.password }}"
-      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
-      project_domain_id: "default"
-      user_domain_id: "default"
+    auth: "{{ keystone_auth }}"
     wait: yes
   environment: "{{ bifrost_venv_env }}"
   no_log: true

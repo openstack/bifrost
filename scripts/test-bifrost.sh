@@ -176,7 +176,6 @@ ${ANSIBLE} -vvvv \
     -e wait_timeout=${PROVISION_WAIT_TIMEOUT} \
     -e noauth_mode=${NOAUTH_MODE} \
     -e enable_keystone=${ENABLE_KEYSTONE} \
-    -e use_public_urls=${ENABLE_KEYSTONE} \
     -e wait_for_node_deploy=${WAIT_FOR_DEPLOY} \
     -e not_enrolled_data_file=${BAREMETAL_DATA_FILE}.rest \
     -e skip_install=${CLI_TEST} \

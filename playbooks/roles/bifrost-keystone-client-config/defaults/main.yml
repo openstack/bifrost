@@ -1,6 +1,13 @@
 ---
-ironic_api_url: "http://localhost:6385"
-ironic_inspector_api_url: "http://localhost:5050"
+
+network_interface: "virbr0"
+ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
+
+# Service URLs used for communication with them.
+api_protocol: http
+ironic_api_url: "{{ api_protocol }}://{{ internal_ip }}:6385"
+ironic_inspector_api_url: "{{ api_protocol }}://{{ internal_ip }}:5050"
 
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"

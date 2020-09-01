@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    The first IPv4 address of the ``network_interface`` is now used for ironic
+    and ironic-inspector API URLs in ``clouds.yaml`` in ``openrc`` instead
+    of ``localhost``. Use ``ironic_api_url`` and ``ironic_inspector_api_url``
+    to override.
+fixes:
+  - |
+    Changes to keystone endpoint configuration are now automatically reflected
+    on existing endpoints.
+upgrade:
+  - |
+    The ``use_public_urls`` parameter is no longer supported, just provide
+    ``public_ip`` instead.
