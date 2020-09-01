@@ -8,7 +8,7 @@
 #    to 'active' state.
 #
 # To utilize:
-# export BIFROST_INVENTORY_SOURCE=<path to json, csv, or yaml data source>
+# export BIFROST_INVENTORY_SOURCE=<path to json or yaml data source>
 # ansible-playbook -vvvv -i inventory/bifrost_inventory.py redeploy-dynamic.yaml
 # NOTE: 'ironic' may be used as the data source, in which case ironic will
 # will be queried for all the nodes.

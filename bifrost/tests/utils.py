@@ -33,18 +33,6 @@ def temporary_file(file_data):
             file.close()
 
 
-def bifrost_csv_conversion(csv_data):
-    # TODO(TheJulia): To call prep feels like a bug and should be fixed.
-    (groups, hostvars) = inventory._prepare_inventory()
-    with temporary_file(csv_data) as file:
-        (groups, hostvars) = inventory._process_baremetal_csv(
-            file,
-            groups,
-            hostvars)
-    # NOTE(TheJulia): Returning separately so the file is closed first
-    return (groups, hostvars)
-
-
 def bifrost_data_conversion(data):
     (groups, hostvars) = inventory._prepare_inventory()
     with temporary_file(data) as file:

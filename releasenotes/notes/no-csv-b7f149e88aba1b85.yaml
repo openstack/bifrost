@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Support for the legacy CSV inventory format has been removed, only JSON and
+    YAML are supported now.

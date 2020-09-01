@@ -15,7 +15,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import csv
 import json
 import os
 import sys
@@ -65,10 +64,9 @@ of desired groups. Moreover, users can override the default 'baremetal'
 group by assigning a list of default groups to the test_vm_default_group
 variable.
 
-Presently, the base mode of operation reads a CSV file in the format
+Presently, the base mode of operation reads a JSON/YAML file in the format
 originally utilized by bifrost and returns structured JSON that is
-interpreted by Ansible.  This has since been extended to support the
-parsing of JSON and YAML data if they are detected in the file.
+interpreted by Ansible.
 
 Conceivably, this inventory module can be extended to allow for direct
 processing of inventory data from other data sources such as a configuration
@@ -78,7 +76,7 @@ user experience.
 How to use?
 -----------
 
-    export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.[csv|json|yaml]
+    export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.[json|yaml]
     ansible-playbook playbook.yaml -i inventory/bifrost_inventory.py
 
 One can also just directly invoke bifrost_inventory.py in order to see the
@@ -151,9 +149,6 @@ opts = [
     cfg.BoolOpt('list',
                 default=True,
                 help='List active hosts'),
-    cfg.BoolOpt('convertcsv',
-                default=False,
-                help='Converts a CSV inventory to JSON'),
 ]
 
 
@@ -176,24 +171,13 @@ def _prepare_inventory():
     return (groups, hostvars)
 
 
-def _val_or_none(array, location):
-    """Return any value that has a length"""
-    try:
-        if len(array[location]) > 0:
-            return array[location]
-        return None
-    except IndexError:
-        LOG.debug("Out of range value encountered.  Requested "
-                  "field %s Had: %s", location, array)
-
-
 def _process_baremetal_data(data_source, groups, hostvars):
     """Process data through as pre-formatted data"""
     with open(data_source, 'rb') as file_object:
         try:
             file_data = yaml.safe_load(file_object)
         except Exception as e:
-            LOG.debug("Failed to parse JSON or YAML: %s", e)
+            LOG.error("Failed to parse JSON or YAML: %s", e)
             raise Exception("Failed to parse JSON or YAML")
 
     node_names = os.environ.get('BIFROST_NODE_NAMES', None)
@@ -227,100 +211,6 @@ def _process_baremetal_data(data_source, groups, hostvars):
                 groups.update({group: {'hosts': []}})
             groups[group]['hosts'].append(host['name'])
         hostvars.update({host['name']: host})
-    return (groups, hostvars)
-
-
-def _process_baremetal_csv(data_source, groups, hostvars):
-    """Process legacy baremetal.csv format"""
-    node_names = os.environ.get('BIFROST_NODE_NAMES', None)
-    if node_names:
-        node_names = node_names.split(',')
-
-    with open(data_source, 'r') as file_data:
-        for row in csv.reader(file_data, delimiter=','):
-            if not row:
-                break
-            if len(row) == 1:
-                LOG.debug("Single entry line found when attempting "
-                          "to parse CSV file contents. Breaking "
-                          "out of processing loop.")
-                raise Exception("Invalid CSV file format detected, "
-                                "line ends with a single element")
-            host = {}
-            driver = None
-            driver_info = {}
-            power = {}
-            properties = {}
-            host['nics'] = [{
-                'mac': _val_or_none(row, 0)}]
-            # Temporary variables for ease of reading
-            management_username = _val_or_none(row, 1)
-            management_password = _val_or_none(row, 2)
-            management_address = _val_or_none(row, 3)
-
-            properties['cpus'] = _val_or_none(row, 4)
-            properties['ram'] = _val_or_none(row, 5)
-            properties['disk_size'] = _val_or_none(row, 6)
-            # Default CPU Architecture
-            properties['cpu_arch'] = "x86_64"
-            host['uuid'] = _val_or_none(row, 9)
-            host['name'] = _val_or_none(row, 10)
-
-            if node_names and host['name'] not in node_names:
-                continue
-
-            host['host_groups'] = ["baremetal"]
-            host['ipv4_address'] = _val_or_none(row, 11)
-            if ('ipv4_address' not in host or
-                    not host['ipv4_address']):
-                host['addressing_mode'] = "dhcp"
-                host['provisioning_ipv4_address'] = None
-            else:
-                host['ansible_ssh_host'] = host['ipv4_address']
-            # Note(TheJulia): We can't assign ipv4_address if we are
-            # using DHCP.
-            if (len(row) > 17 and 'addressing_mode' not in host):
-                host['provisioning_ipv4_address'] = row[18]
-            else:
-                host['provisioning_ipv4_address'] = host['ipv4_address']
-
-            # Default Driver unless otherwise defined or determined.
-            host['driver'] = "ipmi"
-
-            if len(row) > 15:
-                driver = _val_or_none(row, 16)
-                if driver:
-                    host['driver'] = driver
-
-            if "ipmi" in host['driver']:
-                # Set ipmi by default
-                host['driver'] = "ipmi"
-                power['ipmi_address'] = management_address
-                power['ipmi_username'] = management_username
-                power['ipmi_password'] = management_password
-                if len(row) > 12:
-                    power['ipmi_target_channel'] = _val_or_none(row, 12)
-                    power['ipmi_target_address'] = _val_or_none(row, 13)
-                    if (power['ipmi_target_channel'] and
-                            power['ipmi_target_address']):
-                        power['ipmi_bridging'] = 'single'
-                if len(row) > 14:
-                    power['ipmi_transit_channel'] = _val_or_none(row, 14)
-                    power['ipmi_transit_address'] = _val_or_none(row, 15)
-                    if (power['ipmi_transit_channel'] and
-                            power['ipmi_transit_address']):
-                        power['ipmi_bridging'] = 'dual'
-
-            # Group variables together under host.
-            # NOTE(TheJulia): Given the split that this demonstrates, where
-            # deploy details could possible be imported from a future
-            # inventory file format
-            driver_info['power'] = power
-            host['driver_info'] = driver_info
-            host['properties'] = properties
-
-            groups['baremetal']['hosts'].append(host['name'])
-            hostvars.update({host['name']: host})
     return (groups, hostvars)
 
 
@@ -401,19 +291,10 @@ def main():
                     groups,
                     hostvars)
             except Exception as e:
-                LOG.debug("File does not appear to be JSON or YAML - %s", e)
-                try:
-                    (groups, hostvars) = _process_baremetal_csv(
-                        data_source,
-                        groups,
-                        hostvars)
-                except Exception as e:
-                    LOG.debug("CSV fallback processing failed, "
-                              "received: %s", e)
-                    LOG.error("BIFROST_INVENTORY_SOURCE does not define "
-                              "a file that could be processed: "
-                              "Tried JSON, YAML, and CSV formats")
-                    sys.exit(1)
+                LOG.error("BIFROST_INVENTORY_SOURCE does not define "
+                          "a file that could be processed: %s."
+                          "Tried JSON and YAML formats", e)
+                sys.exit(1)
         elif "ironic" in data_source:
             if SDK_LOADED:
                 (groups, hostvars) = _process_sdk(groups, hostvars)
@@ -440,12 +321,9 @@ def main():
 
     # General Data Conversion
 
-    if not config.convertcsv:
-        inventory = {'_meta': {'hostvars': hostvars}}
-        inventory.update(groups)
-        print(json.dumps(inventory, indent=2))
-    else:
-        print(json.dumps(hostvars, indent=2))
+    inventory = {'_meta': {'hostvars': hostvars}}
+    inventory.update(groups)
+    print(json.dumps(inventory, indent=2))
 
 
 if __name__ == '__main__':

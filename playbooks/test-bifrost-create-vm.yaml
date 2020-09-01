@@ -6,17 +6,6 @@
   become: yes
   gather_facts: yes
   pre_tasks:
-    - name: "Warn if baremetal_csv_file is defined"
-      debug:
-        msg: >
-          "WARNING - 'baremetal_csv_file' variable is defined.
-          Its use is deprecated. The file created will be in JSON format.
-          Use 'baremetal_json_file' variable instead."
-      when: baremetal_csv_file is defined
-    - name: "Re-set baremetal json to csv file if defined"
-      set_fact:
-        baremetal_json_file: "{{ baremetal_csv_file }}"
-      when: baremetal_csv_file is defined
     - name: "Set default baremetal.json file if not already defined"
       set_fact:
          baremetal_json_file: "/tmp/baremetal.json"
