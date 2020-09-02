@@ -18,4 +18,4 @@
   register: test_image_present
 - name: "Create bootable image"
   include: create_bootable_image.yml
-  when: test_image_present.stat.exists | bool
+  when: test_image_present.stat.exists

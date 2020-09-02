@@ -58,8 +58,8 @@
 - name: "Place sgabios.bin"
   command: cp /usr/share/misc/sgabios.bin /usr/share/qemu/sgabios.bin
   when:
-    - not test_sgabios_qemu | bool
-    - test_sgabios_misc | bool
+    - not test_sgabios_qemu.stat.exists
+    - test_sgabios_misc.stat.exists
 
 # NOTE(TheJulia): In order to prevent conflicts, stop
 # dnsmasq to prevent conflicts with libvirt restarting.
