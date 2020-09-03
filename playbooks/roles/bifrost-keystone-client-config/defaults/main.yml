@@ -4,8 +4,10 @@ network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
 
+enable_tls: false
+
 # Service URLs used for communication with them.
-api_protocol: http
+api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
 ironic_api_url: "{{ api_protocol }}://{{ internal_ip }}:6385"
 ironic_inspector_api_url: "{{ api_protocol }}://{{ internal_ip }}:5050"
 

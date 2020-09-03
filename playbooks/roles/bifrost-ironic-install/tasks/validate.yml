@@ -44,6 +44,11 @@
     - not enable_keystone | bool
   no_log: yes
 
+- name: "Set OS_CACERT if required"
+  set_fact:
+    testing_env: "{{ testing_env | combine({'OS_CACERT': tls_certificate_path}) }}"
+  when: enable_tls | bool
+
 - name: "Validate API access and at least one conductor"
   command: baremetal conductor list -f value -c Hostname
   environment: "{{ testing_env | combine(bifrost_venv_env) }}"
@@ -76,6 +81,11 @@
     - not enable_keystone | bool
     - enable_inspector | bool
   no_log: yes
+
+- name: "Set OS_CACERT if required"
+  set_fact:
+    testing_env: "{{ testing_env | combine({'OS_CACERT': tls_certificate_path}) }}"
+  when: enable_tls | bool
 
 - name: "Validate introspection API access"
   command: baremetal introspection list

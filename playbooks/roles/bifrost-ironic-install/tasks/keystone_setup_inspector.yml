@@ -53,6 +53,7 @@
     default_project: "{{ ironic_inspector.service_catalog.project_name | default('service') }}"
     auth: "{{ keystone_auth }}"
     wait: yes
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -63,6 +64,7 @@
     project: "{{ ironic_inspector.service_catalog.project_name | default('service') }}"
     auth: "{{ keystone_auth }}"
     wait: yes
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -74,6 +76,7 @@
     description: OpenStack Baremetal Introspection Service
     auth: "{{ keystone_auth }}"
     wait: yes
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   register: introspection_catalog_service
   no_log: true
@@ -86,6 +89,7 @@
     url: "{{ ironic_inspector.keystone.admin_url | default(ironic_inspector_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   no_log: true
   environment: "{{ bifrost_venv_env }}"
 
@@ -102,6 +106,7 @@
     url: "{{ ironic_inspector.keystone.public_url | default(ironic_inspector_public_url) | default(ironic_inspector_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   no_log: true
   environment: "{{ bifrost_venv_env }}"
 
@@ -118,6 +123,7 @@
     url: "{{ ironic_inspector.keystone.internal_url | default(ironic_inspector_private_url) | default(ironic_inspector_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   no_log: true
   environment: "{{ bifrost_venv_env }}"
 
@@ -130,6 +136,7 @@
     auth: "{{ keystone_auth }}"
     update_password: always
     wait: yes
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true
 
@@ -140,5 +147,6 @@
     project: baremetal
     auth: "{{ keystone_auth }}"
     wait: yes
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   no_log: true

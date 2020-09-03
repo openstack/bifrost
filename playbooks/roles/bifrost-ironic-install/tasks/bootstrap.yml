@@ -144,6 +144,15 @@
     - not noauth_mode | bool
     - not enable_keystone | bool
 
+- name: "Generate TLS parameters"
+  include_role:
+    name: bifrost-tls
+  vars:
+    dest_private_key_path: "{{ ironic_private_key_path }}"
+    dest_private_key_owner: ironic
+    dest_private_key_group: ironic
+  when: enable_tls | bool
+
 - name: "Populate keystone for Bifrost"
   include: keystone_setup.yml
   when:

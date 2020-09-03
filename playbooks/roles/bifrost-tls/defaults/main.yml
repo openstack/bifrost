@@ -1,0 +1,34 @@
+---
+generate_tls: false
+
+# NOTE(dtantsur): we don't want to make our generated certificates accepted
+# system-wide, hence storing them here.
+tls_root: /etc/bifrost
+tls_certificate_path: "{{ tls_root }}/bifrost.crt"
+tls_private_key_path: "{{ tls_root }}/bifrost.pem"
+tls_csr_path: "{{ tls_root }}/bifrost.csr"
+
+# Force re-generating of certificates.
+tls_force_regenerate: false
+
+# Copy the resulting key to:
+#dest_private_key_path:
+dest_private_key_owner: root
+dest_private_key_group: root
+# Don't change this unless you really know what you're doing.
+dest_private_key_mode: 0600
+
+network_interface: "virbr0"
+ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+internal_interface: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4'] }}"
+internal_ip: "{{ internal_interface['address'] }}"
+
+# Common name for the certificate.
+tls_common_name: "{{ ansible_fqdn }}"
+tls_hosts: >-
+  {{ [internal_ip, '127.0.0.1']
+     + ([public_ip] if public_ip is defined else [])
+     + ([private_ip] if private_ip is defined else []) }}
+tls_host_names:
+  - localhost
+  - "{{ ansible_fqdn }}"

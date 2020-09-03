@@ -38,6 +38,14 @@
     - openstack_cloud is defined
   no_log: yes
 
+- name: "Set the TLS certificate if present"
+  set_fact:
+    tls_certificate_path: "{{ openstack_cloud.cacert }}"
+  when:
+    - tls_certificate_path is undefined
+    - openstack_cloud is defined
+    - openstack_cloud.cacert is defined
+
 - name: "If in noauth mode and no clouds.yaml, unset authentication parameters."
   set_fact:
     auth_type: None

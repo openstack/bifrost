@@ -1,0 +1,121 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+# TODO(dtantsur): can be removed in W
+- name: "Change the bootstrap password from the static value on upgrade"
+  openstack.cloud.identity_user:
+    name: "{{ keystone.bootstrap.username }}"
+    password: "{{ keystone.bootstrap.password }}"
+    update_password: always
+    state: present
+    domain: "default"
+    default_project: "{{ keystone.bootstrap.project_name }}"
+    auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default('http://127.0.0.1:5000/') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "ChangeThisPa55w0rd"
+      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
+      project_domain_id: "default"
+      user_domain_id: "default"
+    wait: yes
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
+  environment: "{{ bifrost_venv_env }}"
+  no_log: true
+  ignore_errors: true
+  when:
+    - test_created_keystone_db is undefined or not test_created_keystone_db.changed | bool
+    - keystone.bootstrap.enabled | bool
+    - keystone.database.host == 'localhost'
+
+# NOTE(dtantsur): these tasks are required for update from HTTP to HTTPS
+
+- name: "Configure keystone auth with http"
+  set_fact:
+    keystone_auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default(keystone_api_url) | replace('https:', 'http:') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
+      project_domain_id: "default"
+      user_domain_id: "default"
+  no_log: true
+  when: api_protocol == 'https'
+
+- name: "Configure keystone auth with https"
+  set_fact:
+    keystone_auth:
+      auth_url: "{{ ironic.service_catalog.auth_url | default(keystone_api_url) | replace('http:', 'https:') }}"
+      username: "{{ keystone.bootstrap.username }}"
+      password: "{{ keystone.bootstrap.password }}"
+      project_name: "{{ keystone.bootstrap.project_name | default('admin') }}"
+      project_domain_id: "default"
+      user_domain_id: "default"
+    # NOTE(dtantsur): we cannot use tls_certificate_path as it won't be present
+    # on an upgrade to non-TLS.
+    keystone_ca_cert: /etc/bifrost/bifrost.crt
+  no_log: true
+  when: api_protocol == 'http'
+
+- name: "Ensure keystone service record for keystone"
+  openstack.cloud.catalog_service:
+    state: present
+    name: "keystone"
+    service_type: "identity"
+    auth: "{{ keystone_auth }}"
+    wait: yes
+    ca_cert: "{{ keystone_ca_cert | default(omit) }}"
+  environment: "{{ bifrost_venv_env }}"
+  register: identity_catalog_service
+  ignore_errors: true
+  no_log: true
+
+- name: "Update identity internal endpoint"
+  openstack.cloud.endpoint:
+    state: present
+    service: "{{ identity_catalog_service.id }}"
+    endpoint_interface: internal
+    url: "{{ keystone.bootstrap.internal_url | default(keystone_private_url) | default(keystone_api_url) }}"
+    region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    auth: "{{ keystone_auth }}"
+    ca_cert: "{{ keystone_ca_cert | default(omit) }}"
+  ignore_errors: true
+  no_log: true
+  when: identity_catalog_service.id is defined
+
+- name: "Update identity admin endpoint"
+  openstack.cloud.endpoint:
+    state: present
+    service: "{{ identity_catalog_service.id }}"
+    endpoint_interface: admin
+    url: "{{ keystone.bootstrap.admin_url | default(keystone_api_url) }}"
+    region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    auth: "{{ keystone_auth }}"
+    ca_cert: "{{ keystone_ca_cert | default(omit) }}"
+  ignore_errors: true
+  no_log: true
+  when: identity_catalog_service.id is defined
+
+# NOTE(dtantsur): the public endpoint MUST go last, otherwise the other
+# endpoints will fail to update.
+- name: "Update identity public endpoint"
+  openstack.cloud.endpoint:
+    state: present
+    service: "{{ identity_catalog_service.id }}"
+    endpoint_interface: public
+    url: "{{ keystone.bootstrap.public_url | default(keystone_public_url) | default(keystone_api_url) }}"
+    region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
+    auth: "{{ keystone_auth }}"
+    ca_cert: "{{ keystone_ca_cert | default(omit) }}"
+  ignore_errors: true
+  no_log: true
+  when: identity_catalog_service.id is defined

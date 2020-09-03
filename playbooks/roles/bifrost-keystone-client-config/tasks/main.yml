@@ -31,6 +31,11 @@
     - "{{ config_region_name is defined }}"
     - "{{ config_auth_url is defined }}"
 
+- name: "Generate TLS parameters"
+  include_role:
+    name: bifrost-tls
+  when: enable_tls | bool
+
 - name: "Ensure the ~/.config exists"
   file:
     name: "~{{ user | default('root') }}/.config"

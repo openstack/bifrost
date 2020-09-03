@@ -13,16 +13,25 @@ clouds:
       project_domain_id: "{{ cloud.1.config_project_domain_id | default('default') }}"
       user_domain_id: "{{ cloud.1.config_user_domain_id | default('default') }}"
     identity_api_version: "3"
+{% if enable_tls | bool %}
+    cacert: "{{ tls_certificate_path }}"
+{% endif %}
 {% endfor %}
 {% elif noauth_mode | default(true) | bool %}
   bifrost:
     auth_type: "none"
     baremetal_endpoint_override: {{ ironic_api_url }}
     baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
+{% if enable_tls | bool %}
+    cacert: "{{ tls_certificate_path }}"
+{% endif %}
   # Deprecated
   bifrost-inspector:
     auth_type: "none"
     endpoint: {{ ironic_inspector_api_url }}
+{% if enable_tls | bool %}
+    cacert: "{{ tls_certificate_path }}"
+{% endif %}
 {% else %}
   bifrost:
     auth_type: "http_basic"
@@ -31,6 +40,9 @@ clouds:
       password: "{{ default_password }}"
       endpoint: {{ ironic_api_url }}
     baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
+{% if enable_tls | bool %}
+    cacert: "{{ tls_certificate_path }}"
+{% endif %}
   bifrost-admin:
     auth_type: "http_basic"
     auth:
@@ -38,4 +50,7 @@ clouds:
       password: "{{ admin_password }}"
       endpoint: {{ ironic_api_url }}
     baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
+{% if enable_tls | bool %}
+    cacert: "{{ tls_certificate_path }}"
+{% endif %}
 {% endif %}

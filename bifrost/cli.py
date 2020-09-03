@@ -154,6 +154,8 @@ def cmd_install(args):
             install_dib='true',
             network_interface=args.network_interface,
             enable_keystone=args.enable_keystone,
+            enable_tls=args.enable_tls,
+            generate_tls=args.enable_tls,
             noauth_mode='false',
             enabled_hardware_types=args.hardware_types,
             cleaning_disk_erase=args.cleaning_disk_erase,
@@ -220,6 +222,8 @@ def parse_args():
                          help='the network interface to use')
     install.add_argument('--enable-keystone', action='store_true',
                          help='enable keystone and use authentication')
+    install.add_argument('--enable-tls', action='store_true',
+                         help='enable self-signed TLS on API endpoints')
     install.add_argument('--hardware-types',
                          # only generic types are enabled in the simple CI
                          default='ipmi,redfish,manual-management',
