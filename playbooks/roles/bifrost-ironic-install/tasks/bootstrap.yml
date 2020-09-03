@@ -22,23 +22,8 @@
     - noauth_mode | bool
     - enable_keystone | bool
 
-- block:
-    - name: "Ask systemd to reload configuration"
-      systemd:
-        daemon_reload: yes
-
-    - name: "Enable firewalld"
-      service:
-        name: firewalld
-        state: started
-        enabled: yes
-
-    - name: "Disable iptables (if enabled)"
-      service:
-        name: iptables
-        state: stopped
-        enabled: no
-      ignore_errors: true
+- name: "Setup firewalld"
+  include_tasks: setup_firewalld.yml
   when: ansible_distribution in ["CentOS", "RedHat"]
 
 # NOTE(sean-k-mooney) only the RabbitMQ server and MySQL db are started
@@ -370,7 +355,7 @@
 - name: "Enable services in firewalld"
   firewalld:
     service: "{{ item }}"
-    zone: "{{ 'libvirt' if testing | bool else 'public' }}"
+    zone: "{{ 'libvirt' if testing | bool else firewalld_internal_zone }}"
     state: enabled
     permanent: yes
     immediate: yes
@@ -383,7 +368,7 @@
 - name: "Enable ports in firewalld"
   firewalld:
     port: "{{ item }}/tcp"
-    zone: "{{ 'libvirt' if testing | bool else 'public' }}"
+    zone: "{{ 'libvirt' if testing | bool else firewalld_internal_zone }}"
     state: enabled
     permanent: yes
     immediate: yes

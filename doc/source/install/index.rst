@@ -62,8 +62,15 @@ For the machine that hosts Bifrost you'll need to figure out:
 
 * The network interface you're going to use for communication between the bare
   metal machines and the Bifrost services.
+
+  On systems using firewalld (CentOS and RHEL currently), a new zone
+  ``bifrost`` will be created, and the network interface will be moved to it.
+  DHCP, PXE and API services will only be added to this zone. If you need any
+  of them available in other zones, you need to configure firewall yourself.
+
 * Pool of IP addresses for DHCP (must be within the network configured on the
   chosen network interface).
+
 * Whether you want the services to use authentication via Keystone_.
 
 For each machine that is going to be enrolled in the Bare Metal service you'll
