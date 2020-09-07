@@ -1,12 +1,8 @@
 ---
 init_dest_dir: /usr/lib/systemd/system/
-# NOTE (cinerama): The iPXE binaries are not currently packaged for SuSE,
-# so we download them and install them to /usr/local/share/ipxe. If the
-# files are packaged, download_ipxe can be removed and ipxe_dir set to
-# the location of the packaged files.
-download_ipxe: true
-ipxe_dir: /usr/local/share/ipxe
-ipxe_full_binary: ipxe.pxe
+ipxe_dir: /usr/share/ipxe
+ipxe_full_binary: ipxe.lkrn
+ipxe_efi_binary: ipxe-x86_64.efi
 ironic_rootwrap_dir: /usr/bin/
 nginx_user: nginx
 mysql_service_name: mysql
@@ -21,6 +17,7 @@ required_packages:
   - libxslt-devel
   - openssl-devel
   - libxml2-devel
+  - ipxe-bootimgs
   - qemu-ipxe
   - tftp
   - xinetd
