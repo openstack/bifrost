@@ -155,8 +155,7 @@
 
 - name: "Populate keystone for Bifrost"
   include: keystone_setup.yml
-  when:
-    - enable_keystone | bool
+  when: enable_keystone | bool
 
 # NOTE(pas-ha) needed to e.g. pick up new interfaces after libvirt install
 - name: "Refresh facts"
@@ -183,14 +182,13 @@
   environment: "{{ bifrost_venv_env }}"
   when:
     - ironic.database.host == 'localhost'
-    - test_created_db.changed | bool
+    - test_created_db.changed
 
 - name: "Upgrade ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf upgrade
   environment: "{{ bifrost_venv_env }}"
-  when: >
-      ironic.database.host != 'localhost' or
-      not test_created_db.changed | bool
+  when: ironic.database.host != 'localhost'
+        or not test_created_db.changed
 
 - name: "Create service folder"
   file:

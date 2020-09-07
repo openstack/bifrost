@@ -22,7 +22,7 @@
 - name: "Defined ssh_public_key_path - Error if ssh_public_key_path is not valid"
   fail:
     msg: "ssh_public_key_path is not valid."
-  when: not test_ssh_public_key_path.stat.exists | bool
+  when: not test_ssh_public_key_path.stat.exists
   delegate_to: localhost
 
 - name: "Defined ssh_public_key_path - Read SSH public key in"
