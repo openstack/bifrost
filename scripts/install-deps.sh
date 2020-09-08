@@ -1,5 +1,10 @@
 #!/bin/bash
-set -xeu
+
+set -eu
+
+if [[ "${BIFROST_TRACE:-}" == true ]]; then
+    set -x
+fi
 
 declare -A PKG_MAP
 
@@ -13,6 +18,8 @@ CHECK_CMD_PKGS=(
     python3
     python3-pip
 )
+
+echo Detecting package manager
 
 source /etc/os-release || source /usr/lib/os-release
 case ${ID,,} in
@@ -58,6 +65,9 @@ case ${ID,,} in
     rhel|fedora|centos)
     OS_FAMILY="RedHat"
     PKG_MANAGER=$(which dnf || which yum)
+    if [[ "${BIFROST_TRACE:-}" != true ]]; then
+        PKG_MANAGER="$PKG_MANAGER --quiet"
+    fi
     INSTALLER_CMD="sudo -H -E ${PKG_MANAGER} -y install"
     CHECK_CMD="rpm -q"
     PKG_MAP=(
@@ -71,6 +81,8 @@ case ${ID,,} in
 
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
 esac
+
+echo Installing Python and PIP
 
 for pkg in ${CHECK_CMD_PKGS[@]}; do
     if ! $(${CHECK_CMD} ${PKG_MAP[$pkg]} &>/dev/null); then
@@ -86,23 +98,36 @@ if [ "${#EXTRA_PKG_DEPS[@]}" -ne 0 ]; then
     done
 fi
 
-echo "NOTICE: Using virtualenv for this installation."
 if [ ! -f ${VENV}/bin/activate ]; then
+    echo "Creating a virtual environment"
+
     # only create venv if one doesn't exist
     sudo -H -E python3 -m venv --system-site-packages ${VENV}
     sudo -H -E chown -R ${USER} ${VENV}
+else
+    echo "Virtual environment exists, skipping creation"
+
+    # NOTE(dtantsur): place here any actions required to upgrade existing
+    # virtual environments.
 fi
+
 # Note(cinerama): activate is not compatible with "set -u";
 # disable it just for this line.
-set +u
+set +ux
 . ${VENV}/bin/activate
 set -u
+if [[ "${BIFROST_TRACE:-}" == true ]]; then
+    set -x
+fi
 VIRTUAL_ENV=${VENV}
 
 # If we're using a venv, we need to work around sudo not
 # keeping the path even with -E.
 PYTHON="python3"
 PIP="${PYTHON} -m pip"
+if [[ "${BIFROST_TRACE:-}" != true ]]; then
+    PIP="$PIP --quiet"
+fi
 
 $PYTHON << EOF
 import pip
@@ -112,10 +137,10 @@ EOF
 
 export PIP_OPTS="--upgrade-strategy only-if-needed"
 
-# Install the rest of required packages using bindep
+echo "Installing bindep"
 ${PIP} install bindep
 
-echo "Using Bindep to install binary dependencies..."
+echo "Using Bindep to install binary dependencies"
 # bindep returns 1 if packages are missing
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
 
