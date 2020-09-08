@@ -176,3 +176,29 @@
     parent: openstack-tox-linters
     required-projects:
       - openstack/ansible-collections-openstack
+
+- job:
+    name: bifrost-upgrade
+    parent: bifrost-base
+    run: playbooks/ci/upgrade.yaml
+    timeout: 9600
+    vars:
+      upgrade_from: stable/victoria
+      skip_upgrade:
+        - openstack/diskimage-builder
+        - openstack/ironic-python-agent-builder
+
+- job:
+    name: bifrost-upgrade-ubuntu-focal
+    parent: bifrost-upgrade
+    nodeset: ubuntu-focal
+
+- job:
+    name: bifrost-upgrade-keystone-centos8
+    parent: bifrost-upgrade
+    nodeset: centos-8-stream
+    required-projects:
+      - openstack/keystone
+    vars:
+      enable_keystone: true
+      noauth_mode: false
