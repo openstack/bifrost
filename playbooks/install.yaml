@@ -37,9 +37,7 @@
         enable-serial-console
         {{ dib_init_element|default('simple-init') }}
         {{ extra_dib_elements|default('') }}
-      when:
-        - create_image_via_dib | bool
-        - not transform_boot_image | bool
+      when: create_image_via_dib | bool
   environment:
     http_proxy: "{{ lookup('env','http_proxy') }}"
     https_proxy: "{{ lookup('env','https_proxy') }}"

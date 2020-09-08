@@ -1,0 +1,3 @@
+other:
+  - |
+    Removes the no longer used ``transform_boot_image`` variable.

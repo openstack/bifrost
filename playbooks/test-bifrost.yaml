@@ -66,7 +66,7 @@
       dib_os_element: "debian"
       dib_os_release: "buster"
       dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}"
-      when: create_image_via_dib | bool and not transform_boot_image | bool
+      when: create_image_via_dib | bool
     - role: bifrost-keystone-client-config
       user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
       clouds:

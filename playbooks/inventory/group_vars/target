@@ -54,11 +54,6 @@ mysql_password:
 create_image_via_dib: true
 dib_image_type: vm
 
-# Transform boot image is intended for use with the Ubuntu trusty image.
-# It makes the image bootable by installing Grub.
-# Setting to prepend a partition image with a boot sector and partition table.
-transform_boot_image: false
-
 # Create IPA image instead of downloading an pre-made IPA image.
 create_ipa_image: false
 

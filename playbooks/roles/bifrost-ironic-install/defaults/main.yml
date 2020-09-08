@@ -24,8 +24,6 @@ create_image_via_dib: true
 dib_image_type: vm
 # Setting to install diskimage-builder
 install_dib: "{{ create_image_via_dib }}"
-# Setting to prepend a partition image with a boot sector and partition table.
-transform_boot_image: false
 # If testing is true, then the environment is setup for using libvirt
 # virtual machines for the hardware instead of real hardware.
 testing: false
