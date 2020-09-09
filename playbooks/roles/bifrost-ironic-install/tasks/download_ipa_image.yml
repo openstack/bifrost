@@ -19,45 +19,24 @@
   stat: path={{ ipa_kernel }}
   register: test_ipa_kernel_present
 
-- block:
-  - name: "Download IPA kernel checksum file"
-    get_url:
-      url: "{{ ipa_kernel_upstream_checksum_url }}"
-      dest: "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
-      timeout: 300
-      owner: ironic
-      group: ironic
-      mode: 0644
-    register: ipa_kernel_checksum_result
-    ignore_errors: yes
-  - debug:
-      msg: "WARNING!!! {{ ipa_kernel_upstream_checksum_algo }} file not found at {{ ipa_kernel_upstream_checksum_url }}"
-    when:
-      - ipa_kernel_checksum_result is defined
-      - ipa_kernel_checksum_result.status_code is defined
-      - ipa_kernel_checksum_result.status_code == 404
-  - fail:
-      msg: "FATAL {{ ipa_kernel_upstream_checksum_algo }} file not found at {{ ipa_kernel_upstream_checksum_url }} GOT {{ ipa_kernel_checksum_result }}"
-    when: >
-      ipa_kernel_checksum_result is not defined
-      or ipa_kernel_checksum_result.changed is not defined
-      or (ipa_kernel_checksum_result.changed
-          and ipa_kernel_checksum_result.status_code is defined
-          and ipa_kernel_checksum_result.status_code != 404
-          and ipa_kernel_checksum_result.status_code != 200)
-  - name: "Extract IPA kernel checksum"
-    shell: awk '/{{ ipa_kernel_upstream_url | basename }}/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
-    register: parsed_ipa_kernel_checksum
-    when: not ipa_kernel_checksum_result is failed
-  - fail:
-      msg: "Failed to extract checksum for {{ ipa_kernel_upstream_url | basename }}"
-    when:
-      - not ipa_kernel_checksum_result is failed
-      - not parsed_ipa_kernel_checksum.stdout
-  - set_fact:
-      ipa_kernel_checksum: "{{ ipa_kernel_upstream_checksum_algo }}:{{ parsed_ipa_kernel_checksum.stdout }}"
-    when: not ipa_kernel_checksum_result is failed
-  when: ipa_kernel_upstream_checksum_url | length > 0
+- name: "Download IPA kernel checksum file"
+  get_url:
+    url: "{{ ipa_kernel_upstream_checksum_url }}"
+    dest: "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
+    timeout: 300
+    force: yes
+    owner: ironic
+    group: ironic
+    mode: 0644
+
+- name: "Extract IPA kernel checksum"
+  command: awk '/{{ ipa_kernel_upstream_url | basename }}/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
+  register: parsed_ipa_kernel_checksum
+  failed_when: parsed_ipa_kernel_checksum is failed
+               or not parsed_ipa_kernel_checksum.stdout
+
+- set_fact:
+    ipa_kernel_checksum: "{{ ipa_kernel_upstream_checksum_algo }}:{{ parsed_ipa_kernel_checksum.stdout }}"
 
 - name: "Download IPA kernel"
   get_url:
@@ -83,45 +62,24 @@
   stat: path={{ ipa_ramdisk }}
   register: test_ipa_image_present
 
-- block:
-  - name: "Download IPA image checksum"
-    get_url:
-      url: "{{ ipa_ramdisk_upstream_checksum_url }}"
-      dest: "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
-      timeout: 300
-      owner: ironic
-      group: ironic
-      mode: 0644
-    register: ipa_ramdisk_checksum_result
-    ignore_errors: yes
-  - debug:
-      msg: "WARNING!!! {{ ipa_ramdisk_upstream_checksum_algo }} file not found at {{ ipa_ramdisk_upstream_checksum_url }}"
-    when:
-      - ipa_ramdisk_checksum_result is defined
-      - ipa_ramdisk_checksum_result.status_code is defined
-      - ipa_ramdisk_checksum_result.status_code == 404
-  - fail:
-      msg: "FATAL {{ ipa_ramdisk_upstream_checksum_algo }} file not found at {{ ipa_ramdisk_upstream_checksum_url }}"
-    when: >
-      ipa_ramdisk_checksum_result is not defined
-      or ipa_ramdisk_checksum_result.changed is not defined
-      or (ipa_ramdisk_checksum_result.changed
-          and ipa_ramdisk_checksum_result.status_code is defined
-          and ipa_ramdisk_checksum_result.status_code != 404
-          and ipa_ramdisk_checksum_result.status_code != 200)
-  - name: "Extract IPA ramdisk checksum"
-    shell: awk '/{{ ipa_ramdisk_upstream_url | basename }}/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
-    register: parsed_ipa_ramdisk_checksum
-    when: not ipa_ramdisk_checksum_result is failed
-  - fail:
-      msg: "Failed to extract checksum for {{ ipa_ramdisk_upstream_url | basename }}"
-    when:
-      - not ipa_ramdisk_checksum_result is failed
-      - not parsed_ipa_ramdisk_checksum.stdout
-  - set_fact:
-      ipa_ramdisk_checksum: "{{ ipa_ramdisk_upstream_checksum_algo }}:{{ parsed_ipa_ramdisk_checksum.stdout }}"
-    when: not ipa_ramdisk_checksum_result is failed
-  when: ipa_ramdisk_upstream_checksum_url | length > 0
+- name: "Download IPA image checksum"
+  get_url:
+    url: "{{ ipa_ramdisk_upstream_checksum_url }}"
+    dest: "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
+    timeout: 300
+    force: yes
+    owner: ironic
+    group: ironic
+    mode: 0644
+
+- name: "Extract IPA ramdisk checksum"
+  command: awk '/{{ ipa_ramdisk_upstream_url | basename }}/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
+  register: parsed_ipa_ramdisk_checksum
+  failed_when: parsed_ipa_ramdisk_checksum is failed
+               or not parsed_ipa_ramdisk_checksum.stdout
+
+- set_fact:
+    ipa_ramdisk_checksum: "{{ ipa_ramdisk_upstream_checksum_algo }}:{{ parsed_ipa_ramdisk_checksum.stdout }}"
 
 - name: "Download IPA image"
   get_url:
