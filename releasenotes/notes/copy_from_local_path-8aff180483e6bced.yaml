@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Correctly updates repositories copied with ``copy_from_local_path``.
+  - |
+    When copying repositories using ``copy_from_local_path``, make sure
+    they are consistently owned by the local user. Previously some
+    repositories could end up owned by ``root``.

@@ -35,7 +35,13 @@
     - item.source_install | default(true) | bool
 
 - name: "Copy from local path"
-  command: cp -a {{ item.git_url }} {{ item.git_folder }} creates={{ item.git_folder }}
+  copy:
+    src: "{{ item.git_url }}/"
+    dest: "{{ item.git_folder }}/"
+    remote_src: yes
+    force: "{{ update_repos | bool }}"
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
+    group: "{{ ansible_user_gid }}"
   loop: "{{ bifrost_install_sources }}"
   when:
     - copy_from_local_path | bool
