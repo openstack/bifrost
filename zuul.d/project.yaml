@@ -30,11 +30,25 @@
         - bifrost-integration-dibipa-debian-centos-8:
             voting: false
         - bifrost-cli-ubuntu-bionic:
-           voting: false
+            voting: false
         - bifrost-collections-src:
-           voting: false
+            voting: false
         - bifrost-keystone-collections-src:
-           voting: false
+            voting: false
+        - kolla-ansible-centos8-source-bifrost:
+            voting: false
+            # NOTE(yoctozepto): to override from job definition
+            files: .*
+            irrelevant-files:
+              - ^.*\.rst$
+              - ^bifrost/tests/.*$
+              - ^api-ref/.*$
+              - ^doc/.*$
+              - ^releasenotes/.*$
+              - ^setup.cfg$
+              - ^test-requirements.txt$
+              - ^tools/.*$
+              - ^tox.ini$
     gate:
       jobs:
         - bifrost-tox-linters
