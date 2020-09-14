@@ -163,7 +163,6 @@ export BIFROST_INVENTORY_SOURCE=${BAREMETAL_DATA_FILE}
 ${ANSIBLE} -vvvv \
     -i inventory/bifrost_inventory.py \
     ${TEST_PLAYBOOK} \
-    -e ansible_python_interpreter="${ANSIBLE_PYTHON_INTERP}" \
     -e use_cirros=${USE_CIRROS} \
     -e testing_user=${TESTING_USER} \
     -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
