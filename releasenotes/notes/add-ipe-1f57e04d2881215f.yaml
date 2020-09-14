@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Adds support to install the Ironic Prometheus Exporter. It can be done
+    through the ``bifrost-cli`` using ``--enable-prometheus-exporter`` option,
+    or when setting `enable_prometheus_expoter=True` when deploying.

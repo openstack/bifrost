@@ -16,3 +16,4 @@
         TEST_VM_NODE_DRIVER: "{{ test_driver | default('ipmi') }}"
         NOAUTH_MODE: "{{ noauth_mode | default(false) | bool | lower }}"
         ENABLE_TLS: "{{ enable_tls | default(false) | bool | lower }}"
+        ENABLE_PROMETHEUS_EXPORTER: "{{ enable_prometheus_exporter | default(false) | bool | lower }}"

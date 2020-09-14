@@ -119,3 +119,7 @@
     package: openstacksdk
     sourcedir: "{{ openstacksdk_git_folder }}"
     source_install: "{{ openstacksdk_source_install }}"
+
+- name: "Install Ironic Prometheus Exporter"
+  include_tasks: prometheus_exporter_install.yml
+  when: enable_prometheus_exporter | bool

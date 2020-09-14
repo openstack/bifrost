@@ -19,6 +19,7 @@ ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
 sushy_source_install: false
 staging_drivers_source_install: true
+prometheus_exporter_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: true
 dib_image_type: vm
@@ -110,6 +111,7 @@ ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
 ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
 ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
+prometheus_exporter_git_url: https://opendev.org/openstack/ironic-prometheus-exporter
 mysql_username: "root"
 mysql_password: ""
 disable_dnsmasq_dns: True
@@ -124,6 +126,7 @@ ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
 sushy_git_folder: /opt/stack/sushy
 ipa_git_folder: /opt/stack/ironic-python-agent
 ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
+prometheus_exporter_git_folder: /opt/stack/ironic-prometheus-exporter
 
 enabled_hardware_types: "ipmi,redfish,manual-management,ilo"
 default_deploy_interface: "direct"
@@ -351,3 +354,14 @@ tls_root: /etc/bifrost
 tls_certificate_path: "{{ tls_root }}/bifrost.crt"
 ironic_private_key_path: /etc/ironic/ironic.pem
 ironic_inspector_private_key_path: /etc/ironic-inspector/inspector.pem
+
+# Enable Ironic Prometheus Exporter
+enable_prometheus_exporter: false
+prometheus_exporter_host: "{{ internal_ip }}"
+prometheus_exporter_port: 9608
+# directory to save the node metrics
+prometheus_exporter_data_dir: /var/lib/ironic-prometheus-exporter/data
+# interval to collect sensor data
+sensor_data_interval: 90
+# sensor data should be collected from undeployed nodes
+sensor_data_undeployed_nodes: false

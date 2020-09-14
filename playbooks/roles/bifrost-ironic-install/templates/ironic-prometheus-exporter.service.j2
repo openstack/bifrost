@@ -1,0 +1,10 @@
+[Unit]
+Description=Ironic Prometheus Exporter Flask App
+
+[Service]
+Type=simple
+Restart=on-failure
+ExecStart={{ bifrost_venv_dir }}/bin/gunicorn ironic_prometheus_exporter.app.wsgi:application \
+    --bind {{ prometheus_exporter_host }}:{{ prometheus_exporter_port}} \
+    --env IRONIC_CONFIG=/etc/ironic/ironic.conf \
+    --workers 2 --threads 2 --access-logfile=- --error-logfile=-

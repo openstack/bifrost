@@ -48,6 +48,10 @@
     - xinetd
     - nginx
 
+- name: "Start ironic-prometheus-exporter"
+  include: prometheus_exporter_start.yml
+  when: enable_prometheus_exporter | bool and not skip_start | bool
+
 # Multiple dnsmasqs are likely running, so lets tell the service manager
 # to at least try stopping dnsmasq for us.
 - name: "Stop dnsmasq explicitly."

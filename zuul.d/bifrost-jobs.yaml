@@ -82,10 +82,12 @@
     nodeset: ubuntu-bionic
     required-projects:
       - openstack/keystone
+      - openstack/ironic-prometheus-exporter
     vars:
       enable_keystone: true
       enable_tls: true
       test_driver: redfish
+      enable_prometheus_exporter: true
 
 - job:
     name: bifrost-integration-tinyipa-ubuntu-focal
@@ -120,10 +122,12 @@
     nodeset: centos-8
     required-projects:
       - openstack/keystone
+      - openstack/ironic-prometheus-exporter
     vars:
       enable_keystone: true
       enable_tls: true
       test_driver: redfish
+      enable_prometheus_exporter: true
 
 - job:
     name: bifrost-integration-tinyipa-debian-buster

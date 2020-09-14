@@ -94,6 +94,11 @@ deploy_kernel = {{ ipa_kernel_url }}
 deploy_ramdisk = {{ ipa_ramdisk_url }}
 rescue_kernel = {{ ipa_kernel_url }}
 rescue_ramdisk = {{ ipa_ramdisk_url }}
+{% if enable_prometheus_exporter | bool %}
+send_sensor_data = true
+send_sensor_data_for_undeployed_nodes = {{ sensor_data_undeployed_nodes }}
+send_sensor_data_interval = {{ sensor_data_interval }}
+{% endif %}
 
 [database]
 connection = mysql+pymysql://{{ ironic.database.username }}:{{ ironic.database.password }}@{{ ironic.database.host }}/{{ ironic.database.name }}?charset=utf8
@@ -195,4 +200,11 @@ auth_type = http_basic
 http_basic_auth_user_file = /etc/ironic/htpasswd
 username = {{ admin_username }}
 password = {{ admin_password }}
+{% endif %}
+
+{% if enable_prometheus_exporter | bool %}
+[oslo_messaging_notifications]
+driver = prometheus_exporter
+transport_url = fake://
+location = {{ prometheus_exporter_data_dir }}
 {% endif %}

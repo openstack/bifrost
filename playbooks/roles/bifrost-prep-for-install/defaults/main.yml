@@ -15,6 +15,7 @@ keystone_git_url: "{{ git_url_root }}/openstack/keystone"
 sushy_git_url: "{{ git_url_root }}/openstack/sushy"
 ipa_git_url: "{{ git_url_root }}/openstack/ironic-python-agent"
 ipa_builder_git_url: "{{ git_url_root }}/openstack/ironic-python-agent-builder"
+prometheus_exporter_git_url: "{{ git_url_root }}/openstack/ironic-prometheus-exporter"
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root}}/python-ironicclient"
 ironic_git_folder: "{{ git_root}}/ironic"
@@ -28,6 +29,7 @@ keystone_git_folder: "{{ git_root}}/keystone"
 sushy_git_folder: "{{ git_root}}/sushy"
 ipa_git_folder: "{{ git_root}}/ironic-python-agent"
 ipa_builder_git_folder: "{{ git_root}}/ironic-python-agent-builder"
+prometheus_exporter_git_folder: "{{ git_root}}/ironic-prometheus-exporter"
 # *git_branch can be overridden for stable branch testing
 git_branch: master
 ironicclient_git_branch: "{{ git_branch }}"
@@ -42,6 +44,7 @@ keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
 ipa_builder_git_branch: master
+prometheus_exporter_git_branch: "{{ git_branch }}"
 # disable source install to prevent cloning
 ironicclient_source_install: false
 openstacksdk_source_install: false
@@ -49,7 +52,9 @@ ironicinspector_source_install: true
 ironicinspectorclient_source_install: false
 sushy_source_install: false
 staging_drivers_source_install: true
+prometheus_exporter_source_install: true
 enable_keystone: false
+enable_prometheus_exporter: false
 
 update_repos: true
 force_update_repos: true
@@ -114,6 +119,11 @@ bifrost_install_sources:
     git_url: "{{ ipa_builder_git_url }}"
     git_branch: "{{ ipa_builder_git_branch }}"
     name: ironic-python-agent-builder
+  - git_folder: "{{ prometheus_exporter_git_folder }}"
+    git_url: "{{ prometheus_exporter_git_url }}"
+    git_branch: "{{ prometheus_exporter_git_branch }}"
+    name: ironic-prometheus-exporter
+    source_install: "{{ enable_prometheus_exporter }}"
 
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"

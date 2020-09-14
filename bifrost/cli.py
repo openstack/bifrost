@@ -159,6 +159,7 @@ def cmd_install(args):
             use_cirros=args.testenv,
             use_tinyipa=args.testenv,
             developer_mode=args.develop,
+            enable_prometheus_exporter=args.enable_prometheus_exporter,
             extra_vars=args.extra_vars,
             **kwargs)
     log("Ironic is installed and running, try it yourself:\n",
@@ -230,6 +231,9 @@ def parse_args():
                          action='store_true', default=False,
                          help='enable full disk cleaning between '
                               'deployments (can take a lot of time)')
+    install.add_argument('--enable-prometheus-exporter', action='store_true',
+                         default=False,
+                         help='Enable Ironic Prometheus Exporter')
     install.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
 

@@ -248,6 +248,9 @@ Additionally, the following parameters can be useful:
        Using Bifrost to install older versions of Ironic may work, but is not
        guaranteed.
 
+``--enable-prometheus-exporter``
+    Enable the Ironic Prometheus Exporter service.
+
 See the built-in documentation for more details:
 
 .. code-block:: bash

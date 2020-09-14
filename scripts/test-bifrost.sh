@@ -14,6 +14,7 @@ ZUUL_BRANCH=${ZUUL_BRANCH:-}
 CLI_TEST=${CLI_TEST:-false}
 BOOT_MODE=${BOOT_MODE:-}
 ENABLE_TLS=${ENABLE_TLS:-false}
+ENABLE_PROMETHEUS_EXPORTER=${ENABLE_PROMETHEUS_EXPORTER:-false}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -180,6 +181,7 @@ ${ANSIBLE} -vvvv \
     -e wait_for_node_deploy=${WAIT_FOR_DEPLOY} \
     -e not_enrolled_data_file=${BAREMETAL_DATA_FILE}.rest \
     -e enable_tls=${ENABLE_TLS} \
+    -e enable_prometheus_exporter=${ENABLE_PROMETHEUS_EXPORTER} \
     -e generate_tls=${ENABLE_TLS} \
     -e skip_install=${CLI_TEST} \
     -e skip_package_install=${CLI_TEST} \
