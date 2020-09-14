@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Support for installing and using RabbitMQ has been removed.

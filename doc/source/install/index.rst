@@ -397,10 +397,9 @@ A few important notes:
   to nodes. This image can be easily customized if so desired.
 
 The re-execution of the playbook will cause states to be re-asserted.  If not
-already present, a number of software packages including MySQL and RabbitMQ
-will be installed on the host.  Python code will be reinstalled regardless if
-it has changed. RabbitMQ user passwords will be reset, and services will be
-restarted.
+already present, a number of software packages including MySQL will be
+installed on the host. Python code will be reinstalled regardless if
+it has changed.
 
 Playbook Execution
 ==================

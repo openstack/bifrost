@@ -2,8 +2,7 @@ bifrost-ironic-install
 ======================
 
 This role installs a standalone ironic deployment with all required substrate
-in order for it to be utilized, including MySQL, RabbitMQ, dnsmasq, and
-nginx.
+in order for it to be utilized, including MySQL, dnsmasq, and nginx.
 
 Requirements
 ------------

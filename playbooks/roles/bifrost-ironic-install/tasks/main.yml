@@ -35,11 +35,6 @@
     - "../defaults/required_defaults_{{ ansible_distribution | regex_replace(' ', '_') }}_{{ ansible_distribution_version }}.yml"
     - "../defaults/dummy-defaults.yml"
 
-- name: "Install RabbitMQ if required"
-  import_role:
-    name: bifrost-rabbitmq
-  when: use_rabbitmq | bool
-
 - name: "Install Ironic deps"
   include: install.yml
   when: not skip_package_install | bool

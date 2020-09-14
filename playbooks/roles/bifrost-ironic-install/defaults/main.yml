@@ -27,14 +27,12 @@ install_dib: "{{ create_image_via_dib }}"
 # If testing is true, then the environment is setup for using libvirt
 # virtual machines for the hardware instead of real hardware.
 testing: false
-# Use Rabbit MQ as a message bus.
-use_rabbitmq: false
 
 # set to true to skip installation completely
 skip_install: False
 # set to true to skip installing ironic dependencies
 skip_package_install: False
-# set to true to skip generation of configs, ironic db and rabbitmq configuration
+# set to true to skip generation of configs and database configuration
 skip_bootstrap: False
 # set to true to skip starting ironic services and dependencies
 skip_start: False
