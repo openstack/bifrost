@@ -7,4 +7,5 @@ Restart=on-failure
 ExecStart={{ bifrost_venv_dir }}/bin/gunicorn sushy_tools.emulator.main:app \
     --bind {{ redfish_emulator_host }}:{{ redfish_emulator_port }} \
     --env SUSHY_EMULATOR_CONFIG=/etc/redfish-emulator.conf \
-    --env FLASK_DEBUG=1 --workers 2 --threads 2 --timeout 90
+    --env FLASK_DEBUG=1 --workers 2 --threads 2 --timeout 90 \
+    --access-logfile=- --error-logfile=-
