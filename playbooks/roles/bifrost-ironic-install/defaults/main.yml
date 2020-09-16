@@ -253,6 +253,13 @@ ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
 # conditional statements in the playbooks.
 noauth_mode: true
 
+# A work around for installing older releases, remove when no longer supporting
+# Ussuri.
+git_branch: master
+supports_http_auth: >-
+  {{ git_branch == "master"
+     or git_branch[7:] not in ["queens", "rocky", "stein", "train", "ussuri"] }}
+
 # Keystone Support
 # Default parameter if keystone is enabled, or disabled.
 enable_keystone: false
