@@ -228,6 +228,16 @@ Additionally, the following parameters can be useful:
     .. warning::
        If using Keystone_, see :ref:`keystone-tls` for important notes.
 
+``--release``
+    If using a stable version of Bifrost, the corresponding version of Ironic
+    is usually detected from the git checkout. If it is not possible (e.g.
+    you're using Bifrost from a tarball), use this argument to provide
+    the matching version.
+
+    .. note::
+       Using Bifrost to install older versions of Ironic may work, but is not
+       guaranteed.
+
 See the built-in documentation for more details:
 
 .. code-block:: bash
@@ -450,6 +460,14 @@ If you wish to enable full cleaning, you can achieve this by passing the option
 below::
 
     $ ansible-playbook -K -vvvv -i inventory/target install.yaml -e cleaning_disk_erase=true
+
+If installing a stable release, you need to set two more parameters, e.g.::
+
+    -e git_branch=stable/train -e ipa_upstream_release=stable-train
+
+.. note::
+   Note the difference in format: git branch uses slashes, IPA release uses
+   dashes.
 
 After you have performed an installation, you can edit
 ``/etc/ironic/ironic.conf`` to enable or disable cleaning as desired.
