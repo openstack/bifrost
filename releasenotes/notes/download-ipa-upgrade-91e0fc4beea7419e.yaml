@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Correctly updates IPA images checksums on a major upgrade.
