@@ -54,7 +54,13 @@
   when: not copy_from_local_path | bool
 
 - name: copy requirements from local path
-  command: cp -a {{ reqs_git_url }} {{ reqs_git_folder }} creates={{ reqs_git_folder }}
+  copy:
+    src: "{{ reqs_git_url }}/"
+    dest: "{{ reqs_git_folder }}/"
+    remote_src: yes
+    force: "{{ update_repos | bool }}"
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
+    group: "{{ ansible_user_gid }}"
   when: copy_from_local_path | bool
 
 - include: prepare_libvirt.yml
