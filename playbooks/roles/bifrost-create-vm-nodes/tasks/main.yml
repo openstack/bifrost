@@ -113,6 +113,16 @@
     clone: yes
   when: ci_testing_zuul | bool == false and copy_from_local_path | bool == false
 
+- name: ensure ownership of requirements
+  file:
+    path: "{{ reqs_git_folder }}"
+    owner: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
+    group: "{{ ansible_user_gid }}"
+    recurse: yes
+  when:
+    - not ci_testing_zuul | bool
+    - not copy_from_local_path | bool
+
 - name: copy requirements from local path
   command: cp -a {{ reqs_git_url }} {{ reqs_git_folder }} creates={{ reqs_git_folder }}
   when: ci_testing_zuul | bool == true or copy_from_local_path | bool == true
