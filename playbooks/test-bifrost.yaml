@@ -12,15 +12,15 @@
   become: no
   gather_facts: yes
   pre_tasks:
-    - name: "Set ci_testing and other variables if it appears we are running in upstream OpenStack CI"
+    - name: "Set testing to true"
       set_fact:
-         ci_testing: true
+         testing: true
+    - name: "Set variables if running in the CI"
+      set_fact:
+         cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.1-x86_64-disk.img
          copy_from_local_path: true
          git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
-    - name: "Override the ipv4_gateway setting"
-      set_fact:
-         ipv4_gateway: "192.168.122.1"
   roles:
     - role: bifrost-prep-for-install
       when: not (skip_install | default(false) | bool)
@@ -33,21 +33,9 @@
   name: "Executes install, enrollment, and testing in one playbook"
   become: yes
   gather_facts: yes
-  pre_tasks:
-    - name: "Collect process list if running in a CI System"
-      command: ps aux
-      when: ci_testing | default(false)| bool
-    - name: "Collect list of listening network sockets if running in a CI system"
-      shell: netstat -apn|grep LISTEN  # noqa 306
-      when: ci_testing | default(false)| bool
-    - name: "Use a cached cirros image"
-      set_fact:
-        cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.1-x86_64-disk.img
-      when: ci_testing | default(false)| bool
   roles:
     - role: bifrost-keystone-install
     - role: bifrost-ironic-install
-      testing: true
     # NOTE(TheJulia): While the next step creates a ramdisk, some elements
     # do not support ramdisk-image-create as they invoke steps to cleanup
     # the ramdisk which causes ramdisk-image-create to believe it failed.
@@ -109,8 +97,6 @@
 
 - hosts: baremetal
   name: "Create configuration drive files and deploy machines"
-  vars:
-    multinode_testing: "{{ inventory_dhcp | bool }}"
   become: no
   connection: local
   roles:

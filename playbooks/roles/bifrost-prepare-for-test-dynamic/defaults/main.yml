@@ -1,7 +1,9 @@
 ---
 node_ssh_pause: 10
 wait_timeout: 900
-multinode_testing: false
+
+inventory_dhcp: false
+multinode_testing: "{{ inventory_dhcp | bool }}"
 
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
