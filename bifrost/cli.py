@@ -182,7 +182,8 @@ def parse_args():
         'testenv', help='Prepare a virtual testing environment')
     testenv.set_defaults(func=cmd_testenv)
     testenv.add_argument('--release', default='master',
-                         help='release branch to use (master, ussuri, etc)')
+                         help='release branch to use (master, ussuri, etc), '
+                              'must match the release of bifrost.')
     testenv.add_argument('--count', type=int, default=2,
                          help='number of nodes to create')
     testenv.add_argument('--memory', type=int, default=3072,
