@@ -162,6 +162,7 @@ export BIFROST_INVENTORY_SOURCE=${BAREMETAL_DATA_FILE}
 
 ${ANSIBLE} -vvvv \
     -i inventory/bifrost_inventory.py \
+    -i inventory/target \
     ${TEST_PLAYBOOK} \
     -e use_cirros=${USE_CIRROS} \
     -e testing_user=${TESTING_USER} \

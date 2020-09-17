@@ -8,10 +8,10 @@
 ---
 - hosts: localhost
   connection: local
-  name: "Executes install, enrollment, and testing in one playbook"
+  name: "Prepare testing environment"
   become: no
   gather_facts: yes
-  pre_tasks:
+  tasks:
     - name: "Set testing to true"
       set_fact:
          testing: true
@@ -21,61 +21,16 @@
          copy_from_local_path: true
          git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
       when: lookup('env', 'ZUUL_BRANCH') | length > 0
-  roles:
-    - role: bifrost-prep-for-install
-      when: not (skip_install | default(false) | bool)
-  environment:
-    http_proxy: "{{ lookup('env','http_proxy') }}"
-    https_proxy: "{{ lookup('env','https_proxy') }}"
 
-- hosts: localhost
-  connection: local
-  name: "Executes install, enrollment, and testing in one playbook"
-  become: yes
-  gather_facts: yes
-  roles:
-    - role: bifrost-keystone-install
-    - role: bifrost-ironic-install
-    # NOTE(TheJulia): While the next step creates a ramdisk, some elements
-    # do not support ramdisk-image-create as they invoke steps to cleanup
-    # the ramdisk which causes ramdisk-image-create to believe it failed.
-    - role: bifrost-create-dib-image
-      dib_imagename: "{{ http_boot_folder }}/ipa"
-      build_ramdisk: false
-      dib_os_element: "{{ ipa_dib_os_element|default('debian') }}"
-      dib_os_release: "buster"
-      dib_elements: "ironic-python-agent-ramdisk {{ ipa_extra_dib_elements | default('') }}"
-      dib_packages: "bsdmainutils"
-      when: create_ipa_image | bool
-    # NOTE(TheJulia): This creates the guest image.
-    - role: bifrost-create-dib-image
-      dib_imagetype: "qcow2"
-      dib_imagename: "{{ deploy_image }}"
-      dib_os_element: "debian"
-      dib_os_release: "buster"
-      dib_elements: "vm enable-serial-console simple-init {{ extra_dib_elements|default('') }}"
-      when: create_image_via_dib | bool
-    - role: bifrost-keystone-client-config
-      user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
-      clouds:
-        bifrost:
-          config_username: "{{ ironic.keystone.default_username }}"
-          config_password: "{{ ironic.keystone.default_password }}"
-          config_project_name: "baremetal"
-          config_region_name: "{{ keystone.bootstrap.region_name }}"
-          config_auth_url: "{{ keystone.bootstrap.public_url }}"
-  environment:
-    http_proxy: "{{ lookup('env','http_proxy') }}"
-    https_proxy: "{{ lookup('env','https_proxy') }}"
+- import_playbook: install.yaml
+
+- import_playbook: enroll-dynamic.yaml
 
 - hosts: baremetal
-  name: "Enroll node with Ironic"
+  name: "Test introspection data"
   become: no
   connection: local
   roles:
-    - role: ironic-enroll-dynamic
-    - role: ironic-inspect-node
-      when: inspect_nodes | default(false) | bool
     - role: bifrost-test-inspection
       when: inspect_nodes | default(false) | bool
 
@@ -95,13 +50,7 @@
         PATH: /usr/local/bin:{{ ansible_env.PATH }}
       when: enable_inspector is defined and enable_inspector | bool
 
-- hosts: baremetal
-  name: "Create configuration drive files and deploy machines"
-  become: no
-  connection: local
-  roles:
-    - role: bifrost-configdrives-dynamic
-    - role: bifrost-deploy-nodes-dynamic
+- import_playbook: deploy-dynamic.yaml
 
 - hosts: baremetal
   name: "Prepare for deployment verification"
