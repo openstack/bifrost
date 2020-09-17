@@ -5,6 +5,9 @@ ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
 
 enable_tls: false
+enable_inspector: true
+enable_keystone: false
+skip_validation: false
 
 # Service URLs used for communication with them.
 api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
