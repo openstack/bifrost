@@ -3,7 +3,10 @@ noauth_mode: true
 
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
-internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
+# NOTE(dtantsur): dynamic playbooks are run on bare metal hosts, not on
+# localhost, and the interface fact may not be available for them.
+ans_interface_host: "{{ groups['target'][0] if 'target' in groups else '127.0.0.1' }}"
+internal_ip: "{{ hostvars[ans_interface_host]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
 
 enable_tls: false
 api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
