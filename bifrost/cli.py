@@ -83,29 +83,29 @@ def get_release(release):
         try:
             gr = configparser.ConfigParser()
             gr.read(os.path.join(BASE, '.gitreview'))
-            release = gr.get('gerrit', 'defaultbranch',
-                             fallback=DEFAULT_BRANCH)
+            release = gr.get('gerrit', 'defaultbranch', fallback=None)
         except (FileNotFoundError, configparser.Error):
-            log('Cannot read .gitreview, falling back to release',
-                DEFAULT_BRANCH)
-            return DEFAULT_BRANCH
+            log('Cannot read .gitreview, falling back to defaults')
+            return None
         else:
-            if release.startswith('bugfix/'):
+            if release and release.startswith('bugfix/'):
                 log('Bugfix branch', release, 'cannot be used as a release, '
-                    'falling back to', DEFAULT_BRANCH)
-                return DEFAULT_BRANCH
+                    'falling back to defaults')
+                return None
             log('Using release', release, 'detected from the checkout')
             return release
 
 
 def cmd_testenv(args):
-    release = get_release(args.release)
-
     env_setup(args)
     log('Creating', args.count, 'test node(s) with', args.memory,
         'MiB RAM and', args.disk, 'GiB of disk')
 
+    release = get_release(args.release)
+
     kwargs = {}
+    if release:
+        kwargs['git_branch'] = release
     if args.storage_pool_path:
         kwargs['test_vm_storage_pool_path'] = os.path.abspath(
             args.storage_pool_path)
@@ -113,7 +113,6 @@ def cmd_testenv(args):
     ansible('test-bifrost-create-vm.yaml',
             inventory='inventory/localhost',
             verbose=args.debug,
-            git_branch=release,
             test_vm_num_nodes=args.count,
             test_vm_memory_size=args.memory,
             test_vm_disk_gib=args.disk,
@@ -130,6 +129,9 @@ def cmd_install(args):
     release = get_release(args.release)
 
     kwargs = {}
+    if release:
+        kwargs.update({'git_branch': release,
+                       'ipa_upstream_release': release.replace('/', '-')})
     if args.dhcp_pool:
         try:
             start, end = args.dhcp_pool.split('-')
@@ -146,8 +148,6 @@ def cmd_install(args):
     ansible('install.yaml',
             inventory='inventory/target',
             verbose=args.debug,
-            git_branch=release,
-            ipa_upstream_release=release.replace('/', '-'),
             create_ipa_image='false',
             create_image_via_dib='false',
             install_dib='true',
