@@ -6,7 +6,7 @@
 write_interfaces_file: false
 http_boot_folder: /httpboot
 # Default location to the ssh public key for the user operating Bifrost.
-ssh_public_key_path: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
+#ssh_public_key_path: "/path/to/id_rsa.pub"
 
 # Default interface name
 # TODO(TheJulia): Remove this default.
