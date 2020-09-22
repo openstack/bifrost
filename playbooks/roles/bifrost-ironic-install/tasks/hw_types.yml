@@ -31,6 +31,7 @@
     enabled_boot_interfaces: >-
       ipxe,pxe
       {%- if "ilo" in enabled_hardware_types -%},ilo-virtual-media{%- endif -%}
+      {%- if "fake-hardware" in enabled_hardware_types -%},fake{%- endif -%}
   when: not enabled_boot_interfaces
 
 - name: "Configure management interfaces if required"
@@ -40,6 +41,7 @@
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+      {%- if "fake-hardware" in enabled_hardware_types -%},fake{%- endif -%}
   when: not enabled_management_interfaces
 
 - name: "Configure power interfaces if required"
@@ -50,4 +52,5 @@
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
       {%- if enable_credential_less_deploy|bool -%},agent{%- endif -%}
+      {%- if "staging-wol" in enabled_hardware_types -%},staging-wol{%- endif -%}
   when: not enabled_power_interfaces
