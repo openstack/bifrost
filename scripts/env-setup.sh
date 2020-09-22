@@ -19,6 +19,7 @@ ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
 BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
 PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
 
+echo "Installing/upgrading Ansible"
 ${PIP} install "${ANSIBLE_SOURCE_PATH}"
 ANSIBLE=${VENV}/bin/ansible
 ANSIBLE_GALAXY=${VENV}/bin/ansible-galaxy
@@ -62,8 +63,10 @@ if [ ! -e "$(dirname $0)/../playbooks/collections" ]; then
     ln -s ${ANSIBLE_COLLECTIONS_PATHS} "$(dirname $0)/../playbooks/collections"
 fi
 
-echo
-echo "To use bifrost, do"
-echo "source ${VENV}/bin/activate"
-echo "Then run playbooks as normal."
-echo
+if [[ "${BIFROST_HIDE_PROMPT:-false}" != true ]]; then
+    echo
+    echo "To use bifrost, do"
+    echo "source ${VENV}/bin/activate"
+    echo "Then run playbooks as normal."
+    echo
+fi

@@ -64,14 +64,11 @@ def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
 
 
 def env_setup(args):
-    if os.path.exists(VENV):
-        log(VENV, 'exists, skipping environment preparation',
-            only_if=args.debug)
-        return
-
-    log('Installing dependencies and preparing an environment in', VENV)
-    subprocess.check_call(["bash", "scripts/env-setup.sh"],
-                          env=get_env(), cwd=BASE)
+    log('Installing dependencies and preparing an environment in', VENV,
+        only_if=args.debug)
+    env = get_env({'BIFROST_TRACE': str(args.debug).lower(),
+                   'BIFROST_HIDE_PROMPT': 'true'})
+    subprocess.check_call(["bash", "scripts/env-setup.sh"], env=env, cwd=BASE)
 
 
 def get_release(release):
