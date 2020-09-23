@@ -1,0 +1,5 @@
+---
+other:
+  - |
+    The primary supported version of Ubuntu is now 20.04 (Focal). Ubuntu 18.04
+    (Bionic) is still supported, but may be removed in a future release.

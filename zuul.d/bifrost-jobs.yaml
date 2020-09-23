@@ -37,9 +37,9 @@
       noauth_mode: true
 
 - job:
-    name: bifrost-integration-dhcp-ubuntu-bionic
+    name: bifrost-integration-dhcp-ubuntu-focal
     parent: bifrost-integration-dhcp
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
 
 - job:
     name: bifrost-integration-dhcp-centos-8
@@ -54,9 +54,9 @@
       build_image: true
 
 - job:
-    name: bifrost-integration-dibipa-debian-ubuntu-bionic
+    name: bifrost-integration-dibipa-debian-ubuntu-focal
     parent: bifrost-integration-dibipa-debian
-    nodeset: ubuntu-bionic
+    nodeset: ubuntu-focal
 
 - job:
     name: bifrost-integration-dibipa-debian-centos-8
@@ -75,6 +75,7 @@
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-bionic
 
+# TODO(dtantsur): remove when no other projects are using this job
 - job:
     name: bifrost-integration-tinyipa-keystone-ubuntu-bionic
     parent: bifrost-integration-tinyipa
@@ -87,15 +88,26 @@
       test_driver: redfish
 
 - job:
-    name: bifrost-cli-ubuntu-bionic
-    parent: bifrost-integration-tinyipa-ubuntu-bionic
-    vars:
-      cli_test: true
-
-- job:
     name: bifrost-integration-tinyipa-ubuntu-focal
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-focal
+
+- job:
+    name: bifrost-integration-tinyipa-keystone-ubuntu-focal
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-focal
+    required-projects:
+      - openstack/keystone
+    vars:
+      enable_keystone: true
+      enable_tls: true
+      test_driver: redfish
+
+- job:
+    name: bifrost-cli-ubuntu-focal
+    parent: bifrost-integration-tinyipa-ubuntu-focal
+    vars:
+      cli_test: true
 
 - job:
     name: bifrost-integration-tinyipa-centos-8
