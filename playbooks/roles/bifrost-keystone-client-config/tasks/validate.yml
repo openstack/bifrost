@@ -1,0 +1,60 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Determine the testing cloud name"
+  set_fact:
+    testing_cloud_name: "{{ (clouds | dict2items)[0].key }}"
+
+- block:
+    - name: "List bare metal nodes using CLI and clouds.yaml"
+      command: baremetal --debug node list
+      environment:
+        OS_CLOUD: "{{ testing_cloud_name }}"
+
+    - name: "List introspection rules using CLI and clouds.yaml"
+      command: baremetal --debug introspection rule list
+      environment:
+        OS_CLOUD: "{{ testing_cloud_name }}"
+      when: enable_inspector | bool
+
+    - name: "List services using CLI and clouds.yaml"
+      command: openstack --debug service list
+      environment:
+        OS_CLOUD: bifrost-admin
+      when:
+        - enable_keystone | bool
+        - "'bifrost-admin' in clouds"
+
+    - name: "List bare metal nodes using CLI and openrc"
+      shell: |
+        set -e
+        . ~/openrc {{ testing_cloud_name }}
+        baremetal --debug node list
+      args:
+        executable: /bin/bash
+
+    # FIXME(dtantsur): openrc provides no overrides for ironic-inspector, so we
+    # cannot test it.
+
+    - name: "List services using CLI and openrc"
+      shell: |
+        set -e
+        . ~/openrc bifrost-admin
+        openstack --debug service list
+      args:
+        executable: /bin/bash
+      when:
+        - enable_keystone | bool
+        - "'bifrost-admin' in clouds"
+  become: yes
+  become_user: "{{ user | default('root') }}"

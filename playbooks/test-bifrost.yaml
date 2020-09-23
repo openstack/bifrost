@@ -34,22 +34,6 @@
     - role: bifrost-test-inspection
       when: inspect_nodes | default(false) | bool
 
-- hosts: localhost
-  name: "Tests the use of openstack clients"
-  connection: local
-  tasks:
-    - name: "List bare metal nodes using openstack client"
-      command: baremetal --debug node list
-      environment:
-        OS_CLOUD: bifrost
-        PATH: /usr/local/bin:{{ ansible_env.PATH }}
-    - name: "List introspection rules using openstack client"
-      command: baremetal --debug introspection rule list
-      environment:
-        OS_CLOUD: bifrost
-        PATH: /usr/local/bin:{{ ansible_env.PATH }}
-      when: enable_inspector is defined and enable_inspector | bool
-
 - import_playbook: deploy-dynamic.yaml
 
 - hosts: baremetal

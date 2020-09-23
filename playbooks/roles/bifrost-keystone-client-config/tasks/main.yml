@@ -63,3 +63,7 @@
     dest: "~{{ user | default('root') }}/openrc"
     owner: "{{ user | default('root') }}"
     mode: 0600
+
+- name: "Validate generated configuration"
+  import_tasks: validate.yml
+  when: not skip_validation | bool

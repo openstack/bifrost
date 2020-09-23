@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The ``bifrost-keystone-client-config`` role now validates that CLI
+    access actually works with the generated configuration, use
+    ``skip_validation=false`` to disable.
