@@ -68,6 +68,16 @@ For the machine that hosts Bifrost you'll need to figure out:
   DHCP, PXE and API services will only be added to this zone. If you need any
   of them available in other zones, you need to configure firewall yourself.
 
+  .. warning::
+    If you use the same NIC for bare metal nodes and external access,
+    installing bifrost may lock you out of SSH to the node. You have two
+    options:
+
+    #. Pre-create the ``bifrost`` firewalld zone before installation and add
+       the SSH service to it.
+    #. Use the ``public`` zone by providing ``firewalld_internal_zone=public``
+       when installing.
+
 * Pool of IP addresses for DHCP (must be within the network configured on the
   chosen network interface).
 
