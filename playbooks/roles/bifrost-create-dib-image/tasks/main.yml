@@ -17,6 +17,7 @@
   package:
     name: "{{ dib_host_required_packages }}"
     state: present
+  when: not skip_package_install | bool
 # If attempting to utilize a base Ubuntu image, diskimage-builder
 # is the recommended, and default path.
 - name: "Test if image is present"
