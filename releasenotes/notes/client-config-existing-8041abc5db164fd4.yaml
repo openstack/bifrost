@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Unsets the ``OS_CLOUD`` variable in the generated ``openrc``.
+  - |
+    ``OS_AUTH_TYPE`` is now always set in the generated ``openrc``.
