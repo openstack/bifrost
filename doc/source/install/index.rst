@@ -183,7 +183,8 @@ Testing on virtual machines
 ===========================
 
 If you want to try Bifrost on virtual machines instead of real hardware, you
-need to prepare a testing environment. The easiest way is via ``bifrost-cli``:
+need to prepare a testing environment. The easiest way is via ``bifrost-cli``,
+available since the Victoria release series:
 
 .. code-block:: bash
 
@@ -192,7 +193,7 @@ need to prepare a testing environment. The easiest way is via ``bifrost-cli``:
 Then do not forget to pass ``--testenv`` flag to ``bifrost-cli install``.
 
 See :doc:`/contributor/testenv` for more details and for advanced ways of
-creating a virtual environment.
+creating a virtual environment (also supported on Ussuri and older).
 
 ============================
 Quick start with bifrost-cli
@@ -200,6 +201,9 @@ Quick start with bifrost-cli
 
 The ``bifrost-cli`` script, available since the Victoria release series,
 installs the Bare Metal service with the recommended defaults.
+
+.. note::
+   Follow `Installation via playbooks`_ if using Ussuri or older.
 
 Using it is as simple as:
 
