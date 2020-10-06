@@ -1,0 +1,11 @@
+---
+other:
+  - |
+    Fedora 32 and openSUSE Leap 15.2 have been added to the supported OS list.
+deprecations:
+  - |
+    Fedora 30 has reached end-of-life and is no longer explicitly tested. Its
+    support will be removed in one of the future releases.
+  - |
+    openSUSE Leap 15.1 is reaching end-of-life and is no longer explicitly
+    tested. Its support will be removed in one of the future releases.

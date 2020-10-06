@@ -17,8 +17,8 @@ Supported operating systems:
 * Ubuntu 18.04, 20.04
 * Red Hat Enterprise Linux (RHEL) 8
 * CentOS 8
-* openSUSE Leap 15.1
-* Fedora 30
+* openSUSE Leap 15.2 (15.1 is supported but not recommended)
+* Fedora 32 (30 is supported but not recommended)
 * Debian Buster
 
 Bifrost structure
