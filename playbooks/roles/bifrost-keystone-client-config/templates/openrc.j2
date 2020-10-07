@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
 # WARNING: This file is managed by bifrost.
+for _os_key in $(set | awk '{FS="="}  /^OS_/ {print $1}'); do
+    unset $_os_key;
+done
+unset _os_key
+
 {% if enable_keystone | bool %}
+export OS_AUTH_TYPE=password
 case "$1" in
 {% for cloud in clouds | default({}) | dictsort %}
 # Section for {{ cloud.0 }}
@@ -23,7 +29,6 @@ export OS_ENDPOINT={{ ironic_api_url }}
 {% else %}
 export OS_AUTH_TYPE=http_basic
 export OS_ENDPOINT={{ ironic_api_url }}
-unset OS_AUTH_URL
 case "${1:-bifrost}" in
     "bifrost")
         export OS_USERNAME="{{ default_username }}"
