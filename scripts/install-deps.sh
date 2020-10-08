@@ -145,6 +145,6 @@ echo "Using Bindep to install binary dependencies"
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
 
 echo "Installing Python requirements"
-${PIP} install -r "$(dirname $0)/../requirements.txt"
+${PIP} install -r "$(dirname $0)/../requirements.txt" -c ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/master}
 
 echo "Completed installation of basic dependencies."
