@@ -136,9 +136,9 @@ bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
 
 echo "Installing Python requirements"
 if [ -n "${VENV-}" ]; then
-    ${PIP} install -r "$(dirname $0)/../requirements.txt"
+    ${PIP} install -r "$(dirname $0)/../requirements.txt" -c ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/ussuri}
 else
-    sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt"
+    sudo -H -E ${PIP} install -r "$(dirname $0)/../requirements.txt" -c ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/ussuri}
 fi
 
 echo "Completed installation of basic dependencies."
