@@ -30,6 +30,12 @@
   when: not hostvars[inventory_hostname][provisioning_itf_name].get('ipv4', {}).get('address')
 - name: "Configure hardware interfaces"
   import_tasks: hw_types.yml
+- name: "Locate ISOLINUX binary"
+  set_fact:
+    isolinux_bin_path: "{{ item }}"
+  with_first_found:
+    - /usr/lib/ISOLINUX/isolinux.bin
+    - /usr/share/syslinux/isolinux.bin
 - name: "Create ironic config"
   template:
     src="ironic.conf.j2"

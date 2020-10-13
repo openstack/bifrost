@@ -31,6 +31,7 @@
     enabled_boot_interfaces: >-
       ipxe,pxe
       {%- if "ilo" in enabled_hardware_types -%},ilo-virtual-media{%- endif -%}
+      {%- if "redfish" in enabled_hardware_types -%},redfish-virtual-media{%- endif -%}
       {%- if "fake-hardware" in enabled_hardware_types -%},fake{%- endif -%}
   when: not enabled_boot_interfaces
 

@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Enables support for ``redfish-virtual-media`` in legacy (BIOS) boot mode.

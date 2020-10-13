@@ -37,6 +37,7 @@ required_packages:
   - firewalld
   - python3-firewall
   - httpd-tools
+  - syslinux-nonlinux
 iscsi_required_packages:
   - iscsi-initiator-utils
   - gdisk

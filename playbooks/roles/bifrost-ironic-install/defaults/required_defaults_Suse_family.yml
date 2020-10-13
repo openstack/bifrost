@@ -39,6 +39,7 @@ required_packages:
   - gcc
   - python-PyMySQL
   - apache2-utils
+  - syslinux
 iscsi_required_packages:
   - open-iscsi
   - gptfdisk
