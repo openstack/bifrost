@@ -278,7 +278,7 @@ def main():
     (groups, hostvars) = _prepare_inventory()
 
     if 'BIFROST_INVENTORY_SOURCE' not in os.environ:
-        LOG.error('Please define a BIFROST_INVENTORY_SOURCE environment'
+        LOG.error('Please define a BIFROST_INVENTORY_SOURCE environment '
                   'variable with a comma separated list of data sources')
         sys.exit(1)
 
