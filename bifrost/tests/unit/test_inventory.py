@@ -33,7 +33,8 @@ class TestBifrostInventoryUnit(base.TestCase):
         (groups, hostvars) = inventory._prepare_inventory()
         self.assertIn("baremetal", groups)
         self.assertIn("localhost", groups)
-        self.assertDictEqual(hostvars, {})
+        self.assertDictEqual(
+            hostvars, {'127.0.0.1': {'ansible_connection': 'local'}})
         localhost_value = dict(hosts=["127.0.0.1"])
         self.assertDictEqual(localhost_value, groups['localhost'])
 
