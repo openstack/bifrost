@@ -164,7 +164,7 @@ def _parse_config():
 
 
 def _prepare_inventory():
-    hostvars = {}
+    hostvars = {"127.0.0.1": {"ansible_connection": "local"}}
     groups = {}
     groups.update({'baremetal': {'hosts': []}})
     groups.update({'localhost': {'hosts': ["127.0.0.1"]}})
