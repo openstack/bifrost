@@ -53,6 +53,7 @@ class TestBifrostInventoryFunctional(base.TestCase):
  "host_groups": ["baremetal", "nova"]}}""".replace('\n', '')
         (groups, hostvars) = utils.bifrost_data_conversion(
             yaml.safe_dump(json.loads(str(expected_hostvars))))
+        del hostvars['127.0.0.1']
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
 
     def test_minimal_json(self):
@@ -66,4 +67,5 @@ ipmi_password":"ADMIN"}},"driver":"ipmi"}}""".replace('\n', '')
 ipmi_password":"ADMIN"}},"driver":"ipmi","addressing_mode":
 "dhcp","host_groups": ["baremetal"]}}""".replace('\n', '')
         (groups, hostvars) = utils.bifrost_data_conversion(input_json)
+        del hostvars['127.0.0.1']
         self.assertDictEqual(json.loads(str(expected_json)), hostvars)
