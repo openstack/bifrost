@@ -61,16 +61,12 @@ pxe_append_params = console=ttyS0 ipa-insecure=1
 {% else %}
 pxe_append_params = systemd.journald.forward_to_console=yes ipa-insecure=1 {{ extra_kernel_options | default('') }}
 {% endif %}
-pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
 tftp_server = {{ internal_ip }}
 tftp_root = /tftpboot
-pxe_bootfile_name = undionly.kpxe
-ipxe_enabled = true
 ipxe_boot_script = /etc/ironic/boot.ipxe
 tftp_master_path = {{ ironic_tftp_master_path }}
 {% if enable_uefi_ipxe | bool %}
-uefi_pxe_bootfile_name = {{ ipxe_efi_binary }}
-uefi_pxe_config_template = $pybasedir/drivers/modules/ipxe_config.template
+uefi_ipxe_bootfile_name = {{ ipxe_efi_binary }}
 {% endif %}
 enable_netboot_fallback = true
 
