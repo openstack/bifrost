@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes ``PATH`` to always include the virtual environment when running
+    validations.
