@@ -63,7 +63,7 @@ For the machine that hosts Bifrost you'll need to figure out:
 * The network interface you're going to use for communication between the bare
   metal machines and the Bifrost services.
 
-  On systems using firewalld (CentOS and RHEL currently), a new zone
+  On systems using firewalld (Fedora, CentOS and RHEL currently), a new zone
   ``bifrost`` will be created, and the network interface will be moved to it.
   DHCP, PXE and API services will only be added to this zone. If you need any
   of them available in other zones, you need to configure firewall yourself.

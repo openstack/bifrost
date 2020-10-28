@@ -151,7 +151,7 @@
     destination_port: 5050
     in_interface: "{{ network_interface }}"
     jump: ACCEPT
-  when: ansible_distribution not in ["CentOS", "RedHat"]
+  when: not use_firewalld | bool
 
 - name: "Inspector - Enable port in firewalld"
   firewalld:
@@ -160,4 +160,4 @@
     state: enabled
     permanent: yes
     immediate: yes
-  when: ansible_distribution in ["CentOS", "RedHat"]
+  when: use_firewalld | bool

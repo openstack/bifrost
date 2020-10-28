@@ -24,7 +24,7 @@
 
 - name: "Setup firewalld"
   include_tasks: setup_firewalld.yml
-  when: ansible_distribution in ["CentOS", "RedHat"]
+  when: use_firewalld | bool
 
 # NOTE(sean-k-mooney) only the MySQL database is started during bootstrapping.
 # All other services are started in the Start phase.
@@ -345,7 +345,7 @@
   loop:
     - "{{ file_url_port }}"
     - 6385
-  when: ansible_distribution not in ["CentOS", "RedHat"]
+  when: not use_firewalld | bool
 
 - name: "Enable services in firewalld"
   firewalld:
@@ -358,7 +358,7 @@
     - dhcp
     - dhcpv6
     - tftp
-  when: ansible_distribution in ["CentOS", "RedHat"]
+  when: use_firewalld | bool
 
 - name: "Enable ports in firewalld"
   firewalld:
@@ -370,7 +370,7 @@
   loop:
     - "{{ file_url_port }}"
     - 6385
-  when: ansible_distribution in ["CentOS", "RedHat"]
+  when: use_firewalld | bool
 
 - block:
     - name: "Explicitly allow nginx and IPA port (TCP) on selinux"
