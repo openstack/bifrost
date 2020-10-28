@@ -2,7 +2,7 @@
 
 set -eu
 
-DEST="$(dirname $0)/../playbooks/collections"
+DEST="$(dirname $0)/../.tox/linters/collections"
 SOURCE="${ANSIBLE_COLLECTION_SOURCE_PATH:-../ansible-collections-openstack}"
 
 if [ ! -d "$SOURCE" ]; then
@@ -16,7 +16,7 @@ rm -f "$DEST/ansible_collections/openstack/cloud"
 
 ln -s "$(realpath $SOURCE)" "$DEST/ansible_collections/openstack/cloud"
 
-export ANSIBLE_COLLECTIONS_PATHS="$DEST"
+export ANSIBLE_COLLECTIONS_PATHS="$(realpath $DEST)"
 export ANSIBLE_LIBRARY="$(dirname $0)/../playbooks/library"
 
 find playbooks -maxdepth 1 -type f -regex '.*.ya?ml' -print0 | \

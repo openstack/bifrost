@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Ansible 2.10 is now supported and used by default (2.9 is still supported).
