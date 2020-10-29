@@ -343,6 +343,8 @@
     in_interface: "{{ network_interface }}"
     jump: ACCEPT
   loop:
+    - 68
+    - 69
     - "{{ file_url_port }}"
     - 6385
   when: not use_firewalld | bool
