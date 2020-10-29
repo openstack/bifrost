@@ -12,6 +12,7 @@
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
         - bifrost-integration-tinyipa-keystone-centos-8
+        - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
         # Non-voting jobs
         - bifrost-integration-tinyipa-ubuntu-bionic:
             voting: false

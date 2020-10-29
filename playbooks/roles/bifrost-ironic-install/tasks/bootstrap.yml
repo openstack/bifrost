@@ -222,7 +222,11 @@
       args: '--config-file /etc/ironic/ironic.conf'
 
 - name: "Create and populate /tftpboot"
-  include: create_tftpboot.yml
+  import_tasks: create_tftpboot.yml
+
+- name: "Create an ESP image"
+  import_tasks: create_esp.yml
+
 - name: "Setup Inventory Hosts Directory"
   file:
     path: "/etc/dnsmasq.d/bifrost.hosts.d"
