@@ -34,7 +34,8 @@
   shell: |
     set -o pipefail
     losetup "{{ stored_value_loopback_beta.stdout }}" /dev/mapper/$(echo "{{ stored_value_loopback_alpha.stdout }}" | cut -f3 -d '/')p1
-  executable: /bin/bash
+  args:
+    executable: /bin/bash
   # TODO parameterize folder name/location
 - name: "Ensure we have a location to mount the disk to"
   file: path=/mnt/bootimg state=directory
