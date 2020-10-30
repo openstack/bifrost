@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    FirewallD is now used on Fedora 32 and newer to fix firewall issues.
