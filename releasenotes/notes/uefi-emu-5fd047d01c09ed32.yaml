@@ -1,0 +1,11 @@
+---
+features:
+  - |
+    Adds support for emulating UEFI bare metal machines in the testing
+    environment. Pass ``default_boot_mode=uefi`` to enable.
+issues:
+  - |
+    UEFI testing does not work on CentOS/RHEL 8 because of the limitations of
+    the provided OVMF firmware.
+  - |
+    UEFI testing does not work on Ubuntu Focal because of TFTP issues.

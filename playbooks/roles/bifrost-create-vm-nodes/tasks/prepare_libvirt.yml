@@ -215,9 +215,30 @@
   set_fact:
     efi_loader_path: "{{ item }}"
   with_first_found:
-    - /usr/share/OVMF/OVMF_CODE.secboot.fd
+    - /usr/share/edk2/ovmf/OVMF_CODE.fd
     - /usr/share/OVMF/OVMF_CODE.fd
     - /usr/share/qemu/ovmf-x86_64-code.bin
+  ignore_errors: true
+  when: efi_loader_path is undefined
+
+- name: fail if UEFI is requested and no OVMF firmware is found
+  fail:
+    msg: >
+      UEFI is requested but no OVMF firmware can be found. Please set
+      efi_loader_path explicitly. Note that firmware with secure boot enabled
+      may not work yet.
+  when:
+    - efi_loader_path is undefined
+    - default_boot_mode == 'uefi'
+
+- name: find OVMF NVRAM
+  set_fact:
+    efi_nvram_path: "{{ item }}"
+  with_first_found:
+    - /usr/share/edk2/ovmf/OVMF_VARS.fd
+    - /usr/share/OVMF/OVMF_VARS.fd
+    - /usr/share/qemu/ovmf-x86_64-vars.bin
+  when: default_boot_mode == 'uefi'
 
 - name: write Redfish Emulator configuration file
   template:

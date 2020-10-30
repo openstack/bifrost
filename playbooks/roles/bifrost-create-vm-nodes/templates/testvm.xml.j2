@@ -4,7 +4,12 @@
   <vcpu>{{ test_vm_cpu_count }}</vcpu>
   <os>
     <type arch='{{ test_vm_arch }}' machine='{{ test_vm_machine }}'>hvm</type>
-    <boot dev='network'/>
+    {% if default_boot_mode == 'uefi' %}
+      <loader readonly='yes' type='pflash'>{{ efi_loader_path }}</loader>
+      <nvram template='{{ efi_nvram_path }}'>/var/lib/libvirt/nvram-{{ vm_name }}.fd</nvram>
+    {% else %}
+      <boot dev='network'/>
+    {% endif %}
     <bootmenu enable='no'/>
     <bios useserial='yes' rebootTimeout='10000'/>
   </os>
@@ -29,13 +34,11 @@
     <interface type='network'>
       <source network='{{ test_vm_network }}'/>
       <model type='{{ test_vm_nic }}'/>
+      {% if default_boot_mode == 'uefi' %}
+        <boot order='1'/>
+      {% endif %}
     </interface>
     <input type='mouse' bus='ps2'/>
-    <graphics type='vnc' port='-1' autoport='yes'/>
-    <video>
-      <model type='cirrus' vram='9216' heads='1'/>
-      <address type='pci' domain='0x0000' bus='0x00' slot='0x02' function='0x0'/>
-    </video>
     <serial type='file'>
       <source path='{{ vm_log_file }}'/>
       <target port='0'/>

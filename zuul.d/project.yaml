@@ -21,6 +21,8 @@
             voting: false
         - bifrost-integration-tinyipa-debian-buster:
             voting: false
+        - bifrost-integration-redfish-uefi-fedora-latest:
+            voting: false
         - bifrost-integration-dhcp-ubuntu-focal:
             voting: false
         - bifrost-integration-dhcp-centos-8:
