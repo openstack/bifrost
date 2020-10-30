@@ -212,12 +212,17 @@
   become: true
   register: redfish_emulator_service_file
 
+# NOTE(dtantsur): secure boot capable firmware goes second because some systems
+# (e.g. Ubuntu) provide it but refuse to boot. However, CentOS provides only
+# secure boot capable firmware, and it works for both secure und normal boot.
 - name: find OVMF firmware
   set_fact:
     efi_loader_path: "{{ item }}"
   with_first_found:
     - /usr/share/edk2/ovmf/OVMF_CODE.fd
+    - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
     - /usr/share/OVMF/OVMF_CODE.fd
+    - /usr/share/OVMF/OVMF_CODE.secboot.fd
     - /usr/share/qemu/ovmf-x86_64-code.bin
   ignore_errors: true
   when: efi_loader_path is undefined
