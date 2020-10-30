@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The role ``bifrost-create-bootable-image``, marked as legacy since 2015,
+    has been removed. Please use diskimage-builder or other external tools
+    to build your images.
