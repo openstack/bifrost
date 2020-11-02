@@ -2,7 +2,6 @@
 # defaults file for bifrost-create-vm-nodes
 baremetal_json_file: '/tmp/baremetal.json'
 baremetal_nodes_json: '/tmp/nodes.json'
-default_boot_mode: ''
 test_vm_memory_size: "3072"
 test_vm_num_nodes: 1
 test_vm_domain_type: "qemu"
@@ -35,6 +34,12 @@ test_vm_logdir: "/var/log/libvirt/baremetal_logs"
 # NOTE(pas-ha) next two are generic values for most OSes, overridden by distro-specifc vars
 test_vm_emulator: "/usr/bin/qemu-system-x86_64"
 test_vm_machine: "q35"
+# Forces machines to use secure boot. Only compatible with virtual media,
+# requires using a real ramdisk (not tinyIPA) matching the host distribution,
+# as well as a real instance image (not cirros).
+test_vm_secure_boot: false
+default_boot_mode: "{{ 'uefi' if test_vm_secure_boot | bool else '' }}"
+
 # NOTE(pas-ha) not really tested with non-local qemu connections
 test_vm_libvirt_uri: "{{ lookup('env', 'LIBVIRT_CONNECT_URI') | default('qemu:///system', true) }}"
 # Settings related to installing bifrost in a virtual environment
@@ -56,3 +61,27 @@ force_update_repos: true
 
 # Conditional variables utilized based on CI or manual testing options.
 copy_from_local_path: false
+
+# NOTE(dtantsur): secure boot capable firmware goes second because some systems
+# (e.g. Ubuntu) provide it but refuse to boot. However, CentOS provides only
+# secure boot capable firmware, and it works for both secure und normal boot.
+efi_loader_locations_normal:
+  - /usr/share/edk2/ovmf/OVMF_CODE.fd
+  - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
+  - /usr/share/OVMF/OVMF_CODE.fd
+  - /usr/share/OVMF/OVMF_CODE.secboot.fd
+  - /usr/share/qemu/ovmf-x86_64-code.bin
+efi_loader_locations_secboot:
+  - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
+  - /usr/share/OVMF/OVMF_CODE.secboot.fd
+efi_loader_locations: >-
+  {{ efi_loader_locations_secboot if test_vm_secure_boot | bool else efi_loader_locations_normal }}
+efi_nvram_locations_normal:
+  - /usr/share/edk2/ovmf/OVMF_VARS.fd
+  - /usr/share/OVMF/OVMF_VARS.fd
+  - /usr/share/qemu/ovmf-x86_64-vars.bin
+efi_nvram_locations_secboot:
+  - /usr/share/edk2/ovmf/OVMF_VARS.secboot.fd
+  - /usr/share/OVMF/OVMF_VARS.secboot.fd
+efi_nvram_locations: >-
+  {{ efi_nvram_locations_secboot if test_vm_secure_boot | bool else efi_nvram_locations_normal }}

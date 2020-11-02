@@ -15,6 +15,13 @@
 # Setup libvirt - ensure network and storage pool are defined and active,
 # prepare dir for vm logs
 ---
+- name: fail if secure boot is requested without UEFI
+  fail:
+    msg: Secure boot support requires default_boot_mode set to "uefi"
+  when:
+    - default_boot_mode != 'uefi'
+    - test_vm_secure_boot | bool
+
 - name: install libvirt-python, gunicorn and lxml
   include_role:
     name: bifrost-pip-install
@@ -212,18 +219,10 @@
   become: true
   register: redfish_emulator_service_file
 
-# NOTE(dtantsur): secure boot capable firmware goes second because some systems
-# (e.g. Ubuntu) provide it but refuse to boot. However, CentOS provides only
-# secure boot capable firmware, and it works for both secure und normal boot.
 - name: find OVMF firmware
   set_fact:
     efi_loader_path: "{{ item }}"
-  with_first_found:
-    - /usr/share/edk2/ovmf/OVMF_CODE.fd
-    - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
-    - /usr/share/OVMF/OVMF_CODE.fd
-    - /usr/share/OVMF/OVMF_CODE.secboot.fd
-    - /usr/share/qemu/ovmf-x86_64-code.bin
+  with_first_found: "{{ efi_loader_locations }}"
   ignore_errors: true
   when: efi_loader_path is undefined
 
@@ -240,10 +239,7 @@
 - name: find OVMF NVRAM
   set_fact:
     efi_nvram_path: "{{ item }}"
-  with_first_found:
-    - /usr/share/edk2/ovmf/OVMF_VARS.fd
-    - /usr/share/OVMF/OVMF_VARS.fd
-    - /usr/share/qemu/ovmf-x86_64-vars.bin
+  with_first_found: "{{ efi_nvram_locations }}"
   when: default_boot_mode == 'uefi'
 
 - name: write Redfish Emulator configuration file

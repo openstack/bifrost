@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Adds support for testing bifrost with UEFI secure boot enabled in VMs.
+    Requires an IPA ramdisk with kernel signed by a key recognized by GRUB2
+    on the host machine.
