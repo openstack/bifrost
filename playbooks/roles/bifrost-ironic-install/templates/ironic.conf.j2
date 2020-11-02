@@ -62,11 +62,7 @@ deploy_logs_local_path = {{ ironic_agent_deploy_logs_local_path }}
 {% endif %}
 
 [pxe]
-{% if testing | bool %}
-pxe_append_params = console=ttyS0 ipa-insecure=1
-{% else %}
-pxe_append_params = systemd.journald.forward_to_console=yes ipa-insecure=1 {{ extra_kernel_options | default('') }}
-{% endif %}
+pxe_append_params = {{ pxe_kernel_params }}
 tftp_server = {{ internal_ip }}
 tftp_root = /tftpboot
 ipxe_boot_script = /etc/ironic/boot.ipxe
@@ -122,11 +118,7 @@ use_web_server_for_images = true
 
 [redfish]
 use_swift = False
-{% if testing | bool %}
-kernel_append_params = console=ttyS0 ipa-insecure=1 {{ extra_kernel_options | default('') }}
-{% else %}
-kernel_append_params = systemd.journald.forward_to_console=yes ipa-insecure=1 {{ extra_kernel_options | default('') }}
-{% endif %}
+kernel_append_params = {{ redfish_kernel_params }}
 
 {% if enable_inspector | bool == true %}
 [inspector]

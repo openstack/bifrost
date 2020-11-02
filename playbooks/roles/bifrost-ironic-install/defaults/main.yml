@@ -373,3 +373,11 @@ prometheus_exporter_data_dir: /var/lib/ironic-prometheus-exporter/data
 sensor_data_interval: 90
 # sensor data should be collected from undeployed nodes
 sensor_data_undeployed_nodes: false
+
+# Internal variables
+pxe_kernel_params: >-
+  nofb nomodeset systemd.journald.forward_to_console=yes
+  {% if testing | bool %}console=ttyS0{% endif %}
+  ipa-insecure=1
+  {{ extra_kernel_options | default('') }}
+redfish_kernel_params: "{{ pxe_kernel_params }}"
