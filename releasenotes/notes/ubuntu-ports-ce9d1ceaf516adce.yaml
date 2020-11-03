@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Explicitly opens ports 68 and 69 in firewall on systems not using
+    firewalld (e.g. Ubuntu).
