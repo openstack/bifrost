@@ -19,6 +19,10 @@ enabled_deploy_interfaces = {{ enabled_deploy_interfaces }}
 
 enabled_hardware_types = {{ enabled_hardware_types }}
 
+{% if default_boot_interface is defined %}
+default_boot_interface = {{ default_boot_interface }}
+{% endif %}
+
 default_resource_class = {{ default_resource_class }}
 
 rpc_transport = json-rpc
@@ -37,6 +41,8 @@ log_dir = {{ ironic_log_dir }}
 {% endif %}
 
 isolinux_bin = {{ isolinux_bin_path }}
+
+grub_config_path = EFI/{{ efi_distro }}/grub.cfg
 
 {% if enable_tls | bool %}
 [api]
@@ -92,6 +98,7 @@ deploy_kernel = {{ ipa_kernel_url }}
 deploy_ramdisk = {{ ipa_ramdisk_url }}
 rescue_kernel = {{ ipa_kernel_url }}
 rescue_ramdisk = {{ ipa_ramdisk_url }}
+bootloader = {{ esp_image_url }}
 {% if enable_prometheus_exporter | bool %}
 send_sensor_data = true
 send_sensor_data_for_undeployed_nodes = {{ sensor_data_undeployed_nodes }}

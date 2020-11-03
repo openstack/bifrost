@@ -15,6 +15,7 @@ CLI_TEST=${CLI_TEST:-false}
 BOOT_MODE=${BOOT_MODE:-}
 ENABLE_TLS=${ENABLE_TLS:-false}
 ENABLE_PROMETHEUS_EXPORTER=${ENABLE_PROMETHEUS_EXPORTER:-false}
+USE_VMEDIA=${USE_VMEDIA:-false}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -105,6 +106,13 @@ fi
 if [[ -n "$BOOT_MODE" ]]; then
     CLOUD_CONFIG+=" -e default_boot_mode=$BOOT_MODE"
     VM_SETUP_EXTRA+=" -e default_boot_mode=$BOOT_MODE"
+fi
+
+if [ ${USE_VMEDIA} = "true" ]; then
+    TEST_VM_NODE_DRIVER=redfish
+    CLOUD_CONFIG+=" -e default_boot_interface=redfish-virtual-media"
+    # The default won't work for other hardware types
+    CLOUD_CONFIG+=" -e enabled_hardware_types=redfish"
 fi
 
 logs_on_exit() {

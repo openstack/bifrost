@@ -6,6 +6,9 @@ ironic_rootwrap_dir: /usr/local/bin/
 nginx_user: www-data
 mysql_service_name: mysql
 tftp_service_name: tftpd-hpa
+efi_distro: debian
+grub_efi_binary: /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed
+shim_efi_binary: /usr/lib/shim/shimx64.efi.signed
 required_packages:
   - mariadb-server
   - python-dev
@@ -35,6 +38,8 @@ required_packages:
   - dnsmasq
   - apache2-utils
   - isolinux
+  - grub-efi-amd64-signed
+  - shim-signed
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
 # package list as the installation causes name resolution changes that can
 # temporarily block packages following it while the system is being

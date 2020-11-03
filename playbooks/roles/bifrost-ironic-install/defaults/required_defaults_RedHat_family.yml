@@ -7,6 +7,7 @@ ironic_rootwrap_dir: /usr/bin/
 nginx_user: nginx
 mysql_service_name: mariadb
 tftp_service_name: tftp
+shim_efi_binary: /boot/efi/EFI/BOOT/BOOTX64.EFI
 required_packages:
   - mariadb-server
   - dnsmasq
@@ -38,6 +39,8 @@ required_packages:
   - python3-firewall
   - httpd-tools
   - syslinux-nonlinux
+  - grub2-efi-x64
+  - shim-x64
 iscsi_required_packages:
   - iscsi-initiator-utils
   - gdisk

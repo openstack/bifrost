@@ -110,6 +110,14 @@
       enable_prometheus_exporter: true
 
 - job:
+    name: bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
+    parent: bifrost-integration-tinyipa-ubuntu-focal
+    vars:
+      boot_mode: uefi
+      test_driver: redfish
+      use_vmedia: true
+
+- job:
     name: bifrost-cli-ubuntu-focal
     parent: bifrost-integration-tinyipa-ubuntu-focal
     vars:
