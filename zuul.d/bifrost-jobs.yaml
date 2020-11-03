@@ -142,6 +142,14 @@
       enable_prometheus_exporter: true
 
 - job:
+    name: bifrost-integration-redfish-vmedia-uefi-centos-8
+    parent: bifrost-integration-tinyipa-centos-8
+    vars:
+      boot_mode: uefi
+      test_driver: redfish
+      use_vmedia: true
+
+- job:
     name: bifrost-integration-tinyipa-debian-buster
     parent: bifrost-integration-tinyipa
     nodeset: debian-buster
