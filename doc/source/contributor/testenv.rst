@@ -26,9 +26,10 @@ Command::
 Note:
 
 - In order to cap requirements for installation, an ``upper_constraints_file``
-  setting is defined. This is consuming the ``UPPER_CONSTRAINTS_FILE`` env
-  var by default, to properly integrate with CI systems, and will default
-  to ``/opt/stack/requirements/upper-constraints.txt`` file if not present.
+  setting is defined. This is consuming the ``UPPER_CONSTRAINTS_FILE`` or
+  ``TOX_CONSTRAINTS_FILE`` env var by default, to properly integrate with CI
+  systems, and will default to
+  ``/opt/stack/requirements/upper-constraints.txt`` file if not present.
 
 Manually test with Virtual Machines
 ===================================
