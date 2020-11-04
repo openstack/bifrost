@@ -18,6 +18,10 @@ export LANG=en_US.UTF-8
 
 export VENV=${VENV:-/opt/stack/bifrost}
 
+# NOTE(dtantsur): change this when creating a stable branch
+BRANCH=${ZUUL_BRANCH:-victoria}
+CONSTRAINTS_FILE=${UPPER_CONSTRAINTS_FILE:-${TOX_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/$BRANCH}}
+
 CHECK_CMD_PKGS=(
     python3-devel
     python3
@@ -151,6 +155,6 @@ echo "Using Bindep to install binary dependencies"
 bindep -b &> /dev/null || ${INSTALLER_CMD} $(bindep -b)
 
 echo "Installing Python requirements"
-${PIP} install -r "$(dirname $0)/../requirements.txt" -c ${UPPER_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/victoria}
+${PIP} install -r "$(dirname $0)/../requirements.txt" -c "${CONSTRAINTS_FILE}"
 
 echo "Completed installation of basic dependencies."

@@ -49,7 +49,11 @@ git_url_root: https://opendev.org
 reqs_git_url: "{{ git_url_root }}/openstack/requirements"
 reqs_git_folder: "{{ git_root }}/requirements"
 reqs_git_branch: "{{ git_branch }}"
-upper_constraints_file: "{{ lookup('env', 'UPPER_CONSTRAINTS_FILE') | default(reqs_git_folder + '/upper-constraints.txt', True) }}"
+upper_constraints_file: >-
+  {{ lookup('env', 'UPPER_CONSTRAINTS_FILE')
+     | default(lookup('env', 'TOX_CONSTRAINTS_FILE'), True)
+     | default(reqs_git_folder + '/upper-constraints.txt', True) }}
+
 update_repos: true
 force_update_repos: true
 
