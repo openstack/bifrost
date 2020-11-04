@@ -1,9 +1,0 @@
----
-http_boot_folder: /httpboot
-deploy_image_filename: "partition_image.raw"
-deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
-
-
-# Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
-bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
-ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
