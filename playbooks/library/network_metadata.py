@@ -25,6 +25,11 @@ extends_documentation_fragment: openstack
 
 
 def main():
+    """
+    Main function.
+
+    Args:
+    """
     argument_spec = dict(
         ipv4_address=dict(required=False),
         ipv4_gateway=dict(required=False),

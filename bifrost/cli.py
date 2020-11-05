@@ -34,6 +34,12 @@ DEFAULT_BRANCH = 'master'
 
 
 def get_env(extra=None):
+    """
+    Returns the environment variables dict.
+
+    Args:
+        extra: (todo): write your description
+    """
     # NOTE(dtantsur): the order here matters!
     result = os.environ.copy()
     result.update(COMMON_ENV)
@@ -43,12 +49,30 @@ def get_env(extra=None):
 
 
 def log(*message, only_if=True):
+    """
+    Log a message to stderr.
+
+    Args:
+        message: (str): write your description
+        only_if: (bool): write your description
+    """
     if only_if:
         print(*message, file=sys.stderr)
 
 
 def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
             **params):
+    """
+    Run ansible ansible ansible ansible.
+
+    Args:
+        playbook: (todo): write your description
+        inventory: (todo): write your description
+        verbose: (bool): write your description
+        env: (todo): write your description
+        extra_vars: (str): write your description
+        params: (dict): write your description
+    """
     extra = COMMON_PARAMS[:]
     extra.extend(itertools.chain.from_iterable(
         ('-e', '%s=%s' % pair) for pair in params.items()
@@ -64,6 +88,11 @@ def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
 
 
 def env_setup(args):
+    """
+    Setup environment variables.
+
+    Args:
+    """
     log('Installing dependencies and preparing an environment in', VENV,
         only_if=args.debug)
     env = get_env({'BIFROST_TRACE': str(args.debug).lower(),
@@ -72,6 +101,12 @@ def env_setup(args):
 
 
 def get_release(release):
+    """
+    Get the release for the given release.
+
+    Args:
+        release: (str): write your description
+    """
     if release:
         if release != DEFAULT_BRANCH and not release.startswith('stable/'):
             release = 'stable/%s' % release
@@ -94,6 +129,11 @@ def get_release(release):
 
 
 def cmd_testenv(args):
+    """
+    Setup a command.
+
+    Args:
+    """
     env_setup(args)
     log('Creating', args.count, 'test node(s) with', args.memory,
         'MiB RAM and', args.disk, 'GiB of disk')
@@ -123,6 +163,11 @@ def cmd_testenv(args):
 
 
 def cmd_install(args):
+    """
+    Install a dhcp
+
+    Args:
+    """
     release = get_release(args.release)
 
     kwargs = {}
@@ -170,6 +215,11 @@ def cmd_install(args):
 
 
 def parse_args():
+    """
+    Parse command line arguments.
+
+    Args:
+    """
     parser = argparse.ArgumentParser("Bifrost CLI")
     parser.add_argument('--debug', action='store_true',
                         help='output extensive logging')
@@ -245,6 +295,11 @@ def parse_args():
 
 
 def check_for_root():
+    """
+    Run the working directory.
+
+    Args:
+    """
     try:
         subprocess.check_call(
             '[ $(whoami) == root ] || sudo --non-interactive true',
@@ -254,6 +309,11 @@ def check_for_root():
 
 
 def main():
+    """
+    Main function.
+
+    Args:
+    """
     args = parse_args()
     try:
         check_for_root()

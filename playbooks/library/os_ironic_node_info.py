@@ -68,6 +68,12 @@ EXAMPLES = '''
 
 
 def _choose_id_value(module):
+    """
+    Returns the value of the given module.
+
+    Args:
+        module: (todo): write your description
+    """
     if module.params['uuid']:
         return module.params['uuid']
     if module.params['name']:
@@ -76,6 +82,11 @@ def _choose_id_value(module):
 
 
 def main():
+    """
+    Main entry point.
+
+    Args:
+    """
     argument_spec = openstack_full_argument_spec(  # noqa: F405
         auth_type=dict(required=False),
         uuid=dict(required=False),

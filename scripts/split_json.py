@@ -41,6 +41,12 @@ where:
 
 
 def fail(msg=None):
+    """
+    Print an error message
+
+    Args:
+        msg: (str): write your description
+    """
     if msg:
         print("Error: %s" % msg)
         print()
@@ -49,6 +55,11 @@ def fail(msg=None):
 
 
 def parse_args(args):
+    """
+    Parse arguments.
+
+    Args:
+    """
 
     if len(args) != 4:
         fail("Wrong number of arguments")
@@ -65,6 +76,13 @@ def parse_args(args):
 
 
 def write_to_json(fname, data):
+    """
+    Writes data to a json file.
+
+    Args:
+        fname: (str): write your description
+        data: (str): write your description
+    """
     with open(fname, 'w') as of:
         try:
             json.dump(data, of, indent=4)
@@ -73,6 +91,11 @@ def write_to_json(fname, data):
 
 
 def split_json_dict(args):
+    """
+    Split a json file.
+
+    Args:
+    """
     num, infile, out1, out2 = parse_args(args)
     data = {}
     with open(infile) as f:

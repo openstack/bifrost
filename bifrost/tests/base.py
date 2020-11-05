@@ -23,4 +23,10 @@ class TestCase(testtools.TestCase):
     """Test case base class for all unit tests."""
 
     def setUp(self):
+        """
+        Sets the result of the thread.
+
+        Args:
+            self: (todo): write your description
+        """
         super(TestCase, self).setUp()

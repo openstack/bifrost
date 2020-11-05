@@ -26,10 +26,22 @@ from bifrost.tests import utils
 class TestBifrostInventoryFunctional(base.TestCase):
 
     def setUp(self):
+        """
+        Sets the maximum maxDiff.
+
+        Args:
+            self: (todo): write your description
+        """
         self.maxDiff = None
         super(TestBifrostInventoryFunctional, self).setUp()
 
     def test_yaml_to_json_conversion(self):
+        """
+        Serialize the yam data to a yaml string.
+
+        Args:
+            self: (todo): write your description
+        """
         # Note(TheJulia) Ultimately this is just ensuring
         # that we get the same output when we pass something
         # in as YAML
@@ -57,6 +69,12 @@ class TestBifrostInventoryFunctional(base.TestCase):
         self.assertDictEqual(json.loads(str(expected_hostvars)), hostvars)
 
     def test_minimal_json(self):
+        """
+        Test the json - json data
+
+        Args:
+            self: (todo): write your description
+        """
         input_json = """{"h0000-01":{"uuid":
 "00000000-0000-0000-0001-bad00000010","name":"h0000-01","driver_info"
 :{"power":{"ipmi_address":"10.0.0.78","ipmi_username":"ADMIN","

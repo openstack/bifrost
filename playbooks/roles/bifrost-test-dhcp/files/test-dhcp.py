@@ -20,12 +20,24 @@ import sys
 
 
 def _load_data_from_json(path):
+    """
+    Load a inventory from a json file.
+
+    Args:
+        path: (str): write your description
+    """
     with open(path) as jsonfile:
         inventory = json.load(jsonfile)
     return inventory
 
 
 def main(argv):
+    """
+    Main entry point.
+
+    Args:
+        argv: (str): write your description
+    """
     # first item is the inventory_dhcp setting
     # second item is the inventory_dhcp_static_ip setting
     inventory_dhcp = (argv[0] == 'True' or argv[0] == 'true')
