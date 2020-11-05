@@ -21,6 +21,12 @@ from bifrost import inventory
 
 @contextlib.contextmanager
 def temporary_file(file_data):
+    """
+    A context manager for a temporary file.
+
+    Args:
+        file_data: (str): write your description
+    """
     file = None
     file = tempfile.NamedTemporaryFile(mode='w')
     file.write(file_data)
@@ -34,6 +40,12 @@ def temporary_file(file_data):
 
 
 def bifrost_data_conversion(data):
+    """
+    Convert inventory data to inventory.
+
+    Args:
+        data: (array): write your description
+    """
     (groups, hostvars) = inventory._prepare_inventory()
     with temporary_file(data) as file:
         (groups, hostvars) = inventory._process_baremetal_data(

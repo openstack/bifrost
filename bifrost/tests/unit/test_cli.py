@@ -38,26 +38,56 @@ defaultbranch=stable/banana
 
 class TestGetRelease(base.TestCase):
     def setUp(self):
+        """
+        Create a temporary directory.
+
+        Args:
+            self: (todo): write your description
+        """
         super().setUp()
         self.temp_dir = tempfile.mkdtemp()
         self.addCleanup(lambda: shutil.rmtree(self.temp_dir))
 
     def test_provided(self):
+        """
+        Run the test command line.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertEqual('stable/ussuri', cli.get_release('ussuri'))
         self.assertEqual('stable/ussuri', cli.get_release('stable/ussuri'))
         self.assertEqual('master', cli.get_release('master'))
 
     @mock.patch.object(cli, 'BASE', '/non/existing/dir')
     def test_no_file(self):
+        """
+        Test if the file exists.
+
+        Args:
+            self: (todo): write your description
+        """
         self.assertIsNone(cli.get_release(None))
 
     def test_from_file_no_branch(self):
+        """
+        Test if a temp file.
+
+        Args:
+            self: (todo): write your description
+        """
         with open(os.path.join(self.temp_dir, '.gitreview'), 'wt') as fp:
             fp.write(FILE_NO_BRANCH)
         with mock.patch.object(cli, 'BASE', self.temp_dir):
             self.assertIsNone(cli.get_release(None))
 
     def test_from_file_with_branch(self):
+        """
+        Test if a temporary branch.
+
+        Args:
+            self: (todo): write your description
+        """
         with open(os.path.join(self.temp_dir, '.gitreview'), 'wt') as fp:
             fp.write(FILE_WITH_BRANCH)
         with mock.patch.object(cli, 'BASE', self.temp_dir):

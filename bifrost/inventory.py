@@ -153,6 +153,11 @@ opts = [
 
 
 def _parse_config():
+    """
+    Parse the options.
+
+    Args:
+    """
     config = cfg.ConfigOpts()
     log.register_options(config)
     config.register_cli_opts(opts)
@@ -164,6 +169,11 @@ def _parse_config():
 
 
 def _prepare_inventory():
+    """
+    Prepare the inventory dict.
+
+    Args:
+    """
     hostvars = {"127.0.0.1": {"ansible_connection": "local"}}
     groups = {}
     groups.update({'baremetal': {'hosts': []}})

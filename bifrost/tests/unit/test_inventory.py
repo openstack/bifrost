@@ -30,6 +30,12 @@ from bifrost.tests import base
 class TestBifrostInventoryUnit(base.TestCase):
 
     def test_inventory_preparation(self):
+        """
+        Prepares inventory inventory.
+
+        Args:
+            self: (todo): write your description
+        """
         (groups, hostvars) = inventory._prepare_inventory()
         self.assertIn("baremetal", groups)
         self.assertIn("localhost", groups)
@@ -40,6 +46,13 @@ class TestBifrostInventoryUnit(base.TestCase):
 
     @mock.patch.object(openstack, 'connect', autospec=True)
     def test__process_sdk(self, mock_sdk):
+        """
+        Test if a list of hosts
+
+        Args:
+            self: (todo): write your description
+            mock_sdk: (todo): write your description
+        """
         (groups, hostvars) = inventory._prepare_inventory()
         mock_cloud = mock_sdk.return_value
         mock_cloud.list_machines.return_value = [
@@ -90,6 +103,13 @@ class TestBifrostInventoryUnit(base.TestCase):
 
     @mock.patch.object(openstack, 'connect', autospec=True)
     def test__process_sdk_multiple_nics(self, mock_sdk):
+        """
+        Test if the number of the nics
+
+        Args:
+            self: (todo): write your description
+            mock_sdk: (todo): write your description
+        """
         (groups, hostvars) = inventory._prepare_inventory()
         mock_cloud = mock_sdk.return_value
         mock_cloud.list_machines.return_value = [
