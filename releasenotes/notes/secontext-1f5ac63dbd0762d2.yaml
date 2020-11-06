@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Fixes SELinux context not being applied to /httpboot and /tftpboot.
+    This renders the ``ironic_policy`` module unnecessary, and it has been
+    removed.
+  - |
+    Ensures that the checksums file has the correct ownership.
