@@ -387,9 +387,9 @@
   when: use_firewalld | bool
 
 - block:
-    - name: "Explicitly allow nginx and IPA port (TCP) on selinux"
+    - name: "Allow nginx, ironic, inspector and IPA ports on SELinux"
       seport:
-        ports: "{{ file_url_port }},6385"
+        ports: "{{ file_url_port }},6385,5050,9999"
         proto: tcp
         setype: http_port_t
         state: present
