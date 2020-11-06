@@ -4,6 +4,7 @@
         cmd: bash scripts/test-bifrost.sh
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
       environment:
+        BIFROST_TRACE: "true"
         BUILD_IMAGE: "{{ build_image | default(false) | bool | lower }}"
         CLI_TEST: "{{ cli_test | default(false) | bool | lower }}"
         ENABLE_KEYSTONE: "{{ enable_keystone | default(false) | bool | lower }}"
