@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Copies ironic-lib rootwrap.d filters to the correct location.
+  - |
+    Correctly copies rootwrap.d filters on upgrade.

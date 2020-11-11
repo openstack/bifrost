@@ -107,10 +107,21 @@
     owner: root
     group: root
   when: not skip_install | bool
-# Note(ashestakov): "copy" module in ansible doesn't support recursive
-# copying on remote host. "cp" command used instead.
 - name: "Copy rootwrap.d contents from ironic source folder"
-  command: cp -r "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/" "/etc/ironic/rootwrap.d"
+  copy:
+    src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/"
+    dest: "/etc/ironic/rootwrap.d/"
+    remote_src: yes
+    owner: root
+    group: root
+  when: not skip_install | bool
+- name: "Copy rootwrap.d contents from ironic-lib installation"
+  copy:
+    src: "{{ bifrost_venv_dir }}/etc/ironic/rootwrap.d/ironic-lib.filters"
+    dest: "/etc/ironic/rootwrap.d/"
+    remote_src: yes
+    owner: root
+    group: root
   when: not skip_install | bool
 
 - name: "Generate admin htpasswd for ironic"
