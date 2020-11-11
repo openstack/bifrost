@@ -92,6 +92,7 @@
 
 - name: find facts on libvirt networks
   virt_net:
+    name: "{{ test_vm_network }}"
     command: facts
     uri: "{{ test_vm_libvirt_uri }}"
 
