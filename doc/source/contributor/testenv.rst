@@ -2,8 +2,45 @@
 Testing Environment
 ===================
 
-Execute local testing
-=====================
+Quick start with bifrost-cli
+============================
+
+If you want to try Bifrost on virtual machines instead of real hardware, you
+need to prepare a testing environment. The easiest way is via ``bifrost-cli``,
+available since the Victoria release series:
+
+.. code-block:: bash
+
+   ./bifrost-cli testenv
+
+Additionally, the following parameters can be useful:
+
+``--develop``
+    Install services in develop mode, so that the changes to the repositories
+    in ``/opt`` get immediately reflected in the virtual environment.
+
+    .. note::
+       You still need to restart services to apply any changes, e.g.::
+
+        sudo systemctl restart ironic-conductor
+
+``--driver=[ipmi|redfish]``
+    Choose the default driver for the generated nodes inventory.
+
+    .. note::
+       Both IPMI and Redfish support is configured anyway, so you can switch
+       the drivers on fly if needed.
+
+       IPMI support uses VirtualBMC_, Redfish - sushy-tools_.
+
+See the built-in documentation for more details:
+
+.. code-block:: bash
+
+    ./bifrost-cli testenv --help
+
+Reproduce CI testing locally
+============================
 
 A simple ``scripts/test-bifrost.sh`` script can be utilized to install
 pre-requisite software packages, Ansible, and then execute the
@@ -37,7 +74,8 @@ Manually test with Virtual Machines
 Bifrost supports using virtual machines to emulate the hardware.
 
 The VirtualBMC_ project is used as an IPMI proxy, so that the same ``ipmi``
-hardware type can be used as for real hardware.
+hardware type can be used as for real hardware. Redfish emulator from
+sushy-tools_ is also installed.
 
 #. Set ``testing`` to *true* in the
    ``playbooks/inventory/group_vars/target`` file.
@@ -63,3 +101,4 @@ Configuring libvirt
 
 
 .. _VirtualBMC: https://docs.openstack.org/virtualbmc/
+.. _sushy-tools: https://docs.openstack.org/sushy-tools/
