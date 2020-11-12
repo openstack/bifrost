@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Adds the ``--uefi`` argument to ``./bifrost-cli testenv`` to make testing
+    VMs boot in the UEFI mode.
+  - |
+    Adds the ``--uefi`` argument to ``./bifrost-cli install`` to make ironic
+    use UEFI by default.

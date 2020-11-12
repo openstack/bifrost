@@ -91,6 +91,12 @@ need:
 * An IP address or a host name of its management controller (BMC).
 * Credentials for the management controller.
 * MAC address of the NIC the machine uses for PXE booting (optional for IPMI).
+* Whether it boots in the UEFI or legacy (BIOS) mode.
+
+  .. note::
+     Some hardware types (like ``redfish``) can enforce the desired boot mode,
+     while the other (like ``ipmi``) require the same boot mode to be set in
+     ironic and on the machine.
 
 .. _Keystone: https://docs.openstack.org/keystone/latest/
 .. _bare metal drivers: https://docs.openstack.org/ironic/latest/admin/drivers.html
@@ -254,6 +260,9 @@ Additionally, the following parameters can be useful:
 
 ``--enable-prometheus-exporter``
     Enable the Ironic Prometheus Exporter service.
+
+``--uefi``
+    Boot machines in the UEFI mode by default.
 
 See the built-in documentation for more details:
 

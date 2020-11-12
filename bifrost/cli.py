@@ -115,6 +115,7 @@ def cmd_testenv(args):
             test_vm_disk_gib=args.disk,
             test_vm_domain_type=args.domain_type,
             test_vm_node_driver=args.driver,
+            default_boot_mode='uefi' if args.uefi else 'bios',
             baremetal_json_file=os.path.abspath(args.inventory),
             baremetal_nodes_json=os.path.abspath(args.output),
             extra_vars=args.extra_vars,
@@ -160,6 +161,7 @@ def cmd_install(args):
             use_tinyipa=args.testenv,
             developer_mode=args.develop,
             enable_prometheus_exporter=args.enable_prometheus_exporter,
+            default_boot_mode='uefi' if args.uefi else 'bios',
             extra_vars=args.extra_vars,
             **kwargs)
     log("Ironic is installed and running, try it yourself:\n",
@@ -198,6 +200,8 @@ def parse_args():
     testenv.add_argument('--driver', default='ipmi',
                          choices=['ipmi', 'redfish'],
                          help='driver for testing nodes')
+    testenv.add_argument('--uefi', action='store_true',
+                         help='boot testing VMs with UEFI by default')
     testenv.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
     testenv.add_argument('-o', '--output', default='baremetal-nodes.json',
@@ -234,6 +238,8 @@ def parse_args():
     install.add_argument('--enable-prometheus-exporter', action='store_true',
                          default=False,
                          help='Enable Ironic Prometheus Exporter')
+    install.add_argument('--uefi', action='store_true',
+                         help='use UEFI by default')
     install.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
 
