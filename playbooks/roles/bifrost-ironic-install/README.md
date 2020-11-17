@@ -224,7 +224,7 @@ inspector_store_ramdisk_logs: Boolean value, default true. Controls if the
                               inspector agent will retain logs from the
                               ramdisk that called the inspector service.
 
-enable_inspector_discovery: Boolean value, default true. This instructs
+enable_inspector_discovery: Boolean value, default false. This instructs
                             inspector to add new nodes that are discovered
                             via PXE booting on the same network to ironic.
 

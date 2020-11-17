@@ -1,0 +1,6 @@
+---
+upgrade:
+  - Discovery of nodes via the ironic-inspector is now
+    disabled by default.  If you wish to enable this, set
+    ``enable_inspector_discovery`` to ``true`` and re-execute
+    the installation playbook.

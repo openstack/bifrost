@@ -232,7 +232,7 @@ inspector_extra_kernel_options: "ipa-inspection-collectors=default,logs"
 # list of processing hooks for inspector.
 #inspector_processing_hooks:
 
-enable_inspector_discovery: true
+enable_inspector_discovery: false
 
 inspector_default_node_driver: "{{ 'manual-management' if enable_credential_less_deploy|bool else 'ipmi' }}"
 
