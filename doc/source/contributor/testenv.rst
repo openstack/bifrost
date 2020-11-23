@@ -33,6 +33,9 @@ Additionally, the following parameters can be useful:
 
        IPMI support uses VirtualBMC_, Redfish - sushy-tools_.
 
+``--uefi``
+    Makes the testing VMs boot with UEFI.
+
 See the built-in documentation for more details:
 
 .. code-block:: bash
