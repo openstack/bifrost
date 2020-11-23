@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Set the new boolean parameter ``ipa_add_ssh_key`` to ``True`` to configure
+    an ability to log into ramdisk with the current user's SSH key. Only
+    works for DIB-based ramdisks built with the ``dynamic-login`` element.

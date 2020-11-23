@@ -104,6 +104,8 @@ use_cirros: false
 download_ipa: true
 update_repos: true
 update_ipa: "{{ update_repos }}"
+# Use the DIB dynamic-login element to insert the SSH key
+ipa_add_ssh_key: false
 cirros_deploy_image_upstream_url: https://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server.  If you already have a DHCP server, you will need to disable
@@ -379,5 +381,8 @@ pxe_kernel_params: >-
   nofb nomodeset systemd.journald.forward_to_console=yes
   {% if testing | bool %}console=ttyS0{% endif %}
   ipa-insecure=1
+  {% if ipa_add_ssh_key | bool and ssh_public_key is defined %}
+  sshkey="{{ ssh_public_key }}"
+  {% endif %}
   {{ extra_kernel_options | default('') }}
 redfish_kernel_params: "{{ pxe_kernel_params }}"

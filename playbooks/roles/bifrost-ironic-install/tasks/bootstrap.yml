@@ -156,6 +156,10 @@
   include: keystone_setup.yml
   when: enable_keystone | bool
 
+- name: "Read SSH key if needed"
+  import_tasks: ssh_public_key_path.yaml
+  when: ipa_add_ssh_key | bool
+
 # NOTE(pas-ha) needed to e.g. pick up new interfaces after libvirt install
 - name: "Refresh facts"
   setup:
