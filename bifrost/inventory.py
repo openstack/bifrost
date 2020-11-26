@@ -231,8 +231,7 @@ def _process_sdk(groups, hostvars):
         node_names = node_names.split(',')
 
     for machine in machines:
-        if 'properties' not in machine:
-            machine = cloud.get_machine(machine['uuid'])
+        machine = cloud.get_machine(machine['uuid'])
         if machine['name'] is None:
             name = machine['uuid']
         else:
