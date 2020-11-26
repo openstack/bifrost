@@ -44,18 +44,26 @@ class TestBifrostInventoryUnit(base.TestCase):
         mock_cloud = mock_sdk.return_value
         mock_cloud.list_machines.return_value = [
             {
-                'driver_info': {
-                    'ipmi_address': '1.2.3.4',
-                },
+                'driver_info': None,
                 'links': [],
                 'name': 'node1',
                 'ports': [],
-                'properties': {
-                    'cpus': 42,
-                },
+                'properties': None,
                 'uuid': 'f3fbf7c6-b4e9-4dd2-8ca0-c74a50f8be45',
             },
         ]
+        mock_cloud.get_machine.return_value = {
+            'driver_info': {
+                'ipmi_address': '1.2.3.4',
+            },
+            'links': [],
+            'name': 'node1',
+            'ports': [],
+            'properties': {
+                'cpus': 42,
+            },
+            'uuid': 'f3fbf7c6-b4e9-4dd2-8ca0-c74a50f8be45',
+        }
         mock_cloud.list_nics_for_machine.return_value = [
             {
                 'address': '00:11:22:33:44:55',
@@ -94,18 +102,26 @@ class TestBifrostInventoryUnit(base.TestCase):
         mock_cloud = mock_sdk.return_value
         mock_cloud.list_machines.return_value = [
             {
-                'driver_info': {
-                    'ipmi_address': '1.2.3.4',
-                },
+                'driver_info': None,
                 'links': [],
                 'name': 'node1',
                 'ports': [],
-                'properties': {
-                    'cpus': 42,
-                },
+                'properties': None,
                 'uuid': 'f3fbf7c6-b4e9-4dd2-8ca0-c74a50f8be45',
             },
         ]
+        mock_cloud.get_machine.return_value = {
+            'driver_info': {
+                'ipmi_address': '1.2.3.4',
+            },
+            'links': [],
+            'name': 'node1',
+            'ports': [],
+            'properties': {
+                'cpus': 42,
+            },
+            'uuid': 'f3fbf7c6-b4e9-4dd2-8ca0-c74a50f8be45',
+        }
         mock_cloud.list_nics_for_machine.return_value = [
             {
                 'address': '00:11:22:33:44:55',
