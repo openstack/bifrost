@@ -63,6 +63,11 @@ fi
 
 source $SCRIPT_HOME/env-setup.sh
 
+# We're expected to test with SELinux enforcing
+if which setenforce &> /dev/null; then
+    sudo setenforce Enforcing
+fi
+
 # Note(cinerama): activate is not compatible with "set -u";
 # disable it just for this line.
 set +u
