@@ -338,19 +338,27 @@
   when:
     - not create_ipa_image | bool
     - download_ipa | bool
-- name: "Download cirros to use for deployment if requested"
-  get_url:
-    url: "{{ cirros_deploy_image_upstream_url }}"
-    dest: "{{ deploy_image }}"
-    owner: ironic
-    group: ironic
-    mode: 0644
+
+- block:
+    - name: "Download cirros to use for deployment if requested"
+      get_url:
+        url: "{{ cirros_deploy_image_upstream_url }}"
+        dest: "{{ deploy_image }}"
+        owner: ironic
+        group: ironic
+        mode: 0644
+    - name: "Create a checksum file for cirros"
+      shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
+      args:
+        chdir: "{{ http_boot_folder }}"
+    - name: "Ensure the checksum file is readable"
+      file:
+        path: "{{ http_boot_folder }}/{{ deploy_image_filename }}.CHECKSUMS"
+        owner: ironic
+        group: ironic
+        mode: 0644
   when: use_cirros | bool
-- name: "Create a checksum file for cirros"
-  shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
-  args:
-    chdir: "{{ http_boot_folder }}"
-  when: use_cirros | bool
+
 - name: >
     "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned
      and TCP/6385 for IPA callback"
@@ -416,22 +424,15 @@
         setype: httpd_sys_content_t
         state: present
 
-    - name: Copy ironic policy file to temporary directory
-      copy:
-        src: ironic_policy.te
-        dest: /tmp/ironic_policy.te
+    - name: Disable the old ironic policy if it was enabled
+      command: semodule -d ironic_policy
+      ignore_errors: true
 
-    - name: Check ironic policy module
-      command: checkmodule -M -m -o /tmp/ironic_policy.mod /tmp/ironic_policy.te
-
-    - name: Package ironic policy module
-      command: semodule_package -m /tmp/ironic_policy.mod -o /tmp/ironic_policy.pp
-
-    - name: Include ironic policy module
-      command: semodule -i /tmp/ironic_policy.pp
-
-    - name: Enable ironic policy module
-      command: semodule -e ironic_policy
+    - name: Apply the correct SELinux context to the directories
+      command: restorecon -iRv {{ item }}
+      loop:
+        - "{{ http_boot_folder }}"
+        - /tftpboot
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
          ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
 - name: "Configure remote logging"
