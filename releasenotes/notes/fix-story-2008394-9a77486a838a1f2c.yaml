@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes an issue with the Bifrost inventory plugin when used with
+    ``BIFROST_INVENTORY_SOURCE=ironic``. All node fields are now returned as
+    facts, as in Ussuri and earlier releases. See `story 2008394
+    <https://storyboard.openstack.org/#!/story/2008394>`__ for details.
