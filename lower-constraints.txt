@@ -9,14 +9,13 @@ cmd2==0.8.9
 coverage==4.0
 cryptography==2.2.1
 debtcollector==1.19.0
-doc8==0.6.0
 docutils==0.14
 extras==1.0.0
 fixtures==3.0.0
 future==0.18.2
 idna==2.6
 iso8601==0.1.12
-keystoneauth1==3.4.0
+keystoneauth1==3.18.0
 linecache2==1.0.0
 monotonic==1.4
 mox3==0.25.0
@@ -36,7 +35,6 @@ pbr==2.0.0
 prettytable==0.7.2
 pyasn1==0.4.2
 pycparser==2.18
-Pygments==2.2.0
 pyinotify==0.9.6
 pyOpenSSL==18.0.0
 pyparsing==2.2.0
