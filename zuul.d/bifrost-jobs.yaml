@@ -44,7 +44,7 @@
 - job:
     name: bifrost-integration-dhcp-centos-8
     parent: bifrost-integration-dhcp
-    nodeset: centos-8
+    nodeset: centos-8-stream
 
 - job:
     name: bifrost-integration-dibipa-debian
@@ -61,7 +61,7 @@
 - job:
     name: bifrost-integration-dibipa-debian-centos-8
     parent: bifrost-integration-dibipa-debian
-    nodeset: centos-8
+    nodeset: centos-8-stream
 
 - job:
     name: bifrost-integration-tinyipa
@@ -114,12 +114,12 @@
 - job:
     name: bifrost-integration-tinyipa-centos-8
     parent: bifrost-integration-tinyipa
-    nodeset: centos-8
+    nodeset: centos-8-stream
 
 - job:
     name: bifrost-integration-tinyipa-keystone-centos-8
     parent: bifrost-integration-tinyipa
-    nodeset: centos-8
+    nodeset: centos-8-stream
     required-projects:
       - openstack/keystone
       - openstack/ironic-prometheus-exporter

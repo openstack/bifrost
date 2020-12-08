@@ -15,8 +15,7 @@ Requirements
 Supported operating systems:
 
 * Ubuntu 18.04, 20.04
-* Red Hat Enterprise Linux (RHEL) 8
-* CentOS 8
+* CentOS 8 Stream (normal CentOS 8 and RHEL 8 should work but are not tested)
 * openSUSE Leap 15.2 (15.1 is supported but not recommended)
 * Fedora 32 (30 is supported but not recommended)
 * Debian Buster
