@@ -35,6 +35,13 @@
     name: "{{ required_packages }}"
     state: present
 
+# NOTE(dtantsur): workaround for https://bugzilla.redhat.com/show_bug.cgi?id=1840485
+- name: "Work around libgrypt issue on RHEL/CentOS 8.3"
+  package:
+    name: libgcrypt
+    state: latest
+  when: ansible_distribution in ['RedHat', 'CentOS']
+
 - name: ensure installation root folder exists
   become: yes
   file:

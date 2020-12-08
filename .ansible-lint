@@ -7,4 +7,5 @@ skip_list:
   - '702'  # Tags must contain lowercase letters and digits only
   # NOTE(dtantsur): the following rules should likely stay excluded:
   - '106'  # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern'
+  - '403'  # Package installs should not use latest
   - '503'  # Tasks that run when changed should likely be handlers
