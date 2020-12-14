@@ -264,7 +264,7 @@ ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
 # for noauth mode. Since we are introducing the concept of
 # authentication, we need to record the default for
 # conditional statements in the playbooks.
-noauth_mode: true
+noauth_mode: false
 
 # A work around for installing older releases, remove when no longer supporting
 # Ussuri.

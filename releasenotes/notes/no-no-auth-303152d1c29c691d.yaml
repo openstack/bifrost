@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Bifrost now uses HTTP basic authentication by default. The generated
+    credentials will be stored in ``~/.config/openstack/clouds.yaml``.
+    Use ``noauth_mode=true`` with ``enable_keystone=false`` to disable
+    authentication.

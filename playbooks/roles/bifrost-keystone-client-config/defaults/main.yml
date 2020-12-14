@@ -25,7 +25,7 @@ bifrost_venv_env:
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
 
 enable_keystone: false
-noauth_mode:  true
+noauth_mode: false
 
 # Directory (on the controller) to keep the passwords
 password_dir: "{{ lookup('env', 'HOME') }}/.config/bifrost"

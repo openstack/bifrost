@@ -1,5 +1,5 @@
 ---
-noauth_mode: true
+noauth_mode: false
 
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"

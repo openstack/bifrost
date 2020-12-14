@@ -1,5 +1,5 @@
 ---
-noauth_mode: true
+noauth_mode: false
 wait_for_node_undeploy: false
 
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment

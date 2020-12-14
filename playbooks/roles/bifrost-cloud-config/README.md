@@ -18,7 +18,7 @@ This role supports one variable:
 `noauth_mode`
 
 Whether bifrost has been installed in no-authentication mode.
-Defaults to `true`.
+Defaults to `false`.
 
 This role sets several facts:
 
@@ -69,7 +69,7 @@ Example Playbook
   gather_facts: no
   roles:
     - role: bifrost-cloud-config
-      noauth_mode: true
+      noauth_mode: false
 ```
 
 License

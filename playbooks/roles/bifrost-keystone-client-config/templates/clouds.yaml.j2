@@ -17,7 +17,7 @@ clouds:
     cacert: "{{ tls_certificate_path }}"
 {% endif %}
 {% endfor %}
-{% elif noauth_mode | default(true) | bool %}
+{% elif noauth_mode | default(false) | bool %}
   bifrost:
     auth_type: "none"
     baremetal_endpoint_override: {{ ironic_api_url }}
