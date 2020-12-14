@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    Following an `announcement
+    <https://lists.centos.org/pipermail/centos-announce/2020-December/048208.html>`_
+    by the CentOS project, Bifrost has switched to CentOS Stream for testing.
+    Regular CentOS is no longer tested in the CI, meaning that both it and
+    RHEL will only be tested indirectly and supported on the best effort basis.
