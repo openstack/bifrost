@@ -40,7 +40,7 @@ required_packages:
   - tftp-server
   - wget
   - xinetd
+  - dosfstools
 iscsi_required_packages:
   - iscsi-initiator-utils
   - gdisk
-  - dosfstools

@@ -41,7 +41,7 @@ required_packages:
   - syslinux-nonlinux
   - grub2-efi-x64
   - shim-x64
+  - dosfstools
 iscsi_required_packages:
   - iscsi-initiator-utils
   - gdisk
-  - dosfstools
