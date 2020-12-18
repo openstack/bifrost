@@ -124,7 +124,6 @@ ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 prometheus_exporter_git_url: https://opendev.org/openstack/ironic-prometheus-exporter
 mysql_username: "root"
 mysql_password: ""
-disable_dnsmasq_dns: True
 ironic_git_folder: /opt/stack/ironic
 ironicclient_git_folder: /opt/stack/python-ironicclient
 openstacksdk_git_folder: /opt/stack/openstacksdk
@@ -164,6 +163,16 @@ dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 dhcp_lease_time: 12h
 dhcp_static_mask: 255.255.255.0
+
+# Whether to enable DNS in dnsmasq. Will conflict with any other DNS server,
+# hence disabled by default.
+dnsmasq_enable_dns: "{{ not (dnsmasq_disable_dns | default(True) | bool) }}"
+# Directory with static DHCP hosts configuration.
+dnsmasq_dhcp_hostsdir: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
+# Uncomment to set up directory with additional hosts for DNS. Useless without
+# dnsmasq_enable_dns set to True.
+#dnsmasq_additional_hostsdir: "/etc/dnsmasq.d/bifrost.hosts.d"
+
 # Dnsmasq default route for clients. If not defined, dnsmasq will push to clients
 # as default route the same IP of the dnsmasq server.
 # If set to false, it will disable default route creation in clients.

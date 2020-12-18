@@ -242,22 +242,23 @@
 - name: "Create an ESP image"
   import_tasks: create_esp.yml
 
-- name: "Setup Inventory Hosts Directory"
+- name: "Setup additional DHCP hosts directory"
   file:
-    path: "/etc/dnsmasq.d/bifrost.hosts.d"
+    path: "{{ dnsmasq_additional_hostsdir }}"
     state: directory
     owner: "root"
     group: "root"
     mode: 0755
-  when: inventory_dhcp | bool
-- name: "Setup Inventory DHCP Hosts Directory"
+  when: dnsmasq_additional_hostsdir is defined
+
+- name: "Setup inventory DHCP hosts directory"
   file:
-    path: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
+    path: "{{ dnsmasq_dhcp_hostsdir }}"
     state: directory
     owner: "root"
     group: "root"
     mode: 0755
-  when: inventory_dhcp | bool
+
 - name: "Retrieve interface IP informations"
   set_fact:
     itf_infos: "{{ internal_interface }}"
