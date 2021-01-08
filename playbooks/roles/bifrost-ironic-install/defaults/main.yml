@@ -140,7 +140,7 @@ prometheus_exporter_git_folder: /opt/stack/ironic-prometheus-exporter
 
 enabled_hardware_types: "ipmi,redfish,manual-management,ilo"
 default_deploy_interface: "direct"
-enabled_deploy_interfaces: "iscsi,direct"
+enabled_deploy_interfaces: "direct,ramdisk"
 # These are calculated based on enabled_hardware_types if empty
 enabled_bios_interfaces: ""
 enabled_boot_interfaces: ""
