@@ -171,6 +171,21 @@ def cmd_install(args):
         "See documentation for next steps")
 
 
+def cmd_enroll(args):
+    inventory = os.path.join(PLAYBOOKS, 'inventory', 'bifrost_inventory.py')
+    if os.path.exists(args.inventory):
+        nodes_inventory = os.path.abspath(args.inventory)
+        os.environ['BIFROST_INVENTORY_SOURCE'] = nodes_inventory
+    else:
+        sys.exit('Inventory file %s cannot be found' % args.inventory)
+
+    ansible('enroll-dynamic.yaml',
+            inventory=inventory,
+            verbose=args.debug,
+            inspect_nodes=args.inspect,
+            extra_vars=args.extra_vars)
+
+
 def parse_args():
     parser = argparse.ArgumentParser("Bifrost CLI")
     parser.add_argument('--debug', action='store_true',
@@ -242,6 +257,16 @@ def parse_args():
                          help='use UEFI by default')
     install.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
+
+    enroll = subparsers.add_parser(
+        'enroll', help='Enroll bare metal nodes')
+    enroll.set_defaults(func=cmd_enroll)
+    enroll.add_argument('inventory', default='baremetal-inventory.json',
+                        help='file with the inventory')
+    enroll.add_argument('--inspect', action='store_true',
+                        help='inspect nodes while enrolling')
+    enroll.add_argument('-e', '--extra-vars', action='append',
+                        help='additional vars to pass to ansible')
 
     args = parser.parse_args()
     if getattr(args, 'func', None) is None:
