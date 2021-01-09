@@ -10,4 +10,4 @@ if ! python3 -c "import sys; assert sys.version_info >= (3, 6)" 2> /dev/null; th
     exit 1
 fi
 
-PYTHONPATH=$(dirname $0) exec python3 -m bifrost.cli $@
+PYTHONPATH=$(dirname $0) exec python3 -m bifrost.cli "$@"
