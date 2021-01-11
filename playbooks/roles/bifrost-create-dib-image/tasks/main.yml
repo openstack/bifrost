@@ -186,6 +186,10 @@
       {{ dib_packages_arg|default('') }}
       {{ dib_os_element }}
       {{ dib_elements|default('') }}
+- name: "Update package cache on Debian and Ubuntu"
+  apt:
+    update_cache: yes
+  when: ansible_os_family == 'Debian'
 - name: Install debootstrap if building a Debian image
   package:
     name: debootstrap
