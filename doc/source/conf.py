@@ -37,7 +37,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-copyright = u'2015, OpenStack Foundation'
+copyright = '2015, OpenStack Foundation'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
@@ -72,8 +72,8 @@ htmlhelp_basename = 'bifrostdoc'
 latex_documents = [
     ('index',
      'doc-bifrost.tex',
-     u'Bifrost Documentation',
-     u'OpenStack Foundation', 'manual'),
+     'Bifrost Documentation',
+     'OpenStack Foundation', 'manual'),
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.

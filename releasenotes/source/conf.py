@@ -38,7 +38,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-copyright = u'2015, Ironic Developers'
+copyright = '2015, Ironic Developers'
 
 # If true, '()' will be appended to :func: etc. cross-reference text.
 add_function_parentheses = True
@@ -72,8 +72,8 @@ openstackdocs_bug_tag = ''
 latex_documents = [
     ('index',
      'BifrostReleaesNotes.tex',
-     u'Bifrost Release Notes Documentation',
-     u'Ironic Developers', 'manual'),
+     'Bifrost Release Notes Documentation',
+     'Ironic Developers', 'manual'),
 ]
 
 # Example configuration for intersphinx: refer to the Python standard library.
