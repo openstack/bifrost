@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes passing parameters with spaces to ``bifrost-cli``.
