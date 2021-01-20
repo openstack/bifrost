@@ -123,6 +123,10 @@ injection can be found in the ``playbooks/inventory/`` folder.
 How this works?
 ---------------
 
+Starting with the Wallaby cycle, you can use ``bifrost-cli`` for enrolling::
+
+    ./bifrost-cli enroll /tmp/baremetal.json
+
 Utilizing the dynamic inventory module, enrollment is as simple as setting
 the ``BIFROST_INVENTORY_SOURCE`` environment variable to your inventory data
 source, and then executing the enrollment playbook.::

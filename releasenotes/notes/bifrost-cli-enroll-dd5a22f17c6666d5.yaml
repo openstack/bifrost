@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Adds a new command ``bifrost-cli enroll`` to simplify enrolling nodes.
