@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Debug logging is now enabled in ironic by default, set the new
+    ``ironic_debug`` parameter to ``false`` to override.

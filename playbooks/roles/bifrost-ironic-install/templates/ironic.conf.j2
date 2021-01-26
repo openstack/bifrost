@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 
 [DEFAULT]
-debug = {{ testing | bool }}
+debug = {{ ironic_debug | bool }}
 # NOTE(TheJulia): Until Bifrost supports neutron or some other network
 # configuration besides a flat network where bifrost orchustrates the
 # control instead of ironic, noop is the only available network driver.

@@ -25,6 +25,7 @@ create_image_via_dib: true
 dib_image_type: vm
 # Setting to install diskimage-builder
 install_dib: "{{ create_image_via_dib }}"
+ironic_debug: true
 # If testing is true, then the environment is setup for using libvirt
 # virtual machines for the hardware instead of real hardware.
 testing: false
