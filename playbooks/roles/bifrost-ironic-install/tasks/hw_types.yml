@@ -22,6 +22,7 @@
   set_fact:
     enabled_bios_interfaces: >-
       no-bios
+      {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
   when: not enabled_bios_interfaces
@@ -30,6 +31,7 @@
   set_fact:
     enabled_boot_interfaces: >-
       ipxe,pxe
+      {%- if "idrac" in enabled_hardware_types -%},idrac-redfish-virtual-media{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo-virtual-media{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish-virtual-media{%- endif -%}
       {%- if "fake-hardware" in enabled_hardware_types -%},fake{%- endif -%}
@@ -39,6 +41,7 @@
   set_fact:
     enabled_management_interfaces: >-
       noop
+      {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
@@ -49,6 +52,7 @@
   set_fact:
     enabled_power_interfaces: >-
       fake
+      {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}

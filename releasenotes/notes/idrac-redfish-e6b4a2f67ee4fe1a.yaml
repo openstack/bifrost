@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Supports automatically configuring required hardware interfaces for the
+    ``idrac`` hardware type. The Redfish implementations are used.
