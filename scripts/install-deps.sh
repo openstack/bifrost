@@ -141,6 +141,11 @@ EOF
 
 export PIP_OPTS="--upgrade-strategy only-if-needed"
 
+if [[ $OS_FAMILY == "Suse" ]]; then
+    # https://storyboard.openstack.org/#!/story/2008591
+    ${PIP} install -U setuptools
+fi
+
 echo "Installing bindep"
 ${PIP} install bindep
 
