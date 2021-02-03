@@ -6,7 +6,6 @@ internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface
 
 enable_tls: false
 enable_inspector: true
-enable_keystone: false
 
 skip_start: False
 skip_validation: "{{ skip_start }}"
