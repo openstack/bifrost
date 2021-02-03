@@ -48,6 +48,11 @@ if $(sudo iptables --version &>/dev/null); then
         done
     fi
 fi
+
+if $(sudo firewall-cmd --version &>/dev/null); then
+    sudo firewall-cmd --list-all-zones &> ${LOG_LOCATION}/firewalld-zones.log
+fi
+
 if $(ip link &>/dev/null); then
     ip -s link &> ${LOG_LOCATION}/interface_counters.log
 fi
