@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Works around `broken setuptools in virtual environments on openSUSE Leap
+    <https://storyboard.openstack.org/#!/story/2008591>`_.
