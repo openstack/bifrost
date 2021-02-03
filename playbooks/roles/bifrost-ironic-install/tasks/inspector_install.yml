@@ -20,7 +20,6 @@
     package: ironic-inspector
     sourcedir: "{{ ironicinspector_git_folder }}"
     source_install: "{{ ironicinspector_source_install }}"
-    extra_args: "--no-cache-dir {{ pip_opts }}"
 
 - name: "Inspector - client install"
   include_role:
@@ -29,4 +28,3 @@
     package: python-ironic-inspector-client
     sourcedir: "{{ ironicinspectorclient_git_folder }}"
     source_install: "{{ ironicinspectorclient_source_install }}"
-    extra_args: "--no-cache-dir {{ pip_opts }}"

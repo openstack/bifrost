@@ -84,8 +84,6 @@ keystone:
     password: "{{ service_password }}"
     host: localhost
 
-pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"
-
 # Enable TLS support.
 enable_tls: false
 tls_root: /etc/bifrost

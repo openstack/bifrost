@@ -354,8 +354,6 @@ keystone:
     password: "{{ service_password }}"
     host: localhost
 
-pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"
-
 # Timeout for gathering facts.
 fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"
 

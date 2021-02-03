@@ -20,4 +20,3 @@
     package: ironic-staging-drivers
     sourcedir: "{{ staging_drivers_git_folder }}"
     source_install: "{{ staging_drivers_source_install }}"
-    extra_args: "--no-cache-dir --upgrade-strategy only-if-needed"

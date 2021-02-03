@@ -24,4 +24,3 @@
     package: ironic-prometheus-exporter
     sourcedir: "{{ prometheus_exporter_git_folder }}"
     source_install: "{{ prometheus_exporter_source_install }}"
-    extra_args: "--no-cache-dir {{ pip_opts }}"
