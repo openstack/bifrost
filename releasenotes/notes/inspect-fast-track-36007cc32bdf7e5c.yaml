@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes fast-track after inspection: the ``fast_track`` and
+    ``power_off_after_inspection`` options are now correctly handled.
