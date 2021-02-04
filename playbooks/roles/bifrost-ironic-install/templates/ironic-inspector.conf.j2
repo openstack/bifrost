@@ -83,9 +83,10 @@ always_store_ramdisk_logs = {{ inspector_store_ramdisk_logs | default('true') | 
 processing_hooks = {{ inspector_processing_hooks }}
 {% endif %}
 store_data = database
+power_off = {{ power_off_after_inspection }}
+
 {% if inspector.discovery.enabled == true %}
 node_not_found_hook = enroll
-power_off = {{ power_off_after_inspection }}
 
 [discovery]
 enroll_node_driver = {{ inspector.discovery.default_node_driver }}
