@@ -9,16 +9,37 @@ Introduction
 This document will guide you through installing the Bare Metal Service (ironic)
 using Bifrost.
 
-Requirements
-============
+Supported operating systems
+===========================
 
-Supported operating systems:
+1st tier support (fully tested in the CI, no known or potential issues):
 
-* Ubuntu 18.04, 20.04
-* CentOS 8 Stream (normal CentOS 8 and RHEL 8 should work but are not tested)
-* openSUSE Leap 15.2 (15.1 is supported but not recommended)
+* CentOS Stream 8
+* Ubuntu 20.04 "Focal"
+* Debian 9 "Buster"
+
+2nd tier support (limited testing or known issues):
+
+* Ubuntu 18.04 "Bionic"
+
+  Tested in the Bifrost CI, but no longer tested in the ironic upstream CI.
+
+* RHEL 8 and regular CentOS 8
+
+  Only tested indirectly via CentOS Stream 8.
+
+* openSUSE Leap 15.2
+
+  Tested in the CI but has frequent issues.
+
 * Fedora 32 (30 is supported but not recommended)
-* Debian Buster
+
+  Only the latest Fedora is tested in the CI.
+
+.. note::
+   Operating systems evolve and so does the support for them, even on stable
+   branches. This especially concerns Fedora, which is evolving faster than
+   other distributions.
 
 Bifrost structure
 =================
