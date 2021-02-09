@@ -2,8 +2,7 @@
 
 # Note(TheJulia): We should proceed with attempting to collect information
 # even if a command fails, and as such set -e should not be present.
-set -ux
-set -o pipefail
+set -uxo pipefail
 
 # Note(TheJulia): If there is a workspace variable, we want to utilize that as
 # the preference of where to put logs

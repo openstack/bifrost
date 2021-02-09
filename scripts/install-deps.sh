@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eu
+set -euxo pipefail
 
 if [[ "${BIFROST_TRACE:-}" == true ]]; then
     set -x
