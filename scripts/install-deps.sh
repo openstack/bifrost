@@ -8,6 +8,11 @@ fi
 
 declare -A PKG_MAP
 
+# NOTE(rpittau): we need a stable recent version of pip to avoid issues with
+# the cryptography package.
+PIP_MIN_REQ="19.1.1"
+PIP_TUPLE="(19, 1, 1)"
+
 # workaround: for latest bindep to work, it needs to use en_US local
 export LANG=en_US.UTF-8
 
@@ -82,7 +87,7 @@ case ${ID,,} in
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
 esac
 
-echo Installing Python and PIP
+echo "Installing Python and PIP"
 
 for pkg in ${CHECK_CMD_PKGS[@]}; do
     if ! $(${CHECK_CMD} ${PKG_MAP[$pkg]} &>/dev/null); then
@@ -129,11 +134,12 @@ if [[ "${BIFROST_TRACE:-}" != true ]]; then
     PIP="$PIP --quiet"
 fi
 
-$PYTHON << EOF
-import pip
-version = tuple(map(int, pip.__version__.split('.')))
-assert version >= (7, 1)
-EOF
+# NOTE(rpittau): we need a stable recent version of pip to avoid issues with
+# the cryptography package.
+PIP_REQUIRED=$($PYTHON -c "import pip; print(tuple(map(int, pip.__version__.split('.'))) >= $PIP_TUPLE)")
+if [[ $PIP_REQUIRED == "False" ]]; then
+    ${PIP} install "pip==$PIP_MIN_REQ"
+fi
 
 export PIP_OPTS="--upgrade-strategy only-if-needed"
 
