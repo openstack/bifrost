@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+set -euo pipefail
 
 . $(dirname $0)/install-deps.sh
 # NOTE(pas-ha) the above exports some useful variables like
