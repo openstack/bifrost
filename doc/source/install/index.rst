@@ -16,7 +16,7 @@ Supported operating systems
 
 * CentOS Stream 8
 * Ubuntu 20.04 "Focal"
-* Debian 9 "Buster"
+* Debian 10 "Buster"
 
 2nd tier support (limited testing or known issues):
 
