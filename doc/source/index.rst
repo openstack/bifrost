@@ -3,8 +3,6 @@ Welcome to bifrost's documentation!
 
 .. include:: ../../README.rst
 
-.. include:: ../../MISSION.rst
-
 Contents
 --------
 
