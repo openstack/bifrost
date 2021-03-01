@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    The dynamic DHCP inventory hostsdir is now created and enabled by default,
+    even when ``inventory_dhcp`` is ``false``.
+upgrade:
+  - |
+    An additional DNS hosts directory is no longer created by default in
+    ``/etc/dnsmasq.d/bifrost.hosts.d`` when ``inventory_dhcp`` is ``true``.
+    Set the new variable ``dnsmasq_additional_hostsdir`` to keep the previous
+    behavior (you'll need ``dnsmasq_enable_dns=true`` to actually use it).
+deprecations:
+  - |
+    The parameter ``disable_dnsmasq_dns`` has been deprecated in favor of
+    the new parameter ``dnsmasq_enable_dns``.

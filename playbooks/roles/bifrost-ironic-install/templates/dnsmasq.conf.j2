@@ -7,10 +7,10 @@
 # Listen on this specific port instead of the standard DNS port
 # (53). Setting this to zero completely disables DNS function,
 # leaving only DHCP and/or TFTP.
-{% if disable_dnsmasq_dns | bool == true %}
-port=0
-{% else %}
+{% if dnsmasq_enable_dns | bool == true %}
 port=53
+{% else %}
+port=0
 {% endif %}
 
 listen-address={{ internal_ip }}
@@ -34,9 +34,13 @@ conf-dir=/etc/dnsmasq.d
 # or if you want it to read another file, as well as /etc/hosts, use
 # this.
 #addn-hosts=/etc/banner_add_hosts
+{% if dnsmasq_additional_hostsdir is defined %}
+addn-hosts={{ dhcp_additional_hostsdir }}
+{% endif %}
+
+dhcp-hostsdir={{ dnsmasq_dhcp_hostsdir }}
+
 {% if inventory_dhcp | bool == true %}
-addn-hosts=/etc/dnsmasq.d/bifrost.hosts.d
-dhcp-hostsfile=/etc/dnsmasq.d/bifrost.dhcp-hosts.d
 dhcp-ignore=tag:!known
 {% endif %}
 
