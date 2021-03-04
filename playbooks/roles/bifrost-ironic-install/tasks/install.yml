@@ -102,7 +102,6 @@
     package: ironic
     sourcedir: "{{ ironic_git_folder }}"
     source_install: true
-    extra_args: "--no-cache-dir {{ pip_opts }}"
 
 - name: "Install ironic-inspector to permit use of inspection interface"
   include_tasks: inspector_install.yml

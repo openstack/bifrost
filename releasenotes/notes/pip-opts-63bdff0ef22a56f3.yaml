@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    No longer passes ``--no-cache-dir`` to pip by default.

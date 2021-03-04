@@ -48,4 +48,3 @@
     package: keystone
     sourcedir: "{{ keystone_git_folder }}"
     source_install: "{{ keystone_source_install }}"
-    extra_args: "--no-cache-dir {{ pip_opts }}"

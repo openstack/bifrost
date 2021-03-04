@@ -8,9 +8,12 @@ skip_install: false
 source_install: false
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
 
+# Older compatibility options
+pip_opts: "{{ lookup('env', 'PIP_OPTS') | default('') }}"
+
 # Pip options
 developer_mode: false
-extra_args:
+extra_args: "{{ pip_opts }}"
 pip_install_retries: 5
 pip_install_delay: 10
 reqs_git_folder: /opt/stack/requirements
