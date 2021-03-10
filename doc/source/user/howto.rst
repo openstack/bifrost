@@ -2,6 +2,8 @@
 How-To
 ======
 
+.. _baremetal-cli:
+
 Use the baremetal CLI
 =====================
 

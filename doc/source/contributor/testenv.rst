@@ -42,6 +42,17 @@ See the built-in documentation for more details:
 
     ./bifrost-cli testenv --help
 
+The command generates two files with node inventory in the current directory:
+
+* ``baremetal-inventory.json`` can be used with the provided playbooks, see
+  :doc:`/user/howto` for details.
+* ``baremetal-nodes.json`` can be used with the Ironic enrollment command:
+
+  .. code-block:: shell
+
+    export OS_CLOUD=bifrost
+    baremetal create baremetal-nodes.json
+
 Reproduce CI testing locally
 ============================
 
