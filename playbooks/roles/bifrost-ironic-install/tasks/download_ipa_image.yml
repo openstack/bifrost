@@ -30,7 +30,7 @@
     mode: 0644
 
 - name: "Extract IPA kernel checksum"
-  command: awk '/{{ ipa_kernel_upstream_url | basename }}/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
+  command: awk '/{{ ipa_kernel_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
   register: parsed_ipa_kernel_checksum
   failed_when: parsed_ipa_kernel_checksum is failed
                or not parsed_ipa_kernel_checksum.stdout
@@ -73,7 +73,7 @@
     mode: 0644
 
 - name: "Extract IPA ramdisk checksum"
-  command: awk '/{{ ipa_ramdisk_upstream_url | basename }}/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
+  command: awk '/{{ ipa_ramdisk_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
   register: parsed_ipa_ramdisk_checksum
   failed_when: parsed_ipa_ramdisk_checksum is failed
                or not parsed_ipa_ramdisk_checksum.stdout
