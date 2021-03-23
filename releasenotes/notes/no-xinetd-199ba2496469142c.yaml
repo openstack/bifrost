@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    Supports customizing the TFTP directory via the new parameter
+    ``tftp_boot_folder``.
+upgrade:
+  - |
+    Switches TFTP handling from Xinetd to dnsmasq, which must be enabled for
+    TFTP boot to work.
+fixes:
+  - |
+    Fixes Fedora 34 support by switching from the removed Xinetd to
+    dnsmasq for TFTP boot.

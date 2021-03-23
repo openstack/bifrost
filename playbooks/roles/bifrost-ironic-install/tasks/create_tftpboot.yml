@@ -18,27 +18,45 @@
 - name: "Set up PXE and iPXE folders"
   file: name={{ item }} owner=ironic group=ironic state=directory mode=0755
   loop:
-    - /tftpboot
-    - /tftpboot/pxelinux.cfg
+    - "{{ tftp_boot_folder }}"
+    - "{{ tftp_boot_folder }}/pxelinux.cfg"
     - "{{ http_boot_folder }}"
     - "{{ http_boot_folder }}/pxelinux.cfg"
 
-- name: "Place tftpd map-file"
-  copy:
-    src: tftpboot-map-file
-    dest: /tftpboot/map-file
-    owner: ironic
-    group: ironic
-    mode: 0644
-
 - name: "Disable service {{ tftp_service_name }}"
   service: name="{{ tftp_service_name }}" state=stopped enabled=no
+  ignore_errors: yes
 
 - name: "Place boot.ipxe helper script /etc/ironic"
   copy: src=boot.ipxe dest=/etc/ironic/boot.ipxe owner=ironic group=ironic mode=0744
 
-- name: "Place tftp config file"
-  copy: src=xinetd.tftp dest=/etc/xinetd.d/tftp
+# NOTE(dtantsur): the code to migrate from xinetd can be removed after Xena
+
+- name: "Find xinetd TFTP service configs"
+  find:
+    paths:
+    - /etc/xinetd.d
+    patterns:
+    - "tftp*"
+    follow: yes
+  register: xinetd_tftp_services
+
+- name: "Disable xinetd TFTP service"
+  lineinfile:
+    path: "{{ item }}"
+    line: '  disable         = yes'
+    regexp: '^\s*disable\s*='
+    insertafter: '^{$'
+  loop: "{{ xinetd_tftp_services.files | map(attribute='path') | list }}"
+  register: xinetd_tftp_disable
+  when: xinetd_tftp_services.matched > 0
+
+- name: "Restart xinetd"
+  service:
+    name: xinetd
+    state: restarted
+  when: xinetd_tftp_services.matched > 0
+        and xinetd_tftp_disable is changed
 
 - name: "Download ipxe files if asked"
   include: get_ipxe.yml
@@ -47,7 +65,7 @@
 - name: "Copy iPXE image into place"
   copy:
     src: "{{ ipxe_dir }}/undionly.kpxe"
-    dest: /tftpboot/
+    dest: "{{ tftp_boot_folder }}"
     owner: ironic
     group: ironic
     mode: 0644
@@ -66,7 +84,7 @@
 - name: "Copy full iPXE image into /tftpboot"
   copy:
     src: "{{ ipxe_dir }}/{{ ipxe_full_binary }}"
-    dest: /tftpboot/
+    dest: "{{ tftp_boot_folder }}"
     owner: ironic
     group: ironic
     mode: 0644
@@ -102,7 +120,7 @@
     - name: "Copy iPXE EFI image into /tftpboot"
       copy:
         src: "{{ ipxe_dir }}/{{ ipxe_efi_binary }}"
-        dest: /tftpboot/
+        dest: "{{ tftp_boot_folder }}"
         owner: ironic
         group: ironic
         mode: 0644

@@ -37,7 +37,5 @@ required_packages:
   - shim-x64
   - socat
   - syslinux-nonlinux
-  - tftp-server
   - wget
-  - xinetd
   - dosfstools

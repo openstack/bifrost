@@ -1,2 +1,0 @@
-r ^([^/]) /tftpboot/\1
-r ^(/tftpboot/) /tftpboot/\2

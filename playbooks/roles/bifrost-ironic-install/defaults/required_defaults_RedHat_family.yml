@@ -19,8 +19,6 @@ required_packages:
   - openssl-devel
   - libxml2-devel
   - ipxe-bootimgs
-  - tftp-server
-  - xinetd
   - parted
   - ipmitool
   - psmisc

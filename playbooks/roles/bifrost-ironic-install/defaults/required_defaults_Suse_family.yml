@@ -24,8 +24,6 @@ required_packages:
   - libxml2-devel
   - ipxe-bootimgs
   - qemu-ipxe
-  - tftp
-  - xinetd
   - parted
   - ipmitool
   - psmisc

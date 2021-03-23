@@ -427,8 +427,8 @@
         setype: tftpdir_t
         state: present
       loop:
-        - /tftpboot
-        - /tftpboot/pxelinux.cfg
+        - "{{ tftp_boot_folder }}"
+        - "{{ tftp_boot_folder }}/pxelinux.cfg"
 
     - name: "Add proper context on created data for http_boot"
       sefcontext:
@@ -444,7 +444,7 @@
       command: restorecon -iRv {{ item }}
       loop:
         - "{{ http_boot_folder }}"
-        - /tftpboot
+        - "{{ tftp_boot_folder }}"
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
          ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
 - name: "Configure remote logging"

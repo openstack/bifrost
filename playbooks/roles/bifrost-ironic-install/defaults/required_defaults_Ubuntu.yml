@@ -12,9 +12,6 @@ required_packages:
   - libssl-dev
   - libxml2-dev
   - ipxe
-  - tftpd-hpa
-  - tftp-hpa
-  - xinetd
   - parted
   - ipmitool
   - iptables

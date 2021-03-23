@@ -42,11 +42,8 @@
 - name: "Start ironic-api"
   service: name=ironic-api state=restarted
 
-- name: "Ensure services are running with current config"
-  service: name={{ item }} state=restarted enabled=yes
-  loop:
-    - xinetd
-    - nginx
+- name: "Ensure nginx is running with current config"
+  service: name=nginx state=restarted enabled=yes
 
 - name: "Start ironic-prometheus-exporter"
   include: prometheus_exporter_start.yml
@@ -63,12 +60,9 @@
     - dnsmasq
   when: include_dhcp_server | bool
 
-- name: "Send services a reload signal"
-  service: name={{ item }} state=reloaded
-  loop:
-    - xinetd
-    - nginx
+- name: "Send nginx a reload signal"
+  service: name=nginx state=reloaded
 
-- name: "Send services a force-reload signal"
+- name: "Send dnsmasq a force-reload signal"
   service: name=dnsmasq state=restarted
   when: include_dhcp_server | bool
