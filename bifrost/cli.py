@@ -162,6 +162,7 @@ def cmd_install(args):
             developer_mode=args.develop,
             enable_prometheus_exporter=args.enable_prometheus_exporter,
             default_boot_mode='uefi' if args.uefi else 'bios',
+            include_dhcp_server=not args.disable_dhcp,
             extra_vars=args.extra_vars,
             **kwargs)
     log("Ironic is installed and running, try it yourself:\n",
@@ -255,6 +256,8 @@ def parse_args():
                          help='Enable Ironic Prometheus Exporter')
     install.add_argument('--uefi', action='store_true',
                          help='use UEFI by default')
+    install.add_argument('--disable-dhcp', action='store_true',
+                         help='Disable integrated dhcp server')
     install.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
 

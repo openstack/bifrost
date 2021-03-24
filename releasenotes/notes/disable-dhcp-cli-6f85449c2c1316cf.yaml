@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds the ``--disable-dhcp`` argument to ``./bifrost-cli install`` to
+    disable the integrated dhcp configuration.

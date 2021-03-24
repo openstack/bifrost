@@ -98,6 +98,8 @@ For the machine that hosts Bifrost you'll need to figure out:
     #. Use the ``public`` zone by providing ``firewalld_internal_zone=public``
        when installing.
 
+* Whether to use the integrated DHCP server or an external DHCP service.
+
 * Pool of IP addresses for DHCP (must be within the network configured on the
   chosen network interface).
 
@@ -284,6 +286,10 @@ Additionally, the following parameters can be useful:
 
 ``--uefi``
     Boot machines in the UEFI mode by default.
+
+``--disable-dhcp``
+    Disable the configuration of the integrated DHCP server, allowing to use
+    an external DHCP service.
 
 See the built-in documentation for more details:
 

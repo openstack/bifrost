@@ -109,8 +109,8 @@ update_ipa: "{{ update_repos }}"
 ipa_add_ssh_key: false
 cirros_deploy_image_upstream_url: https://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
-# server.  If you already have a DHCP server, you will need to disable
-# this setting, and perform manual configuration of your DHCP server.
+# server.  If you already have a DHCP server, you can pass --disable-dhcp
+# to the bifrost-cli install command to disable it.
 include_dhcp_server: true
 # *_git_url can be overridden by local clones for offline installs
 dib_git_url: https://opendev.org/openstack/diskimage-builder
