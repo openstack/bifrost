@@ -228,7 +228,7 @@ def parse_args():
     install.set_defaults(func=cmd_install)
     install.add_argument('--testenv', action='store_true',
                          help='running in a virtual environment')
-    install.add_argument('--develop', action='store_true', default=False,
+    install.add_argument('--develop', action='store_true',
                          help='install packages in development mode')
     install.add_argument('--dhcp-pool', metavar='START-END',
                          help='DHCP pool to use')
@@ -248,11 +248,10 @@ def parse_args():
                          help='a comma separated list of enabled bare metal '
                               'hardware types')
     install.add_argument('--cleaning-disk-erase',
-                         action='store_true', default=False,
+                         action='store_true',
                          help='enable full disk cleaning between '
                               'deployments (can take a lot of time)')
     install.add_argument('--enable-prometheus-exporter', action='store_true',
-                         default=False,
                          help='Enable Ironic Prometheus Exporter')
     install.add_argument('--uefi', action='store_true',
                          help='use UEFI by default')
