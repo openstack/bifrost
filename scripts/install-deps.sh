@@ -69,7 +69,7 @@ case ${ID,,} in
 
     rhel|fedora|centos)
     OS_FAMILY="RedHat"
-    PKG_MANAGER=$(which dnf || which yum)
+    PKG_MANAGER=$(/usr/bin/which dnf || /usr/bin/which yum)
     if [[ "${BIFROST_TRACE:-}" != true ]]; then
         PKG_MANAGER="$PKG_MANAGER --quiet"
     fi
