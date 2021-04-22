@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes a failure when building an Ubuntu image due to a missing
+    ``squashfs-tools`` package.
