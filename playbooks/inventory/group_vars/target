@@ -51,7 +51,7 @@ mysql_password:
 # deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 
 # Setting to utilize diskimage-builder to create a bootable image.
-create_image_via_dib: true
+create_image_via_dib: "{{ not use_cirros | default(false) | bool }}"
 dib_image_type: vm
 
 # Create IPA image instead of downloading an pre-made IPA image.
