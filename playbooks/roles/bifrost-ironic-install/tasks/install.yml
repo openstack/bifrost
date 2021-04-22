@@ -51,6 +51,12 @@
     source_install: true
   when: install_dib | bool
 
+- name: Ensure required packages are installed
+  package:
+    name: "{{ dib_host_required_packages | select | list }}"
+    state: present
+  when: install_dib | bool
+
 - name: "sushy - Install"
   include_role:
     name: bifrost-pip-install
