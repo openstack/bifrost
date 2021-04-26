@@ -16,4 +16,5 @@ dib_host_required_packages:
   - dosfstools
   - e2fsprogs
   - gdisk
+  - "squashfs{% if ansible_os_family != 'Suse' %}-tools{% endif %}"
   - xfsprogs
