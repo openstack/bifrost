@@ -28,7 +28,7 @@ CHECK_CMD_PKGS=(
     python3-pip
 )
 
-echo Detecting package manager
+echo "Detecting package manager"
 
 source /etc/os-release || source /usr/lib/os-release
 case ${ID,,} in
