@@ -41,6 +41,3 @@ required_packages:
   - wget
   - xinetd
   - dosfstools
-iscsi_required_packages:
-  - iscsi-initiator-utils
-  - gdisk

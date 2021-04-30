@@ -31,12 +31,6 @@
 - name: "Install vendor dependencies"
   import_tasks: vendor_deps.yml
 
-- name: "Install iSCSI client and dependencies if iscsi deploy interface is enabled"
-  package:
-    name: "{{ iscsi_required_packages }}"
-    state: present
-  when: not (skip_install | bool) and 'iscsi' in enabled_deploy_interfaces
-
 - name: "IPA-builder - Install"
   include_role:
     name: bifrost-pip-install

@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Removes support for the deprecated ``iscsi`` deploy interface.

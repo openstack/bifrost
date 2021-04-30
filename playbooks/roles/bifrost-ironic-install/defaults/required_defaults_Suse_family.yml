@@ -48,6 +48,3 @@ required_packages:
   - grub2-x86_64-efi
   - shim
   - dosfstools
-iscsi_required_packages:
-  - open-iscsi
-  - gptfdisk
