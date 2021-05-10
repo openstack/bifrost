@@ -20,7 +20,8 @@
       - openstack/ironic
       - openstack/ironic-inspector
       - openstack/ironic-python-agent
-      - openstack/ironic-python-agent-builder
+      - name: openstack/ironic-python-agent-builder
+        override-checkout: stable/wallaby
       - openstack/requirements
       - x/ironic-staging-drivers
 

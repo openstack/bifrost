@@ -43,7 +43,7 @@ staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
-ipa_builder_git_branch: master
+ipa_builder_git_branch: stable/wallaby
 prometheus_exporter_git_branch: "{{ git_branch }}"
 # disable source install to prevent cloning
 ironicclient_source_install: false
