@@ -202,3 +202,13 @@
     vars:
       enable_keystone: true
       noauth_mode: false
+
+# NOTE(TheJulia): This job is for use on the ironic repository,
+# to provide a minimal platform where we can execute a job where
+# basic performance numbers will be referenced/collected.
+# Notes are being kept on https://etherpad.opendev.org/p/ironic-performance
+- job:
+    name: bifrost-benchmark-ironic
+    parent: bifrost-base
+    timeout: 7200
+    run: playbooks/ci/benchmark-ironic.yaml
