@@ -12,7 +12,8 @@ Communicating
 -------------
 
 Before you file a bug or new review set, it's often helpful to chat with other
-developers. The #openstack-ironic channel is a good place to start, and if
+developers. The #openstack-ironic channel on OFTC IRC network
+(irc://irc.oftc.net/#openstack-ironic) is a good place to start, and if
 you don't have IRC (or would prefer email),
 openstack-discuss@lists.openstack.org is the mailing list for all OpenStack
 projects. As the name implies, that mailing list is for all OpenStack
