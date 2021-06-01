@@ -1,0 +1,27 @@
+- hosts: all
+  tasks:
+    - shell:
+        cmd: bash scripts/test-bifrost.sh
+        chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
+      environment:
+        BIFROST_TRACE: "true"
+        BUILD_IMAGE: "{{ build_image | default(false) | bool | lower }}"
+        CLI_TEST: "{{ cli_test | default(false) | bool | lower }}"
+        ENABLE_KEYSTONE: "{{ enable_keystone | default(false) | bool | lower }}"
+        LOG_LOCATION: "{{ ansible_user_dir }}/logs"
+        UPPER_CONSTRAINTS_FILE: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/requirements'].src_dir }}/upper-constraints.txt"
+        WORKSPACE: "{{ ansible_user_dir }}/src/opendev.org"
+        USE_DHCP: "{{ use_dhcp | default(false) | bool | lower }}"
+        ZUUL_BRANCH: "{{ zuul.branch }}"
+        BOOT_MODE: "{{ boot_mode | default('') }}"
+        TEST_VM_NODE_DRIVER: "{{ test_driver | default('ipmi') }}"
+        NOAUTH_MODE: "{{ noauth_mode | default(false) | bool | lower }}"
+        ENABLE_TLS: "{{ enable_tls | default(false) | bool | lower }}"
+        ENABLE_PROMETHEUS_EXPORTER: "{{ enable_prometheus_exporter | default(false) | bool | lower }}"
+        USE_VMEDIA: "{{ use_vmedia | default(false) | bool | lower }}"
+    - shell:
+        cmd: /opt/stack/bifrost/bin/python3 /opt/stack/ironic/tools/benchmark/do_not_run_create_benchmark_data.py
+      become: yes
+    - shell:
+        cmd: /opt/stack/bifrost/bin/python3 /opt/stack/ironic/tools/benchmark/generate-statistics.py
+      become: yes

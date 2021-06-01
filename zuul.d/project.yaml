@@ -63,3 +63,6 @@
         - bifrost-integration-tinyipa-keystone-centos-8
         - bifrost-upgrade-ubuntu-focal
         - bifrost-upgrade-keystone-centos8
+    experimental:
+      jobs:
+        - bifrost-benchmark-ironic
