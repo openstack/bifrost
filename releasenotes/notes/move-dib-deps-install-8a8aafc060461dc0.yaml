@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    Moves installation of package dependencies for Diskimage Builder (DIB) from
+    the ``bifrost-create-dib-image`` role to the ``bifrost-install-ironic``
+    role. This provides a cleaner separation between installation and image
+    creation.
