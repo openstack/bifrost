@@ -11,6 +11,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Check that the provided interface is defined"
+  fail:
+    msg: >
+      Network interface {{ network_interface }} is not known to Ansible.
+      If you're testing Bifrost on virtual machines, do not forget to invoke
+      "bifrost-cli testenv" or use the "bifrost-create-vm-nodes" role first.
+      If you're using Bifrost on real bare metal, you have to provide the
+      network interface via the "network_interface" variable or the
+      --network-interface argument to "bifrost-cli install".
+  when: ('ansible_' + ans_network_interface) not in hostvars[inventory_hostname]
+
 # NOTE(TheJulia): There is significant commonality between this playbook
 # and the bifrost bootstrap process.
 - name: "Get uwsgi install location"
