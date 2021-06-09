@@ -22,7 +22,5 @@ required_packages:
  - pkgconfig
  - libvirt-devel
  - trousers
- # TODO(mgoddard): Remove pin after
- # https://bugzilla.redhat.com/show_bug.cgi?id=1961562 is fixed
- - edk2-ovmf-20200602gitca407c7246bf-4.el8
+ - edk2-ovmf
 test_vm_emulator: "/usr/libexec/qemu-kvm"
