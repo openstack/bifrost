@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Kernel parameters for the ``ilo-virtual-media`` boot interface can now
+    be set via the new ``ilo_kernel_params`` variable.
+fixes:
+  - |
+    Adds the require default kernel parameters for the ``ilo-virtual-media``
+    boot interface.

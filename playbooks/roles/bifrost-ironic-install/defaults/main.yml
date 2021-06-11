@@ -396,3 +396,4 @@ pxe_kernel_params: >-
   {% endif %}
   {{ extra_kernel_options | default('') }}
 redfish_kernel_params: "{{ pxe_kernel_params }}"
+ilo_kernel_params: "{{ pxe_kernel_params }}"
