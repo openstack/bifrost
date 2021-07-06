@@ -3,9 +3,13 @@
     parent: base
     irrelevant-files:
       - ^.*\.rst$
-      - ^bifrost/tests/.*$
       - ^api-ref/.*$
+      - ^bifrost/tests/.*$
       - ^doc/.*$
+      - ^ironic/locale/.*$
+      - ^ironic/tests/.*$
+      - ^ironic_inspector/locale/.*$
+      - ^ironic_inspector/test/.*$
       - ^releasenotes/.*$
       - ^setup.cfg$
       - ^test-requirements.txt$
