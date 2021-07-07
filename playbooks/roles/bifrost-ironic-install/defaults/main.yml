@@ -148,6 +148,7 @@ enabled_bios_interfaces: ""
 enabled_boot_interfaces: ""
 enabled_management_interfaces: ""
 enabled_power_interfaces: ""
+enabled_vendor_interfaces: ""
 
 default_resource_class: baremetal
 

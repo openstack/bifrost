@@ -59,3 +59,13 @@
       {%- if enable_credential_less_deploy|bool -%},agent{%- endif -%}
       {%- if "staging-wol" in enabled_hardware_types -%},staging-wol{%- endif -%}
   when: not enabled_power_interfaces
+
+- name: "Configure vendor interfaces if required"
+  set_fact:
+    enabled_vendor_interfaces: >-
+      no-vendor
+      {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
+      {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
+      {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
+      {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+  when: not enabled_vendor_interfaces

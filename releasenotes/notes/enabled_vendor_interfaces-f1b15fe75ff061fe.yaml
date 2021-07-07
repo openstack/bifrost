@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Automatically configures ``enabled_vendor_interfaces`` based on the
+    ``enabled_hardware_types``.
+  - |
+    Adds support for manually specified enabled vendor interfaces via the new
+    ``enabled_vendor_interfaces`` parameter.
