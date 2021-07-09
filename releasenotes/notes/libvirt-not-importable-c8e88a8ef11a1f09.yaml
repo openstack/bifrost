@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Works around the ``libvirt module is not importable`` error by installing
+    libvirt-python from source install of a wheel.
