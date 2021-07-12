@@ -21,8 +21,12 @@ BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
 PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
 
 echo "Installing/upgrading Ansible"
-${PIP} install "${ANSIBLE_SOURCE_PATH}"
 ANSIBLE=${VENV}/bin/ansible
+if [ -f "$ANSIBLE" ]; then
+  ${PIP} uninstall -y ansible
+fi
+${PIP} install "${ANSIBLE_SOURCE_PATH}"
+
 ANSIBLE_GALAXY=${VENV}/bin/ansible-galaxy
 if [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
     echo  "Setting ANSIBLE_COLLECTIONS_PATHS to virtualenv"
