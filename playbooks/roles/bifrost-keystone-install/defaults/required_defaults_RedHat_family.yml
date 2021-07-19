@@ -1,13 +1,8 @@
 ---
 init_dest_dir: /usr/lib/systemd/system/
-ipxe_dir: /usr/share/ipxe/
-ipxe_full_binary: ipxe.lkrn
-ipxe_efi_binary: ipxe-x86_64.efi
-sgabios_dir: /usr/share/sgabios/
 nginx_user: nginx
 virt_group: libvirt
 mysql_service_name: mariadb
-tftp_service_name: tftp
 required_packages:
   - mariadb-server
   - python3-devel
