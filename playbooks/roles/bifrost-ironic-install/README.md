@@ -269,6 +269,10 @@ ssh_private_key: If a user wishes to define an SSH private key as a string,
                  this variable can be utilized which overrides the
                  ssh_private_key_path setting.
 
+### Ironic Python Agent
+
+ipa_download_headers: HTTP headers to use when downloading IPA.
+
 ### Changing Database Configuration
 
 Bifrost utilizes a nested data stucture for the configuration of database.

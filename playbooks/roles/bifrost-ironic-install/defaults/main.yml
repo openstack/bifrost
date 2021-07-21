@@ -73,6 +73,7 @@ use_tinyipa: true
 enable_uefi_ipxe: true
 ipxe_efi_binary: ipxe.efi
 
+ipa_download_headers: {}
 ipa_kernel: "{{http_boot_folder}}/ipa.kernel"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"

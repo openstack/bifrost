@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds ``ipa_download_headers`` variable to control HTTP headers used when
+    downloading IPA images.
