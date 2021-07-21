@@ -23,6 +23,15 @@ if [ -n "${VENV-}" ]; then
     $VENV/bin/pip freeze > "$LOG_LOCATION/pip/freeze-venv.log"
 fi
 
+# Collect list of packages
+if which rpm &> /dev/null; then
+    sudo rpm -qa | sort > $LOG_LOCATION/installed-pkgs.log
+elif which apt &> /dev/null; then
+    sudo apt list --installed > $LOG_LOCATION/installed-pkgs.log
+else
+    echo "Collecting list of packages not supported on this operating system."
+fi
+
 if [ -z "${TEST_VM_NODE_NAMES+x}" ]; then
     sudo sh -c "cp /var/log/libvirt/baremetal_logs/testvm[[:digit:]]_console.log ${LOG_LOCATION}"
     sudo chown $USER ${LOG_LOCATION}/testvm[[:digit:]]_console.log
