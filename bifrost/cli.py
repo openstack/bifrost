@@ -47,6 +47,14 @@ def log(*message, only_if=True):
         print(*message, file=sys.stderr)
 
 
+def process_extra_vars(extra_vars):
+    for item in extra_vars:
+        if item.startswith('@'):
+            # Make sure relative paths still work
+            item = '@' + os.path.abspath(item[1:])
+        yield ('-e', item)
+
+
 def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
             **params):
     extra = COMMON_PARAMS[:]
@@ -55,7 +63,7 @@ def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
         if pair[1] is not None))
     if extra_vars:
         extra.extend(itertools.chain.from_iterable(
-            ('-e', item) for item in extra_vars))
+            process_extra_vars(extra_vars)))
     if verbose:
         extra.append('-vvvv')
     args = [ANSIBLE, playbook, '-i', inventory] + extra
