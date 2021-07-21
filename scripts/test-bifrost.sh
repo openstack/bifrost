@@ -65,6 +65,11 @@ source $SCRIPT_HOME/env-setup.sh
 
 # We're expected to test with SELinux enforcing
 if which setenforce &> /dev/null; then
+    SELINUX_STATUS=$(sudo getenforce)
+    if [ "$SELINUX_STATUS" == "Disabled" ]; then
+        echo "Selinux is Disabled, please enable it and restart the host"
+        exit 1
+    fi
     sudo setenforce Enforcing
 fi
 
