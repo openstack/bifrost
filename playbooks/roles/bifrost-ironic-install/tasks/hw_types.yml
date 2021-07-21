@@ -43,6 +43,7 @@
       noop
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
+      {%- if "ilo5" in enabled_hardware_types -%},ilo5{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
       {%- if "fake-hardware" in enabled_hardware_types -%},fake{%- endif -%}

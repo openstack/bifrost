@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Automatically configures the required management interface for the ``ilo5``
+    hardware type.
