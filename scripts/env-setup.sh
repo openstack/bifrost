@@ -24,6 +24,7 @@ echo "Installing/upgrading Ansible"
 ANSIBLE=${VENV}/bin/ansible
 if [ -f "$ANSIBLE" ]; then
   ${PIP} uninstall -y ansible
+  ${PIP} uninstall -y ansible-base
 fi
 ${PIP} install "${ANSIBLE_SOURCE_PATH}"
 
