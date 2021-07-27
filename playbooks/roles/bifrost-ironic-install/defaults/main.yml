@@ -229,9 +229,6 @@ inspector_manage_firewall: false
 #inspector_log_dir:
 inspector_ramdisk_logs_local_path: /var/log/ironic-inspector/ramdisk
 
-# Set nginx_log_dir to use a non-default log directory for nginx.
-nginx_log_dir: /var/log/nginx
-
 inspector_store_ramdisk_logs: true
 # Note: inspector_port_addition has three valid values: all, active, pxe
 inspector_port_addition: "pxe"

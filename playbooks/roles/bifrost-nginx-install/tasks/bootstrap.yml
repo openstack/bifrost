@@ -11,14 +11,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Reload systemd configuration"
-  systemd:
-    daemon_reload: yes
-
-- name: "Start Nginx"
-  import_role:
-    name: bifrost-nginx-install
-    tasks_from: start
-
-- name: "Ensure uwsgi is running with current config"
-  service: name=uwsgi state=restarted enabled=yes
+- name: "Deploy nginx configuration file for serving HTTP requests"
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf

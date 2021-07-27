@@ -3,7 +3,6 @@ init_dest_dir: /usr/lib/systemd/system/
 ipxe_dir: /usr/share/ipxe/
 ipxe_full_binary: ipxe.lkrn
 ironic_rootwrap_dir: /usr/bin/
-nginx_user: nginx
 mysql_service_name: mariadb
 tftp_service_name: tftp
 efi_distro: fedora
@@ -22,7 +21,6 @@ required_packages:
   - libxml2-devel
   - libxslt-devel
   - mariadb-server
-  - nginx
   - openssl-devel
   - parted
   - policycoreutils-python-utils

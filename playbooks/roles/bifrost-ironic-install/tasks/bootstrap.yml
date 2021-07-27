@@ -219,18 +219,6 @@
   register: ironic_install_prefix
   environment: "{{ bifrost_venv_env }}"
 
-- name: "Set permissions for /var/lib/ironic for the ironic user"
-  file:
-    path: "{{ item }}"
-    state: directory
-    mode: 0750
-    owner: "ironic"
-    group: "{{ nginx_user }}"
-  loop:
-    - "/var/lib/ironic"
-    - "/var/lib/ironic/master_images"
-    - "/var/lib/ironic/images"
-
 - name: "Place ironic services"
   template:
     src: systemd_template.j2
@@ -343,8 +331,6 @@
     - include_dhcp_server | bool
     - test_libvirt_dnsmasq.stat.exists
     - testing | bool
-- name: "Deploy nginx configuration file for serving HTTP requests"
-  template: src=nginx.conf.j2 dest=/etc/nginx/nginx.conf
 - name: "Download Ironic Python Agent kernel & image"
   include: download_ipa_image.yml
   when:
@@ -370,6 +356,31 @@
         group: ironic
         mode: 0644
   when: use_cirros | bool
+
+- name: "Bootstrap Nginx"
+  import_role:
+    name: bifrost-nginx-install
+    tasks_from: bootstrap
+
+- name: "Place nginx configuration for ironic"
+  template:
+    src: nginx_conf.d_bifrost-httpboot.conf.j2
+    dest: /etc/nginx/conf.d/bifrost-httpboot.conf
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
+    mode: 0755
+
+- name: "Set permissions for /var/lib/ironic for the ironic user"
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0750
+    owner: "ironic"
+    group: "{{ nginx_user }}"
+  loop:
+    - "/var/lib/ironic"
+    - "/var/lib/ironic/master_images"
+    - "/var/lib/ironic/images"
 
 - name: >
     "Explicitly permit nginx port (TCP) for file downloads from nodes to be provisioned

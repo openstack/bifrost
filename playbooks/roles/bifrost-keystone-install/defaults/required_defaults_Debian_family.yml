@@ -1,6 +1,5 @@
 ---
 init_dest_dir: /lib/systemd/system/
-nginx_user: www-data
 mysql_service_name: mysql
 required_packages:
   - mariadb-server
@@ -11,4 +10,3 @@ required_packages:
   - libxslt1-dev
   - libssl-dev
   - libxml2-dev
-  - nginx

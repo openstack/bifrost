@@ -1,0 +1,17 @@
+---
+# If testing is true, then the environment is setup for using libvirt
+# virtual machines for the hardware instead of real hardware.
+testing: false
+
+# set to true to skip installation completely
+skip_install: False
+# set to true to skip installing dependencies
+skip_package_install: False
+# set to true to skip generation of configs and database configuration
+skip_bootstrap: False
+# set to true to skip starting services
+skip_start: False
+
+nginx_user: "{{ 'www-data' if ansible_os_family == 'Debian' else 'nginx' }}"
+# Set nginx_log_dir to use a non-default log directory for nginx.
+nginx_log_dir: /var/log/nginx

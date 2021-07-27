@@ -42,9 +42,6 @@
 - name: "Start ironic-api"
   service: name=ironic-api state=restarted
 
-- name: "Ensure nginx is running with current config"
-  service: name=nginx state=restarted enabled=yes
-
 - name: "Start ironic-prometheus-exporter"
   include: prometheus_exporter_start.yml
   when: enable_prometheus_exporter | bool and not skip_start | bool
@@ -60,9 +57,11 @@
     - dnsmasq
   when: include_dhcp_server | bool
 
-- name: "Send nginx a reload signal"
-  service: name=nginx state=reloaded
-
 - name: "Send dnsmasq a force-reload signal"
   service: name=dnsmasq state=restarted
   when: include_dhcp_server | bool
+
+- name: "Start nginx"
+  import_role:
+    name: bifrost-nginx-install
+    tasks_from: start

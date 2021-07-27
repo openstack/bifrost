@@ -17,7 +17,6 @@ required_packages:
   - iptables
   - bsdmainutils
   - psmisc
-  - nginx
   - wget
   - genisoimage
   - kpartx
