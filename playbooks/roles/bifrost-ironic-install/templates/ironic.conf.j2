@@ -63,7 +63,7 @@ deploy_logs_local_path = {{ ironic_agent_deploy_logs_local_path }}
 {% endif %}
 
 [pxe]
-pxe_append_params = {{ pxe_kernel_params }}
+kernel_append_params = {{ pxe_kernel_params }}
 tftp_server = {{ internal_ip }}
 tftp_root = /tftpboot
 ipxe_boot_script = /etc/ironic/boot.ipxe
