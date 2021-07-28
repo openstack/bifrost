@@ -217,6 +217,15 @@
   vars:
     package: sushy-tools
 
+- name: create Redfish Emulator state directory
+  file:
+    name: "{{ redfish_emulator_state_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0600
+  become: true
+
 - name: ensure Redfish Emulator systemd service is configured
   template:
     src: redfish-emulator.service.j2
@@ -226,6 +235,10 @@
     mode: 0644
   become: true
   register: redfish_emulator_service_file
+
+- name: reload systemd units if needed
+  systemd:
+    daemon_reload: "{{ redfish_emulator_service_file.changed }}"
 
 - name: find OVMF firmware
   set_fact:
@@ -260,10 +273,28 @@
   become: true
   register: redfish_emulator_config_file
 
+# NOTE(dtantsur): the migration can be removed after Xena
+
+- name: check for the old state directory
+  stat:
+    path: /tmp/sushy-emulator
+  register: redfish_emulator_old_state_dir
+
+- block:
+  - name: stop Redfish Emulator before migrating its state directory
+    systemd:
+      name: redfish-emulator
+      state: stopped
+  - name: migrate existing Redfish Emulator state directory
+    shell: mv /tmp/sushy-emulator/*.sqlite "{{ redfish_emulator_state_dir }}"
+  become: true
+  ignore_errors: true
+  when: redfish_emulator_old_state_dir.stat.exists
+        and redfish_emulator_state_dir != '/tmp/sushy-emulator'
+
 - name: ensure Redfish Emulator systemd service is started and enabled
   systemd:
     name: redfish-emulator
     enabled: yes
     state: "{{ 'restarted' if redfish_emulator_config_file.changed else 'started' }}"
-    daemon_reload: "{{ redfish_emulator_service_file.changed }}"
   become: true

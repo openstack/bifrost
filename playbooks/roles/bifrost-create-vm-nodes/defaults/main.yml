@@ -19,6 +19,7 @@ test_vm_node_driver: ipmi
 
 redfish_emulator_host: localhost
 redfish_emulator_port: 9132
+redfish_emulator_state_dir: /var/lib/redfish-emulator
 
 # NOTE(pas-ha) name and default are chosen to be the same
 # as in 'bifrost-ironic-install' role
