@@ -18,9 +18,12 @@
     package: proliantutils
   when: "'ilo' in enabled_hardware_types"
 
-- name: "dracclient - Install"
+- name: "dracclient, sushy-oem-idrac - Install"
   include_role:
     name: bifrost-pip-install
   vars:
-    package: python-dracclient
+    package: "{{ item }}"
+  loop:
+    - python-dracclient
+    - sushy-oem-idrac
   when: "'idrac' in enabled_hardware_types"

@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Installs `sushy-oem-idrac <https://pypi.org/project/sushy-oem-idrac/>`_
+    when the ``idrac`` hardware type is enabled.
