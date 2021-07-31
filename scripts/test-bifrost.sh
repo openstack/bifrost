@@ -125,10 +125,20 @@ if [ ${USE_VMEDIA} = "true" ]; then
     CLOUD_CONFIG+=" -e enabled_hardware_types=redfish"
 fi
 
-logs_on_exit() {
+CURRENT_CRYPTO_POLICY=
+if [ ${USE_CIRROS} = "true" ] && which update-crypto-policies 2>&1 > /dev/null; then
+    # Crypto policies in newer Fedora prevent SSH into Cirros
+    CURRENT_CRYPTO_POLICY=$(sudo update-crypto-policies --show)
+    sudo update-crypto-policies --set LEGACY
+fi
+
+on_exit() {
+    if [ -n "$CURRENT_CRYPTO_POLICY}" ]; then
+        sudo update-crypto-policies --set $CURRENT_CRYPTO_POLICY || true
+    fi
     $SCRIPT_HOME/collect-test-info.sh
 }
-trap logs_on_exit EXIT
+trap on_exit EXIT
 
 # Change working directory
 cd $BIFROST_HOME/playbooks
