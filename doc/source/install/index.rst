@@ -32,7 +32,7 @@ Supported operating systems
 
   Tested in the CI but has frequent issues.
 
-* Fedora 32 (30 is supported but not recommended)
+* Fedora 34 (32+ is supported but not recommended)
 
   Only the latest Fedora is tested in the CI.
 

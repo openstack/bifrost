@@ -1,0 +1,13 @@
+---
+issues:
+  - |
+    Fedora 34 cryptography settings may prevent it from logging into CirrOS
+    via SSH. CirrOS images should not be used in production. If this problem
+    affects your development environment, temporary lower the cryptography
+    profile::
+
+      sudo update-crypto-policies --set LEGACY
+upgrade:
+  - |
+    Fedora 34 is now tested in the CI. Fedora 32 and newer should work, but
+    are not tested any more.
