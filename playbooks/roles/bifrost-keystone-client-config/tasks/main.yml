@@ -23,13 +23,13 @@
         config_project_domain_id: "{{ config_project_domain_id|default('default') }}"
         config_user_domain_id: "{{ config_user_domain_id|default('default') }}"
   when:
-    - "{{ enable_keystone | default(false) | bool }}"
-    - "{{ clouds is undefined }}"
-    - "{{ config_username is defined }}"
-    - "{{ config_password is defined }}"
-    - "{{ config_project_name is defined }}"
-    - "{{ config_region_name is defined }}"
-    - "{{ config_auth_url is defined }}"
+    - enable_keystone | default(false) | bool
+    - clouds is undefined
+    - config_username is defined
+    - config_password is defined
+    - config_project_name is defined
+    - config_region_name is defined
+    - config_auth_url is defined
 
 - name: "Generate TLS parameters"
   include_role:
