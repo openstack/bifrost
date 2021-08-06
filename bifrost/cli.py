@@ -303,9 +303,10 @@ def main():
         if args.debug:
             raise
         else:
-            sys.exit(str(exc))
+            return str(exc)
     except KeyboardInterrupt:
-        sys.exit('Aborting by user request')
+        return 'Aborting by user request'
+    return 0
 
 
 if __name__ == '__main__':
