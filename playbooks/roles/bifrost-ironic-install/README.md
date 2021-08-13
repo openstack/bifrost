@@ -74,6 +74,10 @@ If you chose to utilize the dhcp server, You may wish to set default ranges:
 dhcp_pool_start: 192.168.1.200
 dhcp_pool_end: 192.168.1.250
 
+If you want to use bifrost as a dhcp relay target, please set ``dhcp_pool_mask``:
+
+dhcp_pool_mask: 255.255.255.0
+
 And also set the default dhcp address lease time:
 
 dhcp_lease_time: 12h
