@@ -291,6 +291,11 @@ Additionally, the following parameters can be useful:
     Disable the configuration of the integrated DHCP server, allowing to use
     an external DHCP service.
 
+``--develop``
+    Install services in develop mode, so that the changes to the repositories
+    in ``/opt`` get immediately reflected in the environment.
+
+
 See the built-in documentation for more details:
 
 .. code-block:: bash
