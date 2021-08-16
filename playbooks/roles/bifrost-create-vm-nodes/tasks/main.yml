@@ -68,6 +68,14 @@
     recurse: yes
   when: not copy_from_local_path | bool
 
+- name: remove existing requirements
+  file:
+    path: "{{ reqs_git_folder }}"
+    state: absent
+  when:
+    - copy_from_local_path | bool
+    - update_repos | bool
+
 - name: copy requirements from local path
   copy:
     src: "{{ reqs_git_url }}/"

@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    When ``copy_from_local_path`` is used, destination path is removed on
+    upgrade before copying.
