@@ -31,16 +31,10 @@
   when: enable_inspector | bool
 
 - name: "Start ironic-conductor"
-  service: name=ironic-conductor state=started enabled=yes
+  service: name=ironic-conductor state=restarted enabled=yes
 
 - name: "Start ironic-api"
-  service: name=ironic-api state=started enabled=yes
-
-- name: "Start ironic-conductor"
-  service: name=ironic-conductor state=restarted
-
-- name: "Start ironic-api"
-  service: name=ironic-api state=restarted
+  service: name=ironic-api state=restarted enabled=yes
 
 - name: "Ensure nginx is running with current config"
   service: name=nginx state=restarted enabled=yes
