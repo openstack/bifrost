@@ -11,14 +11,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Reload systemd configuration"
-  systemd:
-    daemon_reload: yes
+- name: "Install Nginx"
+  include: install.yml
+  when: not skip_package_install | bool
+
+- name: "Bootstrap Nginx"
+  include: bootstrap.yml
+  when: not skip_bootstrap | bool
 
 - name: "Start Nginx"
-  import_role:
-    name: bifrost-nginx-install
-    tasks_from: start
-
-- name: "Ensure uwsgi is running with current config"
-  service: name=uwsgi state=restarted enabled=yes
+  include: start.yml
+  when: not skip_start | bool

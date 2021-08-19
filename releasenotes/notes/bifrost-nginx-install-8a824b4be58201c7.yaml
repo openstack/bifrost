@@ -1,0 +1,5 @@
+---
+other:
+  - |
+    Moves the generic code for managing Nginx into a new role
+    ``bifrost-nginx-install``.

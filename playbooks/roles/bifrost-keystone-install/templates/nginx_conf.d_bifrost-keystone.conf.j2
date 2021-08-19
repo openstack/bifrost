@@ -7,8 +7,8 @@ server {
 {% else %}
     listen 5000;
 {% endif %}
-    access_log /var/log/nginx/keystone/access.log;
-    error_log /var/log/nginx/keystone/error.log;
+    access_log {{ nginx_log_dir }}/keystone/access.log;
+    error_log {{ nginx_log_dir }}/keystone/error.log;
     location / {
         uwsgi_pass unix:///run/uwsgi/keystone-public.socket;
         include uwsgi_params;
@@ -23,8 +23,8 @@ server {
 {% else %}
     listen 35357;
 {% endif %}
-    access_log /var/log/nginx/keystone/access.log;
-    error_log /var/log/nginx/keystone/error.log;
+    access_log {{ nginx_log_dir }}/keystone/access.log;
+    error_log {{ nginx_log_dir }}/keystone/error.log;
     location / {
         uwsgi_pass unix:///run/uwsgi/keystone-admin.socket;
         include uwsgi_params;

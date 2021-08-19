@@ -1,0 +1,8 @@
+server {
+        listen {{ file_url_port }};
+        server_name {{ ansible_hostname }};
+        root {{ http_boot_folder }};
+        location {{ http_boot_folder }}/ {
+                alias {{ http_boot_folder }}/;
+        }
+}

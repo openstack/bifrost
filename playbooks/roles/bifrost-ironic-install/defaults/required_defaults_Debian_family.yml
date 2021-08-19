@@ -3,7 +3,6 @@ init_dest_dir: /lib/systemd/system/
 ipxe_dir: /usr/lib/ipxe/
 ipxe_full_binary: ipxe.pxe
 ironic_rootwrap_dir: /usr/local/bin/
-nginx_user: www-data
 mysql_service_name: mysql
 tftp_service_name: tftpd-hpa
 efi_distro: debian
@@ -22,7 +21,6 @@ required_packages:
   - parted
   - ipmitool
   - psmisc
-  - nginx
   - wget
   - genisoimage
   - kpartx

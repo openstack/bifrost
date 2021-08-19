@@ -1,6 +1,5 @@
 ---
 init_dest_dir: /usr/lib/systemd/system/
-nginx_user: nginx
 virt_group: libvirt
 mysql_service_name: mariadb
 required_packages:
@@ -14,4 +13,3 @@ required_packages:
   - libxslt-devel
   - openssl-devel
   - libxml2-devel
-  - nginx

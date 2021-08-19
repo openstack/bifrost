@@ -12,4 +12,3 @@ required_packages:
   - libxslt-devel
   - libopenssl-devel
   - libxml2-devel
-  - nginx

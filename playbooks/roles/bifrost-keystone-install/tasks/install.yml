@@ -16,6 +16,11 @@
     name: "{{ required_packages }}"
     state: present
 
+- name: "Install Nginx"
+  import_role:
+    name: bifrost-nginx-install
+    tasks_from: install
+
 # NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
