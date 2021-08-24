@@ -14,6 +14,7 @@ http_boot_folder: /httpboot
 ironic_tftp_master_path: /var/lib/ironic/master_images
 staging_drivers_include: false
 file_url_port: "8080"
+file_url_port_tls: "8083"
 ironicclient_source_install: false
 openstacksdk_source_install: false
 ironicinspector_source_install: true
@@ -370,10 +371,12 @@ fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='
 
 # Enable TLS support.
 enable_tls: false
+vmedia_enable_tls: "{{ enable_tls }}"
 tls_root: /etc/bifrost
 tls_certificate_path: "{{ tls_root }}/bifrost.crt"
 ironic_private_key_path: /etc/ironic/ironic.pem
 ironic_inspector_private_key_path: /etc/ironic-inspector/inspector.pem
+httpboot_private_key_path: /etc/nginx/httpboot.pem
 
 # Enable Ironic Prometheus Exporter
 enable_prometheus_exporter: false

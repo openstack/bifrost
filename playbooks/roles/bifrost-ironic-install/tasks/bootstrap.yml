@@ -33,6 +33,13 @@
     - noauth_mode | bool
     - enable_keystone | bool
 
+- name: "Fail if TLS is inconsistently configured"
+  fail:
+    msg: Setting vmedia_enable_tls to true requires also enable_tls.
+  when:
+    - not enable_tls | bool
+    - vmedia_enable_tls | bool
+
 - name: "Setup firewalld"
   include_tasks: setup_firewalld.yml
   when: use_firewalld | bool
@@ -162,6 +169,15 @@
     dest_private_key_owner: ironic
     dest_private_key_group: ironic
   when: enable_tls | bool
+
+- name: "Generate vmedia TLS parameters"
+  include_role:
+    name: bifrost-tls
+  vars:
+    dest_private_key_path: "{{ httpboot_private_key_path }}"
+    dest_private_key_owner: "{{ nginx_user }}"
+    dest_private_key_group: "{{ nginx_user }}"
+  when: vmedia_enable_tls | bool
 
 - name: "Populate keystone for Bifrost"
   include: keystone_setup.yml
@@ -396,6 +412,7 @@
     - 68
     - 69
     - "{{ file_url_port }}"
+    - "{{ file_url_port_tls }}"
     - 6385
   when: not use_firewalld | bool
 
@@ -421,13 +438,14 @@
     immediate: yes
   loop:
     - "{{ file_url_port }}"
+    - "{{ file_url_port_tls }}"
     - 6385
   when: use_firewalld | bool
 
 - block:
     - name: "Allow nginx, ironic, inspector and IPA ports on SELinux"
       seport:
-        ports: "{{ file_url_port }},6385,5050,9999"
+        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,5050,9999"
         proto: tcp
         setype: http_port_t
         state: present

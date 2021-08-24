@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    Virtual media images are now protected by TLS when TLS support is enabled.
+upgrade:
+  - |
+    If ``enable_tls`` is ``true``, virtual media images for Redfish,
+    iDRAC-Redfish and iLO are now served via TLS using the Ironic's
+    TLS certificate. If this is not desired, set the new option
+    ``vmedia_enable_tls`` to ``false``.
+
+    The new server's port can be configured via the new ``file_url_port_tls``
+    option.
