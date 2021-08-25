@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-# coding: utf-8 -*-
-
 # (c) 2015, Hewlett-Packard Development Company, L.P.
 #
 # This module is free software: you can redistribute it and/or modify
@@ -16,6 +14,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
+from ansible_collections.openstack.cloud.plugins.module_utils.ironic import (
+    IronicModule,
+    ironic_argument_spec,
+)
+from ansible_collections.openstack.cloud.plugins.module_utils.openstack import (  # noqa: E501
+    openstack_module_kwargs,
+    openstack_cloud_from_module
+)
 try:
     import openstack
     HAS_SDK = True
@@ -76,16 +82,14 @@ def _choose_id_value(module):
 
 
 def main():
-    argument_spec = openstack_full_argument_spec(  # noqa: F405
-        auth_type=dict(required=False),
+    argument_spec = ironic_argument_spec(  # noqa: F405
         uuid=dict(required=False),
         name=dict(required=False),
         mac=dict(required=False),
-        ironic_url=dict(required=False),
         skip_items=dict(required=False, type='list'),
     )
     module_kwargs = openstack_module_kwargs()  # noqa: F405
-    module = AnsibleModule(argument_spec, **module_kwargs)  # noqa: F405
+    module = IronicModule(argument_spec, **module_kwargs)
     compat = module._name == 'os_ironic_facts'
     if compat:
         module.deprecate('Using os_ironic_node_info via os_ironic_facts is '
@@ -94,33 +98,8 @@ def main():
     if not HAS_SDK:
         module.fail_json(msg='openstacksdk is required for this module')
 
-    if (module.params['ironic_url'] and
-            module.params['auth_type'] in [None, 'None', 'none']):
-        module.params['auth'] = dict(
-            endpoint=module.params['ironic_url']
-        )
-
-    # NOTE(dtantsur): the following part is copied more or less verbatim from
-    # ansible-collections-openstack.
-    cloud_config = module.params.pop('cloud', None)
     try:
-        if isinstance(cloud_config, dict):
-            fail_message = (
-                "A cloud config dict was provided to the cloud parameter"
-                " but also a value was provided for {param}. If a cloud"
-                " config dict is provided, {param} should be"
-                " excluded.")
-            for param in ('auth', 'auth_type'):
-                if module.params[param] is not None:
-                    module.fail_json(msg=fail_message.format(param=param))
-            cloud = openstack.connect(**cloud_config)
-        else:
-            cloud = openstack.connect(
-                cloud=cloud_config,
-                auth_type=module.params['auth_type'],
-                auth=module.params['auth'],
-            )
-
+        sdk, cloud = openstack_cloud_from_module(module)
         if module.params['name'] or module.params['uuid']:
             server = cloud.get_machine(_choose_id_value(module))
         elif module.params['mac']:
@@ -172,7 +151,4 @@ def main():
         module.fail_json(msg=e.message)
 
 
-# this is magic, see lib/ansible/module_common.py
-from ansible.module_utils.basic import *  # noqa: E402
-from ansible.module_utils.openstack import *  # noqa: E402
 main()

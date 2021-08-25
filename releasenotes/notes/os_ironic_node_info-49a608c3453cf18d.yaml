@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes support for TLS ``ca_cert`` and other current authentication
+    parameters in the ``os_ironic_node_info`` module. The implementation uses
+    utilities from the OpenStack Ansible collection.
