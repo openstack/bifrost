@@ -350,7 +350,7 @@ keystone:
     username: "{{ admin_username }}"
     password: "{{ admin_password }}"
     project_name: admin
-    admin_url: "{{ api_protocol }}://{{ internal_ip }}:35357/v3/"
+    admin_url: "{{ keystone_api_url }}"
     public_url: "{{ keystone_api_url }}"
     internal_url: "{{ api_protocol }}://127.0.0.1:5000/v3/"
     region_name: "RegionOne"

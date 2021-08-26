@@ -15,6 +15,7 @@ server {
         uwsgi_param SCRIPT_NAME '';
     }
 }
+{# TODO(dtantsur): remove the separate admin endpoint after Xena #}
 server {
 {% if enable_tls | bool %}
     listen 35357 ssl;
