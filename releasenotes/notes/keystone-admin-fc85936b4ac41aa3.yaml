@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    A separate Keystone admin service is no longer installed and will be
+    disabled on upgrade. The main Keystone service can be used instead.

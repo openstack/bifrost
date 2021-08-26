@@ -15,20 +15,3 @@ server {
         uwsgi_param SCRIPT_NAME '';
     }
 }
-{# TODO(dtantsur): remove the separate admin endpoint after Xena #}
-server {
-{% if enable_tls | bool %}
-    listen 35357 ssl;
-    ssl_certificate     {{ tls_certificate_path }};
-    ssl_certificate_key {{ nginx_private_key_path }};
-{% else %}
-    listen 35357;
-{% endif %}
-    access_log {{ nginx_log_dir }}/keystone/access.log;
-    error_log {{ nginx_log_dir }}/keystone/error.log;
-    location / {
-        uwsgi_pass unix:///run/uwsgi/keystone-admin.socket;
-        include uwsgi_params;
-        uwsgi_param SCRIPT_NAME '';
-   }
-}
