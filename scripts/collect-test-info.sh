@@ -89,6 +89,14 @@ for vm in $(baremetal node list -c Name -f value); do
     baremetal node show $vm >> ${LOG_LOCATION}/baremetal.txt
 done
 
+# Copy keystone information
+if which openstack; then
+    source $HOME/openrc bifrost-admin
+    openstack service list --long > ${LOG_LOCATION}/keystone-services.txt
+    openstack endpoint list >> ${LOG_LOCATION}/keystone-services.txt
+    openstack user list --long > ${LOG_LOCATION}/keystone-users.txt
+fi
+
 sudo cp -a "/var/log/ironic/deploy" ${LOG_LOCATION}/deploy-ramdisk
 sudo cp -a "/var/log/ironic-inspector/ramdisk" ${LOG_LOCATION}/inspection-ramdisk
 
