@@ -61,6 +61,15 @@
       {%- if "staging-wol" in enabled_hardware_types -%},staging-wol{%- endif -%}
   when: not enabled_power_interfaces
 
+- name: "Configure raid interfaces if required"
+  set_fact:
+    enabled_raid_interfaces: >-
+      no-raid,agent
+      {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
+      {%- if "ilo5" in enabled_hardware_types -%},ilo5{%- endif -%}
+      {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
+  when: not enabled_raid_interfaces
+
 - name: "Configure vendor interfaces if required"
   set_fact:
     enabled_vendor_interfaces: >-
