@@ -5,7 +5,7 @@
         chdir: "{{ ansible_user_dir }}/{{ item.src_dir }}"
       loop: "{{ zuul.projects.values() | list }}"
       when: item.name not in skip_upgrade
-    - command: bash scripts/test-bifrost.sh
+    - shell: bash scripts/test-bifrost.sh 2>&1 | tee "{{ ansible_user_dir }}/bifrost-old.log"
       args:
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
       environment:
@@ -20,7 +20,7 @@
         chdir: "{{ ansible_user_dir }}/{{ item.src_dir }}"
       loop: "{{ zuul.projects.values() | list }}"
       when: item.name not in skip_upgrade
-    - command: bash scripts/test-bifrost.sh
+    - shell: bash scripts/test-bifrost.sh 2>&1 | tee "{{ ansible_user_dir }}/bifrost-new.log"
       args:
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
       environment:
