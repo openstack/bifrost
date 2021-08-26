@@ -248,33 +248,25 @@
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: 0755
 
-- name: "Place keystone public uwsgi config"
+- name: "Place keystone uWSGI config"
   template:
-    src: keystone-public.ini.j2
-    dest: /etc/uwsgi/apps-available/keystone-public.ini
+    src: uwsgi-keystone.ini.j2
+    dest: /etc/uwsgi/apps-available/keystone-{{ item }}.ini
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: 0755
+  loop:
+    - public
+    - admin
 
-- name: "Place keystone admin uwsgi config"
-  template:
-    src: keystone-admin.ini.j2
-    dest: /etc/uwsgi/apps-available/keystone-admin.ini
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
-
-- name: "Enable keystone-public in uwsgi"
+- name: "Enable keystone in uWSGI"
   file:
-    src: "/etc/uwsgi/apps-available/keystone-public.ini"
-    dest: "/etc/uwsgi/apps-enabled/keystone-public.ini"
+    src: "/etc/uwsgi/apps-available/keystone-{{ item }}.ini"
+    dest: "/etc/uwsgi/apps-enabled/keystone-{{ item }}.ini"
     state: link
-
-- name: "Enable keystone-admin in uwsgi"
-  file:
-    src: "/etc/uwsgi/apps-available/keystone-admin.ini"
-    dest: "/etc/uwsgi/apps-enabled/keystone-admin.ini"
-    state: link
+  loop:
+    - public
+    - admin
 
 - name: "Place nginx configuration for keystone"
   # TODO(TheJulia): Refactor this so we use sites-enabled, but bifrost's
