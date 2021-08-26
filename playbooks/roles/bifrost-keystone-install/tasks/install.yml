@@ -28,17 +28,16 @@
   file: name=/opt/stack state=directory owner=root group=root
   when: not skip_install | bool
 
+- name: "Install uWSGI"
+  include_role:
+    name: bifrost-uwsgi-install
+    tasks_from: install
+
 - name: "Install pymysql"
   include_role:
     name: bifrost-pip-install
   vars:
     package: pymysql
-
-- name: "Install uWSGI in venv if using"
-  include_role:
-    name: bifrost-pip-install
-  vars:
-    package: uWSGI
 
 - name: "Install python-openstackclient"
   include_role:

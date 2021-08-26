@@ -7,6 +7,8 @@ no-orphans = true
 chmod-socket = 660
 virtualenv = {{ bifrost_venv_dir }}
 
+procname-prefix = keystone-{{ item }}
+
 socket = /run/uwsgi/keystone-{{ item }}.socket
 pidfile = /run/uwsgi/keystone-{{ item }}.pid
 

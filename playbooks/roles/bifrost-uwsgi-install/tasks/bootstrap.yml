@@ -1,0 +1,57 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+# NOTE(TheJulia): There is significant commonality between this playbook
+# and the bifrost bootstrap process.
+- name: "Get uwsgi install location"
+  shell: echo $(dirname $(which uwsgi))
+  register: uwsgi_install_prefix
+  environment: "{{ bifrost_venv_env }}"
+
+- name: "Ensure /etc/uwsgi exists"
+  file:
+    name: "/etc/uwsgi"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
+    mode: 0755
+
+- name: "Ensure /etc/uwsgi/apps-available exists"
+  file:
+    name: "/etc/uwsgi/apps-available"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
+    mode: 0755
+
+- name: "Ensure /etc/uwsgi/apps-enabled exists"
+  file:
+    name: "/etc/uwsgi/apps-enabled"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
+    mode: 0755
+
+- name: "Disable standalone uWSGI service"
+  service:
+    name: uwsgi
+    state: stopped
+    enabled: no
+  ignore_errors: true
+
+- name: "Place the uWSGI service template"
+  template:
+    src: uwsgi@.service.j2
+    dest: "{{ init_dest_dir }}uwsgi@.service"
+    owner: "root"
+    group: "root"

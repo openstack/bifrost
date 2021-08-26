@@ -22,13 +22,6 @@
       --network-interface argument to "bifrost-cli install".
   when: ('ansible_' + ans_network_interface) not in hostvars[inventory_hostname]
 
-# NOTE(TheJulia): There is significant commonality between this playbook
-# and the bifrost bootstrap process.
-- name: "Get uwsgi install location"
-  shell: echo $(dirname $(which uwsgi))
-  register: uwsgi_install_prefix
-  environment: "{{ bifrost_venv_env }}"
-
 - name: "Get keystone-wsgi-admin location"
   shell: echo $(dirname $(which keystone-wsgi-admin))
   register: keystone_install_prefix
@@ -224,29 +217,10 @@
     group: "{{ nginx_user }}"
     mode: 0754
 
-- name: "Ensure /etc/uwsgi exists"
-  file:
-    name: "/etc/uwsgi"
-    state: directory
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
-
-- name: "Ensure /etc/uwsgi/apps-available exists"
-  file:
-    name: "/etc/uwsgi/apps-available"
-    state: directory
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
-
-- name: "Ensure /etc/uwsgi/apps-enabled exists"
-  file:
-    name: "/etc/uwsgi/apps-enabled"
-    state: directory
-    owner: "{{ nginx_user }}"
-    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+- name: "Bootstrap uWSGI"
+  include_role:
+    name: bifrost-uwsgi-install
+    tasks_from: bootstrap
 
 - name: "Place keystone uWSGI config"
   template:
@@ -277,19 +251,6 @@
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: 0755
-
-- name: "Place uwsgi services"
-  template:
-    src: systemd_template.j2
-    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
-    owner: "root"
-    group: "root"
-  loop:
-    - { service_path: "{{ uwsgi_install_prefix.stdout | default('') }}",
-        service_name: 'uwsgi',
-        username: "{{ nginx_user }}",
-        exec_start_pre: "/usr/bin/install -m 755 -o {{ nginx_user }} -g {{ nginx_user }} -d /run/uwsgi",
-        args: '--master --emperor /etc/uwsgi/apps-enabled'} # TODO(TheJulia): Split webserver user/group.
 
 - block:
     - name: "Explicitly allow keystone port (TCP) on selinux"
