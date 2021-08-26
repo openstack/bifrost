@@ -31,7 +31,7 @@ ipa_git_folder: "{{ git_root}}/ironic-python-agent"
 ipa_builder_git_folder: "{{ git_root}}/ironic-python-agent-builder"
 prometheus_exporter_git_folder: "{{ git_root}}/ironic-prometheus-exporter"
 # *git_branch can be overridden for stable branch testing
-git_branch: master
+git_branch: stable/wallaby
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
@@ -43,7 +43,7 @@ staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
-ipa_builder_git_branch: master
+ipa_builder_git_branch: "{{ git_branch }}"
 prometheus_exporter_git_branch: "{{ git_branch }}"
 # disable source install to prevent cloning
 ironicclient_source_install: false
