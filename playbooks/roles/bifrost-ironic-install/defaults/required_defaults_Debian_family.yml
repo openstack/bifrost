@@ -10,9 +10,8 @@ grub_efi_binary: /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed
 shim_efi_binary: /usr/lib/shim/shimx64.efi.signed
 required_packages:
   - mariadb-server
-  - python-dev
-  - python-mysqldb
-  - python-configparser
+  - python3-dev
+  - python3-mysqldb
   - libffi-dev
   - libxslt1-dev
   - libssl-dev
@@ -28,7 +27,7 @@ required_packages:
   - uuid-runtime
   - curl
   - socat
-  - python-pip
+  - python3-pip
   - gcc
   - dnsmasq
   - apache2-utils

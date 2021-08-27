@@ -3,9 +3,8 @@ init_dest_dir: /lib/systemd/system/
 mysql_service_name: mysql
 required_packages:
   - mariadb-server
-  - python-dev
-  - python-mysqldb
-  - python-configparser
+  - python3-dev
+  - python3-mysqldb
   - libffi-dev
   - libxslt1-dev
   - libssl-dev

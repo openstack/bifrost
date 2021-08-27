@@ -154,10 +154,16 @@
       test_driver: redfish
       use_vmedia: true
 
+#NOTE(rpittau): remove buster support in Z or later
 - job:
     name: bifrost-integration-tinyipa-debian-buster
     parent: bifrost-integration-tinyipa
     nodeset: debian-buster
+
+- job:
+    name: bifrost-integration-tinyipa-debian-bullseye
+    parent: bifrost-integration-tinyipa
+    nodeset: debian-bullseye
 
 - job:
     name: bifrost-integration-tinyipa-opensuse-15

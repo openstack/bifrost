@@ -16,13 +16,15 @@ Supported operating systems
 
 * CentOS Stream 8
 * Ubuntu 20.04 "Focal"
-* Debian 10 "Buster"
+* Debian 11 "Bullseye"
 
-2nd tier support (limited testing or known issues):
+2nd tier support (limited testing):
 
 * Ubuntu 18.04 "Bionic"
+* Debian 10 "Buster
 
-  Tested in the Bifrost CI, but no longer tested in the ironic upstream CI.
+  Tested in the Bifrost CI only as non-voting jobs (does not block CI in case
+  of failure).
 
 * RHEL 8 and regular CentOS 8
 
