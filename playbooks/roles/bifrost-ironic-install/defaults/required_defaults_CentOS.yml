@@ -1,3 +1,4 @@
 ---
 efi_distro: centos
 grub_efi_binary: /boot/efi/EFI/centos/grubx64.efi
+shim_efi_binary: /boot/efi/EFI/centos/shimx64.efi

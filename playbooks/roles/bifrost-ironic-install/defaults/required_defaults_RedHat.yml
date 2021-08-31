@@ -1,3 +1,4 @@
 ---
 efi_distro: rhel
 grub_efi_binary: /boot/efi/EFI/rhel/grubx64.efi
+shim_efi_binary: /boot/efi/EFI/rhel/shimx64.efi
