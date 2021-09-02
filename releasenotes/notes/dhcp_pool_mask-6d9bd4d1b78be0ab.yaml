@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds support for using dnsmasq as a DHCP relay target via the new
+    ``dhcp_pool_mask`` parameter.
