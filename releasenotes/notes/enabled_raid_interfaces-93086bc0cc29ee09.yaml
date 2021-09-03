@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Automatically configures ``enabled_raid_interfaces`` based on the
+    ``enabled_hardware_types``.
+  - |
+    Adds support for manually specified enabled raid interfaces via the new
+    ``enabled_raid_interfaces`` parameter.
