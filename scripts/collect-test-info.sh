@@ -14,6 +14,8 @@ VERBOSE_LOGS="${VERBOSE_LOGS:-False}"
 echo "Making logs directory and collecting logs."
 [ -d ${LOG_LOCATION} ] || mkdir -p ${LOG_LOCATION}
 
+cp ${LOG_LOCATION}/../bifrost*.log ${LOG_LOCATION}
+
 mkdir -p "$LOG_LOCATION/pip"
 pip freeze > "$LOG_LOCATION/pip/freeze-default.log"
 if which pip3 2> /dev/null; then
