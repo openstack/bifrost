@@ -139,6 +139,7 @@ on_exit() {
     $SCRIPT_HOME/collect-test-info.sh
 }
 trap on_exit EXIT
+trap on_exit ERR
 
 # Change working directory
 cd $BIFROST_HOME/playbooks
