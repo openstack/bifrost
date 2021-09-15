@@ -12,7 +12,7 @@ required_packages:
   - dnsmasq
   - firewalld
   - gcc
-  - genisoimage
+  - xorriso
   - grub2-efi-x64
   - httpd-tools
   - ipmitool

@@ -21,7 +21,7 @@ required_packages:
   - ipmitool
   - psmisc
   - wget
-  - genisoimage
+  - xorriso
   - kpartx
   - kernel-tools
   - qemu-img
