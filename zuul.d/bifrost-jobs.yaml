@@ -118,6 +118,7 @@
     parent: bifrost-integration-tinyipa-ubuntu-focal
     vars:
       boot_mode: uefi
+      enable_tls: true
       test_driver: redfish
       use_vmedia: true
 

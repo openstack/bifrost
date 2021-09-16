@@ -2,7 +2,25 @@ server {
         listen {{ file_url_port }};
         server_name {{ ansible_hostname }};
         root {{ http_boot_folder }};
+
         location {{ http_boot_folder }}/ {
                 alias {{ http_boot_folder }}/;
         }
+        {% if vmedia_enable_tls | bool %}
+        # Served only through TLS
+        location ~ ^/(redfish|ilo)/ {
+                deny all;
+                return 404;
+        }
+        {% endif %}
 }
+{% if vmedia_enable_tls | bool %}
+server {
+        listen {{ file_url_port_tls }} ssl http2;
+        server_name {{ ansible_hostname }};
+        root {{ http_boot_folder }};
+
+        ssl_certificate     {{ tls_certificate_path }};
+        ssl_certificate_key {{ httpboot_private_key_path }};
+}
+{% endif %}

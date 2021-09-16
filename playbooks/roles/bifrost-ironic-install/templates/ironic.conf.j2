@@ -89,6 +89,9 @@ erase_devices_metadata_priority = 0
 erase_devices_priority = 0
 erase_devices_metadata_priority = 10
 {% endif %}
+{% if vmedia_enable_tls | bool %}
+external_http_url = https://{{ internal_ip }}:{{ file_url_port_tls }}/
+{% endif %}
 
 [conductor]
 automated_clean = {{ cleaning | lower }}
