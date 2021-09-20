@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    The ``admin`` Keystone endpoint will be upgraded from using port 35357
+    (a separate admin API) to use port 5000 (the default Identity API).
+deprecations:
+  - |
+    The separate Keystone admin API (served at port 35357) is deprecated and
+    will be removed in a future release. Please update your applications to
+    refer to port 5000 only for Keystone operations.

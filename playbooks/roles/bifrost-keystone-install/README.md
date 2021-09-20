@@ -56,9 +56,9 @@ Below is the full data structure.
       username: admin
       password: ChangeThisPa55w0rd
       project_name: admin
-      admin_url: "http://127.0.0.1:35357/v2.0/"
-      public_url: "http://127.0.0.1:5000/v2.0/"
-      internal_url: "http://127.0.0.1:5000/v2.0/"
+      admin_url: "http://127.0.0.1:5000/v3/"
+      public_url: "http://127.0.0.1:5000/v3/"
+      internal_url: "http://127.0.0.1:5000/v3/"
       region_name: "RegionOne"
     message_queue:
       username: keystone
