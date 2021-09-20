@@ -6,7 +6,6 @@ ipxe_efi_binary: ipxe-x86_64.efi
 ironic_rootwrap_dir: /usr/bin/
 mysql_service_name: mariadb
 tftp_service_name: tftp
-shim_efi_binary: /boot/efi/EFI/BOOT/BOOTX64.EFI
 required_packages:
   - mariadb-server
   - dnsmasq
