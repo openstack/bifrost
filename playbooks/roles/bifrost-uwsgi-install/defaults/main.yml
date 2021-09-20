@@ -1,0 +1,23 @@
+---
+# If testing is true, then the environment is setup for using libvirt
+# virtual machines for the hardware instead of real hardware.
+testing: false
+
+# set to true to skip installation completely
+skip_install: False
+# set to true to skip installing dependencies
+skip_package_install: False
+# set to true to skip generation of configs and database configuration
+skip_bootstrap: False
+
+nginx_user: "{{ 'www-data' if ansible_os_family == 'Debian' else 'nginx' }}"
+
+init_dest_path: "{{ '/usr' if ansible_os_family != 'Debian' else '' }}/lib/systemd/system/"
+
+# Settings related to installing bifrost in a virtual environment
+bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
+bifrost_venv_env:
+  VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
+  PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
+  pydoc: "python -m pydoc"
+ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"

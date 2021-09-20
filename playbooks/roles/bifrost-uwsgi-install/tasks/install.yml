@@ -11,20 +11,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "Reload systemd configuration"
-  systemd:
-    daemon_reload: yes
-
-- name: "Start Keystone services"
-  service:
-    name: uwsgi@keystone-{{ item }}
-    state: restarted
-    enabled: yes
-  loop:
-    - public
-    - admin
-
-- name: "Start Nginx"
-  import_role:
-    name: bifrost-nginx-install
-    tasks_from: start
+- name: "Install uWSGI via pip"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: uWSGI

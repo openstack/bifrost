@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    Adds a new role ``bifrost-uwsgi-install`` encapsulating uWSGI configuration
+    logic.
+upgrade:
+  - |
+    Keystone services are now run as separate systemd services
+    ``uwsgi@keystone-public`` and ``uwsgi@keystone-admin``. The standalone
+    ``uwsgi`` service is no longer used and is disabled on upgrade.

@@ -1,0 +1,17 @@
+[Unit]
+Description=%i uWSGI service
+
+[Service]
+ExecStart={{ uwsgi_install_prefix.stdout | default('/usr/bin') }}/uwsgi \
+          --ini /etc/uwsgi/apps-enabled/%i.ini
+SyslogIdentifier=%i
+RuntimeDirectory=uwsgi
+User={{ nginx_user }}
+Group={{ nginx_user }}
+Restart=on-failure
+KillSignal=SIGQUIT
+Type=notify
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target
