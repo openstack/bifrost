@@ -215,7 +215,7 @@
   include_role:
     name: bifrost-pip-install
   vars:
-    package: sushy-tools
+    package: sushy-tools>=0.18.2
 
 - name: create Redfish Emulator state directory
   file:
@@ -263,6 +263,16 @@
   with_first_found: "{{ efi_nvram_locations }}"
   when: default_boot_mode == 'uefi'
 
+- name: write Redfish Emulator password file
+  htpasswd:
+    path: /etc/redfish-emulator.htpasswd
+    crypt_scheme: bcrypt
+    name: "admin"
+    password: "password"
+    owner: root
+    group: root
+    mode: 0600
+
 - name: write Redfish Emulator configuration file
   template:
     src: redfish-emulator.conf.j2
@@ -296,5 +306,5 @@
   systemd:
     name: redfish-emulator
     enabled: yes
-    state: "{{ 'restarted' if redfish_emulator_config_file.changed else 'started' }}"
+    state: restarted
   become: true

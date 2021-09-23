@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    The redfish emulator now has authentication enabled by default.
