@@ -50,7 +50,7 @@ bifrost_venv_env:
   PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
 
-git_branch: master
+git_branch: stable/xena
 git_root: "/opt/stack"
 git_url_root: https://opendev.org
 reqs_git_url: "{{ git_url_root }}/openstack/requirements"
