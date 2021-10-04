@@ -18,7 +18,6 @@ pip_install_retries: 5
 pip_install_delay: 10
 reqs_git_folder: /opt/stack/requirements
 state: present
-version:
 upper_constraints_file: >-
   {{ lookup('env', 'UPPER_CONSTRAINTS_FILE')
      | default(lookup('env', 'TOX_CONSTRAINTS_FILE'), True)
