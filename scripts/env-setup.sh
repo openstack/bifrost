@@ -6,7 +6,7 @@ set -euo pipefail
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
-DEFAULT_PIP_ANSIBLE='>=2.9,<2.11'
+DEFAULT_PIP_ANSIBLE='>=4,<5'
 
 ANSIBLE_COLLECTIONS_REQ=${ANSIBLE_COLLECTIONS_REQ:-$(dirname $0)/../ansible-collections-requirements.yml}
 ANSIBLE_COLLECTION_SOURCE_PATH=
@@ -25,6 +25,7 @@ ANSIBLE=${VENV}/bin/ansible
 if [ -f "$ANSIBLE" ]; then
   ${PIP} uninstall -y ansible
   ${PIP} uninstall -y ansible-base
+  ${PIP} uninstall -y ansible-core
 fi
 ${PIP} install "${ANSIBLE_SOURCE_PATH}"
 
