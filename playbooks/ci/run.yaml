@@ -1,8 +1,11 @@
 - hosts: all
   tasks:
     - shell:
-        cmd: bash scripts/test-bifrost.sh 2>&1 | tee "{{ ansible_user_dir }}/bifrost.log"
+        cmd: |
+          set -eo pipefail
+          ./scripts/test-bifrost.sh 2>&1 | tee "{{ ansible_user_dir }}/bifrost.log"
         chdir: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/bifrost'].src_dir }}"
+        executable: /bin/bash
       environment:
         BIFROST_TRACE: "true"
         BUILD_IMAGE: "{{ build_image | default(false) | bool | lower }}"
