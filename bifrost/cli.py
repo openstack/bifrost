@@ -123,7 +123,7 @@ def cmd_testenv(args):
             test_vm_disk_gib=args.disk,
             test_vm_domain_type=args.domain_type,
             test_vm_node_driver=args.driver,
-            default_boot_mode='uefi' if args.uefi else 'bios',
+            default_boot_mode=args.boot_mode or 'uefi',
             baremetal_json_file=os.path.abspath(args.inventory),
             baremetal_nodes_json=os.path.abspath(args.output),
             extra_vars=args.extra_vars,
@@ -169,7 +169,7 @@ def cmd_install(args):
             use_tinyipa=args.testenv,
             developer_mode=args.develop,
             enable_prometheus_exporter=args.enable_prometheus_exporter,
-            default_boot_mode='uefi' if args.uefi else 'bios',
+            default_boot_mode=args.boot_mode or 'uefi',
             include_dhcp_server=not args.disable_dhcp,
             extra_vars=args.extra_vars,
             **kwargs)
@@ -224,8 +224,13 @@ def parse_args():
     testenv.add_argument('--driver', default='ipmi',
                          choices=['ipmi', 'redfish'],
                          help='driver for testing nodes')
-    testenv.add_argument('--uefi', action='store_true',
-                         help='boot testing VMs with UEFI by default')
+    boot_mode = testenv.add_mutually_exclusive_group()
+    boot_mode.add_argument('--uefi', dest='boot_mode',
+                           action='store_const', const='uefi',
+                           help='boot testing VMs with UEFI by default')
+    boot_mode.add_argument('--legacy-boot', dest='boot_mode',
+                           action='store_const', const='bios',
+                           help='boot testing VMs with legacy boot by default')
     testenv.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
     testenv.add_argument('-o', '--output', default='baremetal-nodes.json',
@@ -261,8 +266,13 @@ def parse_args():
                               'deployments (can take a lot of time)')
     install.add_argument('--enable-prometheus-exporter', action='store_true',
                          help='Enable Ironic Prometheus Exporter')
-    install.add_argument('--uefi', action='store_true',
-                         help='use UEFI by default')
+    boot_mode = install.add_mutually_exclusive_group()
+    boot_mode.add_argument('--uefi', dest='boot_mode',
+                           action='store_const', const='uefi',
+                           help='use UEFI boot by default')
+    boot_mode.add_argument('--legacy-boot', dest='boot_mode',
+                           action='store_const', const='bios',
+                           help='use legacy boot (BIOS) by default')
     install.add_argument('--disable-dhcp', action='store_true',
                          help='Disable integrated dhcp server')
     install.add_argument('-e', '--extra-vars', action='append',

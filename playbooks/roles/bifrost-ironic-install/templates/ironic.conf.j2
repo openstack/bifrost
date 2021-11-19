@@ -78,9 +78,7 @@ enable_netboot_fallback = true
 http_url = http://{{ internal_ip }}:{{ file_url_port }}/
 http_root = {{ http_boot_folder }}
 default_boot_option = local
-{% if default_boot_mode | default('') != '' %}
 default_boot_mode = {{ default_boot_mode }}
-{% endif %}
 fast_track = {{ fast_track }}
 {% if cleaning_disk_erase | bool %}
 erase_devices_priority = 10

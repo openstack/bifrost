@@ -117,7 +117,6 @@
     name: bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
     parent: bifrost-integration-tinyipa-ubuntu-focal
     vars:
-      boot_mode: uefi
       enable_tls: true
       test_driver: redfish
       use_vmedia: true
@@ -150,7 +149,6 @@
     name: bifrost-integration-redfish-vmedia-uefi-centos-8
     parent: bifrost-integration-tinyipa-centos-8
     vars:
-      boot_mode: uefi
       test_driver: redfish
       use_vmedia: true
 
@@ -179,7 +177,6 @@
     name: bifrost-integration-redfish-uefi-fedora-latest
     parent: bifrost-integration-tinyipa-fedora-latest
     vars:
-      boot_mode: uefi
       test_driver: redfish
 
 - job:
