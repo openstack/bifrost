@@ -409,11 +409,22 @@
     in_interface: "{{ network_interface }}"
     jump: ACCEPT
   loop:
-    - 68
-    - 69
     - "{{ file_url_port }}"
     - "{{ file_url_port_tls }}"
     - 6385
+  when: not use_firewalld | bool
+
+- name: "Explicitly permit DHCP and TFTP ports"
+  iptables:
+    chain: INPUT
+    action: insert
+    protocol: udp
+    destination_port: "{{ item }}"
+    in_interface: "{{ network_interface }}"
+    jump: ACCEPT
+  loop:
+    - 67
+    - 69
   when: not use_firewalld | bool
 
 - name: "Enable services in firewalld"
