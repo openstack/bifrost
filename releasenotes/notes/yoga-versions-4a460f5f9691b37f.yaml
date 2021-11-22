@@ -1,0 +1,8 @@
+---
+deprecations:
+  - |
+    Support for distributions using Python 3.6, namely Ubuntu Bionic, Debian 10
+    "Buster" and openSUSE 15.2/15.3, has been deprecated and may be removed
+    at any moment.
+  - |
+    Support for Fedora has been deprecated, please use CentOS Stream 8.
