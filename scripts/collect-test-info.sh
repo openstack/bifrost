@@ -82,7 +82,8 @@ sudo journalctl -u uwsgi@keystone-public &> ${LOG_LOCATION}/keystone-public.log
 
 # Copy PXE information
 mkdir -p ${LOG_LOCATION}/pxe/
-cp /httpboot/ipxe.* ${LOG_LOCATION}/pxe/
+ls -lR /httpboot > ${LOG_LOCATION}/pxe/listing.txt
+cp -aL /httpboot/*.ipxe ${LOG_LOCATION}/pxe/
 cp -aL /httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
 
 # Copy baremetal information
