@@ -79,7 +79,6 @@ sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
 sudo journalctl -u vbmcd &> ${LOG_LOCATION}/vbmcd.log
 sudo journalctl -u redfish-emulator &> ${LOG_LOCATION}/redfish-emulator.log
 sudo journalctl -u uwsgi@keystone-public &> ${LOG_LOCATION}/keystone-public.log
-sudo journalctl -u uwsgi@keystone-admin &> ${LOG_LOCATION}/keystone-admin.log
 
 # Copy PXE information
 mkdir -p ${LOG_LOCATION}/pxe/

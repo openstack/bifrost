@@ -15,14 +15,19 @@
   systemd:
     daemon_reload: yes
 
-- name: "Start Keystone services"
+# NOTE(dtantsur): can be removed after Yoga
+- name: "Stop Keystone admin"
   service:
-    name: uwsgi@keystone-{{ item }}
+    name: uwsgi@keystone-admin
+    state: stopped
+    enabled: no
+  ignore_errors: true
+
+- name: "Start Keystone service"
+  service:
+    name: uwsgi@keystone-public
     state: restarted
     enabled: yes
-  loop:
-    - public
-    - admin
 
 - name: "Start Nginx"
   import_role:
