@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the iptables rule for PXE on systems not using firewalld (use
+    port UDP/67 and UDP/69 instead of TCP/68 and TCP/69).
