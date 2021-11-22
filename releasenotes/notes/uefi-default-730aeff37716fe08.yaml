@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    Bifrost now uses UEFI by default. Set ``default_boot_mode`` to ``bios``
+    or use the ``--legacy-boot`` CLI flag to override.
+deprecations:
+  - |
+    Using legacy boot is deprecated, although we don't have immediate plans
+    to remove its support. Please consider using UEFI.

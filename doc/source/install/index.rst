@@ -286,8 +286,8 @@ Additionally, the following parameters can be useful:
 ``--enable-prometheus-exporter``
     Enable the Ironic Prometheus Exporter service.
 
-``--uefi``
-    Boot machines in the UEFI mode by default.
+``--uefi`` / ``--legacy-boot``
+    Boot machines in the UEFI or BIOS mode by default (defaults to UEFI).
 
 ``--disable-dhcp``
     Disable the configuration of the integrated DHCP server, allowing to use

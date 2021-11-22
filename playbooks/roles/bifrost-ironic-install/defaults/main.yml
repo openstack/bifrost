@@ -156,7 +156,7 @@ enabled_vendor_interfaces: ""
 
 default_resource_class: baremetal
 
-default_boot_mode: ""
+default_boot_mode: uefi
 
 enable_credential_less_deploy: false
 
