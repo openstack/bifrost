@@ -12,31 +12,22 @@ using Bifrost.
 Supported operating systems
 ===========================
 
-1st tier support (fully tested in the CI, no known or potential issues):
+Full support (fully tested in the CI, no known or potential issues):
 
 * CentOS Stream 8
+
+  .. note::
+     RHEL 8 and regular CentOS 8 are assumed to work but not tested explicitly.
+
 * Ubuntu 20.04 "Focal"
 * Debian 11 "Bullseye"
 
-2nd tier support (limited testing):
+Deprecated, support may be removed at any moment:
 
 * Ubuntu 18.04 "Bionic"
 * Debian 10 "Buster
-
-  Tested in the Bifrost CI only as non-voting jobs (does not block CI in case
-  of failure).
-
-* RHEL 8 and regular CentOS 8
-
-  Only tested indirectly via CentOS Stream 8.
-
 * openSUSE Leap 15.2
-
-  Tested in the CI but has frequent issues.
-
 * Fedora 34 (32+ is supported but not recommended)
-
-  Only the latest Fedora is tested in the CI.
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
