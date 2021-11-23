@@ -194,10 +194,9 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/wallaby
+      upgrade_from: stable/xena
       skip_upgrade:
         - openstack/diskimage-builder
-        - openstack/ironic-python-agent-builder
 
 - job:
     name: bifrost-upgrade-ubuntu-focal
