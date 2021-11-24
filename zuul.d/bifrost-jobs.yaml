@@ -136,6 +136,11 @@
       test_driver: redfish
       use_vmedia: true
 
+- job:
+    name: bifrost-integration-tinyipa-centos-9
+    parent: bifrost-integration-tinyipa
+    nodeset: centos-9-stream
+
 #NOTE(rpittau): remove buster support in Z or later
 - job:
     name: bifrost-integration-tinyipa-debian-buster

@@ -7,6 +7,7 @@
     check:
       jobs:
         - bifrost-tox-linters
+        - bifrost-integration-tinyipa-centos-9
         - bifrost-integration-tinyipa-ubuntu-focal
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
@@ -59,6 +60,7 @@
     gate:
       jobs:
         - bifrost-tox-linters
+        - bifrost-integration-tinyipa-centos-9
         - bifrost-integration-tinyipa-ubuntu-focal
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
