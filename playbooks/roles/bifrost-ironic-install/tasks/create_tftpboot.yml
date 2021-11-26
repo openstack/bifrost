@@ -27,8 +27,11 @@
   service: name="{{ tftp_service_name }}" state=stopped enabled=no
   ignore_errors: yes
 
-- name: "Place boot.ipxe helper script /etc/ironic"
-  copy: src=boot.ipxe dest=/etc/ironic/boot.ipxe owner=ironic group=ironic mode=0744
+# NOTE(dtantsur): the code to remove boot.ipxe can be removed after Yoga
+- name: Remove the stale boot.ipxe
+  file:
+    path: /etc/ironic/boot.ipxe
+    state: absent
 
 # NOTE(dtantsur): the code to migrate from xinetd can be removed after Xena
 
