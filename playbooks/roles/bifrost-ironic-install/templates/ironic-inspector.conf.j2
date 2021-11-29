@@ -18,11 +18,9 @@ log_dir = {{ inspector_log_dir }}
 transport_url = fake://
 
 {% if enable_tls | bool %}
-use_ssl = True
-
-[ssl]
-cert_file = {{ tls_certificate_path }}
-key_file = {{ ironic_inspector_private_key_path }}
+# TLS is handled by nginx is proxy mode
+listen_address = 127.0.0.1
+listen_port = 15050
 {% endif %}
 
 [database]

@@ -51,11 +51,17 @@ grub_config_path = EFI/{{ efi_distro }}/grub.cfg
 
 {% if enable_tls | bool %}
 [api]
-enable_ssl_api = True
+# TLS is handled by nginx is proxy mode
+host_ip = 127.0.0.1
+port = 6388
+public_endpoint = {{ api_protocol }}://{{ internal_ip }}:6385
 
+{% if expose_json_rpc | bool %}
 [ssl]
+# Only used for JSON RPC when expose_json_rpc is true
 cert_file = {{ tls_certificate_path }}
 key_file = {{ ironic_private_key_path }}
+{% endif %}
 {% endif %}
 
 [agent]
