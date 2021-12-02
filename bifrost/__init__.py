@@ -17,8 +17,8 @@ try:
 
     __version__ = pbr.version.VersionInfo(
         'bifrost').version_string()
-except ImportError:
-    pass  # Allow the CLI to work without pbr installed
+except Exception:
+    pass  # Allow the CLI to work without pbr installed or with it failing
 
 __all__ = [
     'inventory'
