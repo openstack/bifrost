@@ -154,7 +154,7 @@
   when: partition_info is defined and 'content' in partition_info
 - name: "Build argument list"
   set_fact:
-    dib_arglist: >
+    dib_arglist: >-
       {{ dib_trace_arg|default('') }}
       {{ dib_uncompressed_arg|default('') }}
       {{ dib_clearenv_arg|default('') }}
@@ -177,7 +177,11 @@
       {{ dib_os_element }}
       {{ dib_elements|default('') }}
 - name: "Initiate image build"
-  command: disk-image-create {{ dib_arglist }}
+  shell: |
+    set -o pipefail
+    disk-image-create {{ dib_arglist }} 2>&1 | tee {{ disk_image_create_log }}
+  args:
+    executable: /bin/bash
   environment: "{{ dib_env_vars_final | combine(bifrost_venv_env) }}"
   when:
     - not build_ramdisk | bool
