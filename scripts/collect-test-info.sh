@@ -71,6 +71,8 @@ mkdir -p ${LOG_LOCATION}/all
 sudo cp -aL /var/log/* ${LOG_LOCATION}/all/.
 sudo chown -R $USER ${LOG_LOCATION}/all
 
+[ -f /tmp/disk-image-create.log ] && sudo cp -a /tmp/disk-image-create.log ${LOG_LOCATION}
+
 sudo systemctl > ${LOG_LOCATION}/all-services.txt
 sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
 sudo journalctl -u ironic &> ${LOG_LOCATION}/ironic.log
