@@ -106,8 +106,8 @@ Obtaining IPA logs via the console
    the video mode, defines the console as ttyS0 or the first serial port, and
    instructs systemd to direct logs to the console.
 
-2) Once set, restart the ironic-conductor service, e.g.
-   ``service ironic-conductor restart`` and attempt to redeploy the node.
+2) Once set, restart the ironic service, e.g.
+   ``systemctl restart ironic`` and attempt to redeploy the node.
    You will want to view the system console occurring. If possible, you
    may wish to use ``ipmitool`` and write the output to a log file.
 

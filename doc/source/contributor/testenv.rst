@@ -22,7 +22,7 @@ Additionally, the following parameters can be useful:
     .. note::
        You still need to restart services to apply any changes, e.g.::
 
-        sudo systemctl restart ironic-conductor
+        sudo systemctl restart ironic
 
 ``--driver=[ipmi|redfish]``
     Choose the default driver for the generated nodes inventory.

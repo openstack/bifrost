@@ -230,26 +230,29 @@
   include: inspector_bootstrap.yml
   when: enable_inspector | bool
 
-- name: "Get ironic-api & ironic-conductor install location"
-  shell: echo $(dirname $(which ironic-api))
+- name: "Get ironic install location"
+  shell: echo $(dirname $(which ironic))
   register: ironic_install_prefix
   environment: "{{ bifrost_venv_env }}"
 
-- name: "Place ironic services"
+- name: "Place ironic service"
   template:
     src: systemd_template.j2
-    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
+    dest: "{{ init_dest_dir }}ironic.service"
     owner: "root"
     group: "root"
+  vars:
+    service_path: "{{ ironic_install_prefix.stdout | default('') }}"
+    service_name: 'ironic'
+    config_file: '/etc/ironic/ironic.conf'
+
+- name: "Remove old ironic services"
+  file:
+    path: "{{ init_dest_dir }}{{ item }}.service"
+    state: absent
   loop:
-    - service_path: "{{ ironic_install_prefix.stdout | default('') }}"
-      service_name: 'ironic-api'
-      username: 'ironic'
-      args: '--config-file /etc/ironic/ironic.conf'
-    - service_path: "{{ ironic_install_prefix.stdout | default('') }}"
-      service_name: 'ironic-conductor'
-      username: 'ironic'
-      args: '--config-file /etc/ironic/ironic.conf'
+    - ironic-api
+    - ironic-conductor
 
 - name: "Create and populate /tftpboot"
   import_tasks: create_tftpboot.yml
