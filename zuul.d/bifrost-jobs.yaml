@@ -74,26 +74,10 @@
     vars:
       noauth_mode: false
 
-# used by ansible-collections-openstack, openstacksdk, ironic, ironic-inspector
 - job:
     name: bifrost-integration-tinyipa-ubuntu-bionic
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-bionic
-
-# TODO(dtantsur): remove when no other projects are using this job
-# used by ansible-collections-openstack
-- job:
-    name: bifrost-integration-tinyipa-keystone-ubuntu-bionic
-    parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-bionic
-    required-projects:
-      - openstack/keystone
-      - openstack/ironic-prometheus-exporter
-    vars:
-      enable_keystone: true
-      enable_tls: true
-      test_driver: redfish
-      enable_prometheus_exporter: true
 
 - job:
     name: bifrost-integration-tinyipa-ubuntu-focal
