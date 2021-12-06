@@ -75,28 +75,29 @@ use_tinyipa: true
 enable_uefi_ipxe: true
 ipxe_efi_binary: ipxe.efi
 
+tarballs_base_url: "https://tarballs.opendev.org/openstack/ironic-python-agent"
 ipa_download_headers: {}
 ipa_kernel: "{{http_boot_folder}}/ipa.kernel"
 ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
 ipa_kernel_upstream_url: >-
   {%- if use_tinyipa | bool -%}
-  https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
+  {{tarballs_base_url}}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
   {%- elif ipa_upstream_release == "stable-train" -%}
-  https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos7-{{ ipa_upstream_release }}.kernel
+  {{tarballs_base_url}}/dib/files/ipa-centos7-{{ ipa_upstream_release }}.kernel
   {%- else -%}
-  https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos8-{{ ipa_upstream_release }}.kernel
+  {{tarballs_base_url}}/dib/files/ipa-centos8-{{ ipa_upstream_release }}.kernel
   {%- endif -%}
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.initramfs"
 ipa_ramdisk_upstream_url: >-
   {%- if use_tinyipa | bool -%}
-  https://tarballs.openstack.org/ironic-python-agent/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.gz
+  {{tarballs_base_url}}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.gz
   {%- elif ipa_upstream_release == "stable-train" -%}
-  https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos7-{{ ipa_upstream_release }}.initramfs
+  {{tarballs_base_url}}/dib/files/ipa-centos7-{{ ipa_upstream_release }}.initramfs
   {%- else -%}
-  https://tarballs.openstack.org/ironic-python-agent/dib/files/ipa-centos8-{{ ipa_upstream_release }}.initramfs
+  {{tarballs_base_url}}/dib/files/ipa-centos8-{{ ipa_upstream_release }}.initramfs
   {%- endif -%}
 ipa_ramdisk_upstream_checksum_algo: "sha256"
 ipa_ramdisk_upstream_checksum_url: "{{ ipa_ramdisk_upstream_url }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
