@@ -1,5 +1,5 @@
 ---
 fixes:
   - |
-    Fixed an outdated grub and shim efi binaries path for Red Hat to to be
+    Fixes an outdated grub and shim efi binaries path for Red Hat to be
     under ``EFI/redhat``.
