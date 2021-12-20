@@ -48,13 +48,20 @@ deploy_image: This is the full path to the image to be deployed to the system.
               variable does not have a default in this role and expects to
               receive this information from the calling playbook.
 
+deploy_image_rootfs: This is the UUID of the root filesystem contained in the
+                     deployment image. It is usually not required to specify
+                     this unless software RAID based deployment is performed.
+                     See https://docs.openstack.org/ironic/latest/admin/raid.html#image-requirements
+                     for more information.
+
 instance_info: A dictionary containing the information to define an instance.
                By default, this is NOT expected to be defined, however if
                defined it is passed in whole to the deployment step.  This
-               value will override deploy_image_filename, deploy_image, and
-               network_interface variables. Key-value pairs that are generally
-               expected are image_source, image_checksum, root_gb, however,
-               any supported key/value can be submitted to the API.
+               value will override deploy_image_filename, deploy_image,
+               deploy_image_rootfs and network_interface variables. Key-value
+               pairs that are generally expected are image_source,
+               image_checksum, root_gb, however, any supported key/value can be
+               submitted to the API.
 
 inventory_dhcp: A boolean value, defaulted to false, which allows dnsmasq
                 to configure the IP of the machines, rather than putting

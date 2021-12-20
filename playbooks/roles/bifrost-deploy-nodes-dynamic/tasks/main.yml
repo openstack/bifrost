@@ -95,6 +95,7 @@
       image_source: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/{{ deploy_image_filename }}"
       image_checksum: "{{ test_deploy_image.stat.checksum }}"
       image_disk_format: "qcow2"
+      image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit) }}"
     wait: "{{ wait_for_node_deploy }}"
     timeout: " {{ wait_timeout | default(1800) }}"
   when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
