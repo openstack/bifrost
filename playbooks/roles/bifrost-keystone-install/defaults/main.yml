@@ -38,11 +38,6 @@ internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface
 api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
 keystone_api_url: "{{ api_protocol }}://{{ internal_ip }}:5000/v3"
 
-# Defaults required by this role that are normally inherited via
-# other roles.
-file_url_port: 8080
-http_boot_folder: /httpboot
-
 # Settings related to installing bifrost in a virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 bifrost_venv_env:
