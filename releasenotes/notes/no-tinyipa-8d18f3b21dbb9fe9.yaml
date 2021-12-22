@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    TinyIPA (an IPA image based on TinyCoreLinux) is no longer used by default.
+    Instead, a CentOS image `published by the Ironic community
+    <https://tarballs.opendev.org/openstack/ironic-python-agent/dib/files/>`_
+    is used, unless ``use_tinyipa`` is set to ``true``.
+
+    The TinyIPA image is much lighter, but is not suitable for real bare metal
+    machines because of lack of drivers.

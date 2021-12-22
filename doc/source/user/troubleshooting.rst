@@ -162,7 +162,10 @@ Changing from TinyIPA to another IPA Image
 With-in the Newton cycle, the default IPA image for Bifrost was changed
 to TinyIPA, which is based on Tiny Core Linux. This has a greatly reduced
 boot time for testing, however should be expected to have less hardware
-support. If on a fresh install, or a re-install, you wish to change to
+support. In the Yoga cycle, the default image was changed to one based
+on CentOS.
+
+If on a fresh install, or a re-install, you wish to change to
 DIB-based or any other IPA image, you will need to take the following steps:
 
 #. Remove the existing IPA image ipa.kernel and ipa.initramfs.

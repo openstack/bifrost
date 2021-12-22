@@ -195,6 +195,7 @@ ${ANSIBLE} -vvvv \
     -i inventory/target \
     ${TEST_PLAYBOOK} \
     -e use_cirros=${USE_CIRROS} \
+    -e use_tinyipa=true \
     -e testing_user=${TESTING_USER} \
     -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
     -e inventory_dhcp=${INVENTORY_DHCP} \
