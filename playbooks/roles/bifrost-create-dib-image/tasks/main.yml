@@ -114,15 +114,10 @@
   when: dib_os_element == "debian" and dib_os_release is undefined
 - name: "Initialize DIB source-repository variables"
   set_fact:
-    # NOTE(dtantsur): these options have two copies of the same
-    # configuration: one for the old element in DIB (ironic-agent), the other -
-    # for the new element in IPA-builder (ironic-python-agent).
     dib_source_repositories:
-      DIB_REPOLOCATION_ironic_agent: "{{ ipa_git_folder }}"
       DIB_REPOLOCATION_ironic_python_agent: "{{ ipa_git_folder }}"
       DIB_REPOLOCATION_requirements: "{{ reqs_git_folder }}"
       # NOTE(dtantsur): using HEAD to avoid changing whatever is checked out
-      DIB_REPOREF_ironic_agent: HEAD
       DIB_REPOREF_ironic_python_agent: HEAD
       DIB_REPOREF_requirements: HEAD
 - name: "Initialize the DIB environment variables fact"
