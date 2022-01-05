@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The location of the PXE boot directory has been changed to
+    ``/var/lib/tftpboot``.
