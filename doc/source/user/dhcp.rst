@@ -60,10 +60,10 @@ conceivably the nodes can be segregated.
 
 What is required:
 
-  - DHCP server on the network segment
-  - Appropriate permissions to change DHCP settings
-  - Network access to the API and conductor. Keep in mind the iPXE image does
-    not support ICMP redirects.
+- DHCP server on the network segment
+- Appropriate permissions to change DHCP settings
+- Network access to the API and conductor. Keep in mind the iPXE image does
+  not support ICMP redirects.
 
 Example DHCP server configurations
 ----------------------------------
