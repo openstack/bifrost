@@ -239,6 +239,16 @@ To utilize the newer dynamic inventory based deployment:
   cd playbooks
   ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
 
+If you used ``bifrost-cli`` for installation, you should pass its environment
+variables::
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  cd playbooks
+  ansible-playbook -vvvv \
+    -i inventory/bifrost_inventory.py \
+    -e @../bifrost-install-env.json \
+    deploy-dynamic.yaml
+
 .. note::
 
   Before running the above command, ensure that the value for
