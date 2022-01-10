@@ -4,7 +4,7 @@ file_url_port: "8080"
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
-http_boot_folder: "/httpboot"
+http_boot_folder: "/var/lib/ironic/httpboot"
 deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
 inventory_dhcp: false

@@ -1,0 +1,15 @@
+---
+upgrade:
+  - |
+    The location of the HTTP boot directory has been changed to
+    ``/var/lib/ironic/httpboot``. Please avoid running cleanings or deployments
+    during the upgrade, otherwise PXE booting may fail until Ironic rebuilds
+    the iPXE configuration.
+
+    Any custom images will not be migrated from the old location ``/httpboot``,
+    please migrate them manually if needed. You may remove the old location
+    after the upgrade.
+fixes:
+  - |
+    Makes sure the image cache directories are on the same filesystem as
+    the PXE/HTTP directories to avoid the "Invalid cross-device link" error.

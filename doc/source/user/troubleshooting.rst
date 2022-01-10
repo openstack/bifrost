@@ -34,19 +34,6 @@ Example error::
     NodeLocked: Node 00000000-0000-0000-0000-046ebb96ec21 is locked by
     host $HOSTNAME, please retry after the current operation is completed.
 
-*****************************************************
-New image appears not to be deploying upon deployment
-*****************************************************
-
-When deploying a new image with the same previous name, it is necessary to
-purge the contents of the TFTP master_images folder which caches the image
-file for deployments.  The default location for this folder is
-``/tftpboot/master_images``.
-
-Additionally, a playbook has been included that can be used prior to a
-re-installation to ensure fresh images are deployed.  This playbook can
-be found at ``playbooks/cleanup-deployment-images.yaml``.
-
 *********************
 Building an IPA image
 *********************
@@ -74,11 +61,7 @@ use to create an IPA image for Bifrost are the same as for ironic. See:
 https://docs.openstack.org/ironic/latest/install/deploy-ramdisk.html
 
 Once your build is completed, you will need to copy the images files into
-the ``/httpboot`` folder.
-
-Since you have updated the image to be deployed, you will need to purge the
-contents of ``/tftpboot/master_images`` for the new image to be utilized for
-the deployment process.
+the ``/var/lib/ironic/httpboot`` folder.
 
 *********************************************
 Unexpected/Unknown failure with the IPA Agent

@@ -66,7 +66,7 @@ deploy_logs_local_path = {{ ironic_agent_deploy_logs_local_path }}
 [pxe]
 kernel_append_params = {{ pxe_kernel_params }}
 tftp_server = {{ internal_ip }}
-tftp_root = /tftpboot
+tftp_root = {{ tftp_boot_folder }}
 ipxe_fallback_script = pxelinux.cfg/default
 tftp_master_path = {{ ironic_tftp_master_path }}
 {% if enable_uefi_ipxe | bool %}

@@ -33,7 +33,7 @@ testing_user: root
 # If this setting is changed, it must be applied to both the baremetal
 # and localhost groups. Presently the role defaults are set to the value
 # below.
-# http_boot_folder: /httpboot
+# http_boot_folder: /var/lib/ironic/httpboot
 
 # The settings for the name of the image to be deployed along with the
 # on disk location are below.  If changed, these settings must be applied
