@@ -12,6 +12,7 @@
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
         - bifrost-integration-tinyipa-keystone-centos-8
+        - bifrost-integration-tinyipa-keystone-centos-9
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
         - bifrost-integration-redfish-vmedia-uefi-centos-8
@@ -65,6 +66,7 @@
         - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
         - bifrost-integration-tinyipa-keystone-centos-8
+        - bifrost-integration-tinyipa-keystone-centos-9
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
         - bifrost-integration-redfish-vmedia-uefi-centos-8
