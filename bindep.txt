@@ -1,6 +1,6 @@
 # NOTE(rpittau): the EPEL repository for centos 9 stream should be
 # epel-next but it's not ready yet
-epel-release        [(platform:centos !platform:centos-9) (platform:rhel !platform:centos-9)]
+epel-release        [(platform:centos !platform:centos-9) (platform:redhat !platform:centos-9)]
 gcc
 git
 libffi-devel        [platform:redhat platform:suse]

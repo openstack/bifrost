@@ -1,4 +1,8 @@
 ---
-other:
+features:
   - |
     Adds basic support for running bifrost on CentOS Stream 9.
+deprecations:
+  - |
+    CentOS Stream 8 and Python 3.6 support is now deprecated and will be
+    best-effort starting with the Z cycle.
