@@ -102,10 +102,21 @@
 - name: "Create an ironic service group"
   group:
     name: "ironic"
+
 - name: "Create an ironic service user"
   user:
     name: "ironic"
     group: "ironic"
+
+- name: "Add nginx and dnsmasq to the ironic group"
+  user:
+    name: "{{ item }}"
+    groups: "ironic"
+    append: yes
+  loop:
+    - "{{ nginx_user }}"
+    - dnsmasq
+
 - name: "Ensure /etc/ironic exists"
   file:
     name: "/etc/ironic"
@@ -113,6 +124,7 @@
     owner: "ironic"
     group: "ironic"
     mode: 0755
+
 # Note(TheJulia): The rootwrap copies will need to be re-tooled
 # to possibly directly retreive current files if a source install
 # is not utilized.
@@ -261,8 +273,8 @@
   file:
     path: "{{ dnsmasq_additional_hostsdir }}"
     state: directory
-    owner: "root"
-    group: "root"
+    owner: "dnsmasq"
+    group: "ironic"
     mode: 0755
   when: dnsmasq_additional_hostsdir is defined
 
@@ -270,8 +282,8 @@
   file:
     path: "{{ dnsmasq_dhcp_hostsdir }}"
     state: directory
-    owner: "root"
-    group: "root"
+    owner: "dnsmasq"
+    group: "ironic"
     mode: 0755
 
 - name: "Retrieve interface IP informations"
@@ -392,7 +404,7 @@
     state: directory
     mode: 0750
     owner: "ironic"
-    group: "{{ nginx_user }}"
+    group: "ironic"
   loop:
     - "/var/lib/ironic"
     - "/var/lib/ironic/master_images"

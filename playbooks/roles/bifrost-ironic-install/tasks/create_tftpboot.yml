@@ -15,11 +15,27 @@
 ---
 # TODO(TheJulia): The pxelinux folder is statically coded in ironic.
 # For now, we need to use it, but we can patch that.
-- name: "Set up PXE and iPXE folders"
-  file: name={{ item }} owner=ironic group=ironic state=directory mode=0755
+- name: "Set up PXE folders"
+  file:
+    name: "{{ item }}"
+    owner: ironic
+    group: ironic
+    state: directory
+    # FIXME(dtantsur): dnsmasq cannot work if the files are not world readable
+    # or owned by it, I don't understand why.
+    mode: 0755
   loop:
     - "{{ tftp_boot_folder }}"
     - "{{ tftp_boot_folder }}/pxelinux.cfg"
+
+- name: "Set up HTTP folders"
+  file:
+    name: "{{ item }}"
+    owner: ironic
+    group: ironic
+    state: directory
+    mode: "{{ boot_folder_permissions }}"
+  loop:
     - "{{ http_boot_folder }}"
     - "{{ http_boot_folder }}/pxelinux.cfg"
 

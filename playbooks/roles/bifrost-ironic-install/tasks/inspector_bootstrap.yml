@@ -111,7 +111,7 @@
     dest=/etc/ironic-inspector/inspector.conf
     owner=ironic
     group=ironic
-    mode=0740
+    mode=0640
 - name: "Inspector - Create the log directories (if requested)"
   file:
     name: "{{ item }}"

@@ -11,6 +11,7 @@ fast_track: true
 
 tftp_boot_folder: /tftpboot
 http_boot_folder: /var/lib/ironic/httpboot
+boot_folder_permissions: "0750"
 ironic_tftp_master_path: /var/lib/ironic/master_images
 staging_drivers_include: false
 file_url_port: "8080"
