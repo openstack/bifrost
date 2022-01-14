@@ -141,6 +141,9 @@
     crypt_scheme: bcrypt
     name: "{{ admin_username }}"
     password: "{{ admin_password }}"
+    owner: ironic
+    group: ironic
+    mode: 0600
   when:
     - not enable_keystone | bool
 
@@ -150,6 +153,9 @@
     crypt_scheme: bcrypt
     name: "{{ default_username }}"
     password: "{{ default_password }}"
+    owner: ironic
+    group: ironic
+    mode: 0600
   when:
     - not noauth_mode | bool
     - not enable_keystone | bool
