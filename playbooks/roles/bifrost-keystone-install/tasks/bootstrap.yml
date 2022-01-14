@@ -109,8 +109,8 @@
     name: "/etc/keystone"
     state: directory
     owner: "keystone"
-    group: "keystone"
-    mode: 0755
+    group: "{{ nginx_user }}"
+    mode: 0750
 
 - name: "Write keystone configuration from template"
   template:
@@ -118,7 +118,7 @@
     dest: "/etc/keystone/keystone.conf"
     owner: "keystone"
     group: "keystone"
-    mode: 0755
+    mode: 0700
 
 - name: "Apply/Update keystone DB Schema"
   command: keystone-manage db_sync
@@ -127,13 +127,13 @@
 - name: "Setup Fernet key repositories"
   command: >
     keystone-manage fernet_setup
-    --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
+    --keystone-user="keystone" --keystone-group="{{ nginx_user }}"
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Setup Keystone Credentials"
   command: >
     keystone-manage credential_setup
-    --keystone-user="{{ nginx_user }}" --keystone-group="{{ nginx_user }}"
+    --keystone-user="keystone" --keystone-group="{{ nginx_user }}"
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Setting external Keystone public URL"

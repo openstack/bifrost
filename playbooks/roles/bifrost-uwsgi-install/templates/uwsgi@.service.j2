@@ -5,9 +5,8 @@ Description=%i uWSGI service
 ExecStart={{ uwsgi_install_prefix.stdout | default('/usr/bin') }}/uwsgi \
           --ini /etc/uwsgi/apps-enabled/%i.ini
 SyslogIdentifier=%i
-RuntimeDirectory=uwsgi
-User={{ nginx_user }}
-Group={{ nginx_user }}
+# Has to be root, otherwise uWSGI won't be able to drop privileges
+User=root
 Restart=on-failure
 KillSignal=SIGQUIT
 Type=notify
