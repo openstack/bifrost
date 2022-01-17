@@ -14,10 +14,11 @@ Supported operating systems
 
 Full support (fully tested in the CI, no known or potential issues):
 
-* CentOS Stream 8
+* CentOS Stream 9
+* CentOS Stream 8 (deprecated but will keep running normal CI until Z cycle)
 
   .. note::
-     RHEL 8 and regular CentOS 8 are assumed to work but not tested explicitly.
+     RHEL is assumed to work but not tested explicitly.
 
 * Ubuntu 20.04 "Focal"
 * Debian 11 "Bullseye"
