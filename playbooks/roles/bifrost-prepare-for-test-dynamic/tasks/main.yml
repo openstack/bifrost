@@ -54,3 +54,14 @@
 - name: "Add testvm hosts from SSH known_hosts file."
   shell: ssh-keyscan "{{ ipv4_address }}" >> "{{ ansible_env.HOME }}/.ssh/known_hosts"
   when: ipv4_address is defined
+- name: "Allow ssh-rsa algorithm for CentOS Stream 9"
+  block:
+    - name: "Add ssh-rsa algorithm to ssh config"
+      shell: echo "PubkeyAcceptedKeyTypes +ssh-rsa" >> ~/.ssh/config
+    - name: "Set correct permissions for ssh config"
+      file:
+        path: ~/.ssh/config
+        mode: '0600'
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_version|int >= 9

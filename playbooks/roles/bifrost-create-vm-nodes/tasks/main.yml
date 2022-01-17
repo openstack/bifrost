@@ -17,6 +17,12 @@
     update_cache: yes
   when: ansible_os_family == "Debian"
 
+- name: "Enable CRB repository for CentOS Stream 9"
+  command: dnf config-manager --set-enabled crb
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_version|int >= 9
+
 - name: "Load distribution defaults"
   include_vars: "{{ item }}"
   with_first_found:

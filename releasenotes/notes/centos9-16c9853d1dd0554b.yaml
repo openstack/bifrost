@@ -1,0 +1,4 @@
+---
+other:
+  - |
+    Adds basic support for running bifrost on CentOS Stream 9.
