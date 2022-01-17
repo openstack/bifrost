@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Ironic Prometheus Exporter is now run as the ``ironic`` user, not as root.
