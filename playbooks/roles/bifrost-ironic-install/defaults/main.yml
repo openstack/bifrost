@@ -380,6 +380,8 @@ tls_certificate_path: "{{ tls_root }}/bifrost.crt"
 ironic_private_key_path: /etc/ironic/ironic.pem
 ironic_inspector_private_key_path: /etc/ironic-inspector/inspector.pem
 httpboot_private_key_path: /etc/nginx/httpboot.pem
+# If true, the conductor's JSON RPC will be available globally (and with TLS)
+expose_json_rpc: false
 
 # Enable Ironic Prometheus Exporter
 enable_prometheus_exporter: false

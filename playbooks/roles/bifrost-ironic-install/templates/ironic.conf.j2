@@ -28,6 +28,9 @@ default_boot_interface = {{ default_boot_interface }}
 default_resource_class = {{ default_resource_class }}
 
 rpc_transport = json-rpc
+{% if not expose_json_rpc | bool %}
+host = localhost
+{% endif %}
 
 {% if enable_keystone | bool %}
 auth_strategy = keystone
@@ -189,8 +192,12 @@ endpoint_override = {{ api_protocol }}://{{ internal_ip }}:6385
 
 [json_rpc]
 {% if enable_tls | bool %}
-use_ssl = True
 cafile = {{ tls_certificate_path }}
+{% endif %}
+{% if expose_json_rpc | bool %}
+use_ssl = {{ enable_tls | bool }}
+{% else %}
+host_ip = 127.0.0.1
 {% endif %}
 {% if enable_keystone | bool %}
 auth_strategy = keystone

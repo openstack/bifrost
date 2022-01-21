@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    JSON RPC is now available only on localhost and without TLS. If you need
+    it exposed to the network (i.e. you're using Bifrost in a multi-node
+    setting), set ``expose_json_rpc`` to ``true``.
