@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    The TFTP and HTTP directories are no longer world-readable by default.
+    Set ``boot_folder_permissions`` to override.

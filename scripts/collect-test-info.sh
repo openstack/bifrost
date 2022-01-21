@@ -82,9 +82,9 @@ sudo journalctl -u uwsgi@keystone-public &> ${LOG_LOCATION}/keystone-public.log
 
 # Copy PXE information
 mkdir -p ${LOG_LOCATION}/pxe/
-ls -lR /var/lib/ironic/httpboot > ${LOG_LOCATION}/pxe/listing.txt
-cp -aL /var/lib/ironic/httpboot/*.ipxe ${LOG_LOCATION}/pxe/
-cp -aL /var/lib/ironic/httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
+sudo ls -lR /var/lib/ironic/httpboot > ${LOG_LOCATION}/pxe/listing.txt
+sudo bash -c "cp -aL /var/lib/ironic/httpboot/*.ipxe ${LOG_LOCATION}/pxe/"
+sudo cp -aL /var/lib/ironic/httpboot/pxelinux.cfg/ ${LOG_LOCATION}/pxe/
 
 # Copy baremetal information
 source $HOME/openrc bifrost
