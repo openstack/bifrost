@@ -140,15 +140,13 @@
 - name: "Inspector - Place service"
   template:
     src: systemd_template.j2
-    dest: "{{ init_dest_dir }}{{ item.service_name }}.service"
+    dest: "{{ init_dest_dir }}ironic-inspector.service"
     owner: root
     group: root
-  # FIXME(dtantsur): this is an awkward way to use loop...
-  loop:
-    - service_path: "{{ ironic_install_prefix.stdout | default('') }}"
-      service_name: 'ironic-inspector'
-      username: 'ironic'
-      args: '--config-file /etc/ironic-inspector/inspector.conf'
+  vars:
+    service_path: "{{ ironic_install_prefix.stdout | default('') }}"
+    service_name: 'ironic-inspector'
+    config_file: '/etc/ironic-inspector/inspector.conf'
 - name: "Inspector - Explicitly permit TCP/5050 for ironic-inspector callback"
   iptables:
     chain: INPUT

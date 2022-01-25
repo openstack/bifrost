@@ -26,15 +26,25 @@
 - name: "Start database service"
   service: name={{ mysql_service_name }} state=started enabled=yes
 
-- name: "start ironic-inspector"
+- name: "Start ironic-inspector"
   include: inspector_start.yml
   when: enable_inspector | bool
 
-- name: "Start ironic-conductor"
-  service: name=ironic-conductor state=restarted enabled=yes
+- name: "Stop old ironic services"
+  service:
+    name: "{{ item }}"
+    state: stopped
+    enabled: no
+  ignore_errors: true
+  loop:
+    - ironic-api
+    - ironic-conductor
 
-- name: "Start ironic-api"
-  service: name=ironic-api state=restarted enabled=yes
+- name: "Start ironic"
+  service:
+    name: ironic
+    state: restarted
+    enabled: yes
 
 - name: "Start ironic-prometheus-exporter"
   include: prometheus_exporter_start.yml

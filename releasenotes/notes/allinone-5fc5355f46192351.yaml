@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    Bifrost now starts a single Ironic process rather than separate API
+    and conductor.
+upgrade:
+  - |
+    On upgrade, the existing API and conductor services will be disabled and
+    a single combined ``ironic`` process will be started instead.
