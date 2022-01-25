@@ -61,6 +61,9 @@ Installation of Bifrost can be done in three ways:
 
 * By writing your own playbooks using Ansible roles provided with Bifrost.
 
+If you want to understand what and how is installed by Bifrost, please see
+:doc:`/user/architecture`.
+
 =================
 Pre-install steps
 =================
