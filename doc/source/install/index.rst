@@ -299,6 +299,10 @@ See the built-in documentation for more details:
 
     ./bifrost-cli install --help
 
+The Ansible variables generated for installation are stored in a JSON file
+(``bifrost-install-env.json`` by default) that should be passed via the ``-e``
+flag to subsequent playbook or command invokations.
+
 Using Bifrost
 =============
 

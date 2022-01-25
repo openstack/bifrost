@@ -15,6 +15,7 @@ import argparse
 import configparser
 import ipaddress
 import itertools
+import json
 import os
 import subprocess
 import sys
@@ -56,11 +57,20 @@ def process_extra_vars(extra_vars):
 
 
 def ansible(playbook, inventory, verbose=False, env=None, extra_vars=None,
-            **params):
+            params_output_file=None, **params):
     extra = COMMON_PARAMS[:]
-    extra.extend(itertools.chain.from_iterable(
-        ('-e', '%s=%s' % pair) for pair in params.items()
-        if pair[1] is not None))
+    if params_output_file is None:
+        extra.extend(itertools.chain.from_iterable(
+            ('-e', '%s=%s' % pair) for pair in params.items()
+            if pair[1] is not None))
+    else:
+        params_output_file = os.path.abspath(params_output_file)
+        log('Writing environment file', params_output_file, only_if=verbose)
+        with open(params_output_file, 'wt') as output:
+            json.dump({k: v for k, v in params.items() if v is not None},
+                      output)
+        extra.extend(['-e', '@%s' % params_output_file])
+
     if extra_vars:
         extra.extend(itertools.chain.from_iterable(
             process_extra_vars(extra_vars)))
@@ -154,14 +164,14 @@ def cmd_install(args):
     ansible('install.yaml',
             inventory='inventory/target',
             verbose=args.debug,
-            create_ipa_image='false',
-            create_image_via_dib='false',
-            install_dib='true',
+            create_ipa_image=False,
+            create_image_via_dib=False,
+            install_dib=True,
             network_interface=args.network_interface,
             enable_keystone=args.enable_keystone,
             enable_tls=args.enable_tls,
             generate_tls=args.enable_tls,
-            noauth_mode='false',
+            noauth_mode=False,
             enabled_hardware_types=args.hardware_types,
             cleaning_disk_erase=args.cleaning_disk_erase,
             testing=args.testenv,
@@ -172,6 +182,7 @@ def cmd_install(args):
             default_boot_mode=args.boot_mode or 'uefi',
             include_dhcp_server=not args.disable_dhcp,
             extra_vars=args.extra_vars,
+            params_output_file=args.output,
             **kwargs)
     log("Ironic is installed and running, try it yourself:\n",
         " $ source %s/bin/activate\n" % VENV,
@@ -277,6 +288,10 @@ def parse_args():
                          help='Disable integrated dhcp server')
     install.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
+    install.add_argument('-o', '--output',
+                         default='baremetal-install-env.json',
+                         help='output file with the ansible environment used '
+                         'to install Bifrost (excluding -e arguments)')
 
     enroll = subparsers.add_parser(
         'enroll', help='Enroll bare metal nodes')

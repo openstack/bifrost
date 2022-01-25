@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    The ``bifrost-cli install`` command now generates an environment file
+    (``bifrost-install-env.json`` by default, can be changed with the
+    ``--output`` argument) with the variables used during installation.
