@@ -95,14 +95,12 @@ Example JSON Element:
         "neutron"
     ],
     "driver_info": {
-      "power": {
-        "ipmi_target_channel": "0",
-        "ipmi_username": "ADMIN",
-        "ipmi_address": "192.168.122.1",
-        "ipmi_target_address": "0",
-        "ipmi_password": "undefined",
-        "ipmi_bridging": "single"
-      }
+      "ipmi_target_channel": "0",
+      "ipmi_username": "ADMIN",
+      "ipmi_address": "192.168.122.1",
+      "ipmi_target_address": "0",
+      "ipmi_password": "undefined",
+      "ipmi_bridging": "single"
     },
     "nics": [
       {

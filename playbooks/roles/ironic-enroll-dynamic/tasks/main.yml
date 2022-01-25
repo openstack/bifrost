@@ -32,5 +32,4 @@
     state: present
     nics: "{{ nics }}"
     properties: "{{ properties | default({}) }}"
-    driver_info:
-      power: "{{ driver_info.power }}"
+    driver_info: "{{ driver_info | default(omit) }}"
