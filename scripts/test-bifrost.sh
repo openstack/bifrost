@@ -5,7 +5,6 @@ set -euxo pipefail
 export PYTHONUNBUFFERED=1
 SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
 BIFROST_HOME=$SCRIPT_HOME/..
-ANSIBLE_INSTALL_ROOT=${ANSIBLE_INSTALL_ROOT:-/opt/stack}
 USE_DHCP="${USE_DHCP:-false}"
 BUILD_IMAGE="${BUILD_IMAGE:-false}"
 BAREMETAL_DATA_FILE=${BAREMETAL_DATA_FILE:-'/tmp/baremetal.json'}

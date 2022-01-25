@@ -1,0 +1,13 @@
+---
+upgrade:
+  - |
+    Modification to the Bifrost virtual environment (``/opt/stack/bifrost`` by
+    default) will now need ``sudo`` as the directory is now owned by root.
+  - |
+    The deprecated and non-functioning variable ``ANSIBLE_INSTALL_ROOT`` is
+    no longer supported.
+fixes:
+  - |
+    The Bifrost virtual environment (``/opt/stack/bifrost`` by default) is no
+    longer owned (and thus writable) by the regular user that started the
+    installation.

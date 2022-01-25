@@ -107,17 +107,21 @@ if [ "${#EXTRA_PKG_DEPS[@]}" -ne 0 ]; then
     done
 fi
 
+SUDO="sudo -H -E"
+
 if [ ! -f ${VENV}/bin/activate ]; then
     echo "Creating a virtual environment"
 
     # only create venv if one doesn't exist
-    sudo -H -E python3 -m venv --system-site-packages ${VENV}
-    sudo -H -E chown -R ${USER} ${VENV}
+    ${SUDO} python3 -m venv --system-site-packages ${VENV}
 else
     echo "Virtual environment exists, skipping creation"
 
     # NOTE(dtantsur): place here any actions required to upgrade existing
     # virtual environments.
+
+    # The virtual environment used to be owned by the calling user. Upgrade.
+    ${SUDO} chown -R root:root ${VENV}
 fi
 
 # Note(cinerama): activate is not compatible with "set -u";
@@ -132,8 +136,8 @@ VIRTUAL_ENV=${VENV}
 
 # If we're using a venv, we need to work around sudo not
 # keeping the path even with -E.
-PYTHON="python3"
-PIP="${PYTHON} -m pip"
+PYTHON="${VENV}/bin/python3"
+PIP="${SUDO} ${PYTHON} -m pip"
 if [[ "${BIFROST_TRACE:-}" != true ]]; then
     PIP="$PIP --quiet"
 fi
