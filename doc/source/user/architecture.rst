@@ -1,7 +1,7 @@
 Bifrost Architecture
 ====================
 
-This document describes what and how Bifrost installs in the default set up
+This document describes what and how Bifrost installs in the default setup
 (e.g. one created by ``./bifrost-cli install``).
 
 Components
@@ -25,7 +25,7 @@ mariadb_
 nginx_
     Nginx is used as a web server for three main purposes:
 
-    * to serve iPXE configuration scripts when booting nodes over network,
+    * to serve iPXE configuration scripts when booting nodes over the network,
     * to serve virtual media ISO images to BMC when booting nodes over virtual
       CD,
     * to serve instance images to the ramdisk when deploying nodes.
@@ -35,7 +35,7 @@ nginx_
 
 dnsmasq_
     Dnsmasq is used as a DHCP and TFTP server (but not for DNS by default)
-    when booting nodes over network. It can also be used to provide DHCP
+    when booting nodes over the network. It can also be used to provide DHCP
     to deployed nodes.
 
     Dnsmasq can be disabled by setting ``include_dhcp_server=false``
@@ -47,13 +47,13 @@ keystone_
     Keystone is an OpenStack Identity service. It can be used to provide
     sophisticated authentication to Ironic and Inspector instead of HTTP basic
     authentication. Its `identity API`_ is served using uWSGI and Nginx on the
-    port 5000.
+    port 5000, the systemd service is called ``uwsgi@keystone-public``.
 
     See :doc:`/user/keystone` for details.
 
 ironic-prometheus-exporter_
     An exporter that exposes hardware metrics from the node's BMC (using IPMI
-    or Redfish) for consumptions by Prometheus_.
+    or Redfish) for consumption by Prometheus_.
 
     The exporter can be enabled by setting ``enable_prometheus_exporter=true``
     or passing ``--enable-prometheus-exporter`` to ``bifrost-cli``.
@@ -100,6 +100,11 @@ Parameters
 Locations
 ---------
 
+.. note::
+   Many locations are not writable or even readable by the regular user (even
+   the one that started installation). You need to use ``sudo`` or add the user
+   to ``ironic`` and ``nginx`` groups.
+
 Installation locations
 ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -110,6 +115,9 @@ Installation locations
     is a source directory for project ``<reponame>`` (e.g. ``ironic``)
     installed from source. Services are installed this way, while libraries are
     mostly installed as packages.
+
+    Unlike most other locations, these paths will be owned by the user
+    that installed Bifrost (i.e. your regular user).
 
 Log locations
 ~~~~~~~~~~~~~
@@ -137,6 +145,13 @@ journald
 ``/var/log/ironic-inspector/ramdisk``
     contains tarballs with ramdisk logs from inspection. They are very similar
     to ramdisk logs from deployment and cleaning.
+
+``/var/log/nginx/``
+    contains logs for serving files (iPXE scripts, images, virtual media ISOs).
+
+``/var/log/nginx/keystone``
+    contains HTTP logs for Keystone API, complementing the logs from the
+    ``uwsgi@keystone-public`` systemd unit.
 
 Runtime locations
 ~~~~~~~~~~~~~~~~~
