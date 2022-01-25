@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    The keystone configuration is no longer world-readable.
+  - |
+    The keystone process now runs as the ``keystone`` user, not as the nginx
+    user.

@@ -18,6 +18,14 @@
   register: uwsgi_install_prefix
   environment: "{{ bifrost_venv_env }}"
 
+- name: "Ensure /run/uwsgi exists and has the right permissions"
+  file:
+    name: "/run/uwsgi"
+    state: directory
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
+    mode: 0770  # NOTE(dtantsur): needs to be writable by group members
+
 - name: "Ensure /etc/uwsgi exists"
   file:
     name: "/etc/uwsgi"

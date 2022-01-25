@@ -4,6 +4,7 @@ master = true
 processes = 2
 threads = 2
 no-orphans = true
+# The socket will be read by nginx which is running as nginx_user
 chmod-socket = 660
 virtualenv = {{ bifrost_venv_dir }}
 
