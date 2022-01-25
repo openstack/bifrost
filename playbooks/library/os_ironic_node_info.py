@@ -90,10 +90,6 @@ def main():
     )
     module_kwargs = openstack_module_kwargs()  # noqa: F405
     module = IronicModule(argument_spec, **module_kwargs)
-    compat = module._name == 'os_ironic_facts'
-    if compat:
-        module.deprecate('Using os_ironic_node_info via os_ironic_facts is '
-                         'deprecated and may not work correctly')
 
     if not HAS_SDK:
         module.fail_json(msg='openstacksdk is required for this module')
@@ -134,15 +130,7 @@ def main():
             nics = cloud.list_nics_for_machine(server['uuid'])
             facts['nics'] = [{'mac': nic['address']} for nic in nics]
 
-            if compat:
-                # NOTE(dtantsur): this item conflicts with the ansible's own
-                # network_interface breaking everything.
-                facts.pop('network_interface', None)
-
-            if compat:
-                module.exit_json(changed=False, ansible_facts=facts)
-            else:
-                module.exit_json(changed=False, node=facts)
+            module.exit_json(changed=False, node=facts)
 
         else:
             module.fail_json(msg="node not found.")

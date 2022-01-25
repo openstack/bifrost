@@ -1,1 +1,0 @@
-os_ironic_node_info.py
