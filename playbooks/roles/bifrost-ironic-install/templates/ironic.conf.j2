@@ -27,9 +27,10 @@ default_boot_interface = {{ default_boot_interface }}
 
 default_resource_class = {{ default_resource_class }}
 
+{% if expose_json_rpc | bool %}
 rpc_transport = json-rpc
-{% if not expose_json_rpc | bool %}
-host = localhost
+{% else %}
+rpc_transport = none
 {% endif %}
 
 {% if enable_keystone | bool %}
@@ -196,14 +197,11 @@ password = {{ admin_password }}
 # NOTE(dtantsur): this has to be on internal IP even if public IPs are used
 endpoint_override = {{ api_protocol }}://{{ internal_ip }}:6385
 
+{% if expose_json_rpc | bool %}
 [json_rpc]
 {% if enable_tls | bool %}
 cafile = {{ tls_certificate_path }}
-{% endif %}
-{% if expose_json_rpc | bool %}
-use_ssl = {{ enable_tls | bool }}
-{% else %}
-host_ip = 127.0.0.1
+use_ssl = True
 {% endif %}
 {% if enable_keystone | bool %}
 auth_strategy = keystone
@@ -222,6 +220,7 @@ auth_type = http_basic
 http_basic_auth_user_file = /etc/ironic/htpasswd
 username = {{ admin_username }}
 password = {{ admin_password }}
+{% endif %}
 {% endif %}
 
 {% if enable_prometheus_exporter | bool %}
