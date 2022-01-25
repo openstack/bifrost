@@ -396,13 +396,22 @@
     name: bifrost-nginx-install
     tasks_from: bootstrap
 
-- name: "Place nginx configuration for ironic"
+- name: "Place nginx configuration for HTTP directory"
   template:
     src: nginx_conf.d_bifrost-httpboot.conf.j2
     dest: /etc/nginx/conf.d/bifrost-httpboot.conf
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}"
     mode: 0755
+
+- name: "Place nginx configuration for TLS"
+  template:
+    src: nginx_conf.d_bifrost-ironic.conf.j2
+    dest: /etc/nginx/conf.d/bifrost-ironic.conf
+    owner: "{{ nginx_user }}"
+    group: "{{ nginx_user }}"
+    mode: 0755
+  when: enable_tls | bool
 
 - name: "Set permissions for /var/lib/ironic for the ironic user"
   file:
@@ -474,10 +483,16 @@
 - block:
     - name: "Allow nginx, ironic, inspector and IPA ports on SELinux"
       seport:
-        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,5050,9999"
+        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,6388,5050,9999,15050"
         proto: tcp
         setype: http_port_t
         state: present
+
+    - name: "Allow nginx to connect to downstream servers"
+      seboolean:
+        name: httpd_can_network_connect
+        state: yes
+        persistent: yes
 
     - name: "Add proper context on created data for tftpboot"
       sefcontext:

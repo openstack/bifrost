@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    TLS (when enabled) is now handled by Nginx in proxy mode rather than
+    services themselves.
