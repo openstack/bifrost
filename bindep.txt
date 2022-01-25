@@ -1,6 +1,6 @@
 # NOTE(rpittau): the EPEL repository for centos 9 stream should be
 # epel-next but it's not ready yet
-epel-release        [(platform:centos !platform:centos-9) (platform:redhat !platform:centos-9)]
+epel-release        [platform:centos-8 platform:rhel-8]
 gcc
 git
 libffi-devel        [platform:redhat platform:suse]
@@ -11,7 +11,7 @@ openssl-devel       [platform:redhat]
 libssl-dev          [platform:dpkg]
 lsb-release         [platform:suse platform:dpkg]
 # NOTE(rpittau): lsb-release is not maintained anymore for centos 9 stream
-redhat-lsb          [(platform:redhat !platform:centos-9)]
+redhat-lsb          [platform:fedora platform:centos-8 platform:rhel-8]
 make
 python3              [platform:rpm]
 python3-apt          [platform:dpkg]
