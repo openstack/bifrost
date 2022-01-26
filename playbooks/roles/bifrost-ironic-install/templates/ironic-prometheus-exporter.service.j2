@@ -2,7 +2,7 @@
 Description=Ironic Prometheus Exporter Flask App
 
 [Service]
-Type=simple
+Type=notify
 Restart=on-failure
 ExecStart={{ bifrost_venv_dir }}/bin/gunicorn ironic_prometheus_exporter.app.wsgi:application \
     --bind {{ prometheus_exporter_host }}:{{ prometheus_exporter_port}} \

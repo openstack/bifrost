@@ -2,6 +2,7 @@
 Description={{ service_name }} service
 
 [Service]
+Type=notify
 ExecStart={{ service_path }}/{{ service_name }} --config-file {{ config_file }}
 User=ironic
 
