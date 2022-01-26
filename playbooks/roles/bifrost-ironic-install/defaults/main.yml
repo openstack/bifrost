@@ -28,6 +28,7 @@ create_image_via_dib: "{{ not use_cirros | default(false) | bool }}"
 create_ipa_image: false
 dib_image_type: vm
 dib_os_element: "debian"
+enable_epel: "{{ install_dib | bool }}"
 # Setting to install diskimage-builder
 install_dib: "{{ create_image_via_dib | bool or create_ipa_image | bool }}"
 ironic_debug: true

@@ -17,6 +17,26 @@
   apt: update_cache=yes
   when: ansible_os_family == 'Debian'
 
+- block:
+  - name: "Enable powertools repository for CentOS Stream 8"
+    command: dnf config-manager --set-enabled powertools
+  - name: "Enable EPEL repository for CentOS Stream 8"
+    command: dnf install -y epel-release
+    when:
+    - enable_epel | bool
+    - dib_os_element == "debian"
+  when:
+  - ansible_distribution == "CentOS"
+  - ansible_distribution_version|int == 8
+
+- name: "Enable EPEL repository for CentOS Stream 9"
+  command: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  when:
+  - enable_epel | bool
+  - dib_os_element == "debian"
+  - ansible_distribution == "CentOS"
+  - ansible_distribution_version|int >= 9
+
 - name: "Install packages"
   package:
     name: "{{ required_packages }}"
@@ -57,7 +77,18 @@
   package:
     name: "{{ dib_host_required_packages | select | list }}"
     state: present
-  when: install_dib | bool
+  when:
+   - install_dib | bool
+   - ansible_distribution != "CentOS"
+
+- name: Ensure required packages are installed
+  dnf:
+    name: "{{ dib_host_required_packages | select | list }}"
+    enablerepo: epel
+    state: present
+  when:
+   - install_dib | bool
+   - ansible_distribution == "CentOS"
 
 - name: "sushy - Install"
   include_role:
