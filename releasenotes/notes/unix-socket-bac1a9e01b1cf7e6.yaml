@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    When TLS is enabled, Ironic and Inspector now serve their API via unix
+    sockets in the ``/run/ironic`` directory instead of private TCP ports on
+    localhost. The public API is served by Nginx.
