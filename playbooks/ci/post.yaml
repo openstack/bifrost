@@ -12,3 +12,11 @@
           - --include=*/
           - --exclude=*
           - --prune-empty-dirs
+
+    - name: Store bifrost log as a Zuul artifact
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: Bifrost log
+                url: 'logs/bifrost.log'
