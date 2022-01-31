@@ -51,6 +51,11 @@
     nodeset: centos-8-stream
 
 - job:
+    name: bifrost-integration-dhcp-centos-9
+    parent: bifrost-integration-dhcp
+    nodeset: centos-9-stream
+
+- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     timeout: 7200
@@ -66,6 +71,11 @@
     name: bifrost-integration-dibipa-debian-centos-8
     parent: bifrost-integration-dibipa-debian
     nodeset: centos-8-stream
+
+- job:
+    name: bifrost-integration-dibipa-debian-centos-9
+    parent: bifrost-integration-dibipa-debian
+    nodeset: centos-9-stream
 
 - job:
     name: bifrost-integration-tinyipa
@@ -131,6 +141,13 @@
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-centos-8
     parent: bifrost-integration-tinyipa-centos-8
+    vars:
+      test_driver: redfish
+      use_vmedia: true
+
+- job:
+    name: bifrost-integration-redfish-vmedia-uefi-centos-9
+    parent: bifrost-integration-tinyipa-centos-9
     vars:
       test_driver: redfish
       use_vmedia: true
