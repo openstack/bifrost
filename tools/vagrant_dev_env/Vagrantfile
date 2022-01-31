@@ -3,7 +3,6 @@
 
 VAGRANTFILE_API_VERSION = '2'
 
-ansible_install_root=(ENV['ANSIBLE_INSTALL_ROOT'] || "/opt/stack")
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = 'generic/ubuntu1804'
 
@@ -28,14 +27,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       lv.volume_cache = 'none'
     end
 
-    # If ANSIBLE_INSTALL_ROOT is available, set that value inside the VM
-    if ENV['ANSIBLE_INSTALL_ROOT']
-      bifrost.vm.provision "shell", inline: <<-SHELL
-        echo "export ANSIBLE_INSTALL_ROOT=#{ENV['ANSIBLE_INSTALL_ROOT']}" >> /etc/profile.d/ansible-root.sh
-        echo "if [ \"$IFACE\" = \"eth0\" ]; then route del default dev eth0 ; fi" >> /etc/network/if-up.d
-	echo "[Match]\nName=eth0\n[Network]\nDHCP=yes\n[DHCP]\nUseRoutes=false" >>/etc/systemd/network/no-default-route.network
-      SHELL
-    end
+    bifrost.vm.provision "shell", inline: <<-SHELL
+      echo "if [ \"$IFACE\" = \"eth0\" ]; then route del default dev eth0 ; fi" >> /etc/network/if-up.d
+      echo "[Match]\nName=eth0\n[Network]\nDHCP=yes\n[DHCP]\nUseRoutes=false" >>/etc/systemd/network/no-default-route.network
+    SHELL
 
     # Set up private NAT'd network
     bifrost.vm.network 'private_network', ip: '192.168.99.10', use_dhcp_assigned_default_route: false
@@ -58,7 +53,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       ansible.playbook = 'vagrant.yml'
       ansible.extra_vars = {
           # set key file name here
-          ansible_install_root: ansible_install_root,
           public_key: 'id_rsa.pub',
           # Edit the network_interface to match your needs:
           #  eth0 - connected to a Nat network

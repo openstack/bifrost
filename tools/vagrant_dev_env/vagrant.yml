@@ -81,13 +81,9 @@
     - name: Ensure /opt/stack folder exists
       file: path=/opt/stack state=directory owner=vagrant
 
-    - name: Ensure ansible root folder exists
-      file: path={{ansible_install_root}} state=directory owner=vagrant
-
     - name: Prepare VM for Bifrost
       command: scripts/env-setup.sh
       environment:
-          ANSIBLE_INSTALL_ROOT: "{{ansible_install_root}}"
           LANG: c
           VENV: "/opt/stack/bifrost"
       args:
