@@ -22,23 +22,15 @@
     - default_boot_mode != 'uefi'
     - test_vm_secure_boot | bool
 
-- name: install gunicorn and lxml
+- name: install libvirt-python, gunicorn and lxml
   include_role:
     name: bifrost-pip-install
   vars:
     package: "{{ item }}"
   loop:
+    - libvirt-python
     - gunicorn
     - lxml
-
-- name: install libvirt-python
-  include_role:
-    name: bifrost-pip-install
-  vars:
-    package: libvirt-python
-    # FIXME(dtantsur): libvirt-python 7.5.0 cannot be used when installed from
-    # a wheel, force a source installation
-    extra_args: --no-binary libvirt-python
 
 - name: configure libvirt log filters for qemu
   blockinfile:
