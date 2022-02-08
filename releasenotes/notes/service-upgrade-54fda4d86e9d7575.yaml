@@ -1,0 +1,7 @@
+---
+issues:
+  - |
+    A bug in the upgrade logic could leave the old ``ironic-api`` and
+    ``ironic-conductor`` services running. It has been fixed, but if you
+    have already upgraded to an affected version, you need to stop the
+    services manually using ``systemctl``.

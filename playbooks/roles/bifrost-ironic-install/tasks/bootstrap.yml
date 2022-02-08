@@ -264,14 +264,6 @@
     service_name: 'ironic'
     config_file: '/etc/ironic/ironic.conf'
 
-- name: "Remove old ironic services"
-  file:
-    path: "{{ init_dest_dir }}{{ item }}.service"
-    state: absent
-  loop:
-    - ironic-api
-    - ironic-conductor
-
 - name: "Create and populate /tftpboot"
   import_tasks: create_tftpboot.yml
 

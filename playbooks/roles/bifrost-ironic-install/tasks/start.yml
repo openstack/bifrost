@@ -40,6 +40,14 @@
     - ironic-api
     - ironic-conductor
 
+- name: "Remove old ironic services"
+  file:
+    path: "{{ init_dest_dir }}{{ item }}.service"
+    state: absent
+  loop:
+    - ironic-api
+    - ironic-conductor
+
 - name: "Start ironic"
   service:
     name: ironic
