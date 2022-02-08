@@ -112,6 +112,13 @@
     group: "{{ nginx_user }}"
     mode: 0750
 
+- name: "Update ownership on upgrade from Xena"
+  file:
+    name: "/etc/keystone"
+    state: directory
+    owner: "keystone"
+    recurse: yes
+
 - name: "Write keystone configuration from template"
   template:
     src: keystone.conf.j2
