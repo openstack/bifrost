@@ -20,3 +20,15 @@
             artifacts:
               - name: Bifrost log
                 url: 'logs/bifrost.log'
+      when: '"upgrade" not in zuul.job'
+
+    - name: Store bifrost upgrade log as a Zuul artifact
+      zuul_return:
+        data:
+          zuul:
+            artifacts:
+              - name: Bifrost log (before upgrade)
+                url: 'logs/bifrost-old.log'
+              - name: Bifrost log (after upgrade)
+                url: 'logs/bifrost-new.log'
+      when: '"upgrade" in zuul.job'
