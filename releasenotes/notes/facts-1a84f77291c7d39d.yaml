@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Removes the deprecated Ansible module ``os_ironic_facts``.
