@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Ironic Prometheus Exporter, Ironic Inspector, Staging Drivers and Keystone
+    are no longer cloned if they are not enabled.
+  - |
+    Actually respects the ``prometheus_exporter_source_install`` variable.
