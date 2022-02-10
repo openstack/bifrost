@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    Add a boolean variable ``enable_epel`` that allows to enable the epel
+    repository for CentOS Stream 8/9. Since we need that only when
+    building a debian-based IPA image, the default value is set to
+    ``install_dib`` and its installation depends on the value of the
+    dib_os_element used.

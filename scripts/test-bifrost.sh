@@ -97,16 +97,6 @@ elif [ ${BUILD_IMAGE} = "true" ]; then
     DOWNLOAD_IPA=false
     CREATE_IPA_IMAGE=true
 
-    # if running in OpenStack CI, then make sure epel is enabled
-    # since it may already be present (but disabled) on the host
-    # we need epel for debootstrap
-    if env | grep -q ^ZUUL; then
-        if [[ "$OS_DISTRO" == "rhel" ]] || [[ "$OS_DISTRO" == "centos" ]]; then
-            sudo dnf install -y dnf-utils
-            sudo dnf install -y epel-release || true
-            sudo dnf config-manager --set-enabled epel || true
-        fi
-    fi
 elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     NOAUTH_MODE=false
     CLOUD_CONFIG+=" -e cloud_name=bifrost"
