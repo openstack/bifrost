@@ -2,7 +2,7 @@
 Description=Sushy Redfish Emulator
 
 [Service]
-Type=simple
+Type=notify
 Restart=on-failure
 ExecStart={{ bifrost_venv_dir }}/bin/gunicorn sushy_tools.emulator.main:app \
     --bind {{ redfish_emulator_host }}:{{ redfish_emulator_port }} \
