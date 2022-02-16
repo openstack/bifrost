@@ -2,11 +2,9 @@
       "basicipmiexample0": {
         "uuid": "00000000-0000-0000-0000-000000000002",
         "driver_info": {
-          "power": {
-            "ipmi_username": "ADMIN",
-            "ipmi_address": "192.168.2.20",
-            "ipmi_password": "ADMIN_PASSWORD"
-          }
+          "ipmi_username": "ADMIN",
+          "ipmi_address": "192.168.2.20",
+          "ipmi_password": "ADMIN_PASSWORD"
         },
         "nics": [
           {
@@ -31,16 +29,14 @@
         "ipa_ramdisk_url": "http://192.168.1.1:8080/custom_ipa.initramfs",
         "uuid": "00000000-0000-0000-0000-000000000003",
         "driver_info": {
-          "power": {
-            "ipmi_username": "ADMIN",
-            "ipmi_address": "192.168.2.21",
-            "ipmi_password": "ADMIN_PASSWORD",
-            "ipmi_bridging": "dual",
-            "ipmi_target_channel": "0",
-            "ipmi_target_address": "1",
-            "ipmi_transit_channel": "2",
-            "ipmi_transit_address": "3"
-          }
+          "ipmi_username": "ADMIN",
+          "ipmi_address": "192.168.2.21",
+          "ipmi_password": "ADMIN_PASSWORD",
+          "ipmi_bridging": "dual",
+          "ipmi_target_channel": "0",
+          "ipmi_target_address": "1",
+          "ipmi_transit_channel": "2",
+          "ipmi_transit_address": "3"
         },
         "nics": [
           {

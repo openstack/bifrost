@@ -89,7 +89,7 @@ The JSON format resembles the data structure that ironic utilizes internally.
   ``deploy``, ``management`` and ``console``.
 
   .. note::
-     With newer versions of the collection you can just put all fields under
+     With newer versions of the collection you should just put all fields under
      ``driver_info`` directly).
 
 * The ``nics`` field is a list of ports to create. The required field is
@@ -106,11 +106,9 @@ Example:
       "testvm1": {
         "uuid": "00000000-0000-0000-0000-000000000001",
         "driver_info": {
-          "power": {
-            "ipmi_address": "192.168.122.1",
-            "ipmi_username": "admin",
-            "ipmi_password": "pa$$w0rd"
-          }
+          "ipmi_address": "192.168.122.1",
+          "ipmi_username": "admin",
+          "ipmi_password": "pa$$w0rd"
         },
         "nics": [
           {
@@ -142,11 +140,9 @@ in an ``instance_info`` variable, for example:
       "testvm1": {
         "uuid": "00000000-0000-0000-0000-000000000001",
         "driver_info": {
-          "power": {
-            "ipmi_address": "192.168.122.1",
-            "ipmi_username": "admin",
-            "ipmi_password": "pa$$w0rd"
-          }
+          "ipmi_address": "192.168.122.1",
+          "ipmi_username": "admin",
+          "ipmi_password": "pa$$w0rd"
         },
         "nics": [
           {

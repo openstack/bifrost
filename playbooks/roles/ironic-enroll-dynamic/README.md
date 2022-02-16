@@ -42,21 +42,19 @@ cloud_name: Optional: String value defining a clouds.yaml entry for
             the ansible module to leverage.
 
 This role expects a data structure similar to the one below, however it should
-be understood that the individual entries under power can vary based on power
-driver required.
+be understood that the individual entries under `driver_info` can vary based
+on the driver.
 
 {
   "node1": {
     "uuid": "00000000-0000-0000-0000-000000000000",
     "driver_info": {
-      "power": {
-        "ipmi_target_channel": "0",
-        "ipmi_username": "ADMIN",
-        "ipmi_address": "192.168.122.1",
-        "ipmi_target_address": "0",
-        "ipmi_password": "undefined",
-        "ipmi_bridging": "single"
-      }
+      "ipmi_target_channel": "0",
+      "ipmi_username": "ADMIN",
+      "ipmi_address": "192.168.122.1",
+      "ipmi_target_address": "0",
+      "ipmi_password": "undefined",
+      "ipmi_bridging": "single"
     },
     "nics": [
       {

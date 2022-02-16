@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    In your inventory files, please remove sub-sections ``power``, ``console``
+    and ``management`` from ``driver_info``. Instead, just place all fields
+    under ``driver_info`` directly.
+fixes:
+  - |
+    Bifrost no longer defaults to using sub-sections ``power``, ``console``
+    and ``management`` under ``driver_info`` in inventory.

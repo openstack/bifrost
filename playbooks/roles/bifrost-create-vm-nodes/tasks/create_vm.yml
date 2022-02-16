@@ -138,15 +138,14 @@
       host_groups: "{{ vm_host_group }}"
       driver: "{{ test_vm_node_driver }}"
       driver_info:
-        power:
-          ipmi_address: "192.168.122.1"
-          ipmi_port: "{{ virtual_ipmi_port }}"
-          ipmi_username: "admin"
-          ipmi_password: "password"
-          redfish_address: "http://{{ redfish_emulator_host }}:{{ redfish_emulator_port }}"
-          redfish_system_id: "/redfish/v1/Systems/{{ vm_name }}"
-          redfish_username: "admin"
-          redfish_password: "password"
+        ipmi_address: "192.168.122.1"
+        ipmi_port: "{{ virtual_ipmi_port }}"
+        ipmi_username: "admin"
+        ipmi_password: "password"
+        redfish_address: "http://{{ redfish_emulator_host }}:{{ redfish_emulator_port }}"
+        redfish_system_id: "/redfish/v1/Systems/{{ vm_name }}"
+        redfish_username: "admin"
+        redfish_password: "password"
       nics:
         - mac: "{{ vm_mac }}"
       ansible_ssh_host: "192.168.122.{{ testvm_json_data | length + 2 }}"
