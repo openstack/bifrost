@@ -191,19 +191,52 @@ def cmd_install(args):
         "See documentation for next steps")
 
 
-def cmd_enroll(args):
+def configure_inventory(args):
     inventory = os.path.join(PLAYBOOKS, 'inventory', 'bifrost_inventory.py')
-    if os.path.exists(args.inventory):
+    if not args.inventory:
+        os.environ['BIFROST_INVENTORY_SOURCE'] = 'ironic'
+    elif os.path.exists(args.inventory):
         nodes_inventory = os.path.abspath(args.inventory)
         os.environ['BIFROST_INVENTORY_SOURCE'] = nodes_inventory
     else:
         sys.exit('Inventory file %s cannot be found' % args.inventory)
+    return inventory
 
+
+def cmd_enroll(args):
+    inventory = configure_inventory(args)
     ansible('enroll-dynamic.yaml',
             inventory=inventory,
             verbose=args.debug,
             inspect_nodes=args.inspect,
             extra_vars=args.extra_vars)
+
+
+def cmd_deploy(args):
+    inventory = configure_inventory(args)
+    try:
+        configdrive = json.loads(args.configdrive)
+    except (ValueError, TypeError):
+        configdrive = args.configdrive
+
+    extra_vars = args.extra_vars or []
+    if configdrive:
+        # Need to preserve JSON
+        extra_vars.append(json.dumps({'deploy_config_drive': configdrive}))
+
+    if (args.image and not args.image.startswith('file://') and not
+            args.image_checksum):
+        raise TypeError('An --image-checksum is required with --image '
+                        'when the image is not a local file')
+
+    ansible('deploy-dynamic.yaml',
+            inventory=inventory,
+            verbose=args.debug,
+            deploy_image_source=args.image,
+            deploy_image_type=args.image_type,
+            deploy_image_checksum=args.image_checksum,
+            wait_for_node_deploy=args.wait,
+            extra_vars=extra_vars)
 
 
 def parse_args():
@@ -301,6 +334,23 @@ def parse_args():
     enroll.add_argument('--inspect', action='store_true',
                         help='inspect nodes while enrolling')
     enroll.add_argument('-e', '--extra-vars', action='append',
+                        help='additional vars to pass to ansible')
+
+    deploy = subparsers.add_parser(
+        'deploy', help='Deploy bare metal nodes')
+    deploy.set_defaults(func=cmd_deploy)
+    deploy.add_argument('inventory', nargs='?',
+                        help='file with the inventory, skip to use Ironic')
+    deploy.add_argument('--image', help='image URL to deploy')
+    deploy.add_argument('--image-checksum',
+                        help='checksum of the image to deploy')
+    deploy.add_argument('--partition', action='store_const',
+                        const='partition', dest='image_type',
+                        help='the image is a partition image')
+    deploy.add_argument('--configdrive', help='URL or JSON with a configdrive')
+    deploy.add_argument('--wait', action='store_true',
+                        help='wait for deployment to be finished')
+    deploy.add_argument('-e', '--extra-vars', action='append',
                         help='additional vars to pass to ansible')
 
     args = parser.parse_args()

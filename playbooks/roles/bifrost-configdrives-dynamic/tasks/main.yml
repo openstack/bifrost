@@ -130,3 +130,7 @@
     state: absent
     force: yes
     name: "{{ variable_configdrive_location.path }}"
+
+- name: "Set the configdrive URL"
+  set_fact:
+    deploy_config_drive: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"

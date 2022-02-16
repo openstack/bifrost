@@ -1,0 +1,17 @@
+---
+features:
+  - |
+    Adds a new CLI command ``./bifrost-cli deploy`` that runs the deploy
+    playbook, optionally specifying a custom image.
+  - |
+    Adds a new way to specify a custom image for the
+    ``bifrost-deploy-nodes-dynamic`` role by setting the new parameters
+    ``deploy_image_source`` and ``deploy_image_checksum``.
+  - |
+    Allows customizing the configdrive URL or JSON for the
+    ``bifrost-deploy-nodes-dynamic`` role by setting the new parameter
+    ``deploy_config_drive``.
+deprecations:
+  - |
+    The ``deploy_image`` parameter of the ``bifrost-deploy-nodes-dynamic`` role
+    is deprecated in favour of ``deploy_image_path``.
