@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes ``bifrost-configdrives-dynamic`` and ``bifrost-deploy-nodes-dynamic``
+    when ``uuid`` is not set in the inventory file.
