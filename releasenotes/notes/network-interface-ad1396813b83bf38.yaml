@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes the Bifrost inventory plugin to not set the ``network_interface``
+    variable since it conflicts with the Bifrost's variable with a different
+    meaning.

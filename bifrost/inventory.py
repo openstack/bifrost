@@ -316,6 +316,11 @@ def main():
         if len(groups[group]['hosts']) == 0:
             del groups[group]
 
+    # FIXME(dtantsur): there is a conflict between the Bifrost's and the node's
+    # network_interface. Drop the node's one for now.
+    for host, items in hostvars.items():
+        items.pop('network_interface', None)
+
     # General Data Conversion
 
     inventory = {'_meta': {'hostvars': hostvars}}
