@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The parameters ``network_mtu``, ``ipv4_nameserver`` and ``ipv4_gateway``
+    no longer have default values. If needed, specify them explicitly.

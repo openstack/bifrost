@@ -60,12 +60,12 @@
 - name: "Generate network_data"
   network_metadata:
     ipv4_address: "{{ ipv4_address | default('') }}"
-    ipv4_gateway: "{{ ipv4_gateway | default('') }}"
-    ipv4_interface_mac: "{{ ipv4_interface_mac | default('') }}"
-    ipv4_nameserver: "{% if ipv4_nameserver is string %}['{{ ipv4_nameserver | default('') }}']{% else %}{{ ipv4_nameserver }}{% endif %}"
+    ipv4_gateway: "{{ ipv4_gateway | default(omit) }}"
+    ipv4_interface_mac: "{{ ipv4_interface_mac | default(omit) }}"
+    ipv4_nameserver: "{% if ipv4_nameserver is string %}['{{ ipv4_nameserver }}']{% else %}{{ ipv4_nameserver | default(omit) }}{% endif %}"
     ipv4_subnet_mask: "{{ ipv4_subnet_mask | default('') }}"
-    vlan_id: "{{ vlan_id | default('') }}"
-    network_mtu: "{{ network_mtu | default('1500') }}"
+    vlan_id: "{{ vlan_id | default(omit) }}"
+    network_mtu: "{{ network_mtu | default(omit) }}"
     nics: "{{ node_info.node.nics | default(omit) }}"
     node_network_data: "{{ node_network_data | default(omit) }}"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode

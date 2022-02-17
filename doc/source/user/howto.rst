@@ -182,13 +182,12 @@ as cloud-init_ or glean_. The following fields can be set:
     MAC address of the interface to configure. If missing, the MAC address of
     the first NIC defined in the inventory is used.
 ``ipv4_gateway``
-    IPv4 address of the default router. The Bifrost default will be incorrect
-    in most cases and should be changed.
+    IPv4 address of the default router. A default value is only provided
+    for testing case.
 ``ipv4_nameserver``
     The server to use for name resolution (a string or a list).
-    Defaults to `8.8.8.8` (Google public DNS).
 ``network_mtu``
-    MTU to use for the link. Defaults to 1500.
+    MTU to use for the link.
 
 For example:
 
