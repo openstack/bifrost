@@ -51,11 +51,8 @@ Starting with the Victoria release, the ``openstack`` command is only installed
 when Keystone is enabled. Install the ``python-openstackclient`` Python package
 to get this command.
 
-Enroll Hardware
-===============
-
-The openstacksdk library is installed during the install process
-as documented in the install documentation.
+Inventory file format
+=====================
 
 In order to enroll hardware, you will naturally need an inventory of
 your hardware. When utilizing the dynamic inventory module and
@@ -64,14 +61,6 @@ all of which ultimately translate to JSON data that Ansible parses.
 
 The current method is to utilize a JSON or YAML document which the inventory
 parser will convert and provide to Ansible.
-
-In order to use, you will need to define the environment variable
-``BIFROST_INVENTORY_SOURCE`` to equal a file, which then allows you to
-execute Ansible utilizing the ``bifrost_inventory.py`` file as the data
-source.
-
-JSON file format
-----------------
 
 The JSON format resembles the data structure that ironic utilizes internally.
 
@@ -95,16 +84,14 @@ The JSON format resembles the data structure that ironic utilizes internally.
 * The ``nics`` field is a list of ports to create. The required field is
   ``mac`` - MAC address of the port.
 
-* ``ansible_ssh_host`` and ``ipv4_address`` are expected IP addresses of the
-  node once it is deployed. See also :doc:`dhcp`.
-
 Example:
 
 .. code-block:: json
 
   {
       "testvm1": {
-        "uuid": "00000000-0000-0000-0000-000000000001",
+        "name": "testvm1",
+        "driver": "ipmi",
         "driver_info": {
           "ipmi_address": "192.168.122.1",
           "ipmi_username": "admin",
@@ -115,19 +102,15 @@ Example:
             "mac": "52:54:00:f9:32:f6"
           }
         ],
-        "driver": "ipmi",
-        "ansible_ssh_host": "192.168.122.2",
-        "ipv4_address": "192.168.122.2",
         "properties": {
           "cpu_arch": "x86_64",
-          "ram": "3072",
-          "disk_size": "10",
-          "cpus": "1",
           "root_device": {"wwn": "0x4000cca77fc4dba1"}
-        },
-        "name": "testvm1"
+        }
       }
   }
+
+Overriding instance information
+-------------------------------
 
 The additional power of this format is easy configuration parameter injection,
 which could potentially allow a user to provision different operating system
@@ -139,27 +122,23 @@ in an ``instance_info`` variable, for example:
   {
       "testvm1": {
         "uuid": "00000000-0000-0000-0000-000000000001",
+        "name": "testvm1",
+        "driver": "redfish",
         "driver_info": {
-          "ipmi_address": "192.168.122.1",
-          "ipmi_username": "admin",
-          "ipmi_password": "pa$$w0rd"
+          "redfish_address": "https://bmc.myhost.com",
+          "redfish_system_id": "/redfish/v1/Systems/11",
+          "redfish_username": "admin"
+          "redfish_password": "pa$$w0rd",
         },
         "nics": [
           {
             "mac": "52:54:00:f9:32:f6"
           }
         ],
-        "driver": "ipmi",
-        "ansible_ssh_host": "192.168.122.2",
-        "ipv4_address": "192.168.122.2",
         "properties": {
           "cpu_arch": "x86_64",
-          "ram": "3072",
-          "disk_size": "10",
-          "cpus": "1",
           "root_device": {"wwn": "0x4000cca77fc4dba1"}
         },
-        "name": "testvm1",
         "instance_info": {
           "image_source": "http://image.server/image.qcow2",
           "image_checksum": "<md5 checksum>",
@@ -173,13 +152,82 @@ in an ``instance_info`` variable, for example:
       }
   }
 
+The ``instance_info`` format is documented in the `Ironic deploy guide
+<https://docs.openstack.org/ironic/latest/user/deploy.html#populating-instance-information>`_.
+The ability to populate ``configdrive`` this way is a Bifrost-specific feature,
+but the ``configdrive`` itself follows the Ironic format.
+
 Examples utilizing JSON and YAML formatting, along host specific variable
 injection can be found in the ``playbooks/inventory/`` folder.
 
+Static network configuration
+----------------------------
+
+When building a configdrive, Bifrost can embed static networking configuration
+in it. This configuration will be applied by the first-boot service, such
+as cloud-init_ or glean_. The following fields can be set:
+
+``ipv4_address``
+    The IPv4 address of the node. If missing, the configuration is not
+    provided in the configdrive.
+
+    When ``ipv4_address`` is set, it's also used as the default for
+    ``ansible_ssh_host``. Because of this, you can run SSH commands against
+    deployed hosts, as long as you use the Bifrost's inventory plugin.
+
+    This parameter can also used for :doc:`DHCP configuration <dhcp>`.
+``ipv4_subnet_mask``
+    The subnet mask of the IP address. Defaults to `255.255.255.0`.
+``ipv4_interface_mac``
+    MAC address of the interface to configure. If missing, the MAC address of
+    the first NIC defined in the inventory is used.
+``ipv4_gateway``
+    IPv4 address of the default router. The Bifrost default will be incorrect
+    in most cases and should be changed.
+``ipv4_nameserver``
+    The server to use for name resolution (a string or a list).
+    Defaults to `8.8.8.8` (Google public DNS).
+``network_mtu``
+    MTU to use for the link. Defaults to 1500.
+
+For example:
+
+.. code-block:: json
+
+  {
+      "testvm1": {
+        "name": "testvm1",
+        "driver": "redfish",
+        "driver_info": {
+          "redfish_address": "https://bmc.myhost.com",
+          "redfish_system_id": "/redfish/v1/Systems/11",
+          "redfish_username": "admin"
+          "redfish_password": "pa$$w0rd",
+        },
+        "ipv4_address": "192.168.122.42",
+        "ipv4_subnet_mask": "255.255.255.0",
+        "ipv4_gateway": "192.168.122.1",
+        "ipv4_nameserver": "8.8.8.8",
+        "nics": [
+          {
+            "mac": "52:54:00:f9:32:f6"
+          }
+        ],
+        "properties": {
+          "cpu_arch": "x86_64",
+          "root_device": {"wwn": "0x4000cca77fc4dba1"}
+        }
+      }
+  }
+
+.. warning::
+   Static network configuration only works this way if you let Bifrost generate
+   the configdrive.
+
 .. _enroll:
 
-How this works?
----------------
+Enroll Hardware
+===============
 
 Starting with the Wallaby cycle, you can use ``bifrost-cli`` for enrolling:
 
@@ -206,7 +254,7 @@ to login to the system.
 
 Starting with the Yoga cycle, you can use ``bifrost-cli`` for deploying. If
 you used ``bifrost-cli`` for installation, you should pass its environment
-variables, as well as the inventory file (see `JSON file format`_):
+variables, as well as the inventory file (see `Inventory file format`_):
 
 .. code-block:: bash
 
