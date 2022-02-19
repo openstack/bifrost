@@ -34,6 +34,7 @@
       dib_imagetype: "qcow2"
       dib_elements: >
         {{ dib_image_type|default('vm') }}
+        {% if default_boot_mode != "bios" %}block-device-efi{% endif %}
         enable-serial-console
         {{ dib_init_element|default('simple-init') }}
         {{ extra_dib_elements|default('') }}
