@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    When several SSH public keys are available, prefers modern algorithms
+    rather than RSA. This fixes logging in Cirros on CentOS 9.

@@ -72,6 +72,12 @@ if which setenforce &> /dev/null; then
     sudo setenforce Enforcing
 fi
 
+if [ ${USE_CIRROS} = "true" ] && [ ! -f "$HOME/.ssh/id_ecdsa.pub" ]; then
+    # CentOS/RHEL 8 and 9, as well as Fedora, do not work with the RSA key
+    # that the Cirros' SSH server uses. Generate an ECDSA key pair instead.
+    ssh-keygen -t ECDSA -f "$HOME/.ssh/id_ecdsa" -N ""
+fi
+
 # Note(cinerama): activate is not compatible with "set -u";
 # disable it just for this line.
 set +u
@@ -114,17 +120,7 @@ if [ ${USE_VMEDIA} = "true" ]; then
     CLOUD_CONFIG+=" -e enabled_hardware_types=redfish"
 fi
 
-CURRENT_CRYPTO_POLICY=
-if [ ${USE_CIRROS} = "true" ] && which update-crypto-policies 2>&1 > /dev/null; then
-    # Crypto policies in newer Fedora prevent SSH into Cirros
-    CURRENT_CRYPTO_POLICY=$(sudo update-crypto-policies --show)
-    sudo update-crypto-policies --set LEGACY
-fi
-
 on_exit() {
-    if [ -n "$CURRENT_CRYPTO_POLICY}" ]; then
-        sudo update-crypto-policies --set $CURRENT_CRYPTO_POLICY || true
-    fi
     $SCRIPT_HOME/collect-test-info.sh
 }
 trap on_exit EXIT

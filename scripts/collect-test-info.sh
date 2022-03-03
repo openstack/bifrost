@@ -68,7 +68,7 @@ if $(ip link &>/dev/null); then
 fi
 
 mkdir -p ${LOG_LOCATION}/all
-sudo cp -a /var/log/* ${LOG_LOCATION}/all/.
+sudo cp -aL /var/log/* ${LOG_LOCATION}/all/.
 sudo chown -R $USER ${LOG_LOCATION}/all
 
 sudo systemctl > ${LOG_LOCATION}/all-services.txt
