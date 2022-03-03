@@ -96,7 +96,7 @@ The JSON format resembles the data structure that ironic utilizes internally.
   ``mac`` - MAC address of the port.
 
 * ``ansible_ssh_host`` and ``ipv4_address`` are expected IP addresses of the
-  node once it is deployed. See also `Configuring the integrated DHCP server`_.
+  node once it is deployed. See also :doc:`dhcp`.
 
 Example:
 
@@ -198,36 +198,17 @@ manually at the moment.
 Additionally, it is important to note that the playbooks for enrollment are
 split into three separate playbooks based on the ``ipmi_bridging`` setting.
 
-Using a remote ironic
----------------------
-
-When ironic is installed on remote server, a regular ansible inventory
-with a target server should be added to ansible. This can be achieved by
-specifying a directory with files, each file in that directory will be part of
-the ansible inventory. Refer to ansible documentation
-http://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-inventory-directories-and-multiple-inventory-sources
-
-.. code-block:: bash
-
-  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
-  cd playbooks
-  rm inventory/*.example
-  ansible-playbook -vvvv -i inventory/ enroll-dynamic.yaml
-
 .. _deploy:
 
 Deploy Hardware
 ===============
-
-How this works?
----------------
 
 After the nodes are enrolled, they can be deployed upon.  Bifrost is geared to
 utilize configuration drives to convey basic configuration information to the
 each host. This configuration information includes an SSH key to allow a user
 to login to the system.
 
-To utilize the newer dynamic inventory based deployment:
+To utilize the dynamic inventory based deployment:
 
 .. code-block:: bash
 
@@ -268,22 +249,6 @@ If the hosts need to be re-deployed, the dynamic redeploy playbook may be used:
 This playbook will undeploy the hosts, followed by a deployment, allowing
 a configurable timeout for the hosts to transition in each step.
 
-Using a remote ironic
----------------------
-
-When ironic is installed on remote server, a regular ansible inventory
-with a target server should be added to ansible. This can be achieved by
-specifying a directory with files, each file in that directory will be part of
-the ansible inventory. Refer to ansible documentation
-http://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-inventory-directories-and-multiple-inventory-sources
-
-.. code-block:: bash
-
-  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
-  cd playbooks
-  rm inventory/*.example
-  ansible-playbook -vvvv -i inventory/ deploy-dynamic.yaml
-
 Deployment and configuration of operating systems
 =================================================
 
@@ -308,25 +273,37 @@ Due to the nature of the design, it would be relatively easy for a user to
 import automatic growth or reconfiguration steps either in the image to be
 deployed, or in post-deployment steps via custom Ansible playbooks.
 
+Advanced topics
+===============
+
+Using a remote ironic
+---------------------
+
+When ironic is installed on remote server, a regular ansible inventory
+with a target server should be added to ansible. This can be achieved by
+specifying a directory with files, each file in that directory will be part of
+the ansible inventory. Refer to ansible documentation
+http://docs.ansible.com/ansible/intro_dynamic_inventory.html#using-inventory-directories-and-multiple-inventory-sources.
+Example:
+
+.. code-block:: bash
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  cd playbooks
+  rm inventory/*.example
+  ansible-playbook -vvvv -i inventory/ enroll-dynamic.yaml
+
 Build Custom Ironic Python Agent (IPA) images
-=============================================
+---------------------------------------------
 
-Bifrost supports the ability for a user to build a custom IPA ramdisk
-utilizing diskimage-builder and ironic-python-agent-builder. In order
-to utilize this feature, the ``download_ipa`` setting must be set to ``false``
-and the create_ipa_image must be set to "true".  By default, the install
-playbook will build a Debian Bullseye based IPA image, if a pre-existing IPA
-image is not present on disk. If you wish to explicitly set a specific release
-to be passed to diskimage-create, then the setting ``dib_os_release`` can be
-set in addition to ``dib_os_element``.
+Content moved, see :ref:`custom-ipa-images`.
 
-If you wish to include an extra element into the IPA disk image, such as a
-custom hardware manager, you can pass the variable ``ipa_extra_dib_elements``
-as a space-separated list of elements. This defaults to an empty string.
+Configuring the integrated DHCP server
+--------------------------------------
 
-.. include:: dhcp.rst
+Content moved, see :doc:`dhcp`.
 
 Use Bifrost with Keystone
-=========================
+-------------------------
 
 Content moved, see :doc:`keystone`.
