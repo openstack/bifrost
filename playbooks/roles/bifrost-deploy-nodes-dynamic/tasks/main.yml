@@ -24,6 +24,28 @@
 - import_role:
     name: bifrost-cloud-config
 
+# Note(TheJulia): This step allows us to collect things that
+# ironic knows, that we do not know potentially, such as an UUID
+# should a node have been created without one.
+- name: "Collecting node facts"
+  os_ironic_node_info:
+    cloud: "{{ cloud_name | default(omit) }}"
+    auth_type: "{{ auth_type | default(omit) }}"
+    auth: "{{ auth | default(omit) }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
+    ironic_url: "{{ ironic_url | default(omit) }}"
+    uuid: "{{ uuid | default() }}"
+    name: "{{ name | default() }}"
+    skip_items:
+      - instance_info
+  register: node_info
+  when: uuid is undefined
+
+- name: "Set UUID from Ironic"
+  set_fact:
+    uuid: "{{ node_info.node.uuid }}"
+  when: uuid is undefined
+
 - name: "Setup DHCP for nodes."
   template:
     src: dhcp-host.j2
