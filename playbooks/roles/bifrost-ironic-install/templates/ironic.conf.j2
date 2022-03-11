@@ -54,8 +54,11 @@ grub_config_path = EFI/{{ efi_distro }}/grub.cfg
 [api]
 # TLS is handled by nginx is proxy mode
 host_ip = 127.0.0.1
-port = 6388
 public_endpoint = {{ api_protocol }}://{{ internal_ip }}:6385
+unix_socket = /run/ironic/ironic.socket
+# Nginx should be able to write to the socket, access will be further limited
+# by the containing directory.
+unix_socket_mode = 0660
 
 {% if expose_json_rpc | bool %}
 [ssl]

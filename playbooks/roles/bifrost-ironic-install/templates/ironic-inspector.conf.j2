@@ -20,7 +20,10 @@ transport_url = fake://
 {% if enable_tls | bool %}
 # TLS is handled by nginx is proxy mode
 listen_address = 127.0.0.1
-listen_port = 15050
+listen_unix_socket = /run/ironic/ironic-inspector.socket
+# Nginx should be able to write to the socket, access will be further limited
+# by the containing directory.
+listen_unix_socket_mode = 0660
 {% endif %}
 
 [database]

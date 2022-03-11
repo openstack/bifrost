@@ -33,6 +33,10 @@ nginx_
     Uses HTTP port 8080 by default (can be changed via the ``file_url_port``
     parameter).
 
+    When TLS is enabled, Nginx serves as a TLS proxy for Ironic and Inspector.
+    It listens on ports 6385 and 5050 and passes requests to the services
+    via unix sockets.
+
 dnsmasq_
     Dnsmasq is used as a DHCP and TFTP server (but not for DNS by default)
     when booting nodes over the network. It can also be used to provide DHCP
@@ -182,6 +186,10 @@ Runtime locations
 ``/var/lib/ironic/certificates``
     TLS certificates that are used to communicate to the ramdisk on the nodes
     when cleaning or deploying.
+
+``/run/ironic``
+    When TLS is enabled, this directory contains unix sockets of Ironic and
+    Inspector, which Nginx uses to pass requests.
 
 .. _ironic: https://docs.openstack.org/ironic/latest/
 .. _bare metal API: https://docs.openstack.org/api-ref/baremetal/

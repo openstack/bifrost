@@ -225,6 +225,14 @@
     - "{{ ironic_agent_deploy_logs_local_path | default('') }}"
   when: item | length > 0
 
+- name: "Ensure /run/ironic exists"
+  file:
+    name: "/run/ironic"
+    state: directory
+    owner: "ironic"
+    group: "{{ nginx_user }}"
+    mode: 0750
+
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
   environment: "{{ bifrost_venv_env }}"
@@ -478,7 +486,7 @@
 - block:
     - name: "Allow nginx, ironic, inspector and IPA ports on SELinux"
       seport:
-        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,6388,5050,9999,15050"
+        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,5050,9999"
         proto: tcp
         setype: http_port_t
         state: present
