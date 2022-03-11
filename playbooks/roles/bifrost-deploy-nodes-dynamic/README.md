@@ -15,7 +15,7 @@ bifrost-configdrives-dynamic, however that is unnecessary IF the host has a
 dictionary named instance_info defined as that will be used as overriding
 values.
 
-There are two ways to specify the image information:
+There are three ways to specify the image information:
 - Set `instance_info` in the Ironic format (all `deploy_image_` properties
   are ignored in this case).
 - Set `deploy_image_source` to a URL and `deploy_image_checksum` to a checksum
