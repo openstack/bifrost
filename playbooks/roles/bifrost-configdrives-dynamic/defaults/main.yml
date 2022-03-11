@@ -7,6 +7,13 @@ write_interfaces_file: false
 http_boot_folder: /var/lib/ironic/httpboot
 # Default location to the ssh public key for the user operating Bifrost.
 #ssh_public_key_path: "/path/to/id_rsa.pub"
+deploy_url_protocol: "http"
+
+file_url_port: "8080"
+network_interface: "virbr0"
+ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+ans_hostname: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"
+internal_ip: "{{ hostvars[ans_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
 
 # Default interface name
 # TODO(TheJulia): Remove this default.

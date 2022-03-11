@@ -17,9 +17,6 @@
 # the pass-through could mean that the user could deploy
 # things that are not directly accessible or reasonable
 # to be inspected.
-- name: "Obtain setup facts"
-  setup:
-    gather_timeout: "{{ fact_gather_timeout }}"
 
 - import_role:
     name: bifrost-cloud-config
@@ -73,7 +70,45 @@
   become: yes
   when: inventory_dhcp | bool or inventory_dns | bool
 
-- name: "Deploy to hardware - Using custom instance_info."
+- name: "Create instance info"
+  block:
+
+    - name: "Figure out image checksum"
+      block:
+
+        - name: "Collect the checksum of the deployment image."
+          stat:
+            path: "{{ deploy_image_path }}"
+            get_checksum: yes
+            checksum_algorithm: md5
+          register: test_deploy_image
+          become: yes
+
+        - name: "Error if deploy_image_path is not present, and instance_info is not defined"
+          fail:
+            msg: "The user-defined deploy_image_path, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
+          when: not test_deploy_image.stat.exists
+
+        - name: "Set the calculated checksum"
+          set_fact:
+            deploy_image_checksum: "{{ test_deploy_image.stat.checksum }}"
+
+      when:
+        - deploy_image_checksum is not defined
+        - not deploy_image_source.startswith('file://')
+
+    - name: "Set generated instance_info"
+      set_fact:
+        instance_info:
+          image_source: "{{ deploy_image_source }}"
+          image_checksum: "{{ deploy_image_checksum | default(omit) }}"
+          image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit) }}"
+          image_type: "{{ deploy_image_type | default(omit) }}"
+          root_gb: "{{ deploy_root_gb if deploy_image_type | default('') == 'partition' else omit }}"
+
+  when: instance_info is not defined or instance_info == {}
+
+- name: "Deploy to hardware"
   openstack.cloud.baremetal_node_action:
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
@@ -82,42 +117,8 @@
     ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid }}"
     state: present
-    config_drive: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
+    # Allow instance_info in the inventory to override configdrive
+    config_drive: "{{ instance_info.configdrive | default(deploy_config_drive) | default(omit) }}"
     instance_info: "{{ instance_info }}"
     wait: "{{ wait_for_node_deploy }}"
     timeout: " {{ wait_timeout | default(1800) }}"
-  when: instance_info is defined and instance_info | to_json != '{}'
-
-- name: "Collect the checksum of the deployment image."
-  stat:
-    path: "{{ deploy_image }}"
-    get_checksum: yes
-    checksum_algorithm: md5
-  register: test_deploy_image
-  become: yes
-  when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )
-
-- name: "Error if deploy_image is not present, and instance_info is not defined"
-  fail: msg="The user-defined deploy_image, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
-  when:
-    - instance_info is not defined
-    - not test_deploy_image.stat.exists
-
-- name: "Deploy to hardware - bifrost default"
-  openstack.cloud.baremetal_node_action:
-    cloud: "{{ cloud_name | default(omit) }}"
-    auth_type: "{{ auth_type | default(omit) }}"
-    auth: "{{ auth | default(omit) }}"
-    ca_cert: "{{ tls_certificate_path | default(omit) }}"
-    ironic_url: "{{ ironic_url | default(omit) }}"
-    uuid: "{{ uuid }}"
-    state: present
-    config_drive: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
-    instance_info:
-      image_source: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/{{ deploy_image_filename }}"
-      image_checksum: "{{ test_deploy_image.stat.checksum }}"
-      image_disk_format: "qcow2"
-      image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit) }}"
-    wait: "{{ wait_for_node_deploy }}"
-    timeout: " {{ wait_timeout | default(1800) }}"
-  when: instance_info is not defined or ( instance_info is defined and instance_info | to_json == '{}' )

@@ -3,10 +3,15 @@
 file_url_port: "8080"
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"
-internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
+ans_hostname: "{{ groups['target'][0] if groups['target'] is defined else 'localhost' }}"
+internal_ip: "{{ hostvars[ans_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
+
 http_boot_folder: "/var/lib/ironic/httpboot"
 deploy_image_filename: "deployment_image.qcow2"
-deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+# Backward compatibility: used to be called deploy_image
+deploy_image_path: "{{ deploy_image | default(http_boot_folder + '/' + deploy_image_filename) }}"
+deploy_image_source: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/{{ deploy_image_filename }}"
+deploy_root_gb: 10
 inventory_dhcp: false
 inventory_dhcp_static_ip: true
 inventory_dns: false

@@ -162,7 +162,13 @@ in an ``instance_info`` variable, for example:
         "name": "testvm1",
         "instance_info": {
           "image_source": "http://image.server/image.qcow2",
-          "image_checksum": "<md5 checksum>"
+          "image_checksum": "<md5 checksum>",
+          "configdrive": {
+            "meta_data": {
+              "public_keys": {"0": "ssh-rsa ..."},
+              "hostname": "vm1.example.com"
+            }
+          }
         }
       }
   }
@@ -181,16 +187,6 @@ Starting with the Wallaby cycle, you can use ``bifrost-cli`` for enrolling:
 
     ./bifrost-cli enroll /tmp/baremetal.json
 
-Utilizing the dynamic inventory module, enrollment is as simple as setting
-the ``BIFROST_INVENTORY_SOURCE`` environment variable to your inventory data
-source, and then executing the enrollment playbook:
-
-.. code-block:: bash
-
-  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
-  cd playbooks
-  ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
-
 Note that enrollment is a one-time operation. The Ansible module *does not*
 synchronize data for existing nodes.  You should use the ironic CLI to do this
 manually at the moment.
@@ -208,35 +204,72 @@ utilize configuration drives to convey basic configuration information to the
 each host. This configuration information includes an SSH key to allow a user
 to login to the system.
 
-To utilize the dynamic inventory based deployment:
+Starting with the Yoga cycle, you can use ``bifrost-cli`` for deploying. If
+you used ``bifrost-cli`` for installation, you should pass its environment
+variables, as well as the inventory file (see `JSON file format`_):
 
 .. code-block:: bash
 
-  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
-  cd playbooks
-  ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
-
-If you used ``bifrost-cli`` for installation, you should pass its environment
-variables::
-
-  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
-  cd playbooks
-  ansible-playbook -vvvv \
-    -i inventory/bifrost_inventory.py \
-    -e @../bifrost-install-env.json \
-    deploy-dynamic.yaml
+    ./bifrost-cli deploy /tmp/baremetal.json \
+        -e @baremetal-install-env.json
 
 .. note::
+   By default, the playbook will return once the deploy has started. Pass
+   the ``--wait`` flag to wait for completion.
 
-  Before running the above command, ensure that the value for
-  `ssh_public_key_path` in ``./playbooks/inventory/group_vars/baremetal``
-  refers to a valid public key file, or set the ssh_public_key_path option
-  on the ansible-playbook command line by setting the variable.
-  Example: "-e ssh_public_key_path=~/.ssh/id_rsa.pub"
+The inventory file may override some deploy settings, such as images or even
+the complete ``instance_info``, per node.  If you omit it, all nodes from
+Ironic will be deployed using the Bifrost defaults:
 
-The image, downloaded or generated during installation, is used by default.
-Please see `JSON file format`_ for information on how to override the image per
-node.
+.. code-block:: bash
+
+    ./bifrost-cli deploy -e @baremetal-install-env.json
+
+Command line parameters
+-----------------------
+
+By default the playbooks use the image, downloaded or built during
+installation. You can also use a custom image:
+
+.. code-block:: bash
+
+    ./bifrost-cli deploy -e @baremetal-install-env.json \
+        --image http://example.com/images/my-image.qcow2 \
+        --image-checksum 91ebfb80743bb98c59f787c9dc1f3cef \
+
+You can also provide a custom configdrive URL (or its content) instead of
+the one Bifrost builds for you:
+
+.. code-block:: bash
+
+    ./bifrost-cli deploy -e @baremetal-install-env.json \
+        --config-drive '{"meta_data": {"public_keys": {"0": "'"$(cat ~/.ssh/id_rsa.pub)"'"}}}' \
+
+File images do not require a checksum:
+
+.. code-block:: bash
+
+    ./bifrost-cli deploy -e @baremetal-install-env.json \
+        --image file:///var/lib/ironic/custom-image.qcow2
+
+.. note:: Files must be readable by Ironic. Your home directory is often not.
+
+Partition images can de deployed by specifying an image type:
+
+.. code-block:: bash
+
+    ./bifrost-cli deploy -e @baremetal-install-env.json \
+        --image http://example.com/images/my-image.qcow2 \
+        --image-checksum 91ebfb80743bb98c59f787c9dc1f3cef \
+        --partition
+
+.. note::
+   The default root partition size is 10 GiB. Set the ``deploy_root_gb``
+   parameter to override or use a first-boot service such as cloud-init to
+   grow the root partition automatically.
+
+Redeploy Hardware
+=================
 
 If the hosts need to be re-deployed, the dynamic redeploy playbook may be used:
 
@@ -248,6 +281,42 @@ If the hosts need to be re-deployed, the dynamic redeploy playbook may be used:
 
 This playbook will undeploy the hosts, followed by a deployment, allowing
 a configurable timeout for the hosts to transition in each step.
+
+Use playbooks instead of bifrost-cli
+====================================
+
+Using playbooks directly allows you full control over what is executed by
+Bifrost, with what variables and using what inventory.
+
+Utilizing the dynamic inventory module, enrollment is as simple as setting
+the ``BIFROST_INVENTORY_SOURCE`` environment variable to your inventory data
+source, and then executing the enrollment playbook:
+
+.. code-block:: bash
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  cd playbooks
+  ansible-playbook -vvvv -i inventory/bifrost_inventory.py enroll-dynamic.yaml
+
+To utilize the dynamic inventory based deployment:
+
+.. code-block:: bash
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  cd playbooks
+  ansible-playbook -vvvv -i inventory/bifrost_inventory.py deploy-dynamic.yaml
+
+If you used ``bifrost-cli`` for installation, you should pass its environment
+variables:
+
+.. code-block:: bash
+
+  export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
+  cd playbooks
+  ansible-playbook -vvvv \
+    -i inventory/bifrost_inventory.py \
+    -e @../baremetal-install-env.json \
+    deploy-dynamic.yaml
 
 Deployment and configuration of operating systems
 =================================================
@@ -272,6 +341,11 @@ and thus will not automatically grow the root partition.
 Due to the nature of the design, it would be relatively easy for a user to
 import automatic growth or reconfiguration steps either in the image to be
 deployed, or in post-deployment steps via custom Ansible playbooks.
+
+To be able to access nodes via SSH, ensure that the value for
+`ssh_public_key_path` in ``./playbooks/inventory/group_vars/baremetal``
+refers to a valid public key file, or set the ``ssh_public_key_path`` variable
+on the command line, e.g. ``-e ssh_public_key_path=~/.ssh/id_rsa.pub``.
 
 Advanced topics
 ===============
