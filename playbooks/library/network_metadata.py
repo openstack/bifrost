@@ -24,6 +24,117 @@ extends_documentation_fragment: openstack
 '''
 
 
+def get_network_data(params):
+    links = []
+    networks = []
+
+    if params.get('ipv4_interface_mac'):
+        nic_id = params['ipv4_interface_mac']
+
+        if params.get('vlan_id'):
+            nic_id = 'vlan-%s' % params['ipv4_interface_mac']
+
+            links.append({
+                'id': nic_id,
+                'type': 'vlan',
+                'vlan_id': params['vlan_id'],
+                'vlan_link': params['ipv4_interface_mac'],
+                'vlan_mac_address': params['ipv4_interface_mac'],
+            })
+
+        link = {
+            'id': params['ipv4_interface_mac'],
+            'type': 'phy',
+            'ethernet_mac_address': params['ipv4_interface_mac'],
+        }
+        if params.get('network_mtu'):
+            link['mtu'] = params['network_mtu']
+        links.append(link)
+
+        for nic in params['nics']:
+            if nic['mac'] == params['ipv4_interface_mac']:
+                network = {
+                    'id': 'ipv4-%s' % nic_id,
+                    'link': nic_id,
+                    'type': 'ipv4',
+                    'ip_address': params['ipv4_address'],
+                    'netmask': params['ipv4_subnet_mask'],
+                    'routes': []
+                }
+                if params.get('ipv4_nameserver'):
+                    network['dns_nameservers'] = \
+                        params['ipv4_nameserver']
+                if params.get('ipv4_gateway'):
+                    network['routes'].append({
+                        'network': '0.0.0.0',
+                        'netmask': '0.0.0.0',
+                        'gateway': params['ipv4_gateway']
+                    })
+                networks.append(network)
+    else:
+        for i, nic in enumerate(params['nics']):
+            nic_id = nic['mac']
+            if params.get('vlan_id'):
+                nic_id = 'vlan-%s' % nic['mac']
+
+                links.append({
+                    'id': nic_id,
+                    'type': 'vlan',
+                    'vlan_id': params['vlan_id'],
+                    'vlan_link': nic['mac'],
+                    'vlan_mac_address': nic['mac']
+                })
+
+            link = {
+                'id': nic['mac'],
+                'type': 'phy',
+                'ethernet_mac_address': nic['mac'],
+            }
+            if params.get('network_mtu'):
+                link['mtu'] = params['network_mtu']
+            links.append(link)
+
+            if i == 0:
+                network = {
+                    'id': 'ipv4-%s' % nic_id,
+                    'link': nic_id,
+                    'type': 'ipv4',
+                    'ip_address': params['ipv4_address'],
+                    'netmask': params['ipv4_subnet_mask'],
+                    'routes': []
+                }
+                if params.get('ipv4_nameserver'):
+                    network['dns_nameservers'] = \
+                        params['ipv4_nameserver']
+                if params.get('ipv4_gateway'):
+                    network['routes'].append({
+                        'network': '0.0.0.0',
+                        'netmask': '0.0.0.0',
+                        'gateway': params['ipv4_gateway']
+                    })
+                networks.append(network)
+            else:
+                networks.append({
+                    'id': 'ipv4-dhcp-%s' % nic_id,
+                    'link': nic_id,
+                    'type': 'ipv4_dhcp',
+                })
+
+    services = []
+    if params.get('ipv4_nameserver'):
+        for item in params['ipv4_nameserver']:
+            services.append({
+                'type': 'dns',
+                'address': item
+            })
+
+    return {
+        'links': links,
+        'networks': networks,
+        'services': services
+    }
+
+
 def main():
     argument_spec = dict(
         ipv4_address=dict(required=False),
@@ -41,100 +152,7 @@ def main():
 
     network_metadata = module.params['node_network_data']
     if not network_metadata:
-        links = []
-        networks = []
-
-        if module.params['ipv4_interface_mac']:
-            nic_id = module.params['ipv4_interface_mac']
-
-            if module.params['vlan_id']:
-                nic_id = 'vlan-%s' % module.params['ipv4_interface_mac']
-
-                links.append({
-                    'id': nic_id,
-                    'type': 'vlan',
-                    'vlan_id': module.params['vlan_id'],
-                    'vlan_link': module.params['ipv4_interface_mac'],
-                    'vlan_mac_address': module.params['ipv4_interface_mac'],
-                })
-
-            links.append({
-                'id': module.params['ipv4_interface_mac'],
-                'type': 'phy',
-                'ethernet_mac_address': module.params['ipv4_interface_mac'],
-                'mtu': module.params['network_mtu']
-            })
-
-            for nic in module.params['nics']:
-                if nic['mac'] == module.params['ipv4_interface_mac']:
-                    networks.append({
-                        'id': 'ipv4-%s' % nic_id,
-                        'link': nic_id,
-                        'type': 'ipv4',
-                        'ip_address': module.params['ipv4_address'],
-                        'netmask': module.params['ipv4_subnet_mask'],
-                        'dns_nameservers': module.params['ipv4_nameserver'],
-                        'routes': [{
-                            'network': '0.0.0.0',
-                            'netmask': '0.0.0.0',
-                            'gateway': module.params['ipv4_gateway']
-                        }]
-                    })
-        else:
-            for i, nic in enumerate(module.params['nics']):
-                nic_id = nic['mac']
-                if module.params['vlan_id']:
-                    nic_id = 'vlan-%s' % nic['mac']
-
-                    links.append({
-                        'id': nic_id,
-                        'type': 'vlan',
-                        'vlan_id': module.params['vlan_id'],
-                        'vlan_link': nic['mac'],
-                        'vlan_mac_address': nic['mac']
-                    })
-
-                links.append({
-                    'id': nic['mac'],
-                    'type': 'phy',
-                    'ethernet_mac_address': nic['mac'],
-                    'mtu': module.params['network_mtu']
-                })
-
-                if i == 0:
-                    networks.append({
-                        'id': 'ipv4-%s' % nic_id,
-                        'link': nic_id,
-                        'type': 'ipv4',
-                        'ip_address': module.params['ipv4_address'],
-                        'netmask': module.params['ipv4_subnet_mask'],
-                        'dns_nameservers': module.params['ipv4_nameserver'],
-                        'routes': [{
-                            'network': '0.0.0.0',
-                            'netmask': '0.0.0.0',
-                            'gateway': module.params['ipv4_gateway']
-                        }]
-                    })
-                else:
-                    networks.append({
-                        'id': 'ipv4-dhcp-%s' % nic_id,
-                        'link': nic_id,
-                        'type': 'ipv4_dhcp',
-                    })
-
-        services = []
-        if module.params['ipv4_nameserver']:
-            for item in module.params['ipv4_nameserver']:
-                services.append({
-                    'type': 'dns',
-                    'address': item
-                })
-
-        network_metadata = {
-            'links': links,
-            'networks': networks,
-            'services': services
-        }
+        network_metadata = get_network_data(module.params)
     facts = {'network_metadata': network_metadata}
 
     module.exit_json(changed=False, ansible_facts=facts)

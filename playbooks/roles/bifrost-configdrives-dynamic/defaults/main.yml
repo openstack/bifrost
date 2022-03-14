@@ -1,9 +1,4 @@
 ---
-# write_interfaces_file is intended for utilizing base logic to write
-# a debian style interfaces file into the configuration drive file
-# such that cirros will receive basic network configuration when
-# performing basic testing.
-write_interfaces_file: false
 http_boot_folder: /var/lib/ironic/httpboot
 # Default location to the ssh public key for the user operating Bifrost.
 #ssh_public_key_path: "/path/to/id_rsa.pub"
@@ -20,13 +15,16 @@ internal_ip: "{{ hostvars[ans_hostname]['ansible_' + ans_network_interface]['ipv
 node_default_network_interface: eth0
 
 testing: false
+use_cirros: false
+# write_interfaces_file is intended for utilizing base logic to write
+# a debian style interfaces file into the configuration drive file
+# such that cirros will receive basic network configuration when
+# performing basic testing.
+write_interfaces_file: "{{ use_cirros }}"
 
 # Basic networking defaults
-# TODO(TheJulia): Require these to be supplied some other way.
 ipv4_subnet_mask: 255.255.255.0
-ipv4_gateway: "{{ '192.168.122.1' if testing | bool else '192.168.1.1' }}"
-ipv4_nameserver: 8.8.8.8
-network_mtu: 1500
+ipv4_gateway: "{{ '192.168.122.1' if testing | bool else '' }}"
 
 # Default ISO generation utility
 iso_gen_utility: "mkisofs"
