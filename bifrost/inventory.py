@@ -187,6 +187,9 @@ def _process_baremetal_data(data_source, groups, hostvars):
             continue
 
         host = file_data[name]
+        if 'name' not in host:
+            host['name'] = name
+
         # Perform basic validation
         node_net_data = host.get('node_network_data')
         ipv4_addr = host.get('ipv4_address')
