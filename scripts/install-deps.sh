@@ -71,7 +71,7 @@ case ${ID,,} in
     fi
     ;;
 
-    rhel|fedora|centos)
+    rhel|fedora|centos|almalinux|rocky)
     OS_FAMILY="RedHat"
     PKG_MANAGER=$(/usr/bin/which dnf || /usr/bin/which yum)
     if [[ "${BIFROST_TRACE:-}" != true ]]; then
