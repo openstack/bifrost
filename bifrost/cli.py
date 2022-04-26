@@ -191,7 +191,18 @@ def cmd_install(args):
         "See documentation for next steps")
 
 
+def ensure_inside_venv():
+    try:
+        import oslo_config  # noqa
+    except ImportError:
+        sys.exit("This command must be executed inside the Bifrost virtual "
+                 "environment. Try:\n"
+                 f" $ source {VENV}/bin/activate\n"
+                 " $ export OS_CLOUD=bifrost")
+
+
 def configure_inventory(args):
+    ensure_inside_venv()
     inventory = os.path.join(PLAYBOOKS, 'inventory', 'bifrost_inventory.py')
     if not args.inventory:
         os.environ['BIFROST_INVENTORY_SOURCE'] = 'ironic'
