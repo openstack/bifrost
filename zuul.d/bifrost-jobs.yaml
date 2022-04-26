@@ -26,7 +26,6 @@
       - openstack/ironic-python-agent
       - openstack/ironic-python-agent-builder
       - openstack/requirements
-      - x/ironic-staging-drivers
 
 - job:
     name: bifrost-integration
@@ -208,7 +207,7 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/xena
+      upgrade_from: stable/yoga
       skip_upgrade:
         - openstack/diskimage-builder
 
