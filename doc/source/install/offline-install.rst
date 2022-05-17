@@ -54,6 +54,16 @@ If this list becomes out of date, it's simple enough to find the things that
 need to be fixed by looking for any URLs in the
 ``playbook/roles/<role>/defaults/main.yml`` files, as noted above.
 
+Currently you can grep the ``defaults/main.yml`` in Bifrost `repo
+<https://opendev.org/openstack/bifrost/src/branch/master/playbooks/roles/bifrost-prep-for-install/defaults/main.yml>`_
+
+For ``kolla-ansible`` you also need the ``sha256sum`` for the ``ipa`` images.
+
+.. code-block:: console
+
+   sha256sum /vagrant/ipa-centos8-master.kernel > /vagrant/ipa-centos8-master.kernel.sha256
+   sha256sum /vagrant/ipa-centos8-master.initramfs > /vagrant/ipa-centos8-master.initramfs.sha256
+
 External Steps
 ^^^^^^^^^^^^^^
 
