@@ -71,7 +71,7 @@ firewalld_internal_zone: bifrost
 # documentation at https://ipxe.org/crypto
 ipa_file_protocol: "http"
 
-ipa_upstream_release: "master"
+ipa_upstream_release: "stable-yoga"
 use_tinyipa: false
 
 enable_uefi_ipxe: true
@@ -285,7 +285,7 @@ noauth_mode: false
 
 # A work around for installing older releases, remove when no longer supporting
 # Ussuri.
-git_branch: master
+git_branch: stable/yoga
 supports_http_auth: >-
   {{ git_branch == "master"
      or git_branch[7:] not in ["queens", "rocky", "stein", "train", "ussuri"] }}
