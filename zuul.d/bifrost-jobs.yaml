@@ -45,11 +45,6 @@
     nodeset: ubuntu-focal
 
 - job:
-    name: bifrost-integration-dhcp-centos-8
-    parent: bifrost-integration-dhcp
-    nodeset: centos-8-stream
-
-- job:
     name: bifrost-integration-dhcp-centos-9
     parent: bifrost-integration-dhcp
     nodeset: centos-9-stream
@@ -65,11 +60,6 @@
     name: bifrost-integration-dibipa-debian-ubuntu-focal
     parent: bifrost-integration-dibipa-debian
     nodeset: ubuntu-focal
-
-- job:
-    name: bifrost-integration-dibipa-debian-centos-8
-    parent: bifrost-integration-dibipa-debian
-    nodeset: centos-8-stream
 
 - job:
     name: bifrost-integration-dibipa-debian-centos-9
@@ -120,11 +110,13 @@
     vars:
       cli_test: true
 
+# TODO(dtantsur): remove when no longer used by child jobs
 - job:
     name: bifrost-integration-tinyipa-centos-8
     parent: bifrost-integration-tinyipa
     nodeset: centos-8-stream
 
+# TODO(dtantsur): remove when no longer used by IPE
 - job:
     name: bifrost-integration-tinyipa-keystone-centos-8
     parent: bifrost-integration-tinyipa-centos-8
@@ -137,6 +129,7 @@
       test_driver: redfish
       enable_prometheus_exporter: true
 
+# TODO(dtantsur): remove when no longer used by Ironic
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-centos-8
     parent: bifrost-integration-tinyipa-centos-8
@@ -168,21 +161,10 @@
       test_driver: redfish
       enable_prometheus_exporter: true
 
-#NOTE(rpittau): remove buster support in Z or later
-- job:
-    name: bifrost-integration-tinyipa-debian-buster
-    parent: bifrost-integration-tinyipa
-    nodeset: debian-buster
-
 - job:
     name: bifrost-integration-tinyipa-debian-bullseye
     parent: bifrost-integration-tinyipa
     nodeset: debian-bullseye
-
-- job:
-    name: bifrost-integration-tinyipa-opensuse-15
-    parent: bifrost-integration-tinyipa
-    nodeset: opensuse-15
 
 - job:
     name: bifrost-integration-tinyipa-fedora-latest
@@ -217,9 +199,9 @@
     nodeset: ubuntu-focal
 
 - job:
-    name: bifrost-upgrade-keystone-centos8
+    name: bifrost-upgrade-keystone-centos9
     parent: bifrost-upgrade
-    nodeset: centos-8-stream
+    nodeset: centos-9-stream
     required-projects:
       - openstack/keystone
     vars:

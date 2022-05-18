@@ -15,19 +15,15 @@ Supported operating systems
 Full support (fully tested in the CI, no known or potential issues):
 
 * CentOS Stream 9
-* CentOS Stream 8 (deprecated but will keep running normal CI until Z cycle)
 
   .. note::
-     RHEL is assumed to work but not tested explicitly.
+     RHEL 9 and derivatives are assumed to work but not tested explicitly.
 
 * Ubuntu 20.04 "Focal"
 * Debian 11 "Bullseye"
 
-Deprecated, support may be removed at any moment:
+Limited support, may be removed at any moment:
 
-* Ubuntu 18.04 "Bionic"
-* Debian 10 "Buster
-* openSUSE Leap 15.2
 * Fedora 34 (32+ is supported but not recommended)
 
 .. note::

@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    Removes support for any distributions using Python 3.6 since OpenStack no
+    longer supports it. This includes:
+
+    * CentOS Stream 8, RHEL 8 and derivatives.
+    * OpenSUSE Leap 15 (all minor versions).
+    * Debian 10 "Buster".
+    * Ubuntu 18.04 "Bionic".
