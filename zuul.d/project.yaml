@@ -49,7 +49,7 @@
             voting: false
         - bifrost-keystone-collections-src:
             voting: false
-        - kolla-ansible-centos8s-source-bifrost:
+        - kolla-ansible-ubuntu-source-bifrost:
             voting: false
             # NOTE(yoctozepto): to override from job definition
             files: .*
