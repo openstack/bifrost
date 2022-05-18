@@ -22,15 +22,21 @@
     - default_boot_mode != 'uefi'
     - test_vm_secure_boot | bool
 
-- name: install libvirt-python, gunicorn and lxml
+- name: install gunicorn and lxml
   include_role:
     name: bifrost-pip-install
   vars:
     package: "{{ item }}"
   loop:
-    - libvirt-python
     - gunicorn
     - lxml
+
+- name: install libvirt-python if needed
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: libvirt-python
+  when: ansible_os_family != 'RedHat'
 
 - name: configure libvirt log filters for qemu
   blockinfile:
@@ -160,6 +166,15 @@
     state: directory
     path: "{{ test_vm_logdir | dirname }}"
     mode: "0755"
+
+# NOTE(dtantsur): pypi version can easily get out of sync, we need to use
+# the version from the distribution.
+- name: edit libvirt-python out of upper constraints
+  lineinfile:
+    path: "{{ upper_constraints_file }}"
+    regexp: "^libvirt\\-python"
+    state: absent
+  when: ansible_os_family == 'RedHat'
 
 - name: install virtualbmc
   include_role:

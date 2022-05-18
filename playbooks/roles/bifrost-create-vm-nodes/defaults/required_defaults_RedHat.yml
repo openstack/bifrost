@@ -12,8 +12,7 @@ required_packages:
  - libvirt
  - libvirt-client
  - libvirt-daemon
- - pkgconfig
- - libvirt-devel
+ - python3-libvirt
  - libxslt-devel
  - libxml2-devel
  - edk2-ovmf
