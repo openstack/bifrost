@@ -72,28 +72,22 @@
 - name: "Copy rootwrap.d contents from ironic-inspector source folder"
   command: cp -r "{{ ironicinspector_git_folder }}/rootwrap.d/" "/etc/ironic-inspector/rootwrap.d"
 
-- name: "Generate admin htpasswd for ironic-inspector"
+- name: "Generate htpasswd(s) for ironic-inspector"
   htpasswd:
     path: /etc/ironic-inspector/htpasswd
     crypt_scheme: bcrypt
-    name: "{{ admin_username }}"
-    password: "{{ admin_password }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
     owner: ironic
     group: ironic
     mode: 0600
-  when:
-    - not noauth_mode | bool
-    - not enable_keystone | bool
-
-- name: "Generate user htpasswd for ironic-inspector"
-  htpasswd:
-    path: /etc/ironic-inspector/htpasswd
-    crypt_scheme: bcrypt
-    name: "{{ default_username }}"
-    password: "{{ default_password }}"
-    owner: ironic
-    group: ironic
-    mode: 0600
+  loop:
+    - name: "{{ admin_username }}"
+      password: "{{ admin_password }}"
+    - name: "{{ default_username }}"
+      password: "{{ default_password }}"
+  loop_control:
+    label: "{{ item.name }}"
   when:
     - not noauth_mode | bool
     - not enable_keystone | bool
