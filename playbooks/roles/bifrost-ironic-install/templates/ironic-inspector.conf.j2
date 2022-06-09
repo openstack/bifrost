@@ -86,7 +86,7 @@ processing_hooks = {{ inspector_processing_hooks }}
 store_data = database
 power_off = {{ power_off_after_inspection }}
 
-{% if inspector.discovery.enabled == true %}
+{% if inspector.discovery.enabled | bool %}
 node_not_found_hook = enroll
 
 [discovery]
