@@ -110,33 +110,6 @@
     vars:
       cli_test: true
 
-# TODO(dtantsur): remove when no longer used by child jobs
-- job:
-    name: bifrost-integration-tinyipa-centos-8
-    parent: bifrost-integration-tinyipa
-    nodeset: centos-8-stream
-
-# TODO(dtantsur): remove when no longer used by IPE
-- job:
-    name: bifrost-integration-tinyipa-keystone-centos-8
-    parent: bifrost-integration-tinyipa-centos-8
-    required-projects:
-      - openstack/keystone
-      - openstack/ironic-prometheus-exporter
-    vars:
-      enable_keystone: true
-      enable_tls: true
-      test_driver: redfish
-      enable_prometheus_exporter: true
-
-# TODO(dtantsur): remove when no longer used by Ironic
-- job:
-    name: bifrost-integration-redfish-vmedia-uefi-centos-8
-    parent: bifrost-integration-tinyipa-centos-8
-    vars:
-      test_driver: redfish
-      use_vmedia: true
-
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-centos-9
     parent: bifrost-integration-tinyipa-centos-9
