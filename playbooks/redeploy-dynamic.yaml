@@ -30,30 +30,28 @@
   connection: local
   pre_tasks:
     - name: "Pull initial ironic facts"
-      os_ironic_node_info:
+      openstack.cloud.baremetal_node_info:
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
-        name: "{{ inventory_hostname }}"
+        node: "{{ inventory_hostname }}"
         ironic_url: "{{ ironic_url | default(omit) }}"
-        skip_items: []
       register: node_info
   roles:
     - role: bifrost-unprovision-node-dynamic
       when:
-        - node_info.node.provision_state == "active"
-          or node_info.node.provision_state == "deploy failed"
-          or node_info.node.provision_state == "error"
-        - not node_info.node.maintenance | bool
+        - node_info.baremetal_nodes[0].provision_state == "active"
+          or node_info.baremetal_nodes[0].provision_state == "deploy failed"
+          or node_info.baremetal_nodes[0].provision_state == "error"
+        - not node_info.baremetal_nodes[0].maintenance | bool
   post_tasks:
     - name: "Pull ironic facts until provision state available"
-      os_ironic_node_info:
+      openstack.cloud.baremetal_node_info:
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
-        name: "{{ inventory_hostname }}"
+        node: "{{ inventory_hostname }}"
         ironic_url: "{{ ironic_url | default(omit) }}"
-        skip_items: []
       register: node_info
-      until: node_info.node.provision_state == "available"
+      until: node_info.baremetal_nodes[0].provision_state == "available"
       retries: "{{ available_state_wait_retries | default(15) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"
 - hosts: baremetal
@@ -63,21 +61,20 @@
   roles:
     - role: bifrost-configdrives-dynamic
       when:
-        - node_info.node.provision_state == "available"
-        - not node_info.node.maintenance | bool
+        - node_info.baremetal_nodes[0].provision_state == "available"
+        - not node_info.baremetal_nodes[0].maintenance | bool
     - role: bifrost-deploy-nodes-dynamic
       when:
-        - node_info.node.provision_state == "available"
-        - not node_info.node.maintenance | bool
+        - node_info.baremetal_nodes[0].provision_state == "available"
+        - not node_info.baremetal_nodes[0].maintenance | bool
   post_tasks:
     - name: "Pull ironic facts until provision state active"
-      os_ironic_node_info:
+      openstack.cloud.baremetal_node_info:
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
-        name: "{{ inventory_hostname }}"
+        node: "{{ inventory_hostname }}"
         ironic_url: "{{ ironic_url | default(omit) }}"
-        skip_items: []
       register: node_info
-      until: node_info.node.provision_state == "active"
+      until: node_info.baremetal_nodes[0].provision_state == "active"
       retries: "{{ active_state_wait_retries | default(30) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"

@@ -25,22 +25,23 @@
 # ironic knows, that we do not know potentially, such as an UUID
 # should a node have been created without one.
 - name: "Collecting node facts"
-  os_ironic_node_info:
+  openstack.cloud.baremetal_node_info:
     cloud: "{{ cloud_name | default(omit) }}"
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-    uuid: "{{ uuid | default() }}"
-    name: "{{ name | default() }}"
-    skip_items:
-      - instance_info
+    node: "{{ name }}"
   register: node_info
-  when: uuid is undefined
+  when:
+    - uuid is undefined
+    - name is defined
 
 - name: "Set UUID from Ironic"
   set_fact:
-    uuid: "{{ node_info.node.uuid }}"
-  when: uuid is undefined
+    uuid: "{{ node_info.baremetal_nodes[0].uuid }}"
+  when:
+    - uuid is undefined
+    - name is defined
 
 - name: "Setup DHCP for nodes."
   template:
