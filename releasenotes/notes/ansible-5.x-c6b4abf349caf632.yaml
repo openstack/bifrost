@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    Ansible 5.x is now supported and used by default.
