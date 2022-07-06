@@ -19,12 +19,13 @@ Full support (fully tested in the CI, no known or potential issues):
   .. note::
      RHEL 9 and derivatives are assumed to work but not tested explicitly.
 
-* Ubuntu 20.04 "Focal"
+* Ubuntu 22.04 "Jammy"
 * Debian 11 "Bullseye"
 
 Limited support, may be removed at any moment:
 
 * Fedora 34 (32+ is supported but not recommended)
+* Ubuntu 20.04 "Focal"
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
