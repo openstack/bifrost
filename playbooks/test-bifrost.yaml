@@ -57,6 +57,9 @@
   roles:
     - role: bifrost-test-vm
 
+- import_playbook: redeploy-dynamic.yaml
+  when: redeploy_nodes | default(false) | bool
+
 - hosts: baremetal
   connection: local
   name: "Unprovisions the test node"
