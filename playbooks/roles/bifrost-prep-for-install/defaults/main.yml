@@ -133,3 +133,7 @@ bifrost_install_sources:
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
+upper_constraints_file: >-
+  {{ lookup('env', 'UPPER_CONSTRAINTS_FILE')
+     | default(lookup('env', 'TOX_CONSTRAINTS_FILE'), True)
+     | default(reqs_git_folder + '/upper-constraints.txt', True) }}
