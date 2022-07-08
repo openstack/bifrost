@@ -55,7 +55,6 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Associate ironic_inspector user to admin role"
   openstack.cloud.role_assignment:
@@ -66,7 +65,6 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Create keystone service record for ironic-inspector"
   openstack.cloud.catalog_service:
@@ -79,7 +77,6 @@
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   register: introspection_catalog_service
-  no_log: true
 
 - name: "Create ironic-inspector admin endpoint"
   openstack.cloud.endpoint:
@@ -90,7 +87,6 @@
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  no_log: true
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Setting external ironic-inspector public URL"
@@ -107,7 +103,6 @@
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  no_log: true
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Setting internal ironic-inspector URL"
@@ -124,7 +119,6 @@
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  no_log: true
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Create inspector_user user"
@@ -138,7 +132,6 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Associate inspector_user with baremetal_admin"
   openstack.cloud.role_assignment:
@@ -149,4 +142,3 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
