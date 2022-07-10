@@ -502,6 +502,7 @@
       loop:
         - "{{ tftp_boot_folder }}"
         - "{{ tftp_boot_folder }}/pxelinux.cfg"
+        - "{{ ironic_tftp_master_path }}"
 
     - name: "Add proper context on created data for http_boot"
       sefcontext:
@@ -518,8 +519,9 @@
       loop:
         - "{{ http_boot_folder }}"
         - "{{ tftp_boot_folder }}"
+        - "{{ ironic_tftp_master_path }}"
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
-         ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
+         ansible_selinux.status == 'enabled'
 - name: "Configure remote logging"
   template: src=10-rsyslog-remote.conf.j2 dest=/etc/rsyslog.d/10-rsyslog-remote.conf
   when:
