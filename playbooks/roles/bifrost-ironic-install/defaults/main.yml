@@ -70,7 +70,6 @@ ipa_file_protocol: "http"
 ipa_upstream_release: "master"
 use_tinyipa: false
 
-enable_uefi_ipxe: true
 ipxe_efi_binary: ipxe.efi
 
 tarballs_base_url: "https://tarballs.opendev.org/openstack/ironic-python-agent"

@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Variable ``enable_uefi_ipxe`` has been removed, instead
+    ``enabled_boot_interfaces`` is checked for containing ``ipxe``.
