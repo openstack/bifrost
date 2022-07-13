@@ -30,7 +30,6 @@
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-    ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid | default() }}"
     name: "{{ name | default() }}"
     skip_items:
@@ -114,7 +113,6 @@
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-    ironic_url: "{{ ironic_url | default(omit) }}"
     uuid: "{{ uuid }}"
     state: present
     # Allow instance_info in the inventory to override configdrive

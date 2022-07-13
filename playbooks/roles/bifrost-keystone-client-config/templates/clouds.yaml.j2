@@ -20,7 +20,8 @@ clouds:
 {% elif noauth_mode | default(false) | bool %}
   bifrost:
     auth_type: "none"
-    baremetal_endpoint_override: {{ ironic_api_url }}
+    auth:
+      endpoint: {{ ironic_api_url }}
     baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"
@@ -28,7 +29,8 @@ clouds:
   # Deprecated
   bifrost-inspector:
     auth_type: "none"
-    endpoint: {{ ironic_inspector_api_url }}
+    auth:
+      endpoint: {{ ironic_inspector_api_url }}
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"
 {% endif %}

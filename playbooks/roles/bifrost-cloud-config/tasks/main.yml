@@ -49,31 +49,8 @@
 - name: "If in noauth mode and no clouds.yaml, unset authentication parameters."
   set_fact:
     auth_type: None
-    auth: {}
+    auth:
+      endpoint: "{{ ironic_url | default(ironic_api_url) }}"
   when:
     - auth is undefined
-    - noauth_mode | bool
-
-# FIXME(dtantsur): the ironic modules hardcode None and "None" as valid values,
-# while "none" does not trigger handling of ironic_url.
-- name: "Work around a bug in the ansible modules."
-  set_fact:
-    auth_type: None
-  when: auth_type == 'none'
-
-# FIXME(dtantsur): this should work by simply passing the cloud to ansible
-# modules, but it does not because of some issues there.
-- name: "Provide ironic_url if there is an endpoint override"
-  set_fact:
-    ironic_url: "{{ openstack_cloud.baremetal_endpoint_override }}"
-  when:
-    - not ironic_url | default("")
-    - openstack_cloud is defined
-    - openstack_cloud.baremetal_endpoint_override is defined
-
-- name: "Provide ironic_url for no-auth mode if there is no override"
-  set_fact:
-    ironic_url: "{{ ironic_api_url }}"
-  when:
-    - not ironic_url | default("")
     - noauth_mode | bool
