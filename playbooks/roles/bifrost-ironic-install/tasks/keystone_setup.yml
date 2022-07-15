@@ -55,7 +55,6 @@
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Create service user for ironic"
   openstack.cloud.identity_user:
@@ -69,7 +68,6 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Associate ironic user to admin role"
   openstack.cloud.role_assignment:
@@ -80,7 +78,6 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Create keystone service record for ironic"
   openstack.cloud.catalog_service:
@@ -93,7 +90,6 @@
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
   register: baremetal_catalog_service
-  no_log: true
 
 - name: "Create ironic admin endpoint"
   openstack.cloud.endpoint:
@@ -104,7 +100,6 @@
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  no_log: true
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Setting external Ironic public URL"
@@ -121,7 +116,6 @@
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  no_log: true
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Setting internal Ironic URL"
@@ -138,7 +132,6 @@
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  no_log: true
   environment: "{{ bifrost_venv_env }}"
 
 - name: "Create baremetal_admin role"
@@ -148,7 +141,6 @@
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Create baremetal_observer role"
   openstack.cloud.identity_role:
@@ -157,7 +149,6 @@
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Create baremetal project"
   os_project:
@@ -169,7 +160,6 @@
     auth: "{{ keystone_auth }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Create bifrost user"
   openstack.cloud.identity_user:
@@ -181,7 +171,6 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
 
 - name: "Associate bifrost user with baremetal_admin"
   openstack.cloud.role_assignment:
@@ -192,4 +181,3 @@
     wait: yes
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
-  no_log: true
