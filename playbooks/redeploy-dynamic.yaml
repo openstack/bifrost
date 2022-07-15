@@ -24,6 +24,14 @@
   name: "Collect facts"
   become: no
   gather_facts: yes
+
+- hosts: baremetal
+  name: "Pull cloud configuration"
+  become: no
+  connection: local
+  roles:
+    - role: bifrost-cloud-config
+
 - hosts: baremetal
   name: "Unprovision the nodes"
   become: no
@@ -31,29 +39,37 @@
   pre_tasks:
     - name: "Pull initial ironic facts"
       openstack.cloud.baremetal_node_info:
+        cloud: "{{ cloud_name | default(omit) }}"
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
+        ca_cert: "{{ tls_certificate_path | default(omit) }}"
         node: "{{ inventory_hostname }}"
-        ironic_url: "{{ ironic_url | default(omit) }}"
-      register: node_info
+      register: redeployed_node
   roles:
     - role: bifrost-unprovision-node-dynamic
       when:
-        - node_info.baremetal_nodes[0].provision_state == "active"
-          or node_info.baremetal_nodes[0].provision_state == "deploy failed"
-          or node_info.baremetal_nodes[0].provision_state == "error"
-        - not node_info.baremetal_nodes[0].maintenance | bool
+        - redeployed_node.baremetal_nodes[0].provision_state == "active"
+          or redeployed_node.baremetal_nodes[0].provision_state == "deploy failed"
+          or redeployed_node.baremetal_nodes[0].provision_state == "error"
+        # The field was renamed in ansible-collections-openstack 2.0.0
+        # FIXME(dtantsur) Remove the workaround once we require >=2.0.0
+        # - not redeployed_node.baremetal_nodes[0].is_maintenance | bool
+        - not redeployed_node.baremetal_nodes[0].maintenance | default(false) | bool
+        - not redeployed_node.baremetal_nodes[0].is_maintenance | default(false) | bool
   post_tasks:
     - name: "Pull ironic facts until provision state available"
       openstack.cloud.baremetal_node_info:
+        cloud: "{{ cloud_name | default(omit) }}"
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
+        ca_cert: "{{ tls_certificate_path | default(omit) }}"
         node: "{{ inventory_hostname }}"
-        ironic_url: "{{ ironic_url | default(omit) }}"
-      register: node_info
-      until: node_info.baremetal_nodes[0].provision_state == "available"
-      retries: "{{ available_state_wait_retries | default(15) }}"
+      register: redeployed_node
+      until: redeployed_node.baremetal_nodes[0].provision_state == "available"
+      # The timeout of 15 minutes accounts for cleaning
+      retries: "{{ available_state_wait_retries | default(45) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"
+
 - hosts: baremetal
   name: "Activate the nodes"
   become: no
@@ -61,20 +77,29 @@
   roles:
     - role: bifrost-configdrives-dynamic
       when:
-        - node_info.baremetal_nodes[0].provision_state == "available"
-        - not node_info.baremetal_nodes[0].maintenance | bool
+        - redeployed_node.baremetal_nodes[0].provision_state == "available"
+        # The field was renamed in ansible-collections-openstack 2.0.0
+        # FIXME(dtantsur) Remove the workaround once we require >=2.0.0
+        # - not redeployed_node.baremetal_nodes[0].is_maintenance | bool
+        - not redeployed_node.baremetal_nodes[0].maintenance | default(false) | bool
+        - not redeployed_node.baremetal_nodes[0].is_maintenance | default(false) | bool
     - role: bifrost-deploy-nodes-dynamic
       when:
-        - node_info.baremetal_nodes[0].provision_state == "available"
-        - not node_info.baremetal_nodes[0].maintenance | bool
+        - redeployed_node.baremetal_nodes[0].provision_state == "available"
+        # The field was renamed in ansible-collections-openstack 2.0.0
+        # FIXME(dtantsur) Remove the workaround once we require >=2.0.0
+        # - not redeployed_node.baremetal_nodes[0].is_maintenance | bool
+        - not redeployed_node.baremetal_nodes[0].maintenance | default(false) | bool
+        - not redeployed_node.baremetal_nodes[0].is_maintenance | default(false) | bool
   post_tasks:
     - name: "Pull ironic facts until provision state active"
       openstack.cloud.baremetal_node_info:
+        cloud: "{{ cloud_name | default(omit) }}"
         auth_type: "{{ auth_type | default(omit) }}"
         auth: "{{ auth | default(omit) }}"
+        ca_cert: "{{ tls_certificate_path | default(omit) }}"
         node: "{{ inventory_hostname }}"
-        ironic_url: "{{ ironic_url | default(omit) }}"
-      register: node_info
-      until: node_info.baremetal_nodes[0].provision_state == "active"
+      register: redeployed_node
+      until: redeployed_node.baremetal_nodes[0].provision_state == "active"
       retries: "{{ active_state_wait_retries | default(30) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"

@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the ``redeploy-dynamic`` playbook to work with TLS and other
+    non-default cloud settings.

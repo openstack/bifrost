@@ -108,6 +108,8 @@ elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     CLOUD_CONFIG+=" -e cloud_name=bifrost"
 fi
 
+REDEPLOY_NODES=$USE_CIRROS
+
 if [[ -n "$BOOT_MODE" ]]; then
     CLOUD_CONFIG+=" -e default_boot_mode=$BOOT_MODE"
     VM_SETUP_EXTRA+=" -e default_boot_mode=$BOOT_MODE"
@@ -187,6 +189,7 @@ ${ANSIBLE} -vvvv \
     -e inventory_dhcp_static_ip=${INVENTORY_DHCP_STATIC_IP} \
     -e enable_inspector=${USE_INSPECTOR} \
     -e inspect_nodes=${INSPECT_NODES} \
+    -e redeploy_nodes=${REDEPLOY_NODES} \
     -e download_ipa=${DOWNLOAD_IPA} \
     -e create_ipa_image=${CREATE_IPA_IMAGE} \
     -e write_interfaces_file=${WRITE_INTERFACES_FILE} \
