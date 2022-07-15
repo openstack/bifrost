@@ -34,7 +34,7 @@ class TestBifrostNetworkMetadata(base.TestCase):
 
     def test_simple(self):
         params = {
-            'nics': [{'mac': TEST_MAC}],
+            'nics': [{'address': TEST_MAC}],
             'ipv4_address': '1.2.3.4',
             'ipv4_subnet_mask': '255.255.0.0',
         }
@@ -59,7 +59,7 @@ class TestBifrostNetworkMetadata(base.TestCase):
     def test_everything(self):
         another_mac = 'aa:aa:aa:bb:cc:dd'
         params = {
-            'nics': [{'mac': another_mac}, {'mac': TEST_MAC}],
+            'nics': [{'address': another_mac}, {'address': TEST_MAC}],
             'ipv4_address': '1.2.3.4',
             'ipv4_subnet_mask': '255.255.0.0',
             'ipv4_interface_mac': TEST_MAC,

@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The ``os_ironic_node_info`` ansible module has been deprecated. Please use
+    ``openstack.cloud.baremetal_node_info`` instead.

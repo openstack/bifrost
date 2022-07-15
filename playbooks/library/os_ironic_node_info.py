@@ -90,6 +90,8 @@ def main():
     )
     module_kwargs = openstack_module_kwargs()  # noqa: F405
     module = IronicModule(argument_spec, **module_kwargs)
+    module.deprecate('os_ironic_node_info is deprecated, please use '
+                     'openstack.cloud.baremetal_node_info')
 
     if not HAS_SDK:
         module.fail_json(msg='openstacksdk is required for this module')

@@ -52,7 +52,7 @@ def get_network_data(params):
         links.append(link)
 
         for nic in params['nics']:
-            if nic['mac'] == params['ipv4_interface_mac']:
+            if nic['address'] == params['ipv4_interface_mac']:
                 network = {
                     'id': 'ipv4-%s' % nic_id,
                     'link': nic_id,
@@ -73,22 +73,22 @@ def get_network_data(params):
                 networks.append(network)
     else:
         for i, nic in enumerate(params['nics']):
-            nic_id = nic['mac']
+            nic_id = nic['address']
             if params.get('vlan_id'):
-                nic_id = 'vlan-%s' % nic['mac']
+                nic_id = 'vlan-%s' % nic['address']
 
                 links.append({
                     'id': nic_id,
                     'type': 'vlan',
                     'vlan_id': params['vlan_id'],
-                    'vlan_link': nic['mac'],
-                    'vlan_mac_address': nic['mac']
+                    'vlan_link': nic['address'],
+                    'vlan_mac_address': nic['address']
                 })
 
             link = {
-                'id': nic['mac'],
+                'id': nic['address'],
                 'type': 'phy',
-                'ethernet_mac_address': nic['mac'],
+                'ethernet_mac_address': nic['address'],
             }
             if params.get('network_mtu'):
                 link['mtu'] = params['network_mtu']
