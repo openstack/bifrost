@@ -32,3 +32,17 @@
     nics: "{{ nics }}"
     properties: "{{ properties | default({}) }}"
     driver_info: "{{ driver_info | default(omit) }}"
+
+# FIXME(dtantsur): the baremetal_node module should do it or at least provide
+# a wait argument. Work around until then
+- name: "Wait for the node to finish cleaning"
+  openstack.cloud.baremetal_node_info:
+    cloud: "{{ cloud_name | default(omit) }}"
+    auth_type: "{{ auth_type | default(omit) }}"
+    auth: "{{ auth | default(omit) }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
+    node: "{{ name | default(uuid) }}"
+  register: enrolled_node_info
+  until: enrolled_node_info.baremetal_nodes[0].provision_state == "available"
+  retries: "{{ available_state_wait_retries | default(45) }}"
+  delay: "{{ provision_state_retry_interval | default(20) }}"
