@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes upgrade from Yoga with Keystone enabled by keeping the Yoga version
+    of openstacksdk until ansible-collections-openstack releases version
+    2.0.0.

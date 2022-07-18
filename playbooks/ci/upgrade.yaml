@@ -18,7 +18,7 @@
         UPPER_CONSTRAINTS_FILE: "{{ ansible_user_dir }}/{{ zuul.projects['opendev.org/openstack/requirements'].src_dir }}/upper-constraints.txt"
         WORKSPACE: "{{ ansible_user_dir }}/src/opendev.org"
         ZUUL_BRANCH: "{{ upgrade_from }}"
-    - command: git checkout -
+    - command: git checkout --force -
       args:
         chdir: "{{ ansible_user_dir }}/{{ item.src_dir }}"
       loop: "{{ zuul.projects.values() | list }}"
