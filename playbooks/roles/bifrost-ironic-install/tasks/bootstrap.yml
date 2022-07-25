@@ -154,29 +154,26 @@
     group: root
   when: not skip_install | bool
 
-- name: "Generate admin htpasswd for ironic"
+- name: "Generate htpasswd(s) for ironic"
   htpasswd:
     path: /etc/ironic/htpasswd
     crypt_scheme: bcrypt
-    name: "{{ admin_username }}"
-    password: "{{ admin_password }}"
+    name: "{{ item.name }}"
+    password: "{{ item.password }}"
     owner: ironic
     group: ironic
     mode: 0600
+  loop:
+    - name: "{{ admin_username }}"
+      password: "{{ admin_password }}"
+      noauth_mode: false # Authenticate JSON RPC even in no-auth mode
+    - name: "{{ default_username }}"
+      password: "{{ default_password }}"
+      noauth_mode: "{{ noauth_mode }}"
+  loop_control:
+    label: "{{ item.name }}"
   when:
-    - not enable_keystone | bool
-
-- name: "Generate user htpasswd for ironic"
-  htpasswd:
-    path: /etc/ironic/htpasswd
-    crypt_scheme: bcrypt
-    name: "{{ default_username }}"
-    password: "{{ default_password }}"
-    owner: ironic
-    group: ironic
-    mode: 0600
-  when:
-    - not noauth_mode | bool
+    - not item.noauth_mode | bool
     - not enable_keystone | bool
 
 - name: "Generate TLS parameters"
