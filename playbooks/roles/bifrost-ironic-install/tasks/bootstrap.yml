@@ -297,13 +297,21 @@
     mode: 0755
   when: dnsmasq_additional_hostsdir is defined
 
-- name: "Setup inventory DHCP hosts directory"
+- name: "Setup inventory DHCP and ironic managed hosts directory"
   file:
     path: "{{ dnsmasq_dhcp_hostsdir }}"
     state: directory
     owner: "dnsmasq"
     group: "ironic"
-    mode: 0755
+    mode: 0775
+
+- name: "Setup ironic managed DHCP options directory"
+  file:
+    path: "{{ dnsmasq_dhcp_optsdir }}"
+    state: directory
+    owner: "dnsmasq"
+    group: "ironic"
+    mode: 0775
 
 - name: "Retrieve interface IP informations"
   set_fact:

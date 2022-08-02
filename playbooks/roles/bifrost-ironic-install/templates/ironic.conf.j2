@@ -3,7 +3,7 @@
 [DEFAULT]
 debug = {{ ironic_debug | bool }}
 # NOTE(TheJulia): Until Bifrost supports neutron or some other network
-# configuration besides a flat network where bifrost orchustrates the
+# configuration besides a flat network where bifrost orchestrates the
 # control instead of ironic, noop is the only available network driver.
 enabled_network_interfaces = noop
 default_deploy_interface = {{ default_deploy_interface }}
@@ -121,7 +121,14 @@ send_sensor_data_interval = {{ sensor_data_interval }}
 connection = mysql+pymysql://{{ ironic.database.username }}:{{ ironic.database.password }}@{{ ironic.database.host }}/{{ ironic.database.name }}?charset=utf8
 
 [dhcp]
-dhcp_provider = none
+dhcp_provider = {{ dhcp_provider }}
+
+{% if dhcp_provider == 'dnsmasq' %}
+[dnsmasq]
+dhcp_hostsdir = {{ dnsmasq_dhcp_hostsdir }}
+dhcp_optsdir = {{ dnsmasq_dhcp_optsdir }}
+leases_file = {{ dnsmasq_leases_file }}
+{% endif %}
 
 {% if enable_cors | bool == true %}
 [cors]
