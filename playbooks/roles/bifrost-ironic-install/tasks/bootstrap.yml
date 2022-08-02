@@ -77,6 +77,19 @@
     mysql_socket_path: "/var/run/mysql/mysql.sock"
   when: (ansible_os_family | lower) not in ['redhat', 'debian']
 
+# NOTE(mgoddard): This should be done after starting the database, but before
+# using it.
+- name: "MySQL - Upgrade"
+  command:
+    cmd: >-
+      mysql_upgrade
+      {% if mysql_socket_path %}--socket={{ mysql_socket_path }}{% endif %}
+      {% if mysql_username is defined %}--user={{ mysql_username }}{% endif %}
+      {% if mysql_password is defined %}--password={{ mysql_password }}{% endif %}
+  register: mysql_upgrade_result
+  changed_when: "'is already upgraded' not in mysql_upgrade_result.stdout"
+  when: ironic.database.host == 'localhost'
+
 - name: "MySQL - Creating DB"
   mysql_db:
     login_unix_socket: "{{ mysql_socket_path | default(omit) }}"
