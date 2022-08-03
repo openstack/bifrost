@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes an issue where the MariaDB database tables were not repaired
+    following an upgrade of MariaDB.
