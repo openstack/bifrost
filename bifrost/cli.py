@@ -50,9 +50,16 @@ def log(*message, only_if=True):
 
 def process_extra_vars(extra_vars):
     for item in extra_vars:
+
+        # argparse removes quotes, just add quotes for these vars
+        if 'extra_kernel_options=' in item:
+            key, value = item.split('=', 1)
+            item = key + '="' + value + '"'
+
         if item.startswith('@'):
             # Make sure relative paths still work
             item = '@' + os.path.abspath(item[1:])
+
         yield ('-e', item)
 
 
