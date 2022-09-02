@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    An issue has been fixed where enforcing SELinux resulted in files in
+    ``tftp_boot_folder`` not being readable by dnsmasq. This has been fixed by
+    ensuring files in ``ironic_tftp_master_path`` have the SELinux context
+    ``tftpdir_t``.
