@@ -5,13 +5,15 @@ ipxe_full_binary: ipxe.pxe
 ironic_rootwrap_dir: /usr/local/bin/
 mysql_service_name: mysql
 tftp_service_name: tftpd-hpa
-efi_distro: debian
+efi_distro: "{{ ansible_facts['distribution'] | lower }}"
 grub_efi_binary: /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed
 shim_efi_binary: /usr/lib/shim/shimx64.efi.signed
 required_packages:
   - mariadb-server
   - python3-dev
   - python3-mysqldb
+  - python3-pymysql
+  - python3-setuptools
   - libffi-dev
   - libxslt1-dev
   - libssl-dev
@@ -19,6 +21,8 @@ required_packages:
   - ipxe
   - parted
   - ipmitool
+  - iptables
+  - bsdmainutils
   - psmisc
   - wget
   - genisoimage
