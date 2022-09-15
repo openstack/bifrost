@@ -1,0 +1,54 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Fail if unsupported OS family"
+  fail:
+    msg: Only Debian and RedHat families are supported for bifrost-download-packages
+  when: ansible_os_family not in ['Debian', 'RedHat']
+
+- name: "Get a string out of package list"
+  set_fact:
+    download_packages_string: "{{ download_packages | join(' ') }}"
+
+- block:
+  - name: "Download {{ download_packages_string }}"
+    command: apt-get download {{ download_packages_string }}  # noqa: command-instead-of-module
+    args:
+      chdir: "{{ download_dest }}"
+
+  - name: "Unpack {{ download_packages_string }}"
+    shell: >
+      dpkg-deb -R {{ download_dest }}/{{ item }}_*.deb {{ download_dest }}/{{ item }}
+    loop: "{{ download_packages }}"
+  when: ansible_os_family == 'Debian'
+
+- block:
+  - name: "Download {{ download_packages_string }}"
+    command: >
+      dnf download --downloaddir {{ download_dest }} {{ download_packages_string }}
+
+  - name: "Create a subdirectory for the package {{ item }}"
+    file:
+      path: "{{ download_dest }}/{{ item }}"
+      state: directory
+    loop: "{{ download_packages }}"
+
+  - name: "Unpack {{ download_packages_string }}"
+    shell: |
+      set -eo pipefail
+      rpm2cpio {{ download_dest }}/{{ item }}-*.rpm | cpio -idm
+    args:
+      chdir: "{{ download_dest }}/{{ item }}"
+      executable: /bin/bash
+    loop: "{{ download_packages }}"
+  when: ansible_os_family == 'RedHat'

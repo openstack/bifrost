@@ -11,6 +11,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Set grub2 and shim paths for Debian and Red Hat systems"
+  set_fact:
+    grub_efi_source: /usr/lib/ironic/grub-efi
+    shim_efi_source: /usr/lib/ironic/shim-efi
+  when: ansible_os_family != 'Suse'
+
+- name: "Set grub2 and shim paths for Suse"
+  set_fact:
+    grub_efi_source: "{{ grub_efi_binary }}"
+    shim_efi_source: "{{ shim_efi_binary }}"
+  when: ansible_os_family == 'Suse'
+
 - name: "Create a temporary directory for mounting ESP"
   tempfile:
     state: directory
@@ -33,13 +45,13 @@
 
     - name: "Copy the shim image to ESP"
       copy:
-        src: "{{ shim_efi_binary }}"
+        src: "{{ shim_efi_source }}"
         remote_src: true
         dest: "{{ esp_temp_dir.path }}/EFI/BOOT/BOOTX64.efi"
 
     - name: "Copy the grub2 image to ESP"
       copy:
-        src: "{{ grub_efi_binary }}"
+        src: "{{ grub_efi_source }}"
         remote_src: true
         dest: "{{ esp_temp_dir.path }}/EFI/BOOT/GRUBX64.efi"
 
