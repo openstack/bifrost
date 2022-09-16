@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    The variable ``include_dhcp_server`` has been removed to ``enable_dhcp``
+    for consistency with other variables.

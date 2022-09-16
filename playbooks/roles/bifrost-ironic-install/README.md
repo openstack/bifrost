@@ -67,7 +67,7 @@ The IP address and network interface information which will be used by bare
 metal machines to connect to the conductor and the internal HTTP server,
 and for cross-service interactions.
 
-include_dhcp_server: false
+enable_dhcp: false
 
 If you chose to utilize the dhcp server, You may wish to set default ranges:
 

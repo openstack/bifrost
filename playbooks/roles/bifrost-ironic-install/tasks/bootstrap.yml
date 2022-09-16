@@ -309,14 +309,14 @@
   set_fact:
     itf_infos: "{{ internal_interface }}"
     dhcp_netaddr: "{{ dhcp_pool_start }}/{{ dhcp_static_mask }}"
-  when: include_dhcp_server | bool
+  when: enable_dhcp | bool
 - name: "Compute interface and DHCP network informations"
   set_fact:
     itf_netaddr1: "{{ itf_infos['address'] }}/{{ itf_infos['netmask'] }}"
     itf_netaddr2: "{{ itf_infos['network'] }}/{{ itf_infos['netmask'] }}"
     itf_broadcast: "{{ itf_infos['broadcast'] }}/{{ itf_infos['netmask'] }}"
     dhcp_netaddr: "{{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_static_mask }}"
-  when: include_dhcp_server | bool
+  when: enable_dhcp | bool
 - name: "Validate interface network addresses"
   fail:
     msg: >
@@ -324,7 +324,7 @@
       {{ itf_netaddr1 | ipaddr('network') }}/{{ itf_netaddr1 | ipaddr('prefix') }}
       vs {{ itf_netaddr2 }}/{{ itf_netaddr2 | ipaddr('prefix') }}
   when:
-    - include_dhcp_server | bool
+    - enable_dhcp | bool
     - itf_netaddr1 | ipaddr('network') != itf_netaddr2 | ipaddr('network')
 - name: "Validate interface broadcast addresses"
   fail:
@@ -333,7 +333,7 @@
       {{ itf_netaddr1 | ipaddr('broadcast') }}/{{ itf_netaddr1 | ipaddr('prefix') }}
       vs {{ itf_broadcast | ipaddr('broadcast') }}/{{ itf_broadcast | ipaddr('prefix') }}
   when:
-    - include_dhcp_server | bool
+    - enable_dhcp | bool
     - itf_netaddr1 | ipaddr('broadcast') != itf_broadcast | ipaddr('broadcast')
 - name: "Validate DHCP and interface addresses"
   debug:
@@ -343,7 +343,7 @@
       {{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_netaddr | ipaddr('prefix') }}
       overriding DHCP with interface settings"
   when:
-    - include_dhcp_server | bool
+    - enable_dhcp | bool
     - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
 - name: "Computing new DHCP informations"
   set_fact:
@@ -351,7 +351,7 @@
     dhcp_end_ip: "{{ dhcp_pool_end.split('.')[-1] }}"
     dhcp_netaddr: "{{ itf_netaddr1 | ipaddr('network') }}"
   when:
-    - include_dhcp_server | bool
+    - enable_dhcp | bool
     - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
 # Note(olivierbourdon38): we could do much more complex network
 # computation to derive exact (or way closer to exact) range for
@@ -361,21 +361,21 @@
      dhcp_pool_start: "{{ '.'.join(dhcp_netaddr.split('.')[0:-1]) }}.{{ dhcp_start_ip }}"
      dhcp_pool_end: "{{ '.'.join(dhcp_netaddr.split('.')[0:-1]) }}.{{ dhcp_end_ip }}"
   when:
-    - include_dhcp_server | bool
+    - enable_dhcp | bool
     - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
 - name: "Deploy dnsmasq configuration file"
   template: src=dnsmasq.conf.j2 dest=/etc/dnsmasq.conf
-  when: include_dhcp_server | bool
+  when: enable_dhcp | bool
 # NOTE(Shrews) When testing, we want to use our custom dnsmasq.conf file,
 # not the one supplied by libvirt.
 - name: "Look for libvirt dnsmasq config"
   stat: path=/etc/dnsmasq.d/libvirt-bin
   register: test_libvirt_dnsmasq
-  when: include_dhcp_server | bool
+  when: enable_dhcp | bool
 - name: "Disable libvirt dnsmasq config"
   command: mv /etc/dnsmasq.d/libvirt-bin /etc/dnsmasq.d/libvirt-bin~
   when:
-    - include_dhcp_server | bool
+    - enable_dhcp | bool
     - test_libvirt_dnsmasq.stat.exists
     - testing | bool
 - name: "Download Ironic Python Agent kernel & image"

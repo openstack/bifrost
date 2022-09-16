@@ -187,7 +187,7 @@ def cmd_install(args):
             developer_mode=args.develop,
             enable_prometheus_exporter=args.enable_prometheus_exporter,
             default_boot_mode=args.boot_mode or 'uefi',
-            include_dhcp_server=not args.disable_dhcp,
+            enable_dhcp=not args.disable_dhcp,
             extra_vars=args.extra_vars,
             params_output_file=args.output,
             **kwargs)

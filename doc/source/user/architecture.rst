@@ -42,7 +42,7 @@ dnsmasq_
     when booting nodes over the network. It can also be used to provide DHCP
     to deployed nodes.
 
-    Dnsmasq can be disabled by setting ``include_dhcp_server=false``
+    Dnsmasq can be disabled by setting ``enable_dhcp=false``
     or passing ``--disable-dhcp`` to ``bifrost-cli``.
 
 The following components can be enabled if needed:
