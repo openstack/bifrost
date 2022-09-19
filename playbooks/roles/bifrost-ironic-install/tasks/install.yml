@@ -31,6 +31,8 @@
 
 - name: "Enable EPEL repository for CentOS Stream 9"
   command: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
+  args:
+    creates: /etc/yum.repos.d/epel.repo
   when:
   - enable_epel | bool
   - dib_os_element == "debian"
