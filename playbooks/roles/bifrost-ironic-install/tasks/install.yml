@@ -158,3 +158,44 @@
 - name: "Install Ironic Prometheus Exporter"
   include_tasks: prometheus_exporter_install.yml
   when: enable_prometheus_exporter | bool
+
+- name: "Create a temporary directory for unpacking grub2 and shim"
+  tempfile:
+    state: directory
+  register: efi_unpack_dir
+
+- block:
+  - name: "Create a binary cache directory"
+    file:
+      path: /usr/lib/ironic
+      state: directory
+      owner: root
+      group: root
+      mode: 0755
+
+  - name: "Download grub2 and shim binaries"
+    import_role:
+      name: bifrost-download-packages
+    vars:
+      download_packages:
+        - "{{ grub_efi_package }}"
+        - "{{ shim_efi_package }}"
+      download_dest: "{{ efi_unpack_dir.path }}"
+
+  - name: "Copy grub2 and shim into cache"
+    copy:
+      src: "{{ efi_unpack_dir.path }}/{{ item.src }}"
+      remote_src: true
+      dest: "/usr/lib/ironic/{{ item.dest }}"
+    loop:
+      - src: "{{ grub_efi_package }}/{{ grub_efi_binary }}"
+        dest: grub-efi
+      - src: "{{ shim_efi_package }}/{{ shim_efi_binary }}"
+        dest: shim-efi
+
+  when: ansible_os_family != 'Suse'
+  always:
+    - name: "Delete the temporary directory"
+      file:
+        path: "{{ efi_unpack_dir.path }}"
+        state: absent
