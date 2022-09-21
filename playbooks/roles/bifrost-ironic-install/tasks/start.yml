@@ -67,11 +67,11 @@
   service: name={{ item }} state=restarted enabled=yes
   loop:
     - dnsmasq
-  when: include_dhcp_server | bool
+  when: enable_dhcp | bool
 
 - name: "Send dnsmasq a force-reload signal"
   service: name=dnsmasq state=restarted
-  when: include_dhcp_server | bool
+  when: enable_dhcp | bool
 
 - name: "Start nginx"
   import_role:
