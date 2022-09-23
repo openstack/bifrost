@@ -189,7 +189,7 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/yoga
+      upgrade_from: stable/zed
       skip_upgrade:
         - openstack/diskimage-builder
 
