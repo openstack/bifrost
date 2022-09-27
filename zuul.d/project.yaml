@@ -33,8 +33,20 @@
             voting: false
         - bifrost-collections-src:
             voting: false
+            # FIXME(dtantsur): downgrade ansible-collections-openstack
+            # and openstacksdk because the former has not been ported
+            # yet to openstacksdk >=0.99.0
+            required-projects: &bifrost_collections_required_projects
+              - name: openstack/ansible-collections-openstack
+                override-checkout: stable/1.0.0
+              - name: openstack/openstacksdk
+                override-checkout: stable/yoga
         - bifrost-keystone-collections-src:
             voting: false
+            # FIXME(dtantsur): downgrade ansible-collections-openstack
+            # and openstacksdk because the former has not been ported
+            # yet to openstacksdk >=0.99.0
+            required-projects: *bifrost_collections_required_projects
         - kolla-ansible-ubuntu-source-bifrost:
             voting: false
             # NOTE(yoctozepto): to override from job definition
