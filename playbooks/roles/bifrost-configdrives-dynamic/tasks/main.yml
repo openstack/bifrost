@@ -27,9 +27,18 @@
     node: "{{ uuid | default(name) }}"
   register: node_info
 
+- name: "Collecting node ports"
+  openstack.cloud.baremetal_port_info:
+    cloud: "{{ cloud_name | default(omit) }}"
+    auth_type: "{{ auth_type | default(omit) }}"
+    auth: "{{ auth | default(omit) }}"
+    ca_cert: "{{ tls_certificate_path | default(omit) }}"
+    node: "{{ node_info.baremetal_nodes[0].id | default(node_info.baremetal_nodes[0].uuid) }}"
+  register: port_info
+
 - name: "Set UUID from Ironic"
   set_fact:
-    uuid: "{{ node_info.baremetal_nodes[0].uuid }}"
+    uuid: "{{ node_info.baremetal_nodes[0].id | default(node_info.baremetal_nodes[0].uuid) }}"
   when: uuid is undefined
 
 - name: "Identify ssh_public_key from ssh_public_key_path"
@@ -62,7 +71,7 @@
     ipv4_subnet_mask: "{{ ipv4_subnet_mask | default('') }}"
     vlan_id: "{{ vlan_id | default(omit) }}"
     network_mtu: "{{ network_mtu | default(omit) }}"
-    nics: "{{ node_info.baremetal_nodes[0].ports }}"
+    nics: "{{ port_info.baremetal_ports }}"
     node_network_data: "{{ node_network_data | default(omit) }}"
   when: addressing_mode is undefined or "dhcp" not in addressing_mode
 
