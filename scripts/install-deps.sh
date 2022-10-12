@@ -32,26 +32,6 @@ echo Detecting package manager
 
 source /etc/os-release || source /usr/lib/os-release
 case ${ID,,} in
-    *suse*)
-    OS_FAMILY="Suse"
-    INSTALLER_CMD="sudo -H -E zypper install -y --no-recommends"
-    CHECK_CMD="zypper search --match-exact --installed"
-    PKG_MAP=(
-        [python3]=python3
-        [python3-devel]=python3-devel
-        [python3-pip]=python3-pip
-    )
-    EXTRA_PKG_DEPS=()
-    # netstat moved to net-tools-deprecated in Leap 15
-    [[ ${VERSION%%.*} -lt 42 ]] && EXTRA_PKG_DEPS+=( net-tools-deprecated )
-    sudo zypper -n ref
-    # NOTE (cinerama): we can't install python without removing this package
-    # if it exists
-    if $(${CHECK_CMD} patterns-openSUSE-minimal_base-conflicts &> /dev/null); then
-        sudo -H zypper remove -y patterns-openSUSE-minimal_base-conflicts
-    fi
-    ;;
-
     ubuntu|debian)
     OS_FAMILY="Debian"
     export DEBIAN_FRONTEND=noninteractive
@@ -150,11 +130,6 @@ if [[ $PIP_REQUIRED == "False" ]]; then
 fi
 
 export PIP_OPTS="--upgrade-strategy only-if-needed"
-
-if [[ $OS_FAMILY == "Suse" ]]; then
-    # https://storyboard.openstack.org/#!/story/2008591
-    ${PIP} install -U setuptools
-fi
 
 echo "Installing bindep"
 ${PIP} install bindep

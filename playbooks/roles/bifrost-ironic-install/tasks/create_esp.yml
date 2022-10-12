@@ -15,13 +15,6 @@
   set_fact:
     grub_efi_source: /usr/lib/ironic/grub-efi
     shim_efi_source: /usr/lib/ironic/shim-efi
-  when: ansible_os_family != 'Suse'
-
-- name: "Set grub2 and shim paths for Suse"
-  set_fact:
-    grub_efi_source: "{{ grub_efi_binary }}"
-    shim_efi_source: "{{ shim_efi_binary }}"
-  when: ansible_os_family == 'Suse'
 
 - name: "Create a temporary directory for mounting ESP"
   tempfile:
