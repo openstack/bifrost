@@ -33,7 +33,6 @@ required_packages:
   - python3-libselinux
   - python3-policycoreutils
   - gcc
-  - python3-pip
   - socat
   - firewalld
   - python3-firewall
