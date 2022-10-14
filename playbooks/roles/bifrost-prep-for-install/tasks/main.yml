@@ -13,6 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: Install dependencies
+  package:
+    name: git
+
 - name: ensure installation root folder exists
   become: yes
   file:
