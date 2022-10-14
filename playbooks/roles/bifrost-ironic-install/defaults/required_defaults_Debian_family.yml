@@ -27,7 +27,6 @@ required_packages:
   - psmisc
   - wget
   - genisoimage
-  - kpartx
   - qemu-utils
   - uuid-runtime
   - curl
