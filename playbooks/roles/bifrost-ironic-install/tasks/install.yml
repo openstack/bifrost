@@ -39,10 +39,19 @@
   - ansible_distribution == "CentOS"
   - ansible_distribution_version|int >= 9
 
-- name: "Install packages"
+- name: "Install system packages"
   package:
     name: "{{ required_packages }}"
     state: present
+
+- name: "Install python packages (in venv)"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: "{{ item }}"
+  with_items:
+    - passlib
+    - pymysql
 
 - name: "Install Nginx"
   import_role:
@@ -119,12 +128,6 @@
   vars:
     package: metalsmith
     source_install: false
-
-- name: "Install pymysql"
-  include_role:
-    name: bifrost-pip-install
-  vars:
-    package: pymysql
 
 - name: "Install extra packages for ironic"
   include_role:

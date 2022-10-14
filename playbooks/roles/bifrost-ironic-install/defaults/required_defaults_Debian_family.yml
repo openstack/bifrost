@@ -31,7 +31,6 @@ required_packages:
   - socat
   - gcc
   - dnsmasq
-  - apache2-utils
   - isolinux
   - dosfstools
 # NOTE(TheJulia): The above entry for dnsmasq must be the last entry in the
