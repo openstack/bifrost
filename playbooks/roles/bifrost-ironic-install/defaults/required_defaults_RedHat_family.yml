@@ -16,7 +16,6 @@ required_packages:
   - dnsmasq
   - python3-devel
   - python3-PyMySQL
-  - python3-iniparse
   - libffi-devel
   - libxslt-devel
   - openssl-devel
