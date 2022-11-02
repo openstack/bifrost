@@ -263,5 +263,7 @@
 
     - name: Enable keystone policy module
       command: semodule -e keystone_policy
-  when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
-         ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_selinux.status == 'enabled'
+    - ansible_selinux.mode == "enforcing"

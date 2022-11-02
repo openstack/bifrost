@@ -16,6 +16,6 @@ dib_host_required_packages:
   - dosfstools
   - e2fsprogs
   - gdisk
-  - "squashfs{% if ansible_os_family != 'Suse' %}-tools{% endif %}"
+  - squashfs-tools
   - xfsprogs
   - "{% if 'debian' in dib_os_element or 'ubuntu' in dib_os_element %}debootstrap{% endif %}"
