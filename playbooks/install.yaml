@@ -3,6 +3,33 @@
   name: "Install Ironic on the target host."
   become: yes
   gather_facts: yes
+  vars:
+    bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
+    ansible_python_interpreter: "/usr/bin/env python3"
+  pre_tasks:
+    - name: install pip (and venv) to system
+      package:
+        name: "{{ packages | select | list }}"
+      vars:
+        packages:
+          - python3-pip
+          - "{{ (ansible_facts['os_family'] == 'Debian') | ternary('python3-venv', '') }}"
+
+    - name: create venv
+      command: python3 -m venv {{ bifrost_venv_dir }}
+      args:
+        creates: "{{ bifrost_venv_dir }}/bin/python3"
+
+    # NOTE(ebbex): (incase it's missing, which it shouldn't normally be)
+    - name: install setuptools in venv
+      command: "{{ bifrost_venv_dir }}/bin/pip3 install setuptools"
+      args:
+        creates: "{{ bifrost_venv_dir }}/lib/python*/site-packages/setuptools"
+
+    - name: override ansible_python_interpreter to venv
+      set_fact:
+        ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
+
   roles:
     - role: bifrost-prep-for-install
       when: not (skip_install | default(false) | bool)
