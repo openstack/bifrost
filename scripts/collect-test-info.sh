@@ -46,8 +46,8 @@ else
     done
 fi
 dmesg &> ${LOG_LOCATION}/dmesg.log
-# NOTE(TheJulia): Netstat exits with error code 5 when --version is used.
-sudo netstat -apn &> ${LOG_LOCATION}/netstat.log
+# NOTE(ebbex): Switching to ss, but leaving a copy log as netstat until folks get used to ss
+sudo ss -apn | tee ${LOG_LOCATION}/netstat.log &> ${LOG_LOCATION}/ss.log
 if $(sudo iptables --version &>/dev/null); then
     iptables_dir="${LOG_LOCATION}/iptables"
     mkdir ${iptables_dir}
