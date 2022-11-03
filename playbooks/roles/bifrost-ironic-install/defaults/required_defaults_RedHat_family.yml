@@ -27,7 +27,6 @@ required_packages:
   - psmisc
   - wget
   - xorriso
-  - kpartx
   - kernel-tools
   - qemu-img
   - python3-libselinux
