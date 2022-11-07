@@ -33,6 +33,5 @@ required_packages:
   - socat
   - firewalld
   - python3-firewall
-  - httpd-tools
   - syslinux-nonlinux
   - dosfstools
