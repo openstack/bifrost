@@ -15,7 +15,6 @@ required_packages:
   - mariadb-server
   - dnsmasq
   - python3-devel
-  - python3-PyMySQL
   - libffi-devel
   - libxslt-devel
   - openssl-devel
