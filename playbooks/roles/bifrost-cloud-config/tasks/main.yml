@@ -16,14 +16,20 @@
   no_log: yes
   # NOTE(dtantsur): Allow missing clouds.yaml only in no-auth mode
   ignore_errors: "{{ noauth_mode | bool }}"
+  register: config
 
-- name: "Set openstack_cloud if possible"
+- name: "Set openstack_cloud if possible on Ansible OpenStack collection <2.0.0"
+  when: config.ansible_facts.openstack.clouds | default([]) | length > 0
   set_fact:
     # TODO(dtantsur): support looking up by cloud_name
-    openstack_cloud: "{{ openstack.clouds[0] }}"
-  when:
-    - openstack is defined
-    - openstack.clouds | length > 0
+    openstack_cloud: "{{ config.ansible_facts.openstack.clouds[0] }}"
+  no_log: yes
+
+- name: "Set openstack_cloud if possible on Ansible OpenStack collection >=2.0.0"
+  when: config.clouds | default([]) | length > 0
+  set_fact:
+    # TODO(dtantsur): support looking up by cloud_name
+    openstack_cloud: "{{ config.clouds[0].config }}"
   no_log: yes
 
 # NOTE(TheJulia): The first record returned by openstack.cloud.config
