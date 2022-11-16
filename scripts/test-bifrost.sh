@@ -94,6 +94,7 @@ if [ ${USE_DHCP} = "true" ]; then
     INVENTORY_DHCP=true
     INVENTORY_DHCP_STATIC_IP=true
     WRITE_INTERFACES_FILE=false
+    CLOUD_CONFIG+=" -e dhcp_provider=none"
 elif [ ${BUILD_IMAGE} = "true" ]; then
     USE_CIRROS=false
     TESTING_USER=root

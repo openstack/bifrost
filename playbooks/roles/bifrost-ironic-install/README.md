@@ -67,6 +67,29 @@ The IP address and network interface information which will be used by bare
 metal machines to connect to the conductor and the internal HTTP server,
 and for cross-service interactions.
 
+dhcp_provider: "dnsmasq"
+
+Which ironc DHCP provider to enable. When set to "none" a static dnsmasq
+configuration is used, and host specific DHCP configuration can be set by
+writing files to dhcp-hostsdir ``dnsmasq_dhcp_hostsdir`` and dhcp-optsdir
+``dnsmasq_dhcp_optsdir``.
+
+When set to "dnsmasq" Ironic will manage dhcp-option and dhcp-boot entries on a
+per-node basis by writing files to ``dnsmasq_dhcp_hostsdir`` and
+``dnsmasq_dhcp_optsdir``.
+
+dnsmasq_dhcp_hostsdir: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d"
+
+Directory with static and ironic managed DHCP hosts configuration.
+
+dnsmasq_dhcp_optsdir: "/etc/dnsmasq.d/bifrost.dhcp-opts.d"
+
+Directory with ironic managed DHCP options configuration.
+
+dnsmasq_leases_file: "/var/lib/dnsmasq/dnsmasq.leases"
+
+File which represents dnsmasq leases, used when dhcp_provider == "dnsmasq"
+
 enable_dhcp: false
 
 If you chose to utilize the dhcp server, You may wish to set default ranges:

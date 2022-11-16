@@ -87,13 +87,16 @@ dhcp-option=6,{{dnsmasq_dns_servers}}
 dhcp-option=42,{{dnsmasq_ntp_servers}}
 {% endif %}
 
+dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
+
+dhcp-optsdir={{ dnsmasq_dhcp_optsdir }}
+{% if dhcp_provider == 'none' %}
 # Boot for Etherboot gPXE. The idea is to send two different
 # filenames, the first loads gPXE, and the second tells gPXE what to
 # load. The dhcp-match sets the gpxe tag for requests from gPXE.
 dhcp-userclass=set:gpxe,"gPXE"
 dhcp-boot=tag:gpxe,/ipxe.pxe
 
-dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 {% if enable_uefi_ipxe | bool == true %}
 dhcp-match=set:efi,option:client-arch,7
 dhcp-match=set:efi,option:client-arch,9
@@ -110,6 +113,7 @@ dhcp-boot=tag:ipxe,http://{{ internal_ip }}:{{ file_url_port }}/boot.ipxe
 
 # Catch-all boot options used when no other boot options are matched.
 dhcp-boot=/undionly.kpxe
+{% endif %}
 
 {% if testing | bool == true %}
 log-queries
