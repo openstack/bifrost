@@ -90,7 +90,7 @@ dhcp-option=42,{{dnsmasq_ntp_servers}}
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
 
 dhcp-optsdir={{ dnsmasq_dhcp_optsdir }}
-{% if dhcp_provider == 'none' %}
+{% if dhcp_provider == 'none' or enable_inspector_discovery | bool %}
 # Boot for Etherboot gPXE. The idea is to send two different
 # filenames, the first loads gPXE, and the second tells gPXE what to
 # load. The dhcp-match sets the gpxe tag for requests from gPXE.
