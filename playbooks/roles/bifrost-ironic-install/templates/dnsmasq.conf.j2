@@ -88,6 +88,9 @@ dhcp-option=42,{{dnsmasq_ntp_servers}}
 {% endif %}
 
 dhcp-match=set:ipxe,175 # iPXE sends a 175 option.
+dhcp-match=set:efi,option:client-arch,7
+dhcp-match=set:efi,option:client-arch,9
+dhcp-match=set:efi,option:client-arch,11
 
 dhcp-optsdir={{ dnsmasq_dhcp_optsdir }}
 {% if dhcp_provider == 'none' %}
@@ -97,10 +100,10 @@ dhcp-optsdir={{ dnsmasq_dhcp_optsdir }}
 dhcp-userclass=set:gpxe,"gPXE"
 dhcp-boot=tag:gpxe,/ipxe.pxe
 
-{% if 'ipxe' in enabled_boot_interfaces.split(',') %}
-dhcp-match=set:efi,option:client-arch,7
-dhcp-match=set:efi,option:client-arch,9
-dhcp-match=set:efi,option:client-arch,11
+{% if default_boot_interface is defined and default_boot_interface == 'pxe' %}
+# Client is PXE booting over EFI, boot with the grub shim
+dhcp-boot=tag:efi,/bootx64.efi
+{% elif 'ipxe' in enabled_boot_interfaces.split(',') %}
 # Client is PXE booting over EFI without iPXE ROM; send EFI version of iPXE chainloader
 dhcp-boot=tag:efi,tag:!ipxe,/{{ ipxe_efi_binary }}
 {% endif %}

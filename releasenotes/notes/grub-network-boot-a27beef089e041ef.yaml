@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    It is now possible to do a PXE network boot with grub as an alternative to
+    iPXE. Grub is loaded via the signed shim, so it may allow end-to-end
+    automated deployments with secure-boot enabled.
+
+    To use grub network boot, deploy bifrost with variable
+    ``default_boot_interface`` set to ``pxe`` and use the ``pxe`` boot interface
+    when deploying nodes.
