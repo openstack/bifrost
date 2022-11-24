@@ -94,7 +94,7 @@
 - name: "Create ironic admin endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ baremetal_catalog_service.id }}"
+    service: "{{ baremetal_catalog_service.service.id }}"
     endpoint_interface: admin
     url: "{{ ironic.keystone.admin_url | default(ironic_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -110,7 +110,7 @@
 - name: "Create ironic public endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ baremetal_catalog_service.id }}"
+    service: "{{ baremetal_catalog_service.service.id }}"
     endpoint_interface: public
     url: "{{ ironic.keystone.public_url | default(ironic_public_url) | default(ironic_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -126,7 +126,7 @@
 - name: "Create ironic internal endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ baremetal_catalog_service.id }}"
+    service: "{{ baremetal_catalog_service.service.id }}"
     endpoint_interface: internal
     url: "{{ ironic.keystone.internal_url | default(ironic_private_url) | default(ironic_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"

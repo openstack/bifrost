@@ -82,7 +82,7 @@
 - name: "Update identity internal endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ identity_catalog_service.id }}"
+    service: "{{ identity_catalog_service.service.id }}"
     endpoint_interface: internal
     url: "{{ keystone.bootstrap.internal_url | default(keystone_private_url) | default(keystone_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -90,12 +90,12 @@
     ca_cert: "{{ keystone_ca_cert | default(omit) }}"
   ignore_errors: true
   no_log: true
-  when: identity_catalog_service.id is defined
+  when: identity_catalog_service.service.id is defined
 
 - name: "Update identity admin endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ identity_catalog_service.id }}"
+    service: "{{ identity_catalog_service.service.id }}"
     endpoint_interface: admin
     url: "{{ keystone.bootstrap.admin_url | default(keystone_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -103,14 +103,14 @@
     ca_cert: "{{ keystone_ca_cert | default(omit) }}"
   ignore_errors: true
   no_log: true
-  when: identity_catalog_service.id is defined
+  when: identity_catalog_service.service.id is defined
 
 # NOTE(dtantsur): the public endpoint MUST go last, otherwise the other
 # endpoints will fail to update.
 - name: "Update identity public endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ identity_catalog_service.id }}"
+    service: "{{ identity_catalog_service.service.id }}"
     endpoint_interface: public
     url: "{{ keystone.bootstrap.public_url | default(keystone_public_url) | default(keystone_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -118,4 +118,4 @@
     ca_cert: "{{ keystone_ca_cert | default(omit) }}"
   ignore_errors: true
   no_log: true
-  when: identity_catalog_service.id is defined
+  when: identity_catalog_service.service.id is defined

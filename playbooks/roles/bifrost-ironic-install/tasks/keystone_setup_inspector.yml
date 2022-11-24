@@ -81,7 +81,7 @@
 - name: "Create ironic-inspector admin endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ introspection_catalog_service.id }}"
+    service: "{{ introspection_catalog_service.service.id }}"
     endpoint_interface: admin
     url: "{{ ironic_inspector.keystone.admin_url | default(ironic_inspector_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -97,7 +97,7 @@
 - name: "Create ironic-inspector public endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ introspection_catalog_service.id }}"
+    service: "{{ introspection_catalog_service.service.id }}"
     endpoint_interface: public
     url: "{{ ironic_inspector.keystone.public_url | default(ironic_inspector_public_url) | default(ironic_inspector_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
@@ -113,7 +113,7 @@
 - name: "Create ironic-inspector internal endpoint"
   openstack.cloud.endpoint:
     state: present
-    service: "{{ introspection_catalog_service.id }}"
+    service: "{{ introspection_catalog_service.service.id }}"
     endpoint_interface: internal
     url: "{{ ironic_inspector.keystone.internal_url | default(ironic_inspector_private_url) | default(ironic_inspector_api_url) }}"
     region: "{{ keystone.bootstrap.region_name | default('RegionOne') }}"
