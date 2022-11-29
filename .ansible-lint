@@ -1,11 +1,24 @@
 skip_list:
   # FIXME: gradually fix and remove these exclusions:
-  - '208'  # File permissions not mentioned
-  - '301'  # Commands should not change things if nothing needs doing
-  - '502'  # All tasks should be named
-  - '701'  # meta/main.yml should contain relevant info
-  - '702'  # Tags must contain lowercase letters and digits only
+  - deprecated-module # Deprecated module
+  - fqcn[action-core] # Use FQCN for builtin actions
+  - jinja[spacing] # Jinja2 spacing could be improved
+  - meta-no-info # meta/main.yml should contain relevant info
+  - meta-no-tags # Tags must contain lowercase letters and digits only
+  - name[casing] #All names should start with an uppercase letter
+  - name[missing] # All tasks should be named
+  - name[play] # All plays should be named
+  - name[template] # Jinja templates should only be at the end of 'name'
+  - no-changed-when # Commands should not change things if nothing needs doing
+  - yaml[colons] # Too many spaces after colon
+  - yaml[comments] # Missing starting space in comment
+  - yaml[empty-lines] # Too many blank lines
+  - yaml[indentation] # Wrong indentation
+  - yaml[line-length] # Line too long
+  - yaml[truthy] # Truthy value should be one of [false, true]
+
   # NOTE(dtantsur): the following rules should likely stay excluded:
-  - '106'  # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern'
-  - '403'  # Package installs should not use latest
-  - '503'  # Tasks that run when changed should likely be handlers
+  - experimental
+  - role-name  # Role name {} does not match ``^[a-z][a-z0-9_]+$`` pattern'
+  - package-latest # Package installs should not use latest
+  - no-handler  # Tasks that run when changed should likely be handlers
