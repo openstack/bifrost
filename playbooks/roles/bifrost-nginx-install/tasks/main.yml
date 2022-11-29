@@ -12,13 +12,13 @@
 # limitations under the License.
 ---
 - name: "Install Nginx"
-  include: install.yml
+  include_tasks: install.yml
   when: not skip_package_install | bool
 
 - name: "Bootstrap Nginx"
-  include: bootstrap.yml
+  include_tasks: bootstrap.yml
   when: not skip_bootstrap | bool
 
 - name: "Start Nginx"
-  include: start.yml
+  include_tasks: start.yml
   when: not skip_start | bool

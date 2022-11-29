@@ -100,7 +100,7 @@
     regexp: "^openstacksdk="
     line: "openstacksdk===0.61.0"
 
-- include: prepare_libvirt.yml
+- import_tasks: prepare_libvirt.yml
 
 - name: truncate explicit list of vm names
   set_fact:
@@ -122,7 +122,7 @@
     testvm_json_data: {}
     testvm_nodes_json: []
 
-- include: create_vm.yml
+- include_tasks: create_vm.yml
   loop: "{{ test_vm_node_names }}"
 
 - name: write to baremetal json file
