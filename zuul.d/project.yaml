@@ -8,13 +8,9 @@
       jobs:
         - bifrost-tox-linters
         - bifrost-integration-tinyipa-ubuntu-focal
-        - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
-        - bifrost-integration-tinyipa-keystone-centos-8
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
-        - bifrost-integration-redfish-vmedia-uefi-centos-8
         - bifrost-upgrade-ubuntu-focal
-        - bifrost-upgrade-keystone-centos8
         # Non-voting jobs
         - bifrost-integration-tinyipa-ubuntu-bionic:
             voting: false
@@ -28,11 +24,7 @@
             voting: false
         - bifrost-integration-dhcp-ubuntu-focal:
             voting: false
-        - bifrost-integration-dhcp-centos-8:
-            voting: false
         - bifrost-integration-dibipa-debian-ubuntu-focal:
-            voting: false
-        - bifrost-integration-dibipa-debian-centos-8:
             voting: false
         - bifrost-cli-ubuntu-focal:
             voting: false
@@ -58,8 +50,5 @@
       jobs:
         - bifrost-tox-linters
         - bifrost-integration-tinyipa-ubuntu-focal
-        - bifrost-integration-tinyipa-centos-8
         - bifrost-integration-tinyipa-keystone-ubuntu-focal
-        - bifrost-integration-tinyipa-keystone-centos-8
         - bifrost-upgrade-ubuntu-focal
-        - bifrost-upgrade-keystone-centos8
