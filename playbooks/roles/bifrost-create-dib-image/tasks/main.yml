@@ -202,6 +202,6 @@
     - http_boot_folder is defined
     - http_boot_folder | length > 0
 - name: "Restore proper context on created data for http_boot"
-  command: restorecon -R {{ http_boot_folder }}
+  command: restorecon -iRv {{ http_boot_folder }}
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
-         ansible_selinux.status == 'enabled' and ansible_selinux.mode == "enforcing"
+         ansible_selinux.status == 'enabled'
