@@ -22,10 +22,10 @@
   register: esp_temp_dir
 
 - name: "Create an empty ESP image"
-  command: dd if=/dev/zero of={{ esp_image }} bs=4096 count=1024
+  command: dd if=/dev/zero of={{ esp_image }} bs=8192 count=1024
 
 - name: "Initialize ESP filesystem"
-  command: mkfs.fat -s 4 -r 512 -S 4096 {{ esp_image }}
+  command: mkfs.fat -s 4 -r 1024 -S 4096 {{ esp_image }}
 
 - name: "Mount ESP filesystem"
   command: mount {{ esp_image }} {{ esp_temp_dir.path }}  # noqa 303
