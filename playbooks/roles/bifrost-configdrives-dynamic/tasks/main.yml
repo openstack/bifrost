@@ -130,3 +130,9 @@
 - name: "Set the configdrive URL"
   set_fact:
     deploy_config_drive: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
+
+- name: "Apply the correct SELinux context to the configdrive iso"
+  become:  yes
+  command: restorecon -iRv {{ http_boot_folder }}
+  when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
+         ansible_selinux.status == 'enabled'
