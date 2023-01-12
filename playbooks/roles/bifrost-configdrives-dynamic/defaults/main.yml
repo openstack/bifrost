@@ -32,3 +32,12 @@ iso_gen_utility: "mkisofs"
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
+
+# Define your user-data's script here (cloud-config syntax)
+# For example:
+# user_data_content: |
+#   users:
+#     name: myuser
+#
+#   timezone: "Europe/Paris"
++user_data_content:

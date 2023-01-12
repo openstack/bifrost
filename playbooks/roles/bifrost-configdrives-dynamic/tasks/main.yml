@@ -83,6 +83,16 @@
   when:
     - addressing_mode is undefined or "dhcp" not in addressing_mode
 
+- name: "Generate user_data"
+  template:
+    src: raw_user_data.j2
+    dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/{{ item }}/user_data"
+  loop: "{{ metadata_versions }}"
+  when:
+    - user_data_content is defined
+    - user_data_content | length > 0
+
+
 - name: "Make metadata folder - /openstack/content"
   file:
     state: directory
