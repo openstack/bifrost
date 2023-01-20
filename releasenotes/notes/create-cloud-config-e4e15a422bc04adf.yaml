@@ -1,0 +1,17 @@
+---
+features:
+  - |
+    bifrost introduce now the ``user_data content`` variable
+    which allows to the user to provide its custom cloud-config file
+    For example:
+    .. code-block:: yaml
+
+        user_data_content: |
+          users:
+            name: myuser
+            sudo: ALL=(ALL) NOPASSWD:ALL
+            shell: /bin/bash
+            passwd: <HASH_OF_MY_PASSWORD>
+            lock_passwd: false
+
+          timezone: "Europe/Paris"
