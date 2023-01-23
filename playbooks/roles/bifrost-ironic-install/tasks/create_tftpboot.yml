@@ -78,7 +78,7 @@
         and xinetd_tftp_disable is changed
 
 - name: "Download ipxe files if asked"
-  include: get_ipxe.yml
+  include_tasks: get_ipxe.yml
   when: download_ipxe | bool
 
 - name: "Copy iPXE image into place"

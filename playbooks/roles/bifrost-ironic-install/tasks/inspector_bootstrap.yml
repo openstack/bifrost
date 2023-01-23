@@ -102,7 +102,7 @@
   when: enable_tls | bool
 
 - name: "Populate keystone for ironic-inspector "
-  include: keystone_setup_inspector.yml
+  include_tasks: keystone_setup_inspector.yml
   when: enable_keystone | bool
 
 - name: "Inspector - Place Configuration"

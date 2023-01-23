@@ -36,21 +36,21 @@
     - "../defaults/dummy-defaults.yml"
 
 - name: "Install Ironic deps"
-  include: install.yml
+  include_tasks: install.yml
   when: not skip_package_install | bool
 
 - name: "Bootstrap Ironic"
-  include: bootstrap.yml
+  include_tasks: bootstrap.yml
   when: not skip_bootstrap | bool
 
 - name: "Start Ironic services"
-  include: start.yml
+  include_tasks: start.yml
   when: not skip_start | bool
 
 - name: "Perform online data migrations"
-  include: migrations.yml
+  include_tasks: migrations.yml
   when: not skip_migrations | bool
 
 - name: "Validate deployment"
-  include: validate.yml
+  include_tasks: validate.yml
   when: not skip_validation | bool

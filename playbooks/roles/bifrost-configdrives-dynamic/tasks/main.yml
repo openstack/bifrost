@@ -42,7 +42,7 @@
   when: uuid is undefined
 
 - name: "Identify ssh_public_key from ssh_public_key_path"
-  include: ssh_public_key_path.yaml
+  include_tasks: ssh_public_key_path.yaml
   when: ssh_public_key is undefined
 
 - name: "Make temporary folder to build configdrive"

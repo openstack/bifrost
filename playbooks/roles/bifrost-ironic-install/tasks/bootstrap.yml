@@ -208,11 +208,11 @@
   when: vmedia_enable_tls | bool
 
 - name: "Populate keystone for Bifrost"
-  include: keystone_setup.yml
+  include_tasks: keystone_setup.yml
   when: enable_keystone | bool
 
 - name: "Read SSH key if needed"
-  import_tasks: ssh_public_key_path.yaml
+  include_tasks: ssh_public_key_path.yaml
   when: ipa_add_ssh_key | bool
 
 # NOTE(pas-ha) needed to e.g. pick up new interfaces after libvirt install
@@ -221,7 +221,7 @@
     gather_timeout: "{{ fact_gather_timeout }}"
 
 - name: "Generate ironic Configuration"
-  include: ironic_config.yml
+  import_tasks: ironic_config.yml
 
 - name: "Create the log directories (if requested)"
   file:
@@ -263,7 +263,7 @@
     mode: 0755
 
 - name: "Install ironic-inspector to permit use of inspection interface"
-  include: inspector_bootstrap.yml
+  include_tasks: inspector_bootstrap.yml
   when: enable_inspector | bool
 
 - name: "Get ironic install location"
@@ -387,7 +387,7 @@
     - test_libvirt_dnsmasq.stat.exists
     - testing | bool
 - name: "Download Ironic Python Agent kernel & image"
-  include: download_ipa_image.yml
+  include_tasks: download_ipa_image.yml
   when:
     - not create_ipa_image | bool
     - download_ipa | bool

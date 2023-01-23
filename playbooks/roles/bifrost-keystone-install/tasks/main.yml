@@ -34,26 +34,26 @@
     - "../defaults/dummy-defaults.yml"
 
 - name: "Install Keystone"
-  include: install.yml
+  include_tasks: install.yml
   when:
     - enable_keystone | bool
     - not skip_package_install | bool
 
 - name: "Bootstrap Keystone"
-  include: bootstrap.yml
+  include_tasks: bootstrap.yml
   when:
     - enable_keystone | bool
     - not skip_bootstrap | bool
 
 - name: "Upgrade existing installation"
-  include: upgrade.yml
+  include_tasks: upgrade.yml
   when:
     - enable_keystone | bool
     - not skip_bootstrap | bool
     - not skip_start | bool
 
 - name: "Start Keystone services"
-  include: start.yml
+  include_tasks: start.yml
   when:
     - enable_keystone | bool
     - not skip_start | bool
