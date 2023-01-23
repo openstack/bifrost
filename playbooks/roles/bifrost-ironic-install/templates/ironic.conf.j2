@@ -82,7 +82,7 @@ tftp_server = {{ internal_ip }}
 tftp_root = {{ tftp_boot_folder }}
 ipxe_fallback_script = pxelinux.cfg/default
 tftp_master_path = {{ ironic_tftp_master_path }}
-{% if enable_uefi_ipxe | bool %}
+{% if 'ipxe' in enabled_boot_interfaces.split(',') %}
 uefi_ipxe_bootfile_name = {{ ipxe_efi_binary }}
 {% endif %}
 enable_netboot_fallback = true

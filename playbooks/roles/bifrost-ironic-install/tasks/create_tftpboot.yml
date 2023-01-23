@@ -174,7 +174,7 @@
         mode: 0644
         remote_src: true
 
-  when: enable_uefi_ipxe | bool
+  when: "'ipxe' in enabled_boot_interfaces.split(',')"
 
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."

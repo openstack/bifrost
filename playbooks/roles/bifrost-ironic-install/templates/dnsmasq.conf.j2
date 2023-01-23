@@ -97,7 +97,7 @@ dhcp-optsdir={{ dnsmasq_dhcp_optsdir }}
 dhcp-userclass=set:gpxe,"gPXE"
 dhcp-boot=tag:gpxe,/ipxe.pxe
 
-{% if enable_uefi_ipxe | bool == true %}
+{% if 'ipxe' in enabled_boot_interfaces.split(',') %}
 dhcp-match=set:efi,option:client-arch,7
 dhcp-match=set:efi,option:client-arch,9
 dhcp-match=set:efi,option:client-arch,11
