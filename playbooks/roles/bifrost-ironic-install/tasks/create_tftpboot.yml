@@ -100,7 +100,7 @@
     mode: 0644
     remote_src: true
 
-- name: "Copy full iPXE image into /tftpboot"
+- name: "Copy full iPXE image into {{ tftp_boot_folder }}"
   copy:
     src: "{{ ipxe_dir }}/{{ ipxe_full_binary }}"
     dest: "{{ tftp_boot_folder }}"
@@ -108,6 +108,35 @@
     group: ironic
     mode: 0644
     remote_src: true
+
+- name: "Set grub2 and shim paths for Debian and Red Hat systems"
+  set_fact:
+    grub_efi_source: /usr/lib/ironic/grub-efi
+    shim_efi_source: /usr/lib/ironic/shim-efi
+
+- name: "Copy shim into serving folders"
+  copy:
+    src: "{{ shim_efi_source }}"
+    dest: "{{ item }}/bootx64.efi"
+    owner: ironic
+    group: ironic
+    mode: 0644
+    remote_src: true
+  loop:
+    - "{{ tftp_boot_folder }}"
+    - "{{ http_boot_folder  }}"
+
+- name: "Copy grub into serving folders"
+  copy:
+    src: "{{ grub_efi_source }}"
+    dest: "{{ item }}/grubx64.efi"
+    owner: ironic
+    group: ironic
+    mode: 0644
+    remote_src: true
+  loop:
+    - "{{ tftp_boot_folder }}"
+    - "{{ http_boot_folder  }}"
 
 - name: "Set up iPXE for EFI booting"
   block:
