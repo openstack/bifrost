@@ -17,6 +17,7 @@
         USE_DHCP: "{{ use_dhcp | default(false) | bool | lower }}"
         ZUUL_BRANCH: "{{ zuul.branch }}"
         BOOT_MODE: "{{ boot_mode | default('') }}"
+        ENABLE_GRUB_NETWORK_BOOT: "{{ enable_grub_network_boot | default(false) | bool | lower }}"
         TEST_VM_NODE_DRIVER: "{{ test_driver | default('ipmi') }}"
         NOAUTH_MODE: "{{ noauth_mode | default(false) | bool | lower }}"
         ENABLE_TLS: "{{ enable_tls | default(false) | bool | lower }}"

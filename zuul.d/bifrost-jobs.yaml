@@ -175,6 +175,7 @@
     name: bifrost-integration-redfish-uefi-fedora-latest
     parent: bifrost-integration-tinyipa-fedora-latest
     vars:
+      enable_grub_network_boot: true
       test_driver: redfish
 
 - job:
