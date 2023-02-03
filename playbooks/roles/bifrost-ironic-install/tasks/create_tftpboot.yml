@@ -124,7 +124,7 @@
     remote_src: true
   loop:
     - "{{ tftp_boot_folder }}"
-    - "{{ http_boot_folder  }}"
+    - "{{ http_boot_folder }}"
 
 - name: "Copy grub into serving folders"
   copy:
@@ -136,7 +136,7 @@
     remote_src: true
   loop:
     - "{{ tftp_boot_folder }}"
-    - "{{ http_boot_folder  }}"
+    - "{{ http_boot_folder }}"
 
 - name: "Set up iPXE for EFI booting"
   block:

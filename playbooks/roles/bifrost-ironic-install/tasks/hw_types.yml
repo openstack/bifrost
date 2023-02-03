@@ -20,7 +20,7 @@
 
 - name: "Configure BIOS interfaces if required"
   set_fact:
-    enabled_bios_interfaces: >-
+    enabled_bios_interfaces: >- # noqa jinja var-spacing
       no-bios
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
@@ -29,7 +29,7 @@
 
 - name: "Configure boot interfaces if required"
   set_fact:
-    enabled_boot_interfaces: >-
+    enabled_boot_interfaces: >- # noqa jinja var-spacing
       ipxe,pxe
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish-virtual-media{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo-virtual-media{%- endif -%}
@@ -39,7 +39,7 @@
 
 - name: "Configure management interfaces if required"
   set_fact:
-    enabled_management_interfaces: >-
+    enabled_management_interfaces: >- # noqa jinja var-spacing
       noop
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
@@ -51,19 +51,19 @@
 
 - name: "Configure power interfaces if required"
   set_fact:
-    enabled_power_interfaces: >-
+    enabled_power_interfaces: >- # noqa jinja var-spacing
       fake
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}
       {%- if "ipmi" in enabled_hardware_types -%},ipmitool{%- endif -%}
       {%- if "redfish" in enabled_hardware_types -%},redfish{%- endif -%}
-      {%- if enable_credential_less_deploy|bool -%},agent{%- endif -%}
+      {%- if enable_credential_less_deploy | bool -%},agent{%- endif -%}
       {%- if "staging-wol" in enabled_hardware_types -%},staging-wol{%- endif -%}
   when: not enabled_power_interfaces
 
 - name: "Configure raid interfaces if required"
   set_fact:
-    enabled_raid_interfaces: >-
+    enabled_raid_interfaces: >- # noqa jinja var-spacing
       no-raid,agent
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo5" in enabled_hardware_types -%},ilo5{%- endif -%}
@@ -72,7 +72,7 @@
 
 - name: "Configure vendor interfaces if required"
   set_fact:
-    enabled_vendor_interfaces: >-
+    enabled_vendor_interfaces: >- # noqa jinja var-spacing
       no-vendor
       {%- if "idrac" in enabled_hardware_types -%},idrac-redfish{%- endif -%}
       {%- if "ilo" in enabled_hardware_types -%},ilo{%- endif -%}

@@ -4,7 +4,6 @@ skip_list:
   - fqcn[action-core] # Use FQCN for builtin actions
   - ignore-errors #  Use failed_when and specify error conditions instead of using ignore_errors
   - jinja[invalid] # Unrecognized type
-  - jinja[spacing] # Jinja2 spacing could be improved
   - key-order[task] # You can improve the task key order
   - meta-no-info # meta/main.yml should contain relevant info
   - meta-no-tags # Tags must contain lowercase letters and digits only

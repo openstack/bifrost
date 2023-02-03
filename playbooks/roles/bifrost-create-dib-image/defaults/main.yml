@@ -2,8 +2,8 @@
 dib_os_element: "debian"
 dib_init_element: "simple-init"
 dib_env_vars:
-  http_proxy: "{{ lookup('env','http_proxy') }}"
-  https_proxy: "{{ lookup('env','https_proxy') }}"
+  http_proxy: "{{ lookup('env', 'http_proxy') }}"
+  https_proxy: "{{ lookup('env', 'https_proxy') }}"
   DIB_INSTALLTYPE_simple_init: repo
   DIB_INSTALLTYPE_pip_and_virtualenv: package
   LANG: C

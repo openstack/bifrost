@@ -74,8 +74,8 @@ ipxe_efi_binary: ipxe.efi
 
 tarballs_base_url: "https://tarballs.opendev.org/openstack/ironic-python-agent"
 ipa_download_headers: {}
-ipa_kernel: "{{http_boot_folder}}/ipa.kernel"
-ipa_ramdisk: "{{http_boot_folder}}/ipa.initramfs"
+ipa_kernel: "{{ http_boot_folder }}/ipa.kernel"
+ipa_ramdisk: "{{ http_boot_folder }}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
 ipa_download_distro: >-
   {%- if ipa_upstream_release == "stable-train" -%}
@@ -87,23 +87,23 @@ ipa_download_distro: >-
   {%- endif -%}
 ipa_kernel_upstream_url: >-
   {%- if use_tinyipa | bool -%}
-  {{tarballs_base_url}}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
+  {{ tarballs_base_url }}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
   {%- else -%}
-  {{tarballs_base_url}}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.kernel
+  {{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.kernel
   {%- endif -%}
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.initramfs"
 ipa_ramdisk_upstream_url: >-
   {%- if use_tinyipa | bool -%}
-  {{tarballs_base_url}}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.gz
+  {{ tarballs_base_url }}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.gz
   {%- else -%}
-  {{tarballs_base_url}}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.initramfs
+  {{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.initramfs
   {%- endif -%}
 ipa_ramdisk_upstream_checksum_algo: "sha256"
 ipa_ramdisk_upstream_checksum_url: "{{ ipa_ramdisk_upstream_url }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
 deploy_image_filename: "deployment_image.qcow2"
-deploy_image: "{{http_boot_folder}}/{{deploy_image_filename}}"
+deploy_image: "{{ http_boot_folder }}/{{ deploy_image_filename }}"
 esp_image: "{{ http_boot_folder }}/esp.img"
 esp_image_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/esp.img"
 # Use cirros instead of building an image via diskimage-builder
@@ -255,7 +255,7 @@ inspector_extra_kernel_options: "ipa-inspection-collectors=default,logs"
 
 enable_inspector_discovery: false
 
-inspector_default_node_driver: "{{ 'manual-management' if enable_credential_less_deploy|bool else 'ipmi' }}"
+inspector_default_node_driver: "{{ 'manual-management' if enable_credential_less_deploy | bool else 'ipmi' }}"
 
 # Inspector defaults (deprecated in Victoria)
 inspector:
@@ -266,7 +266,7 @@ inspector:
 # If baremetal nodes should be turned off after inspection.
 # The inspector default is to turn off the baremetal node
 # power, this setting to false enables use of fast track mode.
-power_off_after_inspection: "{{ not fast_track|bool }}"
+power_off_after_inspection: "{{ not fast_track | bool }}"
 
 # We may not have packaged iPXE files on some distros, or may want to
 # download them on their own.
