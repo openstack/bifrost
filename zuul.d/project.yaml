@@ -49,7 +49,7 @@
             # and openstacksdk because the former has not been ported
             # yet to openstacksdk >=0.99.0
             required-projects: *bifrost_collections_required_projects
-        - kolla-ansible-ubuntu-source-bifrost:
+        - kolla-ansible-ubuntu-bifrost:
             voting: false
             # NOTE(yoctozepto): to override from job definition
             files: .*
