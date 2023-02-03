@@ -9,7 +9,7 @@ tftp_service_name: tftp
 efi_distro: "{{ ansible_facts['distribution'] | lower }}"
 grub_efi_package: grub2-efi-x64
 grub_efi_binary: "/boot/efi/EFI/{{ efi_distro }}/grubx64.efi"
-shim_efi_package:  shim-x64
+shim_efi_package: shim-x64
 shim_efi_binary: "/boot/efi/EFI/{{ efi_distro }}/shimx64.efi"
 required_packages:
   - mariadb-server

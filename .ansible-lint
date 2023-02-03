@@ -18,7 +18,6 @@ skip_list:
   - schema[meta] # Additional properties are not allowed
   - schema[vars] # does not match any of the regexes
   - var-naming # violates variable naming standards
-  - yaml[colons] # Too many spaces after colon
   - yaml[comments] # Missing starting space in comment
   - yaml[empty-lines] # Too many blank lines
   - yaml[indentation] # Wrong indentation

@@ -126,7 +126,7 @@
   command: "{{ iso_gen_utility }} -R -V config-2 -o {{ http_boot_folder }}/configdrive-{{ uuid }}.iso {{ variable_configdrive_location.path }}/{{ uuid }}"
 
 - name: "Make config drive files base64 encoded and gzip compressed"
-  become:  yes
+  become: yes
   shell: |
     set -o pipefail
     gzip -c {{ http_boot_folder }}/configdrive-{{ uuid }}.iso | base64 > {{ http_boot_folder }}/configdrive-{{ uuid }}.iso.gz
@@ -151,7 +151,7 @@
     deploy_config_drive: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/configdrive-{{ uuid }}.iso.gz"
 
 - name: "Apply the correct SELinux context to the configdrive iso"
-  become:  yes
+  become: yes
   command: restorecon -iRv {{ http_boot_folder }}
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
          ansible_selinux.status == 'enabled'
