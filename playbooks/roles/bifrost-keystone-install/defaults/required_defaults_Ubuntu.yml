@@ -7,4 +7,3 @@ required_packages:
   - libxslt1-dev
   - libssl-dev
   - libxml2-dev
-  - nginx
