@@ -1,8 +1,0 @@
----
-required_packages:
-  - mariadb-server
-  - python3-dev
-  - libffi-dev
-  - libxslt1-dev
-  - libssl-dev
-  - libxml2-dev
