@@ -6,7 +6,6 @@ required_packages:
   - mariadb-server
   - python3-devel
   - python3-PyMySQL
-  - python3-iniparse
   - python3-libselinux
   - python3-policycoreutils
   - libffi-devel
