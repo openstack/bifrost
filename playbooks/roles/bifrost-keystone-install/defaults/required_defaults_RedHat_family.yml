@@ -1,6 +1,4 @@
 ---
-init_dest_dir: /usr/lib/systemd/system/
-virt_group: libvirt
 mysql_service_name: mariadb
 required_packages:
   - mariadb-server

@@ -1,5 +1,4 @@
 ---
-init_dest_dir: /lib/systemd/system/
 required_packages:
   - mariadb-server
   - python3-dev
