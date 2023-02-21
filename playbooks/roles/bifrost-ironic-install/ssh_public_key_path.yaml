@@ -12,7 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- block:
+- delegate_to: localhost
+  block:
     - name: "Find a suitable SSH public key"
       set_fact:
         ssh_public_key_path: "{{ item }}"
@@ -37,7 +38,6 @@
       fail:
         msg: "ssh_public_key_path {{ ssh_public_key_path }} was not found"
       when: not test_ssh_public_key_path.stat.exists
-  delegate_to: localhost
 
 - name: "Read SSH public key in ssh_public_key"
   set_fact:

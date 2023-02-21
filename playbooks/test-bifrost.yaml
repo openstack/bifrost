@@ -15,7 +15,8 @@
     - name: "Set testing to true"
       set_fact:
          testing: true
-    - block:
+    - when: lookup('env', 'ZUUL_BRANCH') | length > 0
+      block:
       - name: "Set variables if running in the CI"
         set_fact:
            cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.1-x86_64-disk.img
@@ -29,7 +30,6 @@
         set_fact:
            openstacksdk_source_install: true
         when: sdk_path.stat.exists
-      when: lookup('env', 'ZUUL_BRANCH') | length > 0
 
 - import_playbook: install.yaml
 

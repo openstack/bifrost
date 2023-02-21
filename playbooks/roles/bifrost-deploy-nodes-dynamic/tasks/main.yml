@@ -71,11 +71,13 @@
   when: inventory_dhcp | bool or inventory_dns | bool
 
 - name: "Create instance info"
+  when: instance_info is not defined or instance_info == {}
   block:
-
     - name: "Figure out image checksum"
+      when:
+        - deploy_image_checksum is not defined
+        - not deploy_image_source.startswith('file://')
       block:
-
         - name: "Collect the checksum of the deployment image."
           stat:
             path: "{{ deploy_image_path }}"
@@ -93,10 +95,6 @@
           set_fact:
             deploy_image_checksum: "{{ test_deploy_image.stat.checksum }}"
 
-      when:
-        - deploy_image_checksum is not defined
-        - not deploy_image_source.startswith('file://')
-
     - name: "Set generated instance_info"
       set_fact:
         instance_info:
@@ -105,8 +103,6 @@
           image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit) }}"
           image_type: "{{ deploy_image_type | default(omit) }}"
           root_gb: "{{ deploy_root_gb if deploy_image_type | default('') == 'partition' else omit }}"
-
-  when: instance_info is not defined or instance_info == {}
 
 - name: "Deploy to hardware"
   openstack.cloud.baremetal_node_action:

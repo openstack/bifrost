@@ -42,43 +42,44 @@
   register: existing_vms
 
 # NOTE(pas-ha) wrapping in block/rescue to have diagnostic output, requires Ansible>=2
-- block:
-  # NOTE(pas-ha) Ansible still lacks modules to operate on libvirt volumes
-  # NOTE(pas-ha) adding extra 1G for disk size to accomodate for partition table / configdrive
-  - name: create volume for vm
-    command: >
-      virsh --connect {{ test_vm_libvirt_uri }}
-      vol-create-as {{ test_vm_storage_pool }} {{ vm_name }}.qcow2
-      {{ test_vm_disk_gib | int + 1 }}G
-      --format qcow2 {{ prealloc|default("") }}
-    when: (vm_name + '.qcow2') not in ansible_libvirt_pools[test_vm_storage_pool].volumes
+- when: vm_name not in existing_vms.list_vms
+  block:
+    # NOTE(pas-ha) Ansible still lacks modules to operate on libvirt volumes
+    # NOTE(pas-ha) adding extra 1G for disk size to accomodate for partition table / configdrive
+    - name: create volume for vm
+      command: >
+        virsh --connect {{ test_vm_libvirt_uri }}
+        vol-create-as {{ test_vm_storage_pool }} {{ vm_name }}.qcow2
+        {{ test_vm_disk_gib | int + 1 }}G
+        --format qcow2 {{ prealloc|default("") }}
+      when: (vm_name + '.qcow2') not in ansible_libvirt_pools[test_vm_storage_pool].volumes
 
-  - name: set path to the volume created
-    set_fact:
-      vm_volume_path: "{{ ansible_libvirt_pools[test_vm_storage_pool].path }}/{{ vm_name }}.qcow2"
+    - name: set path to the volume created
+      set_fact:
+        vm_volume_path: "{{ ansible_libvirt_pools[test_vm_storage_pool].path }}/{{ vm_name }}.qcow2"
 
-  - name: pre-touch the vm volume
-    file:
-      state: touch
-      path: "{{ vm_volume_path }}"
-    when: test_vm_libvirt_uri == 'qemu:///system'
+    - name: pre-touch the vm volume
+      file:
+        state: touch
+        path: "{{ vm_volume_path }}"
+      when: test_vm_libvirt_uri == 'qemu:///system'
 
-  # NOTE(TheJulia): CentOS default installs with an XFS root, and chattr
-  # fails to set +C on XFS.  This could be more elegant, however the use
-  # case is for CI testing.
-  - name: set copy-on-write for volume on non-CentOS systems
-    command: chattr +C {{ vm_volume_path }}
-    ignore_errors: yes
-    when:
-      - ansible_distribution != 'CentOS'
-      - test_vm_libvirt_uri == 'qemu:///system'
+    # NOTE(TheJulia): CentOS default installs with an XFS root, and chattr
+    # fails to set +C on XFS.  This could be more elegant, however the use
+    # case is for CI testing.
+    - name: set copy-on-write for volume on non-CentOS systems
+      command: chattr +C {{ vm_volume_path }}
+      ignore_errors: yes
+      when:
+        - ansible_distribution != 'CentOS'
+        - test_vm_libvirt_uri == 'qemu:///system'
 
-  - name: create_vm
-    virt:
-      command: define
-      name: "{{ vm_name }}"
-      uri: "{{ test_vm_libvirt_uri }}"
-      xml: "{{ lookup('template', 'testvm.xml.j2') }}"
+    - name: create_vm
+      virt:
+        command: define
+        name: "{{ vm_name }}"
+        uri: "{{ test_vm_libvirt_uri }}"
+        xml: "{{ lookup('template', 'testvm.xml.j2') }}"
 
   rescue:
     - name: "Execute `dmesg` to collect debugging output should VM creation fail."
@@ -92,7 +93,6 @@
         msg: >-
           VM creation step failed, please review dmesg
           output for additional details
-  when: vm_name not in existing_vms.list_vms
 
 # TODO(pas-ha) replace 'command: vbmc ...' tasks
 # with a custom Ansible module using vbmc Python API

@@ -309,17 +309,18 @@
     path: /tmp/sushy-emulator
   register: redfish_emulator_old_state_dir
 
-- block:
-  - name: stop Redfish Emulator before migrating its state directory
-    systemd:
-      name: redfish-emulator
-      state: stopped
-  - name: migrate existing Redfish Emulator state directory
-    shell: mv /tmp/sushy-emulator/*.sqlite "{{ redfish_emulator_state_dir }}"
-  become: true
+- become: true
   ignore_errors: true
-  when: redfish_emulator_old_state_dir.stat.exists
-        and redfish_emulator_state_dir != '/tmp/sushy-emulator'
+  when:
+    - redfish_emulator_old_state_dir.stat.exists
+    - redfish_emulator_state_dir != '/tmp/sushy-emulator'
+  block:
+    - name: stop Redfish Emulator before migrating its state directory
+      systemd:
+        name: redfish-emulator
+        state: stopped
+    - name: migrate existing Redfish Emulator state directory
+      shell: mv /tmp/sushy-emulator/*.sqlite "{{ redfish_emulator_state_dir }}"
 
 - name: ensure Redfish Emulator systemd service is started and enabled
   systemd:
