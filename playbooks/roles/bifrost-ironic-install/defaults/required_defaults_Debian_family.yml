@@ -9,7 +9,7 @@ efi_distro: "{{ ansible_facts['distribution'] | lower }}"
 grub_efi_package: grub-efi-amd64-signed
 grub_efi_binary: /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed
 shim_efi_package: shim-signed
-shim_efi_binary: /usr/lib/shim/shimx64.efi.signed
+shim_efi_binary: "/usr/lib/shim/shimx64.efi.signed{{ '.latest' if ansible_distribution_release == 'jammy' else '' }}"
 required_packages:
   - mariadb-server
   - python3-dev

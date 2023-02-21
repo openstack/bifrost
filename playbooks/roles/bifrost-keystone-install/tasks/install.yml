@@ -21,7 +21,7 @@
     name: bifrost-nginx-install
     tasks_from: install
 
-# NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
+# NOTE(TheJulia) While we don't necessarily require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
 - name: "Ensure /opt/stack is present"
@@ -39,11 +39,17 @@
   vars:
     package: pymysql
 
+- name: "Remove python-openstackclient from upper constraints"
+  lineinfile:
+    path: "{{ upper_constraints_file }}"
+    regexp: "^python\\-openstackclient"
+    state: absent
+
 - name: "Install python-openstackclient"
   include_role:
     name: bifrost-pip-install
   vars:
-    package: python-openstackclient
+    package: "python-openstackclient<6.1.0"
 
 - name: "Install keystone"
   include_role:

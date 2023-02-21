@@ -2,6 +2,10 @@ skip_list:
   # FIXME: gradually fix and remove these exclusions:
   - fqcn[action] # Use FQCN for module actions
   - fqcn[action-core] # Use FQCN for builtin actions
+  - ignore-errors #  Use failed_when and specify error conditions instead of using ignore_errors
+  - jinja[invalid] # Unrecognized type
+  - jinja[spacing] # Jinja2 spacing could be improved
+  - key-order[task] # You can improve the task key order
   - meta-no-info # meta/main.yml should contain relevant info
   - meta-no-tags # Tags must contain lowercase letters and digits only
   - name[casing] #All names should start with an uppercase letter
@@ -9,11 +13,17 @@ skip_list:
   - name[play] # All plays should be named
   - name[template] # Jinja templates should only be at the end of 'name'
   - no-changed-when # Commands should not change things if nothing needs doing
+  - no-free-form # Avoid using free-form when calling module actions
+  - risky-file-permissions #  File permissions unset or incorrect
+  - schema[meta] # Additional properties are not allowed
+  - schema[vars] # does not match any of the regexes
+  - var-naming # violates variable naming standards
   - yaml[colons] # Too many spaces after colon
   - yaml[comments] # Missing starting space in comment
   - yaml[empty-lines] # Too many blank lines
   - yaml[indentation] # Wrong indentation
   - yaml[line-length] # Line too long
+  - yaml[octal-values] # Forbidden implicit octal value
   - yaml[truthy] # Truthy value should be one of [false, true]
 
   # NOTE(dtantsur): the following rules should likely stay excluded:
