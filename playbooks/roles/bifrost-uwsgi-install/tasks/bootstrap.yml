@@ -24,7 +24,7 @@
     state: directory
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0770  # NOTE(dtantsur): needs to be writable by group members
+    mode: "0770"  # NOTE(dtantsur): needs to be writable by group members
 
 - name: "Ensure /etc/uwsgi exists"
   file:
@@ -32,7 +32,7 @@
     state: directory
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 - name: "Ensure /etc/uwsgi/apps-available exists"
   file:
@@ -40,7 +40,7 @@
     state: directory
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 - name: "Ensure /etc/uwsgi/apps-enabled exists"
   file:
@@ -48,7 +48,7 @@
     state: directory
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 - name: "Disable standalone uWSGI service"
   service:

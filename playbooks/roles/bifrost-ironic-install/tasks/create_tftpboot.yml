@@ -23,7 +23,7 @@
     state: directory
     # FIXME(dtantsur): dnsmasq cannot work if the files are not world readable
     # or owned by it, I don't understand why.
-    mode: 0755
+    mode: "0755"
   loop:
     - "{{ tftp_boot_folder }}"
     - "{{ tftp_boot_folder }}/pxelinux.cfg"
@@ -90,7 +90,7 @@
     dest: "{{ tftp_boot_folder }}"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
     remote_src: true
 
 # NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
@@ -100,7 +100,7 @@
     dest: "{{ http_boot_folder }}/"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
     remote_src: true
 
 - name: "Copy full iPXE image into {{ tftp_boot_folder }}"
@@ -109,7 +109,7 @@
     dest: "{{ tftp_boot_folder }}"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
     remote_src: true
 
 - name: "Set grub2 and shim paths for Debian and Red Hat systems"
@@ -123,7 +123,7 @@
     dest: "{{ item }}/bootx64.efi"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
     remote_src: true
   loop:
     - "{{ tftp_boot_folder }}"
@@ -135,7 +135,7 @@
     dest: "{{ item }}/grubx64.efi"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
     remote_src: true
   loop:
     - "{{ tftp_boot_folder }}"
@@ -165,7 +165,7 @@
         dest: "{{ http_boot_folder }}/"
         owner: ironic
         group: ironic
-        mode: 0644
+        mode: "0644"
         remote_src: true
 
     - name: "Copy iPXE EFI image into /tftpboot"
@@ -174,7 +174,7 @@
         dest: "{{ tftp_boot_folder }}"
         owner: ironic
         group: ironic
-        mode: 0644
+        mode: "0644"
         remote_src: true
 
   when: "'ipxe' in enabled_boot_interfaces.split(',')"
@@ -201,5 +201,5 @@
     dest: "{{ http_boot_folder }}/pxelinux.cfg/default"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
   when: enable_inspector | bool

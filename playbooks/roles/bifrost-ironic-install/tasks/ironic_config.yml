@@ -43,7 +43,7 @@
     dest: /etc/ironic/ironic.conf
     owner: ironic
     group: ironic
-    mode: 0640
+    mode: "0640"
 
 - name: "Symlinks from venv"
   file:

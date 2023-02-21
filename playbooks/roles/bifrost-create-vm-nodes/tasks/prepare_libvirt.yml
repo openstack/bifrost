@@ -200,7 +200,7 @@
     dest: /etc/systemd/system/vbmcd.service
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   register: vbmcd_service_file
 
@@ -210,7 +210,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   become: true
 
 - name: write Virtual BMC configuration file
@@ -219,7 +219,7 @@
     dest: /etc/virtualbmc/virtualbmc.conf
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
   become: true
 
 - name: ensure Virtual BMC systemd service is started and enabled
@@ -242,7 +242,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
   become: true
 
 - name: ensure Redfish Emulator systemd service is configured
@@ -251,7 +251,7 @@
     dest: /etc/systemd/system/redfish-emulator.service
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   become: true
   register: redfish_emulator_service_file
 
@@ -290,7 +290,7 @@
     password: "password"
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
 
 - name: write Redfish Emulator configuration file
   template:
@@ -298,7 +298,7 @@
     dest: /etc/redfish-emulator.conf
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
   become: true
   register: redfish_emulator_config_file
 

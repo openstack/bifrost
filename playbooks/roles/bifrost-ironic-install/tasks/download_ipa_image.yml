@@ -29,7 +29,7 @@
     force: yes
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
 
 - name: "Extract IPA kernel checksum"
   command: awk '/{{ ipa_kernel_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
@@ -46,7 +46,7 @@
     dest: "{{ ipa_kernel }}"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
     checksum: "{{ ipa_kernel_checksum | default(omit) }}"
     timeout: 300
     headers: "{{ ipa_download_headers | default(omit, true) }}"
@@ -75,7 +75,7 @@
     force: yes
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"
 
 - name: "Extract IPA ramdisk checksum"
   command: awk '/{{ ipa_ramdisk_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
@@ -93,7 +93,7 @@
     owner: ironic
     group: ironic
     headers: "{{ ipa_download_headers | default(omit, true) }}"
-    mode: 0644
+    mode: "0644"
     checksum: "{{ ipa_ramdisk_checksum | default(omit) }}"
     timeout: 300
     # Keep downloading it until we get a good copy
