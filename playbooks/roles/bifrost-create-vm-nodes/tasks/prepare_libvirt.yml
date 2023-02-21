@@ -46,7 +46,9 @@
       log_outputs="1:file:/var/log/libvirt/libvirtd.log"
 
 - name: "Restart libvirt service"
-  service: name="{{ libvirt_service_name }}" state=restarted
+  service:
+    name: "{{ libvirt_service_name }}"
+    state: restarted
 
 # NOTE(Shrews) We need to enable ip forwarding for the libvirt bridge to
 # operate properly with dnsmasq. This should be done before starting dnsmasq.
@@ -61,11 +63,13 @@
 # NOTE(Shrews) Ubuntu packaging+apparmor issue prevents libvirt from loading
 # the ROM from /usr/share/misc.
 - name: "Look for sgabios in {{ sgabios_dir }}"
-  stat: path={{ sgabios_dir }}/sgabios.bin
+  stat:
+    path: "{{ sgabios_dir }}/sgabios.bin"
   register: test_sgabios_qemu
 
 - name: "Look for sgabios in /usr/share/misc"
-  stat: path=/usr/share/misc/sgabios.bin
+  stat:
+    path: /usr/share/misc/sgabios.bin
   register: test_sgabios_misc
 
 - name: "Place sgabios.bin"

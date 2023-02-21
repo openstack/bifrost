@@ -15,6 +15,6 @@
 ---
 - name: "Inspector - (re)starting ironic-inspector service"
   service:
-    name=ironic-inspector
-    state=restarted
-    enabled=yes
+    name: ironic-inspector
+    state: restarted
+    enabled: yes

@@ -51,11 +51,12 @@
 
 - name: "Inspector - Ensure /etc/ironic-inspector/ exists"
   file:
-    dest=/etc/ironic-inspector
-    owner=ironic
-    group=ironic
-    mode=0755
-    state=directory
+    dest: /etc/ironic-inspector
+    owner: ironic
+    group: ironic
+    mode: 0755
+    state: directory
+
 # Note(TheJulia): The rootwrap copies will need to be re-tooled
 # to possibly directly retreive current files if a source install
 # is not utilized.
@@ -107,11 +108,12 @@
 
 - name: "Inspector - Place Configuration"
   template:
-    src=ironic-inspector.conf.j2
-    dest=/etc/ironic-inspector/inspector.conf
-    owner=ironic
-    group=ironic
-    mode=0640
+    src: ironic-inspector.conf.j2
+    dest: /etc/ironic-inspector/inspector.conf
+    owner: ironic
+    group: ironic
+    mode: 0640
+
 - name: "Inspector - Create the log directories (if requested)"
   file:
     name: "{{ item }}"

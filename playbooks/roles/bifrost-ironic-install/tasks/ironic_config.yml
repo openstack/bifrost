@@ -36,13 +36,15 @@
   with_first_found:
     - /usr/lib/ISOLINUX/isolinux.bin
     - /usr/share/syslinux/isolinux.bin
+
 - name: "Create ironic config"
   template:
-    src="ironic.conf.j2"
-    dest=/etc/ironic/ironic.conf
-    owner=ironic
-    group=ironic
-    mode=0640
+    src: ironic.conf.j2
+    dest: /etc/ironic/ironic.conf
+    owner: ironic
+    group: ironic
+    mode: 0640
+
 - name: "Symlinks from venv"
   file:
     state: link

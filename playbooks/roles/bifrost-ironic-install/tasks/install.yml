@@ -14,7 +14,8 @@
 # limitations under the License.
 ---
 - name: "Update Package Cache"
-  apt: update_cache=yes
+  apt:
+    update_cache: yes
   when: ansible_os_family == 'Debian'
 
 - block:
@@ -76,7 +77,11 @@
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
 - name: "Ensure /opt/stack is present"
-  file: name=/opt/stack state=directory owner=root group=root
+  file:
+    name: /opt/stack
+    state: directory
+    owner: root
+    group: root
 
 - name: "IPA-builder - Install"
   include_role:

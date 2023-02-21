@@ -40,7 +40,10 @@
     - "{{ http_boot_folder }}/pxelinux.cfg"
 
 - name: "Disable service {{ tftp_service_name }}"
-  service: name="{{ tftp_service_name }}" state=stopped enabled=no
+  service:
+    name: "{{ tftp_service_name }}"
+    state: stopped
+    enabled: no
   ignore_errors: yes
 
 # NOTE(dtantsur): the code to remove boot.ipxe can be removed after Yoga
@@ -178,11 +181,16 @@
 
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."
-  stat: path="{{ ironic_tftp_master_path }}"
+  stat:
+    path: "{{ ironic_tftp_master_path }}"
   register: test_master_images
 
 - name: "Create master_images folder"
-  file: name="{{ ironic_tftp_master_path }}" state=directory owner=ironic group=ironic
+  file:
+    name: "{{ ironic_tftp_master_path }}"
+    state: directory
+    owner: ironic
+    group: ironic
   when: not test_master_images.stat.exists
 
 # TODO(TheJulia): The pxelinux folder is statically coded in ironic.

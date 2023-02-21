@@ -99,7 +99,9 @@
     name: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/content/"
 
 - name: "Write network Debian style interface template"
-  template: src=interfaces.j2 dest={{ variable_configdrive_location.path }}/{{ uuid }}/openstack/content/0000
+  template:
+    src: interfaces.j2
+    dest: "{{ variable_configdrive_location.path }}/{{ uuid }}/openstack/content/0000"
   when: write_interfaces_file | bool
 
 - name: "Check if mkisofs is available"
@@ -113,7 +115,8 @@
   register: test_genisoimage
 
 - name: "fail if genisoimage is not available."
-  fail: msg="Neither mkisofs or genisoimage is available. Cannot make config drive files."
+  fail:
+    msg: "Neither mkisofs or genisoimage is available. Cannot make config drive files."
   when: test_genisoimage.rc != 0 and test_mkisofs.rc != 0
 
 - name: "If mkisofs is not available, fallback to genisoimage"

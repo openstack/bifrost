@@ -25,7 +25,11 @@
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
 - name: "Ensure /opt/stack is present"
-  file: name=/opt/stack state=directory owner=root group=root
+  file:
+    name: /opt/stack
+    state: directory
+    owner: root
+    group: root
   when: not skip_install | bool
 
 - name: "Install uWSGI"

@@ -15,11 +15,11 @@
 ---
 - name: Create {{ ipxe_dir }}
   file:
-    name={{ ipxe_dir }}
-    state=directory
-    owner=root
-    group=root
-    mode=0755
+    name: "{{ ipxe_dir }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
 
 - name: Get iPXE files
   get_url:

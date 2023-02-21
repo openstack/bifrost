@@ -88,9 +88,10 @@
         should VM creation fail."
       command: virsh capabilities
     - name: "Abort due to failed VM creation"
-      fail: >
-        msg="VM creation step failed, please review dmesg
-        output for additional details"
+      fail:
+        msg: >-
+          VM creation step failed, please review dmesg
+          output for additional details
   when: vm_name not in existing_vms.list_vms
 
 # TODO(pas-ha) replace 'command: vbmc ...' tasks

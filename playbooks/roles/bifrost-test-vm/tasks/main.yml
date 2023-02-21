@@ -31,9 +31,10 @@
   # which will allow this role to do validation of the remote node.
   # NOTE(TheJulia): If we go down the path of additional validation, we need
   # to keep things like Cirros in mind.
-  fail: >
-    msg='Check if hostname was changed from the default value.
-    If this fails, the configdrive may not have been used.'
+  fail:
+    msg: >
+      Check if hostname was changed from the default value.
+      If this fails, the configdrive may not have been used.
   when: >
     "ubuntu" in instance_hostname.stdout or
     "cirros" in instance_hostname.stdout or
