@@ -12,7 +12,6 @@ skip_list:
   - name[template] # Jinja templates should only be at the end of 'name'
   - no-changed-when # Commands should not change things if nothing needs doing
   - risky-file-permissions #  File permissions unset or incorrect
-  - schema[meta] # Additional properties are not allowed
   - var-naming # violates variable naming standards
   - yaml[comments] # Missing starting space in comment
   - yaml[empty-lines] # Too many blank lines
