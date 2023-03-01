@@ -66,6 +66,9 @@ case ${ID,,} in
     )
     EXTRA_PKG_DEPS=()
     sudo -E ${PKG_MANAGER} updateinfo
+    # NOTE(rpittau): epel repos are installed but the content is purged
+    # in  the CI images, we remove them and reinstall later
+    sudo -E ${PKG_MANAGER} remove -y epel-release epel-next-release
     ;;
 
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
