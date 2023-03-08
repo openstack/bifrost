@@ -39,17 +39,11 @@
   vars:
     package: pymysql
 
-- name: "Remove python-openstackclient from upper constraints"
-  lineinfile:
-    path: "{{ upper_constraints_file }}"
-    regexp: "^python\\-openstackclient"
-    state: absent
-
 - name: "Install python-openstackclient"
   include_role:
     name: bifrost-pip-install
   vars:
-    package: "python-openstackclient<6.1.0"
+    package: python-openstackclient
 
 - name: "Install keystone"
   include_role:
