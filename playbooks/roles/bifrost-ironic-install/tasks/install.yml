@@ -26,12 +26,23 @@
     command: dnf config-manager --set-enabled crb
     when: ansible_distribution_version|int == 9
 
-  - name: "Enable EPEL repository for EL7/8/9"
+  - name: "Enable EPEL repository for EL7/8"
     ansible.builtin.dnf:
       name: epel-release
-  when:
-  - enable_epel | bool
-  - ansible_distribution in ["AlmaLinux", "CentOS", "Rocky"]
+      state: latest
+    when:
+      - enable_epel | bool
+      - ansible_distribution in ["AlmaLinux", "CentOS", "Rocky"]
+
+  - name: "Enable EPEL repositories for EL9"
+    ansible.builtin.dnf:
+      name:
+        - epel-next-release
+      state: latest
+    when:
+      - enable_epel | bool
+      - ansible_distribution == 'CentOS'
+      - ansible_distribution_version|int == 9
 
 - name: "Enable EPEL repository for RedHat 9"
   command: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
