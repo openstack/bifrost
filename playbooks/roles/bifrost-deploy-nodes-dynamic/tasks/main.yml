@@ -86,7 +86,7 @@
 
         - name: "Error if deploy_image_path is not present, and instance_info is not defined"
           fail:
-            msg: "The user-defined deploy_image_path, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
+            msg: "The user-defined deploy_image_path {{ deploy_image_path }}, which is the image to be written to the remote node(s) upon deployment, was not found. Cannot proceed."
           when: not test_deploy_image.stat.exists
 
         - name: "Set the calculated checksum"
