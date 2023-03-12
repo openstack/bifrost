@@ -6,11 +6,9 @@
   gather_facts: yes
   tasks:
     - file:
-        path: "{{ ironic_tftp_master_path }}"
+        path: "{{ item }}"
         state: absent
-    - file:
-        path: "{{ ipa_kernel }}"
-        state: absent
-    - file:
-        path: "{{ ipa_ramdisk }}"
-        state: absent
+      loop:
+        - "{{ ironic_tftp_master_path }}"
+        - "{{ ipa_kernel }}"
+        - "{{ ipa_ramdisk }}"
