@@ -24,6 +24,8 @@ listen_unix_socket = /run/ironic/ironic-inspector.socket
 # Nginx should be able to write to the socket, access will be further limited
 # by the containing directory.
 listen_unix_socket_mode = 0660
+{% else %}
+listen_address = {{ internal_ip }}
 {% endif %}
 
 [database]
