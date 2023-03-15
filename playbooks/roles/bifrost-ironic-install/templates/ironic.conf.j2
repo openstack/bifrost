@@ -148,6 +148,7 @@ kernel_append_params = {{ redfish_kernel_params }}
 [inspector]
 power_off = {{ power_off_after_inspection }}
 extra_kernel_params = {{ inspector_extra_kernel_options | default('') }}
+require_managed_boot = False
 {% if enable_keystone | bool %}
 auth_type = password
 auth_url = {{ ironic.service_catalog.auth_url }}
