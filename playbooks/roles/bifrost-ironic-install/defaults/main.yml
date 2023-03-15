@@ -289,7 +289,7 @@ noauth_mode: false
 
 # A work around for installing older releases, remove when no longer supporting
 # Ussuri.
-git_branch: master
+git_branch: stable/2023.1
 supports_http_auth: >-
   {{ git_branch == "master"
      or git_branch[7:] not in ["queens", "rocky", "stein", "train", "ussuri"] }}

@@ -132,6 +132,14 @@
       use_vmedia: true
 
 - job:
+    name: bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
+    parent: bifrost-integration-tinyipa-ubuntu-focal
+    vars:
+      enable_tls: true
+      test_driver: redfish
+      use_vmedia: true
+
+- job:
     name: bifrost-cli-ubuntu-jammy
     parent: bifrost-integration-tinyipa-ubuntu-jammy
     vars:
