@@ -190,15 +190,14 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/zed
+      upgrade_from: stable/2023.1
       skip_upgrade:
         - openstack/diskimage-builder
 
-# NOTE(rpittau): convert to jammy after antelope
 - job:
-    name: bifrost-upgrade-ubuntu-focal
+    name: bifrost-upgrade-ubuntu-jammy
     parent: bifrost-upgrade
-    nodeset: ubuntu-focal
+    nodeset: ubuntu-jammy
 
 - job:
     name: bifrost-upgrade-keystone-centos9
