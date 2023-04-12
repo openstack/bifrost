@@ -18,6 +18,7 @@ ln -s "$(realpath $SOURCE)" "$DEST/ansible_collections/openstack/cloud"
 
 export ANSIBLE_COLLECTIONS_PATHS="$(realpath $DEST)"
 export ANSIBLE_LIBRARY="$(dirname $0)/../playbooks/library"
+export ANSIBLE_ROLES_PATH="$(dirname $0)/../playbooks/roles"
 
 find playbooks -maxdepth 1 -type f -regex '.*.ya?ml' -print0 | \
     xargs -t -n1 -0 ansible-lint -v --nocolor
