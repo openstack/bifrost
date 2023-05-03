@@ -24,7 +24,7 @@ sushy_source_install: false
 staging_drivers_source_install: true
 prometheus_exporter_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
-create_image_via_dib: "{{ not use_cirros | default(false) | bool }}"
+create_image_via_dib: "{{ not (download_custom_deploy_image) }}"
 create_ipa_image: false
 dib_image_type: vm
 dib_os_element: "debian"
@@ -106,15 +106,19 @@ deploy_image_filename: "deployment_image.qcow2"
 deploy_image: "{{ http_boot_folder }}/{{ deploy_image_filename }}"
 esp_image: "{{ http_boot_folder }}/esp.img"
 esp_image_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/esp.img"
-# Use cirros instead of building an image via diskimage-builder
-use_cirros: false
+# Download a deployment image (default cirros) instead of building an image via diskimage-builder
+download_custom_deploy_image: "{{ use_cirros | default(false) }}"
 # Download IPA by default
 download_ipa: true
 update_repos: true
 update_ipa: "{{ update_repos }}"
 # Use the DIB dynamic-login element to insert the SSH key
 ipa_add_ssh_key: false
-cirros_deploy_image_upstream_url: https://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
+# NOTE(Alex-Welsh): cirros_deploy_image_upstream_url has been deprecated in
+# favor of custom_deploy_image_upstream_url but is included for backwards
+# compatability. It should be swapped permanently to
+# custom_deploy_image_upstream_url in the next major release.
+custom_deploy_image_upstream_url: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.5.3/cirros-0.5.3-x86_64-disk.img') }}"
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server. If you already have a DHCP server or do not need DHCP/TFTP at all,
 # you can pass --disable-dhcp to the bifrost-cli install command to disable it.

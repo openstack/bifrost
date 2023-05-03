@@ -32,7 +32,7 @@ USE_VMEDIA=${USE_VMEDIA:-false}
 VM_DOMAIN_TYPE=qemu
 export VM_DISK_CACHE="unsafe"
 TEST_VM_NUM_NODES=1
-USE_CIRROS=true
+DOWNLOAD_CUSTOM_DEPLOY_IMAGE=true
 TESTING_USER=cirros
 TEST_PLAYBOOK="test-bifrost.yaml"
 USE_INSPECTOR=true
@@ -74,7 +74,7 @@ if which setenforce &> /dev/null; then
     sudo setenforce Enforcing
 fi
 
-if [ ${USE_CIRROS} = "true" ] && [ ! -f "$HOME/.ssh/id_ecdsa.pub" ]; then
+if [ ${DOWNLOAD_CUSTOM_DEPLOY_IMAGE} = "true" ] && [ ! -f "$HOME/.ssh/id_ecdsa.pub" ]; then
     # CentOS/RHEL 8 and 9, as well as Fedora, do not work with the RSA key
     # that the Cirros' SSH server uses. Generate an ECDSA key pair instead.
     ssh-keygen -t ECDSA -f "$HOME/.ssh/id_ecdsa" -N ""
@@ -98,7 +98,7 @@ if [ ${USE_DHCP} = "true" ]; then
     WRITE_INTERFACES_FILE=false
     CLOUD_CONFIG+=" -e dhcp_provider=none"
 elif [ ${BUILD_IMAGE} = "true" ]; then
-    USE_CIRROS=false
+    DOWNLOAD_CUSTOM_DEPLOY_IMAGE=false
     TESTING_USER=root
     VM_MEMORY_SIZE="4096"
     ENABLE_INSPECTOR=false
@@ -111,7 +111,7 @@ elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     CLOUD_CONFIG+=" -e cloud_name=bifrost"
 fi
 
-REDEPLOY_NODES=$USE_CIRROS
+REDEPLOY_NODES=$DOWNLOAD_CUSTOM_DEPLOY_IMAGE
 
 if [[ -n "$BOOT_MODE" ]]; then
     CLOUD_CONFIG+=" -e default_boot_mode=$BOOT_MODE"
@@ -188,7 +188,7 @@ ${ANSIBLE} -vvvv \
     -i inventory/bifrost_inventory.py \
     -i inventory/target \
     ${TEST_PLAYBOOK} \
-    -e use_cirros=${USE_CIRROS} \
+    -e download_custom_deploy_image=${DOWNLOAD_CUSTOM_DEPLOY_IMAGE} \
     -e use_tinyipa=true \
     -e testing_user=${TESTING_USER} \
     -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \

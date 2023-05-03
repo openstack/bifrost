@@ -4,7 +4,7 @@
 # Set BIFROST_INVENTORY_SOURCE
 # export BIFROST_INVENTORY_SOURCE=/tmp/baremetal.json
 # Execute the installation and VM startup test.
-# ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost.yaml -e use_cirros=true -e testing_user=cirros
+# ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost.yaml -e download_custom_deploy_image=true -e testing_user=cirros
 ---
 - hosts: localhost
   connection: local
@@ -19,7 +19,7 @@
       block:
       - name: "Set variables if running in the CI"
         set_fact:
-           cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.3-x86_64-disk.img
+           custom_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.3-x86_64-disk.img
            copy_from_local_path: true
            git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
       - name: "Check if openstacksdk is cloned"

@@ -45,7 +45,7 @@ this.
 
     ipa_kernel_upstream_url: file:///vagrant/ipa-centos9-master.kernel
     ipa_ramdisk_upstream_url: file:///vagrant/ipa-centos9-master.initramfs
-    cirros_deploy_image_upstream_url: file:///vagrant/cirros-0.5.1-x86_64-disk.img
+    custom_deploy_image_upstream_url: file:///vagrant/cirros-0.5.3-x86_64-disk.img
     dib_git_url: file:///vagrant/git/diskimage-builder
     ironicclient_git_url: file:///vagrant/git/python-ironicclient
     ironic_git_url: file:///vagrant/git/ironic
