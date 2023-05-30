@@ -12,7 +12,7 @@ skip_bootstrap: False
 
 nginx_user: "{{ 'www-data' if ansible_os_family == 'Debian' else 'nginx' }}"
 
-init_dest_path: "{{ '/usr' if ansible_os_family != 'Debian' else '' }}/lib/systemd/system/"
+init_dest_dir: "{{ '/usr' if ansible_os_family != 'Debian' else '' }}/lib/systemd/system"
 
 # Settings related to installing bifrost in a virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"

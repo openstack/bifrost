@@ -1,5 +1,4 @@
 ---
-init_dest_dir: /lib/systemd/system/
 mysql_service_name: mysql
 required_packages:
   - mariadb-server

@@ -60,6 +60,6 @@
 - name: "Place the uWSGI service template"
   template:
     src: uwsgi@.service.j2
-    dest: "{{ init_dest_dir }}uwsgi@.service"
+    dest: "{{ init_dest_dir }}/uwsgi@.service"
     owner: "root"
     group: "root"
