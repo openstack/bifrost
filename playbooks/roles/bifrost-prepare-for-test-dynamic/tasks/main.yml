@@ -13,18 +13,28 @@
 # limitations under the License.
 ---
 - name: "Wait for the base testvm machine to become available."
-  wait_for: state=started port=22 host={{ ipv4_address }} timeout={{ wait_timeout }}
+  wait_for:
+    state: started
+    host: "{{ ipv4_address }}"
+    port: 22
+    timeout: "{{ wait_timeout }}"
   when: ipv4_address is defined
+
 - name: "Pause for 4 seconds to allow testvm to become fully operational and to avoid any potential sshd startup race."
   # NOTE(TheJulia): AFAIK sshd opens it's socket and then loads/generates
   # keys, which can become visible as a race, hence the four second pause.
-  pause: seconds={{ node_ssh_pause }}
+  pause:
+    seconds: "{{ node_ssh_pause }}"
+
 - name: "Add testvm(s) to Ansible Inventory"
   # NOTE(TheJulia): add_host only triggers once per play. Since we need to
   # add all hosts, we need to use a loop.
-  add_host: name="{{ hostvars[item]['ipv4_address'] }}:22" groups=test
+  add_host:
+    name: "{{ hostvars[item]['ipv4_address'] }}:22"
+    groups: test
   loop: "{{ groups['baremetal'] }}"
   when: ipv4_address is defined
+
 - name: "Ensure ~/.ssh/known_hosts is present"
   file:
     path: "~/.ssh/known_hosts"
@@ -34,9 +44,12 @@
 - name: "Remove testvm hosts from SSH known_hosts file."
   command: ssh-keygen -R "{{ ipv4_address }}"
   when: ipv4_address is defined
+
 - name: "Pause before asking for keyscan, to avoid races"
-  pause: minutes=3
+  pause:
+    minutes: 3
   when: multinode_testing | bool
+
 - name: >
     Re-check SSH connectivity prior to proceeding with multi-node testing
   wait_for:

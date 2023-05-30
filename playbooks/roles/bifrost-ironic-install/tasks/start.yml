@@ -18,13 +18,18 @@
     daemon_reload: yes
 
 - name: "Ensure rsyslog is running with current config"
-  service: name=rsyslog state=restarted
+  service:
+    name: rsyslog
+    state: restarted
   when:
     - remote_syslog_server is defined
     - remote_syslog_server | length > 0
 
 - name: "Start database service"
-  service: name={{ mysql_service_name }} state=started enabled=yes
+  service:
+    name: "{{ mysql_service_name }}"
+    state: started
+    enabled: yes
 
 - name: "Start ironic-inspector"
   include_tasks: inspector_start.yml
@@ -61,16 +66,23 @@
 # Multiple dnsmasqs are likely running, so lets tell the service manager
 # to at least try stopping dnsmasq for us.
 - name: "Stop dnsmasq explicitly."
-  service: name=dnsmasq state=stopped
+  service:
+    name: dnsmasq
+    state: stopped
 
 - name: "Ensure dnsmasq is running with current config"
-  service: name={{ item }} state=restarted enabled=yes
+  service:
+    name: "{{ item }}"
+    state: restarted
+    enabled: yes
   loop:
     - dnsmasq
   when: enable_dhcp | bool
 
 - name: "Send dnsmasq a force-reload signal"
-  service: name=dnsmasq state=restarted
+  service:
+    name: dnsmasq
+    state: restarted
   when: enable_dhcp | bool
 
 - name: "Start nginx"

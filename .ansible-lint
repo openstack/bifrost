@@ -12,7 +12,6 @@ skip_list:
   - name[play] # All plays should be named
   - name[template] # Jinja templates should only be at the end of 'name'
   - no-changed-when # Commands should not change things if nothing needs doing
-  - no-free-form # Avoid using free-form when calling module actions
   - risky-file-permissions #  File permissions unset or incorrect
   - schema[meta] # Additional properties are not allowed
   - var-naming # violates variable naming standards

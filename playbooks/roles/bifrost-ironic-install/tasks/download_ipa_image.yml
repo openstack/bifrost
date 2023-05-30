@@ -16,7 +16,8 @@
 # This is overly complex, however get_url will always re-retrieve the file
 # if it already exists, and this is to prevent that behavior.
 - name: "Test if IPA kernel is present"
-  stat: path={{ ipa_kernel }}
+  stat:
+    path: "{{ ipa_kernel }}"
   register: test_ipa_kernel_present
 
 - name: "Download IPA kernel checksum file"
@@ -61,7 +62,8 @@
       not test_ipa_kernel_present.stat.exists
 
 - name: "Test if IPA image is present"
-  stat: path={{ ipa_ramdisk }}
+  stat:
+    path: "{{ ipa_ramdisk }}"
   register: test_ipa_image_present
 
 - name: "Download IPA image checksum"

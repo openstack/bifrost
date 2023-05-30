@@ -30,7 +30,10 @@
 # NOTE(sean-k-mooney) only the MySQL db is started during bootstrapping.
 # all other services are started in the Start phase.
 - name: "Start database service"
-  service: name={{ mysql_service_name }} state=started enabled=yes
+  service:
+    name: "{{ mysql_service_name }}"
+    state: started
+    enabled: yes
 
 - name: "Set mysql_username if environment variable mysql_user is set"
   set_fact:
