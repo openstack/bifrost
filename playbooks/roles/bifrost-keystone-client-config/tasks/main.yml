@@ -41,28 +41,28 @@
     name: "~{{ user | default('root') }}/.config"
     state: directory
     owner: "{{ user | default('root') }}"
-    mode: 0700
+    mode: "0700"
 
 - name: "Ensure ~/.config/openstack/ exists"
   file:
     name: "~{{ user | default('root') }}/.config/openstack"
     state: directory
     owner: "{{ user | default('root') }}"
-    mode: 0700
+    mode: "0700"
 
 - name: "Write clouds.yaml configuration from template"
   template:
     src: clouds.yaml.j2
     dest: "~{{ user | default('root') }}/.config/openstack/clouds.yaml"
     owner: "{{ user | default('root') }}"
-    mode: 0600
+    mode: "0600"
 
 - name: "Write openrc configuration from template"
   template:
     src: openrc.j2
     dest: "~{{ user | default('root') }}/openrc"
     owner: "{{ user | default('root') }}"
-    mode: 0600
+    mode: "0600"
 
 - name: "Validate generated configuration"
   import_tasks: validate.yml

@@ -19,7 +19,6 @@ skip_list:
   - yaml[empty-lines] # Too many blank lines
   - yaml[indentation] # Wrong indentation
   - yaml[line-length] # Line too long
-  - yaml[octal-values] # Forbidden implicit octal value
   - yaml[truthy] # Truthy value should be one of [false, true]
 
   # NOTE(dtantsur): the following rules should likely stay excluded:

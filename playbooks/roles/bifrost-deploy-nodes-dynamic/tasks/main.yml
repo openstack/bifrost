@@ -49,7 +49,7 @@
     dest: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: inventory_dhcp | bool
   become: yes
 
@@ -59,7 +59,7 @@
     dest: "/etc/dnsmasq.d/host_record_{{ inventory_hostname }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: inventory_dns | bool
   become: yes
 

@@ -54,7 +54,7 @@
     dest: /etc/ironic-inspector
     owner: ironic
     group: ironic
-    mode: 0755
+    mode: "0755"
     state: directory
 
 # Note(TheJulia): The rootwrap copies will need to be re-tooled
@@ -65,7 +65,7 @@
     src: "{{ ironicinspector_git_folder }}/rootwrap.conf"
     dest: "/etc/ironic-inspector/rootwrap.conf"
     remote_src: yes
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
 # Note(ashestakov): "copy" module in ansible doesn't support recursive
@@ -81,7 +81,7 @@
     password: "{{ item.password }}"
     owner: ironic
     group: ironic
-    mode: 0600
+    mode: "0600"
   loop:
     - name: "{{ admin_username }}"
       password: "{{ admin_password }}"
@@ -112,7 +112,7 @@
     dest: /etc/ironic-inspector/inspector.conf
     owner: ironic
     group: ironic
-    mode: 0640
+    mode: "0640"
 
 - name: "Inspector - Create the log directories (if requested)"
   file:
@@ -120,7 +120,7 @@
     state: directory
     owner: ironic
     group: ironic
-    mode: 0700
+    mode: "0700"
   loop:
     - "{{ inspector_log_dir | default('') }}"
     - "{{ inspector_ramdisk_logs_local_path | default('') }}"

@@ -16,7 +16,7 @@ tls_force_regenerate: false
 dest_private_key_owner: root
 dest_private_key_group: root
 # Don't change this unless you really know what you're doing.
-dest_private_key_mode: 0600
+dest_private_key_mode: "0600"
 
 network_interface: "virbr0"
 ans_network_interface: "{{ network_interface | replace('-', '_') }}"

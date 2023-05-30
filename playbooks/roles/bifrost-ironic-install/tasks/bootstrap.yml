@@ -139,7 +139,7 @@
     state: directory
     owner: "ironic"
     group: "ironic"
-    mode: 0755
+    mode: "0755"
 
 # Note(TheJulia): The rootwrap copies will need to be re-tooled
 # to possibly directly retreive current files if a source install
@@ -149,7 +149,7 @@
     src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.conf"
     dest: "/etc/ironic/rootwrap.conf"
     remote_src: yes
-    mode: 0644
+    mode: "0644"
     owner: root
     group: root
   when: not skip_install | bool
@@ -178,7 +178,7 @@
     password: "{{ item.password }}"
     owner: ironic
     group: ironic
-    mode: 0600
+    mode: "0600"
   loop:
     - name: "{{ admin_username }}"
       password: "{{ admin_password }}"
@@ -230,7 +230,7 @@
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0700
+    mode: "0700"
     owner: "ironic"
     group: "ironic"
   loop:
@@ -244,7 +244,7 @@
     state: directory
     owner: "ironic"
     group: "{{ nginx_user }}"
-    mode: 0750
+    mode: "0750"
 
 - name: "Create ironic DB Schema"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf create_schema
@@ -263,7 +263,7 @@
   file:
     path: "{{ init_dest_dir }}"
     state: directory
-    mode: 0755
+    mode: "0755"
 
 - name: "Install ironic-inspector to permit use of inspection interface"
   include_tasks: inspector_bootstrap.yml
@@ -297,7 +297,7 @@
     state: directory
     owner: "dnsmasq"
     group: "ironic"
-    mode: 0755
+    mode: "0755"
   when: dnsmasq_additional_hostsdir is defined
 
 - name: "Setup inventory DHCP and ironic managed hosts directory"
@@ -306,7 +306,7 @@
     state: directory
     owner: "dnsmasq"
     group: "ironic"
-    mode: 0775
+    mode: "0775"
 
 - name: "Setup ironic managed DHCP options directory"
   file:
@@ -314,7 +314,7 @@
     state: directory
     owner: "dnsmasq"
     group: "ironic"
-    mode: 0775
+    mode: "0775"
 
 - name: "Retrieve interface IP informations"
   set_fact:
@@ -408,7 +408,7 @@
         dest: "{{ deploy_image }}"
         owner: ironic
         group: ironic
-        mode: 0644
+        mode: "0644"
   rescue:
     - name: "Attempt to use curl if get_url fails"
       command: "curl -L --output {{ deploy_image }} {{ cirros_deploy_image_upstream_url }}" # noqa: command-instead-of-module
@@ -417,7 +417,7 @@
         path: "{{ deploy_image }}"
         owner: ironic
         group: ironic
-        mode: 0644
+        mode: "0644"
   when: use_cirros | bool
 
 - block:
@@ -430,7 +430,7 @@
         path: "{{ http_boot_folder }}/{{ deploy_image_filename }}.CHECKSUMS"
         owner: ironic
         group: ironic
-        mode: 0644
+        mode: "0644"
   when: use_cirros | bool
 
 - name: "Bootstrap Nginx"
@@ -444,7 +444,7 @@
     dest: /etc/nginx/conf.d/bifrost-httpboot.conf
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}"
-    mode: 0755
+    mode: "0755"
 
 - name: "Place nginx configuration for TLS"
   template:
@@ -452,14 +452,14 @@
     dest: /etc/nginx/conf.d/bifrost-ironic.conf
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}"
-    mode: 0755
+    mode: "0755"
   when: enable_tls | bool
 
 - name: "Set permissions for /var/lib/ironic for the ironic user"
   file:
     path: "{{ item }}"
     state: directory
-    mode: 0750
+    mode: "0750"
     owner: "ironic"
     group: "ironic"
   loop:

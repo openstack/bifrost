@@ -185,7 +185,7 @@
       state: directory
       owner: root
       group: root
-      mode: 0755
+      mode: "0755"
 
   - name: "Download grub2 and shim binaries"
     import_role:

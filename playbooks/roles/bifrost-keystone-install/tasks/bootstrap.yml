@@ -113,7 +113,7 @@
     state: directory
     owner: "keystone"
     group: "{{ nginx_user }}"
-    mode: 0750
+    mode: "0750"
 
 - name: "Update ownership on upgrade from Xena"
   file:
@@ -128,7 +128,7 @@
     dest: "/etc/keystone/keystone.conf"
     owner: "keystone"
     group: "keystone"
-    mode: 0700
+    mode: "0700"
 
 - name: "Apply/Update keystone DB Schema"
   command: keystone-manage db_sync
@@ -179,7 +179,7 @@
     state: directory
     owner: "keystone"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 - name: "Add keystone to web server group"
   user:
@@ -193,7 +193,7 @@
     state: directory
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 # Note(ashestakov): "copy" module in ansible doesn't support recursive
 # copying on remote host. "cp" command used instead.
@@ -205,7 +205,7 @@
     path: /var/www/keystone/public
     owner: "keystone"
     group: "{{ nginx_user }}"
-    mode: 0754
+    mode: "0754"
 
 - name: "Bootstrap uWSGI"
   include_role:
@@ -218,7 +218,7 @@
     dest: /etc/uwsgi/apps-available/keystone-public.ini
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 # NOTE(dtantsur): can be removed after Yoga
 - name: "Remove keystone admin config if present"
@@ -240,7 +240,7 @@
     dest: /etc/nginx/conf.d/bifrost-keystone.conf
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
-    mode: 0755
+    mode: "0755"
 
 - block:
     - name: "Explicitly allow keystone port (TCP) on selinux"

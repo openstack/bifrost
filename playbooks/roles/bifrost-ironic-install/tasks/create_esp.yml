@@ -57,4 +57,4 @@
     path: "{{ esp_image }}"
     owner: ironic
     group: ironic
-    mode: 0644
+    mode: "0644"

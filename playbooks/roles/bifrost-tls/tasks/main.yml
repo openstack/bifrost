@@ -5,7 +5,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: "0755"
   when: generate_tls | bool
 
 - name: "Generate private key"
@@ -14,7 +14,7 @@
     force: "{{ tls_force_regenerate | bool }}"
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
   when: generate_tls | bool
 
 - name: "Generate certificate signing request"
@@ -24,7 +24,7 @@
     force: "{{ tls_force_regenerate | bool }}"
     owner: root
     group: root
-    mode: 0600
+    mode: "0600"
     common_name: "{{ tls_common_name }}"
     subject_alt_name: >-
       {{ (tls_hosts | map('regex_replace', '^', 'IP:') | list)
@@ -40,7 +40,7 @@
     force: "{{ tls_force_regenerate | bool }}"
     owner: root
     group: root
-    mode: 0644
+    mode: "0644"
   when: generate_tls | bool
 
 - name: "Copy the key to the destination"
