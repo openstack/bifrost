@@ -114,11 +114,59 @@ update_repos: true
 update_ipa: "{{ update_repos }}"
 # Use the DIB dynamic-login element to insert the SSH key
 ipa_add_ssh_key: false
-# NOTE(Alex-Welsh): cirros_deploy_image_upstream_url has been deprecated in
-# favor of custom_deploy_image_upstream_url but is included for backwards
-# compatibility. It should be swapped permanently to
-# custom_deploy_image_upstream_url in the next major release.
-custom_deploy_image_upstream_url: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.5.3/cirros-0.5.3-x86_64-disk.img') }}"
+
+# Deployment image distribution, for selecting a default upstream image. Valid
+# options are "cirros", "centos", "rocky", "ubuntu". Default is "cirros".
+upstream_deploy_image_distribution: "cirros"
+# Deployment image releases and default values.
+default_upstream_deploy_image_releases:
+  cirros: "0.5.3"
+  centos: "9-stream"
+  rocky: "9"
+  ubuntu: "jammy"
+# Deployment image release, for selecting a default upstream image.
+upstream_deploy_image_release: "{{ default_upstream_deploy_image_releases[upstream_deploy_image_distribution] }}"
+deploy_image_sources:
+  ubuntu:
+    focal:
+      image: "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
+      checksum: "https://cloud-images.ubuntu.com/focal/current/SHA256SUMS"
+      checksum_algorithm: "sha256"
+    jammy:
+      image: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+      checksum: "https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS"
+      checksum_algorithm: "sha256"
+  rocky:
+    "8":
+      image: "https://dl.rockylinux.org/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
+      checksum: "https://dl.rockylinux.org/pub/rocky/8/images/x86_64/CHECKSUM"
+      checksum_algorithm: "sha256"
+    "9":
+      image: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
+      checksum: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/CHECKSUM"
+      checksum_algorithm: "sha256"
+  centos:
+    8-stream:
+      image: "https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20230501.0.x86_64.qcow2"
+      checksum: "https://cloud.centos.org/centos/8-stream/x86_64/images/CHECKSUM"
+      checksum_algorithm: "sha256"
+    9-stream:
+      image: "https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-20230501.0.x86_64.qcow2"
+      checksum: "https://cloud.centos.org/centos/9-stream/x86_64/images/CHECKSUM"
+      checksum_algorithm: "sha256"
+  cirros:
+    "0.5.3":
+      # NOTE(Alex-Welsh): cirros_deploy_image_upstream_url has been deprecated in
+      # favor of custom_deploy_image_upstream_url but is included for backwards
+      # compatibility. It should be swapped permanently to
+      # custom_deploy_image_upstream_url in the next major release.
+      image: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.5.3/cirros-0.5.3-x86_64-disk.img') }}"
+      checksum: "https://download.cirros-cloud.net/0.5.3/MD5SUMS"
+      checksum_algorithm: "md5"
+deploy_image_upstream_url: "{{ custom_deploy_image_upstream_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].image) }}"
+deploy_image_checksum_url: "{{ custom_deploy_image_checksum_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].checksum) }}"
+deploy_image_checksum_algorithm: "{{ custom_deploy_image_checksum_algorithm | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].checksum_algorithm) }}"
+
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server. If you already have a DHCP server or do not need DHCP/TFTP at all,
 # you can pass --disable-dhcp to the bifrost-cli install command to disable it.

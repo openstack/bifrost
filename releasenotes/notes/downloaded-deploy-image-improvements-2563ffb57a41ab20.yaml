@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    Default images for Centos 8/9 Stream, Ubuntu 20.04/22.04, and Rocky Linux
+    8/9 have been added. These can be selected by setting
+    ``upstream_deploy_image_distribution`` and
+    ``upstream_deploy_image_release``, and are deployed when
+    ``download_custom_deploy_image`` is true. The default image remains CirrOS.
+  - |
+    When ``download_custom_deploy_image`` is true, the image will no longer be
+    re-downloaded if the image checksum matches upstream. For custom images,
+    the checksum can be changed using ``custom_deploy_image_checksum_url`` and
+    ``custom_deploy_image_checksum_algorithm``.

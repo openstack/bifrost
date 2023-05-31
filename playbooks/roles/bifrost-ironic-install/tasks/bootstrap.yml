@@ -381,37 +381,9 @@
     - not create_ipa_image | bool
     - download_ipa | bool
 
-- when: download_custom_deploy_image | bool
-  block:
-    - name: "Download a custom image to use for deployment if requested"
-      get_url:
-        url: "{{ custom_deploy_image_upstream_url }}"
-        dest: "{{ deploy_image }}"
-        owner: ironic
-        group: ironic
-        mode: "0644"
-  rescue:
-    - name: "Attempt to use curl if get_url fails"
-      command: "curl -L --output {{ deploy_image }} {{ custom_deploy_image_upstream_url }}" # noqa: command-instead-of-module
-    - name: Set file permissions
-      file:
-        path: "{{ deploy_image }}"
-        owner: ironic
-        group: ironic
-        mode: "0644"
-
-- when: download_custom_deploy_image | bool
-  block:
-    - name: "Create a checksum file for the custom deployment image"
-      shell: sha256sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
-      args:
-        chdir: "{{ http_boot_folder }}"
-    - name: "Ensure the checksum file is readable"
-      file:
-        path: "{{ http_boot_folder }}/{{ deploy_image_filename }}.CHECKSUMS"
-        owner: ironic
-        group: ironic
-        mode: "0644"
+- name: "Download deployment image"
+  include_tasks: download_deployment_image.yml
+  when: download_custom_deploy_image | bool
 
 - name: "Bootstrap Nginx"
   import_role:
