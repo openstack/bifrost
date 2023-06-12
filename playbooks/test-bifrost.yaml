@@ -18,7 +18,7 @@
     - block:
       - name: "Set variables if running in the CI"
         set_fact:
-           cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.1-x86_64-disk.img
+           cirros_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.3-x86_64-disk.img
            copy_from_local_path: true
            git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
       - name: "Check if openstacksdk is cloned"
