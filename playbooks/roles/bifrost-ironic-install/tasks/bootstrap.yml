@@ -552,9 +552,22 @@
         setype: httpd_sys_content_t
         state: present
 
-    - name: Disable the old ironic policy if it was enabled
-      command: semodule -d ironic_policy
-      ignore_errors: true
+    - name: Copy ironic policy file to temporary directory
+      copy:
+        src: ironic_policy.te
+        dest: /tmp/ironic_policy.te
+
+    - name: Check ironic policy module
+      command: checkmodule -M -m -o /tmp/ironic_policy.mod /tmp/ironic_policy.te
+
+    - name: Package ironic policy module
+      command: semodule_package -m /tmp/ironic_policy.mod -o /tmp/ironic_policy.pp
+
+    - name: Include ironic policy module
+      command: semodule -i /tmp/ironic_policy.pp
+
+    - name: Enable ironic policy module
+      command: semodule -e ironic_policy
 
     - name: Apply the correct SELinux context to the directories
       command: restorecon -iRv {{ item }}
