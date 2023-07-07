@@ -152,10 +152,6 @@
     sourcedir: "{{ ironic_git_folder }}"
     source_install: true
 
-- name: "Install ironic-inspector to permit use of inspection interface"
-  include_tasks: inspector_install.yml
-  when: enable_inspector | bool
-
 - name: "Install ironic-staging-drivers"
   include_tasks: staging_install.yml
   when: staging_drivers_include | bool

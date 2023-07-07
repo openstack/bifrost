@@ -7,13 +7,8 @@ debug = {{ ironic_debug | bool }}
 # control instead of ironic, noop is the only available network driver.
 enabled_network_interfaces = noop
 default_deploy_interface = {{ default_deploy_interface }}
-{% if enable_inspector | bool == true %}
-enabled_inspect_interfaces = no-inspect,inspector,agent
-default_inspect_interface = inspector
-{% else %}
 enabled_inspect_interfaces = no-inspect,agent
 default_inspect_interface = agent
-{% endif %}
 enabled_bios_interfaces = {{ enabled_bios_interfaces }}
 enabled_boot_interfaces = {{ enabled_boot_interfaces }}
 enabled_firmware_interfaces = {{ enabled_firmware_interfaces }}
@@ -157,31 +152,6 @@ extra_kernel_params = {{ inspector_extra_kernel_options | default('') }}
 require_managed_boot = False
 add_ports = {{ inspector_port_addition | default('pxe') }}
 keep_ports = {{ inspector_keep_ports | default('present') }}
-{% if enable_inspector | bool %}
-{% if enable_keystone | bool %}
-auth_type = password
-auth_url = {{ ironic.service_catalog.auth_url }}
-username = {{ ironic.service_catalog.username }}
-password = {{ ironic.service_catalog.password }}
-user_domain_id = default
-project_name = {{ ironic.service_catalog.project_name }}
-project_domain_id = default
-region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
-# NOTE(dtantsur): this has to be on internal IP even if public IPs are used
-callback_endpoint_override = {{ api_protocol }}://{{ internal_ip }}:5050
-{% elif noauth_mode | bool %}
-auth_type=none
-endpoint_override = {{ ironic_inspector_api_url }}
-{% else %}
-auth_type = http_basic
-endpoint_override = {{ ironic_inspector_api_url }}
-username = {{ admin_username }}
-password = {{ admin_password }}
-{% endif %}
-{% if enable_tls | bool %}
-cafile = {{ tls_certificate_path }}
-{% endif %}
-{% endif %}
 
 [auto_discovery]
 enabled = {{ enable_inspector_discovery | bool }}

@@ -1,0 +1,10 @@
+#!ipxe
+
+dhcp || reboot
+
+goto introspect
+
+:introspect
+kernel {{ ipa_kernel_url }} ipa-inspection-callback-url={{ api_protocol }}://{{ internal_ip }}:6385/v1/continue_inspection {% if fast_track | bool %}ipa-api-url={{ api_protocol }}://{{ internal_ip }}:6385{% endif %} systemd.journald.forward_to_console=yes BOOTIF=${mac} nofb nomodeset vga=normal console=ttyS0 {{ inspector_extra_kernel_options | default('') }} ipa-insecure=1 initrd={{ ipa_ramdisk_url | basename }}
+initrd {{ ipa_ramdisk_url }}
+boot

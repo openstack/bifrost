@@ -1,7 +1,7 @@
 bifrost-test-inspection
 =======================
 
-Tests nodes that have been inspected by ironic inspector.
+Tests nodes that have been inspected by ironic.
 
 Requirements
 ------------

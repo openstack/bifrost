@@ -13,14 +13,6 @@ ironic_
     Ironic is the main service that provides bare metal capabilities.
     Its `bare metal API`_ is served on TCP port 6385.
 
-ironic-inspector_
-    Inspector is an auxiliary service that provides `in-band inspection`_.
-    Its `introspection API`_ is served on TCP port 5050.
-
-    Inspector is deprecated and can be enabled by setting
-    ``enable_inspector=true``. Otherwise, Ironic's `native in-band inspection`_
-    is used.
-
 mariadb_
     MariaDB is used as a database to persistently store information.
 
@@ -35,9 +27,8 @@ nginx_
     Uses HTTP port 8080 by default (can be changed via the ``file_url_port``
     parameter).
 
-    When TLS is enabled, Nginx serves as a TLS proxy for Ironic and Inspector.
-    It listens on ports 6385 and 5050 and passes requests to the services
-    via unix sockets.
+    When TLS is enabled, Nginx serves as a TLS proxy for Ironic. It listens on
+    port 6385 and passes requests to the service via a unix socket.
 
 dnsmasq_
     Dnsmasq is used as a DHCP and TFTP server (but not for DNS by default)
@@ -51,7 +42,7 @@ The following components can be enabled if needed:
 
 keystone_
     Keystone is an OpenStack Identity service. It can be used to provide
-    sophisticated authentication to Ironic and Inspector instead of HTTP basic
+    sophisticated authentication to Ironic instead of HTTP basic
     authentication. Its `identity API`_ is served using uWSGI and Nginx on the
     port 5000, the systemd service is called ``uwsgi@keystone-public``.
 
@@ -92,7 +83,7 @@ Parameters
         192.168.122.1
 
     This IP address is used for all provisioning traffic: TFTP, iPXE,
-    call-backs to Ironic and Inspector. It is also used for the traffic between
+    and call-backs to Ironic. It is also used for the traffic between
     the services.
 
 ``public_ip``
@@ -129,11 +120,11 @@ Log locations
 ~~~~~~~~~~~~~
 
 journald
-    is used for logging from most services. For example, to get Inspector logs:
+    is used for logging from most services. For example, to get Ironic logs:
 
     .. code-block:: console
 
-        $ sudo journalctl -u ironic-inspector
+        $ sudo journalctl -u ironic
 
 ``/var/log/ironic/deploy``
     contains tarballs with ramdisk logs from deployment or cleaning. The file
@@ -147,10 +138,6 @@ journald
             /var/log/ironic/deploy/493aacf2-90ec-5e3d-9ce5-ea496f12e2a5_testvm3_2021-11-08-17-34-18.tar.gz
         $ less journal  # for ramdisks that use systemd, e.g. DIB-built
         $ less var/log/ironic-python-agent.log # for tinyIPA and similar
-
-``/var/log/ironic-inspector/ramdisk``
-    contains tarballs with ramdisk logs from inspection. They are very similar
-    to ramdisk logs from deployment and cleaning.
 
 ``/var/log/nginx/``
     contains logs for serving files (iPXE scripts, images, virtual media ISOs).
@@ -190,15 +177,11 @@ Runtime locations
     when cleaning or deploying.
 
 ``/run/ironic``
-    When TLS is enabled, this directory contains unix sockets of Ironic and
-    Inspector, which Nginx uses to pass requests.
+    When TLS is enabled, this directory contains the unix socket of Ironic,
+    that Nginx uses to pass requests.
 
 .. _ironic: https://docs.openstack.org/ironic/latest/
 .. _bare metal API: https://docs.openstack.org/api-ref/baremetal/
-.. _ironic-inspector: https://docs.openstack.org/ironic-inspector/latest/
-.. _in-band inspection: https://docs.openstack.org/ironic/latest/admin/inspection/inspector.html
-.. _introspection API: https://docs.openstack.org/api-ref/baremetal-introspection/
-.. _native in-band inspection: https://docs.openstack.org/ironic/latest/admin/inspection/index.html
 .. _mariadb: https://mariadb.org/
 .. _nginx: https://nginx.org/
 .. _dnsmasq: https://dnsmasq.org/

@@ -61,12 +61,6 @@ openstacksdk_git_branch: Branch to install, defaults to the value of
 
 dib_git_branch: Branch to install, defaults to "master".
 
-ironicinspector_git_branch: Branch to install, defaults to the value of
-                            git_branch.
-
-ironicinspectorclient_git_branch: Branch to install, defaults to
-                                  the value of git_branch.
-
 reqs_git_branch: Branch to install, defaults to the value of git_branch.
 
 staging_drivers_git_branch: Branch to install, defaults to the value of

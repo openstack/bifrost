@@ -14,22 +14,3 @@ server {
                 proxy_set_header X-Forwarded-Port 6385;
         }
 }
-
-{% if enable_inspector | bool %}
-server {
-        listen 5050 ssl http2;
-        server_name {{ ansible_hostname }};
-
-        ssl_certificate     {{ tls_certificate_path }};
-        ssl_certificate_key {{ ironic_inspector_private_key_path }};
-
-        location / {
-                proxy_pass http://unix:/run/ironic/ironic-inspector.socket:;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-                proxy_set_header X-Forwarded-Host $host;
-                proxy_set_header X-Forwarded-Port 5050;
-        }
-}
-{% endif %}

@@ -174,17 +174,12 @@
 
 # TODO(TheJulia): The pxelinux folder is statically coded in ironic.
 # For now, we need to use it, but we can patch that.
-- name: "Inspector - Place default tftp boot file in {{ http_boot_folder }}/pxelinux.cfg/"
+- name: "Place default tftp boot file in {{ http_boot_folder }}/pxelinux.cfg/"
   template:
-    src: inspector-default-boot-ipxe.j2
+    src: default-boot-ipxe.j2
     dest: "{{ http_boot_folder }}/pxelinux.cfg/default"
     owner: ironic
     group: ironic
     mode: "0644"
   vars:
-    inspection_callback_url: >-
-      {%- if enable_inspector | bool -%}
-      {{ api_protocol }}://{{ internal_ip }}:5050/v1/continue
-      {%- else -%}
-      {{ api_protocol }}://{{ internal_ip }}:6385/v1/continue_inspection
-      {%- endif -%}
+    inspection_callback_url: "{{ api_protocol }}://{{ internal_ip }}:6385/v1/continue_inspection"

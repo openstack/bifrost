@@ -31,9 +31,6 @@
     state: started
     enabled: yes
 
-- name: "Start/stop ironic-inspector"
-  include_tasks: inspector_start.yml
-
 - name: "Stop old ironic services"
   service:
     name: "{{ item }}"
@@ -43,6 +40,7 @@
   loop:
     - ironic-api
     - ironic-conductor
+    - ironic-inspector
 
 - name: "Remove old ironic services"
   file:
@@ -51,6 +49,7 @@
   loop:
     - ironic-api
     - ironic-conductor
+    - ironic-inspector
 
 - name: "Start ironic"
   service:

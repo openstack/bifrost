@@ -14,8 +14,6 @@
       - ^doc/.*$
       - ^ironic/locale/.*$
       - ^ironic/tests/.*$
-      - ^ironic_inspector/locale/.*$
-      - ^ironic_inspector/test/.*$
       - ^releasenotes/.*$
       - ^setup.cfg$
       - ^test-requirements.txt$
@@ -28,7 +26,6 @@
       - openstack/bifrost
       - openstack/diskimage-builder
       - openstack/ironic
-      - openstack/ironic-inspector
       - openstack/ironic-python-agent
       - openstack/ironic-python-agent-builder
       - openstack/requirements
@@ -111,12 +108,6 @@
     nodeset: ubuntu-noble
 
 - job:
-    name: bifrost-integration-inspector-ubuntu-jammy
-    parent: bifrost-integration-tinyipa-ubuntu-jammy
-    vars:
-      use_inspector: true
-
-- job:
     name: bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
     parent: bifrost-integration-tinyipa-ubuntu-noble
     vars:
@@ -176,12 +167,6 @@
       enable_tls: true
       test_driver: redfish
       enable_prometheus_exporter: true
-
-- job:
-    name: bifrost-integration-inspector-centos-10
-    parent: bifrost-integration-tinyipa-centos-10
-    vars:
-      use_inspector: true
 
 - job:
     name: bifrost-integration-tinyipa-debian-bullseye

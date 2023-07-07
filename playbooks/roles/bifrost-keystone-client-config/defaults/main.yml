@@ -5,7 +5,6 @@ ans_network_interface: "{{ network_interface | replace('-', '_') }}"
 internal_ip: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4']['address'] }}"
 
 enable_tls: false
-enable_inspector: false
 
 skip_start: False
 skip_validation: "{{ skip_start }}"
@@ -13,7 +12,6 @@ skip_validation: "{{ skip_start }}"
 # Service URLs used for communication with them.
 api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
 ironic_api_url: "{{ api_protocol }}://{{ internal_ip }}:6385"
-ironic_inspector_api_url: "{{ api_protocol }}://{{ internal_ip }}:5050"
 
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"

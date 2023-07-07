@@ -20,8 +20,6 @@
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
-        - bifrost-integration-inspector-centos-10
-        - bifrost-integration-inspector-ubuntu-jammy
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-ubuntu-noble
         # Non-voting jobs
@@ -79,8 +77,6 @@
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
-        - bifrost-integration-inspector-centos-10
-        - bifrost-integration-inspector-ubuntu-jammy
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-ubuntu-noble
     experimental:

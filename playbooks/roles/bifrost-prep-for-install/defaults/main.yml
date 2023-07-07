@@ -7,8 +7,6 @@ dib_git_url: "{{ git_url_root }}/openstack/diskimage-builder"
 ironicclient_git_url: "{{ git_url_root }}/openstack/python-ironicclient"
 openstacksdk_git_url: "{{ git_url_root }}/openstack/openstacksdk"
 ironic_git_url: "{{ git_url_root }}/openstack/ironic"
-ironicinspector_git_url: "{{ git_url_root }}/openstack/ironic-inspector"
-ironicinspectorclient_git_url: "{{ git_url_root }}/openstack/python-ironic-inspector-client"
 reqs_git_url: "{{ git_url_root }}/openstack/requirements"
 staging_drivers_git_url: "{{ git_url_root }}/x/ironic-staging-drivers"
 keystone_git_url: "{{ git_url_root }}/openstack/keystone"
@@ -19,8 +17,6 @@ prometheus_exporter_git_url: "{{ git_url_root }}/openstack/ironic-prometheus-exp
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root }}/python-ironicclient"
 ironic_git_folder: "{{ git_root }}/ironic"
-ironicinspector_git_folder: "{{ git_root }}/ironic-inspector"
-ironicinspectorclient_git_folder: "{{ git_root }}/python-ironic-inspector-client"
 openstacksdk_git_folder: "{{ git_root }}/openstacksdk"
 dib_git_folder: "{{ git_root }}/diskimage-builder"
 reqs_git_folder: "{{ git_root }}/requirements"
@@ -36,8 +32,6 @@ ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
 dib_git_branch: master
-ironicinspector_git_branch: "{{ git_branch }}"
-ironicinspectorclient_git_branch: "{{ git_branch }}"
 reqs_git_branch: "{{ git_branch }}"
 staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
@@ -48,12 +42,9 @@ prometheus_exporter_git_branch: "{{ git_branch }}"
 # disable source install to prevent cloning
 ironicclient_source_install: false
 openstacksdk_source_install: false
-ironicinspector_source_install: true
-ironicinspectorclient_source_install: false
 sushy_source_install: false
 staging_drivers_source_install: true
 prometheus_exporter_source_install: true
-enable_inspector: false
 enable_keystone: false
 enable_prometheus_exporter: false
 staging_drivers_include: false
@@ -83,18 +74,6 @@ bifrost_install_sources:
     git_url: "{{ dib_git_url }}"
     git_branch: "{{ dib_git_branch }}"
     name: dib
-  - git_folder: "{{ ironicinspector_git_folder }}"
-    git_url: "{{ ironicinspector_git_url }}"
-    git_branch: "{{ ironicinspector_git_branch }}"
-    name: ironicinspector
-    source_install: "{{ ironicinspector_source_install }}"
-    enabled: "{{ enable_inspector }}"
-  - git_folder: "{{ ironicinspectorclient_git_folder }}"
-    git_url: "{{ ironicinspectorclient_git_url }}"
-    git_branch: "{{ ironicinspectorclient_git_branch }}"
-    name: ironicinspectorclient
-    source_install: "{{ ironicinspectorclient_source_install }}"
-    enabled: "{{ enable_inspector }}"
   - git_folder: "{{ reqs_git_folder }}"
     git_url: "{{ reqs_git_url }}"
     git_branch: "{{ reqs_git_branch }}"
