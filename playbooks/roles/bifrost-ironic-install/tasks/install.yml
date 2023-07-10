@@ -18,41 +18,40 @@
     update_cache: yes
   when: ansible_os_family == 'Debian'
 
-- block:
-  - name: "Enable powertools repository for EL8"
-    command: dnf config-manager --set-enabled powertools
-    when: ansible_distribution_version|int == 8
+- name: "Enable EPEL repositories for known EL distributions"
+  when:
+    - enable_epel | bool
+    - ansible_distribution in ["AlmaLinux", "CentOS", "Rocky"]
+  block:
+    - name: "Enable powertools repository for EL8"
+      command: dnf config-manager --set-enabled powertools
+      when: ansible_distribution_version|int == 8
 
-  - name: "Enable crb repository for EL9"
-    command: dnf config-manager --set-enabled crb
-    when: ansible_distribution_version|int == 9
+    - name: "Enable crb repository for EL9"
+      command: dnf config-manager --set-enabled crb
+      when: ansible_distribution_version|int == 9
 
-  - name: "Enable EPEL repository for EL7/8"
-    ansible.builtin.dnf:
-      name: epel-release
-      state: latest
-    when:
-      - enable_epel | bool
-      - ansible_distribution in ["AlmaLinux", "CentOS", "Rocky"]
+    - name: "Enable EPEL repository for EL7/8/9"
+      ansible.builtin.dnf:
+        name: epel-release
+        state: latest
 
-  - name: "Enable EPEL repositories for EL9"
-    ansible.builtin.dnf:
-      name:
-        - epel-next-release
-      state: latest
-    when:
-      - enable_epel | bool
-      - ansible_distribution == 'CentOS'
-      - ansible_distribution_version|int == 9
+    - name: "Enable EPEL-next repository for Centos 9-Stream"
+      ansible.builtin.dnf:
+        name: epel-next-release
+        state: latest
+      when:
+        - ansible_distribution == 'CentOS'
+        - ansible_distribution_version|int == 9
 
-- name: "Enable EPEL repository for RedHat 9"
+- name: "Enable EPEL repository for RHEL 9"
+  when:
+    - enable_epel | bool
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_version|int >= 9
   command: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
   args:
     creates: /etc/yum.repos.d/epel.repo
-  when:
-  - enable_epel | bool
-  - ansible_distribution == "RedHat"
-  - ansible_distribution_version|int >= 9
 
 - name: "Install system packages"
   package:
@@ -108,7 +107,7 @@
     name: "{{ dib_host_required_packages | select | list }}"
     state: present
   when:
-   - install_dib | bool
+    - install_dib | bool
 
 - name: "sushy - Install"
   include_role:
@@ -179,35 +178,33 @@
   register: efi_unpack_dir
 
 - block:
-  - name: "Create a binary cache directory"
-    file:
-      path: /usr/lib/ironic
-      state: directory
-      owner: root
-      group: root
-      mode: "0755"
+    - name: "Create a binary cache directory"
+      file:
+        path: /usr/lib/ironic
+        state: directory
+        owner: root
+        group: root
+        mode: "0755"
 
-  - name: "Download grub2 and shim binaries"
-    import_role:
-      name: bifrost-download-packages
-    vars:
-      download_packages:
-        - "{{ grub_efi_package }}"
-        - "{{ shim_efi_package }}"
-      download_dest: "{{ efi_unpack_dir.path }}"
+    - name: "Download grub2 and shim binaries"
+      import_role:
+        name: bifrost-download-packages
+      vars:
+        download_packages:
+          - "{{ grub_efi_package }}"
+          - "{{ shim_efi_package }}"
+        download_dest: "{{ efi_unpack_dir.path }}"
 
-  - name: "Copy grub2 and shim into cache"
-    copy:
-      src: "{{ efi_unpack_dir.path }}/{{ item.src }}"
-      remote_src: true
-      dest: "/usr/lib/ironic/{{ item.dest }}"
-    loop:
-      - src: "{{ grub_efi_package }}/{{ grub_efi_binary }}"
-        dest: grub-efi
-      - src: "{{ shim_efi_package }}/{{ shim_efi_binary }}"
-        dest: shim-efi
-
-  when: ansible_os_family != 'Suse'
+    - name: "Copy grub2 and shim into cache"
+      copy:
+        src: "{{ efi_unpack_dir.path }}/{{ item.src }}"
+        remote_src: true
+        dest: "/usr/lib/ironic/{{ item.dest }}"
+      loop:
+        - src: "{{ grub_efi_package }}/{{ grub_efi_binary }}"
+          dest: grub-efi
+        - src: "{{ shim_efi_package }}/{{ shim_efi_binary }}"
+          dest: shim-efi
   always:
     - name: "Delete the temporary directory"
       file:

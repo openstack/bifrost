@@ -242,7 +242,11 @@
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: "0755"
 
-- block:
+- when:
+    - ansible_os_family == 'RedHat'
+    - ansible_selinux.status == 'enabled'
+    - ansible_selinux.mode == "enforcing"
+  block:
     - name: "Explicitly allow keystone port (TCP) on selinux"
       seport:
         ports: "5000"
@@ -266,7 +270,3 @@
 
     - name: Enable keystone policy module
       command: semodule -e keystone_policy
-  when:
-    - ansible_os_family == 'RedHat'
-    - ansible_selinux.status == 'enabled'
-    - ansible_selinux.mode == "enforcing"

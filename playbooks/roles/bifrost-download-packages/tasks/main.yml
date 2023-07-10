@@ -20,35 +20,35 @@
   set_fact:
     download_packages_string: "{{ download_packages | join(' ') }}"
 
-- block:
-  - name: "Download {{ download_packages_string }}"
-    command: apt-get download {{ download_packages_string }}  # noqa: command-instead-of-module
-    args:
-      chdir: "{{ download_dest }}"
+- when: ansible_os_family == 'Debian'
+  block:
+    - name: "Download {{ download_packages_string }}"
+      command: apt-get download {{ download_packages_string }}  # noqa: command-instead-of-module
+      args:
+        chdir: "{{ download_dest }}"
 
-  - name: "Unpack {{ download_packages_string }}"
-    shell: >
-      dpkg-deb -R {{ download_dest }}/{{ item }}_*.deb {{ download_dest }}/{{ item }}
-    loop: "{{ download_packages }}"
-  when: ansible_os_family == 'Debian'
+    - name: "Unpack {{ download_packages_string }}"
+      shell: >
+        dpkg-deb -R {{ download_dest }}/{{ item }}_*.deb {{ download_dest }}/{{ item }}
+      loop: "{{ download_packages }}"
 
-- block:
-  - name: "Download {{ download_packages_string }}"
-    command: >
-      dnf download --downloaddir {{ download_dest }} {{ download_packages_string }}
+- when: ansible_os_family == 'RedHat'
+  block:
+    - name: "Download {{ download_packages_string }}"
+      command: >
+        dnf download --downloaddir {{ download_dest }} {{ download_packages_string }}
 
-  - name: "Create a subdirectory for the package {{ item }}"
-    file:
-      path: "{{ download_dest }}/{{ item }}"
-      state: directory
-    loop: "{{ download_packages }}"
+    - name: "Create a subdirectory for the package {{ item }}"
+      file:
+        path: "{{ download_dest }}/{{ item }}"
+        state: directory
+      loop: "{{ download_packages }}"
 
-  - name: "Unpack {{ download_packages_string }}"
-    shell: |
-      set -eo pipefail
-      rpm2cpio {{ download_dest }}/{{ item }}-*.rpm | cpio -idm
-    args:
-      chdir: "{{ download_dest }}/{{ item }}"
-      executable: /bin/bash
-    loop: "{{ download_packages }}"
-  when: ansible_os_family == 'RedHat'
+    - name: "Unpack {{ download_packages_string }}"
+      shell: |
+        set -eo pipefail
+        rpm2cpio {{ download_dest }}/{{ item }}-*.rpm | cpio -idm
+      args:
+        chdir: "{{ download_dest }}/{{ item }}"
+        executable: /bin/bash
+      loop: "{{ download_packages }}"

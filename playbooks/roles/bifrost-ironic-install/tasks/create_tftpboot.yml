@@ -142,6 +142,7 @@
     - "{{ http_boot_folder }}"
 
 - name: "Set up iPXE for EFI booting"
+  when: "'ipxe' in enabled_boot_interfaces.split(',')"
   block:
     - name: "Check if the iPXE EFI image is present"
       stat:
@@ -176,8 +177,6 @@
         group: ironic
         mode: "0644"
         remote_src: true
-
-  when: "'ipxe' in enabled_boot_interfaces.split(',')"
 
 # Similar logic to below can be utilized to retrieve files
 - name: "Determine if folder exists, else create and populate folder."

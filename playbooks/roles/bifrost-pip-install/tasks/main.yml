@@ -14,60 +14,58 @@
 # limitations under the License.
 ---
 
-- block:
+- when: not skip_install | bool
+  block:
+    - name: "Check that sourcedir is provided with source_install"
+      fail:
+        msg: Source installation of requires sourcedir to be provided
+      when:
+        - source_install | bool
+        - not sourcedir
 
-  - name: "Check that sourcedir is provided with source_install"
-    fail:
-      msg: Source installation of requires sourcedir to be provided
-    when:
-      - source_install | bool
-      - not sourcedir
+    - name: "Set extra_args if upper_constraints_file is defined"
+      set_fact:
+        constraints_extra_args: "{{ extra_args | default('') }} -c {{ upper_constraints_file }}"
+      when:
+        - upper_constraints_file | length > 0
+        # NOTE(dtantsur): constraining does not work correctly correctly with
+        # source installation if the package itself is in constraints.
+        - not source_install | bool
 
-  - name: "Set extra_args if upper_constraints_file is defined"
-    set_fact:
-      constraints_extra_args: "{{ extra_args | default('') }} -c {{ upper_constraints_file }}"
-    when:
-      - upper_constraints_file | length > 0
-      # NOTE(dtantsur): constraining does not work correctly correctly with
-      # source installation if the package itself is in constraints.
-      - not source_install | bool
+    - name: "Install {{ package }} package from pip using virtualenv"
+      pip:
+        name: "{{ package }}"
+        state: "{{ state | default(omit) }}"
+        version: "{{ version | default(omit) }}"
+        virtualenv: "{{ bifrost_venv_dir }}"
+        virtualenv_command: "python3 -m venv"
+        extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
+      register: pip_package_install_done
+      until: pip_package_install_done is succeeded
+      retries: "{{ pip_install_retries }}"
+      delay: "{{ pip_install_delay }}"
+      when: not source_install | bool
+      environment:
+        # NOTE(dtantsur): https://github.com/pypa/setuptools/issues/2353
+        SETUPTOOLS_USE_DISTUTILS: stdlib
 
-  - name: "Install {{ package }} package from pip using virtualenv"
-    pip:
-      name: "{{ package }}"
-      state: "{{ state | default(omit) }}"
-      version: "{{ version | default(omit) }}"
-      virtualenv: "{{ bifrost_venv_dir }}"
-      virtualenv_command: "python3 -m venv"
-      extra_args: "{{ constraints_extra_args | default(extra_args) | default(omit) }}"
-    register: pip_package_install_done
-    until: pip_package_install_done is succeeded
-    retries: "{{ pip_install_retries }}"
-    delay: "{{ pip_install_delay }}"
-    when: not source_install | bool
-    environment:
-      # NOTE(dtantsur): https://github.com/pypa/setuptools/issues/2353
-      SETUPTOOLS_USE_DISTUTILS: stdlib
+    - name: "Install requirements from {{ sourcedir }} using pip"
+      pip:
+        extra_args: "{{ extra_args }} {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}"
+        requirements: "{{ sourcedir }}/requirements.txt"
+      register: pip_package_install_done
+      until: pip_package_install_done is succeeded
+      retries: 5
+      delay: 10
+      when: source_install | bool
+      environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
 
-  - name: "Install requirements from {{ sourcedir }} using pip"
-    pip:
-      extra_args: "{{ extra_args }} {% if upper_constraints_file %}-c {{ upper_constraints_file }}{% endif %}"
-      requirements: "{{ sourcedir }}/requirements.txt"
-    register: pip_package_install_done
-    until: pip_package_install_done is succeeded
-    retries: 5
-    delay: 10
-    when: source_install | bool
-    environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
-
-  # NOTE(dtantsur): do not use constraints here, it does not work when the
-  # package itself is constrained.
-  - name: "Install from {{ sourcedir }} using pip"
-    pip:
-      name: "{{ sourcedir }}"
-      editable: "{{ developer_mode | bool }}"
-      extra_args: "{{ extra_args }}"
-    when: source_install | bool
-    environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
-
-  when: not skip_install | bool
+    # NOTE(dtantsur): do not use constraints here, it does not work when the
+    # package itself is constrained.
+    - name: "Install from {{ sourcedir }} using pip"
+      pip:
+        name: "{{ sourcedir }}"
+        editable: "{{ developer_mode | bool }}"
+        extra_args: "{{ extra_args }}"
+      when: source_install | bool
+      environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"

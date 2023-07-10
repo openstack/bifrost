@@ -401,7 +401,8 @@
     - not create_ipa_image | bool
     - download_ipa | bool
 
-- block:
+- when: use_cirros | bool
+  block:
     - name: "Download cirros to use for deployment if requested"
       get_url:
         url: "{{ cirros_deploy_image_upstream_url }}"
@@ -418,9 +419,9 @@
         owner: ironic
         group: ironic
         mode: "0644"
-  when: use_cirros | bool
 
-- block:
+- when: use_cirros | bool
+  block:
     - name: "Create a checksum file for cirros"
       shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
       args:
@@ -431,7 +432,6 @@
         owner: ironic
         group: ironic
         mode: "0644"
-  when: use_cirros | bool
 
 - name: "Bootstrap Nginx"
   import_role:
@@ -522,7 +522,10 @@
     - 6385
   when: use_firewalld | bool
 
-- block:
+- when:
+    - ansible_os_family == 'RedHat'
+    - ansible_selinux.status == 'enabled'
+  block:
     - name: "Allow nginx, ironic, inspector and IPA ports on SELinux"
       seport:
         ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,5050,9999"
@@ -562,8 +565,6 @@
         - "{{ http_boot_folder }}"
         - "{{ tftp_boot_folder }}"
         - "{{ ironic_tftp_master_path }}"
-  when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
-         ansible_selinux.status == 'enabled'
 
 - name: "Configure remote logging"
   template:

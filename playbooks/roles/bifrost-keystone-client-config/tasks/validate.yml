@@ -15,7 +15,9 @@
   set_fact:
     testing_cloud_name: "{{ (clouds | dict2items)[0].key }}"
 
-- block:
+- become: yes
+  become_user: "{{ user | default('root') }}"
+  block:
     - name: "List bare metal nodes using CLI and clouds.yaml"
       command: baremetal --debug node list
       environment: "{{ bifrost_venv_env | combine({'OS_CLOUD': testing_cloud_name}) }}"
@@ -55,5 +57,3 @@
       when:
         - enable_keystone | bool
         - "'bifrost-admin' in clouds"
-  become: yes
-  become_user: "{{ user | default('root') }}"
