@@ -4,11 +4,11 @@ libvirt_service_name: libvirtd
 required_packages:
  - qemu-img
  - qemu-kvm
- - qemu-system-x86
  - sgabios-bin
  - libvirt
  - libvirt-client
  - libvirt-daemon
+ - libvirt-daemon-kvm
  - python3-libvirt
  - python3-libselinux
  - edk2-ovmf
