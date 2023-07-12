@@ -4,18 +4,19 @@ galaxy_info:
   description: Deploys the image on to nodes in Ironic
   company: OpenStack
   license: Apache
-  min_ansible_version: 2.0
+  min_ansible_version: "2.0"
   platforms:
-  - name: EL
-    versions:
-    - 8
   - name: Debian
     versions:
-    - buster
+    - bullseye
+  - name: EL
+    versions:
+    - "9"
   - name: Ubuntu
     versions:
-    - bionic
-  categories:
+    - focal
+    - jammy
+  galaxy_tags:
   - cloud
   - cloud:openstack
 dependencies: []

@@ -4,21 +4,23 @@ galaxy_info:
   description: Invoke ironic node hardware introspection.
   company: OpenStack
   license: Apache
-  min_ansible_version: 2.0
+  min_ansible_version: "2.0"
   platforms:
-  - name: EL
-    versions:
-    - 7
-  - name: Fedora
-    versions:
-    - 20
-  - name: Ubuntu
-    versions:
-    - trusty
   - name: Debian
     versions:
-    - wheezy
-  categories:
+    - bullseye
+  - name: EL
+    versions:
+    - "9"
+  - name: Fedora
+    versions:
+    - "36"
+    - "37"
+  - name: Ubuntu
+    versions:
+    - focal
+    - jammy
+  galaxy_tags:
   - cloud
   - cloud:openstack
 dependencies: []

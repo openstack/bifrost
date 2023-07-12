@@ -4,18 +4,19 @@ galaxy_info:
   description: Install keystone for Bifrost
   company: OpenStack
   license: Apache
-  min_ansible_version: 2.1
+  min_ansible_version: "2.1"
   platforms:
-  - name: EL
-    versions:
-    - 8
-  - name: Ubuntu
-    versions:
-    - bionic
   - name: Debian
     versions:
-    - buster
-  categories:
+    - bullseye
+  - name: EL
+    versions:
+    - "9"
+  - name: Ubuntu
+    versions:
+    - focal
+    - jammy
+  galaxy_tags:
   - cloud
   - cloud:openstack
 dependencies: []

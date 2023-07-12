@@ -4,19 +4,19 @@ galaxy_info:
   description: Creates simple clouds.yaml file for Bifrost usage
   company: OpenStack
   license: Apache
-  min_ansible_version: 2.0
+  min_ansible_version: "2.0"
   platforms:
-  - name: EL
-    versions:
-    - 7
   - name: Debian
     versions:
-    - wheezy
+    - bullseye
+  - name: EL
+    versions:
+    - "9"
   - name: Ubuntu
     versions:
-    - trusty
-    - utopic
-  categories:
+    - focal
+    - jammy
+  galaxy_tags:
   - cloud
   - cloud:openstack
 dependencies: []

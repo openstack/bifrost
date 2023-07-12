@@ -4,18 +4,19 @@ galaxy_info:
   description: Create VM nodes for local Bifrost testing.
   company: OpenStack
   license: Apache
-  min_ansible_version: 1.9
+  min_ansible_version: "1.9"
   platforms:
-  - name: EL
-    versions:
-    - 8
   - name: Debian
     versions:
-    - buster
+    - bullseye
+  - name: EL
+    versions:
+    - "9"
   - name: Ubuntu
     versions:
-    - bionic
-  categories:
+    - focal
+    - jammy
+  galaxy_tags:
   - cloud
   - cloud:openstack
 dependencies: []

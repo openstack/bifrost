@@ -4,12 +4,13 @@ galaxy_info:
   description: Basic dnsmasq checks created by Bifrost.
   company: OpenStack
   license: Apache
-  min_ansible_version: 1.9
+  min_ansible_version: "1.9"
   platforms:
   - name: Ubuntu
     versions:
-    - trusty
-  categories:
+    - focal
+    - jammy
+  galaxy_tags:
   - cloud
   - cloud:openstack
 dependencies: []
