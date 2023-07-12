@@ -5,7 +5,6 @@ required_packages:
  - qemu-img
  - kernel-tools
  - qemu-kvm
- - sgabios
  - sgabios-bin
  - libvirt
  - libvirt-client
