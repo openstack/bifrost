@@ -12,6 +12,8 @@ required_packages:
  - libvirt-daemon
  - libvirt-daemon-kvm
  - python3-libvirt
+ - python3-libselinux
  - libxslt-devel
  - libxml2-devel
  - edk2-ovmf
+test_vm_emulator: "/usr/libexec/qemu-kvm"
