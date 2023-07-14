@@ -9,7 +9,7 @@ required_packages:
  - qemu-utils
  - qemu-kvm
  - qemu-system-x86
- - sgabios
+ - qemu-system-data
  - pkg-config
  - libvirt-dev
  - ovmf
