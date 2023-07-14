@@ -6,12 +6,11 @@ required_packages:
  - qemu-img
  - kernel-tools
  - qemu-kvm
- - qemu-kvm-common
- - qemu-system-x86
  - sgabios-bin
  - libvirt
  - libvirt-client
  - libvirt-daemon
+ - libvirt-daemon-kvm
  - python3-libvirt
  - libxslt-devel
  - libxml2-devel
