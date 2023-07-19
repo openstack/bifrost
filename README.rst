@@ -39,5 +39,5 @@ Release notes are at:
 The project source code repository is located at:
   https://opendev.org/openstack/bifrost/
 
-Bugs can be filed in storyboard:
-  https://storyboard.openstack.org/#!/project/openstack/bifrost
+Bugs can be filed in launchpad:
+  https://launchpad.net/bifrost

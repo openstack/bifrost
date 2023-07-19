@@ -23,9 +23,9 @@ development, so it's often harder to get attention on your particular issue.
 Filing Bugs
 -----------
 
-Bugs should be filed in StoryBoard, not GitHub:
+Bugs should be filed in launchpad, not GitHub:
 
-    https://storyboard.openstack.org/#!/project/941
+    https://launchpad.net/bifrost
 
 -----------------
 Contributing Code
