@@ -127,7 +127,7 @@ in an ``instance_info`` variable, for example:
         "driver_info": {
           "redfish_address": "https://bmc.myhost.com",
           "redfish_system_id": "/redfish/v1/Systems/11",
-          "redfish_username": "admin"
+          "redfish_username": "admin",
           "redfish_password": "pa$$w0rd",
         },
         "nics": [
@@ -200,7 +200,7 @@ For example:
         "driver_info": {
           "redfish_address": "https://bmc.myhost.com",
           "redfish_system_id": "/redfish/v1/Systems/11",
-          "redfish_username": "admin"
+          "redfish_username": "admin",
           "redfish_password": "pa$$w0rd",
         },
         "ipv4_address": "192.168.122.42",
