@@ -11,27 +11,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-# NOTE(cinerama) dummy-defaults.yml is an empty defaults file. We use it
-# here to ensure that with_first_found won't fail should we not have
-# defaults for a particular distribution, version, etc.
-- name: Include OS family-specific defaults
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "../defaults/required_defaults_{{ ansible_os_family }}_family.yml"
-    - "../defaults/dummy-defaults.yml"
-
-- name: Include OS distribution-specific defaults
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "../defaults/required_defaults_{{ ansible_distribution }}.yml"
-    - "../defaults/dummy-defaults.yml"
-
-- name: Include OS version-specific defaults
-  include_vars: "{{ item }}"
-  with_first_found:
-    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_release }}.yml"
-    - "../defaults/required_defaults_{{ ansible_distribution }}_{{ ansible_distribution_version }}.yml"
-    - "../defaults/dummy-defaults.yml"
+- name: Gather variables for each operating system
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
+      paths:
+        - "{{ role_path }}/vars"
 
 - name: "Install Keystone"
   include_tasks: install.yml
