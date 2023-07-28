@@ -1,0 +1,11 @@
+module ironic_policy 1.0;
+
+require {
+        type httpd_t;
+        type tftpdir_t;
+        class file { getattr open read };
+}
+
+#============= httpd_t ==============
+# Master images cache is shared between Nginx and TFTP
+allow httpd_t tftpdir_t:file { getattr open read };
