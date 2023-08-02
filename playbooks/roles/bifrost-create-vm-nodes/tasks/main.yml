@@ -23,6 +23,18 @@
     - ansible_distribution == "CentOS"
     - ansible_distribution_version|int >= 9
 
+# NOTE(rpittau): systemd-252-16.el9 breaks CS9
+# see https://bugs.launchpad.net/neutron/+bug/2029335
+- name: "Pin systemd to a non-broken version in CentOS Stream 9"
+  dnf:
+    allow_downgrade: true
+    allowerasing: true
+    name: systemd-252-15.el9
+    state: present
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_version|int >= 9
+
 - name: "Load distribution defaults"
   include_vars: "{{ item }}"
   with_first_found:
