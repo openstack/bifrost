@@ -111,6 +111,7 @@ sudo cp -a "/var/log/ironic-inspector/ramdisk" ${LOG_LOCATION}/inspection-ramdis
 # general info
 sudo ps auxf &> ${LOG_LOCATION}/ps.txt
 sudo lscpu > ${LOG_LOCATION}/lscpu.txt
+sudo lshw -json >  ${LOG_LOCATION}/lshw_json.txt
 # vbmc info
 sudo ${VENV}/bin/vbmc list &> ${LOG_LOCATION}/vbmc.txt
 # virsh info
