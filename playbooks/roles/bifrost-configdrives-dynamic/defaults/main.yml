@@ -40,4 +40,5 @@ ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
 #     name: myuser
 #
 #   timezone: "Europe/Paris"
-+user_data_content:
+#
+user_data_content: ''

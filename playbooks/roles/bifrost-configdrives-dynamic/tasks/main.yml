@@ -92,7 +92,6 @@
     - user_data_content is defined
     - user_data_content | length > 0
 
-
 - name: "Make metadata folder - /openstack/content"
   file:
     state: directory

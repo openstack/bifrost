@@ -15,7 +15,6 @@ skip_list:
   - no-free-form # Avoid using free-form when calling module actions
   - risky-file-permissions #  File permissions unset or incorrect
   - schema[meta] # Additional properties are not allowed
-  - schema[vars] # does not match any of the regexes
   - var-naming # violates variable naming standards
   - yaml[comments] # Missing starting space in comment
   - yaml[empty-lines] # Too many blank lines
