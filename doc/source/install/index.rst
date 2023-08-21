@@ -24,13 +24,11 @@ Full support (fully tested in the CI, no known or potential issues):
 
 Limited support, may be removed at any moment:
 
-* Fedora 34 (32+ is supported but not recommended)
 * Ubuntu 20.04 "Focal"
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
-   branches. This especially concerns Fedora, which is evolving faster than
-   other distributions.
+   branches.
 
 Bifrost structure
 =================

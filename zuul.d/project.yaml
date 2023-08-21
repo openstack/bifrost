@@ -19,9 +19,7 @@
         # Non-voting jobs
         - bifrost-integration-tinyipa-keystone-ubuntu-focal:
             voting: false
-        - bifrost-integration-tinyipa-fedora-latest:
-            voting: false
-        - bifrost-integration-redfish-uefi-fedora-latest:
+        - bifrost-integration-redfish-pxe-uefi-centos-9:
             voting: false
         - bifrost-integration-dhcp-ubuntu-jammy:
             voting: false
