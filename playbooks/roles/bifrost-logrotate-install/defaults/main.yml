@@ -1,0 +1,45 @@
+---
+# Role variables:
+#
+# Skip installing logrotate packages
+skip_package_install: false
+# Skip templating configuration file
+skip_configure: false
+# Skip starting logrotate service
+skip_start: false
+
+# Logrotate configuration variables:
+#
+# Frequency of rotation
+logrotate_frequency: "weekly"
+# Amount of files to keep
+logrotate_file_count: 3
+# To compress or to not compress
+logrotate_compress: true
+# Minimum size of log file
+logrotate_file_minsize: "30M"
+# Maximum size of log file
+logrotate_file_maxsize: "100M"
+# Compression delay
+logrotate_delay_compression: true
+# Remove old log file or truncate it
+logrotate_copy_truncate: true
+# Should a log file be rotated if it's empty
+logrotate_not_if_empty: true
+# If the file doesn't exist should error be raised
+logrotate_missing_ok: true
+# Log file owner
+logrotate_log_user: "root"
+# Log file owner group
+logrotate_log_group: "root"
+
+# Log locations
+#
+# Nginx default log location
+nginx_log_dir: "/var/log/nginx"
+# Keystone default log location
+keystone_log_dir: "{{ nginx_log_dir }}/keystone"
+
+logrotate_components:
+  - "{{ nginx_log_dir }}"
+  - "{{ keystone_log_dir }}"
