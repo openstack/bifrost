@@ -28,8 +28,7 @@ Limited support, may be removed at any moment:
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
-   branches. This especially concerns Fedora, which is evolving faster than
-   other distributions.
+   branches.
 
 Bifrost structure
 =================

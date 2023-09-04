@@ -17,10 +17,6 @@
         - bifrost-upgrade-ubuntu-focal
         - bifrost-upgrade-keystone-centos9
         # Non-voting jobs
-        - bifrost-integration-tinyipa-fedora-latest:
-            voting: false
-        - bifrost-integration-redfish-uefi-fedora-latest:
-            voting: false
         - bifrost-integration-dhcp-ubuntu-focal:
             voting: false
         - bifrost-integration-dhcp-centos-9:
