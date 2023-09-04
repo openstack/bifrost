@@ -1,0 +1,5 @@
+---
+deprecations:
+  - |
+    Support for Fedora is no longer tested in the CI and will be removed from
+    the code in the near future.
