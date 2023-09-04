@@ -125,8 +125,3 @@
     name: bifrost-integration-tinyipa-opensuse-15
     parent: bifrost-integration-tinyipa
     nodeset: opensuse-15
-
-- job:
-    name: bifrost-integration-tinyipa-fedora-latest
-    parent: bifrost-integration-tinyipa
-    nodeset: fedora-latest
