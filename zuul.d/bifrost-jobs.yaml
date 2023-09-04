@@ -141,11 +141,6 @@
     nodeset: opensuse-15
 
 - job:
-    name: bifrost-integration-tinyipa-fedora-latest
-    parent: bifrost-integration-tinyipa
-    nodeset: fedora-latest
-
-- job:
     name: bifrost-tox-linters
     parent: openstack-tox-linters
     required-projects:
