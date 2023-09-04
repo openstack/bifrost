@@ -15,7 +15,6 @@ Supported operating systems
 Full support (fully tested in the CI, no known or potential issues):
 
 * CentOS Stream 9
-* CentOS Stream 8 (deprecated but will keep running normal CI until Z cycle)
 
   .. note::
      RHEL is assumed to work but not tested explicitly.
@@ -32,8 +31,7 @@ Deprecated, support may be removed at any moment:
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
-   branches. This especially concerns Fedora, which is evolving faster than
-   other distributions.
+   branches.
 
 Bifrost structure
 =================
