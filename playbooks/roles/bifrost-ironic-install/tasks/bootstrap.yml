@@ -401,18 +401,18 @@
     - not create_ipa_image | bool
     - download_ipa | bool
 
-- when: use_cirros | bool
+- when: download_custom_deploy_image | bool
   block:
-    - name: "Download cirros to use for deployment if requested"
+    - name: "Download a custom image to use for deployment if requested"
       get_url:
-        url: "{{ cirros_deploy_image_upstream_url }}"
+        url: "{{ custom_deploy_image_upstream_url }}"
         dest: "{{ deploy_image }}"
         owner: ironic
         group: ironic
         mode: "0644"
   rescue:
     - name: "Attempt to use curl if get_url fails"
-      command: "curl -L --output {{ deploy_image }} {{ cirros_deploy_image_upstream_url }}" # noqa: command-instead-of-module
+      command: "curl -L --output {{ deploy_image }} {{ custom_deploy_image_upstream_url }}" # noqa: command-instead-of-module
     - name: Set file permissions
       file:
         path: "{{ deploy_image }}"
@@ -420,9 +420,9 @@
         group: ironic
         mode: "0644"
 
-- when: use_cirros | bool
+- when: download_custom_deploy_image | bool
   block:
-    - name: "Create a checksum file for cirros"
+    - name: "Create a checksum file for the custom deployment image"
       shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
       args:
         chdir: "{{ http_boot_folder }}"

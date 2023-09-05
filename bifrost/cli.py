@@ -182,7 +182,7 @@ def cmd_install(args):
             enabled_hardware_types=args.hardware_types,
             cleaning_disk_erase=args.cleaning_disk_erase,
             testing=args.testenv,
-            use_cirros=args.testenv,
+            download_custom_deploy_image=args.testenv,
             use_tinyipa=args.testenv,
             developer_mode=args.develop,
             enable_prometheus_exporter=args.enable_prometheus_exporter,

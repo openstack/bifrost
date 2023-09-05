@@ -15,12 +15,15 @@ internal_ip: "{{ hostvars[ans_hostname]['ansible_' + ans_network_interface]['ipv
 node_default_network_interface: eth0
 
 testing: false
-use_cirros: false
+
+# Build images by default
+download_custom_deploy_image: "{{ use_cirros | default(false) }}"
+
 # write_interfaces_file is intended for utilizing base logic to write
 # a debian style interfaces file into the configuration drive file
 # such that cirros will receive basic network configuration when
 # performing basic testing.
-write_interfaces_file: "{{ use_cirros }}"
+write_interfaces_file: "{{ download_custom_deploy_image }}"
 
 # Basic networking defaults
 ipv4_subnet_mask: 255.255.255.0

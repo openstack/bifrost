@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    `use_cirros` and `cirros_deploy_image_upstream_url` have been deprecated in
+    favour of `download_custom_deploy_image` and
+    `custom_deploy_image_upstream_url` respectively, to better reflect their
+    OS-agnositic nature. The old variables will be removed in a future release.
