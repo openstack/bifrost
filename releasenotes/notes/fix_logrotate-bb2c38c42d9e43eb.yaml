@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes issue of lack of log rotation for Ironic logs by
+    adding a role which installs and configures the logrotate
+    service.

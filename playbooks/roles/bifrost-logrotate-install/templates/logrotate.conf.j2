@@ -1,0 +1,53 @@
+{{ logrotate_frequency }}
+
+rotate {{ logrotate_file_count }}
+
+{% if logrotate_copy_truncate %}
+copytruncate
+{% else %}
+create
+{% endif %}
+
+{% if logrotate_compress %}
+compress
+{% else %}
+nocompress
+{% endif %}
+
+{% if logrotate_delay_compression %}
+delaycompress
+{% else %}
+nodelaycompress
+{% endif %}
+
+{% if logrotate_not_if_empty %}
+notifempty
+{% else %}
+ifempty
+{% endif %}
+
+{% if logrotate_missing_ok %}
+missingok
+{% else %}
+nomissingok
+{% endif %}
+
+minsize {{ logrotate_file_minsize }}
+
+maxsize {{ logrotate_file_maxsize }}
+
+{% for component in logrotate_components %}
+"{{ component }}/*.log"
+{
+}
+{% endfor %}
+{% if ironic_log_dir is defined %}
+"{{ ironic_log_dir }}/*.log"
+{
+}
+{% endif %}
+{% if inspector_log_dir is defined %}
+"{{ inspector_log_dir }}/*.log"
+{
+}
+{% endif %}
