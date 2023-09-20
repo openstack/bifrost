@@ -14,4 +14,3 @@
 - name: "Perform ironic online data migrations"
   command: ironic-dbsync --config-file /etc/ironic/ironic.conf online_data_migrations
   environment: "{{ bifrost_venv_env }}"
-  when: ironic.database.host != 'localhost'
