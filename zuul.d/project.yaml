@@ -14,8 +14,12 @@
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
         - bifrost-integration-redfish-vmedia-uefi-centos-9
-        - bifrost-upgrade-ubuntu-focal
-        - bifrost-upgrade-keystone-centos9
+        # NOTE(rpittau): upgrade jobs are broken as yoga is not maintained
+        # since a while, moving them to non-voting
+        - bifrost-upgrade-ubuntu-focal:
+            voting: false
+        - bifrost-upgrade-keystone-centos9:
+            voting: false
         # Non-voting jobs
         - bifrost-integration-dhcp-ubuntu-focal:
             voting: false
@@ -55,8 +59,6 @@
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
         - bifrost-integration-redfish-vmedia-uefi-centos-9
-        - bifrost-upgrade-ubuntu-focal
-        - bifrost-upgrade-keystone-centos9
     experimental:
       jobs:
         - bifrost-benchmark-ironic
