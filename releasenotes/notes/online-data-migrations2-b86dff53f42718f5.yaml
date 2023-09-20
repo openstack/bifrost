@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes an issue where online data migrations were not performed in the
+    default Bifrost configuration where ``localhost`` is used as the database
+    address. See `LP#2036772
+    <https://bugs.launchpad.net/bifrost/+bug/2036772>`__ for details.
