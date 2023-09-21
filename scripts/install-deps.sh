@@ -19,7 +19,7 @@ export LANG=en_US.UTF-8
 export VENV=${VENV:-/opt/stack/bifrost}
 
 # NOTE(dtantsur): change this when creating a stable branch
-BRANCH=${ZUUL_BRANCH:-master}
+BRANCH=${ZUUL_BRANCH:-stable/2023.2}
 CONSTRAINTS_FILE=${UPPER_CONSTRAINTS_FILE:-${TOX_CONSTRAINTS_FILE:-https://releases.openstack.org/constraints/upper/$BRANCH}}
 
 CHECK_CMD_PKGS=(
