@@ -17,7 +17,8 @@ ironic-inspector_
     Inspector is an auxiliary service that provides `in-band inspection`_.
     Its `introspection API`_ is served on TCP port 5050.
 
-    Inspector can be disabled by setting ``enable_inspector=false``.
+    Inspector can be disabled by setting ``enable_inspector=false``. In this
+    case, Ironic's `native in-band inspection`_ will be used.
 
 mariadb_
     MariaDB is used as a database to persistently store information.
@@ -194,8 +195,9 @@ Runtime locations
 .. _ironic: https://docs.openstack.org/ironic/latest/
 .. _bare metal API: https://docs.openstack.org/api-ref/baremetal/
 .. _ironic-inspector: https://docs.openstack.org/ironic-inspector/latest/
-.. _in-band inspection: https://docs.openstack.org/ironic/latest/admin/inspection.html#in-band-inspection
+.. _in-band inspection: https://docs.openstack.org/ironic/latest/admin/inspection/inspector.html
 .. _introspection API: https://docs.openstack.org/api-ref/baremetal-introspection/
+.. _native in-band inspection: https://docs.openstack.org/ironic/latest/admin/inspection/index.html
 .. _mariadb: https://mariadb.org/
 .. _nginx: https://nginx.org/
 .. _dnsmasq: https://dnsmasq.org/

@@ -31,9 +31,8 @@
     state: started
     enabled: yes
 
-- name: "Start ironic-inspector"
+- name: "Start/stop ironic-inspector"
   include_tasks: inspector_start.yml
-  when: enable_inspector | bool
 
 - name: "Stop old ironic services"
   service:

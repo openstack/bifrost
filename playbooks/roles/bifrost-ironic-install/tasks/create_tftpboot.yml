@@ -201,4 +201,10 @@
     owner: ironic
     group: ironic
     mode: "0644"
-  when: enable_inspector | bool
+  vars:
+    inspection_callback_url: >-
+      {% if enable_inspector | bool %}
+      {{ api_protocol }}://{{ internal_ip }}:5050/v1/continue
+      {% else %}
+      {{ api_protocol }}://{{ internal_ip }}:6385/v1/continue_inspection
+      {% endif %}
