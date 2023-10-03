@@ -38,7 +38,7 @@ logrotate_log_group: "root"
 # Nginx default log location
 nginx_log_dir: "/var/log/nginx"
 # Keystone default log location
-keystone_log_dir: "{{ nginx_log_dir }}/nginx/keystone"
+keystone_log_dir: "{{ nginx_log_dir }}/keystone"
 
 logrotate_components:
   - "{{ nginx_log_dir }}"
