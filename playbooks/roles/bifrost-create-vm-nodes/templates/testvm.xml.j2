@@ -13,6 +13,11 @@
     <bootmenu enable='no'/>
     <bios useserial='yes' rebootTimeout='10000'/>
   </os>
+  {% if test_vm_domain_type == 'kvm' %}
+  <cpu mode='host-passthrough'/>
+  {% else %}
+  <cpu mode='host-model'/>
+  {% endif %}
   <features>
     <acpi/>
     <apic/>
