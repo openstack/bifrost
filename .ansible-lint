@@ -4,6 +4,7 @@ skip_list:
   - fqcn[action-core] # Use FQCN for builtin actions
   - ignore-errors #  Use failed_when and specify error conditions instead of using ignore_errors
   - jinja[invalid] # Unrecognized type
+  - key-order[play] # You can improve the play key order to: name, hosts, connection, become, gather_facts, vars, roles, environment 
   - meta-no-info # meta/main.yml should contain relevant info
   - meta-no-tags # Tags must contain lowercase letters and digits only
   - name[casing] #All names should start with an uppercase letter
