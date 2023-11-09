@@ -1,11 +1,11 @@
 ---
-- hosts: localhost
-  name: "Gather facts on localhost"
+- name: "Gather facts on localhost"
+  hosts: localhost
   become: no
   gather_facts: yes
 
-- hosts: baremetal
-  name: "Enroll hardware from inventory into Ironic"
+- name: "Enroll hardware from inventory into Ironic"
+  hosts: baremetal
   become: no
   gather_facts: no
   roles:

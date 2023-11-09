@@ -1,8 +1,8 @@
 # Create a default VM
 ---
-- hosts: localhost
+- name: "Executes install, enrollment, and testing in one playbook"
+  hosts: localhost
   connection: local
-  name: "Executes install, enrollment, and testing in one playbook"
   become: yes
   gather_facts: yes
   pre_tasks:

@@ -1,11 +1,11 @@
 ---
-- hosts: localhost
-  name: "Gather facts on localhost"
+- name: "Gather facts on localhost"
+  hosts: localhost
   become: no
   gather_facts: yes
 
-- hosts: baremetal
-  name: "Create configuration drive files and deploy machines from inventory"
+- name: "Create configuration drive files and deploy machines from inventory"
+  hosts: baremetal
   become: no
   gather_facts: no
   roles:

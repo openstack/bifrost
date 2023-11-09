@@ -1,6 +1,6 @@
 ---
-- hosts: target
-  name: "Install Ironic on the target host."
+- name: "Install Ironic on the target host."
+  hosts: target
   become: yes
   gather_facts: yes
   vars:

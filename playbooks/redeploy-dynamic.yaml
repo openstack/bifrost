@@ -19,23 +19,23 @@
 # other operating systems or if your target node has multiple ethernet
 # interfaces.
 ---
-- hosts: localhost
+- name: "Collect facts"
+  hosts: localhost
   connection: local
-  name: "Collect facts"
   become: no
   gather_facts: yes
 
-- hosts: baremetal
-  name: "Pull cloud configuration"
-  become: no
+- name: "Pull cloud configuration"
+  hosts: baremetal
   connection: local
+  become: no
   roles:
     - role: bifrost-cloud-config
 
-- hosts: baremetal
-  name: "Unprovision the nodes"
-  become: no
+- name: "Unprovision the nodes"
+  hosts: baremetal
   connection: local
+  become: no
   pre_tasks:
     - name: "Pull initial ironic facts"
       openstack.cloud.baremetal_node_info:
@@ -70,10 +70,10 @@
       retries: "{{ available_state_wait_retries | default(45) }}"
       delay: "{{ provision_state_retry_interval | default(20) }}"
 
-- hosts: baremetal
-  name: "Activate the nodes"
-  become: no
+- name: "Activate the nodes"
+  hosts: baremetal
   connection: local
+  become: no
   roles:
     - role: bifrost-configdrives-dynamic
       when:

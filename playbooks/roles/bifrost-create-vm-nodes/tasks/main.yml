@@ -96,11 +96,11 @@
 
 - name: truncate explicit list of vm names
   set_fact:
-    test_vm_node_names: "{{ test_vm_node_names[:(test_vm_num_nodes|int)] }}"
+    test_vm_node_names: "{{ test_vm_node_names[: (test_vm_num_nodes | int)] }}"
 
 - name: generate test vm names
   set_fact:
-    generated_test_vm_node_names: "{{ generated_test_vm_node_names|default([]) + [item] }}"
+    generated_test_vm_node_names: "{{ generated_test_vm_node_names | default([]) + [item] }}"
   with_sequence: count={{ test_vm_num_nodes | int }} format={{ test_vm_node_name_base }}%i
   when: test_vm_node_names | length == 0
 

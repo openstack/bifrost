@@ -51,7 +51,7 @@
         virsh --connect {{ test_vm_libvirt_uri }}
         vol-create-as {{ test_vm_storage_pool }} {{ vm_name }}.qcow2
         {{ test_vm_disk_gib | int + 1 }}G
-        --format qcow2 {{ prealloc|default("") }}
+        --format qcow2 {{ prealloc | default("") }}
       when: (vm_name + '.qcow2') not in ansible_libvirt_pools[test_vm_storage_pool].volumes
 
     - name: set path to the volume created
@@ -108,7 +108,7 @@
   when: vbmc_list.stdout.find(vm_name) != -1
 
 - set_fact:
-    virtual_ipmi_port: "{{ (test_vm_ipmi_port_start|default(623) | int ) + (testvm_json_data | length) }}"
+    virtual_ipmi_port: "{{ (test_vm_ipmi_port_start | default(623) | int) + (testvm_json_data | length) }}"
 
 - name: plug vm into vbmc
   command: vbmc add {{ vm_name }} --libvirt-uri {{ test_vm_libvirt_uri }} --port {{ virtual_ipmi_port }}
