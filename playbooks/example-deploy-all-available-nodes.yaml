@@ -16,13 +16,13 @@
 # and the example role conditionals below to query current status and
 # deploy to nodes.
 ---
-- hosts: localhost
+- name: "Collect facts"
+  hosts: localhost
   connection: local
-  name: "Collect facts"
   become: no
   gather_facts: yes
-- hosts: baremetal
-  name: "Create configuration drive files and deploy machines from inventory"
+- name: "Create configuration drive files and deploy machines from inventory"
+  hosts: baremetal
   become: no
   connection: local
   roles:

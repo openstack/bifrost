@@ -6,9 +6,9 @@
 # Execute the installation and VM startup test.
 # ansible-playbook -vvvv -i inventory/bifrost_inventory.py test-bifrost.yaml -e download_custom_deploy_image=true -e testing_user=cirros
 ---
-- hosts: localhost
+- name: "Prepare testing environment"
+  hosts: localhost
   connection: local
-  name: "Prepare testing environment"
   become: no
   gather_facts: yes
   tasks:
@@ -35,28 +35,28 @@
 
 - import_playbook: enroll-dynamic.yaml
 
-- hosts: baremetal
-  name: "Test introspection data"
-  become: no
+- name: "Test introspection data"
+  hosts: baremetal
   connection: local
+  become: no
   roles:
     - role: bifrost-test-inspection
       when: inspect_nodes | default(false) | bool
 
 - import_playbook: deploy-dynamic.yaml
 
-- hosts: baremetal
-  name: "Prepare for deployment verification"
-  become: no
+- name: "Prepare for deployment verification"
+  hosts: baremetal
   connection: local
+  become: no
   serial: 1
   roles:
     - role: bifrost-prepare-for-test-dynamic
 
 # The testvm Host group is added by bifrost-prepare-for-test based
 # on the contents of the JSON file.
-- hosts: test
-  name: "Tests connectivity to the VM"
+- name: "Tests connectivity to the VM"
+  hosts: test
   become: no
   gather_facts: no
   remote_user: "{{ testing_user }}"
@@ -69,9 +69,9 @@
 - import_playbook: redeploy-dynamic.yaml
   when: redeploy_nodes | default(false) | bool
 
-- hosts: baremetal
+- name: "Unprovisions the test node"
+  hosts: baremetal
   connection: local
-  name: "Unprovisions the test node"
   become: no
   gather_facts: no
   roles:
@@ -80,9 +80,9 @@
     - role: ironic-delete-dynamic
 
 # The following tasks are intended to test DHCP functionality
-- hosts: localhost
+- name: "Start VMs that were not enrolled to ironic"
+  hosts: localhost
   connection: local
-  name: "Start VMs that were not enrolled to ironic"
   become: yes
   vars:
     not_enrolled_data_file: /tmp/baremetal.json.rest
@@ -103,9 +103,9 @@
       seconds: 30
     when: inventory_dhcp | bool
 
-- hosts: localhost
+- name: "Executes DHCP test script"
+  hosts: localhost
   connection: local
-  name: "Executes DHCP test script"
   become: yes
   gather_facts: yes
   vars:
