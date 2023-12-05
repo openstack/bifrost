@@ -82,7 +82,7 @@
           stat:
             path: "{{ deploy_image_path }}"
             get_checksum: yes
-            checksum_algorithm: md5
+            checksum_algorithm: sha256
           register: test_deploy_image
           become: yes
 

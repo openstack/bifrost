@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    SHA256 is now used instead of MD5 for any checksums calculated by Bifrost.

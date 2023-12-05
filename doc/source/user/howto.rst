@@ -141,7 +141,7 @@ in an ``instance_info`` variable, for example:
         },
         "instance_info": {
           "image_source": "http://image.server/image.qcow2",
-          "image_checksum": "<md5 checksum>",
+          "image_checksum": "<md5/sha256/sha512 checksum>",
           "configdrive": {
             "meta_data": {
               "public_keys": {"0": "ssh-rsa ..."},
