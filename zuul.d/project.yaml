@@ -11,9 +11,11 @@
         - bifrost-integration-tinyipa-ubuntu-jammy
         - bifrost-integration-tinyipa-keystone-ubuntu-jammy
         - bifrost-integration-tinyipa-keystone-centos-9
+        - bifrost-integration-tinyipa-debian-bookworm
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-centos-9
+        - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-centos9
         # Non-voting jobs
@@ -59,9 +61,11 @@
         - bifrost-integration-tinyipa-ubuntu-jammy
         - bifrost-integration-tinyipa-keystone-ubuntu-jammy
         - bifrost-integration-tinyipa-keystone-centos-9
+        - bifrost-integration-tinyipa-debian-bookworm
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-centos-9
+        - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-centos9
     experimental:
