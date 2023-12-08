@@ -326,44 +326,44 @@
     itf_netaddr1: "{{ itf_infos['address'] }}/{{ itf_infos['netmask'] }}"
     itf_netaddr2: "{{ itf_infos['network'] }}/{{ itf_infos['netmask'] }}"
     itf_broadcast: "{{ itf_infos['broadcast'] }}/{{ itf_infos['netmask'] }}"
-    dhcp_netaddr: "{{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_static_mask }}"
+    dhcp_netaddr: "{{ dhcp_netaddr | ansible.utils.ipaddr('network') }}/{{ dhcp_static_mask }}"
   when: enable_dhcp | bool
 - name: "Validate interface network addresses"
   fail:
     msg: >
       Interface {{ ans_network_interface }} network incoherence
-      {{ itf_netaddr1 | ipaddr('network') }}/{{ itf_netaddr1 | ipaddr('prefix') }}
-      vs {{ itf_netaddr2 }}/{{ itf_netaddr2 | ipaddr('prefix') }}
+      {{ itf_netaddr1 | ansible.utils.ipaddr('network') }}/{{ itf_netaddr1 | ansible.utils.ipaddr('prefix') }}
+      vs {{ itf_netaddr2 }}/{{ itf_netaddr2 | ansible.utils.ipaddr('prefix') }}
   when:
     - enable_dhcp | bool
-    - itf_netaddr1 | ipaddr('network') != itf_netaddr2 | ipaddr('network')
+    - itf_netaddr1 | ansible.utils.ipaddr('network') != itf_netaddr2 | ansible.utils.ipaddr('network')
 - name: "Validate interface broadcast addresses"
   fail:
     msg: >
       Interface {{ ans_network_interface }} broadcast incoherence
-      {{ itf_netaddr1 | ipaddr('broadcast') }}/{{ itf_netaddr1 | ipaddr('prefix') }}
-      vs {{ itf_broadcast | ipaddr('broadcast') }}/{{ itf_broadcast | ipaddr('prefix') }}
+      {{ itf_netaddr1 | ansible.utils.ipaddr('broadcast') }}/{{ itf_netaddr1 | ansible.utils.ipaddr('prefix') }}
+      vs {{ itf_broadcast | ansible.utils.ipaddr('broadcast') }}/{{ itf_broadcast | ansible.utils.ipaddr('prefix') }}
   when:
     - enable_dhcp | bool
-    - itf_netaddr1 | ipaddr('broadcast') != itf_broadcast | ipaddr('broadcast')
+    - itf_netaddr1 | ansible.utils.ipaddr('broadcast') != itf_broadcast | ansible.utils.ipaddr('broadcast')
 - name: "Validate DHCP and interface addresses"
   debug:
     msg: >
       Interface {{ ans_network_interface }} and DHCP networks are incoherent
-      {{ itf_netaddr2 | ipaddr('network') }}/{{ itf_netaddr2 | ipaddr('prefix') }}
-      {{ dhcp_netaddr | ipaddr('network') }}/{{ dhcp_netaddr | ipaddr('prefix') }}
+      {{ itf_netaddr2 | ansible.utils.ipaddr('network') }}/{{ itf_netaddr2 | ansible.utils.ipaddr('prefix') }}
+      {{ dhcp_netaddr | ansible.utils.ipaddr('network') }}/{{ dhcp_netaddr | ansible.utils.ipaddr('prefix') }}
       overriding DHCP with interface settings"
   when:
     - enable_dhcp | bool
-    - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
+    - itf_netaddr2 | ansible.utils.ipaddr('network') != dhcp_netaddr | ansible.utils.ipaddr('network')
 - name: "Computing new DHCP informations"
   set_fact:
     dhcp_start_ip: "{{ dhcp_pool_start.split('.')[-1] }}"
     dhcp_end_ip: "{{ dhcp_pool_end.split('.')[-1] }}"
-    dhcp_netaddr: "{{ itf_netaddr1 | ipaddr('network') }}"
+    dhcp_netaddr: "{{ itf_netaddr1 | ansible.utils.ipaddr('network') }}"
   when:
     - enable_dhcp | bool
-    - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
+    - itf_netaddr2 | ansible.utils.ipaddr('network') != dhcp_netaddr | ansible.utils.ipaddr('network')
 # Note(olivierbourdon38): we could do much more complex network
 # computation to derive exact (or way closer to exact) range for
 # the new network depending on netmasks and indexes.
@@ -373,7 +373,7 @@
      dhcp_pool_end: "{{ '.'.join(dhcp_netaddr.split('.')[0:-1]) }}.{{ dhcp_end_ip }}"
   when:
     - enable_dhcp | bool
-    - itf_netaddr2 | ipaddr('network') != dhcp_netaddr | ipaddr('network')
+    - itf_netaddr2 | ansible.utils.ipaddr('network') != dhcp_netaddr | ansible.utils.ipaddr('network')
 
 - name: "Deploy dnsmasq configuration file"
   template:
