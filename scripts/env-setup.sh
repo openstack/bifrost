@@ -6,7 +6,7 @@ set -euo pipefail
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
-DEFAULT_PIP_ANSIBLE='>=6,<7'
+DEFAULT_PIP_ANSIBLE='>=7,<8'
 
 ANSIBLE_COLLECTIONS_REQ=${ANSIBLE_COLLECTIONS_REQ:-$(dirname $0)/../ansible-collections-requirements.yml}
 ANSIBLE_COLLECTION_SOURCE_PATH=
