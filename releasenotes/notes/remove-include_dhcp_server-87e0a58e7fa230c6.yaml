@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The variable ``include_dhcp_server`` has been completely removed,
+    please use ``enable_dhcp`` instead.
