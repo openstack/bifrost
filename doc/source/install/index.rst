@@ -315,7 +315,7 @@ Bifrost supports the ability for a user to build a custom IPA ramdisk
 utilizing diskimage-builder and ironic-python-agent-builder. In order
 to utilize this feature, the ``download_ipa`` setting must be set to ``false``
 and the create_ipa_image must be set to "true".  By default, the install
-playbook will build a Debian Bullseye based IPA image, if a pre-existing IPA
+playbook will build a Debian Bookworm based IPA image, if a pre-existing IPA
 image is not present on disk. If you wish to explicitly set a specific release
 to be passed to diskimage-create, then the setting ``dib_os_release`` can be
 set in addition to ``dib_os_element``.
