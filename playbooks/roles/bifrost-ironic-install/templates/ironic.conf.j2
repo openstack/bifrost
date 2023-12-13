@@ -136,6 +136,9 @@ allowed_origin = {{ cors_allowed_origin | default('allowed_origin=http://localho
 allow_credentials = {{ enable_cors_credential_support | default('true') }}
 {% endif %}
 
+[ipmi]
+debug = {{ ironic_debug | bool and testing | bool }}
+
 [ilo]
 use_web_server_for_images = true
 kernel_append_params = {{ ilo_kernel_params }}
