@@ -423,7 +423,7 @@
 - when: download_custom_deploy_image | bool
   block:
     - name: "Create a checksum file for the custom deployment image"
-      shell: md5sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
+      shell: sha256sum {{ deploy_image_filename }} > {{ deploy_image_filename }}.CHECKSUMS
       args:
         chdir: "{{ http_boot_folder }}"
     - name: "Ensure the checksum file is readable"
