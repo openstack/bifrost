@@ -122,7 +122,7 @@ custom_deploy_image_upstream_url: "{{ cirros_deploy_image_upstream_url | default
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server. If you already have a DHCP server or do not need DHCP/TFTP at all,
 # you can pass --disable-dhcp to the bifrost-cli install command to disable it.
-enable_dhcp: "{{ include_dhcp_server | default(true) }}"
+enable_dhcp: true
 # *_git_url can be overridden by local clones for offline installs
 dib_git_url: https://opendev.org/openstack/diskimage-builder
 ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
