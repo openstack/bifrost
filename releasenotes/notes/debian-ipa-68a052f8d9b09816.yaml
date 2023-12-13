@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Switches to Debian Bookworm for building IPA by default.

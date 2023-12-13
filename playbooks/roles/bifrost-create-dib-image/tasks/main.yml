@@ -115,7 +115,7 @@
     - dib_packages | length > 0
 - name: "Set default of Debian Bullseye if building debian and not explicitly set, override with dib_os_release setting"
   set_fact:
-    dib_os_release: "bullseye"
+    dib_os_release: "bookworm"
   when: dib_os_element == "debian" and dib_os_release is undefined
 - name: "Initialize DIB source-repository variables"
   set_fact:
