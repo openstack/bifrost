@@ -141,34 +141,14 @@
     group: "ironic"
     mode: "0755"
 
-# Note(TheJulia): The rootwrap copies will need to be re-tooled
-# to possibly directly retreive current files if a source install
-# is not utilized.
-- name: "Copy rootwrap.conf from ironic source folder"
-  copy:
-    src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.conf"
-    dest: "/etc/ironic/rootwrap.conf"
-    remote_src: yes
-    mode: "0644"
-    owner: root
-    group: root
-  when: not skip_install | bool
-- name: "Copy rootwrap.d contents from ironic source folder"
-  copy:
-    src: "{{ ironic_git_folder }}/etc/ironic/rootwrap.d/"
-    dest: "/etc/ironic/rootwrap.d/"
-    remote_src: yes
-    owner: root
-    group: root
-  when: not skip_install | bool
-- name: "Copy rootwrap.d contents from ironic-lib installation"
-  copy:
-    src: "{{ bifrost_venv_dir }}/etc/ironic/rootwrap.d/ironic-lib.filters"
-    dest: "/etc/ironic/rootwrap.d/"
-    remote_src: yes
-    owner: root
-    group: root
-  when: not skip_install | bool
+- name: "Remove old rootwrap locations"
+  file:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - "/etc/ironic/rootwrap.conf"
+    - "/etc/ironic/rootwrap.d"
+    - "{{ ironic_rootwrap_dir }}/ironic-rootwrap"
 
 - name: "Generate htpasswd(s) for ironic"
   htpasswd:
