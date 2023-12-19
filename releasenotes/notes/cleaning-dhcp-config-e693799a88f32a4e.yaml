@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Makes sure the static DHCP configuration runs before automated cleaning.

@@ -12,9 +12,6 @@ deploy_image_filename: "deployment_image.qcow2"
 deploy_image_path: "{{ deploy_image | default(http_boot_folder + '/' + deploy_image_filename) }}"
 deploy_image_source: "{{ deploy_url_protocol }}://{{ internal_ip }}:{{ file_url_port }}/{{ deploy_image_filename }}"
 deploy_root_gb: 10
-inventory_dhcp: false
-inventory_dhcp_static_ip: true
-inventory_dns: false
 deploy_url_protocol: "http"
 
 # Under normal circumstances, the os_ironic_node module does not wait for

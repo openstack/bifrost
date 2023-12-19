@@ -43,32 +43,8 @@
     - uuid is undefined
     - name is defined
 
-- name: "Setup DHCP for nodes."
-  template:
-    src: dhcp-host.j2
-    dest: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}"
-    owner: root
-    group: root
-    mode: "0644"
-  when: inventory_dhcp | bool
-  become: yes
-
-- name: "Setup DNS address for nodes."
-  template:
-    src: dns-address.j2
-    dest: "/etc/dnsmasq.d/host_record_{{ inventory_hostname }}"
-    owner: root
-    group: root
-    mode: "0644"
-  when: inventory_dns | bool
-  become: yes
-
-- name: "Restarting dnsmasq"
-  service:
-    name: dnsmasq
-    state: restarted
-  become: yes
-  when: inventory_dhcp | bool or inventory_dns | bool
+- import_role:
+    name: bifrost-dhcp-record
 
 - name: "Create instance info"
   when: instance_info is not defined or instance_info == {}
