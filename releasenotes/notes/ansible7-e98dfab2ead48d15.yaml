@@ -1,4 +1,4 @@
 ---
 upgrade:
   - |
-    The default supported version of Ansible is now 7.x
+    The default supported version of Ansible is now 8.x
