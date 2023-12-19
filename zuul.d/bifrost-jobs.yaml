@@ -78,16 +78,11 @@
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-bionic
 
-# NOTE(rpittau): used by openstack/ironic, openstack/ansible-collections-openstack,
-# openstack/ironic-inspector, openstack/openstacksdk
+# NOTE(rpittau): used by openstack/ansible-collections-openstack, openstack/openstacksdk
+# https://review.opendev.org/c/openstack/ansible-collections-openstack/+/903956
+# https://review.opendev.org/c/openstack/openstacksdk/+/903973
 - job:
     name: bifrost-integration-tinyipa-ubuntu-focal
-    parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-focal
-
-# NOTE(rpittau): used by openstack/ansible-collections-openstack
-- job:
-    name: bifrost-integration-tinyipa-keystone-ubuntu-focal
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-focal
 
@@ -96,7 +91,8 @@
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-jammy
 
-# NOTE(rpittau): remove after antelope
+# NOTE(rpittau): used by openstack/ansible-collections-openstack
+# https://review.opendev.org/c/openstack/ansible-collections-openstack/+/903956
 - job:
     name: bifrost-integration-tinyipa-keystone-ubuntu-focal
     parent: bifrost-integration-tinyipa

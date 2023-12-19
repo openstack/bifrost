@@ -22,10 +22,6 @@ Full support (fully tested in the CI, no known or potential issues):
 * Ubuntu 22.04 "Jammy"
 * Debian 11 "Bullseye" and 12 "Bookworm"
 
-Limited support, may be removed at any moment:
-
-* Ubuntu 20.04 "Focal"
-
 .. note::
    Operating systems evolve and so does the support for them, even on stable
    branches.
