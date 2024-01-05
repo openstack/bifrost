@@ -19,30 +19,8 @@
 - import_role:
     name: bifrost-cloud-config
 
-- name: "Setup DHCP for nodes."
-  template:
-    src: dhcp-host.j2
-    dest: "/etc/dnsmasq.d/bifrost.dhcp-hosts.d/{{ inventory_hostname }}"
-    owner: root
-    group: root
-    mode: "0644"
-  when: inventory_dhcp | bool
-  become: yes
-- name: "Setup DNS address for nodes."
-  template:
-    src: dns-address.j2
-    dest: "/etc/dnsmasq.d/host_record_{{ inventory_hostname }}"
-    owner: root
-    group: root
-    mode: "0644"
-  when: inventory_dns | bool
-  become: yes
-- name: "Sending dnsmasq HUP"
-  # Note(TheJulia): We need to actually to send a hup signal directly as
-  # Ansible's reloaded state does not pass through to the init script.
-  command: killall -HUP dnsmasq
-  become: yes
-  when: inventory_dhcp | bool or inventory_dns | bool
+- import_role:
+    name: bifrost-dhcp-record
 
 - name: "Execute node introspection"
   openstack.cloud.baremetal_inspect:

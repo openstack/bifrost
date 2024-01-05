@@ -19,6 +19,9 @@
 - import_role:
     name: bifrost-cloud-config
 
+- import_role:
+    name: bifrost-dhcp-record
+
 - name: "Dynamic enrollment"
   openstack.cloud.baremetal_node:
     cloud: "{{ cloud_name | default(omit) }}"
