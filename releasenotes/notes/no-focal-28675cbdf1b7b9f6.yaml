@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Ubuntu 20.04 "Focal" is no longer a supported operating system, please
+    use 22.04 "Jammy" instead.
