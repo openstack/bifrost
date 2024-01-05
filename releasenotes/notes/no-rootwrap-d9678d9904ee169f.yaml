@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Removes the ``rootwrap`` privilege escalation framework. Ironic no longer
+    uses it, and Bifrost does not use the Inspector PXE filters that require
+    root.

@@ -57,21 +57,14 @@
     mode: "0755"
     state: directory
 
-# Note(TheJulia): The rootwrap copies will need to be re-tooled
-# to possibly directly retreive current files if a source install
-# is not utilized.
-- name: "Copy rootwrap.conf from ironic-inspector source folder"
-  copy:
-    src: "{{ ironicinspector_git_folder }}/rootwrap.conf"
-    dest: "/etc/ironic-inspector/rootwrap.conf"
-    remote_src: yes
-    mode: "0644"
-    owner: root
-    group: root
-# Note(ashestakov): "copy" module in ansible doesn't support recursive
-# copying on remote host. "cp" command used instead.
-- name: "Copy rootwrap.d contents from ironic-inspector source folder"
-  command: cp -r "{{ ironicinspector_git_folder }}/rootwrap.d/" "/etc/ironic-inspector/rootwrap.d"
+- name: "Remove old rootwrap locations"
+  file:
+    name: "{{ item }}"
+    state: absent
+  loop:
+    - "/etc/ironic-inspector/rootwrap.conf"
+    - "/etc/ironic-inspector/rootwrap.d"
+    - "{{ ironic_rootwrap_dir }}/ironic-inspector-rootwrap"
 
 - name: "Generate htpasswd(s) for ironic-inspector"
   htpasswd:
