@@ -93,6 +93,7 @@ if [ ${USE_DHCP} = "true" ]; then
     ENABLE_INSPECTOR=false
     INSPECT_NODES=false
     TEST_VM_NUM_NODES=3
+    VM_DISK=4
     INVENTORY_DHCP=true
     INVENTORY_DHCP_STATIC_IP=true
     WRITE_INTERFACES_FILE=false
