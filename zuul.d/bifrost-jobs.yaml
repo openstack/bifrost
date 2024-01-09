@@ -55,6 +55,9 @@
     timeout: 7200
     vars:
       build_image: true
+      # NOTE(dtantsur): these jobs have weird issues with IPMI. Since IPMI is
+      # not what we want to test here, just use Redfish.
+      test_driver: redfish
 
 - job:
     name: bifrost-integration-dibipa-debian-ubuntu-jammy
