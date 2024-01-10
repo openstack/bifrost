@@ -23,4 +23,4 @@
         ENABLE_TLS: "{{ enable_tls | default(false) | bool | lower }}"
         ENABLE_PROMETHEUS_EXPORTER: "{{ enable_prometheus_exporter | default(false) | bool | lower }}"
         USE_VMEDIA: "{{ use_vmedia | default(false) | bool | lower }}"
-        USE_INSPECTOR: "{{ use_inspector | default(true) | bool | lower }}"
+        USE_INSPECTOR: "{{ use_inspector | default(false) | bool | lower }}"

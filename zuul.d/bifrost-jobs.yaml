@@ -120,10 +120,10 @@
       enable_prometheus_exporter: true
 
 - job:
-    name: bifrost-integration-noinspector-ubuntu-jammy
+    name: bifrost-integration-inspector-ubuntu-jammy
     parent: bifrost-integration-tinyipa-ubuntu-jammy
     vars:
-      use_inspector: false
+      use_inspector: true
 
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
@@ -171,10 +171,10 @@
       enable_prometheus_exporter: true
 
 - job:
-    name: bifrost-integration-noinspector-centos-9
+    name: bifrost-integration-inspector-centos-9
     parent: bifrost-integration-tinyipa-centos-9
     vars:
-      use_inspector: false
+      use_inspector: true
 
 - job:
     name: bifrost-integration-tinyipa-debian-bullseye

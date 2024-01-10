@@ -17,8 +17,9 @@ ironic-inspector_
     Inspector is an auxiliary service that provides `in-band inspection`_.
     Its `introspection API`_ is served on TCP port 5050.
 
-    Inspector can be disabled by setting ``enable_inspector=false``. In this
-    case, Ironic's `native in-band inspection`_ will be used.
+    Inspector is deprecated and can be enabled by setting
+    ``enable_inspector=true``. Otherwise, Ironic's `native in-band inspection`_
+    is used.
 
 mariadb_
     MariaDB is used as a database to persistently store information.

@@ -35,7 +35,7 @@ TEST_VM_NUM_NODES=1
 DOWNLOAD_CUSTOM_DEPLOY_IMAGE=true
 TESTING_USER=cirros
 TEST_PLAYBOOK="test-bifrost.yaml"
-USE_INSPECTOR=${USE_INSPECTOR:-true}
+USE_INSPECTOR=${USE_INSPECTOR:-false}
 INSPECT_NODES=true
 INVENTORY_DHCP=false
 INVENTORY_DHCP_STATIC_IP=false
@@ -90,7 +90,6 @@ ANSIBLE_PYTHON_INTERP=${VENV}/bin/python3
 
 # Adjust options for DHCP, VM, or Keystone tests
 if [ ${USE_DHCP} = "true" ]; then
-    ENABLE_INSPECTOR=false
     INSPECT_NODES=false
     TEST_VM_NUM_NODES=3
     VM_DISK=4
@@ -102,7 +101,6 @@ elif [ ${BUILD_IMAGE} = "true" ]; then
     DOWNLOAD_CUSTOM_DEPLOY_IMAGE=false
     TESTING_USER=root
     VM_MEMORY_SIZE="4096"
-    ENABLE_INSPECTOR=false
     INSPECT_NODES=false
     DOWNLOAD_IPA=false
     CREATE_IPA_IMAGE=true

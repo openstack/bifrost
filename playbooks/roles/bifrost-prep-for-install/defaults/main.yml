@@ -53,7 +53,7 @@ ironicinspectorclient_source_install: false
 sushy_source_install: false
 staging_drivers_source_install: true
 prometheus_exporter_source_install: true
-enable_inspector: true
+enable_inspector: false
 enable_keystone: false
 enable_prometheus_exporter: false
 staging_drivers_include: false
