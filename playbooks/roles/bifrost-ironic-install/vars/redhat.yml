@@ -1,8 +1,7 @@
 ---
 init_dest_dir: /usr/lib/systemd/system/
 ipxe_dir: /usr/share/ipxe/
-ipxe_full_binary: ipxe.lkrn
-ipxe_efi_binary: ipxe-x86_64.efi
+ipxe_efi_binary: ipxe-snponly-x86_64.efi
 ironic_rootwrap_dir: /usr/bin/
 mysql_service_name: mariadb
 tftp_service_name: tftp
