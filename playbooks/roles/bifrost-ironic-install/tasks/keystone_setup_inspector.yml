@@ -133,10 +133,10 @@
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
 
-- name: "Associate inspector_user with baremetal_admin"
+- name: "Associate inspector_user with admin role"
   openstack.cloud.role_assignment:
     user: "{{ ironic_inspector.keystone.default_username }}"
-    role: "baremetal_admin"
+    role: "admin"
     project: baremetal
     auth: "{{ keystone_auth }}"
     wait: yes

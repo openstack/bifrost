@@ -17,11 +17,10 @@
     testing_env:
       OS_AUTH_TYPE: password
       OS_AUTH_URL: "{{ ironic.service_catalog.auth_url }}"
-      OS_USERNAME: "{{ ironic.service_catalog.username }}"
-      OS_PASSWORD: "{{ ironic.service_catalog.password }}"
-      OS_PROJECT_NAME: "{{ ironic.service_catalog.project_name }}"
+      OS_USERNAME: "{{ admin_username }}"
+      OS_PASSWORD: "{{ admin_password }}"
       OS_USER_DOMAIN_NAME: default
-      OS_PROJECT_DOMAIN_NAME: default
+      OS_SYSTEM_SCOPE: all
   when: enable_keystone | bool
   no_log: yes
 

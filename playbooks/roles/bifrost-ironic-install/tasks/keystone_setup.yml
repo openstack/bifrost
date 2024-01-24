@@ -134,22 +134,6 @@
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
   environment: "{{ bifrost_venv_env }}"
 
-- name: "Create baremetal_admin role"
-  openstack.cloud.identity_role:
-    name: "baremetal_admin"
-    state: present
-    auth: "{{ keystone_auth }}"
-    ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  environment: "{{ bifrost_venv_env }}"
-
-- name: "Create baremetal_observer role"
-  openstack.cloud.identity_role:
-    name: "baremetal_observer"
-    state: present
-    auth: "{{ keystone_auth }}"
-    ca_cert: "{{ tls_certificate_path | default(omit) }}"
-  environment: "{{ bifrost_venv_env }}"
-
 - name: "Create baremetal project"
   os_project:
     name: "baremetal"
@@ -175,7 +159,7 @@
 - name: "Associate bifrost user with baremetal_admin"
   openstack.cloud.role_assignment:
     user: "{{ ironic.keystone.default_username }}"
-    role: "baremetal_admin"
+    role: "admin"
     project: "baremetal"
     auth: "{{ keystone_auth }}"
     wait: yes

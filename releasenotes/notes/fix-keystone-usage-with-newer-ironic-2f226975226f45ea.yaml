@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    Fixes Bifrost's creation of accounts and Keystone account usage to align
+    with the newer role based access control within Ironic. Ironic deprecated
+    the legacy access policy, which utilized custom roles ``baremetal_admin``
+    and ``baremetal_observer`` in the Wallaby release of OpenStack, and
+    Bifrost now utilizes a mix of a project scoped and system scoped
+    ``admin`` accounts with Keystone to facilitate authentication
+    and authorization to resources.

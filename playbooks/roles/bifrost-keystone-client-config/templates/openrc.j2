@@ -12,13 +12,17 @@ case "$1" in
 {% for cloud in clouds | default({}) | dictsort %}
 # Section for {{ cloud.0 }}
     "{{ cloud.0 }}")
-    export OS_PROJECT_DOMAIN_NAME="{{ cloud.1.config_project_domain_id | default('default') }}"
-    export OS_USER_DOMAIN_NAME="{{ cloud.1.config_user_domain_id | default('default') }}"
-    export OS_PROJECT_NAME="{{ cloud.1.config_project_name }}"
     export OS_USERNAME="{{ cloud.1.config_username }}"
     export OS_PASSWORD="{{ cloud.1.config_password }}"
     export OS_AUTH_URL={{ cloud.1.config_auth_url }}
     export OS_IDENTITY_API_VERSION=3
+    export OS_USER_DOMAIN_NAME="{{ cloud.1.config_user_domain_id | default('default') }}"
+    {% if cloud.1.config_system_scope | default(false) | bool %}
+    export OS_SYSTEM_SCOPE=all
+    {% else %}
+    export OS_PROJECT_NAME="{{ cloud.1.config_project_name }}"
+    export OS_PROJECT_DOMAIN_NAME="{{ cloud.1.config_project_domain_id | default('default') }}"
+    {% endif %}
     ;;
 {% endfor %}
     *) echo -e "\nERROR unsupported or unspecified profile: $1\nMust be one of {{ clouds | default({}) | dictsort | map(attribute='0') | join(',') }}";;

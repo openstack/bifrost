@@ -8,10 +8,14 @@ clouds:
     auth:
       username: "{{ cloud.1.config_username }}"
       password: "{{ cloud.1.config_password }}"
-      project_name: "{{ cloud.1.config_project_name }}"
       auth_url: {{ cloud.1.config_auth_url }}
-      project_domain_id: "{{ cloud.1.config_project_domain_id | default('default') }}"
       user_domain_id: "{{ cloud.1.config_user_domain_id | default('default') }}"
+{% if cloud.1.config_system_scope | default(false) | bool %}
+      system_scope: "all"
+{% else %}
+      project_name: "{{ cloud.1.config_project_name }}"
+      project_domain_id: "{{ cloud.1.config_project_domain_id | default('default') }}"
+{% endif %}
     identity_api_version: "3"
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"

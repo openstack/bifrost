@@ -51,6 +51,7 @@
           config_project_name: "{{ keystone.bootstrap.project_name }}"
           config_region_name: "{{ keystone.bootstrap.region_name }}"
           config_auth_url: "{{ keystone.bootstrap.public_url }}"
+          config_system_scope: true
     - role: bifrost-create-dib-image
       dib_imagename: "{{ http_boot_folder }}/ipa"
       build_ramdisk: false
