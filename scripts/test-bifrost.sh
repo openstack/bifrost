@@ -80,6 +80,13 @@ if [ ${DOWNLOAD_CUSTOM_DEPLOY_IMAGE} = "true" ] && [ ! -f "$HOME/.ssh/id_ecdsa.p
     ssh-keygen -t ECDSA -f "$HOME/.ssh/id_ecdsa" -N ""
 fi
 
+# Install lshw to collect info at the end of the test
+if which rpm &> /dev/null; then
+    sudo dnf install -y lshw
+elif which apt &> /dev/null; then
+    sudo apt install -y lshw
+fi
+
 # Note(cinerama): activate is not compatible with "set -u";
 # disable it just for this line.
 set +u
