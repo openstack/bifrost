@@ -1,0 +1,18 @@
+---
+features:
+  - |
+    When ``enable_inspector`` is set to ``false`` (the default is ``true``),
+    the new built-in inspection implementation is now configured. Note that
+
+    * The new implementation has not at the moment of writing achieved a
+      complete feature parity with ironic-inspector: see
+      https://docs.openstack.org/ironic/latest/admin/inspection/index.html
+      for the available features.
+
+    * Whether inspection actually runs is not defined by this parameter but
+      rather by ``inspect_nodes`` (or the ``--inspect`` argument to
+      ``./bifrost-cli enroll``).
+upgrade:
+  - |
+    If ironic-inspector support is disabled via ``enable_inspector`` set to
+    ``false``, the service will be stopped and removed on upgrade.

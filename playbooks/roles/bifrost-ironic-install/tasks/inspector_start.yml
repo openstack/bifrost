@@ -18,3 +18,18 @@
     name: ironic-inspector
     state: restarted
     enabled: yes
+  when: enable_inspector | bool
+
+- name: "Stop inspector if it is disabled"
+  service:
+    name: ironic-inspector
+    state: stopped
+    enabled: no
+  ignore_errors: true
+  when: not enable_inspector | bool
+
+- name: "Remove inspector if it is disabled"
+  file:
+    path: "{{ init_dest_dir }}ironic-inspector.service"
+    state: absent
+  when: not enable_inspector | bool

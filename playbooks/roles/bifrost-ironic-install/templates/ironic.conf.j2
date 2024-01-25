@@ -8,8 +8,11 @@ debug = {{ ironic_debug | bool }}
 enabled_network_interfaces = noop
 default_deploy_interface = {{ default_deploy_interface }}
 {% if enable_inspector | bool == true %}
-enabled_inspect_interfaces = no-inspect,inspector
+enabled_inspect_interfaces = no-inspect,inspector,agent
 default_inspect_interface = inspector
+{% else %}
+enabled_inspect_interfaces = no-inspect,agent
+default_inspect_interface = agent
 {% endif %}
 enabled_bios_interfaces = {{ enabled_bios_interfaces }}
 enabled_boot_interfaces = {{ enabled_boot_interfaces }}
@@ -147,11 +150,13 @@ kernel_append_params = {{ ilo_kernel_params }}
 use_swift = False
 kernel_append_params = {{ redfish_kernel_params }}
 
-{% if enable_inspector | bool == true %}
 [inspector]
 power_off = {{ power_off_after_inspection }}
 extra_kernel_params = {{ inspector_extra_kernel_options | default('') }}
 require_managed_boot = False
+add_ports = {{ inspector_port_addition | default('pxe') }}
+keep_ports = {{ inspector_keep_ports | default('present') }}
+{% if enable_inspector | bool %}
 {% if enable_keystone | bool %}
 auth_type = password
 auth_url = {{ ironic.service_catalog.auth_url }}

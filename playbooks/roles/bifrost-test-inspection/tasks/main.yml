@@ -13,12 +13,11 @@
 # limitations under the License.
 ---
 - name: Check node hardware inspection data
-  command: "baremetal introspection data save {{ uuid }}"
+  command: "baremetal node inventory save {{ uuid }}"
   register: inspection_data
   environment:
     OS_CLOUD: bifrost
 
-# TODO(mgoddard): More validation of data format and contents.
 - name: Validate the inspection data format
   assert:
     that:
