@@ -234,3 +234,11 @@
     parent: bifrost-base
     timeout: 7200
     run: playbooks/ci/benchmark-ironic.yaml
+
+
+- job:
+    name: bifrost-tox-codespell
+    parent: openstack-tox
+    timeout: 7200
+    vars:
+      tox_envlist: codespell

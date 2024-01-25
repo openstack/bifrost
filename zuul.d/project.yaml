@@ -54,6 +54,9 @@
               - ^test-requirements.txt$
               - ^tools/.*$
               - ^tox.ini$
+
+        - bifrost-tox-codespell:
+            voting: false
     gate:
       jobs:
         - bifrost-tox-linters
