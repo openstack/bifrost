@@ -116,7 +116,7 @@ update_ipa: "{{ update_repos }}"
 ipa_add_ssh_key: false
 # NOTE(Alex-Welsh): cirros_deploy_image_upstream_url has been deprecated in
 # favor of custom_deploy_image_upstream_url but is included for backwards
-# compatability. It should be swapped permanently to
+# compatibility. It should be swapped permanently to
 # custom_deploy_image_upstream_url in the next major release.
 custom_deploy_image_upstream_url: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.5.3/cirros-0.5.3-x86_64-disk.img') }}"
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
@@ -227,7 +227,7 @@ inventory_dns: False
 
 # Set this to true to configure dnsmasq to populate the NTP servers
 # setting of dnsmasq.
-# Several NTP servers can be specified, seperated by commas.
+# Several NTP servers can be specified, separated by commas.
 # dnsmasq_ntp_servers:
 
 # Settings to enable the use of inspector

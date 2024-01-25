@@ -58,7 +58,7 @@ features:
                       options: "rw,nodev,relatime"
 
 
-    For more informations please refer to the following links:
+    For more information please refer to the following links:
     `Disk Image Layout Section <https://docs.openstack.org/diskimage-builder/latest/user_guide/building_an_image.html#disk-image-layout>`_
     `Standard Partitioning <http://teknoarticles.blogspot.fr/2017/07/build-and-use-security-hardened-images.html>`_
     `LVM Partitioning <http://teknoarticles.blogspot.fr/2017/11/security-hardened-images-with-volumes.html>`_

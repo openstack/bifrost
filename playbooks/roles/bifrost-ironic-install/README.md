@@ -302,11 +302,11 @@ ipa_download_headers: HTTP headers to use when downloading IPA.
 
 ### Changing Database Configuration
 
-Bifrost utilizes a nested data stucture for the configuration of database.
+Bifrost utilizes a nested data structure for the configuration of database.
 Simply put:
 
-  - Values cannot be overrriden via set_fact.
-  - Values cannot be overrriden via the command line with ``-e``.
+  - Values cannot be overridden via set_fact.
+  - Values cannot be overridden via the command line with ``-e``.
   - The entire data structure must be defined if is modified.
 
 Please see defaults/main.yml file for the structure named ``ironic``.

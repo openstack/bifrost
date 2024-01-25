@@ -10,8 +10,8 @@ deprecations:
   - |
     Ironic has deprecated support for classic drivers. These were the drivers
     that were prepended with ``agent`` or ``pxe``. The new default hardware type,
-    which superceeds drivers, is ``ipmi``. The default deployment interface is
-    ``direct``, which superceeds the ``agent`` driver type. Support for classic
+    which supersedes drivers, is ``ipmi``. The default deployment interface is
+    ``direct``, which supersedes the ``agent`` driver type. Support for classic
     Drivers, will be removed from Bifrost in the Rocky release cycle.
 issues:
   - |

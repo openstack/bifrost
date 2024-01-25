@@ -24,7 +24,7 @@ Example Playbook
 ----------------
 
 hosts: localhost
-  name: "Tests DCHP settings"
+  name: "Tests DHCP settings"
   become: no
   gather_facts: yes
   remote_user: root

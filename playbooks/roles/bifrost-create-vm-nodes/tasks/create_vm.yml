@@ -45,7 +45,7 @@
 - when: vm_name not in existing_vms.list_vms
   block:
     # NOTE(pas-ha) Ansible still lacks modules to operate on libvirt volumes
-    # NOTE(pas-ha) adding extra 1G for disk size to accomodate for partition table / configdrive
+    # NOTE(pas-ha) adding extra 1G for disk size to accommodate for partition table / configdrive
     - name: create volume for vm
       command: >
         virsh --connect {{ test_vm_libvirt_uri }}

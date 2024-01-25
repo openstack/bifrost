@@ -20,7 +20,7 @@
       args:
         creates: "{{ bifrost_venv_dir }}/bin/python3"
 
-    # NOTE(ebbex): (incase it's missing, which it shouldn't normally be)
+    # NOTE(ebbex): (in case it's missing, which it shouldn't normally be)
     - name: install setuptools in venv
       command: "{{ bifrost_venv_dir }}/bin/pip3 install setuptools"
       args:

@@ -72,7 +72,7 @@
     name: bifrost-nginx-install
     tasks_from: install
 
-# NOTE(TheJulia) While we don't necessarilly require /opt/stack any longer
+# NOTE(TheJulia) While we don't necessarily require /opt/stack any longer
 # and it should already be created by the Ansible setup, we will leave this
 # here for the time being.
 - name: "Ensure /opt/stack is present"

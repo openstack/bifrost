@@ -296,12 +296,12 @@
     group: "ironic"
     mode: "0775"
 
-- name: "Retrieve interface IP informations"
+- name: "Retrieve interface IP information"
   set_fact:
     itf_infos: "{{ internal_interface }}"
     dhcp_netaddr: "{{ dhcp_pool_start }}/{{ dhcp_static_mask }}"
   when: enable_dhcp | bool
-- name: "Compute interface and DHCP network informations"
+- name: "Compute interface and DHCP network information"
   set_fact:
     itf_netaddr1: "{{ itf_infos['address'] }}/{{ itf_infos['netmask'] }}"
     itf_netaddr2: "{{ itf_infos['network'] }}/{{ itf_infos['netmask'] }}"
@@ -336,7 +336,7 @@
   when:
     - enable_dhcp | bool
     - itf_netaddr2 | ansible.utils.ipaddr('network') != dhcp_netaddr | ansible.utils.ipaddr('network')
-- name: "Computing new DHCP informations"
+- name: "Computing new DHCP information"
   set_fact:
     dhcp_start_ip: "{{ dhcp_pool_start.split('.')[-1] }}"
     dhcp_end_ip: "{{ dhcp_pool_end.split('.')[-1] }}"

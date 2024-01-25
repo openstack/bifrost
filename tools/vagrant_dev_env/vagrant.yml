@@ -6,7 +6,7 @@
   become: yes
   tasks:
     ############################################################################
-    # Install some reqired bits into the vm
+    # Install some required bits into the vm
     ############################################################################
     - name: Remove private default route
       command: ip route del default dev eth0

@@ -35,8 +35,8 @@ Usage:
 where:
     N - max number of dict elements to be defined in the <first> JSON file
     input - path to input JSON file
-    <first> - path to first output JSON file containig at most N entries
-    <second> - path to the second output JSON file containig the rest
+    <first> - path to first output JSON file containing at most N entries
+    <second> - path to the second output JSON file containing the rest
 """ % sys.argv[0]
 
 

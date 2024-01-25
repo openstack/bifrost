@@ -243,7 +243,7 @@ def _process_sdk(groups, hostvars):
         machine = cloud.get_machine(machine['uuid'])
         new_machine = {}
         for key, value in machine.items():
-            # NOTE(TheJulia): We don't want to pass infomrational links
+            # NOTE(TheJulia): We don't want to pass informational links
             # nor do we want to pass links about the ports since they
             # are API endpoint URLs.
             if key not in ['links', 'ports']:

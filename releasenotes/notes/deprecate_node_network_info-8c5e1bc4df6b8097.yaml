@@ -1,6 +1,6 @@
 ---
 deprecations:
-  - The ``node_network_info`` parameter has been deperecated
+  - The ``node_network_info`` parameter has been deprecated
     in favor of the ``node_network_data`` parameter as the
     related configuration drive ``network_info.json`` file was
     misnamed originally, and should have been named
@@ -10,7 +10,7 @@ deprecations:
     drives will be removed in the Queens cycle.
 fixes:
   - When support for passing configuration drive data to the
-    nodes was originally created, the file was accidently named
+    nodes was originally created, the file was accidentally named
     incorrectly as ``network_info.json``.  The correct filename
     is ``network_data.json``. Both files will now be written
     until support for writing ``network_info.json`` is removed

@@ -45,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     bifrost.vm.network "public_network", bridge: 'enp3s0', dev: 'enp3s0'
 
 
-    # besure we get the entire bifrost directory tree
+    # be sure we get the entire bifrost directory tree
     bifrost.vm.synced_folder "../../.", "/home/vagrant/bifrost", type: "rsync"
 
     bifrost.vm.provision 'ansible' do |ansible|

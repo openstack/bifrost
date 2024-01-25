@@ -35,7 +35,7 @@ systems not managed by ironic. For example, create a file
     dhcp-match=set:<tag>,<match criteria>
     dhcp-boot=tag:<tag>,<boot options>
 
-The tag, match critera and boot options should be modified for your
+The tag, match criteria and boot options should be modified for your
 environment.  Here we use dnsmasq tags to match against hosts that we want to
 manage.  dnsmasq will use the last matching tagged ``dhcp-boot`` option for a
 host or an untagged default ``dhcp-boot`` option if there were no matches.

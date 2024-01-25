@@ -1,7 +1,7 @@
 ---
 features:
   - |
-    Adds the use of the ``openstacksdk`` library which is superceeding the
+    Adds the use of the ``openstacksdk`` library which is superseding the
     ``shade`` library for communicating with OpenStack services using the
     Ansible modules. By default this will attempted to be installed
     from source. Set the ``openstacksdk_source_install`` option to false

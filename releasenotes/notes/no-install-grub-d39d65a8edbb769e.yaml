@@ -1,5 +1,5 @@
 ---
 fixes:
   - |
-    Bifrost no longers installs GRUB2 and shim on the host system, avoding
+    Bifrost no longer installs GRUB2 and shim on the host system, avoiding
     potential issues with a local bootloader.

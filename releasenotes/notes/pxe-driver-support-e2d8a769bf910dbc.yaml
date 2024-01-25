@@ -22,5 +22,5 @@ fixes:
     This has been tested on Ubuntu 14.04 LTS.
 issues:
   - Basic testing has revealed that PXE drivers may not
-    result in the configurtion drive being written out
+    result in the configuration drive being written out
     with the current configuration of bifrost.
