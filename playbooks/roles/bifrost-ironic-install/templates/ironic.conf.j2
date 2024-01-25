@@ -182,6 +182,10 @@ cafile = {{ tls_certificate_path }}
 {% endif %}
 {% endif %}
 
+[auto_discovery]
+enabled = {{ enable_inspector_discovery | bool }}
+driver = {{ inspector_default_node_driver }}
+
 {% if enable_keystone is defined and enable_keystone | bool == true %}
 [keystone_authtoken]
 auth_plugin = password
