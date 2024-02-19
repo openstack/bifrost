@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    Switches to using the *snponly* binary for iPXE on UEFI instead of the
+    default ``ipxe.efi``. This has been recommended by the Ironic project for
+    some time since ``snponly.efi`` generally has more stable networking
+    support. Change the ``ipxe_efi_binary`` variable to revert if needed.
+  - |
+    No longer installs the full iPXE binary (``ipxe.pxe``) that is not used by
+    Ironic.

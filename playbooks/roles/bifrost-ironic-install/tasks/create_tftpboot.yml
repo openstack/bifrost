@@ -93,25 +93,6 @@
     mode: "0644"
     remote_src: true
 
-# NOTE(TheJulia): Copy full iPXE chain loader images in case they are required.
-- name: "Copy full iPXE image into {{ http_boot_folder }}/"
-  copy:
-    src: "{{ ipxe_dir }}/{{ ipxe_full_binary }}"
-    dest: "{{ http_boot_folder }}/"
-    owner: ironic
-    group: ironic
-    mode: "0644"
-    remote_src: true
-
-- name: "Copy full iPXE image into {{ tftp_boot_folder }}"
-  copy:
-    src: "{{ ipxe_dir }}/{{ ipxe_full_binary }}"
-    dest: "{{ tftp_boot_folder }}"
-    owner: ironic
-    group: ironic
-    mode: "0644"
-    remote_src: true
-
 - name: "Set grub2 and shim paths for Debian and Red Hat systems"
   set_fact:
     grub_efi_source: /usr/lib/ironic/grub-efi
