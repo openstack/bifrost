@@ -231,7 +231,7 @@ inventory_dns: False
 # dnsmasq_ntp_servers:
 
 # Settings to enable the use of inspector
-enable_inspector: true
+enable_inspector: false
 inspector_debug: true
 inspector_manage_firewall: false
 

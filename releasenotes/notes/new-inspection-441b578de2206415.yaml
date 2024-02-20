@@ -1,7 +1,7 @@
 ---
 features:
   - |
-    When ``enable_inspector`` is set to ``false`` (the default is ``true``),
+    When ``enable_inspector`` is set to ``false`` (the default),
     the new built-in inspection implementation is now configured. Note that
 
     * The new implementation has not at the moment of writing achieved a
@@ -15,4 +15,6 @@ features:
 upgrade:
   - |
     If ironic-inspector support is disabled via ``enable_inspector`` set to
-    ``false``, the service will be stopped and removed on upgrade.
+    ``false``, the service will be stopped and removed on upgrade. Nodes that
+    use the ``inspector`` inspect interface will be changed to ``agent`` when
+    running online data migrations.
