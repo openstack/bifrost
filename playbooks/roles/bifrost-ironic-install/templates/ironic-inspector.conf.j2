@@ -88,9 +88,9 @@ processing_hooks = {{ inspector_processing_hooks }}
 store_data = database
 power_off = {{ power_off_after_inspection }}
 
-{% if inspector.discovery.enabled | bool %}
+{% if enable_inspector_discovery | bool %}
 node_not_found_hook = enroll
 
 [discovery]
-enroll_node_driver = {{ inspector.discovery.default_node_driver }}
+enroll_node_driver = {{ inspector_default_node_driver }}
 {% endif %}
