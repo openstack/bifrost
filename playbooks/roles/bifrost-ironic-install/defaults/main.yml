@@ -281,7 +281,7 @@ noauth_mode: false
 
 # A work around for installing older releases, remove when no longer supporting
 # Ussuri.
-git_branch: stable/yoga
+git_branch: unmaintained/yoga
 supports_http_auth: >-
   {{ git_branch == "master"
      or git_branch[7:] not in ["queens", "rocky", "stein", "train", "ussuri"] }}
