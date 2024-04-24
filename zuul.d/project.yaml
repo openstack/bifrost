@@ -13,10 +13,6 @@
         # Non-voting jobs
         - bifrost-integration-tinyipa-ubuntu-bionic:
             voting: false
-        - bifrost-integration-tinyipa-opensuse-15:
-            voting: false
-        - bifrost-integration-tinyipa-debian-buster:
-            voting: false
         - bifrost-integration-dhcp-ubuntu-focal:
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-focal:

@@ -114,16 +114,6 @@
       cli_test: true
 
 - job:
-    name: bifrost-integration-tinyipa-debian-buster
-    parent: bifrost-integration-tinyipa
-    nodeset: debian-buster
-
-- job:
-    name: bifrost-integration-tinyipa-opensuse-15
-    parent: bifrost-integration-tinyipa
-    nodeset: opensuse-15
-
-- job:
     name: bifrost-tox-linters
     parent: openstack-tox-linters
     required-projects:
@@ -135,10 +125,11 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/victoria
+      upgrade_from: unmaintained/victoria
       skip_upgrade:
         - openstack/diskimage-builder
         - openstack/ironic-python-agent-builder
+        - x/ironic-staging-drivers
 
 - job:
     name: bifrost-upgrade-ubuntu-focal
