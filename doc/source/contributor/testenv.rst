@@ -106,13 +106,5 @@ sushy-tools_ is also installed.
    in the previous step.
 #. Run the deployment step, as documented in :ref:`deploy`.
 
-Configuring libvirt
--------------------
-
-.. toctree::
-
-   virsh
-
-
 .. _VirtualBMC: https://docs.openstack.org/virtualbmc/
 .. _sushy-tools: https://docs.openstack.org/sushy-tools/

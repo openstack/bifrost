@@ -1,6 +1,0 @@
-<network>
-  <name>br_direct</name>
-  <forward mode='bridge'>
-    <interface dev="eno1" />
-  </forward>
-</network>
