@@ -1,0 +1,72 @@
+---
+- name: "Gather details of existing deployment image"
+  stat:
+    path: "{{ http_boot_folder }}/{{ deploy_image_filename }}"
+    checksum_algorithm: "{{ omit if deploy_image_checksum_algorithm == 'none' else deploy_image_checksum_algorithm }}"
+    get_checksum: "{{ deploy_image_checksum_algorithm != 'none' }}"
+  register: deploy_image_stat
+
+- block:
+    - name: "Download checksum file for custom deployment image"
+      get_url:
+        url: "{{ deploy_image_checksum_url }}"
+        dest: "{{ http_boot_folder }}/{{ deploy_image_filename }}-checksum.CHECKSUMS"
+        force: true
+        owner: ironic
+        group: ironic
+        mode: "0644"
+  rescue:
+    - name: "Attempt to use curl if get_url fails"
+      command: "curl -L --output {{ http_boot_folder }}/{{ deploy_image_filename }}-checksum.CHECKSUMS {{ deploy_image_checksum_url }}" # noqa: command-instead-of-module
+      no_log: true
+    - name: Set checksum file permissions
+      file:
+        path: "{{ http_boot_folder }}/{{ deploy_image_filename }}-checksum.CHECKSUMS"
+        owner: ironic
+        group: ironic
+        mode: "0644"
+
+- name: "Extract deployment image checksum"
+  command: awk '/{{ deploy_image_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' {{ http_boot_folder }}/{{ deploy_image_filename }}-checksum.CHECKSUMS
+  register: parsed_deployment_image_checksum
+  failed_when: parsed_deployment_image_checksum is failed
+               or not parsed_deployment_image_checksum.stdout
+
+- set_fact:
+    deployment_image_checksum: "{{ deploy_image_checksum_algorithm }}:{{ parsed_deployment_image_checksum.stdout }}"
+
+- when: >-
+    (deploy_image_stat.stat.checksum | default("none") not in parsed_deployment_image_checksum.stdout | default("")) or
+    (not deploy_image_stat.stat.exists)
+  block:
+    - name: "Download a deployment image"
+      get_url:
+        url: "{{ deploy_image_upstream_url }}"
+        dest: "{{ deploy_image }}"
+        owner: ironic
+        group: ironic
+        mode: "0644"
+        checksum: "{{ deployment_image_checksum }}"
+  rescue:
+    - name: "Attempt to use curl if get_url fails"
+      command: "curl -L --output {{ deploy_image }} {{ deploy_image_upstream_url }}" # noqa: command-instead-of-module
+    - name: Set file permissions
+      file:
+        path: "{{ deploy_image }}"
+        owner: ironic
+        group: ironic
+        mode: "0644"
+    - name: "Gather details of new deployment image"
+      stat:
+        path: "{{ deploy_image }}"
+        checksum_algorithm: "{{ deploy_image_checksum_algorithm }}"
+        get_checksum: true
+      register: downloaded_image_stat
+      when: deploy_image_checksum_algorithm != 'none'
+    - name: Fail when downloaded image does not match checksum
+      fail:
+        msg: |
+          The deployment image checksum does not match the file that has been downloaded.
+          Ensure that deploy_image_upstream_url, deploy_image_checksum_url, and deploy_image_checksum_algorithm are set correctly.
+          To ignore the checksum, set deploy_image_checksum_algorithm to none.
+      when: deploy_image_checksum_algorithm != 'none' and downloaded_image_stat.stat.checksum != parsed_deployment_image_checksum
