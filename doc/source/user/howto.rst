@@ -284,6 +284,11 @@ installation. You can also use a custom image:
         --image http://example.com/images/my-image.qcow2 \
         --image-checksum 91ebfb80743bb98c59f787c9dc1f3cef \
 
+.. note::
+   Please see the `OpenStack Image Guide
+   <https://docs.openstack.org/image-guide/obtain-images.html>`_ for options
+   and locations for obtaining guest images.
+
 You can also provide a custom configdrive URL (or its content) instead of
 the one Bifrost builds for you:
 
