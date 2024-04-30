@@ -21,6 +21,8 @@
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-centos9
         # Non-voting jobs
+        - bifrost-slurp-upgrade-ubuntu-jammy:
+            voting: false
         - bifrost-integration-redfish-pxe-uefi-centos-9:
             voting: false
         - bifrost-integration-dhcp-ubuntu-jammy:
