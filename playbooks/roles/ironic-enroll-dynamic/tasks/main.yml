@@ -28,6 +28,7 @@
     auth_type: "{{ auth_type | default(omit) }}"
     auth: "{{ auth | default(omit) }}"
     ca_cert: "{{ tls_certificate_path | default(omit) }}"
+    boot_interface: "{{ boot_interface | default(omit) }}"
     driver: "{{ driver }}"
     uuid: "{{ uuid | default() }}"
     name: "{{ name | default() }}"

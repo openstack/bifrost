@@ -49,3 +49,11 @@ testing_user: root
 # failed.  Change wait_for_node_deploy to true to cause bifrost to wait for
 # Ironic to show the instance in Active state.
 wait_for_node_deploy: false
+
+# In deployments that use PXE boot and not virtual media, it is common to
+# set boot_interface to ipxe by default, however the value of this parameter
+# depends on the driver being used. While working on virtual media based
+# deployments it may be desirable to give the user an easy way of using
+# options such as  59 # boot_interface: redfish-virtual-media or
+# idrac-redfish-virtual-media - adding a commented-out value for those cases.
+# boot_interface: redfish-virtual-media

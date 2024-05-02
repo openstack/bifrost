@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Makes boot_interface customisable. This is used in dynamic enrollment of
+    baremetal node.
