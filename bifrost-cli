@@ -1,12 +1,12 @@
 #!/bin/sh
 
 if ! python3 --version > /dev/null; then
-    echo "Python 3 not found, version 3.6 or newer is required for Bifrost"
+    echo "Python 3 not found, version 3.8 or newer is required for Bifrost"
     exit 1
 fi
 
-if ! python3 -c "import sys; assert sys.version_info >= (3, 6)" 2> /dev/null; then
-    echo "Python 3.6 or newer is required for Bifrost"
+if ! python3 -c "import sys; assert sys.version_info >= (3, 8)" 2> /dev/null; then
+    echo "Python 3.8 or newer is required for Bifrost"
     exit 1
 fi
 
