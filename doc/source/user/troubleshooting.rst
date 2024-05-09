@@ -79,7 +79,7 @@ Obtaining IPA logs via the console
    parameters passed to the deployment ramdisk.  This can be done, as shown
    below in ironic.conf::
 
-    agent_pxe_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
+    kernel_append_params=nofb nomodeset vga=normal console=ttyS0 systemd.journald.forward_to_console=yes
 
    Parameters will vary by your hardware type and configuration,
    however the ``systemd.journald.forward_to_console=yes`` setting is
