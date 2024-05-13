@@ -81,33 +81,10 @@
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-bionic
 
-# NOTE(rpittau): used by openstack/ansible-collections-openstack, openstack/openstacksdk
-# https://review.opendev.org/c/openstack/ansible-collections-openstack/+/903956
-# https://review.opendev.org/c/openstack/openstacksdk/+/903973
-- job:
-    name: bifrost-integration-tinyipa-ubuntu-focal
-    parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-focal
-
 - job:
     name: bifrost-integration-tinyipa-ubuntu-jammy
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-jammy
-
-# NOTE(rpittau): used by openstack/ansible-collections-openstack
-# https://review.opendev.org/c/openstack/ansible-collections-openstack/+/903956
-- job:
-    name: bifrost-integration-tinyipa-keystone-ubuntu-focal
-    parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-focal
-    required-projects:
-      - openstack/keystone
-      - openstack/ironic-prometheus-exporter
-    vars:
-      enable_keystone: true
-      enable_tls: true
-      test_driver: redfish
-      enable_prometheus_exporter: true
 
 - job:
     name: bifrost-integration-tinyipa-keystone-ubuntu-jammy
