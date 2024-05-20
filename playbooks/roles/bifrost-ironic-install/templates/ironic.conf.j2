@@ -79,6 +79,7 @@ tftp_server = {{ internal_ip }}
 tftp_root = {{ tftp_boot_folder }}
 ipxe_fallback_script = pxelinux.cfg/default
 tftp_master_path = {{ ironic_tftp_master_path }}
+pxe_bootfile_name_by_arch = aarch64:bootaa64.efi
 {% if 'ipxe' in enabled_boot_interfaces.split(',') %}
 uefi_ipxe_bootfile_name = {{ ipxe_efi_binary }}
 {% endif %}

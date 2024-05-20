@@ -161,11 +161,26 @@
     timeout: 7200
 
 - job:
+    name: bifrost-integration-on-debian-trixie-arm64
+    parent: bifrost-integration
+    nodeset: debian-trixie-arm64-8GB
+    timeout: 7200
+    vars:
+      test_driver: redfish
+
+- job:
     name: bifrost-integration-redfish-vmedia-uefi-debian-trixie
     parent: bifrost-integration-on-debian-trixie
     vars:
       enable_tls: true
       test_driver: redfish
+      use_vmedia: true
+
+- job:
+    name: bifrost-integration-redfish-vmedia-uefi-debian-trixie-arm64
+    parent: bifrost-integration-on-debian-trixie-arm64
+    vars:
+      enable_tls: true
       use_vmedia: true
 
 - job:

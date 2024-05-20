@@ -11,10 +11,14 @@
       <boot dev='network'/>
     {% endif %}
     <bootmenu enable='no'/>
+    {% if test_vm_arch != "aarch64" %}
     <bios useserial='yes' rebootTimeout='10000'/>
+    {% endif %}
   </os>
   {% if test_vm_domain_type == 'kvm' %}
   <cpu mode='host-passthrough'/>
+  {% elif test_vm_arch == "aarch64" %}
+  <cpu mode='maximum'/>
   {% else %}
   <cpu mode='host-model'/>
   {% endif %}
@@ -35,7 +39,11 @@
       <target dev='vda' bus='virtio'/>
       <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
     </disk>
+    {% if test_vm_arch == 'aarch64' %}
+    <controller type='scsi' index='0' model='virtio-scsi'/>
+    {% else %}
     <controller type='sata' index='0'/>
+    {% endif %}
     {% if test_vm_switch_type == 'ovs' %}
     <interface type='direct'>
       <source dev='{{ vm_port_name }}' mode='passthrough'/>
@@ -54,7 +62,9 @@
       {% endif %}
     </interface>
     {% endif %}
+    {% if test_vm_arch != 'aarch64' %}
     <input type='mouse' bus='ps2'/>
+    {% endif %}
     <serial type='file'>
       <source path='{{ vm_log_file }}'/>
       <target port='0'/>

@@ -19,9 +19,12 @@
       block:
       - name: "Set variables if running in the CI"
         set_fact:
-           custom_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.6.3-x86_64-disk.img
            copy_from_local_path: true
            git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
+      - name: "Use cached cirros if running in the CI on x86"
+        set_fact:
+           custom_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.6.3-x86_64-disk.img
+        when: ansible_architecture != "aarch64"
       - name: "Check if openstacksdk is cloned"
         stat:
            path: "{{ git_url_root }}/openstack/openstacksdk"

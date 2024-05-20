@@ -36,11 +36,13 @@
   loop:
     - undionly.kpxe
     - ipxe.pxe
+  # NOTE(bbezak): only needed for BIOS, aarch64 is UEFI-only.
+  when: ansible_architecture != 'aarch64'
 
 - name: Get iPXE EFI binary
   get_url:
-    url: "https://boot.ipxe.org/{{ item }}"
-    dest: "{{ ipxe_dir }}/{{ item }}"
+    url: "{{ ipxe_efi_download_source }}/{{ ipxe_efi_binary }}"
+    dest: "{{ ipxe_dir }}/{{ ipxe_efi_binary }}"
     force: yes
     owner: ironic
     group: ironic
@@ -49,6 +51,4 @@
   until: ipxe_efi_binary_download_done is succeeded
   retries: 5
   delay: 10
-  loop:
-    - "{{ ipxe_efi_binary }}"
   when: "'ipxe' in enabled_boot_interfaces.split(',')"

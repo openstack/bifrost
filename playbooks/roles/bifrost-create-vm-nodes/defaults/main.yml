@@ -5,7 +5,7 @@ baremetal_nodes_json: '/tmp/nodes.json'
 test_vm_memory_size: "3072"
 test_vm_num_nodes: 1
 test_vm_domain_type: "qemu"
-test_vm_arch: "x86_64"
+test_vm_arch: "{{ ansible_architecture }}"
 test_vm_nic: "{{ 'virtio' if default_boot_mode == 'uefi' else 'e1000' }}"
 test_vm_groups: {}
 test_vm_default_groups: "{{ lookup('env', 'DEFAULT_HOST_GROUPS').split() | default(['baremetal'], true) }}"
@@ -33,13 +33,13 @@ test_vm_storage_pool: "{{ lookup('env', 'LIBVIRT_STORAGE_POOL') | default('defau
 test_vm_storage_pool_path: "/var/lib/libvirt/images"
 test_vm_logdir: "/var/log/libvirt/baremetal_logs"
 # NOTE(pas-ha) next two are generic values for most OSes, overridden by distro-specifc vars
-test_vm_emulator: "/usr/bin/qemu-system-x86_64"
-test_vm_machine: "q35"
+test_vm_emulator: "/usr/bin/qemu-system-{{ test_vm_arch }}"
+test_vm_machine: "{{ 'virt' if test_vm_arch == 'aarch64' else 'q35' }}"
 # Forces machines to use secure boot. Only compatible with virtual media,
 # requires using a real ramdisk matching the host distribution,
 # as well as a real instance image (not cirros).
 test_vm_secure_boot: false
-default_boot_mode: "{{ 'uefi' if test_vm_secure_boot | bool else '' }}"
+default_boot_mode: "{{ 'uefi' if test_vm_secure_boot | bool or test_vm_arch == 'aarch64' else '' }}"
 
 # NOTE(pas-ha) not really tested with non-local qemu connections
 test_vm_libvirt_uri: "{{ lookup('env', 'LIBVIRT_CONNECT_URI') | default('qemu:///system', true) }}"
@@ -80,10 +80,12 @@ efi_loader_locations_normal:
   - /usr/share/OVMF/OVMF_CODE_4M.secboot.fd
   - /usr/share/OVMF/OVMF_CODE.secboot.fd
   - /usr/share/qemu/ovmf-x86_64-code.bin
+  - /usr/share/AAVMF/AAVMF_CODE.fd  # aarch64 variant
 efi_loader_locations_secboot:
   - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
   - /usr/share/OVMF/OVMF_CODE_4M.secboot.fd
   - /usr/share/OVMF/OVMF_CODE.secboot.fd
+  - /usr/share/AAVMF/AAVMF_CODE.secboot.fd  # aarch64 variant
 efi_loader_locations: >-
   {{ efi_loader_locations_secboot if test_vm_secure_boot | bool else efi_loader_locations_normal }}
 efi_nvram_locations_normal:
@@ -91,10 +93,12 @@ efi_nvram_locations_normal:
   - /usr/share/OVMF/OVMF_VARS_4M.fd
   - /usr/share/OVMF/OVMF_VARS.fd
   - /usr/share/qemu/ovmf-x86_64-vars.bin
+  - /usr/share/AAVMF/AAVMF_VARS.fd  # aarch64 variant
 efi_nvram_locations_secboot:
   - /usr/share/edk2/ovmf/OVMF_VARS.secboot.fd
   - /usr/share/OVMF/OVMF_VARS_4M.ms.fd
   - /usr/share/OVMF/OVMF_VARS.secboot.fd
+  - /usr/share/AAVMF/AAVMF_VARS.ms.fd  # aarch64 variant
 efi_nvram_locations: >-
   {{ efi_nvram_locations_secboot if test_vm_secure_boot | bool else efi_nvram_locations_normal }}
 
