@@ -17,7 +17,7 @@ to take place:
 
        -e enable_keystone=true -e noauth_mode=false -e cloud_name=bifrost
 
-#. Set the global defaults for tagret
+#. Set the global defaults for target
    (``master/playbooks/inventory/group_vars/target``).
 
 OpenStack Client usage
