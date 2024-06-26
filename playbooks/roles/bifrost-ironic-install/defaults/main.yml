@@ -77,14 +77,7 @@ ipa_download_headers: {}
 ipa_kernel: "{{ http_boot_folder }}/ipa.kernel"
 ipa_ramdisk: "{{ http_boot_folder }}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
-ipa_download_distro: >-
-  {%- if ipa_upstream_release == "stable-train" -%}
-  centos7
-  {%- elif ipa_upstream_release in ["stable-ussuri", "stable-victoria", "stable-wallaby", "stable-xena", "stable-yoga"] -%}
-  centos8
-  {%- else -%}
-  centos9
-  {%- endif -%}
+ipa_download_distro: centos9
 ipa_kernel_upstream_url: >-
   {%- if use_tinyipa | bool -%}
   {{ tarballs_base_url }}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
@@ -146,10 +139,6 @@ deploy_image_sources:
       checksum: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/CHECKSUM"
       checksum_algorithm: "sha256"
   centos:
-    8-stream:
-      image: "https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-GenericCloud-8-20230501.0.x86_64.qcow2"
-      checksum: "https://cloud.centos.org/centos/8-stream/x86_64/images/CHECKSUM"
-      checksum_algorithm: "sha256"
     9-stream:
       image: "https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-20230501.0.x86_64.qcow2"
       checksum: "https://cloud.centos.org/centos/9-stream/x86_64/images/CHECKSUM"

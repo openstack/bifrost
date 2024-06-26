@@ -75,7 +75,7 @@ if which setenforce &> /dev/null; then
 fi
 
 if [ ${DOWNLOAD_CUSTOM_DEPLOY_IMAGE} = "true" ] && [ ! -f "$HOME/.ssh/id_ecdsa.pub" ]; then
-    # CentOS/RHEL 8 and 9, as well as Fedora, do not work with the RSA key
+    # CentOS/RHEL 9, as well as Fedora, do not work with the RSA key
     # that the Cirros' SSH server uses. Generate an ECDSA key pair instead.
     ssh-keygen -t ECDSA -f "$HOME/.ssh/id_ecdsa" -N ""
 fi

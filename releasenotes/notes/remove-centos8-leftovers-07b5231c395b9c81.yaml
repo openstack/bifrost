@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Completely remove CentOS Stream 8 support since it's now EoL.
