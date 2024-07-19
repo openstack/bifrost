@@ -1,0 +1,8 @@
+---
+fixes:
+  - |
+    Fixes an issue where ``inspection_callback_url`` was templated with leading
+    whitespace. This caused the ``ipa-inspection-callback-url`` kernel command
+    line argument to be incorrectly set, leading to Ironic Python Agent posting
+    introspection data back to Ironic rather than Ironic Inspector when using
+    the ``enable_inspector`` option.
