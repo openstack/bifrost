@@ -10,8 +10,8 @@ declare -A PKG_MAP
 
 # NOTE(rpittau): we need a stable recent version of pip to avoid issues with
 # the cryptography package.
-PIP_MIN_REQ="20.0.1"
-PIP_TUPLE="(20, 0, 1)"
+PIP_MIN_REQ="22.3.1"
+PIP_TUPLE="(22, 3, 1)"
 
 # workaround: for latest bindep to work, it needs to use en_US local
 export LANG=en_US.UTF-8
