@@ -90,7 +90,6 @@ when contributing code.
       - name: "Stat file for x reason"
         stat:
           file: '/path/to/file'
-          get_md5: no
 
 4. Playbook conditionals utilizing variables intended as booleans,
    should make use of the ``| bool`` casting feature.  This is due

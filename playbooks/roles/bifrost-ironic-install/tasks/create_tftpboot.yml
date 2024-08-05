@@ -128,7 +128,6 @@
     - name: "Check if the iPXE EFI image is present"
       stat:
         path: "{{ ipxe_dir }}/{{ ipxe_efi_binary }}"
-        get_md5: false
       register: test_ipxe_efi_binary_path
       ignore_errors: true
 
