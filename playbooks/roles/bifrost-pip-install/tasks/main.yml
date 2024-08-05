@@ -58,7 +58,7 @@
       retries: 5
       delay: 10
       when: source_install | bool
-      environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
+      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_facts.python_version is version('3.12', '<') else bifrost_venv_env }}"
 
     # NOTE(dtantsur): do not use constraints here, it does not work when the
     # package itself is constrained.
@@ -68,4 +68,4 @@
         editable: "{{ developer_mode | bool }}"
         extra_args: "{{ extra_args }}"
       when: source_install | bool
-      environment: "{{ bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'}) }}"
+      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_facts.python_version is version('3.12', '<') else bifrost_venv_env }}"
