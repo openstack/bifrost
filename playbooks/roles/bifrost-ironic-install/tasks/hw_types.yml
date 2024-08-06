@@ -37,6 +37,13 @@
       {%- if "fake-hardware" in enabled_hardware_types -%},fake{%- endif -%}
   when: not enabled_boot_interfaces
 
+- name: "Configure firmware interfaces if required"
+  set_fact:
+    enabled_firmware_interfaces: >- # noqa jinja var-spacing
+      no-firmware
+      {%- if "redfish" in enabled_hardware_types or "idrac" in enabled_hardware_types -%},redfish{%- endif -%}
+  when: not enabled_firmware_interfaces
+
 - name: "Configure management interfaces if required"
   set_fact:
     enabled_management_interfaces: >- # noqa jinja var-spacing

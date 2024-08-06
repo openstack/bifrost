@@ -192,6 +192,7 @@ enabled_deploy_interfaces: "direct,ramdisk"
 # These are calculated based on enabled_hardware_types if empty
 enabled_bios_interfaces: ""
 enabled_boot_interfaces: ""
+enabled_firmware_interfaces: ""
 enabled_management_interfaces: ""
 enabled_power_interfaces: ""
 enabled_raid_interfaces: ""
