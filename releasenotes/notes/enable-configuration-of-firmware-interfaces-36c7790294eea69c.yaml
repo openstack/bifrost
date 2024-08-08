@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Adds support for setting enabled_firmware_interfaces configuration
+    parameter based on enabled drivers passed during installation.
