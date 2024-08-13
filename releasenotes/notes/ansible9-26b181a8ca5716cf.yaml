@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Start testing and supporting Ansible 9.x in parallel with Ansible 8.x
