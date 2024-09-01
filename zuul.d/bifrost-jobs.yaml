@@ -11,6 +11,7 @@
       - ^test-requirements.txt$
       - ^tools/.*$
       - ^tox.ini$
+      - ^zuul.d/.*$
     pre-run: playbooks/ci/pre.yaml
     run: playbooks/ci/run.yaml
     post-run: playbooks/ci/post.yaml
