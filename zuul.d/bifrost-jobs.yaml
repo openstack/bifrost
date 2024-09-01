@@ -46,11 +46,6 @@
     nodeset: ubuntu-focal
 
 - job:
-    name: bifrost-integration-dhcp-centos-8
-    parent: bifrost-integration-dhcp
-    nodeset: centos-8-stream
-
-- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     timeout: 7200
@@ -61,11 +56,6 @@
     name: bifrost-integration-dibipa-debian-ubuntu-focal
     parent: bifrost-integration-dibipa-debian
     nodeset: ubuntu-focal
-
-- job:
-    name: bifrost-integration-dibipa-debian-centos-8
-    parent: bifrost-integration-dibipa-debian
-    nodeset: centos-8-stream
 
 - job:
     name: bifrost-integration-tinyipa
@@ -129,32 +119,6 @@
       cli_test: true
 
 - job:
-    name: bifrost-integration-tinyipa-centos-8
-    parent: bifrost-integration-tinyipa
-    nodeset: centos-8-stream
-
-- job:
-    name: bifrost-integration-tinyipa-keystone-centos-8
-    parent: bifrost-integration-tinyipa
-    nodeset: centos-8-stream
-    required-projects:
-      - openstack/keystone
-      - openstack/ironic-prometheus-exporter
-    vars:
-      enable_keystone: true
-      enable_tls: true
-      test_driver: redfish
-      enable_prometheus_exporter: true
-
-- job:
-    name: bifrost-integration-redfish-vmedia-uefi-centos-8
-    parent: bifrost-integration-tinyipa-centos-8
-    vars:
-      boot_mode: uefi
-      test_driver: redfish
-      use_vmedia: true
-
-- job:
     name: bifrost-tox-linters
     parent: openstack-tox-linters
     required-projects:
@@ -176,16 +140,6 @@
     name: bifrost-upgrade-ubuntu-focal
     parent: bifrost-upgrade
     nodeset: ubuntu-focal
-
-- job:
-    name: bifrost-upgrade-keystone-centos8
-    parent: bifrost-upgrade
-    nodeset: centos-8-stream
-    required-projects:
-      - openstack/keystone
-    vars:
-      enable_keystone: true
-      noauth_mode: false
 
 # NOTE(TheJulia): This job is for use on the ironic repository,
 # to provide a minimal platform where we can execute a job where
