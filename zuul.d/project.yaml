@@ -13,7 +13,6 @@
         - bifrost-integration-tinyipa-keystone-centos-9
         - bifrost-integration-tinyipa-debian-bullseye
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-focal
-        - bifrost-integration-redfish-vmedia-uefi-centos-8
         - bifrost-integration-redfish-vmedia-uefi-centos-9
         - bifrost-upgrade-ubuntu-focal
         # Non-voting jobs
@@ -21,13 +20,9 @@
             voting: false
         - bifrost-integration-dhcp-ubuntu-focal:
             voting: false
-        - bifrost-integration-dhcp-centos-8:
-            voting: false
         - bifrost-integration-dhcp-centos-9:
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-focal:
-            voting: false
-        - bifrost-integration-dibipa-debian-centos-8:
             voting: false
         - bifrost-integration-dibipa-debian-centos-9:
             voting: false
@@ -37,20 +32,6 @@
             voting: false
         - bifrost-keystone-collections-src:
             voting: false
-        - kolla-ansible-centos8s-source-bifrost:
-            voting: false
-            # NOTE(yoctozepto): to override from job definition
-            files: .*
-            irrelevant-files:
-              - ^.*\.rst$
-              - ^bifrost/tests/.*$
-              - ^api-ref/.*$
-              - ^doc/.*$
-              - ^releasenotes/.*$
-              - ^setup.cfg$
-              - ^test-requirements.txt$
-              - ^tools/.*$
-              - ^tox.ini$
     gate:
       jobs:
         - bifrost-tox-linters
