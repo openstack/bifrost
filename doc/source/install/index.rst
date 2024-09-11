@@ -19,7 +19,7 @@ Full support (fully tested in the CI, no known or potential issues):
   .. note::
      RHEL 9 and derivatives are assumed to work but not tested explicitly.
 
-* Ubuntu 22.04 "Jammy"
+* Ubuntu 22.04 "Jammy" and 24.04 "Noble"
 * Debian 11 "Bullseye" and 12 "Bookworm"
 
 .. note::

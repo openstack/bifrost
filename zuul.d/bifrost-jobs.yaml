@@ -87,6 +87,11 @@
     nodeset: ubuntu-jammy
 
 - job:
+    name: bifrost-integration-tinyipa-ubuntu-noble
+    parent: bifrost-integration-tinyipa
+    nodeset: ubuntu-noble
+
+- job:
     name: bifrost-integration-tinyipa-keystone-ubuntu-jammy
     parent: bifrost-integration-tinyipa
     nodeset: ubuntu-jammy
@@ -100,10 +105,23 @@
       enable_prometheus_exporter: true
 
 - job:
+    name: bifrost-integration-tinyipa-keystone-ubuntu-noble
+    parent: bifrost-integration-tinyipa-keystone-ubuntu-jammy
+    nodeset: ubuntu-noble
+
+- job:
     name: bifrost-integration-inspector-ubuntu-jammy
     parent: bifrost-integration-tinyipa-ubuntu-jammy
     vars:
       use_inspector: true
+
+- job:
+    name: bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
+    parent: bifrost-integration-tinyipa-ubuntu-noble
+    vars:
+      enable_tls: true
+      test_driver: redfish
+      use_vmedia: true
 
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
