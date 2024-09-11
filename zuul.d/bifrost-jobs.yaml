@@ -223,6 +223,7 @@
 - job:
     name: bifrost-benchmark-ironic
     parent: bifrost-base
+    nodeset: ubuntu-jammy
     timeout: 7200
     run: playbooks/ci/benchmark-ironic.yaml
 
