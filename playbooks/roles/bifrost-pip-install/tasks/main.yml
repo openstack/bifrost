@@ -45,9 +45,7 @@
       retries: "{{ pip_install_retries }}"
       delay: "{{ pip_install_delay }}"
       when: not source_install | bool
-      environment:
-        # NOTE(dtantsur): https://github.com/pypa/setuptools/issues/2353
-        SETUPTOOLS_USE_DISTUTILS: stdlib
+      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_facts.python_version is version('3.12', '<') else bifrost_venv_env }}"
 
     - name: "Install requirements from {{ sourcedir }} using pip"
       pip:
