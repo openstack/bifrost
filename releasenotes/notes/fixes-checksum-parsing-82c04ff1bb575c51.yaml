@@ -1,0 +1,6 @@
+---
+fixes:
+  - |
+    Fixes an issue with checksum verification when setting
+    ``upstream_deploy_image_distribution`` to ``rocky`` or
+    ``cirros``.
