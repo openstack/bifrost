@@ -70,23 +70,30 @@ copy_from_local_path: false
 # NOTE(dtantsur): secure boot capable firmware goes second because some systems
 # (e.g. Ubuntu) provide it but refuse to boot. However, CentOS provides only
 # secure boot capable firmware, and it works for both secure und normal boot.
+# Detailed information on Debian/Ubuntu files:
+# https://salsa.debian.org/qemu-team/edk2/-/blob/debian/debian/ovmf.README.Debian?ref_type=heads
 efi_loader_locations_normal:
   - /usr/share/edk2/ovmf/OVMF_CODE.fd
   - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
+  - /usr/share/OVMF/OVMF_CODE_4M.fd
   - /usr/share/OVMF/OVMF_CODE.fd
+  - /usr/share/OVMF/OVMF_CODE_4M.secboot.fd
   - /usr/share/OVMF/OVMF_CODE.secboot.fd
   - /usr/share/qemu/ovmf-x86_64-code.bin
 efi_loader_locations_secboot:
   - /usr/share/edk2/ovmf/OVMF_CODE.secboot.fd
+  - /usr/share/OVMF/OVMF_CODE_4M.secboot.fd
   - /usr/share/OVMF/OVMF_CODE.secboot.fd
 efi_loader_locations: >-
   {{ efi_loader_locations_secboot if test_vm_secure_boot | bool else efi_loader_locations_normal }}
 efi_nvram_locations_normal:
   - /usr/share/edk2/ovmf/OVMF_VARS.fd
+  - /usr/share/OVMF/OVMF_VARS_4M.fd
   - /usr/share/OVMF/OVMF_VARS.fd
   - /usr/share/qemu/ovmf-x86_64-vars.bin
 efi_nvram_locations_secboot:
   - /usr/share/edk2/ovmf/OVMF_VARS.secboot.fd
+  - /usr/share/OVMF/OVMF_VARS_4M.ms.fd
   - /usr/share/OVMF/OVMF_VARS.secboot.fd
 efi_nvram_locations: >-
   {{ efi_nvram_locations_secboot if test_vm_secure_boot | bool else efi_nvram_locations_normal }}

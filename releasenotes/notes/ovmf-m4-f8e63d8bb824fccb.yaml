@@ -1,0 +1,7 @@
+---
+upgrade:
+  - |
+    When creating a virtual testing environment on newer distributions such as
+    Ubuntu 24.04, UEFI firmware with 4M flash storage will be used. Existing
+    virtual machines may need to be migrated if they were created on an older
+    distribution.
