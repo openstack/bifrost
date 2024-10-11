@@ -126,7 +126,7 @@ ipa_ramdisk_download_unredirected_headers: "{{ ipa_download_unredirected_headers
 upstream_deploy_image_distribution: "cirros"
 # Deployment image releases and default values.
 default_upstream_deploy_image_releases:
-  cirros: "0.5.3"
+  cirros: "0.6.3"
   centos: "9-stream"
   rocky: "9"
   ubuntu: "noble"
@@ -165,13 +165,13 @@ deploy_image_sources:
       checksum: "https://cloud.centos.org/centos/10-stream/x86_64/images/CHECKSUM"
       checksum_algorithm: "sha256"
   cirros:
-    "0.5.3":
+    "0.6.3":
       # NOTE(Alex-Welsh): cirros_deploy_image_upstream_url has been deprecated in
       # favor of custom_deploy_image_upstream_url but is included for backwards
       # compatibility. It should be swapped permanently to
       # custom_deploy_image_upstream_url in the next major release.
-      image: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.5.3/cirros-0.5.3-x86_64-disk.img') }}"
-      checksum: "https://download.cirros-cloud.net/0.5.3/MD5SUMS"
+      image: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.6.3/cirros-0.6.3-x86_64-disk.img') }}"
+      checksum: "https://download.cirros-cloud.net/0.6.3/MD5SUMS"
       checksum_algorithm: "md5"
 deploy_image_upstream_url: "{{ custom_deploy_image_upstream_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].image) }}"
 deploy_image_checksum_url: "{{ custom_deploy_image_checksum_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].checksum) }}"
@@ -225,6 +225,10 @@ enable_credential_less_deploy: false
 # This should be a list of pip-installable references.
 # default: empty list
 ironic_extra_packages: []
+
+# Distro packages providing guestfish, overridden in vars/debian.yml and
+# vars/redhat.yml when patching Cirros GRUB for serial console in testing.
+cirros_console_patch_packages: []
 
 dhcp_provider: "dnsmasq"
 # DHCP pool for requests -- ignored if inventory_dhcp is set to True

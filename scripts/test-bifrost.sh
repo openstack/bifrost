@@ -25,13 +25,15 @@ VM_SWITCH_TYPE=${VM_SWITCH_TYPE:-linux_bridge}
 # Set defaults for ansible command-line options to drive the different
 # tests.
 
-# NOTE(TheJulia/cinerama): The variables defined on the command line
-# for the default and DHCP tests are to drive the use of Cirros as the
-# deployed operating system, and as such sets the test user to cirros,
-# and writes a debian style interfaces file out to the configuration
-# drive as cirros does not support the network_data.json format file
-# placed in the configuration drive. The "build image" test does not
-# use cirros.
+# NOTE(TheJulia/cinerama/rpittau): The variables defined on the command line
+# for the default and DHCP tests drive the use of Cirros as the deployed
+# operating system and set the test user to cirros. Cirros 0.6.x configures
+# networking via dhcpcd and ignores a Debian-style interfaces file from the
+# configdrive, so the default Cirros test uses a dnsmasq static DHCP
+# reservation for the inventory IP instead. Ironic's dnsmasq DHCP provider
+# must be disabled in that mode, otherwise it writes a second host file for
+# the same MAC without a fixed IP and the static lease is ignored. The
+# "build image" test does not use cirros.
 
 # NOTE(rpittau) we can't use kvm in CI
 VM_DOMAIN_TYPE=qemu
@@ -41,11 +43,11 @@ DOWNLOAD_CUSTOM_DEPLOY_IMAGE=true
 TESTING_USER=cirros
 TEST_PLAYBOOK="test-bifrost.yaml"
 INSPECT_NODES=true
-INVENTORY_DHCP=false
-INVENTORY_DHCP_STATIC_IP=false
+INVENTORY_DHCP=true
+INVENTORY_DHCP_STATIC_IP=true
 DOWNLOAD_IPA=true
 CREATE_IPA_IMAGE=false
-WRITE_INTERFACES_FILE=true
+WRITE_INTERFACES_FILE=false
 PROVISION_WAIT_TIMEOUT=${PROVISION_WAIT_TIMEOUT:-900}
 NOAUTH_MODE=${NOAUTH_MODE:-false}
 CLOUD_CONFIG=""
@@ -107,17 +109,27 @@ if [ ${USE_DHCP} = "true" ]; then
     INVENTORY_DHCP=true
     INVENTORY_DHCP_STATIC_IP=true
     WRITE_INTERFACES_FILE=false
-    CLOUD_CONFIG+=" -e dhcp_provider=none"
 elif [ ${BUILD_IMAGE} = "true" ]; then
     DOWNLOAD_CUSTOM_DEPLOY_IMAGE=false
     TESTING_USER=root
     INSPECT_NODES=false
     DOWNLOAD_IPA=false
     CREATE_IPA_IMAGE=true
+    # DIB-built images do not need Cirros static DHCP reservations.
+    INVENTORY_DHCP=false
+    INVENTORY_DHCP_STATIC_IP=false
 
 elif [ ${ENABLE_KEYSTONE} = "true" ]; then
     NOAUTH_MODE=false
     CLOUD_CONFIG+=" -e cloud_name=bifrost"
+fi
+
+# inventory_dhcp writes fixed leases via bifrost-dhcp-record. Ironic's
+# dnsmasq DHCP provider also writes host files for the same MACs without
+# fixed IPs, which prevents the static reservation from being used. Let
+# bifrost's dnsmasq.conf own PXE/DHCP instead.
+if [ "${INVENTORY_DHCP}" = "true" ]; then
+    CLOUD_CONFIG+=" -e dhcp_provider=none"
 fi
 
 REDEPLOY_NODES=$DOWNLOAD_CUSTOM_DEPLOY_IMAGE

@@ -19,10 +19,11 @@ testing: false
 # Build images by default
 download_custom_deploy_image: "{{ use_cirros | default(false) }}"
 
-# write_interfaces_file is intended for utilizing base logic to write
-# a debian style interfaces file into the configuration drive file
-# such that cirros will receive basic network configuration when
-# performing basic testing.
+# write_interfaces_file writes a Debian-style interfaces file into the
+# configdrive. Cirros <= 0.5.x used this for static networking. Cirros 0.6.x
+# uses dhcpcd and ignores that file, so Cirros tests should prefer a dnsmasq
+# static DHCP reservation (inventory_dhcp + inventory_dhcp_static_ip) with
+# write_interfaces_file disabled.
 write_interfaces_file: "{{ download_custom_deploy_image }}"
 
 # Basic networking defaults

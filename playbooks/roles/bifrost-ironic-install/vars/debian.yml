@@ -10,6 +10,9 @@ grub_efi_package: grub-efi-amd64-signed
 grub_efi_binary: /usr/lib/grub/x86_64-efi-signed/grubx64.efi.signed
 shim_efi_package: shim-signed
 shim_efi_binary: "/usr/lib/shim/shimx64.efi.signed{{ '.latest' if ansible_distribution == 'Ubuntu' else '' }}"
+# Used when patching Cirros GRUB for serial console (testing only).
+cirros_console_patch_packages:
+  - libguestfs-tools
 required_packages:
   - mariadb-server
   - python3-dev

@@ -310,6 +310,37 @@
     group: "ironic"
     mode: "0775"
 
+# When dhcp_provider switches from dnsmasq to none (e.g. upgrade jobs that
+# re-test with inventory_dhcp), leftover ironic-* host files for the same MAC
+# without a fixed IP override bifrost-dhcp-record static reservations.
+- name: "Find leftover Ironic DHCP host files"
+  find:
+    paths: "{{ dnsmasq_dhcp_hostsdir }}"
+    patterns: "ironic-*"
+  register: ironic_dhcp_host_files
+  when: dhcp_provider == 'none'
+
+- name: "Remove leftover Ironic DHCP host files"
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ ironic_dhcp_host_files.files | default([]) }}"
+  when: dhcp_provider == 'none'
+
+- name: "Find leftover Ironic DHCP option files"
+  find:
+    paths: "{{ dnsmasq_dhcp_optsdir }}"
+    patterns: "ironic-*"
+  register: ironic_dhcp_opt_files
+  when: dhcp_provider == 'none'
+
+- name: "Remove leftover Ironic DHCP option files"
+  file:
+    path: "{{ item.path }}"
+    state: absent
+  loop: "{{ ironic_dhcp_opt_files.files | default([]) }}"
+  when: dhcp_provider == 'none'
+
 - name: "Retrieve interface IP information"
   set_fact:
     itf_infos: "{{ internal_interface }}"
@@ -410,6 +441,26 @@
 - name: "Download deployment image"
   include_tasks: download_deployment_image.yml
   when: download_custom_deploy_image | bool
+
+# Cirros 0.6.x omits console=ttyS0 from GRUB, which hides kernel/init output
+# on libvirt serial consoles used in testing. Patch after download so a cached
+# image that skips re-download is still updated.
+- name: "Install tools required to patch Cirros serial console"
+  package:
+    name: "{{ cirros_console_patch_packages }}"
+    state: present
+  when:
+    - download_custom_deploy_image | bool
+    - upstream_deploy_image_distribution == 'cirros'
+    - testing | bool
+
+- name: "Patch Cirros image GRUB for serial console"
+  become: true
+  command: "{{ playbook_dir }}/../scripts/patch-cirros-console.sh {{ deploy_image }}"
+  when:
+    - download_custom_deploy_image | bool
+    - upstream_deploy_image_distribution == 'cirros'
+    - testing | bool
 
 - name: "Bootstrap Nginx"
   import_role:
