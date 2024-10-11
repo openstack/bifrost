@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Switches to using the latest CentOS Stream 9 generic cloud image as the old
+    pinned version no longer exists.
