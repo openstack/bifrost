@@ -27,7 +27,11 @@
         mode: "0644"
 
 - name: "Extract deployment image checksum"
-  command: awk '/{{ deploy_image_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' {{ http_boot_folder }}/{{ deploy_image_filename }}-checksum.CHECKSUMS
+  shell:
+    cmd: |
+      set -o pipefail
+      grep "{{ deploy_image_upstream_url | basename }}" {{ http_boot_folder }}/{{ deploy_image_filename }}-checksum.CHECKSUMS | grep -owE "[[:xdigit:]]{32,64}"
+    executable: /bin/bash
   register: parsed_deployment_image_checksum
   failed_when: parsed_deployment_image_checksum is failed
                or not parsed_deployment_image_checksum.stdout
