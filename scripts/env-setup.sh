@@ -5,11 +5,10 @@ set -euo pipefail
 . $(dirname $0)/install-deps.sh
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
-source /etc/os-release
-if [[ $ID == "centos" ]] || [[ $VERSION_CODENAME == "bullseye" ]]; then
+
+DEFAULT_PIP_ANSIBLE='>=9,<10'
+if ! python3 -c "import sys; assert sys.version_info >= (3, 10)" 2> /dev/null; then
     DEFAULT_PIP_ANSIBLE='>=8,<9'
-elif [[ $ID == "ubuntu" ]] || [[ $VERSION_CODENAME == "bookworm" ]] ; then
-    DEFAULT_PIP_ANSIBLE='>=9,<10'
 fi
 
 ANSIBLE_COLLECTIONS_REQ=${ANSIBLE_COLLECTIONS_REQ:-$(dirname $0)/../ansible-collections-requirements.yml}
