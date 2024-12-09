@@ -129,6 +129,10 @@ deploy_image_sources:
       image: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
       checksum: "https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS"
       checksum_algorithm: "sha256"
+    noble:
+      image: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"
+      checksum: "https://cloud-images.ubuntu.com/noble/current/SHA256SUMS"
+      checksum_algorithm: "sha256"
   rocky:
     "8":
       image: "https://dl.rockylinux.org/pub/rocky/8/images/x86_64/Rocky-8-GenericCloud.latest.x86_64.qcow2"
