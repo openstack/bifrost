@@ -204,7 +204,7 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/2024.1
+      upgrade_from: stable/2024.2
       skip_upgrade:
         - openstack/diskimage-builder
 
@@ -227,7 +227,7 @@
     name: bifrost-slurp-upgrade
     parent: bifrost-upgrade
     vars:
-      upgrade_from: stable/2023.1
+      upgrade_from: stable/2024.1
 
 - job:
     name: bifrost-slurp-upgrade-ubuntu-jammy
