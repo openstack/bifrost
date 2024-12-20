@@ -205,17 +205,6 @@
       enable_keystone: true
       noauth_mode: false
 
-- job:
-    name: bifrost-slurp-upgrade
-    parent: bifrost-upgrade
-    vars:
-      upgrade_from: stable/2023.1
-
-- job:
-    name: bifrost-slurp-upgrade-ubuntu-jammy
-    parent: bifrost-slurp-upgrade
-    nodeset: ubuntu-jammy
-
 # NOTE(TheJulia): This job is for use on the ironic repository,
 # to provide a minimal platform where we can execute a job where
 # basic performance numbers will be referenced/collected.
