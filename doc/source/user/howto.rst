@@ -295,7 +295,7 @@ the one Bifrost builds for you:
 .. code-block:: bash
 
     ./bifrost-cli deploy -e @baremetal-install-env.json \
-        --config-drive '{"meta_data": {"public_keys": {"0": "'"$(cat ~/.ssh/id_rsa.pub)"'"}}}' \
+        --configdrive '{"meta_data": {"public_keys": {"0": "'"$(cat ~/.ssh/id_rsa.pub)"'"}}}' \
 
 File images do not require a checksum:
 
