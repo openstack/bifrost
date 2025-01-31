@@ -16,7 +16,7 @@ rm -f "$DEST/ansible_collections/openstack/cloud"
 
 ln -s "$(realpath $SOURCE)" "$DEST/ansible_collections/openstack/cloud"
 
-export ANSIBLE_COLLECTIONS_PATHS="$(realpath $DEST)"
+export ANSIBLE_COLLECTIONS_PATH="$(realpath $DEST)"
 export ANSIBLE_LIBRARY="$(dirname $0)/../playbooks/library"
 export ANSIBLE_ROLES_PATH="$(dirname $0)/../playbooks/roles"
 

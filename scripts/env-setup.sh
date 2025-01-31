@@ -19,7 +19,7 @@ fi
 ANSIBLE_PIP_VERSION=${ANSIBLE_PIP_VERSION:-${DEFAULT_PIP_ANSIBLE}}
 ANSIBLE_SOURCE_PATH=${ANSIBLE_SOURCE_PATH:-ansible${ANSIBLE_PIP_VERSION}}
 
-BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATHS:-}
+BIFROST_COLLECTIONS_PATHS=${ANSIBLE_COLLECTIONS_PATH:-}
 PLAYBOOKS_LIBRARY_PATH=$(dirname $0)/../playbooks/library
 
 echo "Installing/upgrading Ansible"
@@ -33,9 +33,9 @@ ${PIP} install "${ANSIBLE_SOURCE_PATH}"
 
 ANSIBLE_GALAXY="${SUDO} ${VENV}/bin/ansible-galaxy"
 if [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
-    echo  "Setting ANSIBLE_COLLECTIONS_PATHS to virtualenv"
-    export ANSIBLE_COLLECTIONS_PATHS=${VENV}/collections
-    BIFROST_COLLECTIONS_PATHS=$ANSIBLE_COLLECTIONS_PATHS
+    echo  "Setting ANSIBLE_COLLECTIONS_PATH to virtualenv"
+    export ANSIBLE_COLLECTIONS_PATH=${VENV}/collections
+    BIFROST_COLLECTIONS_PATHS=$ANSIBLE_COLLECTIONS_PATH
 fi
 if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
     ${SUDO} mkdir -p "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack"
@@ -51,10 +51,10 @@ else
 fi
 
 # Symlink Collections to the playbook directory. This removes the need of setting
-# ANSIBLE_COLLECTIONS_PATHS environment variable
+# ANSIBLE_COLLECTIONS_PATH environment variable
 if [ ! -e "$(dirname $0)/../playbooks/collections" ]; then
     echo "Creating a symbolic link to ansible collections in bifrost playbook directory"
-    ln -s ${ANSIBLE_COLLECTIONS_PATHS} "$(dirname $0)/../playbooks/collections"
+    ln -s ${ANSIBLE_COLLECTIONS_PATH} "$(dirname $0)/../playbooks/collections"
 fi
 
 if [[ "${BIFROST_HIDE_PROMPT:-false}" != true ]]; then
