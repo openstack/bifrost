@@ -122,15 +122,15 @@ In order to really get started, you must install dependencies.
 With the addition of ansible collections, the ``env-setup.sh`` will install
 the collections in the default ansible ``collections_paths`` (according to your
 ansible.cfg) or you can specify the location setting
-``ANSIBLE_COLLECTIONS_PATHS``:
+``ANSIBLE_COLLECTIONS_PATH``:
 
 .. code-block:: bash
 
-    $ export ANSIBLE_COLLECTIONS_PATHS=/mydir/collections
+    $ export ANSIBLE_COLLECTIONS_PATH=/mydir/collections
 
 .. note::
 
-   If you are using a virtual environment ANSIBLE_COLLECTIONS_PATHS is
+   If you are using a virtual environment ANSIBLE_COLLECTIONS_PATH is
    automatically set. After Ansible Collections are installed,
    a symbolic link to to the installation is created in the bifrost playbook
    directory.
