@@ -38,7 +38,7 @@
 
 - name: "Set UUID from Ironic"
   set_fact:
-    uuid: "{{ node_info.baremetal_nodes[0].uuid }}"
+    uuid: "{{ node_info.baremetal_nodes[0].id }}"
   when:
     - uuid is undefined
     - name is defined
