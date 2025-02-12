@@ -236,8 +236,6 @@ username = {{ ironic.service_catalog.username }}
 password = {{ ironic.service_catalog.password }}
 user_domain_id = default
 project_domain_id = default
-{% elif not supports_http_auth | bool %}
-auth_strategy = noauth
 {% else %}
 auth_strategy = http_basic
 auth_type = http_basic
