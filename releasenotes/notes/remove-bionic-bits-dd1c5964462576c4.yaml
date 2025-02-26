@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    Ubuntu Bionic support has been officially removed.
