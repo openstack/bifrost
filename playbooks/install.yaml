@@ -1,6 +1,6 @@
 ---
 - name: "Install Ironic on the target host."
-  hosts: target
+  hosts: "{{ target_hosts | default('target') }}"
   become: yes
   gather_facts: yes
   vars:
