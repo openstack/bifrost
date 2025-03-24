@@ -30,6 +30,10 @@
     owner: ironic
     group: ironic
     mode: "0644"
+    url_username: "{{ ipa_kernel_download_url_username or omit }}"
+    url_password: "{{ ipa_kernel_download_url_password or omit }}"
+    force_basic_auth: "{{ ipa_kernel_download_force_basic_auth or omit }}"
+    unredirected_headers: "{{ ipa_kernel_download_unredirected_headers or omit }}"
 
 - name: "Extract IPA kernel checksum"
   command: awk '/{{ ipa_kernel_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' "{{ ipa_kernel }}.{{ ipa_kernel_upstream_checksum_algo }}"
@@ -52,6 +56,10 @@
     headers: "{{ ipa_download_headers | default(omit, true) }}"
     # Keep downloading it until we get a good copy
     force: yes
+    url_username: "{{ ipa_kernel_download_url_username or omit }}"
+    url_password: "{{ ipa_kernel_download_url_password or omit }}"
+    force_basic_auth: "{{ ipa_kernel_download_force_basic_auth or omit }}"
+    unredirected_headers: "{{ ipa_kernel_download_unredirected_headers or omit }}"
   register: ipa_kernel_download_done
   until: ipa_kernel_download_done is succeeded or
          (ipa_kernel_download_done is failed)
@@ -76,6 +84,10 @@
     owner: ironic
     group: ironic
     mode: "0644"
+    url_username: "{{ ipa_ramdisk_download_url_username or omit }}"
+    url_password: "{{ ipa_ramdisk_download_url_password or omit }}"
+    force_basic_auth: "{{ ipa_ramdisk_download_force_basic_auth or omit }}"
+    unredirected_headers: "{{ ipa_ramdisk_download_unredirected_headers or omit }}"
 
 - name: "Extract IPA ramdisk checksum"
   command: awk '/{{ ipa_ramdisk_upstream_url | basename }}|^[a-z0-9]+$/{print $1}' "{{ ipa_ramdisk }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
@@ -98,6 +110,10 @@
     timeout: 300
     # Keep downloading it until we get a good copy
     force: yes
+    url_username: "{{ ipa_ramdisk_download_url_username or omit }}"
+    url_password: "{{ ipa_ramdisk_download_url_password or omit }}"
+    force_basic_auth: "{{ ipa_ramdisk_download_force_basic_auth or omit }}"
+    unredirected_headers: "{{ ipa_ramdisk_download_unredirected_headers or omit }}"
   register: ipa_ramdisk_download_done
   until: ipa_ramdisk_download_done is succeeded or
          (ipa_ramdisk_download_done is failed and ipa_ramdisk_download_done.status_code is defined and ipa_ramdisk_download_done.status_code == 404)
