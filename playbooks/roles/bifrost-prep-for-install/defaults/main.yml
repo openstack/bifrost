@@ -31,7 +31,7 @@ ipa_git_folder: "{{ git_root }}/ironic-python-agent"
 ipa_builder_git_folder: "{{ git_root }}/ironic-python-agent-builder"
 prometheus_exporter_git_folder: "{{ git_root }}/ironic-prometheus-exporter"
 # *git_branch can be overridden for stable branch testing
-git_branch: stable/2023.1
+git_branch: unmaintained/2023.1
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
