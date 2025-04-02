@@ -5,6 +5,43 @@ Testing Environment
 Quick start with bifrost-cli
 ============================
 
+This section provides a structured process to set up and deploy nodes using
+the Bifrost test environment. It is ideal for users who want a quick
+and guided approach without diving into detailed configurations upfront.
+
+Clone Bifrost repository:
+
+.. code-block:: bash
+
+    git clone https://opendev.org/openstack/bifrost
+
+    cd bifrost
+
+.. note::
+   This example uses the development branch ``master``. If you prefer to use
+   a stable release, switch to the corresponding stable branch. For example:
+
+.. code-block:: bash
+
+       git checkout stable/2025.1
+
+Set up SSH key pairs:
+
+Bifrost requires that the user who executes bifrost has an SSH key in their
+user home, or that the user defines a variable to tell bifrost
+where to identify this file.
+
+.. code-block:: bash
+
+   ssh-keygen -t rsa -b 4096 -f ~/.ssh/id_rsa
+
+.. note::
+   The above example uses an RSA key, but other key types such as ``ed25519``
+   are also supported. Choose the key type that
+   best suits your security and compatibility needs.
+
+Set up and configure a test environment:
+
 If you want to try Bifrost on virtual machines instead of real hardware, you
 need to prepare a testing environment. The easiest way is via ``bifrost-cli``,
 available since the Victoria release series:
@@ -12,6 +49,18 @@ available since the Victoria release series:
 .. code-block:: bash
 
    ./bifrost-cli testenv
+
+See the built-in documentation for more details:
+
+.. code-block:: bash
+
+     ./bifrost-cli testenv --help
+
+To install Bifrost services inside the testenv:
+
+.. code-block:: bash
+
+     ./bifrost-cli --testenv
 
 Additionally, the following parameters can be useful:
 
@@ -36,22 +85,57 @@ Additionally, the following parameters can be useful:
 ``--uefi``
     Makes the testing VMs boot with UEFI.
 
-See the built-in documentation for more details:
+Activate the testenv and utilize the baremetal CLI in no-auth
+mode with clouds.yaml:
 
 .. code-block:: bash
 
-    ./bifrost-cli testenv --help
+   source /opt/stack/bifrost/bin/activate
 
-The command generates two files with node inventory in the current directory:
+   export OS_CLOUD=bifrost
+
+Verify that Ironic and its drivers are installed and operational:
+
+.. code-block:: bash
+
+   baremetal node list
+
+   baremetal driver list
+
+Enroll nodes using the pre-existing inventory:
+
+The command `./bifrost-cli testenv` generates two files with node inventory
+in the current directory:
 
 * ``baremetal-inventory.json`` can be used with the provided playbooks, see
-  :doc:`/user/howto` for details.
+  :doc:`/user/howto` for details. Use the command:
+
+.. code-block:: bash
+
+   ./bifrost-cli enroll baremetal-inventory.json
+
 * ``baremetal-nodes.json`` can be used with the Ironic enrollment command:
 
-  .. code-block:: shell
+.. code-block:: bash
 
-    export OS_CLOUD=bifrost
-    baremetal create baremetal-nodes.json
+   export OS_CLOUD=bifrost
+
+   baremetal create baremetal-nodes.json
+
+Deploy the Enrolled Nodes:
+
+.. code-block:: bash
+
+   ./bifrost-cli deploy baremetal-inventory.json
+
+Verify Deployment:
+
+The following command should show the node in an `active` provision state
+after a successful deployment.
+
+.. code-block:: bash
+
+   baremetal node list
 
 Reproduce CI testing locally
 ============================
@@ -66,7 +150,7 @@ testing and saves out a baremetal.json file which is used by
 ``playbooks/test-bifrost.yaml`` to execute the remaining roles.  Two
 additional roles are invoked by this playbook which enables Ansible to
 connect to the new nodes by adding them to the inventory, and then
-logging into the remote machine via the user's ssh host key.  Once
+logging into the remote machine via the user\'s ssh host key.  Once
 that has successfully occurred, additional roles will unprovision the
 host(s) and delete them from ironic.
 

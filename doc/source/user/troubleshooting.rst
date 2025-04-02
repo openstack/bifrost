@@ -165,3 +165,43 @@ DIB-based or any other IPA image, you will need to take the following steps:
    then they will not be replaced. Alternatively, the files can just be
    directly replaced on disk. The default where the kernel and ramdisk are
    located is in ``/httboot/``.
+
+***********************************************************
+Node Enrollment and Provisioning in a Testing Environment
+***********************************************************
+
+Here are a few steps to troubleshoot node enrollment and provisioning in
+testing environment.
+
+Node Power and Provision State
+================================
+
+If the nodes enrollment fails, ensure the
+power state of the nodes is 'On'. By default, the power state might be 'None'.
+You can use the following commands to power on the nodes
+and make them available:
+
+.. code-block:: bash
+
+      baremetal node power on <NODE>
+      baremetal node manage <NODE>
+      baremetal node provide <NODE>
+
+Once the nodes are powered on and provision state is ``available``
+re-run the enrollment process:
+
+.. code-block:: bash
+
+   ./bifrost-cli enroll baremetal-inventory.json
+
+After successful enrollment, proceed with the deployment:
+
+.. code-block:: bash
+
+   ./bifrost-cli deploy baremetal-inventory.json
+
+For documentation on the testing environment,
+see the `Bifrost test environment guide <https://docs.openstack.org/bifrost/latest/contributor/testenv.html>`_.
+
+For more on using the Baremetal CLI,
+refer to the `Bifrost user HOWTO <https://docs.openstack.org/bifrost/latest/user/howto.html#baremetal-cli>`_.
