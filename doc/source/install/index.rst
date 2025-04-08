@@ -327,6 +327,13 @@ After installation is done, export the following environment variable to
 configure the bare metal client to use the ``bifrost`` cloud configuration from
 the generated ``clouds.yaml`` (see :ref:`baremetal-cli` for details):
 
+.. note::
+   When using bifrost in a virtual environment, ensure to activate it.
+
+.. code-block:: shell
+
+   source ~/bifrost/env/bin/activate
+
 .. code-block:: shell
 
    export OS_CLOUD=bifrost

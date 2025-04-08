@@ -76,6 +76,7 @@ upon.
   your local installation.
 - Change ``network_interface`` to match the interface that will need
   to service DHCP requests.
+
 - Set ``service_password`` which is used for communication between services.
   If unset, a random password is generated during the initial installation and
   stored on the controller in ``~/.config/bifrost/service_password``.
@@ -184,19 +185,25 @@ First, make sure that the virtual environment is active (the example below
 assumes that bifrost venv is installed into the default path
 /opt/stack/bifrost).
 
+.. code-block:: bash
+
     $ . /opt/stack/bifrost/bin/activate
-    (bifrost) $
+    (bifrost)$
 
 Verify if the ansible-playbook executable points to the one installed in
 the virtual environment:
 
-    (bifrost) $ which ansible-playbook
-    /opt/stack/bifrost/bin/ansible-playbook
-    (bifrost) $
+.. code-block:: bash
+
+   (bifrost)$ which ansible-playbook
+   /opt/stack/bifrost/bin/ansible-playbook
+   (bifrost)$
 
 change to the ``playbooks`` subdirectory of the cloned bifrost repository:
 
-    $ cd playbooks
+.. code-block:: bash
+
+   $ cd playbooks
 
 If you have passwordless sudo enabled, run::
 
