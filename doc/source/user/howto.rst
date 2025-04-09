@@ -21,7 +21,6 @@ example:
 
     export OS_CLOUD=bifrost
     baremetal node list
-    baremetal introspection list
 
 .. note::
    Previously, a separate cloud ``bifrost-inspector`` was provided for
