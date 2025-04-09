@@ -187,13 +187,13 @@ Bifrost is typically installed from git:
    git clone https://opendev.org/openstack/bifrost
    cd bifrost
 
-To install Bare Metal services from a specific release series (rather than the
-latest versions), check out the corresponding stable branch. For example, for
-Ussuri:
+To install Bare Metal services from a specific release series (rather than
+the latest version), check out the corresponding stable branch.
+For example, for 2025.1:
 
 .. code-block:: bash
 
-   git checkout stable/ussuri
+   git checkout stable/2025.1
 
 Testing on virtual machines
 ===========================
