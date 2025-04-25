@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # coding: utf-8 -*-
 
 # (c) 2015, Hewlett-Packard Development Company, L.P.

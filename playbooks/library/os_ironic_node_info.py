@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/python3
 # (c) 2015, Hewlett-Packard Development Company, L.P.
 #
 # This module is free software: you can redistribute it and/or modify

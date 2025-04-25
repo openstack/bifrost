@@ -6,7 +6,7 @@ set -euo pipefail
 # NOTE(pas-ha) the above exports some useful variables like
 # $PYTHON , $PIP and $VENV depending on venv install or not
 
-DEFAULT_PIP_ANSIBLE='>=9,<10'
+DEFAULT_PIP_ANSIBLE='>=10,<11'
 if ! python3 -c "import sys; assert sys.version_info >= (3, 10)" 2> /dev/null; then
     DEFAULT_PIP_ANSIBLE='>=8,<9'
 fi
