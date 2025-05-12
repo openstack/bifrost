@@ -32,6 +32,10 @@
         # source installation if the package itself is in constraints.
         - not source_install | bool
 
+    - name: "Detect Python version in virtualenv"
+      command: "{{ ansible_python_interpreter }} -c 'import sys; print(\".\".join(map(str, sys.version_info[:3])))'"
+      register: ansible_python_interpreter_version
+
     - name: "Install {{ package }} package from pip using virtualenv"
       pip:
         name: "{{ package }}"
@@ -45,7 +49,7 @@
       retries: "{{ pip_install_retries }}"
       delay: "{{ pip_install_delay }}"
       when: not source_install | bool
-      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_facts.python_version is version('3.12', '<') else bifrost_venv_env }}"
+      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_python_interpreter_version.stdout is version('3.12', '<') else bifrost_venv_env }}"
 
     - name: "Install requirements from {{ sourcedir }} using pip"
       pip:
@@ -56,7 +60,7 @@
       retries: 5
       delay: 10
       when: source_install | bool
-      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_facts.python_version is version('3.12', '<') else bifrost_venv_env }}"
+      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_python_interpreter_version.stdout is version('3.12', '<') else bifrost_venv_env }}"
 
     # NOTE(dtantsur): do not use constraints here, it does not work when the
     # package itself is constrained.
@@ -66,4 +70,4 @@
         editable: "{{ developer_mode | bool }}"
         extra_args: "{{ extra_args }}"
       when: source_install | bool
-      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_facts.python_version is version('3.12', '<') else bifrost_venv_env }}"
+      environment: "{{ (bifrost_venv_env | combine({'SETUPTOOLS_USE_DISTUTILS': 'stdlib'})) if ansible_python_interpreter_version.stdout is version('3.12', '<') else bifrost_venv_env }}"
