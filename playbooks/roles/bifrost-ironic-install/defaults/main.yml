@@ -147,6 +147,10 @@ deploy_image_sources:
       image: "https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2"
       checksum: "https://cloud.centos.org/centos/9-stream/x86_64/images/CHECKSUM"
       checksum_algorithm: "sha256"
+    10-stream:
+      image: "https://cloud.centos.org/centos/10-stream/x86_64/images/CentOS-Stream-GenericCloud-10-latest.x86_64.qcow2"
+      checksum: "https://cloud.centos.org/centos/10-stream/x86_64/images/CHECKSUM"
+      checksum_algorithm: "sha256"
   cirros:
     "0.5.3":
       # NOTE(Alex-Welsh): cirros_deploy_image_upstream_url has been deprecated in
