@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes Keystone start-up by providing the correct WSGI entry point.

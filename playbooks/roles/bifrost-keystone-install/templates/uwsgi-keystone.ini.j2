@@ -1,5 +1,8 @@
 # {{ ansible_managed }}
 [uwsgi]
+module = keystone.wsgi.api:application
+plugins = python
+
 master = true
 processes = 2
 threads = 2
@@ -18,4 +21,3 @@ uid = keystone
 gid = {{ nginx_user }}
 
 chdir = /var/www/keystone/
-wsgi-file = /var/www/keystone/public

@@ -22,11 +22,6 @@
       --network-interface argument to "bifrost-cli install".
   when: ('ansible_' + ans_network_interface) not in hostvars[inventory_hostname]
 
-- name: "Get keystone-wsgi-public location"
-  shell: echo $(dirname $(which keystone-wsgi-public))
-  register: keystone_install_prefix
-  environment: "{{ bifrost_venv_env }}"
-
 # NOTE(sean-k-mooney) only the MySQL db is started during bootstrapping.
 # all other services are started in the Start phase.
 - name: "Start database service"
@@ -194,18 +189,6 @@
     owner: "{{ nginx_user }}"
     group: "{{ nginx_user }}" # TODO(TheJulia): Split webserver user/group.
     mode: "0755"
-
-# Note(ashestakov): "copy" module in ansible doesn't support recursive
-# copying on remote host. "cp" command used instead.
-- name: "Copy keystone-wsgi-public  to /var/www/keystone/public"
-  command: cp -r "{{ keystone_install_prefix.stdout }}/keystone-wsgi-public" /var/www/keystone/public
-
-- name: "Ensure owner and mode of keystone-wsgi-public"
-  file:
-    path: /var/www/keystone/public
-    owner: "keystone"
-    group: "{{ nginx_user }}"
-    mode: "0754"
 
 - name: "Bootstrap uWSGI"
   include_role:
