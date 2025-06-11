@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes error  DHCP lease file not found for dnsmasq dhcp provider.
+    Changed wrong DHCP lease variable name in ironic.conf.j2 template in bifrost-ironic-install role.

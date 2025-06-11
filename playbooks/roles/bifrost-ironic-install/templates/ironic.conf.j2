@@ -131,7 +131,7 @@ dhcp_provider = {{ dhcp_provider }}
 [dnsmasq]
 dhcp_hostsdir = {{ dnsmasq_dhcp_hostsdir }}
 dhcp_optsdir = {{ dnsmasq_dhcp_optsdir }}
-leases_file = {{ dnsmasq_leases_file }}
+dhcp_leasefile = {{ dnsmasq_leases_file }}
 {% endif %}
 
 {% if enable_cors | bool == true %}
