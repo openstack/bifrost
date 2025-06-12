@@ -69,6 +69,12 @@ case ${ID,,} in
     # NOTE(rpittau): epel repos are installed but the content is purged
     # in  the CI images, we remove them and reinstall later
     sudo -E ${PKG_MANAGER} remove -y epel-release epel-next-release
+
+    if [[ $NAME == 'CentOS Stream' ]] && [[ $VERSION == 9 ]]; then
+        export CONSTRAINTS_FILE="$BIFROST_HOME/upper-constraints-cs9-py39.txt"
+        export UPPER_CONSTRAINTS_FILE=$CONSTRAINTS_FILE
+        export TOX_CONSTRAINTS_FILE=$CONSTRAINTS_FILE
+    fi
     ;;
 
     *) echo "ERROR: Supported package manager not found.  Supported: apt, dnf, yum, zypper"; exit 1;;
