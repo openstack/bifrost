@@ -75,9 +75,9 @@
       set_fact:
         instance_info:
           image_source: "{{ deploy_image_source }}"
-          image_checksum: "{{ deploy_image_checksum | default(omit) }}"
-          image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit) }}"
-          image_type: "{{ deploy_image_type | default(omit) }}"
+          image_checksum: "{{ deploy_image_checksum | default(omit, true) }}"
+          image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit, true) }}"
+          image_type: "{{ deploy_image_type | default(omit, true) }}"
           root_gb: "{{ deploy_root_gb if deploy_image_type | default('') == 'partition' else omit }}"
 
 - name: "Deploy to hardware"
