@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The default supported version of Ansible is now 10.x .

@@ -5,7 +5,6 @@
   gather_facts: yes
   vars:
     bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
-    ansible_python_interpreter: "/usr/bin/env python3"
   pre_tasks:
     - name: install pip (and venv) to system
       package:
