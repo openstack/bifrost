@@ -1,0 +1,12 @@
+---
+deprecations:
+  - |
+    Since support for the ironic-inspector service is deprecated in Ironic,
+    it is also deprecated in Bifrost, together with the ``enable_inspector``
+    variable. They will be removed in the 2026.1 release cycle.
+
+    Bifrost users that set ``enable_inspector`` to ``true`` should check
+    the `ironic-inspector migration guide
+    <https://docs.openstack.org/ironic/latest/admin/inspection/migration.html>`_
+    for information on how to migrate to the native in-band inspection
+    in Ironic.
