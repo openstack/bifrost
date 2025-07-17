@@ -14,6 +14,7 @@ sushy_git_url: "{{ git_url_root }}/openstack/sushy"
 ipa_git_url: "{{ git_url_root }}/openstack/ironic-python-agent"
 ipa_builder_git_url: "{{ git_url_root }}/openstack/ironic-python-agent-builder"
 prometheus_exporter_git_url: "{{ git_url_root }}/openstack/ironic-prometheus-exporter"
+networking_generic_switch_git_url: "{{ git_url_root }}/openstack/networking-generic-switch"
 # *_git_folder can be overridden by local clones for offline installs
 ironicclient_git_folder: "{{ git_root }}/python-ironicclient"
 ironic_git_folder: "{{ git_root }}/ironic"
@@ -26,6 +27,7 @@ sushy_git_folder: "{{ git_root }}/sushy"
 ipa_git_folder: "{{ git_root }}/ironic-python-agent"
 ipa_builder_git_folder: "{{ git_root }}/ironic-python-agent-builder"
 prometheus_exporter_git_folder: "{{ git_root }}/ironic-prometheus-exporter"
+networking_generic_switch_git_folder: "{{ git_root }}/networking-generic-switch"
 # *git_branch can be overridden for stable branch testing
 git_branch: master
 ironicclient_git_branch: "{{ git_branch }}"
@@ -39,6 +41,7 @@ sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
 ipa_builder_git_branch: "{{ git_branch }}"
 prometheus_exporter_git_branch: "{{ git_branch }}"
+networking_generic_switch_git_branch: "{{ git_branch }}"
 # disable source install to prevent cloning
 ironicclient_source_install: false
 openstacksdk_source_install: false
@@ -47,6 +50,8 @@ staging_drivers_source_install: true
 prometheus_exporter_source_install: true
 enable_keystone: false
 enable_prometheus_exporter: false
+enable_ironic_networking: false
+enable_networking_generic_switch_driver: false
 staging_drivers_include: false
 
 update_repos: true

@@ -23,3 +23,8 @@
         ENABLE_TLS: "{{ enable_tls | default(false) | bool | lower }}"
         ENABLE_PROMETHEUS_EXPORTER: "{{ enable_prometheus_exporter | default(false) | bool | lower }}"
         USE_VMEDIA: "{{ use_vmedia | default(false) | bool | lower }}"
+        USE_FAST_TRACK: "{{ use_fast_track | default(true) | bool | lower }}"
+        USE_NGS_DRIVER: "{{ use_ngs_driver | default(false) | bool | lower }}"
+        VM_SWITCH_TYPE: "{{ vm_switch_type | default('linux_bridge') }}"
+        NETWORK_INTERFACE: "{{ 'virbr0' if vm_switch_type | default('linux_bridge') == 'linux_bridge' else 'brtest.10' }}"
+        ENABLE_IRONIC_NETWORKING: "{{ enable_ironic_networking | default(false) | bool | lower }}"

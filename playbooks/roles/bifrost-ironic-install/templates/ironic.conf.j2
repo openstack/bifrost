@@ -2,10 +2,8 @@
 
 [DEFAULT]
 debug = {{ ironic_debug | bool }}
-# NOTE(TheJulia): Until Bifrost supports neutron or some other network
-# configuration besides a flat network where bifrost orchestrates the
-# control instead of ironic, noop is the only available network driver.
-enabled_network_interfaces = noop
+enabled_network_interfaces = {{ enabled_network_interfaces }}
+default_network_interface = {{ default_network_interface }}
 default_deploy_interface = {{ default_deploy_interface }}
 enabled_inspect_interfaces = no-inspect,agent
 default_inspect_interface = agent
@@ -146,7 +144,9 @@ kernel_append_params = {{ redfish_kernel_params }}
 [inspector]
 power_off = {{ power_off_after_inspection }}
 extra_kernel_params = {{ inspector_extra_kernel_options | default('') }}
+hooks = {{ inspector_hooks | default('$default_hooks') }}
 require_managed_boot = False
+force_dhcp = {{ inspector_force_dhcp | default('false') }}
 add_ports = {{ inspector_port_addition | default('pxe') }}
 keep_ports = {{ inspector_keep_ports | default('present') }}
 
@@ -212,6 +212,32 @@ password = {{ admin_password }}
 {% endif %}
 {% endif %}
 
+{% if enable_ironic_networking | bool %}
+[ironic_networking_json_rpc]
+host_ip = {{ internal_ip }}
+port = {{ networking_json_rpc_port }}
+{% if enable_tls | bool %}
+cafile = {{ tls_certificate_path }}
+use_ssl = True
+{% endif %}
+{% if enable_keystone | bool %}
+auth_strategy = keystone
+auth_url = {{ ironic.service_catalog.auth_url }}
+auth_type = password
+project_name = {{ ironic.service_catalog.project_name }}
+username = {{ ironic.service_catalog.username }}
+password = {{ ironic.service_catalog.password }}
+user_domain_id = default
+project_domain_id = default
+{% else %}
+auth_strategy = http_basic
+auth_type = http_basic
+http_basic_auth_user_file = /etc/ironic/htpasswd
+username = {{ admin_username }}
+password = {{ admin_password }}
+{% endif %}
+{% endif %}
+
 {% if enable_prometheus_exporter | bool %}
 [oslo_messaging_notifications]
 driver = prometheus_exporter
@@ -222,4 +248,15 @@ location = {{ prometheus_exporter_data_dir }}
 [oci]
 {% if registry_protocol is defined and registry_protocol == 'http' %}
 permit_fallback_to_http_transport = True
+{% endif %}
+
+{% if enable_ironic_networking | bool %}
+[ironic_networking]
+rpc_transport = {{ networking_rpc_transport | default('none') }}
+idle_network = access/native_vlan={{ networking_idle_vlan }}
+provisioning_network = access/native_vlan={{ networking_provisioning_vlan }}
+cleaning_network = access/native_vlan={{ networking_cleaning_vlan }}
+rescuing_network = access/native_vlan={{ networking_rescuing_vlan }}
+inspection_network = access/native_vlan={{ networking_inspection_vlan }}
+servicing_network = access/native_vlan={{ networking_servicing_vlan }}
 {% endif %}

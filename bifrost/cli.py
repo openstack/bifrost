@@ -185,6 +185,7 @@ def cmd_install(args):
             download_custom_deploy_image=args.testenv,
             developer_mode=args.develop,
             enable_prometheus_exporter=args.enable_prometheus_exporter,
+            enable_ironic_networking=args.enable_ironic_networking,
             default_boot_mode=args.boot_mode or 'uefi',
             enable_dhcp=not args.disable_dhcp,
             enable_registry=not args.disable_registry,
@@ -328,6 +329,8 @@ def parse_args():
                               'deployments (can take a lot of time)')
     install.add_argument('--enable-prometheus-exporter', action='store_true',
                          help='Enable Ironic Prometheus Exporter')
+    install.add_argument('--enable-ironic-networking', action='store_true',
+                         help='Enable Ironic Networking')
     boot_mode = install.add_mutually_exclusive_group()
     boot_mode.add_argument('--uefi', dest='boot_mode',
                            action='store_const', const='uefi',

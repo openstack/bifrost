@@ -76,7 +76,9 @@ The JSON format resembles the data structure that ironic utilizes internally.
      ``driver_info`` directly).
 
 * The ``nics`` field is a list of ports to create. The required field is
-  ``mac`` - MAC address of the port.
+  ``mac`` - MAC address of the port. For standalone networking, an ``extra``
+  field can contain switchport configuration including ``mode`` and
+  ``native_vlan`` for VLAN management.
 
 Example:
 
@@ -216,6 +218,70 @@ For example:
 .. warning::
    Static network configuration only works this way if you let Bifrost generate
    the configdrive.
+
+Standalone Networking Configuration
+-----------------------------------
+
+Bifrost supports the Ironic standalone networking feature that enables
+advanced VLAN management and switch port configuration. This feature provides
+network isolation for different deployment phases.
+
+To enable standalone networking, set ``enable_ironic_networking=true`` during
+installation. This launches the ironic-networking service alongside Ironic
+and configures the ``ironic-networking`` network interface driver.
+
+For testing, you must use OVS bridge configuration:
+
+.. code-block:: bash
+
+    ./bifrost-cli install --testenv \
+        -e enable_ironic_networking=true \
+        -e test_vm_switch_type=ovs
+
+When using standalone networking, inventory files should include switch port
+configuration in the ``extra`` field of each NIC:
+
+.. code-block:: json
+
+  {
+      "testvm1": {
+        "name": "testvm1",
+        "driver": "ipmi",
+        "driver_info": {
+          "ipmi_address": "192.168.122.1",
+          "ipmi_username": "admin",
+          "ipmi_password": "pa$$w0rd"
+        },
+        "nics": [
+          {
+            "mac": "52:54:00:f9:32:f6",
+            "extra": {
+              "switchport": {
+                "mode": "access",
+                "native_vlan": 30
+              }
+            }
+          }
+        ]
+      }
+  }
+
+.. important::
+   ``local_link_connection`` information must be set on each Ironic port for
+   switch port identification. By default, this is done automatically via
+   the static configuration data provided for enrollment.  Alternatively,
+   setting ``test_vm_use_static_local_link_connection_info`` to false allows
+   for this information to be set automatically during node inspection, but
+   depends on inspection being run manually as it is not part of the
+   automated enrollment process provided by bifrost. Without this data, nodes
+   may be silently provisioned on incorrect VLANs.
+
+.. important::
+   Unless all of the 'provider' networks (i.e., inspection, cleaning, rescuing,
+   provisioning, servicing) are explicitly set to the same VLAN ID value then
+   ``fast_track`` should be disabled to avoid issues with the IPA image running
+   with IP addressing information that does not align with the currently set
+   VLAN.
 
 .. _enroll:
 

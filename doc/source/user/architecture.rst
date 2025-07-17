@@ -48,6 +48,22 @@ keystone_
 
     See :doc:`/user/keystone` for details.
 
+ironic-networking_
+    A standalone networking service that provides advanced network
+    configuration capabilities for Ironic nodes. It enables VLAN management,
+    switch port configuration, and network isolation for different deployment
+    phases (inspection, provisioning, tenant networks).
+
+    The service can be enabled by setting ``enable_ironic_networking=true``.
+    It uses the ``ironic-networking`` network interface driver and serves
+    JSON-RPC API on port 8090 by default.
+
+    .. note::
+       This is a sub-component of the main Ironic component
+
+    .. note::
+       This is feature requires using OVS as a bridge type.
+
 ironic-prometheus-exporter_
     An exporter that exposes hardware metrics from the node's BMC (using IPMI
     or Redfish) for consumption by Prometheus_.
@@ -180,6 +196,7 @@ Runtime locations
     that Nginx uses to pass requests.
 
 .. _ironic: https://docs.openstack.org/ironic/latest/
+.. _ironic-networking: https://docs.openstack.org/ironic/latest/
 .. _bare metal API: https://docs.openstack.org/api-ref/baremetal/
 .. _mariadb: https://mariadb.org/
 .. _nginx: https://nginx.org/

@@ -1,0 +1,20 @@
+---
+features:
+  - |
+    Added support for testing the new standalone Ironic networking service.
+    When ``enable_ironic_networking`` is set to ``True``, the standalone
+    networking service is launched alongside the main Ironic service using
+    the ``ironic-networking`` networking driver. Generated inventory
+    files now include port and driver information to utilize this new
+    functionality. This feature enables testing of advanced network
+    configuration capabilities in standalone Ironic deployments.
+issues:
+  - |
+    When testing standalone Ironic networking functionality, if
+    ``test_vm_use_static_local_link_connection_info`` is set to false, then
+    manual inspection must be performed on nodes prior to deployment to ensure
+    ``local_link_connection`` information is available for switch port
+    identification. Without this information, nodes may be silently
+    provisioned on incorrect VLANs.
+  - |
+    The OVS bridge type must be used for testing this functionality.

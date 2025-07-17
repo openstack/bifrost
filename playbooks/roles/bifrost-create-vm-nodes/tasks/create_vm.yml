@@ -154,9 +154,9 @@
 
 - name: set VM network configuration for OVS
   set_fact:
-    vm_network_base: "192.168.{{ 100 + test_ovs_vm_initial_vlan | int }}."
+    vm_network_base: "192.168.{{ 100 + test_ovs_vm_final_vlan | int }}."
     vm_ip_offset: "{{ 2 + (testvm_json_data | length) }}"
-    mgmt_network_ip: "192.168.{{ 100 + test_ovs_vm_initial_vlan | int }}.1"
+    mgmt_network_ip: "192.168.{{ 100 + test_ovs_vm_final_vlan | int }}.1"
   when: test_vm_switch_type == 'ovs'
 
 - name: set VM network configuration for bridge
@@ -165,6 +165,43 @@
     vm_ip_offset: "{{ 2 + (testvm_json_data | length) }}"
     mgmt_network_ip: "192.168.122.1"
   when: test_vm_switch_type == 'linux_bridge'
+
+- name: "Get MAC address for port"
+  shell:
+    cmd: |
+      set -eo pipefail
+      ovs-vsctl --columns=mac_in_use --format=csv --no-headings list interface "{{ vm_port_name }}" | tr -d '"'
+  register: ovs_interface_mac
+  when:
+    - test_vm_switch_type == 'ovs'
+    - test_vm_use_static_local_link_connection_info | bool
+
+- name: "Set local_link_connection attribute"
+  set_fact:
+    vm_port_llc:
+      switch_id: "{{ ovs_interface_mac.stdout }}"
+      port_id: "{{ vm_port_name }}"
+  when:
+    - test_vm_switch_type == 'ovs'
+    - test_vm_use_static_local_link_connection_info | bool
+
+# Step 1: Define the variable, keeping the YAML parser happy by using quotes.
+# The value of native_vlan will be a STRING here.
+- name: Set the port extra attributes for networking
+  set_fact:
+    vm_port_extra:
+      switchport:
+        mode: 'access'
+        native_vlan: "{{ networking_tenant_vlan | default(30) }}"
+  when: enable_ironic_networking | bool
+
+# Step 2: Explicitly convert the VLAN to an INTEGER.
+# This works because the value `vm_port_extra.switchport.native_vlan` does NOT start
+# with a '{', so no quotes are needed and the type is preserved.
+- name: Ensure native_vlan is an integer
+  set_fact:
+    vm_port_extra: "{{ vm_port_extra | combine({'switchport': {'native_vlan': vm_port_extra.switchport.native_vlan | int}}, recursive=true) }}"
+  when: enable_ironic_networking | bool
 
 # NOTE(pas-ha) using default username and password set by virtualbmc - "admin" and "password" respectively
 # see vbmc add --help
@@ -186,6 +223,8 @@
         redfish_password: "password"
       nics:
         - mac: "{{ vm_mac }}"
+          extra: "{{ vm_port_extra | default(omit) }}"
+          local_link_connection: "{{ vm_port_llc | default(omit) }}"
       ansible_ssh_host: "{{ vm_network_base }}{{ vm_ip_offset }}"
       ipv4_address: "{{ vm_network_base }}{{ vm_ip_offset }}"
       properties:
@@ -208,6 +247,8 @@
         redfish_password: "password"
       ports:
         - address: "{{ vm_mac }}"
+          extra: "{{ vm_port_extra | default(omit) }}"
+          local_link_connection: "{{ vm_port_llc | default(omit) }}"
       properties:
         cpu_arch: "{{ test_vm_arch }}"
         disk_gb: "{{ test_vm_disk_gib }}"

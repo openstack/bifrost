@@ -1,0 +1,102 @@
+# {{ ansible_managed }}
+
+[DEFAULT]
+debug = {{ ironic_debug | bool }}
+
+{% if expose_json_rpc | bool %}
+rpc_transport = json-rpc
+{% else %}
+rpc_transport = none
+{% endif %}
+
+{% if enable_keystone | bool %}
+auth_strategy = keystone
+{% elif noauth_mode | bool %}
+auth_strategy = noauth
+{% else %}
+auth_strategy = http_basic
+http_basic_auth_user_file = /etc/ironic/htpasswd
+{% endif %}
+
+{% if ironic_log_dir | default("") != "" %}
+log_dir = {{ ironic_log_dir }}
+{% endif %}
+
+{% if enable_tls | bool %}
+{% if expose_json_rpc | bool %}
+[ssl]
+# Only used for JSON RPC when expose_json_rpc is true
+cert_file = {{ tls_certificate_path }}
+key_file = {{ ironic_private_key_path }}
+{% endif %}
+{% endif %}
+
+{% if enable_keystone is defined and enable_keystone | bool == true %}
+[keystone_authtoken]
+auth_plugin = password
+auth_url = {{ ironic.service_catalog.auth_url }}
+username = {{ ironic.service_catalog.username }}
+password = {{ ironic.service_catalog.password }}
+user_domain_id = default
+project_name = {{ ironic.service_catalog.project_name }}
+project_domain_id = default
+{% if enable_tls | bool %}
+cafile = {{ tls_certificate_path }}
+{% endif %}
+{% endif %}
+
+[service_catalog]
+{% if enable_keystone | bool %}
+auth_url = {{ ironic.service_catalog.auth_url }}
+auth_type = password
+project_name = {{ ironic.service_catalog.project_name }}
+username = {{ ironic.service_catalog.username }}
+password = {{ ironic.service_catalog.password }}
+user_domain_id = default
+project_domain_id = default
+region_name = {{ keystone.bootstrap.region_name | default('RegionOne')}}
+{% elif noauth_mode | bool %}
+auth_type = none
+{% else %}
+auth_type = http_basic
+username = {{ admin_username }}
+password = {{ admin_password }}
+{% endif %}
+# NOTE(dtantsur): this has to be on internal IP even if public IPs are used
+endpoint_override = {{ api_protocol }}://{{ internal_ip }}:6385
+
+{% if expose_json_rpc | bool %}
+[ironic_networking_json_rpc]
+host_ip = {{ internal_ip }}
+port = {{ networking_json_rpc_port }}
+{% if enable_tls | bool %}
+cafile = {{ tls_certificate_path }}
+use_ssl = True
+{% endif %}
+{% if enable_keystone | bool %}
+auth_strategy = keystone
+auth_url = {{ ironic.service_catalog.auth_url }}
+auth_type = password
+project_name = {{ ironic.service_catalog.project_name }}
+username = {{ ironic.service_catalog.username }}
+password = {{ ironic.service_catalog.password }}
+user_domain_id = default
+project_domain_id = default
+{% else %}
+auth_strategy = http_basic
+auth_type = http_basic
+http_basic_auth_user_file = /etc/ironic/htpasswd
+username = {{ admin_username }}
+password = {{ admin_password }}
+{% endif %}
+{% endif %}
+
+{% if enable_ironic_networking | bool %}
+[ironic_networking]
+switch_config_file = {{ networking_switch_config_file }}
+driver_config_dir = {{ networking_driver_config_dir }}
+enabled_switch_drivers = {{ networking_switch_drivers | join(',') | default('noop') }}
+allowed_vlans = {{ networking_allowed_vlans | join(',') | default('') }}
+denied_vlans = {{ networking_denied_vlans | join(',') | default('') }}
+allow_port_channels = {{ networking_allow_port_channels | bool | default(false) }}
+{% endif %}

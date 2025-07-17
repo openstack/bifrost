@@ -31,6 +31,10 @@
     state: started
     enabled: yes
 
+- name: "Start ironic-networking"
+  include_tasks: ironic_networking_start.yml
+  when: enable_ironic_networking | bool
+
 - name: "Stop old ironic services"
   service:
     name: "{{ item }}"

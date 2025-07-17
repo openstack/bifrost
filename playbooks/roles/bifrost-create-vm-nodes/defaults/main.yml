@@ -98,8 +98,14 @@ efi_nvram_locations_secboot:
 efi_nvram_locations: >-
   {{ efi_nvram_locations_secboot if test_vm_secure_boot | bool else efi_nvram_locations_normal }}
 
+# NOTE: cloned from bifrost-ironic-install
+enable_ironic_networking: false
+
 # Switch type configuration (default: linux_bridge)
 test_vm_switch_type: linux_bridge
+
+# Use statically provided local_link_connection info rather than rely on LLDP.
+test_vm_use_static_local_link_connection_info: true
 
 # OVS-specific configuration
 test_ovs_bridge_name: brtest
@@ -108,6 +114,7 @@ test_ovs_bridge_name: brtest
 # NOTE: VLAN IDs must be 1-255 when used for IP subnets (192.168.{VLAN}.0/24)
 test_ovs_host_vlans: ['10', '20', '30']
 test_ovs_vm_initial_vlan: '10'
+test_ovs_vm_final_vlan: '30'
 
 # OVS restricted user configuration
 # Uses SSH key-based authentication (password authentication is disabled)

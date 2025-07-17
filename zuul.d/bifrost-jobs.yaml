@@ -69,6 +69,17 @@
       test_driver: redfish
 
 - job:
+    name: bifrost-integration-standalone-networking
+    parent: bifrost-integration
+    nodeset: bifrost-centos-10-stream
+    vars:
+      enable_ironic_networking: true
+      use_fast_track: false
+      use_ngs_driver: true
+      vm_switch_type: ovs
+      network_interface: brtest.10
+
+- job:
     name: bifrost-integration-debian-ipasrc-on-ubuntu-jammy
     parent: bifrost-integration-debian-ipasrc
     nodeset: ubuntu-jammy

@@ -1,0 +1,70 @@
+# Copyright (c) 2025 Red Hat, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Test ironic-networking service is active"
+  systemd:
+    name: ironic-networking
+  register: networking_service_status
+  failed_when: networking_service_status.status.ActiveState != "active"
+  changed_when: false
+  when: enable_ironic_networking | bool
+
+- name: "Test networking configuration files exist"
+  stat:
+    path: "{{ item }}"
+  register: config_files
+  loop:
+    - /etc/ironic/ironic-networking.conf
+    - "{{ networking_switch_config_file }}"
+  when: enable_ironic_networking | bool
+
+- name: "Verify networking configuration files exist"
+  assert:
+    that:
+      - item.stat.exists
+    fail_msg: "Configuration file {{ item.item }} does not exist"
+    success_msg: "Configuration file {{ item.item }} exists"
+  loop: "{{ config_files.results }}"
+  when:
+    - enable_ironic_networking | bool
+    - config_files is defined
+
+- name: "Test ironic conductor can connect to networking service"
+  uri:
+    url: "http://{{ internal_ip }}:{{ networking_json_rpc_port }}/json_rpc"
+    method: POST
+    body_format: json
+    body:
+      jsonrpc: "2.0"
+      method: "get_enabled_switch_drivers"
+      id: 1
+    return_content: true
+  register: json_rpc_response
+  failed_when: false
+  when: enable_ironic_networking | bool
+
+- name: "Verify JSON-RPC endpoint is accessible"
+  assert:
+    that:
+      - json_rpc_response.status == 401
+    fail_msg: "JSON-RPC endpoint is not responding correctly"
+    success_msg: "JSON-RPC endpoint is accessible"
+  when:
+    - enable_ironic_networking | bool
+    - json_rpc_response is defined
+
+- name: "Skip networking tests when disabled"
+  debug:
+    msg: "Ironic networking is disabled, skipping networking tests"
+  when: not (enable_ironic_networking | bool)

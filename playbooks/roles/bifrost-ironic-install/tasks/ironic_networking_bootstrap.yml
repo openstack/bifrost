@@ -1,0 +1,138 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Create ironic networking config"
+  template:
+    src: ironic-networking.conf.j2
+    dest: /etc/ironic/ironic-networking.conf
+    owner: ironic
+    group: ironic
+    mode: "0640"
+  vars:
+    # The networking service always exposes JSON RPC
+    expose_json_rpc: true
+
+- name: "Create ironic networking config dir"
+  file:
+    path: "{{ networking_switch_config_file | dirname }}"
+    state: directory
+    mode: "0755"
+    owner: "ironic"
+    group: "ironic"
+
+- name: "Get testvm interfaces from OVS"
+  shell:
+    cmd: |
+      set -eo pipefail
+      ovs-vsctl --columns=name --format=csv --no-headings list interface | grep "^testvm" | tr -d '"'
+  register: ovs_testvm_interfaces
+  when: test_vm_switch_type == 'ovs'
+
+- name: "Generate OVS switch entries for testvm interfaces"
+  set_fact:
+    ovs_switch_entries: []
+  when: test_vm_switch_type == 'ovs'
+
+- name: "Get MAC address for testvm interface"
+  shell:
+    cmd: |
+      set -eo pipefail
+      ovs-vsctl --columns=mac_in_use --format=csv --no-headings list interface "{{ item }}" | tr -d '"'
+  register: ovs_interface_macs
+  loop: "{{ ovs_testvm_interfaces.stdout_lines | default([]) }}"
+  when: test_vm_switch_type | default('linux_bridge') == 'ovs'
+
+- name: "Create directory for Ironic networking keys"
+  file:
+    path: "{{ networking_driver_ssh_keys_dir }}"
+    state: directory
+    owner: ironic
+    group: ironic
+    mode: '0750'
+
+- name: "Copy OVS user private key to Ironic networking keys directory"
+  copy:
+    src: /home/{{ test_ovs_user | default('ovsuser') }}/.ssh/id_ed25519
+    dest: "{{ networking_driver_ssh_keys_dir }}/{{ test_ovs_user | default('ovsuser') }}_id_ed25519"
+    remote_src: yes
+    owner: ironic
+    group: ironic
+    mode: '0640'
+
+- name: "Build OVS switch entry for each testvm port"
+  set_fact:
+    ovs_switch_entries: >-
+      {{
+        ovs_switch_entries + [{
+          'switch_id': item.item,
+          'mac_address': item.stdout,
+          'driver_type': 'generic-switch',
+          'device_type': 'netmiko_ovs_linux',
+          'address': 'localhost',
+          'username': test_ovs_user | default('ovsuser'),
+          'use_keys': true,
+          'key_file': networking_driver_ssh_keys_dir +'/' + (test_ovs_user | default('ovsuser')) + '_id_ed25519'
+        }]
+      }}
+  loop: "{{ ovs_interface_macs.results | default([]) }}"
+  when: test_vm_switch_type | default('linux_bridge') == 'ovs' and item.stdout is defined
+
+- name: "Augment networking_switches with OVS VM ports"
+  set_fact:
+    augmented_networking_switches: "{{ networking_switches + (ovs_switch_entries | default([])) }}"
+  when: test_vm_switch_type == 'ovs'
+
+- name: "Create ironic networking switch config"
+  template:
+    src: ironic-networking-switches.conf.j2
+    dest: "{{ networking_switch_config_file }}"
+    owner: ironic
+    group: ironic
+    mode: "0640"
+  vars:
+    networking_switches: "{{ augmented_networking_switches }}"
+
+- name: "Install networking-generic-switch"
+  include_role:
+    name: bifrost-pip-install
+  vars:
+    package: networking-generic-switch
+    sourcedir: "{{ networking_generic_switch_git_folder }}"
+    source_install: "{{ networking_generic_switch_source_install }}"
+  when: enable_networking_generic_switch_driver | bool
+
+- name: "Get ironic-networking install location"
+  shell: echo $(dirname $(which ironic-networking))
+  register: ironic_networking_install_prefix
+  environment: "{{ bifrost_venv_env }}"
+
+- name: "Create networking driver config dir"
+  file:
+    path: "{{ networking_driver_config_dir }}"
+    state: directory
+    mode: "0755"
+    owner: "ironic"
+    group: "ironic"
+
+- name: "Place ironic-networking service"
+  template:
+    src: systemd_template.j2
+    dest: "{{ init_dest_dir }}ironic-networking.service"
+    owner: "root"
+    group: "root"
+  vars:
+    service_path: "{{ ironic_networking_install_prefix.stdout | default('') }}"
+    service_name: 'ironic-networking'
+    config_file: '/etc/ironic/ironic-networking.conf'
+    config_dir: "{{ networking_driver_config_dir }}"
+  when: enable_ironic_networking | bool

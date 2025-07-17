@@ -33,6 +33,14 @@
 
 - import_playbook: install.yaml
 
+- name: "Test ironic networking installation"
+  hosts: target
+  connection: local
+  become: no
+  roles:
+    - role: bifrost-test-networking
+      when: enable_ironic_networking | default(false) | bool
+
 - import_playbook: enroll-dynamic.yaml
 
 - name: "Test introspection data"

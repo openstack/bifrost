@@ -259,6 +259,10 @@
     state: directory
     mode: "0755"
 
+- name: "Install ironic-networking to enable standalone networking"
+  include_tasks: ironic_networking_bootstrap.yml
+  when: enable_ironic_networking | bool
+
 - name: "Get ironic install location"
   shell: echo $(dirname $(which ironic))
   register: ironic_install_prefix

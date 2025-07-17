@@ -15,7 +15,12 @@ BOOT_MODE=${BOOT_MODE:-}
 ENABLE_GRUB_NETWORK_BOOT=${ENABLE_GRUB_NETWORK_BOOT:-false}
 ENABLE_TLS=${ENABLE_TLS:-false}
 ENABLE_PROMETHEUS_EXPORTER=${ENABLE_PROMETHEUS_EXPORTER:-false}
+NETWORK_INTERFACE=${NETWORK_INTERFACE:-virbr0}
+ENABLE_IRONIC_NETWORKING=${ENABLE_IRONIC_NETWORKING:-false}
 USE_VMEDIA=${USE_VMEDIA:-false}
+USE_FAST_TRACK=${USE_FAST_TRACK:-true}
+USE_NGS_DRIVER=${USE_NGS_DRIVER:-false}
+VM_SWITCH_TYPE=${VM_SWITCH_TYPE:-linux_bridge}
 
 # Set defaults for ansible command-line options to drive the different
 # tests.
@@ -162,6 +167,11 @@ done
     --disk ${VM_DISK:-5} \
     --inventory "${BAREMETAL_DATA_FILE}" \
     --extra-vars git_url_root="${WORKSPACE:-https://opendev.org}" \
+    --extra-vars enable_ironic_networking="${ENABLE_IRONIC_NETWORKING}" \
+    --extra-vars enable_networking_generic_switch_driver="${USE_NGS_DRIVER}" \
+    --extra-vars fast_track="${USE_FAST_TRACK}" \
+    --extra-vars test_vm_switch_type="${VM_SWITCH_TYPE}" \
+    --extra-vars network_interface="${NETWORK_INTERFACE}" \
     ${VM_SETUP_EXTRA:-} \
     ${BIFROST_CLI_EXTRA:-}
 
@@ -178,6 +188,11 @@ fi
 if [ ${CLI_TEST} = "true" ]; then
     ../bifrost-cli --debug install --testenv \
         --extra-vars git_url_root="${WORKSPACE:-https://opendev.org}" \
+        --extra-vars enable_ironic_networking="${ENABLE_IRONIC_NETWORKING}" \
+        --extra-vars enable_networking_generic_switch_driver="${USE_NGS_DRIVER}" \
+        --extra-vars fast_track="${USE_FAST_TRACK}" \
+        --extra-vars test_vm_switch_type="${VM_SWITCH_TYPE}" \
+        --extra-vars network_interface="${NETWORK_INTERFACE}" \
         ${BIFROST_CLI_EXTRA:-}
 fi
 
@@ -209,12 +224,18 @@ ${ANSIBLE} -vvvv \
     -e not_enrolled_data_file=${BAREMETAL_DATA_FILE}.rest \
     -e enable_tls=${ENABLE_TLS} \
     -e enable_prometheus_exporter=${ENABLE_PROMETHEUS_EXPORTER} \
+    -e enable_ironic_networking=${ENABLE_IRONIC_NETWORKING} \
+    -e enable_networking_generic_switch_driver=${USE_NGS_DRIVER} \
+    -e test_vm_switch_type=${VM_SWITCH_TYPE} \
+    -e fast_track=${USE_FAST_TRACK} \
+    -e network_interface=${NETWORK_INTERFACE} \
     -e generate_tls=${ENABLE_TLS} \
     -e skip_install=${CLI_TEST} \
     -e skip_package_install=${CLI_TEST} \
     -e skip_bootstrap=${CLI_TEST} \
     -e skip_start=${CLI_TEST} \
     -e skip_migrations=${CLI_TEST} \
+    ${BIFROST_CLI_EXTRA} \
     ${CLOUD_CONFIG}
 EXITCODE=$?
 

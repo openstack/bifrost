@@ -3,7 +3,8 @@ Description={{ service_name }} service
 
 [Service]
 Type=notify
-ExecStart={{ service_path }}/{{ service_name }} --config-file {{ config_file }}
+ExecStart={{ service_path }}/{{ service_name }} --config-file {{ config_file }} {% if config_dir is defined %} --config-dir {{ config_dir }} {% endif %}
+
 User=ironic
 RuntimeDirectory=ironic
 RuntimeDirectoryMode=750

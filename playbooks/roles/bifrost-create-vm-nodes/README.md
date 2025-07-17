@@ -174,6 +174,11 @@ test_ovs_vm_initial_vlan: Initial VLAN ID for test VMs on OVS bridge.
                           VMs start on this VLAN and can be moved between
                           VLANs by the networking driver.
 
+test_ovs_vm_final_vlan: Final VLAN ID for test VMs on OVS bridge.
+                        Defaults to '30'.
+                        This is the 'tenant' network for the VM and will be
+                        set by the networking driver on deployment.
+
 test_ovs_user: Username for OVS restricted user access.
                Defaults to 'ovsuser'.
                Uses SSH key-based authentication (password login is disabled).

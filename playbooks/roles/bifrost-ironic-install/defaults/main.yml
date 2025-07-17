@@ -21,6 +21,7 @@ openstacksdk_source_install: false
 sushy_source_install: false
 staging_drivers_source_install: true
 prometheus_exporter_source_install: true
+networking_generic_switch_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
 create_image_via_dib: "{{ not (download_custom_deploy_image) }}"
 create_ipa_image: false
@@ -219,6 +220,8 @@ enabled_management_interfaces: ""
 enabled_power_interfaces: ""
 enabled_raid_interfaces: ""
 enabled_vendor_interfaces: ""
+enabled_network_interfaces: "{{ 'ironic-networking' if enable_ironic_networking | bool else 'noop' }}"
+default_network_interface: "{{ 'ironic-networking' if enable_ironic_networking | bool else 'noop' }}"
 
 default_resource_class: baremetal
 
@@ -294,14 +297,21 @@ inventory_dns: False
 #ironic_log_dir: /var/log/ironic
 
 # Note: inspector_port_addition has three valid values: all, active, pxe
-inspector_port_addition: "pxe"
+inspector_port_addition: "{{ 'all' if enable_ironic_networking | bool else 'pxe' }}"
 
 # Note: inspector_keep_ports has three valid values: all, present, added
 inspector_keep_ports: "present"
 
+# If true, the inspector will use DHCP on all interfaces instead of any static
+# network data provided.
+inspector_force_dhcp: "{{ enable_ironic_networking | bool }}"
+
 # String value containing extra kernel parameters for the inspector default
 # PXE configuration.
-inspector_extra_kernel_options: "ipa-inspection-collectors=default,logs"
+inspector_extra_kernel_options: "{{ 'ipa-inspection-collectors=default,logs ipa-inspection-dhcp-all-interfaces=1 ipa-collect-lldp=1' if enable_ironic_networking | bool else 'ipa-inspection-collectors=default,logs' }}"
+
+# String value containing hooks to be run by the inspector
+inspector_hooks: "{{ '$default_hooks,parse-lldp,local-link-connection' if enable_ironic_networking | bool else '$default_hooks' }}"
 
 enable_inspector_discovery: false
 
@@ -422,6 +432,64 @@ prometheus_exporter_data_dir: /var/lib/ironic-prometheus-exporter/data
 sensor_data_interval: 90
 # sensor data should be collected from undeployed nodes
 sensor_data_undeployed_nodes: false
+
+# Enable Ironic Networking
+enable_ironic_networking: false
+enable_networking_generic_switch_driver: false
+networking_rpc_transport: "json-rpc"
+networking_json_rpc_port: 8090
+networking_switch_drivers: "{{ ['generic-switch'] if enable_networking_generic_switch_driver | bool else ['noop'] }}"
+networking_driver_config_dir: "/var/lib/ironic/networking"
+networking_driver_ssh_keys_dir: "/etc/ironic/networking/keys"
+networking_switch_config_file: "/etc/ironic/networking/switch-configs.conf"
+networking_allowed_vlans: []
+networking_denied_vlans: []
+networking_allow_port_channels: false
+networking_idle_vlan: "10"
+networking_provisioning_vlan: "20"
+networking_cleaning_vlan: "20"
+networking_rescuing_vlan: "20"
+networking_inspection_vlan: "10"
+networking_servicing_vlan: "20"
+networking_tenant_vlan: "30"
+
+# Switch configurations for ironic-networking
+# Each entry should be a dictionary with the following keys:
+#
+# Required:
+# - switch_id: unique identifier for the switch (used as switch name in config)
+# - driver_type: driver type (e.g., 'generic-switch')
+# - device_type: device type (e.g., 'cisco_ios', 'arista_eos', 'juniper_junos')
+# - address: IP address or hostname of the switch
+# - username: SSH username for switch access
+# Optional:
+#   - password: SSH password for switch access
+#   - port: SSH port (default: 22)
+#   - key_file: path to SSH private key file
+#   - enable_secret: enable secret for privileged mode
+#   - mac_address: switch MAC address
+#
+# Example:
+# networking_switches:
+#   - switch_id: "switch1"                   # Required: unique identifier
+#     driver_type: "generic-switch"          # Required: driver type
+#     device_type: "cisco_ios"               # Required: device type
+#     address: "192.168.1.10"                # Required: IP/hostname
+#     username: "admin"                      # Required: SSH username
+#     password: "password123"                # Optional: SSH password
+#     port: 22                               # Optional: SSH port (default: 22)
+#     enable_secret: "enable_secret"         # Optional: privileged mode secret
+#   - switch_id: "switch2"                   # Required: unique identifier
+#     device_type: "arista_eos"              # Required: device type
+#     address: "192.168.1.11"                # Required: IP/hostname
+#     username: "admin"                      # Required: SSH username
+#     password: "mysecret123"                # Optional: SSH password
+#     mac_address: "aa:bb:cc:dd:ee:ff"       # Optional: switch MAC address
+#
+# Note: If using the OVS switch type for testing the switches will be
+# populated automatically.
+#
+networking_switches: []
 
 # Internal variables
 pxe_kernel_params: >-

@@ -1,0 +1,30 @@
+# {{ ansible_managed }}
+
+{# Macro to output optional switch parameters #}
+{%- macro switch_param(name, value, type='string') -%}
+{% if value is defined %}
+{% if type == 'bool' %}
+{{ name }} = {{ value | bool }}
+{% else %}
+{{ name }} = {{ value }}
+{% endif %}
+{% endif -%}
+{%- endmacro -%}
+
+{% if enable_networking_generic_switch_driver | bool and networking_switches | length > 0 %}
+# Generic switch configurations
+{% for switch in networking_switches %}
+[switch:{{ switch.switch_id }}]
+driver_type = generic-switch
+device_type = {{ switch.device_type }}
+address = {{ switch.address }}
+username = {{ switch.username }}
+{{ switch_param('password', switch.password) -}}
+{{ switch_param('port', switch.port) -}}
+{{ switch_param('key_file', switch.key_file) -}}
+{{ switch_param('enable_secret', switch.enable_secret) -}}
+{{ switch_param('mac_address', switch.mac_address) -}}
+{{ switch_param('default_vlan', switch.default_vlan) }}
+
+{% endfor %}
+{% endif %}
