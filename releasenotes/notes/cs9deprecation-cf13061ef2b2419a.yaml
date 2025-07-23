@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    With the upcoming support removal for Python 3.9 we can't
+    guarantee that CentOS Stream 9 jobs will keep working.
+    CentOS Stream 9 support is considered deprecated and it
+    will be removed with no further notice.

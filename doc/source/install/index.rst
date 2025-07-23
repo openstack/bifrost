@@ -14,13 +14,12 @@ Supported operating systems
 
 Full support (fully tested in the CI, no known or potential issues):
 
-* CentOS Stream 9
-
-  .. note::
-     RHEL 9 and derivatives are assumed to work but not tested explicitly.
-
 * Ubuntu 22.04 "Jammy" and 24.04 "Noble"
 * Debian 11 "Bullseye" and 12 "Bookworm"
+
+Deprecated support:
+
+* CentOS Stream 9
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
