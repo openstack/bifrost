@@ -31,9 +31,15 @@ Bugs should be filed in launchpad, not GitHub:
 Contributing Code
 -----------------
 
-Bifrost requires a valid OpenStack contributor agreement to be signed before
-code can be accepted.  Details can be found in the development workflow link
+In order to contribute to the bifrost project, you need to adhere
+to the `Developer Certificate of Origin`_. OpenStack utilizes the Developer
+Certificate of Origin (DCO) as a lightweight means to confirm that you are
+entitled to contribute the code you submit. This ensures that you are
+providing your contributions under the project's license and that you have
+the right to do so. Details can be found in the development workflow link
 above.
+
+.. _Developer Certificate of Origin: https://developercertificate.org/
 
 Code isn't committed directly (so pull requests won't work); instead, the
 code is submitted for review through Gerrit via git review, and once its
@@ -45,7 +51,7 @@ Once that's done, the development workflow is, roughly::
    $ cd bifrost
    $ git checkout -b some-branch-name
    ... hack hack hack ...
-   $ git commit
+   $ git commit -s
    $ git review
    ... The configuration details for this are in .gitreview.
    ... When the command runs, it will add a ChangeId to your commit
