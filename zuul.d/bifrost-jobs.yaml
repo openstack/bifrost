@@ -45,11 +45,6 @@
     nodeset: ubuntu-jammy
 
 - job:
-    name: bifrost-integration-dhcp-centos-9
-    parent: bifrost-integration-dhcp
-    nodeset: centos-9-stream
-
-- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     timeout: 7200
@@ -63,11 +58,6 @@
     name: bifrost-integration-dibipa-debian-ubuntu-jammy
     parent: bifrost-integration-dibipa-debian
     nodeset: ubuntu-jammy
-
-- job:
-    name: bifrost-integration-dibipa-debian-centos-9
-    parent: bifrost-integration-dibipa-debian
-    nodeset: centos-9-stream
 
 - job:
     name: bifrost-integration-tinyipa
@@ -132,6 +122,7 @@
     vars:
       cli_test: true
 
+# FIXME(dtantsur): remove when this job is no longer used on Ironic
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-centos-9
     parent: bifrost-integration-tinyipa-centos-9
@@ -140,34 +131,11 @@
       use_vmedia: true
 
 - job:
-    name: bifrost-integration-redfish-pxe-uefi-centos-9
-    parent: bifrost-integration-tinyipa-centos-9
+    name: bifrost-integration-redfish-pxe-uefi-ubuntu-noble
+    parent: bifrost-integration-tinyipa-ubuntu-noble
     vars:
       enable_grub_network_boot: true
       test_driver: redfish
-
-- job:
-    name: bifrost-integration-tinyipa-centos-9
-    parent: bifrost-integration-tinyipa
-    nodeset: centos-9-stream
-
-- job:
-    name: bifrost-integration-tinyipa-keystone-centos-9
-    parent: bifrost-integration-tinyipa-centos-9
-    required-projects:
-      - openstack/keystone
-      - openstack/ironic-prometheus-exporter
-    vars:
-      enable_keystone: true
-      enable_tls: true
-      test_driver: redfish
-      enable_prometheus_exporter: true
-
-- job:
-    name: bifrost-integration-inspector-centos-9
-    parent: bifrost-integration-tinyipa-centos-9
-    vars:
-      use_inspector: true
 
 - job:
     name: bifrost-integration-tinyipa-debian-bullseye
@@ -199,7 +167,7 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/2024.2
+      upgrade_from: stable/2025.1
       skip_upgrade:
         - openstack/diskimage-builder
 
@@ -209,9 +177,9 @@
     nodeset: ubuntu-jammy
 
 - job:
-    name: bifrost-upgrade-keystone-centos9
+    name: bifrost-upgrade-keystone-ubuntu-noble
     parent: bifrost-upgrade
-    nodeset: centos-9-stream
+    nodeset: ubuntu-noble
     required-projects:
       - openstack/keystone
     vars:

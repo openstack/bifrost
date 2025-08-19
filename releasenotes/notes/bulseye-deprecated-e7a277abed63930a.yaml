@@ -1,0 +1,11 @@
+---
+deprecations:
+  - |
+    Support for Debian 11 Bullseye has been removed.
+  - |
+    Support for CentOS Stream 9 has been removed.
+upgrade:
+  - |
+    Because of upstream changes, Ironic can no longer be run on Python 3.9.
+    Before upgrading to this version, ensure you're using Bifrost on
+    an operating system that ships a newer Python version.
