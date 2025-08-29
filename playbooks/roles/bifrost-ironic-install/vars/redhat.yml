@@ -5,6 +5,7 @@ ipxe_efi_binary: ipxe-snponly-x86_64.efi
 ironic_rootwrap_dir: /usr/bin/
 mysql_service_name: mariadb
 tftp_service_name: tftp
+dnsmasq_leases_file: "/var/lib/dnsmasq/dnsmasq.leases"
 efi_distro: "{{ ansible_facts['distribution'] | lower }}"
 grub_efi_package: grub2-efi-x64
 grub_efi_binary: "/boot/efi/EFI/{{ efi_distro }}/grubx64.efi"
