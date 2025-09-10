@@ -10,7 +10,7 @@ The following packages are required and ensured to be present:
 - libvirt-bin
 - qemu-utils
 - qemu-kvm
-- sgabios
+- sgabios (except on CentOS Stream 10 / Rocky Linux 10)
 
 
 Warning

@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes support for CentOS Stream 10 and Rocky Linux 10 by removing the
+    dependency on ``sgabios`` for these distributions.

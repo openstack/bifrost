@@ -6,7 +6,7 @@ required_packages:
  - qemu-img
  - kernel-tools
  - qemu-kvm
- - sgabios-bin
+ - "{{ 'sgabios-bin' if ansible_distribution_version | int == 9 else '' }}"
  - libvirt
  - libvirt-client
  - libvirt-daemon
