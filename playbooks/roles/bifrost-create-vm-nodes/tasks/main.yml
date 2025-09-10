@@ -38,7 +38,7 @@
 
 - name: "Install required packages"
   package:
-    name: "{{ required_packages }}"
+    name: "{{ required_packages | select | list }}"
     state: present
 
 - name: ensure installation root folder exists
