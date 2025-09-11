@@ -8,6 +8,9 @@ fi
 
 declare -A PKG_MAP
 
+SCRIPT_HOME="$(cd "$(dirname "$0")" && pwd)"
+export BIFROST_HOME=$SCRIPT_HOME/..
+
 # NOTE(rpittau): we need a stable recent version of pip to avoid issues with
 # the cryptography package.
 PIP_MIN_REQ="22.3.1"
