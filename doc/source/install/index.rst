@@ -14,6 +14,11 @@ Supported operating systems
 
 Full support (fully tested in the CI, no known or potential issues):
 
+* CentOS Stream 10
+
+  .. note::
+     RHEL 10 and derivatives are assumed to work but not tested explicitly.
+
 * Ubuntu 22.04 "Jammy" and 24.04 "Noble"
 * Debian 12 "Bookworm"
 

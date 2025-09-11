@@ -7,14 +7,19 @@
     check:
       jobs:
         - bifrost-tox-linters
+        - bifrost-integration-dhcp-centos-10
+        - bifrost-integration-dibipa-debian-centos-10
+        - bifrost-integration-tinyipa-centos-10
         - bifrost-integration-tinyipa-ubuntu-noble
         - bifrost-integration-tinyipa-ubuntu-jammy
+        - bifrost-integration-tinyipa-keystone-centos-10
         - bifrost-integration-tinyipa-keystone-ubuntu-noble
         - bifrost-integration-tinyipa-keystone-ubuntu-jammy
         - bifrost-integration-tinyipa-debian-bookworm
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
+        - bifrost-integration-inspector-centos-10
         - bifrost-integration-inspector-ubuntu-jammy
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-ubuntu-noble
@@ -26,6 +31,10 @@
         - bifrost-integration-dhcp-ubuntu-jammy:
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-jammy:
+            voting: false
+        # TODO(priteau): Can be made voting by backporting
+        # https://review.opendev.org/c/openstack/bifrost/+/958853
+        - bifrost-upgrade-keystone-centos-10:
             voting: false
         - bifrost-cli-ubuntu-jammy:
             voting: false
@@ -56,14 +65,19 @@
     gate:
       jobs:
         - bifrost-tox-linters
+        - bifrost-integration-dhcp-centos-10
+        - bifrost-integration-dibipa-debian-centos-10
+        - bifrost-integration-tinyipa-centos-10
         - bifrost-integration-tinyipa-ubuntu-noble
         - bifrost-integration-tinyipa-ubuntu-jammy
+        - bifrost-integration-tinyipa-keystone-centos-10
         - bifrost-integration-tinyipa-keystone-ubuntu-noble
         - bifrost-integration-tinyipa-keystone-ubuntu-jammy
         - bifrost-integration-tinyipa-debian-bookworm
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
+        - bifrost-integration-inspector-centos-10
         - bifrost-integration-inspector-ubuntu-jammy
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-ubuntu-noble
