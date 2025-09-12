@@ -1,3 +1,9 @@
+- nodeset:
+    name: bifrost-centos-10-stream
+    nodes:
+      - name: primary
+        label: centos-10-stream-8GB
+
 - job:
     name: bifrost-base
     parent: base
@@ -45,6 +51,11 @@
     nodeset: ubuntu-jammy
 
 - job:
+    name: bifrost-integration-dhcp-centos-10
+    parent: bifrost-integration-dhcp
+    nodeset: bifrost-centos-10-stream
+
+- job:
     name: bifrost-integration-dibipa-debian
     parent: bifrost-integration
     timeout: 7200
@@ -58,6 +69,11 @@
     name: bifrost-integration-dibipa-debian-ubuntu-jammy
     parent: bifrost-integration-dibipa-debian
     nodeset: ubuntu-jammy
+
+- job:
+    name: bifrost-integration-dibipa-debian-centos-10
+    parent: bifrost-integration-dibipa-debian
+    nodeset: bifrost-centos-10-stream
 
 - job:
     name: bifrost-integration-tinyipa
@@ -138,6 +154,29 @@
       test_driver: redfish
 
 - job:
+    name: bifrost-integration-tinyipa-centos-10
+    parent: bifrost-integration-tinyipa
+    nodeset: bifrost-centos-10-stream
+
+- job:
+    name: bifrost-integration-tinyipa-keystone-centos-10
+    parent: bifrost-integration-tinyipa-centos-10
+    required-projects:
+      - openstack/keystone
+      - openstack/ironic-prometheus-exporter
+    vars:
+      enable_keystone: true
+      enable_tls: true
+      test_driver: redfish
+      enable_prometheus_exporter: true
+
+- job:
+    name: bifrost-integration-inspector-centos-10
+    parent: bifrost-integration-tinyipa-centos-10
+    vars:
+      use_inspector: true
+
+- job:
     name: bifrost-integration-tinyipa-debian-bullseye
     parent: bifrost-integration-tinyipa
     nodeset: debian-bullseye
@@ -175,6 +214,16 @@
     name: bifrost-upgrade-ubuntu-jammy
     parent: bifrost-upgrade
     nodeset: ubuntu-jammy
+
+- job:
+    name: bifrost-upgrade-keystone-centos-10
+    parent: bifrost-upgrade
+    nodeset: bifrost-centos-10-stream
+    required-projects:
+      - openstack/keystone
+    vars:
+      enable_keystone: true
+      noauth_mode: false
 
 - job:
     name: bifrost-upgrade-keystone-ubuntu-noble
