@@ -36,6 +36,16 @@
       <address type='pci' domain='0x0000' bus='0x00' slot='0x06' function='0x0'/>
     </disk>
     <controller type='sata' index='0'/>
+    {% if test_vm_switch_type == 'ovs' %}
+    <interface type='direct'>
+      <source dev='{{ vm_port_name }}' mode='passthrough'/>
+      <virtualport type='openvswitch'/>
+      <model type='{{ test_vm_nic }}'/>
+      {% if default_boot_mode == 'uefi' %}
+        <boot order='1'/>
+      {% endif %}
+    </interface>
+    {% else %}
     <interface type='network'>
       <source network='{{ test_vm_network }}'/>
       <model type='{{ test_vm_nic }}'/>
@@ -43,6 +53,7 @@
         <boot order='1'/>
       {% endif %}
     </interface>
+    {% endif %}
     <input type='mouse' bus='ps2'/>
     <serial type='file'>
       <source path='{{ vm_log_file }}'/>

@@ -188,3 +188,17 @@ sushy-tools_ is also installed.
 
 .. _VirtualBMC: https://docs.openstack.org/virtualbmc/
 .. _sushy-tools: https://docs.openstack.org/sushy-tools/
+
+Virtual Switching
+-----------------
+By default, Bifrost sets up a Linux bridge as the virtual switch
+interconnecting the virtual machines that implement the nodes.  To support
+more complex test scenarios, it is possible to configure OVS as the virtual
+switch.  This enables updates to port VLAN assignments to test complex
+networking scenarios.
+
+The virtual switch type can be controlled by modifying the
+``test_vm_switch_type`` variable via ansible extra vars supplied to the Ansible
+commands or via bifrost-cli's ``-e`` option.  Setting the variable to 'ovs'
+enables the OVS switch type.
+

@@ -104,7 +104,7 @@
   virt_net:
     name: "{{ test_vm_network }}"
     state: present
-    xml: "{{ lookup('template', 'net.xml.j2') }}"
+    xml: "{{ lookup('template', 'ovs-net.xml.j2' if test_vm_switch_type == 'ovs' else 'net.xml.j2') }}"
     uri: "{{ test_vm_libvirt_uri }}"
 
 - name: find facts on libvirt networks

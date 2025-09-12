@@ -1,0 +1,62 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+---
+- name: "Collect configured OVS VLANs from the bridge"
+  shell:
+    cmd: |
+      set -eo pipefail
+      ovs-vsctl list-ports {{ test_ovs_bridge_name }} | grep -E '\.([0-9]+)$' | sed 's/.*\.\([0-9]\+\)$/\1/' | sort -n
+  register: ovs_configured_vlans
+  when: enable_dhcp | bool
+  failed_when: false
+  changed_when: false
+
+- name: "Set variable with configured OVS VLAN IDs"
+  set_fact:
+    ovs_vlan_ids: "{{ ovs_configured_vlans.stdout_lines | default([]) }}"
+  when: enable_dhcp | bool
+
+- name: "Configure OVS VLAN DHCP in main dnsmasq"
+  template:
+    src: ovs-vlans-dhcp.conf.j2
+    dest: "/etc/dnsmasq.d/ovs-vlans.conf"
+    mode: "0644"
+  when: enable_dhcp | bool
+
+- name: "Get OVS ports with Linux interfaces"
+  shell:
+    cmd: |
+      set -eo pipefail
+      for port in $(ovs-vsctl list-ports {{ test_ovs_bridge_name }}); do
+        if ovs-vsctl get interface $port type 2>/dev/null | grep -q "internal\|\"\""; then
+          if ip link show $port >/dev/null 2>&1; then
+            echo $port
+          fi
+        fi
+      done
+  register: ovs_linux_interfaces
+  when: use_firewalld | bool
+
+- name: "Add OVS Linux interfaces to firewall zone"
+  firewalld:
+    zone: "{{ 'libvirt' if testing | bool else firewalld_internal_zone }}"
+    interface: "{{ item }}"
+    state: enabled
+    permanent: yes
+    immediate: yes
+  loop: "{{ ovs_linux_interfaces.stdout_lines | default([]) }}"
+  when:
+    - use_firewalld | bool
+    - ovs_linux_interfaces.stdout_lines is defined
+    - ovs_linux_interfaces.stdout_lines | length > 0

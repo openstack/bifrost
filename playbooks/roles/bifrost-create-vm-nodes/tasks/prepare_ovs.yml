@@ -1,0 +1,120 @@
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+# implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Setup OVS bridge with VLAN interfaces and DHCP services
+---
+- name: enable NFV repository for OVS on CentOS Stream 10
+  package:
+    name: centos-release-nfv-openvswitch
+    state: present
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version|int >= 10
+
+- name: install OVS packages
+  package:
+    name: "{{ ovs_packages }}"
+    state: present
+
+- name: ensure OVS services are started and enabled
+  systemd:
+    name: "{{ ovs_service_name }}"
+    state: started
+    enabled: yes
+
+- name: create OVS bridge
+  openvswitch.openvswitch.openvswitch_bridge:
+    bridge: "{{ test_ovs_bridge_name }}"
+    state: present
+
+- name: bring up OVS bridge
+  command: ip link set {{ test_ovs_bridge_name }} up
+
+- name: create VLAN interfaces on OVS bridge
+  shell: |
+    ovs-vsctl add-port {{ test_ovs_bridge_name }} {{ test_ovs_bridge_name }}.{{ item }} tag={{ item }} -- set interface {{ test_ovs_bridge_name }}.{{ item }} type=internal
+    ip addr add 192.168.{{ 100 + item | int }}.1/24 dev {{ test_ovs_bridge_name }}.{{ item }}
+    ip link set {{ test_ovs_bridge_name }}.{{ item }} up
+  loop: "{{ test_ovs_host_vlans }}"
+  ignore_errors: yes
+
+- name: enable IP forwarding for OVS bridge
+  sysctl:
+    name: "net.ipv4.ip_forward"
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: ensure .ssh directory exists for OVS user
+  file:
+    path: /home/{{ test_ovs_user }}/.ssh
+    state: directory
+    owner: "{{ test_ovs_user }}"
+    mode: '0700'
+
+- name: create OVS user
+  user:
+    name: "{{ test_ovs_user }}"
+    password: '!'  # Disabled password
+    shell: /bin/bash
+    home: /home/{{ test_ovs_user }}
+    create_home: yes
+    groups: openvswitch
+    state: present
+
+- name: generate SSH key pair for OVS user
+  user:
+    name: "{{ test_ovs_user }}"
+    generate_ssh_key: yes
+    ssh_key_type: ed25519
+    ssh_key_file: .ssh/id_ed25519
+
+- name: read OVS user public key
+  slurp:
+    src: /home/{{ test_ovs_user }}/.ssh/id_ed25519.pub
+  register: ovs_user_pubkey
+
+- name: add public key to authorized_keys for OVS user
+  authorized_key:
+    user: "{{ test_ovs_user }}"
+    key: "{{ ovs_user_pubkey['content'] | b64decode }}"
+    state: present
+
+- name: set OVS socket group permissions
+  file:
+    path: /var/run/openvswitch/db.sock
+    group: openvswitch
+    mode: '0660'
+
+# TODO(alegacy): this could be refined so that access is restricted to a
+# specific set of OVS commands only using something like rbash
+- name: add OVS user to sudoers for privileged access
+  copy:
+    dest: /etc/sudoers.d/{{ test_ovs_user }}-ovs
+    mode: '0440'
+    content: |
+      # Allow {{ test_ovs_user }} to run OVS commands as root without password
+      {{ test_ovs_user }} ALL=(ALL) NOPASSWD: /bin/bash
+
+- name: Restrict OVS user SSH access from localhost only and disable password auth
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config
+    block: |
+      Match User {{ test_ovs_user }}
+          AllowUsers {{ test_ovs_user }}@localhost {{ test_ovs_user }}@127.0.0.1 {{ test_ovs_user }}@::1
+          PasswordAuthentication no
+          PubkeyAuthentication yes
+    marker: "# {mark} ANSIBLE MANAGED BLOCK FOR {{ test_ovs_user }}"
+    validate: 'sshd -t -f %s'
+  notify: Restart sshd

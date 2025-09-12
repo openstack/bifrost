@@ -1,0 +1,10 @@
+---
+features:
+  - |
+    Adds support for using Open vSwitch (OVS) as a virtual switch for testing
+    environments. Setting ``test_vm_switch_type`` to ``ovs`` creates 3 separate
+    VLANs for comprehensive network testing: one dedicated as an inspection
+    network, another for the final tenant network, and a third for all other
+    network types (cleaning, rescuing, servicing, etc.). This enhancement
+    enables testing of the standalone networking feature with proper VLAN
+    configuration support through the networking generic switch driver.

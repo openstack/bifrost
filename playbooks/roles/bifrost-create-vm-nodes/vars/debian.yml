@@ -15,3 +15,8 @@ required_packages:
  - ovmf
  - ebtables
  - dnsmasq
+
+ovs_packages:
+ - openvswitch-switch
+ - python3-openvswitch
+ovs_service_name: openvswitch-switch

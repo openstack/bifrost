@@ -16,4 +16,11 @@ required_packages:
  - libxslt-devel
  - libxml2-devel
  - edk2-ovmf
+
+ovs_packages:
+ # TODO(alegacy): Update versioned package names periodically
+ - openvswitch3.5
+ - python3-openvswitch3.5
+ovs_service_name: openvswitch
+
 test_vm_emulator: "/usr/libexec/qemu-kvm"

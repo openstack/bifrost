@@ -34,6 +34,13 @@
   include_tasks: bootstrap.yml
   when: not skip_bootstrap | bool
 
+- name: "Bootstrap OVS"
+  include_tasks: ovs_bootstrap.yml
+  when:
+  - not skip_bootstrap | bool
+  - testing | bool
+  - test_vm_switch_type == 'ovs'
+
 - name: "Start Ironic services"
   include_tasks: start.yml
   when: not skip_start | bool

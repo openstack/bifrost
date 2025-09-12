@@ -19,6 +19,7 @@
     vm_name: "{{ item }}"
     vm_log_file: "{{ test_vm_logdir }}/{{ item }}_console.log"
     vm_host_group: "{{ test_vm_default_groups }}"
+    vm_port_name: "{{ item }}-port0"
 
 - set_fact:
     vm_host_group: "{{ test_vm_default_groups | union(test_vm_groups[vm_name]) }}"
@@ -40,6 +41,28 @@
   virt:
     command: list_vms
   register: existing_vms
+
+# Create OVS port with VLAN tag for VM when using OVS
+- name: check if OVS port already exists
+  shell:
+    cmd: |
+      set -eo pipefail
+      ovs-vsctl list-ports {{ test_ovs_bridge_name }} | grep -x {{ vm_port_name }} || echo "not_found"
+  register: ovs_port_check
+  when: test_vm_switch_type == 'ovs'
+
+- name: create OVS port with VLAN tag
+  shell: |
+    ovs-vsctl add-port {{ test_ovs_bridge_name }} {{ vm_port_name }} tag={{ test_ovs_vm_initial_vlan }} -- set interface {{ vm_port_name }} type=internal
+  when:
+    - test_vm_switch_type == 'ovs'
+    - ovs_port_check.stdout.strip() == "not_found"
+
+- name: configure OVS linux interface
+  shell: |
+    ovs-vsctl set interface {{ vm_port_name }} lldp:enable=true
+    ip link set {{ vm_port_name }} up
+  when: test_vm_switch_type == 'ovs'
 
 # NOTE(pas-ha) wrapping in block/rescue to have diagnostic output, requires Ansible>=2
 - when: vm_name not in existing_vms.list_vms
@@ -129,6 +152,20 @@
   set_fact:
     vm_mac: "{{ (testvm_xml.get_xml | regex_findall(\"<mac address='.*'/>\") | first).split('=') | last | regex_replace(\"['/>]\", '') }}"
 
+- name: set VM network configuration for OVS
+  set_fact:
+    vm_network_base: "192.168.{{ 100 + test_ovs_vm_initial_vlan | int }}."
+    vm_ip_offset: "{{ 2 + (testvm_json_data | length) }}"
+    mgmt_network_ip: "192.168.{{ 100 + test_ovs_vm_initial_vlan | int }}.1"
+  when: test_vm_switch_type == 'ovs'
+
+- name: set VM network configuration for bridge
+  set_fact:
+    vm_network_base: "192.168.122."
+    vm_ip_offset: "{{ 2 + (testvm_json_data | length) }}"
+    mgmt_network_ip: "192.168.122.1"
+  when: test_vm_switch_type == 'linux_bridge'
+
 # NOTE(pas-ha) using default username and password set by virtualbmc - "admin" and "password" respectively
 # see vbmc add --help
 - name: set the json entry for vm
@@ -139,7 +176,7 @@
       host_groups: "{{ vm_host_group }}"
       driver: "{{ test_vm_node_driver }}"
       driver_info:
-        ipmi_address: "192.168.122.1"
+        ipmi_address: "{{ mgmt_network_ip }}"
         ipmi_port: "{{ virtual_ipmi_port }}"
         ipmi_username: "admin"
         ipmi_password: "password"
@@ -149,8 +186,8 @@
         redfish_password: "password"
       nics:
         - mac: "{{ vm_mac }}"
-      ansible_ssh_host: "192.168.122.{{ testvm_json_data | length + 2 }}"
-      ipv4_address: "192.168.122.{{ testvm_json_data | length + 2 }}"
+      ansible_ssh_host: "{{ vm_network_base }}{{ vm_ip_offset }}"
+      ipv4_address: "{{ vm_network_base }}{{ vm_ip_offset }}"
       properties:
         cpu_arch: "{{ test_vm_arch }}"
         ram: "{{ test_vm_memory_size }}"
@@ -161,7 +198,7 @@
       uuid: "{{ vm_name | to_uuid }}"
       driver: "{{ test_vm_node_driver }}"
       driver_info:
-        ipmi_address: "192.168.122.1"
+        ipmi_address: "{{ mgmt_network_ip }}"
         ipmi_port: "{{ virtual_ipmi_port }}"
         ipmi_username: "admin"
         ipmi_password: "password"

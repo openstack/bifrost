@@ -409,6 +409,10 @@ keystone:
 # Timeout for gathering facts.
 fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='skip') | default(omit, true) }}"
 
+# Custom switch support (duplicated from create-vm-nodes)
+test_vm_switch_type: linux_bridge
+test_ovs_bridge_name: brtest
+
 # Enable TLS support.
 enable_tls: false
 vmedia_enable_tls: "{{ enable_tls }}"

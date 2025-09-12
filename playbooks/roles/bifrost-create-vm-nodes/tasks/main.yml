@@ -85,6 +85,9 @@
     group: "{{ ansible_user_gid }}"
   when: copy_from_local_path | bool
 
+- import_tasks: prepare_ovs.yml
+  when: test_vm_switch_type == 'ovs'
+
 - import_tasks: prepare_libvirt.yml
 
 - name: truncate explicit list of vm names

@@ -97,3 +97,18 @@ efi_nvram_locations_secboot:
   - /usr/share/OVMF/OVMF_VARS.secboot.fd
 efi_nvram_locations: >-
   {{ efi_nvram_locations_secboot if test_vm_secure_boot | bool else efi_nvram_locations_normal }}
+
+# Switch type configuration (default: linux_bridge)
+test_vm_switch_type: linux_bridge
+
+# OVS-specific configuration
+test_ovs_bridge_name: brtest
+
+# Simple VLAN configuration
+# NOTE: VLAN IDs must be 1-255 when used for IP subnets (192.168.{VLAN}.0/24)
+test_ovs_host_vlans: ['10', '20', '30']
+test_ovs_vm_initial_vlan: '10'
+
+# OVS restricted user configuration
+# Uses SSH key-based authentication (password authentication is disabled)
+test_ovs_user: ovsuser

@@ -297,13 +297,21 @@
     itf_infos: "{{ internal_interface }}"
     dhcp_netaddr: "{{ dhcp_pool_start }}/{{ dhcp_static_mask }}"
   when: enable_dhcp | bool
+
 - name: "Compute interface and DHCP network information"
   set_fact:
     itf_netaddr1: "{{ itf_infos['address'] }}/{{ itf_infos['netmask'] }}"
     itf_netaddr2: "{{ itf_infos['network'] }}/{{ itf_infos['netmask'] }}"
-    itf_broadcast: "{{ itf_infos['broadcast'] }}/{{ itf_infos['netmask'] }}"
     dhcp_netaddr: "{{ dhcp_netaddr | ansible.utils.ipaddr('network') }}/{{ dhcp_static_mask }}"
   when: enable_dhcp | bool
+
+- name: "Compute broadcast address for interface"
+  set_fact:
+    # NOTE: VLAN interfaces (e.g., brtest.10) may have empty broadcast field in Ansible facts.
+    # If broadcast is empty, compute it from the address/netmask to avoid validation failures.
+    itf_broadcast: "{{ (itf_infos['broadcast'] | length > 0) | ternary(itf_infos['broadcast'] + '/' + itf_infos['netmask'], itf_netaddr1 | ansible.utils.ipaddr('broadcast') + '/' + itf_infos['netmask']) }}"
+  when: enable_dhcp | bool
+
 - name: "Validate interface network addresses"
   fail:
     msg: >
@@ -313,6 +321,7 @@
   when:
     - enable_dhcp | bool
     - itf_netaddr1 | ansible.utils.ipaddr('network') != itf_netaddr2 | ansible.utils.ipaddr('network')
+
 - name: "Validate interface broadcast addresses"
   fail:
     msg: >
@@ -322,6 +331,7 @@
   when:
     - enable_dhcp | bool
     - itf_netaddr1 | ansible.utils.ipaddr('broadcast') != itf_broadcast | ansible.utils.ipaddr('broadcast')
+
 - name: "Validate DHCP and interface addresses"
   debug:
     msg: >
@@ -332,6 +342,7 @@
   when:
     - enable_dhcp | bool
     - itf_netaddr2 | ansible.utils.ipaddr('network') != dhcp_netaddr | ansible.utils.ipaddr('network')
+
 - name: "Computing new DHCP information"
   set_fact:
     dhcp_start_ip: "{{ dhcp_pool_start.split('.')[-1] }}"
@@ -340,6 +351,7 @@
   when:
     - enable_dhcp | bool
     - itf_netaddr2 | ansible.utils.ipaddr('network') != dhcp_netaddr | ansible.utils.ipaddr('network')
+
 # Note(olivierbourdon38): we could do much more complex network
 # computation to derive exact (or way closer to exact) range for
 # the new network depending on netmasks and indexes.

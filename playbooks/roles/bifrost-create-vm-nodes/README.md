@@ -12,6 +12,10 @@ The following packages are required and ensured to be present:
 - qemu-kvm
 - sgabios (except on CentOS Stream 10 / Rocky Linux 10)
 
+Additional packages required when using test_vm_switch_type: 'ovs':
+- openvswitch-switch (Debian/Ubuntu)
+- openvswitch (RedHat/CentOS)
+
 
 Warning
 -------
@@ -150,6 +154,31 @@ test_vm_network_dhcp_end: End of DHCP range for 'test_vm_network'.
                           from scratch and when
                           'test_vm_network_enable_dhcp' is enabled.
 
+test_vm_switch_type: Type of virtual switch to use for test VMs.
+                     Defaults to 'linux_bridge'.
+                     Set to 'ovs' to use Open vSwitch with VLAN support
+                     for testing networking features.
+
+test_ovs_bridge_name: Name of the OVS bridge to create when using
+                      test_vm_switch_type: 'ovs'.
+                      Defaults to 'brtest'.
+
+test_ovs_host_vlans: List of VLAN IDs to configure on the OVS bridge.
+                     Defaults to ['10', '20', '30'].
+                     Creates separate VLANs for inspection, tenant, and
+                     other network types (cleaning, rescuing, servicing).
+                     VLAN IDs must be 1-255.
+
+test_ovs_vm_initial_vlan: Initial VLAN ID for test VMs on OVS bridge.
+                          Defaults to '10'.
+                          VMs start on this VLAN and can be moved between
+                          VLANs by the networking driver.
+
+test_ovs_user: Username for OVS restricted user access.
+               Defaults to 'ovsuser'.
+               Uses SSH key-based authentication (password login is disabled).
+               Used for controlled VLAN management operations.
+
 Dependencies
 ------------
 
@@ -158,12 +187,27 @@ None at this time.
 Example Playbook
 ----------------
 
+Basic usage with default Linux bridge:
+
 - hosts: localhost
   connection: local
   become: yes
   gather_facts: yes
   roles:
     - role: bifrost-create-vm-nodes
+
+Using Open vSwitch for testing standalone networking features:
+
+- hosts: localhost
+  connection: local
+  become: yes
+  gather_facts: yes
+  roles:
+    - role: bifrost-create-vm-nodes
+      vars:
+        test_vm_switch_type: ovs
+        test_ovs_host_vlans: ['10', '20', '30']
+        test_ovs_vm_initial_vlan: '10'
 
 License
 -------

@@ -13,7 +13,9 @@ port=53
 port=0
 {% endif %}
 
+{% if test_vm_switch_type == 'linux_bridge' %}
 listen-address={{ internal_ip }}
+{% endif %}
 
 # On systems which support it, dnsmasq binds the wildcard address,
 # even when it is listening on only some interfaces. It then discards
@@ -61,12 +63,14 @@ domain={{ domain }}
 # a lease time. If you have more than one network, you will need to
 # repeat this for each network on which you want to supply DHCP
 # service.
+{% if test_vm_switch_type == 'linux_bridge' %}
 {% if testing | bool == true %}
 dhcp-range=192.168.122.2,192.168.122.254,12h
 {% elif inventory_dhcp | bool == true %}
 dhcp-range={{dhcp_pool_start}},static,{{dhcp_static_mask}},{{dhcp_lease_time}}
 {% else %}
 dhcp-range={{dhcp_pool_start}},{{dhcp_pool_end}},{% if dhcp_pool_mask is defined %}{{dhcp_pool_mask}},{% endif %}{{dhcp_lease_time}}
+{% endif %}
 {% endif %}
 
 # Override the default route supplied by dnsmasq, which assumes the
