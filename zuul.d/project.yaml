@@ -12,10 +12,11 @@
         - bifrost-integration-tinyipa-centos-10
         - bifrost-integration-tinyipa-ubuntu-noble
         - bifrost-integration-tinyipa-ubuntu-jammy
+        - bifrost-integration-tinyipa-debian-bookworm
         - bifrost-integration-tinyipa-keystone-centos-10
         - bifrost-integration-tinyipa-keystone-ubuntu-noble
         - bifrost-integration-tinyipa-keystone-ubuntu-jammy
-        - bifrost-integration-tinyipa-debian-bookworm
+        - bifrost-integration-redfish-vmedia-uefi-centos-10
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
@@ -70,10 +71,11 @@
         - bifrost-integration-tinyipa-centos-10
         - bifrost-integration-tinyipa-ubuntu-noble
         - bifrost-integration-tinyipa-ubuntu-jammy
+        - bifrost-integration-tinyipa-debian-bookworm
         - bifrost-integration-tinyipa-keystone-centos-10
         - bifrost-integration-tinyipa-keystone-ubuntu-noble
         - bifrost-integration-tinyipa-keystone-ubuntu-jammy
-        - bifrost-integration-tinyipa-debian-bookworm
+        - bifrost-integration-redfish-vmedia-uefi-centos-10
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
