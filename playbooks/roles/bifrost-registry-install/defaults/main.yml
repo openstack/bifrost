@@ -1,0 +1,45 @@
+---
+# Registry service configuration
+registry_image: "quay.io/opendevmirror/registry:2"
+
+# Default network interface that bifrost will be attached to.
+network_interface: "virbr0"
+ans_network_interface: "{{ network_interface | replace('-', '_') }}"
+internal_interface: "{{ hostvars[inventory_hostname]['ansible_' + ans_network_interface]['ipv4'] }}"
+internal_ip: "{{ internal_interface['address'] }}"
+
+# Registry network configuration
+registry_port: 5500
+registry_protocol: "{{ 'https' if registry_enable_tls | bool else 'http' }}"
+
+# Registry user and directories
+registry_user: "bifrost-registry"
+registry_group: "ironic"
+registry_data_dir: "/var/lib/bifrost-registry"
+registry_config_dir: "/etc/bifrost-registry"
+registry_log_dir: "/var/log/bifrost-registry"
+
+# Registry feature toggles
+registry_enable_tls: "{{ enable_tls | default(false) }}"
+registry_storage_delete_enabled: true
+
+# Installation control variables (following bifrost-ironic-install pattern)
+skip_package_install: false
+skip_bootstrap: false
+skip_start: false
+skip_validation: "{{ skip_start }}"
+
+# Package dependencies
+registry_required_packages:
+  - podman
+
+# Firewall configuration (reuses bifrost settings)
+use_firewalld: "{{ ansible_os_family == 'RedHat' }}"
+firewalld_internal_zone: bifrost
+
+# Authentication mode (reuses bifrost setting)
+noauth_mode: false
+
+# TLS paths (reuses bifrost TLS configuration)
+tls_certificate_path: "/etc/bifrost/bifrost.crt"
+ironic_private_key_path: "/etc/ironic/ironic.pem"

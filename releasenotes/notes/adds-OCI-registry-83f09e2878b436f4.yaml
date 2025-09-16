@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    Adds the deployment of an OCI image registry with the eventual goal
+    for artifacts to be hosted by the image registry in the default case
+    for Bifrost. This feature is now installed by default utilizing the
+    ``bifrost-registry-install`` role.
+other:
+  - |
+    Previously, an ``/etc/ironic/htpasswd`` file was only generated when
+    Keystone was not used as an authentication source. This artifact is
+    now always generated for OCI image registry support.

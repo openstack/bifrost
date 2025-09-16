@@ -1,0 +1,29 @@
+---
+- name: Gather variables for each operating system
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+        - "{{ ansible_facts['distribution'] | lower }}.yml"
+        - "{{ ansible_facts['os_family'] | lower }}.yml"
+      paths:
+        - "{{ role_path }}/vars"
+
+- name: "Install Registry deps"
+  include_tasks: install.yml
+  when: not skip_package_install | bool
+
+- name: "Bootstrap Registry"
+  include_tasks: bootstrap.yml
+  when: not skip_bootstrap | bool
+
+- name: "Start Registry service"
+  include_tasks: start.yml
+  when: not skip_start | bool
+
+- name: "Validate deployment"
+  include_tasks: validate.yml
+  when: not skip_validation | bool

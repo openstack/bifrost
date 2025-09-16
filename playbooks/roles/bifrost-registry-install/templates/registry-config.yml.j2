@@ -1,0 +1,30 @@
+version: 0.1
+log:
+  fields:
+    service: registry
+  level: debug
+storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+  delete:
+    enabled: {{ registry_storage_delete_enabled | bool | lower }}
+http:
+  addr: :{{ registry_port }}
+  headers:
+    X-Content-Type-Options: [nosniff]
+{% if registry_enable_tls | bool %}
+  tls:
+    certificate: /certs/tls.crt
+    key: /certs/tls.key
+{% endif %}
+{% if not noauth_mode | bool %}
+auth:
+  htpasswd:
+    realm: Registry Realm
+    path: /auth/htpasswd
+{% endif %}
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3

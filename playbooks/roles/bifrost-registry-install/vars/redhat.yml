@@ -1,0 +1,3 @@
+---
+registry_required_packages:
+  - podman

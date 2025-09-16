@@ -35,6 +35,7 @@
     - bifrost-keystone-install
     - bifrost-ironic-install
     - bifrost-logrotate-install
+    - bifrost-registry-install
     - role: bifrost-keystone-client-config
       user: "{{ ansible_env.SUDO_USER | default(ansible_user_id) }}"
       clouds:

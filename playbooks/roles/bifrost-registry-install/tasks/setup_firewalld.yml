@@ -1,0 +1,27 @@
+---
+- name: "Create a firewalld zone"
+  become: yes
+  firewalld:
+    zone: "{{ firewalld_internal_zone }}"
+    state: present
+    permanent: yes
+  register: new_zone_result
+  when: not testing | default(false) | bool
+
+- name: "Reload firewalld if needed"
+  become: yes
+  service:
+    name: firewalld
+    state: reloaded
+  when:
+    - new_zone_result is defined
+    - new_zone_result.changed
+
+- name: "Add registry port to firewalld zone"
+  become: yes
+  firewalld:
+    zone: "{{ 'libvirt' if testing | default(false) | bool else firewalld_internal_zone }}"
+    port: "{{ registry_port }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes

@@ -170,7 +170,6 @@
     label: "{{ item.name }}"
   when:
     - not item.noauth_mode | bool
-    - not enable_keystone | bool
 
 - name: "Generate TLS parameters"
   include_role:
