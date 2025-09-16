@@ -138,6 +138,13 @@
     vars:
       cli_test: true
 
+- job:
+    name: bifrost-integration-redfish-vmedia-uefi-centos-10
+    parent: bifrost-integration-tinyipa-centos-10
+    vars:
+      test_driver: redfish
+      use_vmedia: true
+
 # FIXME(dtantsur): remove when this job is no longer used on Ironic
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-centos-9
