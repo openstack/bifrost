@@ -64,15 +64,6 @@ To install Bifrost services inside the testenv:
 
 Additionally, the following parameters can be useful:
 
-``--develop``
-    Install services in develop mode, so that the changes to the repositories
-    in ``/opt`` get immediately reflected in the virtual environment.
-
-    .. note::
-       You still need to restart services to apply any changes, e.g.::
-
-        sudo systemctl restart ironic
-
 ``--driver=[ipmi|redfish]``
     Choose the default driver for the generated nodes inventory.
 
@@ -87,6 +78,11 @@ Additionally, the following parameters can be useful:
 
 Activate the testenv and utilize the baremetal CLI in no-auth
 mode with clouds.yaml:
+
+    .. note::
+       You still need to restart services to apply any changes, e.g.::
+
+        sudo systemctl restart ironic
 
 .. code-block:: bash
 
