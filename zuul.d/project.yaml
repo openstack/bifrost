@@ -23,6 +23,7 @@
         - bifrost-integration-inspector-centos-10
         - bifrost-integration-inspector-ubuntu-jammy
         - bifrost-upgrade-ubuntu-jammy
+        - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
         # Non-voting jobs
         - bifrost-slurp-upgrade-ubuntu-jammy:
@@ -32,10 +33,6 @@
         - bifrost-integration-dhcp-ubuntu-jammy:
             voting: false
         - bifrost-integration-dibipa-debian-ubuntu-jammy:
-            voting: false
-        # TODO(priteau): Can be made voting by backporting
-        # https://review.opendev.org/c/openstack/bifrost/+/958853
-        - bifrost-upgrade-keystone-centos-10:
             voting: false
         - bifrost-cli-ubuntu-jammy:
             voting: false
@@ -82,6 +79,7 @@
         - bifrost-integration-inspector-centos-10
         - bifrost-integration-inspector-ubuntu-jammy
         - bifrost-upgrade-ubuntu-jammy
+        - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
     experimental:
       jobs:
