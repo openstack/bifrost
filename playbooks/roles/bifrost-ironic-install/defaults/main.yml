@@ -142,6 +142,10 @@ deploy_image_sources:
       image: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/Rocky-9-GenericCloud.latest.x86_64.qcow2"
       checksum: "https://dl.rockylinux.org/pub/rocky/9/images/x86_64/CHECKSUM"
       checksum_algorithm: "sha256"
+    "10":
+      image: "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/Rocky-10-GenericCloud-Base.latest.x86_64.qcow2"
+      checksum: "https://dl.rockylinux.org/pub/rocky/10/images/x86_64/CHECKSUM"
+      checksum_algorithm: "sha256"
   centos:
     9-stream:
       image: "https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-GenericCloud-9-latest.x86_64.qcow2"
