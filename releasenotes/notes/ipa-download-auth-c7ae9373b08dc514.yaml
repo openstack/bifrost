@@ -1,0 +1,14 @@
+---
+features:
+  - |
+    Adds variables to configure authentication parameters in the
+    ``bifrost-ironic-install`` role, where IPA images are downloaded. The new
+    variables are ``ipa_download_url_username``, ``ipa_download_url_password``,
+    ``ipa_download_force_basic_auth`` and
+    ``ipa_download_unredirected_headers``. Ramdisk and kernel images can be
+    separately configured using ``ipa_ramdisk``/``ipa_kernel`` prefixes, e.g.
+    ``ipa_ramdisk_download_url_username``. See documentation of the `get_url
+    <https://docs.ansible.com/ansible/latest/collections/ansible/builtin/get_url_module.html>`__
+    and `uri
+    <https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html>`__
+    Ansible modules for more details on how to use these variables.

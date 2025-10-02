@@ -108,6 +108,33 @@ update_ipa: "{{ update_repos }}"
 # Use the DIB dynamic-login element to insert the SSH key
 ipa_add_ssh_key: false
 
+# Username for Digest, Basic or WSSE authentication. Default is unset, in which
+# case the parameter is omitted.
+ipa_download_url_username:
+# Password for Digest, Basic or WSSE authentication. Default is unset, in which
+# case the parameter is omitted.
+ipa_download_url_password:
+# Force sending the Basic authentication header upon initial request. Useful if
+# the remote endpoint does not respond with HTTP 401 to the initial
+# unauthenticated request. Must be a boolean. Default is unset, in which case
+# the parameter is omitted.
+ipa_download_force_basic_auth:
+# List of header names that will not be sent on subsequent redirected requests.
+# Set to ['Authorization'] if being redirected from an authenticated endpoint
+# to an unauthenticated endpoint. Default is unset, in which case the parameter
+# is omitted.
+ipa_download_unredirected_headers:
+
+# Can be overridden if ramdisk and kernel require different authentication.
+ipa_kernel_download_url_username: "{{ ipa_download_url_username }}"
+ipa_kernel_download_url_password: "{{ ipa_download_url_password }}"
+ipa_kernel_download_force_basic_auth: "{{ ipa_download_force_basic_auth }}"
+ipa_kernel_download_unredirected_headers: "{{ ipa_download_unredirected_headers }}"
+ipa_ramdisk_download_url_username: "{{ ipa_download_url_username }}"
+ipa_ramdisk_download_url_password: "{{ ipa_download_url_password }}"
+ipa_ramdisk_download_force_basic_auth: "{{ ipa_download_force_basic_auth }}"
+ipa_ramdisk_download_unredirected_headers: "{{ ipa_download_unredirected_headers }}"
+
 # Deployment image distribution, for selecting a default upstream image. Valid
 # options are "cirros", "centos", "rocky", "ubuntu". Default is "cirros".
 upstream_deploy_image_distribution: "cirros"
