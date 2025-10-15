@@ -302,6 +302,41 @@ The Ansible variables generated for installation are stored in a JSON file
 (``baremetal-install-env.json`` by default) that should be passed via the
 ``-e`` flag to subsequent playbook or command invocations.
 
+Downloading Ironic Python Agent (IPA) images
+============================================
+
+Bifrost supports the ability for a user to download IPA images. This is enabled
+by default, but can be disabled by setting ``download_ipa`` to ``false``. By
+default, Bifrost will download an IPA kernel and ramdisk built using
+diskimage-builder, based on Debian.
+
+A user can change where these images are downloaded from using the following
+settings:
+
+* ``ipa_kernel_upstream_url``
+
+* ``ipa_ramdisk_upstream_url``
+
+If the download requires authentication, the following options are also
+available:
+
+* ``ipa_download_url_username``
+
+* ``ipa_download_url_password``
+
+* ``ipa_download_force_basic_auth``
+
+* ``ipa_download_unredirected_headers``
+
+Ramdisk and kernel images can be separately configured using ``ipa_ramdisk``
+and ``ipa_kernel`` prefixes, e.g. ``ipa_ramdisk_download_url_username``.
+
+See Ansible documentation for more details about these variables:
+
+* https://docs.ansible.com/ansible/latest/collections/ansible/builtin/get_url_module.html
+
+* https://docs.ansible.com/ansible/latest/collections/ansible/builtin/uri_module.html
+
 .. _custom-ipa-images:
 
 Build Custom Ironic Python Agent (IPA) images
