@@ -1,0 +1,16 @@
+---
+upgrade:
+  - |
+    Using tinyipa as ironic-python-agent ramdisk is not supported anymore.
+    Bifrost has switched to using DIB (diskimage-builder) based IPA ramdisks
+    for all CI jobs.
+    All Bifrost CI jobs now use ``dibipa`` (DIB-based IPA) in their names
+    to clearly indicate they use full-featured IPA ramdisks built with
+    diskimage-builder.
+    Test VM memory has been increased from 1024 MB to 4096 MB to accommodate
+    the larger DIB-based IPA ramdisks (~500 MB vs ~80 MB for tinyipa).
+    Three legacy job names with ``tinyipa`` in their names are kept for
+    backward compatibility with other OpenStack projects (Ironic,
+    openstacksdk, ansible-collections-openstack). These jobs now use
+    DIB-based IPA despite their names. Projects using these legacy job
+    names should migrate to the new ``dibipa`` job names when ready.

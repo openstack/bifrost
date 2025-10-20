@@ -66,7 +66,6 @@ firewalld_internal_zone: bifrost
 ipa_file_protocol: "http"
 
 ipa_upstream_release: "master"
-use_tinyipa: false
 
 ipxe_efi_binary: snponly.efi
 
@@ -76,21 +75,11 @@ ipa_kernel: "{{ http_boot_folder }}/ipa.kernel"
 ipa_ramdisk: "{{ http_boot_folder }}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
 ipa_download_distro: centos9
-ipa_kernel_upstream_url: >-
-  {%- if use_tinyipa | bool -%}
-  {{ tarballs_base_url }}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.vmlinuz
-  {%- else -%}
-  {{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.kernel
-  {%- endif -%}
+ipa_kernel_upstream_url: "{{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.kernel"
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
 ipa_ramdisk_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.initramfs"
-ipa_ramdisk_upstream_url: >-
-  {%- if use_tinyipa | bool -%}
-  {{ tarballs_base_url }}/tinyipa/files/tinyipa-{{ ipa_upstream_release }}.gz
-  {%- else -%}
-  {{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.initramfs
-  {%- endif -%}
+ipa_ramdisk_upstream_url: "{{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.initramfs"
 ipa_ramdisk_upstream_checksum_algo: "sha256"
 ipa_ramdisk_upstream_checksum_url: "{{ ipa_ramdisk_upstream_url }}.{{ ipa_ramdisk_upstream_checksum_algo }}"
 deploy_image_filename: "deployment_image.qcow2"

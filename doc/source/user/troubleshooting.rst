@@ -45,13 +45,10 @@ debugging which must be done in a custom image as there is no mechanism
 to enable debugging via the kernel command line at present.
 
 Custom IPA images can be built a number of ways, the most generally useful
-mechanism is with diskimage-builder as the distributions typically have
-better hardware support than Tiny Core Linux.
+mechanism is with diskimage-builder.
 
 DIB images:
   https://docs.openstack.org/ironic-python-agent-builder/latest/admin/dib.html
-TinyIPA:
-  https://docs.openstack.org/ironic-python-agent-builder/latest/admin/tinyipa.html
 
 For documentation on diskimage-builder, See::
   https://docs.openstack.org/diskimage-builder/latest/.
@@ -137,34 +134,6 @@ Example::
 
 NOTE: The matching private key will need to be utilized to login to the
 machine deployed.
-
-******************************************
-Changing from TinyIPA to another IPA Image
-******************************************
-
-With-in the Newton cycle, the default IPA image for Bifrost was changed
-to TinyIPA, which is based on Tiny Core Linux. This has a greatly reduced
-boot time for testing, however should be expected to have less hardware
-support. In the Yoga cycle, the default image was changed to one based
-on CentOS.
-
-If on a fresh install, or a re-install, you wish to change to
-DIB-based or any other IPA image, you will need to take the following steps:
-
-#. Remove the existing IPA image ipa.kernel and ipa.initramfs.
-#. Edit the ``playbooks/roles/bifrost-ironic-install/defaults/main.yml``
-   file and update the ``ipa_kernel_upstream_url`` and
-   ``ipa_kernel_upstream_url`` settings to a new URL.
-   For DIB-based images, these urls would be,
-   ``https://tarballs.opendev.org/openstack/ironic-python-agent/dib/files/ipa-centos9-master.kernel``
-   and
-   ``https://tarballs.opendev.org/openstack/ironic-python-agent/dib/files/ipa-centos9-master.initramfs``
-   respectively.
-#. Execute the installation playbook, and the set files will be automatically
-   downloaded again. If the files are not removed prior to (re)installation,
-   then they will not be replaced. Alternatively, the files can just be
-   directly replaced on disk. The default where the kernel and ramdisk are
-   located is in ``/httboot/``.
 
 ******************************************************
 Verifying Creation of Test Virtual Machines (VMs)

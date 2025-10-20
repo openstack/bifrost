@@ -36,7 +36,7 @@ test_vm_logdir: "/var/log/libvirt/baremetal_logs"
 test_vm_emulator: "/usr/bin/qemu-system-x86_64"
 test_vm_machine: "q35"
 # Forces machines to use secure boot. Only compatible with virtual media,
-# requires using a real ramdisk (not tinyIPA) matching the host distribution,
+# requires using a real ramdisk matching the host distribution,
 # as well as a real instance image (not cirros).
 test_vm_secure_boot: false
 default_boot_mode: "{{ 'uefi' if test_vm_secure_boot | bool else '' }}"

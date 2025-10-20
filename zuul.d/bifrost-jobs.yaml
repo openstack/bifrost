@@ -4,6 +4,12 @@
       - name: primary
         label: centos-10-stream-8GB
 
+- nodeset:
+    name: bifrost-ubuntu-noble-8GB
+    nodes:
+      - name: primary
+        label: ubuntu-noble-8GB
+
 - job:
     name: bifrost-base
     parent: base
@@ -53,7 +59,7 @@
     nodeset: bifrost-centos-10-stream
 
 - job:
-    name: bifrost-integration-dibipa-debian
+    name: bifrost-integration-debian-ipasrc
     parent: bifrost-integration
     timeout: 7200
     vars:
@@ -63,36 +69,50 @@
       test_driver: redfish
 
 - job:
-    name: bifrost-integration-dibipa-debian-ubuntu-jammy
-    parent: bifrost-integration-dibipa-debian
+    name: bifrost-integration-debian-ipasrc-on-ubuntu-jammy
+    parent: bifrost-integration-debian-ipasrc
     nodeset: ubuntu-jammy
 
 - job:
-    name: bifrost-integration-dibipa-debian-centos-10
-    parent: bifrost-integration-dibipa-debian
+    name: bifrost-integration-debian-ipasrc-on-centos-10
+    parent: bifrost-integration-debian-ipasrc
     nodeset: bifrost-centos-10-stream
 
-- job:
-    name: bifrost-integration-tinyipa
-    parent: bifrost-base
-    timeout: 3600
-    vars:
-      noauth_mode: false
-
+#NOTE(rpittau): Currently used by openstacksdk and ansible-collections-openstack.
+#DO NOT REMOVE until these projects are updated to use the new job.
 - job:
     name: bifrost-integration-tinyipa-ubuntu-jammy
-    parent: bifrost-integration-tinyipa
+    parent: bifrost-integration
     nodeset: ubuntu-jammy
+    timeout: 7200
 
+- job:
+    name: bifrost-integration-on-ubuntu-jammy
+    parent: bifrost-integration
+    nodeset: ubuntu-jammy
+    timeout: 7200
+
+#NOTE(rpittau): Currently used by Ironic.
+#DO NOT REMOVE until Ironic is updated to use the new job.
 - job:
     name: bifrost-integration-tinyipa-ubuntu-noble
-    parent: bifrost-integration-tinyipa
-    nodeset: ubuntu-noble
+    parent: bifrost-integration
+    nodeset: bifrost-ubuntu-noble-8GB
+    timeout: 7200
 
 - job:
+    name: bifrost-integration-on-ubuntu-noble
+    parent: bifrost-integration
+    nodeset: bifrost-ubuntu-noble-8GB
+    timeout: 7200
+
+#NOTE(rpittau): Currently used by ansible-collections-openstack.
+#DO NOT REMOVE until these projects are updated to use the new job.
+- job:
     name: bifrost-integration-tinyipa-keystone-ubuntu-jammy
-    parent: bifrost-integration-tinyipa
+    parent: bifrost-integration
     nodeset: ubuntu-jammy
+    timeout: 7200
     required-projects:
       - openstack/keystone
       - openstack/ironic-prometheus-exporter
@@ -103,13 +123,29 @@
       enable_prometheus_exporter: true
 
 - job:
-    name: bifrost-integration-tinyipa-keystone-ubuntu-noble
-    parent: bifrost-integration-tinyipa-keystone-ubuntu-jammy
-    nodeset: ubuntu-noble
+    name: bifrost-integration-keystone-on-ubuntu-jammy
+    parent: bifrost-integration
+    nodeset: ubuntu-jammy
+    timeout: 7200
+    required-projects:
+      - openstack/keystone
+      - openstack/ironic-prometheus-exporter
+    vars:
+      enable_keystone: true
+      enable_tls: true
+      test_driver: redfish
+      enable_prometheus_exporter: true
+
+- job:
+    name: bifrost-integration-keystone-on-ubuntu-noble
+    parent: bifrost-integration-keystone-on-ubuntu-jammy
+    nodeset: bifrost-ubuntu-noble-8GB
+    timeout: 7200
 
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
-    parent: bifrost-integration-tinyipa-ubuntu-noble
+    parent: bifrost-integration-on-ubuntu-noble
+    nodeset: bifrost-ubuntu-noble-8GB
     vars:
       enable_tls: true
       test_driver: redfish
@@ -117,7 +153,7 @@
 
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
-    parent: bifrost-integration-tinyipa-ubuntu-jammy
+    parent: bifrost-integration-on-ubuntu-jammy
     vars:
       enable_tls: true
       test_driver: redfish
@@ -125,40 +161,33 @@
 
 - job:
     name: bifrost-cli-ubuntu-jammy
-    parent: bifrost-integration-tinyipa-ubuntu-jammy
+    parent: bifrost-integration-on-ubuntu-jammy
     vars:
       cli_test: true
 
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-centos-10
-    parent: bifrost-integration-tinyipa-centos-10
-    vars:
-      test_driver: redfish
-      use_vmedia: true
-
-# FIXME(dtantsur): remove when this job is no longer used on Ironic
-- job:
-    name: bifrost-integration-redfish-vmedia-uefi-centos-9
-    parent: bifrost-integration-tinyipa-centos-9
+    parent: bifrost-integration-on-centos-10
     vars:
       test_driver: redfish
       use_vmedia: true
 
 - job:
     name: bifrost-integration-redfish-pxe-uefi-ubuntu-noble
-    parent: bifrost-integration-tinyipa-ubuntu-noble
+    parent: bifrost-integration-on-ubuntu-noble
     vars:
       enable_grub_network_boot: true
       test_driver: redfish
 
 - job:
-    name: bifrost-integration-tinyipa-centos-10
-    parent: bifrost-integration-tinyipa
+    name: bifrost-integration-on-centos-10
+    parent: bifrost-integration
     nodeset: bifrost-centos-10-stream
+    timeout: 7200
 
 - job:
-    name: bifrost-integration-tinyipa-keystone-centos-10
-    parent: bifrost-integration-tinyipa-centos-10
+    name: bifrost-integration-keystone-on-centos-10
+    parent: bifrost-integration-on-centos-10
     required-projects:
       - openstack/keystone
       - openstack/ironic-prometheus-exporter
@@ -169,22 +198,20 @@
       enable_prometheus_exporter: true
 
 - job:
-    name: bifrost-integration-tinyipa-debian-bullseye
-    parent: bifrost-integration-tinyipa
-    nodeset: debian-bullseye
-
-- job:
-    name: bifrost-integration-tinyipa-debian-bookworm
-    parent: bifrost-integration-tinyipa
+    name: bifrost-integration-on-debian-bookworm
+    parent: bifrost-integration
     nodeset: debian-bookworm
+    timeout: 7200
 
 - job:
     name: bifrost-integration-redfish-vmedia-uefi-debian-bookworm
-    parent: bifrost-integration-tinyipa-debian-bookworm
+    parent: bifrost-integration-on-debian-bookworm
     vars:
       enable_tls: true
       test_driver: redfish
       use_vmedia: true
+      # Use Debian-based IPA which is smaller and compatible with GRUB 2.06
+      ipa_download_distro: "debian"
 
 - job:
     name: bifrost-tox-linters
@@ -220,7 +247,8 @@
 - job:
     name: bifrost-upgrade-keystone-ubuntu-noble
     parent: bifrost-upgrade
-    nodeset: ubuntu-noble
+    nodeset: bifrost-ubuntu-noble-8GB
+    timeout: 7200
     required-projects:
       - openstack/keystone
     vars:

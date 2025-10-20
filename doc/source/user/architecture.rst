@@ -137,7 +137,6 @@ journald
         $ sudo tar -xzf \
             /var/log/ironic/deploy/493aacf2-90ec-5e3d-9ce5-ea496f12e2a5_testvm3_2021-11-08-17-34-18.tar.gz
         $ less journal  # for ramdisks that use systemd, e.g. DIB-built
-        $ less var/log/ironic-python-agent.log # for tinyIPA and similar
 
 ``/var/log/nginx/``
     contains logs for serving files (iPXE scripts, images, virtual media ISOs).
