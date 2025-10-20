@@ -58,39 +58,3 @@
   retries: 6
   delay: 5
   until: conductor_list is not failed
-
-- name: "Authentication environment - no-auth inspector version"
-  set_fact:
-    testing_env:
-      OS_AUTH_TYPE: none
-      OS_ENDPOINT: "{{ ironic_inspector_api_url }}"
-  when:
-    - noauth_mode | bool
-    - enable_inspector | bool
-
-- name: "Authentication environment - HTTP basic inspector version"
-  set_fact:
-    testing_env:
-      OS_AUTH_TYPE: http_basic
-      OS_ENDPOINT: "{{ ironic_inspector_api_url }}"
-      OS_USERNAME: "{{ admin_username }}"
-      OS_PASSWORD: "{{ admin_password }}"
-  when:
-    - not noauth_mode | bool
-    - not enable_keystone | bool
-    - enable_inspector | bool
-  no_log: yes
-
-- name: "Set OS_CACERT if required"
-  set_fact:
-    testing_env: "{{ testing_env | combine({'OS_CACERT': tls_certificate_path}) }}"
-  when: enable_tls | bool
-
-- name: "Validate introspection API access"
-  command: baremetal introspection list
-  environment: "{{ testing_env | combine(bifrost_venv_env) }}"
-  register: introspection_list
-  retries: 6
-  delay: 5
-  until: introspection_list is not failed
-  when: enable_inspector | bool

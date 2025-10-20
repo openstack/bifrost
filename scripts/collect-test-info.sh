@@ -76,7 +76,6 @@ sudo chown -R $USER ${LOG_LOCATION}/all
 sudo systemctl > ${LOG_LOCATION}/all-services.txt
 sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
 sudo journalctl -u ironic &> ${LOG_LOCATION}/ironic.log
-sudo journalctl -u ironic-inspector &> ${LOG_LOCATION}/ironic-inspector.log
 sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
 sudo journalctl -u vbmcd &> ${LOG_LOCATION}/vbmcd.log
 sudo journalctl -u redfish-emulator &> ${LOG_LOCATION}/redfish-emulator.log
@@ -106,7 +105,6 @@ if which openstack; then
 fi
 
 sudo cp -a "/var/log/ironic/deploy" ${LOG_LOCATION}/deploy-ramdisk
-sudo cp -a "/var/log/ironic-inspector/ramdisk" ${LOG_LOCATION}/inspection-ramdisk
 
 # general info
 sudo ps auxf &> ${LOG_LOCATION}/ps.txt

@@ -35,7 +35,6 @@ TEST_VM_NUM_NODES=1
 DOWNLOAD_CUSTOM_DEPLOY_IMAGE=true
 TESTING_USER=cirros
 TEST_PLAYBOOK="test-bifrost.yaml"
-USE_INSPECTOR=${USE_INSPECTOR:-false}
 INSPECT_NODES=true
 INVENTORY_DHCP=false
 INVENTORY_DHCP_STATIC_IP=false
@@ -200,7 +199,6 @@ ${ANSIBLE} -vvvv \
     -e test_vm_num_nodes=${TEST_VM_NUM_NODES} \
     -e inventory_dhcp=${INVENTORY_DHCP} \
     -e inventory_dhcp_static_ip=${INVENTORY_DHCP_STATIC_IP} \
-    -e enable_inspector=${USE_INSPECTOR} \
     -e inspect_nodes=${INSPECT_NODES} \
     -e redeploy_nodes=${REDEPLOY_NODES} \
     -e download_ipa=${DOWNLOAD_IPA} \

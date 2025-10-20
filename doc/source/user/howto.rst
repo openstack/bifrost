@@ -22,11 +22,6 @@ example:
     export OS_CLOUD=bifrost
     baremetal node list
 
-.. note::
-   Previously, a separate cloud ``bifrost-inspector`` was provided for
-   introspection commands. It is now deprecated, the main ``bifrost`` cloud
-   should always be used.
-
 Environment variables
 ---------------------
 

@@ -25,7 +25,7 @@ bifrost-ironic-install role.
 testing: false
 
 Enables no-authentication mode where no authentication is used for accessing
-API services. The default setting of ``true`` makes ironic and ironic-inspector
+API services. The default setting of ``true`` makes ironic
 either use keystone (if ``enable_keystone`` is true) or HTTP basic auth
 (use ``admin_username``/``admin_password`` and
 ``default_username``/``default_password`` to configure).
@@ -196,9 +196,6 @@ remote_syslog_port: String value, default is 514. If set, custom port is
 ironic_log_dir: String value, default undefined. If set, it specifies a
                 a non-default log directory for ironic.
 
-inspector_log_dir: String value, default undefined. If set, it specifies a
-                   non-default log directory for inspector.
-
 nginx_log_dir: String value, default /var/log/nginx. It specifies a log
                directory for nginx.
 
@@ -207,9 +204,9 @@ fast_track: Boolean setting to enable ironic to leverage an already running
             immediately as opposed to waiting for a complete system reboot.
 
 power_off_after_inspection: Boolean setting governing the behavior
-                            of ironic-inspector's processing.
+                            of inspection.
                             The default is to not power-off machines
-                            effectively enabling the Inspection to
+                            effectively enabling moving from Inspection to
                             Deployment without the need to reboot
                             the physical machine.
 
@@ -222,22 +219,7 @@ enable_credential_less_deploy: Boolean setting that enables the experimental
 
 ### Hardware Inspection Support
 
-Bifrost also supports the installation of ironic-inspector in standalone
-mode, which enables the user to allow for identification of the system
-properties via a workflow.
-
-enable_inspector: Boolean value, default true.  Set this value to false to
-                  prevent installing ironic-inspector.
-
-inspector_debug: Boolean value, default true. Enables debug level logging
-                 for inspector. Note that this default may change in
-                 future.
-
-inspector_manage_firewall: Boolean value, default false. Controls whether
-                           ironic-inspector should manage the firewall
-                           rules of the host. Bifrost's installation playbook
-                           adds the rule to permit the callback traffic,
-                           so you shouldn't need to enable this.
+Bifrost also supports identification of the system properties via a workflow.
 
 inspector_port_addition: Defines which MAC addresses to add as ports during
                          introspection. Possible values are `all`, `active`,
@@ -246,10 +228,6 @@ inspector_port_addition: Defines which MAC addresses to add as ports during
 inspector_keep_ports: Defines which ports on a node to keep after
                       introspection. Possible values are `all`, `present`,
                       and `added`. The default value is `present`.
-
-inspector_store_ramdisk_logs: Boolean value, default true. Controls if the
-                              inspector agent will retain logs from the
-                              ramdisk that called the inspector service.
 
 enable_inspector_discovery: Boolean value, default false. This instructs
                             inspector to add new nodes that are discovered
@@ -265,11 +243,6 @@ inspector_default_node_driver: The default driver to utilize when adding
 inspector_extra_kernel_options: String value, default undefined. Extra
                                 kernel parameters for the inspector default
                                 PXE configuration.
-
-inspector_processing_hooks: String value containing a comma-separated list,
-                            default undefined. Use this to specify a
-                            non-default list of comma-separated processing
-                            hooks for inspector.
 
 ### Virtual Environment Install
 
@@ -314,10 +287,6 @@ Please see defaults/main.yml file for the structure named ``ironic``.
 Please note, if the hostname is set to something besides``localhost``,
 then the playbook will not attempt to create databases, database users,
 and grant privileges.
-
-Similarly, if hardware introspection support is installed, the
-nearly identical data structure for inspector can be found in the
-same file named ``ironic_inspector``.
 
 Notes
 -----

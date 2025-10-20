@@ -22,11 +22,6 @@
       command: baremetal --debug node list
       environment: "{{ bifrost_venv_env | combine({'OS_CLOUD': testing_cloud_name}) }}"
 
-    - name: "List introspection rules using CLI and clouds.yaml"
-      command: baremetal --debug introspection rule list
-      environment: "{{ bifrost_venv_env | combine({'OS_CLOUD': testing_cloud_name}) }}"
-      when: enable_inspector | bool
-
     - name: "List services using CLI and clouds.yaml"
       command: openstack --debug service list
       environment: "{{ bifrost_venv_env | combine({'OS_CLOUD': 'bifrost-admin'}) }}"
@@ -42,9 +37,6 @@
       args:
         executable: /bin/bash
       environment: "{{ bifrost_venv_env }}"
-
-    # FIXME(dtantsur): openrc provides no overrides for ironic-inspector, so we
-    # cannot test it.
 
     - name: "List services using CLI and openrc"
       shell: |

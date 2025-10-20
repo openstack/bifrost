@@ -18,8 +18,6 @@ file_url_port: "8080"
 file_url_port_tls: "8083"
 ironicclient_source_install: false
 openstacksdk_source_install: false
-ironicinspector_source_install: true
-ironicinspectorclient_source_install: false
 sushy_source_install: false
 staging_drivers_source_install: true
 prometheus_exporter_source_install: true
@@ -205,8 +203,6 @@ ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
 openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
 ironic_git_url: https://opendev.org/openstack/ironic
 staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
-ironicinspector_git_url: https://opendev.org/openstack/ironic-inspector
-ironicinspectorclient_git_url: https://opendev.org/openstack/python-ironic-inspector-client
 ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 prometheus_exporter_git_url: https://opendev.org/openstack/ironic-prometheus-exporter
@@ -218,8 +214,6 @@ openstacksdk_git_folder: /opt/stack/openstacksdk
 dib_git_folder: /opt/stack/diskimage-builder
 reqs_git_folder: /opt/stack/requirements
 staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
-ironicinspector_git_folder: /opt/stack/ironic-inspector
-ironicinspectorclient_git_folder: /opt/stack/python-ironic-inspector-client
 sushy_git_folder: /opt/stack/sushy
 ipa_git_folder: /opt/stack/ironic-python-agent
 ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
@@ -307,19 +301,9 @@ inventory_dns: False
 # Several NTP servers can be specified, separated by commas.
 # dnsmasq_ntp_servers:
 
-# Settings to enable the use of inspector
-enable_inspector: false
-inspector_debug: true
-inspector_manage_firewall: false
-
 # Set ironic_log_dir to use a non-default log directory for ironic.
 #ironic_log_dir: /var/log/ironic
 
-# Set inspector_log_dir to use a non-default log directory for inspector.
-#inspector_log_dir:
-inspector_ramdisk_logs_local_path: /var/log/ironic-inspector/ramdisk
-
-inspector_store_ramdisk_logs: true
 # Note: inspector_port_addition has three valid values: all, active, pxe
 inspector_port_addition: "pxe"
 
@@ -329,10 +313,6 @@ inspector_keep_ports: "present"
 # String value containing extra kernel parameters for the inspector default
 # PXE configuration.
 inspector_extra_kernel_options: "ipa-inspection-collectors=default,logs"
-
-# Set inspector_processing_hooks to specify a non-default comma-separated
-# list of processing hooks for inspector.
-#inspector_processing_hooks:
 
 enable_inspector_discovery: false
 
@@ -369,7 +349,6 @@ enable_keystone: false
 # Service URLs used for communication with them.
 api_protocol: "{{ 'https' if enable_tls | bool else 'http' }}"
 ironic_api_url: "{{ api_protocol }}://{{ internal_ip }}:6385"
-ironic_inspector_api_url: "{{ api_protocol }}://{{ internal_ip }}:5050"
 keystone_api_url: "{{ api_protocol }}://{{ internal_ip }}:5000/v3"
 
 # Directory (on the controller) to keep the passwords
@@ -401,21 +380,6 @@ ironic:
   database:
     name: "ironic"
     username: "ironic"
-    password: "{{ ironic_db_password }}"
-    host: "localhost"
-
-ironic_inspector:
-  service_catalog:
-    username: "ironic_inspector"
-    password: "{{ service_password }}"
-    auth_url: "{{ keystone_api_url }}"
-    project_name: "service"
-  keystone:
-    default_username: "{{ default_username }}"
-    default_password: "{{ default_password }}"
-  database:
-    name: "inspector"
-    username: "inspector"
     password: "{{ ironic_db_password }}"
     host: "localhost"
 
@@ -451,7 +415,6 @@ vmedia_enable_tls: "{{ enable_tls }}"
 tls_root: /etc/bifrost
 tls_certificate_path: "{{ tls_root }}/bifrost.crt"
 ironic_private_key_path: /etc/ironic/ironic.pem
-ironic_inspector_private_key_path: /etc/ironic-inspector/inspector.pem
 httpboot_private_key_path: /etc/nginx/httpboot.pem
 # If true, the conductor's JSON RPC will be available globally (and with TLS)
 expose_json_rpc: false

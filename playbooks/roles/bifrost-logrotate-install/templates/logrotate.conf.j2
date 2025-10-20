@@ -46,8 +46,3 @@ maxsize {{ logrotate_file_maxsize }}
 {
 }
 {% endif %}
-{% if inspector_log_dir is defined %}
-"{{ inspector_log_dir }}/*.log"
-{
-}
-{% endif %}

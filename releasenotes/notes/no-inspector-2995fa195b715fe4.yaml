@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Supports for installing or using ironic-inspector has been completely
+    removed.

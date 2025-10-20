@@ -26,15 +26,9 @@ clouds:
     auth_type: "none"
     auth:
       endpoint: {{ ironic_api_url }}
-    baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"
 {% endif %}
-  # Deprecated
-  bifrost-inspector:
-    auth_type: "none"
-    auth:
-      endpoint: {{ ironic_inspector_api_url }}
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"
 {% endif %}
@@ -45,7 +39,6 @@ clouds:
       username: "{{ default_username }}"
       password: "{{ default_password }}"
       endpoint: {{ ironic_api_url }}
-    baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"
 {% endif %}
@@ -55,7 +48,6 @@ clouds:
       username: "{{ admin_username }}"
       password: "{{ admin_password }}"
       endpoint: {{ ironic_api_url }}
-    baremetal_introspection_endpoint_override: {{ ironic_inspector_api_url }}
 {% if enable_tls | bool %}
     cacert: "{{ tls_certificate_path }}"
 {% endif %}

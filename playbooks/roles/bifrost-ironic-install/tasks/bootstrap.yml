@@ -245,10 +245,6 @@
     state: directory
     mode: "0755"
 
-- name: "Install ironic-inspector to permit use of inspection interface"
-  include_tasks: inspector_bootstrap.yml
-  when: enable_inspector | bool
-
 - name: "Get ironic install location"
   shell: echo $(dirname $(which ironic))
   register: ironic_install_prefix
@@ -478,9 +474,9 @@
     - ansible_os_family == 'RedHat'
     - ansible_selinux.status == 'enabled'
   block:
-    - name: "Allow nginx, ironic, inspector and IPA ports on SELinux"
+    - name: "Allow nginx, ironic and IPA ports on SELinux"
       seport:
-        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,5050,9999"
+        ports: "{{ file_url_port }},{{ file_url_port_tls }},6385,9999"
         proto: tcp
         setype: http_port_t
         state: present
