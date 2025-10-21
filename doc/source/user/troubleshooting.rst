@@ -166,6 +166,39 @@ DIB-based or any other IPA image, you will need to take the following steps:
    directly replaced on disk. The default where the kernel and ramdisk are
    located is in ``/httboot/``.
 
+******************************************************
+Verifying Creation of Test Virtual Machines (VMs)
+******************************************************
+
+When using the Bifrost test environment, the ``./bifrost-cli testenv`` command
+is expected to automatically create two virtual machines (VMs) for testing
+purposes. These VMs simulate baremetal systems that Ironic can enroll and
+deploy during provisioning. If the virtual machines are not created, subsequent
+commands such as ``enroll`` or ``deploy`` will fail with errors indicating that
+no nodes are available for registration.
+
+Check for the presence of the test VMs using the following commands
+
+.. code-block:: bash
+
+      virsh list --all
+
+If the setup is successful, two VMs (for example, ``testvm1`` and ``testvm2``)
+should appear in the list. If no VMs are listed, the test environment creation
+was incomplete. This is often caused by insufficient host resources or issues
+with the virtualization service (libvirt/KVM).
+
+Each test VM typically uses the following default resources:
+
+* 1 vCPU
+* ~3 GB of RAM
+* ~11 GB of virtual storage
+
+If the test VMs are not created, Ironic will not have real instances to
+interact with, and only placeholder nodes will exist in the database.
+As a result, any attempt to deploy will fail. Always verify that the test
+VMs exist before proceeding with node enrollment and deployment.
+
 ***********************************************************
 Node Enrollment and Provisioning in a Testing Environment
 ***********************************************************
