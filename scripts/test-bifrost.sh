@@ -107,7 +107,6 @@ if [ ${USE_DHCP} = "true" ]; then
 elif [ ${BUILD_IMAGE} = "true" ]; then
     DOWNLOAD_CUSTOM_DEPLOY_IMAGE=false
     TESTING_USER=root
-    VM_MEMORY_SIZE="4096"
     INSPECT_NODES=false
     DOWNLOAD_IPA=false
     CREATE_IPA_IMAGE=true
@@ -160,7 +159,7 @@ done
 # Create the test VMs
 ../bifrost-cli --debug testenv \
     --count ${TEST_VM_NUM_NODES} \
-    --memory ${VM_MEMORY_SIZE:-1024} \
+    --memory ${VM_MEMORY_SIZE:-4096} \
     --disk ${VM_DISK:-5} \
     --inventory "${BAREMETAL_DATA_FILE}" \
     --extra-vars git_url_root="${WORKSPACE:-https://opendev.org}" \
