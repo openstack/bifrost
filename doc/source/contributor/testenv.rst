@@ -60,7 +60,7 @@ To install Bifrost services inside the testenv:
 
 .. code-block:: bash
 
-     ./bifrost-cli --testenv
+     ./bifrost-cli install --testenv
 
 Additionally, the following parameters can be useful:
 
