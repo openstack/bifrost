@@ -11,13 +11,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
-- name: "proliantutils - Install"
-  include_role:
-    name: bifrost-pip-install
-  vars:
-    package: proliantutils
-  when: "'ilo' in enabled_hardware_types"
-
 - name: "dracclient, sushy-oem-idrac - Install"
   include_role:
     name: bifrost-pip-install

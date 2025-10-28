@@ -8,7 +8,7 @@ server {
         }
         {% if vmedia_enable_tls | bool %}
         # Served only through TLS
-        location ~ ^/(redfish|ilo)/ {
+        location ~ ^/redfish/ {
                 deny all;
                 return 404;
         }

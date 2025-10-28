@@ -126,7 +126,7 @@ In case your HW needs a kernel option to boot, set the following variable:
 extra_kernel_options: Default undefined.
 
 Hardware types can be enabled using the "enabled_hardware_types" variable,
-which defaults to "ipmi, ilo".
+which defaults to "ipmi, redfish, manual-management".
 
 Enabled interfaces can be set via the "enabled_bios_interfaces",
 "enabled_boot_interfaces", "enabled_deploy_interfaces",

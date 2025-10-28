@@ -219,7 +219,7 @@ ipa_git_folder: /opt/stack/ironic-python-agent
 ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder
 prometheus_exporter_git_folder: /opt/stack/ironic-prometheus-exporter
 
-enabled_hardware_types: "ipmi,redfish,manual-management,ilo"
+enabled_hardware_types: "ipmi,redfish,manual-management"
 default_deploy_interface: "direct"
 enabled_deploy_interfaces: "direct,ramdisk"
 # These are calculated based on enabled_hardware_types if empty
@@ -440,4 +440,3 @@ pxe_kernel_params: >-
   {% endif %}
   {{ extra_kernel_options | default('') }}
 redfish_kernel_params: "{{ pxe_kernel_params }}"
-ilo_kernel_params: "{{ pxe_kernel_params }}"

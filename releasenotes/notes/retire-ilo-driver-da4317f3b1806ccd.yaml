@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    The ILO driver has been removed as of the 2026.1 release.
+    The 'ilo' and 'ilo5' hardware types have been removed from the default
+    'enabled_hardware_types' list and all related configuration options,
+    dependencies, and interface support have been removed.

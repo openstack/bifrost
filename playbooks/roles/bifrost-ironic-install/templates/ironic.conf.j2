@@ -138,10 +138,6 @@ allow_credentials = {{ enable_cors_credential_support | default('true') }}
 [ipmi]
 debug = {{ ironic_debug | bool and testing | bool }}
 
-[ilo]
-use_web_server_for_images = true
-kernel_append_params = {{ ilo_kernel_params }}
-
 [redfish]
 use_swift = False
 kernel_append_params = {{ redfish_kernel_params }}
