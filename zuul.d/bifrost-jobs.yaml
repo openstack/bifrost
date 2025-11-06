@@ -198,7 +198,7 @@
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/2025.1
+      upgrade_from: stable/2025.2
       skip_upgrade:
         - openstack/diskimage-builder
 
