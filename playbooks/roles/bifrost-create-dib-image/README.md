@@ -90,6 +90,66 @@ for further information.
 | --ramdisk-element   | dib_rdelement    | element name         |
 | -t                  | dib_installtype  | source or package    |
 
+OCI Registry Upload
+-------------------
+
+This role supports optionally uploading built disk images to an OCI registry
+using the ORAS (OCI Registry As Storage) client. This feature integrates with
+the bifrost-registry-install role to provide artifact storage.
+
+To enable OCI registry uploads, set the following variable:
+
+    enable_oci_registry_upload: true
+
+### Configuration Variables
+
+The following variables control OCI registry upload behavior. Most variables
+automatically fallback to the bifrost-registry-install role defaults when
+available, providing seamless integration:
+
+| Variable                     | Default (Fallback)             | Description                                      |
+|------------------------------|--------------------------------|--------------------------------------------------|
+| enable_oci_registry_upload   | false                          | Enable upload to OCI registry                    |
+| upload_registry_port            | {{ registry_port }} (5500)     | Registry port                                    |
+| upload_registry_use_tls         | {{ registry_enable_tls }}      | Use HTTPS for registry connection                |
+| upload_registry_insecure        | true                           | Skip TLS certificate verification                |
+| registry_url             | {{ internal_ip }}:{{ port }}   | Full registry URL                                |
+| registry_repository      | bifrost/images                 | Repository path in registry                      |
+| registry_username        | {{ default_username }}         | Authentication username (bifrost_user)           |
+| registry_password        | {{ default_password }}         | Authentication password (auto-generated)         |
+| registry_tag_suffix      | {{ ansible_date_time.epoch }}  | Tag suffix (timestamp by default)                |
+
+### Upload Behavior
+
+When enabled, the role will:
+
+1. Detect all generated image files (disk images, kernels, initramfs)
+2. Authenticate to the OCI registry using provided credentials
+3. Upload each file as an OCI artifact with metadata annotations
+4. Generate OCI artifact URLs for each uploaded file
+5. Save URLs to a text file ({{ dib_imagename }}.oci-urls.txt)
+
+### OCI Artifact URLs
+
+After upload, artifact URLs are available in:
+- Ansible fact: `oci_artifact_urls`
+- File: `{{ dib_imagename }}.oci-urls.txt`
+
+These URLs can be used to reference the images in Ironic or other systems.
+
+### Example: Enabling OCI Upload
+
+    - hosts: localhost
+      connection: local
+      name: "Build and upload DIB image"
+      become: yes
+      gather_facts: yes
+      roles:
+        - role: bifrost-create-dib-image
+          enable_oci_registry_upload: true
+          registry_username: "admin"
+          registry_password: "secret"
+
 Using cloud-init
 ----------------
 
