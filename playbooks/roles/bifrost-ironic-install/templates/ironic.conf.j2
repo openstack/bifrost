@@ -218,3 +218,8 @@ driver = prometheus_exporter
 transport_url = fake://
 location = {{ prometheus_exporter_data_dir }}
 {% endif %}
+
+[oci]
+{% if registry_protocol is defined and registry_protocol == 'http' %}
+permit_fallback_to_http_transport = True
+{% endif %}

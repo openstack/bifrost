@@ -23,6 +23,26 @@ There are three ways to specify the image information:
 - Set `deploy_image_filename` to a file name in the HTTP directory (or rely
   on the Bifrost defaults).
 
+OCI Registry Integration
+-------------------------
+
+This role integrates with the `bifrost-create-dib-image` role's OCI upload
+feature. When images are uploaded to an OCI registry, the
+`oci_primary_disk_image_url` fact can be used directly as `deploy_image_source`:
+
+    - name: Deploy with OCI image
+      include_role:
+        name: bifrost-deploy-nodes-dynamic
+      vars:
+        deploy_image_source: "{{ oci_primary_disk_image_url }}"
+
+OCI artifact URLs use the `oci://` scheme and do not require image checksums.
+The role automatically detects OCI artifacts (URLs starting with `oci://`) and
+skips checksum validation, as Ironic handles verification internally.
+
+See the `bifrost-create-dib-image` role documentation for details on enabling
+OCI registry uploads.
+
 Role Variables
 --------------
 

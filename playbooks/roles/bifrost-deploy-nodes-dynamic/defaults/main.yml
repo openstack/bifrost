@@ -28,3 +28,9 @@ fact_gather_timeout: "{{ lookup('config', 'DEFAULT_GATHER_TIMEOUT', on_missing='
 # Ensure that Ansible is using python interpreter and dependencies inside the bifrost virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
+
+# Credentials used to interact with the OCI registry
+
+password_dir: "{{ lookup('env', 'HOME') }}/.config/bifrost"
+registry_username: "{{ default_username | default('bifrost_user') }}"
+registry_password: "{{ lookup('password', password_dir + '/default_password') }}"

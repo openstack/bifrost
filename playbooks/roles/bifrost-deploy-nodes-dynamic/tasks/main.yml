@@ -46,6 +46,34 @@
 - import_role:
     name: bifrost-dhcp-record
 
+- name: "Check for OCI primary URL file"
+  stat:
+    path: "{{ deploy_image_path | dirname }}/{{ deploy_image_filename }}.oci-primary-url.txt"
+  register: oci_url_file
+  become: yes
+  ignore_errors: true
+
+- name: "Read OCI URL from file"
+  # NOTE(TheJulia): Ansible lookup should just work here, but returns
+  # a permission error.
+  command: cat {{ oci_url_file.stat.path }}
+  become: yes
+  register: command_output
+  when:
+    - oci_url_file is defined
+    - oci_url_file.stat is defined
+    - oci_url_file.stat.exists is defined
+    - oci_url_file.stat.exists
+
+- name: "Set deploy_image_source from OCI URL file"
+  set_fact:
+    deploy_image_source: "{{ command_output.stdout }}"
+  when:
+    - oci_url_file is defined
+    - oci_url_file.stat is defined
+    - oci_url_file.stat.exists is defined
+    - oci_url_file.stat.exists
+
 - name: "Create instance info"
   when: instance_info is not defined or instance_info == {}
   block:
@@ -53,6 +81,7 @@
       when:
         - deploy_image_checksum is not defined
         - not deploy_image_source.startswith('file://')
+        - not deploy_image_source.startswith('oci://')
       block:
         - name: "Collect the checksum of the deployment image."
           stat:
@@ -71,6 +100,12 @@
           set_fact:
             deploy_image_checksum: "{{ test_deploy_image.stat.checksum }}"
 
+    - name: "Set OCI image pull secret"
+      when:
+        - deploy_image_source.startswith('oci://')
+      set_fact:
+        deploy_image_pull_secret: "{{ registry_username }}:{{ registry_password }}"
+
     - name: "Set generated instance_info"
       set_fact:
         instance_info:
@@ -79,6 +114,7 @@
           image_rootfs_uuid: "{{ deploy_image_rootfs | default(omit, true) }}"
           image_type: "{{ deploy_image_type | default(omit, true) }}"
           root_gb: "{{ deploy_root_gb if deploy_image_type | default('') == 'partition' else omit }}"
+          image_pull_secret: "{{ deploy_image_pull_secret | default(omit, true) }}"
 
 - name: "Deploy to hardware"
   openstack.cloud.baremetal_node_action:
@@ -92,4 +128,4 @@
     config_drive: "{{ instance_info.configdrive | default(deploy_config_drive) | default(omit) }}"
     instance_info: "{{ instance_info }}"
     wait: "{{ wait_for_node_deploy }}"
-    timeout: " {{ wait_timeout | default(1800) }}"
+    timeout: "{{ wait_timeout | default(1800) }}"
