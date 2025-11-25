@@ -4,3 +4,6 @@
   package:
     name: "{{ registry_required_packages }}"
     state: present
+
+- name: "Install ORAS client"
+  include_tasks: install_oras.yml
