@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The default IPA ramdisk used in bifrost is now debian DIB based
+    which is smaller and compatible with more versions of GRUB.

@@ -210,8 +210,6 @@
       enable_tls: true
       test_driver: redfish
       use_vmedia: true
-      # Use Debian-based IPA which is smaller and compatible with GRUB 2.06
-      ipa_download_distro: "debian"
 
 - job:
     name: bifrost-tox-linters
