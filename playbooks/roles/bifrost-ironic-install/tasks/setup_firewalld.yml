@@ -16,6 +16,7 @@
     name: firewalld
     state: started
     enabled: yes
+    masked: false
 
 - name: "Disable iptables (if enabled)"
   service:
