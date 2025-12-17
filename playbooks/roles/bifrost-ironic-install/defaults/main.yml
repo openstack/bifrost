@@ -74,7 +74,7 @@ ipa_download_headers: {}
 ipa_kernel: "{{ http_boot_folder }}/ipa.kernel"
 ipa_ramdisk: "{{ http_boot_folder }}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
-ipa_download_distro: centos9
+ipa_download_distro: debian
 ipa_kernel_upstream_url: "{{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.kernel"
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
