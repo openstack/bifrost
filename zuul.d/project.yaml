@@ -19,9 +19,17 @@
         - bifrost-integration-redfish-vmedia-uefi-centos-10
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
-        - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
+        - bifrost-integration-redfish-vmedia-uefi-debian-bookworm:
+            # NOTE(TheJulia): This should be fixed with change
+            # https://review.opendev.org/c/openstack/bifrost/+/969886
+            # but we're presently broken on multiple aspects so this
+            # should be made voting again later.
+            voting: false
         - bifrost-upgrade-ubuntu-jammy
-        - bifrost-upgrade-keystone-centos-10
+        - bifrost-upgrade-keystone-centos-10:
+            # NOTE(TheJulia): This needs to be made voting again once
+            # the fix has been merged for Centos10.
+            voting: false
         - bifrost-upgrade-keystone-ubuntu-noble
         # Non-voting jobs
         - bifrost-slurp-upgrade-ubuntu-jammy:
@@ -73,9 +81,13 @@
         - bifrost-integration-redfish-vmedia-uefi-centos-10
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
-        - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
+        # NOTE(TheJulia): This should be fixed with change
+        # https://review.opendev.org/c/openstack/bifrost/+/969886
+        # but we're presently broken on multiple aspects so this
+        # should be made voting again later.
+        #- bifrost-integration-redfish-vmedia-uefi-debian-bookworm
         - bifrost-upgrade-ubuntu-jammy
-        - bifrost-upgrade-keystone-centos-10
+        # - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
     experimental:
       jobs:
