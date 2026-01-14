@@ -43,3 +43,10 @@ noauth_mode: false
 # TLS paths (reuses bifrost TLS configuration)
 tls_certificate_path: "/etc/bifrost/bifrost.crt"
 ironic_private_key_path: "/etc/ironic/ironic.pem"
+
+# ORAS client installation
+bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
+oras_version: "1.3.0"
+oras_checksums:
+  linux_amd64: "6cdc692f929100feb08aa8de584d02f7bcc30ec7d88bc2adc2054d782db57c64"
+  linux_arm64: "7649738b48fde10542bcc8b0e9b460ba83936c75fb5be01ee6d4443764a14352"

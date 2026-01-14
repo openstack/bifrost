@@ -1,0 +1,48 @@
+---
+- name: Set ORAS architecture mapping
+  set_fact:
+    oras_arch_map:
+      x86_64: "amd64"
+      aarch64: "arm64"
+
+- name: Set ORAS architecture
+  set_fact:
+    oras_arch: "{{ oras_arch_map[ansible_architecture] }}"
+
+- name: Set ORAS download facts
+  set_fact:
+    oras_download_url: "https://github.com/oras-project/oras/releases/download/v{{ oras_version }}/oras_{{ oras_version }}_linux_{{ oras_arch }}.tar.gz"
+    oras_checksum: "{{ oras_checksums['linux_' + oras_arch] }}"
+    oras_temp_dir: "/tmp/oras-install-{{ oras_version }}"
+
+- name: Create temporary directory for ORAS installation
+  file:
+    path: "{{ oras_temp_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Download ORAS tarball
+  get_url:
+    url: "{{ oras_download_url }}"
+    dest: "{{ oras_temp_dir }}/oras_{{ oras_version }}_linux_{{ oras_arch }}.tar.gz"
+    checksum: "sha256:{{ oras_checksum }}"
+    mode: '0644'
+
+- name: Extract ORAS binary
+  unarchive:
+    src: "{{ oras_temp_dir }}/oras_{{ oras_version }}_linux_{{ oras_arch }}.tar.gz"
+    dest: "{{ oras_temp_dir }}"
+    remote_src: yes
+
+- name: Install ORAS binary to bifrost venv
+  become: yes
+  copy:
+    src: "{{ oras_temp_dir }}/oras"
+    dest: "{{ bifrost_venv_dir }}/bin/oras"
+    mode: '0755'
+    remote_src: yes
+
+- name: Clean up temporary directory
+  file:
+    path: "{{ oras_temp_dir }}"
+    state: absent
