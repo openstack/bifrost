@@ -1,0 +1,19 @@
+---
+galaxy_info:
+  author: Bifrost Contributors
+  description: Install Docker registry for Bifrost
+  company: OpenStack
+  license: Apache
+  min_ansible_version: "1.9"
+  platforms:
+  - name: EL
+    versions:
+    - "10"
+  - name: Ubuntu
+    versions:
+    - noble
+    - jammy
+  galaxy_tags:
+  - cloud
+  - cloud:openstack
+dependencies: []

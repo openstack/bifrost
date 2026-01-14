@@ -1,0 +1,11 @@
+---
+- name: "Reload systemd configuration"
+  systemd:
+    daemon_reload: yes
+
+- name: "Start and enable registry service"
+  become: yes
+  systemd:
+    name: bifrost-registry
+    state: restarted
+    enabled: yes

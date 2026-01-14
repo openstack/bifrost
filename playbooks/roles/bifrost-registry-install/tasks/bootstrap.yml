@@ -1,0 +1,111 @@
+---
+- name: "Ensure registry group exists"
+  become: yes
+  group:
+    name: "{{ registry_group }}"
+    state: present
+
+- name: "Create registry user"
+  become: yes
+  user:
+    name: "{{ registry_user }}"
+    group: "{{ registry_group }}"
+    system: yes
+    shell: /bin/false
+    home: "{{ registry_data_dir }}"
+    create_home: no
+
+- name: "Ready passwd database"
+  getent:
+    database: passwd
+    key: "{{ registry_user }}"
+
+# Inspiration from https://eengstrom.github.io/musings/generate-non-contiguous-subuid-subgid-maps-for-rootless-podman
+
+- name: "Create subuids for registry user"
+  become: yes
+  lineinfile:
+    path: "/etc/subuid"
+    regexp: "^{{ registry_user }}"
+    line: "{{ registry_user }}:{{ (getent_passwd[registry_user].1 | int) * 65536 }}:65536"
+    create: true
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: "Create subgids for registry user"
+  become: yes
+  lineinfile:
+    path: "/etc/subgid"
+    regexp: "^{{ registry_user }}"
+    line: "{{ registry_user }}:{{ (getent_passwd[registry_user].2 | int) * 63536 }}:65536"
+    create: true
+    mode: "0644"
+    owner: root
+    group: root
+
+- name: "Create registry data directories"
+  become: yes
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+    owner: "{{ registry_user }}"
+    group: "{{ registry_group }}"
+  with_items:
+    - "{{ registry_data_dir }}"
+    - "{{ registry_config_dir }}"
+    - "{{ registry_log_dir }}"
+
+- name: "Create registry configuration file"
+  become: yes
+  template:
+    src: registry-config.yml.j2
+    dest: "{{ registry_config_dir }}/config.yml"
+    owner: "{{ registry_user }}"
+    group: "{{ registry_group }}"
+    mode: "0640"
+
+- name: "Copy htpasswd file for registry authentication"
+  become: yes
+  copy:
+    src: /etc/ironic/htpasswd
+    dest: "{{ registry_config_dir }}/htpasswd"
+    owner: "{{ registry_user }}"
+    group: "{{ registry_group }}"
+    mode: "0640"
+    remote_src: yes
+  when: not noauth_mode | bool
+
+- name: "Copy TLS certificate for registry (if TLS is enabled)"
+  become: yes
+  copy:
+    src: "{{ tls_certificate_path }}"
+    dest: "{{ registry_config_dir }}/tls.crt"
+    owner: "{{ registry_user }}"
+    group: "{{ registry_group }}"
+    mode: "0640"
+    remote_src: yes
+  when: registry_enable_tls | bool
+
+- name: "Copy TLS private key for registry (if TLS is enabled)"
+  become: yes
+  copy:
+    src: "{{ ironic_private_key_path }}"
+    dest: "{{ registry_config_dir }}/tls.key"
+    owner: "{{ registry_user }}"
+    group: "{{ registry_group }}"
+    mode: "0600"
+    remote_src: yes
+  when: registry_enable_tls | bool
+
+- name: "Create systemd service for registry"
+  become: yes
+  template:
+    src: registry.service.j2
+    dest: "/etc/systemd/system/bifrost-registry.service"
+    mode: "0644"
+
+- name: "Set firewall rules for registry"
+  include_tasks: setup_firewalld.yml
+  when: use_firewalld | bool

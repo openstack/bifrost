@@ -1,0 +1,16 @@
+---
+- name: "Wait for registry service to start"
+  wait_for:
+    port: "{{ registry_port }}"
+    host: "{{ internal_ip }}"
+    delay: 5
+    timeout: 30
+
+- name: "Test registry health endpoint"
+  uri:
+    url: "{{ registry_protocol }}://{{ internal_ip }}:{{ registry_port }}/v2/"
+    method: GET
+    status_code: [200, 401]
+    validate_certs: no
+  retries: 5
+  delay: 2

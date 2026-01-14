@@ -1,0 +1,30 @@
+[Unit]
+Description=Docker Registry service
+After=network.target
+Wants=network.target
+
+[Service]
+Type=exec
+User={{ registry_user }}
+Group={{ registry_group }}
+ExecStartPre=-/usr/bin/podman stop bifrost-registry
+ExecStartPre=-/usr/bin/podman rm bifrost-registry
+ExecStart=/usr/bin/podman run --rm --name bifrost-registry \
+    --security-opt label=disable \
+    -p {{ internal_ip }}:{{ registry_port }}:{{ registry_port }} \
+    -v {{ registry_data_dir }}:/var/lib/registry \
+    -v {{ registry_config_dir }}/config.yml:/etc/docker/registry/config.yml \
+{% if not noauth_mode | bool %}
+    -v {{ registry_config_dir }}/htpasswd:/auth/htpasswd \
+{% endif %}
+{% if registry_enable_tls | bool %}
+    -v {{ registry_config_dir }}/tls.crt:/certs/tls.crt \
+    -v {{ registry_config_dir }}/tls.key:/certs/tls.key \
+{% endif %}
+    {{ registry_image }}
+ExecStop=/usr/bin/podman stop bifrost-registry
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

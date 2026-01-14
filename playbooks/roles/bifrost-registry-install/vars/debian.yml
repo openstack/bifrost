@@ -1,0 +1,5 @@
+---
+registry_required_packages:
+  - podman
+  - uidmap
+  - slirp4netns

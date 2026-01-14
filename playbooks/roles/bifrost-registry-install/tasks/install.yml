@@ -1,0 +1,6 @@
+---
+- name: "Install podman"
+  become: yes
+  package:
+    name: "{{ registry_required_packages }}"
+    state: present

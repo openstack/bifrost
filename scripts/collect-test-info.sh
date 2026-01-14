@@ -77,6 +77,7 @@ sudo systemctl > ${LOG_LOCATION}/all-services.txt
 sudo journalctl -u libvirtd &> ${LOG_LOCATION}/libvirtd.log
 sudo journalctl -u ironic &> ${LOG_LOCATION}/ironic.log
 sudo journalctl -u dnsmasq &> ${LOG_LOCATION}/dnsmasq.log
+sudo journalctl -u bifrost-registry &> ${LOG_LOCATION}/bifrost-registry.log
 sudo journalctl -u vbmcd &> ${LOG_LOCATION}/vbmcd.log
 sudo journalctl -u redfish-emulator &> ${LOG_LOCATION}/redfish-emulator.log
 sudo journalctl -u uwsgi@keystone-public &> ${LOG_LOCATION}/keystone-public.log
