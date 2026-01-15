@@ -62,7 +62,7 @@
       user_domain_id: "default"
     # NOTE(dtantsur): we cannot use tls_certificate_path as it won't be present
     # on an upgrade to non-TLS.
-    keystone_ca_cert: /etc/bifrost/bifrost.crt
+    keystone_ca_cert: "{{ tls_root }}/bifrost.crt"
   no_log: true
   when: api_protocol == 'http'
 

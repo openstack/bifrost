@@ -41,7 +41,8 @@ firewalld_internal_zone: bifrost
 noauth_mode: false
 
 # TLS paths (reuses bifrost TLS configuration)
-tls_certificate_path: "/etc/bifrost/bifrost.crt"
+tls_root: /etc/bifrost
+tls_certificate_path: "{{ tls_root }}/bifrost.crt"
 ironic_private_key_path: "/etc/ironic/ironic.pem"
 
 # ORAS client installation
