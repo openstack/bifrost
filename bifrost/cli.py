@@ -187,6 +187,7 @@ def cmd_install(args):
             enable_prometheus_exporter=args.enable_prometheus_exporter,
             default_boot_mode=args.boot_mode or 'uefi',
             enable_dhcp=not args.disable_dhcp,
+            enable_registry=not args.disable_registry,
             extra_vars=args.extra_vars,
             params_output_file=args.output,
             **kwargs)
@@ -336,6 +337,8 @@ def parse_args():
                            help='use legacy boot (BIOS) by default')
     install.add_argument('--disable-dhcp', action='store_true',
                          help='Disable integrated dhcp server')
+    install.add_argument('--disable-registry', action='store_true',
+                         help='Disable OCI image registry installation')
     install.add_argument('-e', '--extra-vars', action='append',
                          help='additional vars to pass to ansible')
     install.add_argument('-o', '--output',

@@ -1,4 +1,7 @@
 ---
+# Enable/disable registry installation (can be overridden)
+enable_registry: true
+
 # Registry service configuration
 registry_image: "quay.io/opendevmirror/registry:2"
 

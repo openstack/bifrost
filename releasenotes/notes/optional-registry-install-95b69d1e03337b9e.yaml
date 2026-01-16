@@ -1,0 +1,12 @@
+---
+features:
+  - |
+    The OCI image registry installation can now be disabled using the
+    ``enable_registry`` variable or the ``--disable-registry`` CLI flag.
+    The registry remains enabled by default to maintain backward
+    compatibility.
+
+    To disable during installation:
+
+    * CLI: ``bifrost-cli install --disable-registry``
+    * Ansible: ``-e enable_registry=false``
