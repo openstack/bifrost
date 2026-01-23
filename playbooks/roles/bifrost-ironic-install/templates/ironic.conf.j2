@@ -137,6 +137,7 @@ allow_credentials = {{ enable_cors_credential_support | default('true') }}
 
 [ipmi]
 debug = {{ ironic_debug | bool and testing | bool }}
+disable_boot_timeout = {{ ipmi_disable_boot_timeout | default('True') | bool }}
 
 [redfish]
 use_swift = False
