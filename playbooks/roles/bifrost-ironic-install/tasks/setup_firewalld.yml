@@ -11,6 +11,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ---
+- name: "Ensure firewalld is unmasked"
+  systemd:
+    name: firewalld
+    masked: no
+
 - name: "Enable firewalld"
   service:
     name: firewalld
