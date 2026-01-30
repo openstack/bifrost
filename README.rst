@@ -1,9 +1,8 @@
+=======
 Bifrost
--------
+=======
 
 .. image:: https://governance.openstack.org/tc/badges/bifrost.svg
-    :target: https://governance.openstack.org/tc/reference/tags/index.html
-    :alt: Team and repository tags
 
 Bifrost (pronounced bye-frost) is a set of Ansible playbooks that
 automates the task of deploying a base image onto a set of known hardware using
