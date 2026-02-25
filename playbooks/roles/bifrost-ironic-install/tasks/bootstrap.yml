@@ -150,15 +150,22 @@
     - "/etc/ironic/rootwrap.d"
     - "{{ ironic_rootwrap_dir }}/ironic-rootwrap"
 
-- name: "Generate htpasswd(s) for ironic"
-  htpasswd:
+- name: "Remove old ironic htpasswd file"
+  file:
     path: /etc/ironic/htpasswd
-    crypt_scheme: bcrypt
-    name: "{{ item.name }}"
-    password: "{{ item.password }}"
-    owner: ironic
-    group: ironic
-    mode: "0600"
+    state: absent
+  become: true
+
+- name: "Generate htpasswd entries for ironic"
+  command:
+    argv:
+      - "{{ ansible_python_interpreter }}"
+      - "-c"
+      - >-
+        import bcrypt;
+        h = bcrypt.hashpw({{ item.password | to_json }}.encode(), bcrypt.gensalt()).decode();
+        open('/etc/ironic/htpasswd', 'a').write({{ item.name | to_json }} + ':' + h + '\n')
+  become: true
   loop:
     - name: "{{ admin_username }}"
       password: "{{ admin_password }}"
@@ -170,6 +177,14 @@
     label: "{{ item.name }}"
   when:
     - not item.noauth_mode | bool
+
+- name: "Set permissions on ironic htpasswd file"
+  file:
+    path: /etc/ironic/htpasswd
+    owner: ironic
+    group: ironic
+    mode: "0600"
+  become: true
 
 - name: "Generate TLS parameters"
   include_role:

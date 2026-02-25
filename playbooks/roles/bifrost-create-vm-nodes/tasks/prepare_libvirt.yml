@@ -283,14 +283,23 @@
   when: default_boot_mode == 'uefi'
 
 - name: write Redfish Emulator password file
-  htpasswd:
+  command:
+    argv:
+      - "{{ ansible_python_interpreter }}"
+      - "-c"
+      - >-
+        import bcrypt;
+        h = bcrypt.hashpw(b'password', bcrypt.gensalt()).decode();
+        open('/etc/redfish-emulator.htpasswd', 'w').write('admin:' + h + '\n')
+  become: true
+
+- name: set permissions on Redfish Emulator password file
+  file:
     path: /etc/redfish-emulator.htpasswd
-    crypt_scheme: bcrypt
-    name: "admin"
-    password: "password"
     owner: root
     group: root
     mode: "0600"
+  become: true
 
 - name: write Redfish Emulator configuration file
   template:

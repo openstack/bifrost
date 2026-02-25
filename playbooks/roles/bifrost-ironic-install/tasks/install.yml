@@ -64,7 +64,6 @@
   vars:
     package: "{{ item }}"
   with_items:
-    - passlib
     - pymysql
 
 - name: "Install Nginx"
