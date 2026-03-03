@@ -27,3 +27,15 @@ bifrost_venv_env:
   VIRTUAL_ENV: "{{ bifrost_venv_dir }}"
   PATH: "{{ bifrost_venv_dir }}/bin:{{ ansible_env.PATH }}" # include regular path via lookup env
 ansible_python_interpreter: "{{ bifrost_venv_dir + '/bin/python3' }}"
+
+# OCI Registry upload configuration
+# These variables fallback to bifrost-registry-install role defaults when available
+enable_oci_registry_upload: "{{ enable_registry | default(true) }}"
+upload_registry_port: "{{ registry_port | default(5500) }}"
+upload_registry_enable_tls: "{{ registry_enable_tls | default(false) }}"
+upload_registry_insecure: true
+registry_url: "{{ internal_ip | default('127.0.0.1') }}:{{ upload_registry_port }}"
+registry_repository: "bifrost/images"
+registry_username: "{{ default_username | default('') }}"
+registry_password: "{{ default_password | default('') }}"
+registry_tag_suffix: "{{ ansible_date_time.epoch }}"
