@@ -1,0 +1,5 @@
+---
+fixes:
+  - |
+    Fixes the ``dnsmasq`` DHCP provider on the Debian family of operating
+    systems by providing the correct dnsmasq leases file path.
