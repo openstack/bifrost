@@ -201,6 +201,13 @@
     - not test_image_present.stat.exists
     - not test_image_dib_present.stat.exists
     - not test_image_initramfs_present.stat.exists
+
+- name: "Upload image to OCI registry"
+  include_tasks: upload_to_registry.yml
+  when:
+    - enable_oci_registry_upload | bool
+    - not test_image_present.stat.exists or not test_image_dib_present.stat.exists or not test_image_initramfs_present.stat.exists
+
 - name: "Update permission of generated image"
   file:
     path: "{{ http_boot_folder }}"
@@ -210,10 +217,12 @@
   when:
     - http_boot_folder is defined
     - http_boot_folder | length > 0
+
 - name: "Restore proper context on created data for http_boot"
   command: restorecon -iRv {{ http_boot_folder }}
   when: (ansible_os_family == 'RedHat' or ansible_os_family == 'Suse') and
          ansible_selinux.status == 'enabled'
+
 - name: "Upload image to OCI registry"
   include_tasks: upload_to_registry.yml
   when:

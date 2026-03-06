@@ -132,10 +132,42 @@ When enabled, the role will:
 ### OCI Artifact URLs
 
 After upload, artifact URLs are available in:
-- Ansible fact: `oci_artifact_urls`
-- File: `{{ dib_imagename }}.oci-urls.txt`
+- Ansible fact: `oci_artifact_urls` - List of all uploaded artifact URLs
+- Ansible fact: `oci_primary_disk_image_url` - URL of the primary disk image (for deployment)
+- File: `{{ dib_imagename }}.oci-urls.txt` - Text file containing all URLs
+
+The `oci_primary_disk_image_url` fact contains the URL of the main deployable
+disk image and can be used directly as the `deploy_image_source` in deployment
+operations.
+
+All OCI artifact URLs use the `oci://` scheme (e.g.,
+`oci://127.0.0.1:5500/bifrost/images:disk-image-123456`) which is compatible
+with Ironic's image deployment. Image checksums are not required when using
+OCI artifacts as Ironic handles verification internally.
 
 These URLs can be used to reference the images in Ironic or other systems.
+
+### Example: Using OCI Image for Deployment
+
+After building and uploading an image, you can deploy it using:
+
+    - hosts: localhost
+      connection: local
+      name: "Build image and deploy"
+      become: yes
+      gather_facts: yes
+      tasks:
+        - name: Build and upload image
+          include_role:
+            name: bifrost-create-dib-image
+          vars:
+            enable_oci_registry_upload: true
+
+        - name: Deploy nodes with OCI image
+          include_role:
+            name: bifrost-deploy-nodes-dynamic
+          vars:
+            deploy_image_source: "{{ oci_primary_disk_image_url }}"
 
 ### Example: Enabling OCI Upload
 
