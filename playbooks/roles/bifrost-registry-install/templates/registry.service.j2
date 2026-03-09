@@ -11,6 +11,9 @@ ExecStartPre=-/usr/bin/podman stop bifrost-registry
 ExecStartPre=-/usr/bin/podman rm bifrost-registry
 ExecStart=/usr/bin/podman run --rm --name bifrost-registry \
     --security-opt label=disable \
+{% if ansible_distribution == 'Debian' and ansible_distribution_release == 'trixie' %}
+    --network slirp4netns:port_handler=slirp4netns \
+{% endif %}
     -p {{ internal_ip }}:{{ registry_port }}:{{ registry_port }} \
     -v {{ registry_data_dir }}:/var/lib/registry \
     -v {{ registry_config_dir }}/config.yml:/etc/docker/registry/config.yml \

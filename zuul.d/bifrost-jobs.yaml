@@ -191,6 +191,20 @@
       use_vmedia: true
 
 - job:
+    name: bifrost-integration-on-debian-trixie
+    parent: bifrost-integration
+    nodeset: debian-trixie-8GB
+    timeout: 7200
+
+- job:
+    name: bifrost-integration-redfish-vmedia-uefi-debian-trixie
+    parent: bifrost-integration-on-debian-trixie
+    vars:
+      enable_tls: true
+      test_driver: redfish
+      use_vmedia: true
+
+- job:
     name: bifrost-tox-linters
     parent: openstack-tox-linters
     required-projects:

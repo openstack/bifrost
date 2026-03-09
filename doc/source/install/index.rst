@@ -20,7 +20,7 @@ Full support (fully tested in the CI, no known or potential issues):
      RHEL 10 and derivatives are assumed to work but not tested explicitly.
 
 * Ubuntu 22.04 "Jammy" and 24.04 "Noble"
-* Debian 12 "Bookworm"
+* Debian 12 "Bookworm" and 13 "Trixie"
 
 .. note::
    Operating systems evolve and so does the support for them, even on stable
@@ -346,7 +346,7 @@ Bifrost supports the ability for a user to build a custom IPA ramdisk
 utilizing diskimage-builder and ironic-python-agent-builder. In order
 to utilize this feature, the ``download_ipa`` setting must be set to ``false``
 and the create_ipa_image must be set to "true".  By default, the install
-playbook will build a Debian Bookworm based IPA image, if a pre-existing IPA
+playbook will build a Debian Trixie based IPA image, if a pre-existing IPA
 image is not present on disk. If you wish to explicitly set a specific release
 to be passed to diskimage-create, then the setting ``dib_os_release`` can be
 set in addition to ``dib_os_element``.

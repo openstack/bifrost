@@ -13,6 +13,7 @@
         - bifrost-integration-on-ubuntu-noble
         - bifrost-integration-on-ubuntu-jammy
         - bifrost-integration-on-debian-bookworm
+        - bifrost-integration-on-debian-trixie
         - bifrost-integration-keystone-on-centos-10
         - bifrost-integration-keystone-on-ubuntu-noble
         - bifrost-integration-keystone-on-ubuntu-jammy
@@ -25,6 +26,7 @@
             # but we're presently broken on multiple aspects so this
             # should be made voting again later.
             voting: false
+        - bifrost-integration-redfish-vmedia-uefi-debian-trixie
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
@@ -72,6 +74,7 @@
         - bifrost-integration-on-ubuntu-noble
         - bifrost-integration-on-ubuntu-jammy
         - bifrost-integration-on-debian-bookworm
+        - bifrost-integration-on-debian-trixie
         - bifrost-integration-keystone-on-centos-10
         - bifrost-integration-keystone-on-ubuntu-noble
         - bifrost-integration-keystone-on-ubuntu-jammy
@@ -83,6 +86,7 @@
         # but we're presently broken on multiple aspects so this
         # should be made voting again later.
         #- bifrost-integration-redfish-vmedia-uefi-debian-bookworm
+        - bifrost-integration-redfish-vmedia-uefi-debian-trixie
         - bifrost-upgrade-ubuntu-jammy
         - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
