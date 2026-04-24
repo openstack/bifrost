@@ -151,10 +151,6 @@
     sourcedir: "{{ ironic_git_folder }}"
     source_install: true
 
-- name: "Install ironic-staging-drivers"
-  include_tasks: staging_install.yml
-  when: staging_drivers_include | bool
-
 - name: "Install openstacksdk"
   include_role:
     name: bifrost-pip-install

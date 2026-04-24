@@ -8,7 +8,6 @@ ironicclient_git_url: "{{ git_url_root }}/openstack/python-ironicclient"
 openstacksdk_git_url: "{{ git_url_root }}/openstack/openstacksdk"
 ironic_git_url: "{{ git_url_root }}/openstack/ironic"
 reqs_git_url: "{{ git_url_root }}/openstack/requirements"
-staging_drivers_git_url: "{{ git_url_root }}/x/ironic-staging-drivers"
 keystone_git_url: "{{ git_url_root }}/openstack/keystone"
 sushy_git_url: "{{ git_url_root }}/openstack/sushy"
 ipa_git_url: "{{ git_url_root }}/openstack/ironic-python-agent"
@@ -21,7 +20,6 @@ ironic_git_folder: "{{ git_root }}/ironic"
 openstacksdk_git_folder: "{{ git_root }}/openstacksdk"
 dib_git_folder: "{{ git_root }}/diskimage-builder"
 reqs_git_folder: "{{ git_root }}/requirements"
-staging_drivers_git_folder: "{{ git_root }}/ironic-staging-drivers"
 keystone_git_folder: "{{ git_root }}/keystone"
 sushy_git_folder: "{{ git_root }}/sushy"
 ipa_git_folder: "{{ git_root }}/ironic-python-agent"
@@ -35,7 +33,6 @@ ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
 dib_git_branch: master
 reqs_git_branch: "{{ git_branch }}"
-staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
 ipa_git_branch: "{{ git_branch }}"
@@ -46,13 +43,11 @@ networking_generic_switch_git_branch: "{{ git_branch }}"
 ironicclient_source_install: false
 openstacksdk_source_install: false
 sushy_source_install: false
-staging_drivers_source_install: true
 prometheus_exporter_source_install: true
 enable_keystone: false
 enable_prometheus_exporter: false
 enable_ironic_networking: false
 enable_networking_generic_switch_driver: false
-staging_drivers_include: false
 
 update_repos: true
 force_update_repos: true
@@ -83,12 +78,6 @@ bifrost_install_sources:
     git_url: "{{ reqs_git_url }}"
     git_branch: "{{ reqs_git_branch }}"
     name: requirements
-  - git_folder: "{{ staging_drivers_git_folder }}"
-    git_url: "{{ staging_drivers_git_url }}"
-    git_branch: "{{ staging_drivers_git_branch }}"
-    name: ironic-staging-drivers
-    source_install: "{{ staging_drivers_source_install }}"
-    enabled: "{{ staging_drivers_include }}"
   - git_folder: "{{ keystone_git_folder }}"
     git_url: "{{ keystone_git_url }}"
     git_branch: "{{ keystone_git_branch }}"

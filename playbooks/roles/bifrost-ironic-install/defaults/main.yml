@@ -13,13 +13,11 @@ tftp_boot_folder: /var/lib/tftpboot
 http_boot_folder: /var/lib/ironic/httpboot
 boot_folder_permissions: "0750"
 ironic_tftp_master_path: /var/lib/ironic/master_images
-staging_drivers_include: false
 file_url_port: "8080"
 file_url_port_tls: "8083"
 ironicclient_source_install: false
 openstacksdk_source_install: false
 sushy_source_install: false
-staging_drivers_source_install: true
 prometheus_exporter_source_install: true
 networking_generic_switch_source_install: true
 # Setting to utilize diskimage-builder to create a bootable image.
@@ -188,7 +186,6 @@ dib_git_url: https://opendev.org/openstack/diskimage-builder
 ironicclient_git_url: https://opendev.org/openstack/python-ironicclient
 openstacksdk_git_url: https://opendev.org/openstack/openstacksdk
 ironic_git_url: https://opendev.org/openstack/ironic
-staging_drivers_git_url: https://opendev.org/x/ironic-staging-drivers
 ipa_git_url: https://opendev.org/openstack/ironic-python-agent
 ipa_builder_git_url: https://opendev.org/openstack/ironic-python-agent-builder
 prometheus_exporter_git_url: https://opendev.org/openstack/ironic-prometheus-exporter
@@ -199,7 +196,6 @@ ironicclient_git_folder: /opt/stack/python-ironicclient
 openstacksdk_git_folder: /opt/stack/openstacksdk
 dib_git_folder: /opt/stack/diskimage-builder
 reqs_git_folder: /opt/stack/requirements
-staging_drivers_git_folder: /opt/stack/ironic-staging-drivers
 sushy_git_folder: /opt/stack/sushy
 ipa_git_folder: /opt/stack/ironic-python-agent
 ipa_builder_git_folder: /opt/stack/ironic-python-agent-builder

@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    Drops support for Ironic Staging Drivers. They have not been maintained for
+    a long time.

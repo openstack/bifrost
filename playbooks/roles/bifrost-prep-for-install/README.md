@@ -63,9 +63,6 @@ dib_git_branch: Branch to install, defaults to "master".
 
 reqs_git_branch: Branch to install, defaults to the value of git_branch.
 
-staging_drivers_git_branch: Branch to install, defaults to the value of
-                            git_branch.
-
 keystone_git_branch: Branch to install, defaults to the value of git_branch.
 
 sushy_git_branch: Branch to install, defaults to the value of git_branch.
