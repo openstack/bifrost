@@ -23,7 +23,7 @@ features:
                     mount_point: /
                     fstab:
                       options: "rw,relatime"
-                      fck-passno: 1
+                      fsck-passno: 1
               - name: tmp
                 size: 1G
                 mkfs:
