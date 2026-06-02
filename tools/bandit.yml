@@ -1,0 +1,14 @@
+# Bandit configuration for bifrost.
+# See ironic/tools/bandit.yml for the full upstream template.
+
+tests:
+
+skips:
+  - B104
+  - B604
+  - B701
+
+try_except_continue:
+  check_typed_exception: false
+try_except_pass:
+  check_typed_exception: false

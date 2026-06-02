@@ -173,7 +173,7 @@ as cloud-init_ or glean_. The following fields can be set:
 
     This parameter can also used for :doc:`DHCP configuration <dhcp>`.
 ``ipv4_subnet_mask``
-    The subnet mask of the IP address. Defaults to `255.255.255.0`.
+    The subnet mask of the IP address. Defaults to ``255.255.255.0``.
 ``ipv4_interface_mac``
     MAC address of the interface to configure. If missing, the MAC address of
     the first NIC defined in the inventory is used.
@@ -455,7 +455,7 @@ import automatic growth or reconfiguration steps either in the image to be
 deployed, or in post-deployment steps via custom Ansible playbooks.
 
 To be able to access nodes via SSH, ensure that the value for
-`ssh_public_key_path` in ``./playbooks/inventory/group_vars/baremetal``
+``ssh_public_key_path`` in ``./playbooks/inventory/group_vars/baremetal``
 refers to a valid public key file, or set the ``ssh_public_key_path`` variable
 on the command line, e.g. ``-e ssh_public_key_path=~/.ssh/id_rsa.pub``.
 

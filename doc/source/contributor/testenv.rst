@@ -100,7 +100,7 @@ Verify that Ironic and its drivers are installed and operational:
 
 Enroll nodes using the pre-existing inventory:
 
-The command `./bifrost-cli testenv` generates two files with node inventory
+The command ``./bifrost-cli testenv`` generates two files with node inventory
 in the current directory:
 
 * ``baremetal-inventory.json`` can be used with the provided playbooks, see
@@ -126,7 +126,7 @@ Deploy the Enrolled Nodes:
 
 Verify Deployment:
 
-The following command should show the node in an `active` provision state
+The following command should show the node in an ``active`` provision state
 after a successful deployment.
 
 .. code-block:: bash

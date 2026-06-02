@@ -1,0 +1,63 @@
+[build-system]
+requires = ["pbr>=6.1.1"]
+build-backend = "pbr.build"
+
+[project]
+name = "bifrost"
+description = "Deployment of physical machines using OpenStack Ironic and Ansible"
+authors = [
+    {name = "OpenStack", email = "openstack-discuss@lists.openstack.org"},
+]
+readme = {file = "README.rst", content-type = "text/x-rst"}
+license = {text = "Apache-2.0"}
+dynamic = ["version", "dependencies"]
+requires-python = ">=3.10"
+classifiers = [
+    "Environment :: OpenStack",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+Homepage = "https://docs.openstack.org/bifrost/latest/"
+
+[tool.codespell]
+quiet-level = 4
+# Words to ignore:
+# - te: This is a file extension.
+# - buil: Surname (has to be lowercase in list)
+# - assertin: Python's unittest method
+ignore-words-list = "te,buil,assertin"
+skip = "AUTHORS,ChangeLog,*.pyc,*.inv,*.svg,*.png,*.sample,./doc/build/*,./releasenotes/*,./build/*"
+
+[tool.doc8]
+ignore = ["D001"]
+
+[tool.ruff]
+line-length = 79
+exclude = [
+    "playbooks/library",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",        # pycodestyle (error)
+    "F",        # pyflakes
+    "G",        # flake8-logging-format
+    "LOG",      # flake8-logging
+]
+
+[tool.ruff.lint.per-file-ignores]
+"bifrost/tests/**/*.py" = [
+    "E402",     # module-import-not-at-top-of-file
+]

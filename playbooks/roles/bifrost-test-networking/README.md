@@ -23,7 +23,7 @@ The role uses the following variables from the main bifrost configuration:
 
 ## Usage
 
-The role is automatically included in the test-bifrost.yaml playbook when 
+The role is automatically included in the test-bifrost.yaml playbook when
 `enable_ironic_networking` is set to true.
 
 Manual usage:

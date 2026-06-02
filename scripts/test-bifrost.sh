@@ -150,14 +150,14 @@ cd $BIFROST_HOME/playbooks
 # Syntax check of dynamic inventory test path
 for task in syntax-check list-tasks; do
     ${ANSIBLE} -vvvv \
-           -i inventory/localhost \
-           test-bifrost-create-vm.yaml \
-           --${task}
+        -i inventory/localhost \
+        test-bifrost-create-vm.yaml \
+        --${task}
     ${ANSIBLE} -vvvv \
-           -i inventory/localhost \
-           ${TEST_PLAYBOOK} \
-           --${task} \
-           -e testing_user=${TESTING_USER}
+        -i inventory/localhost \
+        ${TEST_PLAYBOOK} \
+        --${task} \
+        -e testing_user=${TESTING_USER}
 done
 
 # Create the test VMs

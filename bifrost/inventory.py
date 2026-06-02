@@ -195,16 +195,17 @@ def _process_baremetal_data(data_source, groups, hostvars):
         ipv4_addr = host.get('ipv4_address')
         default_groups = os.environ.get('DEFAULT_HOST_GROUPS',
                                         'baremetal').split()
-        host['host_groups'] = sorted(list(set(host.get('host_groups', []) +
-                                              default_groups)))
+        host['host_groups'] = sorted(list(set(
+            host.get('host_groups', [])
+            + default_groups)))
 
         if not node_net_data and not ipv4_addr:
             host['addressing_mode'] = "dhcp"
         else:
             host['ansible_ssh_host'] = host['ipv4_address']
 
-        if ('provisioning_ipv4_address' not in host and
-                'addressing_mode' not in host):
+        if ('provisioning_ipv4_address' not in host
+                and 'addressing_mode' not in host):
             host['provisioning_ipv4_address'] = host['ipv4_address']
         # Add each host to the values to be returned.
         for group in host['host_groups']:
@@ -308,7 +309,7 @@ def main():
             sys.exit(1)
 
     except Exception as error:
-        LOG.error('Failed processing: %s' % error)
+        LOG.error('Failed processing: %s', error)
         sys.exit(1)
 
     # Drop empty groups. This is usually necessary when

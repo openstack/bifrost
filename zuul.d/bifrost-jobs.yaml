@@ -29,6 +29,7 @@
     run: playbooks/ci/run.yaml
     post-run: playbooks/ci/post.yaml
     required-projects:
+      - openstack/ansible-collections-openstack
       - openstack/bifrost
       - openstack/diskimage-builder
       - openstack/ironic
@@ -181,6 +182,7 @@
     vars:
       upgrade_from: stable/2025.2
       skip_upgrade:
+        - openstack/ansible-collections-openstack
         - openstack/diskimage-builder
 
 - job:
@@ -220,10 +222,3 @@
     timeout: 7200
     run: playbooks/ci/benchmark-ironic.yaml
 
-
-- job:
-    name: bifrost-tox-codespell
-    parent: openstack-tox
-    timeout: 7200
-    vars:
-      tox_envlist: codespell

@@ -1,11 +1,11 @@
 module keystone_policy 1.0;
 
 require {
-	type var_run_t;
-	type httpd_t;
-	type unconfined_service_t;
-	class sock_file write;
-	class unix_stream_socket connectto;
+    type var_run_t;
+    type httpd_t;
+    type unconfined_service_t;
+    class sock_file write;
+    class unix_stream_socket connectto;
 }
 
 #============= httpd_t ==============
