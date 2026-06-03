@@ -14,7 +14,7 @@ galaxy_info:
     - "9"
   - name: Ubuntu
     versions:
-    - jammy
+    - noble
   galaxy_tags:
   - cloud
   - cloud:openstack

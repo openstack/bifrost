@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    Ubuntu 22.04 "Jammy" is no longer a supported operating system for
+    running Bifrost. Please use 24.04 "Noble" instead.
+  - |
+    The default Ubuntu deployment image release is now Noble. If you rely
+    on the upstream deploy image defaults with
+    ``upstream_deploy_image_distribution: ubuntu``, update any explicit
+    ``upstream_deploy_image_release`` overrides that were set to ``jammy``.

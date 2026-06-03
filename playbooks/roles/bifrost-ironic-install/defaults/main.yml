@@ -131,7 +131,7 @@ default_upstream_deploy_image_releases:
   cirros: "0.5.3"
   centos: "9-stream"
   rocky: "9"
-  ubuntu: "jammy"
+  ubuntu: "noble"
 # Deployment image release, for selecting a default upstream image.
 upstream_deploy_image_release: "{{ default_upstream_deploy_image_releases[upstream_deploy_image_distribution] }}"
 deploy_image_sources:
@@ -139,10 +139,6 @@ deploy_image_sources:
     focal:
       image: "https://cloud-images.ubuntu.com/focal/current/focal-server-cloudimg-amd64.img"
       checksum: "https://cloud-images.ubuntu.com/focal/current/SHA256SUMS"
-      checksum_algorithm: "sha256"
-    jammy:
-      image: "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
-      checksum: "https://cloud-images.ubuntu.com/jammy/current/SHA256SUMS"
       checksum_algorithm: "sha256"
     noble:
       image: "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img"

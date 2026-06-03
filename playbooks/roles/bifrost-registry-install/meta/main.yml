@@ -12,7 +12,6 @@ galaxy_info:
   - name: Ubuntu
     versions:
     - noble
-    - jammy
   galaxy_tags:
   - cloud
   - cloud:openstack

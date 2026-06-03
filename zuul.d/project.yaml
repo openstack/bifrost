@@ -11,15 +11,12 @@
         - bifrost-integration-debian-ipasrc-on-centos-10
         - bifrost-integration-on-centos-10
         - bifrost-integration-on-ubuntu-noble
-        - bifrost-integration-on-ubuntu-jammy
         - bifrost-integration-on-debian-bookworm
         - bifrost-integration-on-debian-trixie
         - bifrost-integration-keystone-on-centos-10
         - bifrost-integration-keystone-on-ubuntu-noble
-        - bifrost-integration-keystone-on-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-centos-10
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
-        - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm:
             # NOTE(TheJulia): This should be fixed with change
             # https://review.opendev.org/c/openstack/bifrost/+/969886
@@ -27,19 +24,11 @@
             # should be made voting again later.
             voting: false
         - bifrost-integration-redfish-vmedia-uefi-debian-trixie
-        - bifrost-upgrade-ubuntu-jammy
+        - bifrost-upgrade-ubuntu-noble
         - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
         # Non-voting jobs
-        - bifrost-slurp-upgrade-ubuntu-jammy:
-            voting: false
         - bifrost-integration-redfish-pxe-uefi-ubuntu-noble:
-            voting: false
-        - bifrost-integration-dhcp-ubuntu-jammy:
-            voting: false
-        - bifrost-integration-debian-ipasrc-on-ubuntu-jammy:
-            voting: false
-        - bifrost-cli-ubuntu-jammy:
             voting: false
         - bifrost-collections-src:
             voting: false
@@ -72,22 +61,19 @@
         - bifrost-integration-debian-ipasrc-on-centos-10
         - bifrost-integration-on-centos-10
         - bifrost-integration-on-ubuntu-noble
-        - bifrost-integration-on-ubuntu-jammy
         - bifrost-integration-on-debian-bookworm
         - bifrost-integration-on-debian-trixie
         - bifrost-integration-keystone-on-centos-10
         - bifrost-integration-keystone-on-ubuntu-noble
-        - bifrost-integration-keystone-on-ubuntu-jammy
         - bifrost-integration-redfish-vmedia-uefi-centos-10
         - bifrost-integration-redfish-vmedia-uefi-ubuntu-noble
-        - bifrost-integration-redfish-vmedia-uefi-ubuntu-jammy
         # NOTE(TheJulia): This should be fixed with change
         # https://review.opendev.org/c/openstack/bifrost/+/969886
         # but we're presently broken on multiple aspects so this
         # should be made voting again later.
         #- bifrost-integration-redfish-vmedia-uefi-debian-bookworm
         - bifrost-integration-redfish-vmedia-uefi-debian-trixie
-        - bifrost-upgrade-ubuntu-jammy
+        - bifrost-upgrade-ubuntu-noble
         - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
     experimental:
