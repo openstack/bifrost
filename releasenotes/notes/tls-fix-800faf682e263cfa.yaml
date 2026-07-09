@@ -1,0 +1,4 @@
+---
+fixes:
+  - |
+    Fixes SELinux policy that prevented TLS from working on CentOS 10.
