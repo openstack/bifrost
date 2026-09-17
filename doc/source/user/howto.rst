@@ -394,6 +394,21 @@ If the hosts need to be re-deployed, the dynamic redeploy playbook may be used:
 This playbook will undeploy the hosts, followed by a deployment, allowing
 a configurable timeout for the hosts to transition in each step.
 
+Viewing Enhanced Node History
+-----------------------------
+
+Bifrost standalone deployments can use the OpenStack baremetal CLI to view
+history events for baremetal nodes. Starting with API microversion 1.115,
+detailed node history responses include additional provisioning information
+such as ``state``, ``target_provision_state``, and ``duration_seconds``.
+
+To view detailed node history, specify API microversion 1.115 and use the
+``--long`` option:
+
+.. code-block:: bash
+
+   openstack --os-baremetal-api-version 1.115 baremetal node history list --long <node_ident>
+
 Use playbooks instead of bifrost-cli
 ====================================
 
