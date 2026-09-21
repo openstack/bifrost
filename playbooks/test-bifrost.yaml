@@ -19,9 +19,19 @@
       block:
       - name: "Set variables if running in the CI"
         set_fact:
-           custom_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.3-x86_64-disk.img
            copy_from_local_path: true
            git_url_root: "{{ lookup('env', 'WORKSPACE') }}"
+      # Node images may only cache the current cirros version. Use the
+      # cached 0.5.3 image when present; otherwise the role default HTTPS
+      # URL is used.
+      - name: "Check for cached cirros image"
+        stat:
+           path: /opt/cache/files/cirros-0.5.3-x86_64-disk.img
+        register: cached_cirros
+      - name: "Use cached cirros image when present"
+        set_fact:
+           custom_deploy_image_upstream_url: file:///opt/cache/files/cirros-0.5.3-x86_64-disk.img
+        when: cached_cirros.stat.exists
       - name: "Check if openstacksdk is cloned"
         stat:
            path: "{{ git_url_root }}/openstack/openstacksdk"
