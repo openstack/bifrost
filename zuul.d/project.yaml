@@ -21,9 +21,13 @@
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
         - bifrost-integration-inspector-centos-9
         - bifrost-integration-inspector-ubuntu-jammy
-        - bifrost-upgrade-ubuntu-jammy
-        - bifrost-upgrade-keystone-centos9
         # Non-voting jobs
+        # Upgrade jobs start from EOL 2024.2, which no longer has cirros 0.5.3
+        # in the node cache.
+        - bifrost-upgrade-ubuntu-jammy:
+            voting: false
+        - bifrost-upgrade-keystone-centos9:
+            voting: false
         - bifrost-slurp-upgrade-ubuntu-jammy:
             voting: false
         - bifrost-integration-redfish-pxe-uefi-centos-9:
@@ -79,8 +83,6 @@
         - bifrost-integration-redfish-vmedia-uefi-debian-bookworm
         - bifrost-integration-inspector-centos-9
         - bifrost-integration-inspector-ubuntu-jammy
-        - bifrost-upgrade-ubuntu-jammy
-        - bifrost-upgrade-keystone-centos9
     experimental:
       jobs:
         - bifrost-benchmark-ironic
