@@ -174,13 +174,16 @@
     required-projects:
       - openstack/ansible-collections-openstack
 
+# Master is the next SLURP (2027.1). Adjacent upgrade is from the previous
+# non-SLURP release (2026.2). Skip-level slurp upgrade is from the previous
+# SLURP (2026.1).
 - job:
     name: bifrost-upgrade
     parent: bifrost-base
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/2025.2
+      upgrade_from: stable/2026.2
       skip_upgrade:
         - openstack/ansible-collections-openstack
         - openstack/diskimage-builder
@@ -210,6 +213,17 @@
     vars:
       enable_keystone: true
       noauth_mode: false
+
+- job:
+    name: bifrost-slurp-upgrade
+    parent: bifrost-upgrade
+    vars:
+      upgrade_from: stable/2026.1
+
+- job:
+    name: bifrost-slurp-upgrade-ubuntu-noble
+    parent: bifrost-slurp-upgrade
+    nodeset: bifrost-ubuntu-noble-8GB
 
 # NOTE(TheJulia): This job is for use on the ironic repository,
 # to provide a minimal platform where we can execute a job where

@@ -28,6 +28,8 @@
         - bifrost-upgrade-keystone-centos-10
         - bifrost-upgrade-keystone-ubuntu-noble
         # Non-voting jobs
+        - bifrost-slurp-upgrade-ubuntu-noble:
+            voting: false
         - bifrost-integration-redfish-pxe-uefi-ubuntu-noble:
             voting: false
         - bifrost-collections-src:
