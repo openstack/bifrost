@@ -23,6 +23,32 @@
         chdir: "{{ ansible_user_dir }}/{{ item.src_dir }}"
       loop: "{{ zuul.projects.values() | list }}"
       when: item.name not in skip_upgrade
+    # 2026.1 uses dynamic DHCP and leaves leases plus ironic-*.conf host
+    # files. 2026.2 enables inventory_dhcp for CirrOS 0.6.x; the DHCP test
+    # requires one lease per inventory node. Stop dnsmasq first so it cannot
+    # rewrite leases from memory.
+    - name: Stop dnsmasq before clearing leftover DHCP state
+      become: true
+      service:
+        name: dnsmasq
+        state: stopped
+      failed_when: false
+    - name: Remove leftover dnsmasq lease files
+      become: true
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /var/lib/misc/dnsmasq.leases
+        - /var/lib/dnsmasq/dnsmasq.leases
+    - name: Remove leftover dnsmasq DHCP host and option files
+      become: true
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/dnsmasq.d/bifrost.dhcp-hosts.d
+        - /etc/dnsmasq.d/bifrost.dhcp-opts.d
     - shell:
         cmd: |
           set -eo pipefail

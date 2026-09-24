@@ -174,13 +174,15 @@
     required-projects:
       - openstack/ansible-collections-openstack
 
+# 2026.2 is a non-SLURP release. Adjacent upgrade is from the previous
+# release (2026.1, a SLURP). A separate skip-level slurp job is not needed.
 - job:
     name: bifrost-upgrade
     parent: bifrost-base
     run: playbooks/ci/upgrade.yaml
     timeout: 9600
     vars:
-      upgrade_from: stable/2025.2
+      upgrade_from: stable/2026.1
       skip_upgrade:
         - openstack/ansible-collections-openstack
         - openstack/diskimage-builder
