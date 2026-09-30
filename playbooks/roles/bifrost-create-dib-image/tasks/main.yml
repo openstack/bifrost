@@ -148,6 +148,15 @@
   when:
     - dib_partitioning is defined
     - dib_partitioning | length > 0
+# IPA-builder still depends on the DIB epel element. That hook runs
+# install-packages yum-utils, which does not exist on Debian.
+- name: "Skip EPEL install for Debian IPA ramdisks"
+  set_fact:
+    dib_env_vars_final: "{{ dib_env_vars_final | combine({'DIB_EPEL_DISABLED': '2'}) }}"
+  when:
+    - dib_os_element == "debian"
+    - "'ironic-python-agent-ramdisk' in (dib_elements | default(''))"
+    - dib_env_vars_final.DIB_EPEL_DISABLED is not defined
 - name: "Set partitioning information if set"
   slurp:
     src: "{{ partitioning_file }}"
