@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    Password authentication is now supported when downloading deployment
+    images. Authentication can be configured using
+    ``deploy_image_url_username``, ``deploy_image_url_password``,
+    ``deploy_image_force_basic_auth`` and
+    ``deploy_image_unredirected_headers``. Providing username and password as
+    part of the URL and relying on the curl fallback is no longer supported, as
+    it risks leaking credentials.
