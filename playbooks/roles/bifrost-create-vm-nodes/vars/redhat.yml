@@ -15,7 +15,7 @@ required_packages:
  - python3-libselinux
  - libxslt-devel
  - libxml2-devel
- - edk2-ovmf
+ - "{{ 'edk2-aarch64' if ansible_architecture == 'aarch64' else 'edk2-ovmf' }}"
 
 ovs_packages:
  # TODO(alegacy): Update versioned package names periodically

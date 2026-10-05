@@ -5,6 +5,12 @@
         label: centos-10-stream-8GB
 
 - nodeset:
+    name: bifrost-centos-10-stream-arm64
+    nodes:
+      - name: primary
+        label: centos-10-stream-arm64-8GB
+
+- nodeset:
     name: bifrost-ubuntu-noble-8GB
     nodes:
       - name: primary
@@ -87,6 +93,14 @@
     timeout: 7200
 
 - job:
+    name: bifrost-integration-on-ubuntu-noble-arm64
+    parent: bifrost-integration
+    nodeset: ubuntu-noble-arm64-8GB
+    timeout: 10800
+    vars:
+      test_driver: redfish
+
+- job:
     name: bifrost-integration-keystone-on-ubuntu-noble
     parent: bifrost-integration-on-ubuntu-noble
     timeout: 7200
@@ -127,6 +141,14 @@
     parent: bifrost-integration
     nodeset: bifrost-centos-10-stream
     timeout: 7200
+
+- job:
+    name: bifrost-integration-on-centos-10-arm64
+    parent: bifrost-integration
+    nodeset: bifrost-centos-10-stream-arm64
+    timeout: 7200
+    vars:
+      test_driver: redfish
 
 - job:
     name: bifrost-integration-keystone-on-centos-10
