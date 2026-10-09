@@ -58,7 +58,7 @@ dib_packages: "traceroute,python-devel"
 dib_os_release can be utilized to set the DIB_RELEASE environment
 variable for semi-dynamic disk image creation by a user or the
 test script.  By default, it is not set, but an example if
-dib_os_element is set to ``debian``, then a user could choose
+dib_os_element is set to ``debian-minimal``, then a user could choose
 the ``trixie`` release.
 
 dib_os_release: trixie

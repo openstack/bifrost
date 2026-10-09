@@ -113,10 +113,12 @@
   when:
     - dib_packages is defined
     - dib_packages | length > 0
-- name: "Set default of Debian Bullseye if building debian and not explicitly set, override with dib_os_release setting"
+- name: "Set default Debian release if not explicitly set"
   set_fact:
     dib_os_release: "trixie"
-  when: dib_os_element == "debian" and dib_os_release is undefined
+  when:
+    - dib_os_element in ["debian", "debian-minimal"]
+    - dib_os_release is undefined
 - name: "Initialize DIB source-repository variables"
   set_fact:
     dib_source_repositories:

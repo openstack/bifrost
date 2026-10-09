@@ -1,5 +1,6 @@
 ---
-dib_os_element: "debian"
+# debian includes cloud-init, which can race with simple-init/glean.
+dib_os_element: "debian-minimal"
 dib_init_element: "simple-init"
 dib_env_vars:
   http_proxy: "{{ lookup('env', 'http_proxy') }}"

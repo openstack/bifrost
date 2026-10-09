@@ -24,7 +24,8 @@ networking_generic_switch_source_install: true
 create_image_via_dib: "{{ not (download_custom_deploy_image) }}"
 create_ipa_image: false
 dib_image_type: vm
-dib_os_element: "debian"
+# debian includes cloud-init, which can race with simple-init/glean.
+dib_os_element: "debian-minimal"
 enable_epel: "{{ install_dib | bool }}"
 # Setting to install diskimage-builder
 install_dib: "{{ create_image_via_dib | bool or create_ipa_image | bool }}"
