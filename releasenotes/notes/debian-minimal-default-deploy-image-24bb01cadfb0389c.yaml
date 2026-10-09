@@ -1,0 +1,10 @@
+---
+fixes:
+  - |
+    Build DIB deployment images with ``debian-minimal`` instead of ``debian``.
+    The ``debian`` element installs cloud-init, which can race with
+    simple-init/glean and leave the instance on a DHCP address instead of the
+    configdrive static IP. The ``openssh-server`` element is now added
+    explicitly to the deploy image since ``debian-minimal`` does not include
+    it. IPA ramdisks are unchanged. To keep the previous image, set
+    ``dib_os_element`` to ``debian``.

@@ -66,6 +66,7 @@
         {{ dib_image_type|default('vm') }}
         {% if default_boot_mode != "bios" %}block-device-efi{% endif %}
         enable-serial-console
+        openssh-server
         {{ dib_init_element|default('simple-init') }}
         {{ extra_dib_elements|default('') }}
       when: create_image_via_dib | bool
