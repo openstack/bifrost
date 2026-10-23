@@ -268,7 +268,7 @@ def parse_args():
     testenv = subparsers.add_parser(
         'testenv', help='Prepare a virtual testing environment')
     testenv.set_defaults(func=cmd_testenv)
-    testenv.add_argument('--release', default='master',
+    testenv.add_argument('--release', default='stable/2026.1',
                          help='release branch to use (master, ussuri, etc), '
                               'must match the release of bifrost.')
     testenv.add_argument('--count', type=int, default=2,
