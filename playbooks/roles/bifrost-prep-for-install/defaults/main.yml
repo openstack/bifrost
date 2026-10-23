@@ -27,11 +27,11 @@ ipa_builder_git_folder: "{{ git_root }}/ironic-python-agent-builder"
 prometheus_exporter_git_folder: "{{ git_root }}/ironic-prometheus-exporter"
 networking_generic_switch_git_folder: "{{ git_root }}/networking-generic-switch"
 # *git_branch can be overridden for stable branch testing
-git_branch: master
+git_branch: stable/2026.2
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
-dib_git_branch: master
+dib_git_branch: stable/2026.2
 reqs_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
 sushy_git_branch: "{{ git_branch }}"
