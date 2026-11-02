@@ -49,7 +49,7 @@ openstacksdk_git_folder: The folder to clone openstacksdk to if missing,
 sushy_git_folder: The folder to clone sushy to if missing, default to:
                   "{{ git_root}}/sushy.git"
 
-git_branch: Default branch to install, defaults to "master".
+git_branch: Default branch to install, defaults to "stable/2026.1".
 
 ironicclient_git_branch: Branch to install, defaults to the value of
                          git_branch.
@@ -59,7 +59,7 @@ ironic_git_branch: Branch to install, defaults to the value of git_branch.
 openstacksdk_git_branch: Branch to install, defaults to the value of
                          git_branch.
 
-dib_git_branch: Branch to install, defaults to "master".
+dib_git_branch: Branch to install, defaults to "stable/2026.1".
 
 reqs_git_branch: Branch to install, defaults to the value of git_branch.
 
