@@ -33,7 +33,7 @@ git_branch: stable/2026.1
 ironicclient_git_branch: "{{ git_branch }}"
 ironic_git_branch: "{{ git_branch }}"
 openstacksdk_git_branch: "{{ git_branch }}"
-dib_git_branch: stable/2026.1
+dib_git_branch: master
 reqs_git_branch: "{{ git_branch }}"
 staging_drivers_git_branch: "{{ git_branch }}"
 keystone_git_branch: "{{ git_branch }}"
