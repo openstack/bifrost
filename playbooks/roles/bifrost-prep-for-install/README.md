@@ -59,7 +59,7 @@ ironic_git_branch: Branch to install, defaults to the value of git_branch.
 openstacksdk_git_branch: Branch to install, defaults to the value of
                          git_branch.
 
-dib_git_branch: Branch to install, defaults to "stable/2026.2".
+dib_git_branch: Branch to install, defaults to "master".
 
 reqs_git_branch: Branch to install, defaults to the value of git_branch.
 

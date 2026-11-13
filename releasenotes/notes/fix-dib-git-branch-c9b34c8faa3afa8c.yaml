@@ -1,0 +1,7 @@
+---
+fixes:
+  - |
+    Fixes installation from source failing with ``error: pathspec
+    'stable/2026.2' did not match any file(s) known to git`` when cloning
+    diskimage-builder. diskimage-builder is a branchless project, so the
+    default value of ``dib_git_branch`` has been restored to ``master``.
