@@ -92,6 +92,8 @@
     group: ironic
     mode: "0644"
     remote_src: true
+  # NOTE(bbezak): only needed for BIOS, aarch64 is UEFI-only.
+  when: ansible_architecture != 'aarch64'
 
 - name: "Set grub2 and shim paths for Debian and Red Hat systems"
   set_fact:
@@ -101,7 +103,7 @@
 - name: "Copy shim into serving folders"
   copy:
     src: "{{ shim_efi_source }}"
-    dest: "{{ item }}/bootx64.efi"
+    dest: "{{ item }}/boot{{ efi_arch }}.efi"
     owner: ironic
     group: ironic
     mode: "0644"
@@ -113,7 +115,7 @@
 - name: "Copy grub into serving folders"
   copy:
     src: "{{ grub_efi_source }}"
-    dest: "{{ item }}/grubx64.efi"
+    dest: "{{ item }}/grub{{ efi_arch }}.efi"
     owner: ironic
     group: ironic
     mode: "0644"

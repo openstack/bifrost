@@ -106,7 +106,7 @@ dhcp-boot=tag:gpxe,/ipxe.pxe
 
 {% if default_boot_interface is defined and default_boot_interface == 'pxe' %}
 # Client is PXE booting over EFI, boot with the grub shim
-dhcp-boot=tag:efi,/bootx64.efi
+dhcp-boot=tag:efi,/boot{{ efi_arch }}.efi
 {% elif 'ipxe' in enabled_boot_interfaces.split(',') %}
 # Client is PXE booting over EFI without iPXE ROM; send EFI version of iPXE chainloader
 dhcp-boot=tag:efi,tag:!ipxe,/{{ ipxe_efi_binary }}

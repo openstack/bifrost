@@ -3,16 +3,17 @@ sgabios_dir: /usr/share/qemu/
 libvirt_service_name: libvirtd
 required_packages:
  - g++
+ - ipxe-qemu
  - libvirt-daemon-system
  - libxslt1-dev
  - libxml2-dev
  - qemu-utils
  - qemu-kvm
- - qemu-system-x86
+ - "{{ 'qemu-system-arm' if ansible_architecture == 'aarch64' else 'qemu-system-x86' }}"
  - qemu-system-data
  - pkg-config
  - libvirt-dev
- - ovmf
+ - "{{ 'qemu-efi-aarch64' if ansible_architecture == 'aarch64' else 'ovmf' }}"
  - ebtables
  - dnsmasq
 

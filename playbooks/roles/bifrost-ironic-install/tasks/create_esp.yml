@@ -40,13 +40,13 @@
       copy:
         src: "{{ shim_efi_source }}"
         remote_src: true
-        dest: "{{ esp_temp_dir.path }}/EFI/BOOT/BOOTX64.efi"
+        dest: "{{ esp_temp_dir.path }}/EFI/BOOT/BOOT{{ efi_arch | upper }}.efi"
 
     - name: "Copy the grub2 image to ESP"
       copy:
         src: "{{ grub_efi_source }}"
         remote_src: true
-        dest: "{{ esp_temp_dir.path }}/EFI/BOOT/GRUBX64.efi"
+        dest: "{{ esp_temp_dir.path }}/EFI/BOOT/GRUB{{ efi_arch | upper }}.efi"
 
   always:
     - name: "Unmount ESP filesystem"

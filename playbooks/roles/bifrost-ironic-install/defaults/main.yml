@@ -68,13 +68,14 @@ ipa_file_protocol: "http"
 ipa_upstream_release: "master"
 
 ipxe_efi_binary: snponly.efi
+efi_arch: "{{ 'aa64' if ansible_architecture == 'aarch64' else 'x64' }}"
 
-tarballs_base_url: "https://tarballs.opendev.org/openstack/ironic-python-agent"
+tarballs_base_url: "https://tarballs.opendev.org/openstack/ironic-python-agent{{ '-builder' if ansible_architecture == 'aarch64' else '' }}"
 ipa_download_headers: {}
 ipa_kernel: "{{ http_boot_folder }}/ipa.kernel"
 ipa_ramdisk: "{{ http_boot_folder }}/ipa.initramfs"
 ipa_kernel_url: "{{ ipa_file_protocol }}://{{ internal_ip }}:{{ file_url_port }}/ipa.kernel"
-ipa_download_distro: debian
+ipa_download_distro: "{{ 'debian-arm64' if ansible_architecture == 'aarch64' else 'debian' }}"
 ipa_kernel_upstream_url: "{{ tarballs_base_url }}/dib/files/ipa-{{ ipa_download_distro }}-{{ ipa_upstream_release }}.kernel"
 ipa_kernel_upstream_checksum_algo: "sha256"
 ipa_kernel_upstream_checksum_url: "{{ ipa_kernel_upstream_url }}.{{ ipa_kernel_upstream_checksum_algo }}"
@@ -171,7 +172,7 @@ deploy_image_sources:
       # favor of custom_deploy_image_upstream_url but is included for backwards
       # compatibility. It should be swapped permanently to
       # custom_deploy_image_upstream_url in the next major release.
-      image: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.6.3/cirros-0.6.3-x86_64-disk.img') }}"
+      image: "{{ cirros_deploy_image_upstream_url | default('https://download.cirros-cloud.net/0.6.3/cirros-0.6.3-' + ansible_architecture + '-disk.img') }}"
       checksum: "https://download.cirros-cloud.net/0.6.3/MD5SUMS"
       checksum_algorithm: "md5"
 deploy_image_upstream_url: "{{ custom_deploy_image_upstream_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].image) }}"
@@ -320,8 +321,10 @@ inspector_default_node_driver: "{{ 'manual-management' if enable_credential_less
 power_off_after_inspection: "{{ not fast_track | bool }}"
 
 # We may not have packaged iPXE files on some distros, or may want to
-# download them on their own.
-download_ipxe: false
+# download them on their own. E.g. Debian only ships x86_64 firmware.
+download_ipxe: "{{ ansible_os_family | lower == 'debian' and ansible_architecture == 'aarch64' }}"
+
+ipxe_efi_download_source: "https://boot.ipxe.org{{ '/arm64-efi' if ansible_architecture == 'aarch64' else '' }}"
 
 # Settings related to installing bifrost in a virtual environment
 bifrost_venv_dir: "{{ lookup('env', 'VENV') or '/opt/stack/bifrost' }}"
