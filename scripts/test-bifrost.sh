@@ -139,6 +139,18 @@ if [[ -n "$BOOT_MODE" ]]; then
     VM_SETUP_EXTRA+=" -e default_boot_mode=$BOOT_MODE"
 fi
 
+# NOTE(bbezak): IPA boots slowly on emulated ARM64 hosts. Give the
+# test VMs two vCPUs and extend the client-side waits and Ironic's
+# cleaning and inspection timeouts.
+if [[ "$(uname -m)" == "aarch64" ]]; then
+    VM_SETUP_EXTRA+=" -e test_vm_cpu_count=2"
+    CLOUD_CONFIG+=" -e enrollment_timeout=3600"
+    CLOUD_CONFIG+=" -e inspection_wait_timeout=3600"
+    CLOUD_CONFIG+=" -e available_state_wait_retries=120"
+    CLOUD_CONFIG+=" -e ironic_clean_callback_timeout=3600"
+    CLOUD_CONFIG+=" -e ironic_inspect_wait_timeout=3600"
+fi
+
 if [ ${USE_VMEDIA} = "true" ]; then
     TEST_VM_NODE_DRIVER=redfish
     CLOUD_CONFIG+=" -e default_boot_interface=redfish-virtual-media"

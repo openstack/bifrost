@@ -104,6 +104,12 @@ external_http_url = https://{{ internal_ip }}:{{ file_url_port_tls }}/
 
 [conductor]
 automated_clean = {{ cleaning | lower }}
+{% if ironic_clean_callback_timeout is defined %}
+clean_callback_timeout = {{ ironic_clean_callback_timeout }}
+{% endif %}
+{% if ironic_inspect_wait_timeout is defined %}
+inspect_wait_timeout = {{ ironic_inspect_wait_timeout }}
+{% endif %}
 deploy_kernel = {{ ipa_kernel_url }}
 deploy_ramdisk = {{ ipa_ramdisk_url }}
 rescue_kernel = {{ ipa_kernel_url }}
