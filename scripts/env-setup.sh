@@ -39,6 +39,9 @@ if [[ -z $BIFROST_COLLECTIONS_PATHS ]]; then
 fi
 if [[ -n "$ANSIBLE_COLLECTION_SOURCE_PATH" ]]; then
     ${SUDO} mkdir -p "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack"
+    # Remove any existing collection install so re-runs (e.g. upgrade jobs) can
+    # replace it with a symlink to the Zuul workspace checkout.
+    ${SUDO} rm -rf "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack/cloud"
     ${SUDO} ln -s "$ANSIBLE_COLLECTION_SOURCE_PATH" "$BIFROST_COLLECTIONS_PATHS/ansible_collections/openstack/cloud"
 fi
 
