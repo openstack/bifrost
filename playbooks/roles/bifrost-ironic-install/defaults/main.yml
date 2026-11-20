@@ -178,6 +178,10 @@ deploy_image_sources:
 deploy_image_upstream_url: "{{ custom_deploy_image_upstream_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].image) }}"
 deploy_image_checksum_url: "{{ custom_deploy_image_checksum_url | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].checksum) }}"
 deploy_image_checksum_algorithm: "{{ custom_deploy_image_checksum_algorithm | default(deploy_image_sources[upstream_deploy_image_distribution][upstream_deploy_image_release].checksum_algorithm) }}"
+deploy_image_url_username:
+deploy_image_url_password:
+deploy_image_force_basic_auth:
+deploy_image_unredirected_headers:
 
 # By default bifrost will deploy dnsmasq to utilize as an integrated DHCP
 # server. If you already have a DHCP server or do not need DHCP/TFTP at all,
