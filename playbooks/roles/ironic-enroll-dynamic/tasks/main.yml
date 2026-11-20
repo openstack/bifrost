@@ -36,6 +36,7 @@
     nics: "{{ nics }}"
     properties: "{{ properties | default({}) }}"
     driver_info: "{{ driver_info | default(omit) }}"
+    timeout: "{{ enrollment_timeout | default(omit) }}"
 
 # FIXME(dtantsur): the baremetal_node module should do it or at least provide
 # a wait argument. Work around until then
