@@ -34,8 +34,11 @@
   set_fact:
     isolinux_bin_path: "{{ item }}"
   with_first_found:
-    - /usr/lib/ISOLINUX/isolinux.bin
-    - /usr/share/syslinux/isolinux.bin
+    - files:
+        - /usr/lib/ISOLINUX/isolinux.bin
+        - /usr/share/syslinux/isolinux.bin
+      # NOTE(bbezak): only needed for BIOS, aarch64 is UEFI-only.
+      skip: "{{ ansible_architecture == 'aarch64' }}"
 
 - name: "Create ironic config"
   template:

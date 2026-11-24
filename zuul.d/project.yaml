@@ -14,6 +14,8 @@
         - bifrost-integration-on-debian-bookworm
         - bifrost-integration-on-debian-trixie
         - bifrost-integration-on-debian-trixie-arm64
+        - bifrost-integration-on-ubuntu-noble-arm64
+        - bifrost-integration-on-centos-10-arm64
         - bifrost-integration-keystone-on-centos-10
         - bifrost-integration-keystone-on-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-centos-10
@@ -66,6 +68,8 @@
         - bifrost-integration-on-debian-bookworm
         - bifrost-integration-on-debian-trixie
         - bifrost-integration-on-debian-trixie-arm64
+        - bifrost-integration-on-ubuntu-noble-arm64
+        - bifrost-integration-on-centos-10-arm64
         - bifrost-integration-keystone-on-centos-10
         - bifrost-integration-keystone-on-ubuntu-noble
         - bifrost-integration-redfish-vmedia-uefi-centos-10

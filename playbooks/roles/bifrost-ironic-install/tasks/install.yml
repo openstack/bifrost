@@ -55,7 +55,7 @@
 
 - name: "Install system packages"
   package:
-    name: "{{ required_packages }}"
+    name: "{{ required_packages | select | list }}"
     state: present
 
 - name: "Install python packages (in venv)"
